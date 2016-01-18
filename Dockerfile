@@ -1,12 +1,12 @@
 ################################################################################
-# Dockerfile for pallesgavebod.
+# Dockerfile for biblo.
 # Contains instructions to build for production.
 # This is overwritten in the compose file to build for development and staging.
 # OSX build and run instructions (For docker 1.9.0):
 # docker pull redis
 # docker build -t pg --build-arg NPM_KEY=${NPM_TOKEN} .
 # docker run -d --name redis redis
-# docker run -p 8080:8080 --rm -v ~/IdeaProjects/pallesgavebod/src:/usr/src/app/src -e REDISHOST=redis -e CACHEHOST=redis --link redis:redis pg
+# docker run -p 8080:8080 --rm -v ~/IdeaProjects/biblo/src:/usr/src/app/src -e REDISHOST=redis -e CACHEHOST=redis --link redis:redis pg
 ################################################################################
 
 FROM node

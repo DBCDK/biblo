@@ -1,18 +1,18 @@
-# Mobilsøg
+# Biblo
 
-[![GitHub tag](https://img.shields.io/github/tag/DBCDK/pallesgavebod.svg?style=flat-square)](https://github.com/DBCDK/pallesgavebod)
-[![David](https://img.shields.io/david/DBCDK/pallesgavebod.svg?style=flat-square)](https://david-dm.org/DBCDK/pallesgavebod#info=dependencies)
-[![David](https://img.shields.io/david/dev/DBCDK/pallesgavebod.svg?style=flat-square)](https://david-dm.org/DBCDK/pallesgavebod#info=devDependencies)
-[![Build Status](https://travis-ci.org/DBCDK/pallesgavebod.svg?branch=master)](https://travis-ci.org/DBCDK/pallesgavebod)
-[![Coverage Status](https://coveralls.io/repos/DBCDK/pallesgavebod/badge.svg?branch=master&service=github)](https://coveralls.io/github/DBCDK/pallesgavebod?branch=master)
-[![Code Climate](https://codeclimate.com/github/DBCDK/pallesgavebod/badges/gpa.svg)](https://codeclimate.com/github/DBCDK/pallesgavebod)
+[![GitHub tag](https://img.shields.io/github/tag/DBCDK/biblo.svg?style=flat-square)](https://github.com/DBCDK/biblo)
+[![David](https://img.shields.io/david/DBCDK/biblo.svg?style=flat-square)](https://david-dm.org/DBCDK/biblo#info=dependencies)
+[![David](https://img.shields.io/david/dev/DBCDK/biblo.svg?style=flat-square)](https://david-dm.org/DBCDK/biblo#info=devDependencies)
+[![Build Status](https://travis-ci.org/DBCDK/biblo.svg?branch=master)](https://travis-ci.org/DBCDK/biblo)
+[![Coverage Status](https://coveralls.io/repos/DBCDK/biblo/badge.svg?branch=master&service=github)](https://coveralls.io/github/DBCDK/biblo?branch=master)
+[![Code Climate](https://codeclimate.com/github/DBCDK/biblo/badges/gpa.svg)](https://codeclimate.com/github/DBCDK/biblo)
 
-As default the application will load on localhost:8080. Se a running example on [ddbmobil.demo.dbc.dk](https://ddbmobil.demo.dbc.dk)
+As default the application will load on localhost:8080. Se a running example on [biblo.demo.dbc.dk](https://biblo.demo.dbc.dk)
 
 ## How to install and run the application
 ```bash
 // Build and install the application
-git clone https://github.com/DBCDK/pallesgavebod.git
+git clone https://github.com/DBCDK/biblo.git
 npm install
 npm run build
 
@@ -57,7 +57,6 @@ Currently this value is also used to identify the application in logs and append
 Use this varialbe to let the application how stylesheets are compiled and which jade templates are used.
 Currently two values are used to control compiling of SASS and delivering of templates:
   - `pg` Should be used when building Palles Gavebod
-  - `ddbmobil` Should be used when building Mobil Søg
   
   The default value is `pg`
 

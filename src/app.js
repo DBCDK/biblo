@@ -6,9 +6,9 @@
  */
 
 // Config
-import config from '@dbcdk/dbc-config';
+import config from '@dbcdk/biblo-config';
 // newrelic needs to be required the es5 way because we only wants to load new relic if specified in config.js
-const newrelic = config.palle.newrelic && require('newrelic') || null;
+const newrelic = config.biblo.newrelic && require('newrelic') || null;
 import {version} from '../package.json';
 
 // Libraries
@@ -44,14 +44,14 @@ import * as PassportStrategies from './server/PassportStrategies/strategies.pass
 
 module.exports.run = function (worker) {
   // Setup
+  const BIBLO_CONFIG = config['biblo'].getConfig({});
   const app = express();
   const server = worker.httpServer;
   const scServer = worker.getSCServer();
   const ENV = app.get('env');
   const PRODUCTION = ENV === 'production';
-  const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'app_name'; // eslint-disable-line no-process-env
-  const APPLICATION = 'mobilsoeg';
-  const DEFAULT_CONFIG_NAME = 'aarhus'; // used as a fallback config, if none is set by a url.
+  const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'biblo'; // eslint-disable-line no-process-env
+  const APPLICATION = 'biblo';
   const logger = new Logger({app_name: APP_NAME});
   const expressLoggers = logger.getExpressLoggers();
 
@@ -75,8 +75,10 @@ module.exports.run = function (worker) {
   // EMAIL Redirect requires port to be defined therefore it must come after
   const EMAIL_REDIRECT = process.env.EMAIL_REDIRECT || 'localhost:' + app.get('port'); // eslint-disable-line no-process-env
 
+  console.log(BIBLO_CONFIG);
+
   // Configure app variables
-  app.set('serviceProvider', ServiceProviderSetup(config[process.env.CONFIG_NAME || DEFAULT_CONFIG_NAME], logger, worker)); // eslint-disable-line no-process-env
+  app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker)); // eslint-disable-line no-process-env
   app.set('logger', logger);
   app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);
@@ -118,7 +120,7 @@ module.exports.run = function (worker) {
   app.locals.env = ENV;
   app.locals.version = version;
   app.locals.production = PRODUCTION;
-  app.locals.title = config[process.env.CONFIG_NAME || DEFAULT_CONFIG_NAME].applicationTitle || ''; // eslint-disable-line no-process-env
+  app.locals.title = BIBLO_CONFIG.applicationTitle || ''; // eslint-disable-line no-process-env
   app.locals.application = APPLICATION;
   app.locals.faviconUrl = APPLICATION === 'mobilsoeg' ? 'https://www.aakb.dk/sites/www.aakb.dk/files/favicon.ico' : '/favicon.ico';
   app.locals.styles = styles;
@@ -130,14 +132,14 @@ module.exports.run = function (worker) {
   // Redis
   switch (ENV) {
     case 'development':
-      redisConfig = config[process.env.CONFIG_NAME || DEFAULT_CONFIG_NAME].sessionStores.redis.development; // eslint-disable-line no-process-env
+      redisConfig = BIBLO_CONFIG.sessionStores.redis.development; // eslint-disable-line no-process-env
       break;
     case 'production':
-      redisConfig = config[process.env.CONFIG_NAME || DEFAULT_CONFIG_NAME].sessionStores.redis.production; // eslint-disable-line no-process-env
+      redisConfig = BIBLO_CONFIG.sessionStores.redis.production; // eslint-disable-line no-process-env
       fileHeaders = {index: false, dotfiles: 'ignore', maxAge: '5 days'};
       break;
     default:
-      redisConfig = config[process.env.CONFIG_NAME || DEFAULT_CONFIG_NAME].sessionStores.redis.local; // eslint-disable-line no-process-env
+      redisConfig = BIBLO_CONFIG.sessionStores.redis.local; // eslint-disable-line no-process-env
       break;
   }
 

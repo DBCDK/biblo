@@ -1,21 +1,17 @@
 {
-  "name": "pallesgavebod",
-  "version": "0.0.61",
-  "description": "Next generation pallesgavebod.dk",
+  "name": "biblo",
+  "version": "1.0.0",
+  "description": "biblo.dk",
   "main": "src/main.js",
   "scripts": {
     "build": "webpack --progress --colors -p",
     "dev": "parallelshell \"npm run start:watch -s\" \"npm run serve -s\"",
-    "dev:ddb": "NODE_APPLICATION=ddbmobil npm run dev",
     "dev:remoteprofile": "PROFILE_SERVICE_URL=\"http://profile-i01.dbc.dk:3001/\" npm run dev",
-    "dev:ddb:remoteprofile": "CONFIG_NAME=aarhus NODE_APPLICATION=ddbmobil PROFILE_SERVICE_URL=\"http://profile-i01.dbc.dk:3001/\" npm run dev",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
     "serve": "supervisor  --instant-kill -w src/app.js,src/server,node_modules src/main.js",
     "selenium": "mocha -t 20000 selenium/selenium_test.js",
     "selenium:junit": "mocha -t 35000 selenium/selenium_test.js -R mocha-jenkins-reporter",
-    "siege": "siege -c500 -d10 -t30M -i -f siegetestendpoints.txt",
-    "siege:live": "siege -c50 -d10 -t10M -i -f siegedemoendpoints.txt",
     "start": "node src/main.js",
     "start:watch": "webpack --progress --colors --watch -d",
     "test": "karma start --single-run=true",
@@ -25,20 +21,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DBCDK/pallesgavebod.git"
+    "url": "git+https://github.com/DBCDK/biblo.git"
   },
   "keywords": [
-    "pallesgavebod",
+    "biblo",
     "dbc"
   ],
   "author": "dbcdk",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/DBCDK/pallesgavebod/issues"
+    "url": "https://github.com/DBCDK/biblo/issues"
   },
-  "homepage": "https://github.com/DBCDK/pallesgavebod#readme",
+  "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
-    "@dbcdk/dbc-config": "^3.4.0",
+    "@dbcdk/biblo-config": "^1.0.0",
     "async": "1.5.0",
     "babel": "5.8.29",
     "babel-core": "5.8.29",

@@ -1,10 +1,9 @@
-//- frontpage-mobilsoeg.jade
+//- frontpage.jade
 
 extends layout
 
 block prepend footerscripts
-    script(src='/js/frontpage.js?v=1.0.2' defer=true)
-    script window.ssr_recommendations = '!{recommendations}';
+    script(src='/js/frontpage.js' defer=true)
 
 block content
-    #frontpage-container-component !{frontpageContainerString}
+  #frontpage-container

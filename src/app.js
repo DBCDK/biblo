@@ -9,7 +9,6 @@
 import config from '@dbcdk/biblo-config';
 // newrelic needs to be required the es5 way because we only wants to load new relic if specified in config.js
 const newrelic = config.biblo.newrelic && require('newrelic') || null;
-import {version} from '../package.json';
 
 // Libraries
 import express from 'express';
@@ -18,36 +17,22 @@ import Logger from 'dbc-node-logger';
 import RedisStore from 'connect-redis';
 import reload from 'reload';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
-import sass from 'node-sass';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
-import PassportRoutes from './server/routes/passport.routes.js';
-import WorkRoutes from './server/routes/work.routes.js';
-import NewsRoutes from './server/routes/news.routes.js';
-import LibraryRoutes from './server/routes/library.routes';
-import EventRoutes from './server/routes/event.routes.js';
-import APIRoutes from './server/routes/api.routes.js';
 
 // Middleware
-import mobilsoegmiddleware from './server/middlewares/mobilsoeg.middleware.js';
 import bodyParser from 'body-parser';
 import expressValidator from 'express-validator';
 import compression from 'compression';
 import expressSession from 'express-session';
 import helmet from 'helmet';
-import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
-import dbcMiddleware from './server/middlewares/middleware';
-
-// Passport
-import * as PassportStrategies from './server/PassportStrategies/strategies.passport';
 
 module.exports.run = function (worker) {
   // Setup
-  const BIBLO_CONFIG = config['biblo'].getConfig({});
+  const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
   const server = worker.httpServer;
-  const scServer = worker.getSCServer();
   const ENV = app.get('env');
   const PRODUCTION = ENV === 'production';
   const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'biblo'; // eslint-disable-line no-process-env
@@ -75,8 +60,6 @@ module.exports.run = function (worker) {
   // EMAIL Redirect requires port to be defined therefore it must come after
   const EMAIL_REDIRECT = process.env.EMAIL_REDIRECT || 'localhost:' + app.get('port'); // eslint-disable-line no-process-env
 
-  console.log(BIBLO_CONFIG);
-
   // Configure app variables
   app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker)); // eslint-disable-line no-process-env
   app.set('logger', logger);
@@ -96,34 +79,13 @@ module.exports.run = function (worker) {
     newrelic.agent_enabled = false;
   }
 
-  // Setup dynamic sass compilation
-  let styles = {};
-  function generateStyles(filepath) {
-    return sass.renderSync({
-      outputStyle: 'compressed',
-      file: path.join(__dirname, filepath)
-    }).css.toString();
-  }
-
-  styles.aarhus = generateStyles('client/styles/ddb.scss');
-  styles.albertslund = generateStyles('client/styles/albertslund.ddb.scss');
-  styles.ballerup = generateStyles('client/styles/ballerup.ddb.scss');
-  styles.frederiksberg = generateStyles('client/styles/frederiksberg.ddb.scss');
-  styles.guldborgsund = generateStyles('client/styles/guldborgsund.ddb.scss');
-  styles.herlev = generateStyles('client/styles/herlev.ddb.scss');
-  styles.kobenhavn = generateStyles('client/styles/kobenhavn.ddb.scss');
-  styles.q2fjern = generateStyles('client/styles/ddb.scss');
-  styles.ringe = generateStyles('client/styles/ringe.ddb.scss');
-
   // setting local vars that should be available to our template engine
   app.locals.newrelic = newrelic;
   app.locals.env = ENV;
-  app.locals.version = version;
   app.locals.production = PRODUCTION;
-  app.locals.title = BIBLO_CONFIG.applicationTitle || ''; // eslint-disable-line no-process-env
+  app.locals.title = BIBLO_CONFIG.applicationTitle || 'Biblo'; // eslint-disable-line no-process-env
   app.locals.application = APPLICATION;
-  app.locals.faviconUrl = APPLICATION === 'mobilsoeg' ? 'https://www.aakb.dk/sites/www.aakb.dk/files/favicon.ico' : '/favicon.ico';
-  app.locals.styles = styles;
+  app.locals.faviconUrl = '/favicon.ico';
 
   // Setup environments
   let redisConfig;
@@ -186,35 +148,7 @@ module.exports.run = function (worker) {
   // Setting sessions
   app.use(sessionMiddleware);
 
-  scServer.addMiddleware(scServer.MIDDLEWARE_EMIT, (req, next) => {
-    sessionMiddleware(req.socket.request, {}, next);
-  });
-
-  // Detect library and set context
-  app.use(mobilsoegmiddleware.libraryStyleWare);
-
-  scServer.addMiddleware(scServer.MIDDLEWARE_EMIT, (req, next) => {
-    mobilsoegmiddleware.librarySocketWare(config, req.socket, next);
-  });
-
-  // Setup passport
-  PassportStrategies.MobilSoegPassportConfig(app);
-
-  // Setting middleware
-  app.use('*', GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
-
-  // SSR middleware to add utility methods, and render footer automatically.
-  app.use('*', dbcMiddleware.ssrMiddleware, dbcMiddleware.ssrFooter, dbcMiddleware.ssrHeader);
-
-  // Setup Routes
-  app.use('/', dbcMiddleware.cacheMiddleware, MainRoutes);
-  app.use('/profile', PassportRoutes);
-  app.use('/work', WorkRoutes);
-  app.use('/news', dbcMiddleware.cacheMiddleware, NewsRoutes);
-  app.use('/libraries', dbcMiddleware.cacheMiddleware, LibraryRoutes);
-  app.use('/event', dbcMiddleware.cacheMiddleware, EventRoutes);
-  app.use('/api', APIRoutes);
-
+  app.use('/', MainRoutes);
 
   // If running in dev-mode enable auto reload in browser when the server restarts
   if (ENV === 'development' && !process.env.DISABLE_SOCKET_RELOAD) { // eslint-disable-line no-process-env
@@ -247,6 +181,4 @@ module.exports.run = function (worker) {
   logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
   logger.log('debug', 'APPLICATION: ' + APPLICATION);
   logger.log('debug', 'EMAIL_REDIRECT: ' + EMAIL_REDIRECT);
-  logger.log('info', 'Versions: ', process.versions);
-  logger.log('info', version + ' is up and running');
 };

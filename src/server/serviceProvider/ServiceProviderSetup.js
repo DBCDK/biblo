@@ -8,23 +8,6 @@
 import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
 import path from 'path';
 
-// import clients
-import Borchk from 'dbc-node-borchk';
-import DdbContent from 'dbc-node-ddbcontent-client';
-import EntitySuggest from 'dbc-node-entitysuggest';
-import MobilSoegProfile from 'dbc-node-mobilsoeg-profile-client';
-import MoreInfo from 'dbc-node-moreinfo-client';
-import OpenAgency from 'dbc-node-openagency-client';
-import OpenHoldingStatus from 'dbc-node-openholdingstatus-client';
-import OpenOrder from 'dbc-node-openorder-client';
-import OpenSearch from 'dbc-node-opensearch-client';
-import OpenSuggest from 'dbc-node-opensuggest';
-import OpenUserStatus from 'dbc-node-openuserstatus-client';
-import PopSuggest from 'dbc-node-popsuggest';
-import RankedRecommendations from 'dbc-node-ranked-recommendations-client';
-import Recommendations from 'dbc-node-recommendations';
-import MetaRecommendations from 'dbc-node-recommendation-meta-client';
-
 /**
  * Helper function for registering service clients. If cachetime is defined in config, wrap methods with the
  * client cache manager
@@ -59,24 +42,10 @@ export default function initProvider(config, logger, sockets) {
   const provider = Provider(logger);
   provider.dispatcher(sockets);
 
-  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config.provider.services, ClientCache(config.cache));
+  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config.provider.services, ClientCache(config.cache)); // eslint-disable-line
 
   // Register all clients
-  RegisterClientOnProvider('borchk', Borchk);
-  RegisterClientOnProvider('ddbcontent', DdbContent);
-  RegisterClientOnProvider('entitysuggest', EntitySuggest);
-  RegisterClientOnProvider('mobilSoegProfile', MobilSoegProfile);
-  RegisterClientOnProvider('moreinfo', MoreInfo);
-  RegisterClientOnProvider('openagency', OpenAgency);
-  RegisterClientOnProvider('openholdingstatus', OpenHoldingStatus);
-  RegisterClientOnProvider('openorder', OpenOrder);
-  RegisterClientOnProvider('opensearch', OpenSearch);
-  RegisterClientOnProvider('opensuggest', OpenSuggest);
-  RegisterClientOnProvider('openuserstatus', OpenUserStatus);
-  RegisterClientOnProvider('popsuggest', PopSuggest);
-  RegisterClientOnProvider('recommendranked', RankedRecommendations);
-  RegisterClientOnProvider('recommend', Recommendations);
-  RegisterClientOnProvider('recommendmeta', MetaRecommendations);
+  // ...
 
   // Transforms are autorequired to lessen boilerplate code
   AutoRequire(path.join(__dirname, 'transformers'), 'transform.js').map(provider.registerTransform);

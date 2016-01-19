@@ -1,7 +1,6 @@
 //- footer.jade
 
 block footerscripts
-  link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
 
   if production
     // Piwik integration - start
@@ -12,7 +11,7 @@ block footerscripts
       (function() {
         var u = "//stats.dbc.dk/";
         _paq.push(['setTrackerUrl', u + 'piwik.php']);
-        _paq.push(['setSiteId', 17]);
+        _paq.push(['setSiteId', 15]);
         var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
         g.type = 'text/javascript';
         g.async = true;
@@ -22,5 +21,5 @@ block footerscripts
       })();
 
     p
-      img(src = '//stats.dbc.dk/piwik.php?idsite=17' style = 'border:0;')
+      img(src = '//stats.dbc.dk/piwik.php?idsite=15' style = 'border:0;')
     // Piwik integration - end

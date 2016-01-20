@@ -6,7 +6,7 @@ var extractTextPlugin = require('extract-text-webpack-plugin');
 
 //var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 var noErrorsPlugin = new webpack.NoErrorsPlugin();
-var extractCss = new extractTextPlugin('../styles/style.css');
+var extractCss = new extractTextPlugin('../css/[name].css', {allChunks: true});
 
 module.exports = [{
   name: 'browser',
@@ -28,7 +28,7 @@ module.exports = [{
         loader: 'babel-loader'
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         loader: extractTextPlugin.extract(
           // activate source maps via loader query
           'css?sourceMap!' +

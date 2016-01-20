@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import 'normalize.css';
+import './_frontpage.scss';
 
 export default class FrontpageContainer extends React.Component {
   render() {

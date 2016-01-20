@@ -5,5 +5,8 @@ extends layout
 block prepend footerscripts
     script(src='/js/frontpage.js' defer=true)
 
+block prepend styles
+    link(rel='stylesheet', href='/css/frontpage.css?v=1.0.0')
+
 block content
   #frontpage-container

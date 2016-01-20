@@ -10,9 +10,9 @@ import {assert} from 'chai';
 
 import FrontpageContainer from '../FrontpageContainer.component';
 
-describe('Test True', () => {
+describe('Test frontpage', () => {
 
-  it('Assert true is true', () => {
+  it('Assert Funkys Venner is present on frontpage', () => {
     const render = TestUtils.createRenderer();
     render.render(<FrontpageContainer />);
 

@@ -3,21 +3,15 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'sinon'],
+    frameworks: ['mocha', 'sinon', 'phantomjs-shim'],
     files: [
-      'tests.utils.webpack.js',
-      'tests.stores.webpack.js',
-      'tests.components.webpack.js',
-      'tests.serviceprovider.webpack.js'
+      'tests.components.webpack.js'
     ],
     proxies: {
     },
     exclude: [],
     preprocessors: {
-      'tests.utils.webpack.js': ['webpack'],
-      'tests.stores.webpack.js': ['webpack'],
-      'tests.components.webpack.js': ['webpack'],
-      'tests.serviceprovider.webpack.js': ['webpack']
+      'tests.components.webpack.js': ['webpack']
     },
     reporters: ['mocha', 'junit', 'coverage'],
     junitReporter: {

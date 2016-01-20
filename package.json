@@ -94,15 +94,18 @@
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.0.2",
     "karma-phantomjs-launcher": "^0.2.0",
+    "karma-phantomjs-shim": "^1.2.0",
     "karma-sinon": "^1.0.4",
     "karma-webpack": "^1.5.1",
     "mocha": "^2.2.4",
     "mocha-jenkins-reporter": "^0.1.9",
     "node-libs-browser": "^0.5.2",
+    "normalize.css": "^3.0.3",
     "parallelshell": "^2.0.0",
     "phantomjs": "^1.9.17",
     "selenium-webdriver": "2.47.0",
     "sinon": "^1.17.2",
+    "susy": "^2.2.11",
     "wallaby-webpack": "0.0.10"
   }
 }

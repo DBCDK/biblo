@@ -34,7 +34,7 @@ module.exports = {
     ],
     loaders: [
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         loader: extractTextPlugin.extract(
           // activate source maps via loader query
           'css?sourceMap!' +

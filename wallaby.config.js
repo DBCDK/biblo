@@ -1,10 +1,10 @@
 'use strict';
 let wallabyWebpack = require('wallaby-webpack');
-let webpackConfig = require('./webpack.config');
-let babel = require('babel');
+let webpackConfig = require('./webpack.test.config');
+let babel = require('babel-core');
 let webpackPostprocessor = wallabyWebpack(webpackConfig);
 
-module.exports = function(wallaby) {
+module.exports = function() {
   return {
     files: [
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
@@ -18,12 +18,6 @@ module.exports = function(wallaby) {
     tests: [
       {pattern: 'src/**/*.test.js', load: false}
     ],
-
-    compilers: {
-      '**/*.js': wallaby.compilers.babel({
-        babel: babel
-      })
-    },
 
     postprocessor: webpackPostprocessor,
 

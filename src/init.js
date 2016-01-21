@@ -3,6 +3,9 @@
 /**
  * babelify all workers (ie. out execution entrypoint).
  */
-require('babel/register');
+require('babel-register')({
+  presets: ['react', 'es2015']
+});
 
-module.exports.run = function() {};
+module.exports.run = function() {
+};

@@ -1,0 +1,60 @@
+@import "~susy/sass/susy";
+
+.colour-picker {
+  background-color: #fcfcfc;
+  max-width: 450px;
+
+  .colour-picker--item {
+    @include span(3.4 of 24);
+
+    .colour-picker--colour {
+      // Can't hide it because of accessibility, so just push it to the left.
+      left: -999999em;
+      position: absolute;
+    }
+
+    .colour-picker--colour:checked + label {
+      display: block;
+      .colour-box {
+        border-color: #000000;
+      }
+    }
+
+    .colour-picker--label {
+      .colour-box {
+        height: 47px;
+        width: 47px;
+        border-style: solid;
+        border-color: #FFFFFF;
+      }
+
+      .blueish-green {
+        background-color: aquamarine;
+      }
+
+      .blue {
+        background-color: blue;
+      }
+
+      .green {
+        background-color: green;
+      }
+
+      .bordeaux {
+        background-color: #800000;
+      }
+
+      .red {
+        background-color: red;
+      }
+
+      .salmon {
+        background-color: salmon;
+      }
+
+      .yellow {
+        background-color: yellow;
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
+import GroupRoutes from './server/routes/group.routes';
 
 // Middleware
 import bodyParser from 'body-parser';
@@ -148,6 +149,7 @@ module.exports.run = function (worker) {
   // Setting sessions
   app.use(sessionMiddleware);
 
+  app.use('/grupper', GroupRoutes);
   app.use('/', MainRoutes);
 
   // If running in dev-mode enable auto reload in browser when the server restarts

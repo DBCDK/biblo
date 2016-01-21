@@ -1,0 +1,44 @@
+@import "~susy/sass/susy";
+
+.group-form {
+  @include container;
+
+  background-color: #fff;
+  margin: 5px;
+  padding: 15px;
+  max-width: 610px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .group-image-upload {
+    margin: 10px;
+  }
+
+  .group-form-submit-button {
+    margin-top: 40px;
+    margin-bottom: 5px;
+    float: right;
+
+    input {
+      width: 83px;
+      height: 40px;
+    }
+  }
+
+  .group-name-field {
+    width: 99%;
+
+    input {
+      width: 99%;
+    }
+  }
+
+  .group-description-field {
+    width: 99%;
+
+    textarea {
+      width: 99%;
+      max-width: 99%;
+    }
+  }
+}

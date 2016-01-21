@@ -12,7 +12,11 @@ module.exports = [{
   name: 'browser',
 
   entry: {
-    frontpage: './src/client/components/FrontPage/index.js'
+    frontpage: './src/client/components/FrontPage/index.js',
+    groups: './src/client/components/Groups/index.js',
+    groupcreate: './src/client/components/Groups/Create/index.js',
+    groupdetail: './src/client/components/Groups/Detail/index.js',
+    groupedit: './src/client/components/Groups/Edit/index.js'
   },
 
   output: {

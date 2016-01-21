@@ -1,0 +1,13 @@
+extends layout
+
+block append styles
+    if pagestyles
+        link(rel="stylesheet" type="text/css" href="/css/" + pagestyles + '?v=1.0.0')
+
+block prepend footerscripts
+    if pagescript
+        script(src="/js/" + pagescript + '?v=1.0.0' defer=true)
+
+block content
+    #page.row !{content}
+    script window.PAGE_DATA = !{data};

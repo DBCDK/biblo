@@ -11,5 +11,7 @@ if (config.newrelic) {
   require('newrelic');
 }
 
-require('babel/register');
+require('babel-register')({
+  presets: ['react', 'es2015']
+});
 require('./scaling');

@@ -23,8 +23,11 @@ module.exports = {
     preLoaders: [
       {
         test: /\.js?$/,
-        loaders: ['babel'],
-        exclude: /node_modules/
+        loader: 'babel',
+        exclude: /node_modules/,
+        query: {
+          presets: ['react', 'es2015']
+        }
       },
       {
         test: /\.js$/,

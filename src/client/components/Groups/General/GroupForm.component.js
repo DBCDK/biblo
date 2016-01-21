@@ -16,19 +16,19 @@ export default class GroupForm extends React.Component {
   render() {
     return (
       <div className="group-form">
-        <form method="POST">
+        <form method="POST" encType="multipart/form-data">
           <div className="group-image-upload">
             <DroppableImageField />
           </div>
 
           <div className="group-name-field">
-            <label htmlFor="group-name-input-field">Gruppens navn</label><br />
-            <input id="group-name-input-field" name="group-name" required />
+            <label htmlFor="group-name-input-field"><strong>Gruppens navn</strong></label><br />
+            <input id="group-name-input-field" name="group-name" required placeholder="Find på et gruppenavn" />
           </div>
           <br />
 
           <div className="group-description-field">
-            <label htmlFor="group-description-area">Beskrivelse af gruppen</label> <br />
+            <label htmlFor="group-description-area"><strong>Beskrivelse af gruppen</strong></label><br />
             <textarea
               id="group-description-area"
               placeholder="Her kan du skrive lidt om gruppen"
@@ -40,7 +40,7 @@ export default class GroupForm extends React.Component {
           <br />
 
           <div className="group-colour-picker">
-            <label>Vælg en farve til gruppen</label>
+            <label><strong>Vælg en farve til gruppen</strong></label>
             <ColourPicker
               baseName="group-colour-picker"
               onChangeFunction={this.colourWasChanged}

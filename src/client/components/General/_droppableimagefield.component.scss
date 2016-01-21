@@ -4,4 +4,24 @@
     margin-right: auto;
     display: block;
   }
+
+  label {
+    position: relative;
+
+    .upload-plus-button {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border: solid;
+      border-radius: 10%;
+      width: 25px;
+      height: 25px;
+      background-image: url(http://uxrepo.com/download.php?img=static/icon-sets/foundation/svg/fi-plus.svg&color=000000);
+      background-size: 25px;
+    }
+
+    .droppable-image-field--file-input {
+      display: none;
+    }
+  }
 }

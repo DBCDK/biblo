@@ -12,7 +12,9 @@ module.exports = [{
   name: 'browser',
 
   entry: {
-    frontpage: './src/client/components/FrontPage/index.js'
+    footer: './src/client/components/Footer/index.js',
+    frontpage: './src/client/components/FrontPage/index.js',
+    navbar: './src/client/components/Navbar/index.js'
   },
 
   output: {

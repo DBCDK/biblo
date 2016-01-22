@@ -5,12 +5,12 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FrontpageContainer from './FrontpageContainer.component';
+import FooterContainer from './FooterContainer.component.js';
 
 /**
  * Client side rendering of the Frontpage Component
  */
 ReactDOM.render(
-  <FrontpageContainer />,
-  document.getElementById('content')
+  <FooterContainer />,
+  document.getElementById('footer')
 );

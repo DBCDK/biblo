@@ -5,12 +5,12 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FrontpageContainer from './FrontpageContainer.component';
+import NavbarContainer from './NavbarContainer.component.js';
 
 /**
  * Client side rendering of the Frontpage Component
  */
 ReactDOM.render(
-  <FrontpageContainer />,
-  document.getElementById('content')
+  <NavbarContainer />,
+  document.getElementById('navbar')
 );

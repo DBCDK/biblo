@@ -1,0 +1,27 @@
+//- page.jade
+
+extends layout
+
+block append styles
+  link(rel='stylesheet', href='/css/navbar.css')
+  link(rel='stylesheet', href='/css/footer.css')
+  if css && css.length
+    each val in css
+      link(rel='stylesheet', href=val)
+
+block append footerscripts
+  script(src='/js/navbar.js' defer=true)
+  script(src='/js/footer.js' defer=true)
+  if js && js.length
+    each val in js
+      script(src=val defer=true)
+
+block prepend body
+    nav#navbar
+
+    #content
+
+    #footer
+
+
+

@@ -13,10 +13,17 @@
       position: absolute;
     }
 
-    .colour-picker--colour:checked + label {
+    .colour-picker--colour:checked:focus + label {
       display: block;
       .colour-box {
         border-color: #a0a0a0;
+      }
+    }
+
+    .colour-picker--colour:focus + label {
+      .colour-box {
+        border-style: solid;
+        border-color: #950B02;
       }
     }
 
@@ -27,6 +34,7 @@
         border-style: solid;
         border-color: #FFFFFF;
         margin: 5px;
+        cursor: pointer;
       }
 
       .blueish-green {

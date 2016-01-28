@@ -1,11 +1,15 @@
 'use strict';
 
-import express from 'express';
-
 /**
  * @file
  * Configure group routes
  */
+
+import express from 'express';
+import multer from 'multer';
+
+let upload = multer({storage: multer.memoryStorage()});
+
 const GroupRoutes = express.Router();
 
 GroupRoutes.get('/opret', (req, res) => {
@@ -19,7 +23,10 @@ GroupRoutes.get('/opret', (req, res) => {
   });
 });
 
-GroupRoutes.post('/opret', (req, res) => {
+GroupRoutes.post('/opret', upload.single('droppableimagefield'), (req, res) => {
+  console.log(req.file);
+  console.log(req.body);
+
   let windowData = {};
 
   res.render('page', {

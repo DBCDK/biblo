@@ -49,7 +49,8 @@ module.exports = [{
     react: 'React',
     'react-dom': 'ReactDOM',
     lodash: '_',
-    newrelic: 'newrelic'
+    newrelic: 'newrelic',
+    modernizr: 'Modernizr'
   },
 
   plugins: [

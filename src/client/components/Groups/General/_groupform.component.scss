@@ -17,17 +17,6 @@
     margin: 10px;
   }
 
-  .group-form-submit-button {
-    margin-top: 40px;
-    margin-bottom: 5px;
-    float: right;
-
-    input {
-      width: 83px;
-      height: 40px;
-    }
-  }
-
   .group-name-field {
     width: 99%;
 
@@ -43,5 +32,9 @@
       width: 99%;
       max-width: 99%;
     }
+  }
+
+  .group-form-submit-button {
+    width: 98%;
   }
 }

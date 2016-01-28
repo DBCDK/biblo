@@ -1,13 +1,27 @@
+//- page.jade
+
 extends layout
 
 block append styles
-    if pagestyles
-        link(rel="stylesheet" type="text/css" href="/css/" + pagestyles + '?v=1.0.0')
+  link(rel='stylesheet', href='/css/navbar.css')
+  link(rel='stylesheet', href='/css/footer.css')
+  if css && css.length
+    each val in css
+      link(rel='stylesheet', href=val)
 
-block prepend footerscripts
-    if pagescript
-        script(src="/js/" + pagescript + '?v=1.0.0' defer=true)
+block append footerscripts
+  script(src='/js/navbar.js' defer=true)
+  script(src='/js/footer.js' defer=true)
+  if js && js.length
+    each val in js
+      script(src=val defer=true)
 
-block content
-    #page.row !{content}
-    script window.PAGE_DATA = !{data};
+block prepend body
+    nav#navbar
+
+    #content
+
+    #footer
+
+
+

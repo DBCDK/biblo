@@ -10,7 +10,7 @@
     "dev:remoteprofile": "PROFILE_SERVICE_URL=\"http://profile-i01.dbc.dk:3001/\" npm run dev",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
-    "serve": "supervisor  --instant-kill -w src/app.js,src/server,node_modules src/main.js",
+    "serve": "supervisor -w src/app.js,src/server,node_modules src/main.js",
     "selenium": "mocha -t 20000 selenium/selenium_test.js",
     "selenium:junit": "mocha -t 35000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
@@ -74,6 +74,7 @@
     "sanitize-html": "^1.11.2",
     "sass-loader": "3.1.1",
     "socketcluster": "^4.1.0",
+    "susy": "^2.2.11",
     "vhost": "3.0.2",
     "walk": "^2.3.9",
     "webpack": "1.12.2",
@@ -111,7 +112,6 @@
     "phantomjs": "^1.9.17",
     "selenium-webdriver": "2.47.0",
     "sinon": "^1.17.2",
-    "susy": "^2.2.11",
     "wallaby-webpack": "0.0.10"
   }
 }

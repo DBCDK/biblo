@@ -16,7 +16,9 @@ module.exports = [{
     groups: './src/client/components/Groups/index.js',
     groupcreate: './src/client/components/Groups/Create/index.js',
     groupdetail: './src/client/components/Groups/Detail/index.js',
-    groupedit: './src/client/components/Groups/Edit/index.js'
+    groupedit: './src/client/components/Groups/Edit/index.js',
+    footer: './src/client/components/Footer/index.js',
+    navbar: './src/client/components/Navbar/index.js'
   },
 
   output: {

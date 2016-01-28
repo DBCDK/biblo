@@ -9,7 +9,10 @@ import express from 'express';
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', (req, res) => {
-  res.render('frontpage');
+  res.render('page', {
+    css: ['/css/frontpage.css'],
+    js: ['/js/frontpage.js']
+  });
 });
 
 export default MainRoutes;

@@ -12,5 +12,5 @@ import GroupsContainer from './GroupsContainer.component';
  */
 ReactDOM.render(
   <GroupsContainer />,
-  document.getElementById('page')
+  document.getElementById('content')
 );

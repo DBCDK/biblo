@@ -12,5 +12,5 @@ import GroupEditContainer from './GroupEditContainer.component';
  */
 ReactDOM.render(
   <GroupEditContainer />,
-  document.getElementById('page')
+  document.getElementById('content')
 );

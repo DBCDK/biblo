@@ -12,5 +12,5 @@ import GroupDetailContainer from './GroupDetailContainer.component';
  */
 ReactDOM.render(
   <GroupDetailContainer />,
-  document.getElementById('page')
+  document.getElementById('content')
 );

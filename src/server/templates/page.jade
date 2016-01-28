@@ -16,12 +16,13 @@ block append footerscripts
     each val in js
       script(src=val defer=true)
 
+  if data && data.length
+      each val in data
+        script window['!{val.propertyName}'] = '!{val.data}';
+
 block prepend body
     nav#navbar
 
     #content
 
     #footer
-
-
-

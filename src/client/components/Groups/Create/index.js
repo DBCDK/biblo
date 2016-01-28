@@ -12,5 +12,5 @@ import GroupCreateContainer from './GroupCreateContainer.component';
  */
 ReactDOM.render(
   <GroupCreateContainer />,
-  document.getElementById('page')
+  document.getElementById('content')
 );

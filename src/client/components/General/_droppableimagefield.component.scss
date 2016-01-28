@@ -47,3 +47,11 @@
 #filereader-fallback-message.uploaded {
   display: block;
 }
+
+#wrong-filetype-message {
+  display: none;
+}
+
+#wrong-filetype-message.wrong-file {
+  display: block;
+}

@@ -35,7 +35,13 @@ export default class DroppableImageField extends React.Component {
       dropSpot.ondrop = (e) => {
         hoverMessage.className = '';
         e.preventDefault();
-        self.readFiles(e.dataTransfer.files);
+        if (e.dataTransfer.files[0].type.indexOf('image/') >= 0) {
+          document.getElementById('wrong-filetype-message').className = '';
+          self.readFiles(e.dataTransfer.files);
+        }
+        else {
+          document.getElementById('wrong-filetype-message').className = 'wrong-file';
+        }
       };
     }
 
@@ -78,6 +84,7 @@ export default class DroppableImageField extends React.Component {
         </label>
         <p id='drop-files-here-message'>Smid din fil her.</p>
         <p id='filereader-fallback-message'>Din file vil blive oploadet når du trykker OK.</p>
+        <p id='wrong-filetype-message'>Du kan kun uploade billeder i dette felt, prøv med en anden fil!</p>
       </div>
     );
   }

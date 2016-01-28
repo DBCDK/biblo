@@ -12,8 +12,12 @@ module.exports = [{
   name: 'browser',
 
   entry: {
-    footer: './src/client/components/Footer/index.js',
     frontpage: './src/client/components/FrontPage/index.js',
+    groups: './src/client/components/Groups/index.js',
+    groupcreate: './src/client/components/Groups/Create/index.js',
+    groupdetail: './src/client/components/Groups/Detail/index.js',
+    groupedit: './src/client/components/Groups/Edit/index.js',
+    footer: './src/client/components/Footer/index.js',
     navbar: './src/client/components/Navbar/index.js'
   },
 
@@ -47,7 +51,8 @@ module.exports = [{
     react: 'React',
     'react-dom': 'ReactDOM',
     lodash: '_',
-    newrelic: 'newrelic'
+    newrelic: 'newrelic',
+    modernizr: 'Modernizr'
   },
 
   plugins: [

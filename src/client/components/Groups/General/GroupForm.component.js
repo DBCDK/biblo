@@ -24,19 +24,24 @@ export default class GroupForm extends React.Component {
         e.preventDefault();
         let formData = new FormData(formElement);
         if (this.state.file) {
-          formData.append('droppableimagefield', this.state.file)
+          formData.append('group_image', this.state.file);
         }
 
         let request = new XMLHttpRequest();
         request.open('POST', window.location.href);
-        request.onreadystatechange = (e) => {
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.onreadystatechange = (event) => {
           if (
-            e.currentTarget.readyState === 4 &&
-            e.currentTarget.status !== 404 &&
-            e.currentTarget.status !== 500 &&
-            e.currentTarget.status !== 403
+            event.currentTarget.readyState === 4 &&
+            event.currentTarget.status !== 404 &&
+            event.currentTarget.status !== 500 &&
+            event.currentTarget.status !== 403
           ) {
-            console.log(e);
+            const data = JSON.parse(event.target.response);
+            alert(data.status); // eslint-disable-line no-alert
+          }
+          else {
+            alert('error occurred'); // eslint-disable-line no-alert
           }
         };
         request.send(formData);
@@ -47,7 +52,7 @@ export default class GroupForm extends React.Component {
   fileWasRecieved(file) {
     this.setState({
       file
-    })
+    });
   }
 
   render() {

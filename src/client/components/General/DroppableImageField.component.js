@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import modernizr from 'modernizr';
+import Modernizr from 'modernizr';
 
 import './_droppableimagefield.component.scss';
 
@@ -36,7 +36,7 @@ export default class DroppableImageField extends React.Component {
         hoverMessage.className = '';
         e.preventDefault();
         self.readFiles(e.dataTransfer.files);
-      }
+      };
     }
 
     this.refs.droppableimagefieldinput.onchange = (e) => {
@@ -74,7 +74,7 @@ export default class DroppableImageField extends React.Component {
             <img src={this.state.imgSrc} />
             <div className="upload-plus-button"> </div>
           </div>
-          <input type="file" className="droppable-image-field--file-input" name="droppableimagefield" ref="droppableimagefieldinput" />
+          <input accept='image/*' type="file" className="droppable-image-field--file-input" name="droppableimagefield" ref="droppableimagefieldinput" />
         </label>
         <p id='drop-files-here-message'>Smid din fil her.</p>
         <p id='filereader-fallback-message'>Din file vil blive oploadet når du trykker OK.</p>

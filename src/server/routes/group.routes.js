@@ -26,21 +26,36 @@ GroupRoutes.get('/opret', (req, res) => {
   });
 });
 
-GroupRoutes.post('/opret', upload.single('droppableimagefield'), (req, res) => {
-  console.log(req.file);
-  console.log(req.body);
+GroupRoutes.post('/opret', upload.single('group_image'), (req, res) => {
+  // console.log(req.file);
+  // console.log(req.body);
 
-  let data = {};
-  let windowData = {
-    propertyName: 'DATA',
-    data: JSON.stringify(data).replace('\'', '\\\'')
-  };
+  if (req.xhr) {
+    let data = {
+      status: 'INCOMPLETE'
+    };
 
-  res.render('page', {
-    css: ['/css/groupcreate.css'],
-    js: ['/js/groupcreate.js'],
-    data: [windowData]
-  });
+    // Do creation processing
+
+    data.status = 'OK';
+    data.redirect = '/grupper/new_id';
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(data));
+  }
+  else {
+    let data = {};
+    let windowData = {
+      propertyName: 'DATA',
+      data: JSON.stringify(data).replace('\'', '\\\'')
+    };
+
+    res.render('page', {
+      css: ['/css/groupcreate.css'],
+      js: ['/js/groupcreate.js'],
+      data: [windowData]
+    });
+  }
 });
 
 GroupRoutes.get('/:id/rediger', (req, res) => {

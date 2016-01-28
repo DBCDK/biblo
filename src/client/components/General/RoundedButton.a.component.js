@@ -21,5 +21,5 @@ RoundedButton.propTypes = {
 
 RoundedButton.defaultProps = {
   clickFunction: () => {},
-  href: 'javascript:void(0)'
+  href: '#'
 };

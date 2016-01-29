@@ -40,7 +40,7 @@ export default class GroupForm extends React.Component {
             const data = JSON.parse(event.target.response);
             alert(data.status); // eslint-disable-line no-alert
           }
-          else {
+          else if (event.currentTarget.readyState === 4) {
             alert('error occurred'); // eslint-disable-line no-alert
           }
         };

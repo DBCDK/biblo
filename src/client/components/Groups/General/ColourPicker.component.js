@@ -10,7 +10,7 @@ import './_colourpicker.component.scss';
 export default class ColourPicker extends React.Component {
   render() {
     const inputName = this.props.baseName + '_colour';
-    const colourPickerItems = ['blueish-green', 'blue', 'green', 'bordeaux', 'red', 'salmon', 'yellow'].map((colour) => {
+    const colourPickerItems = ['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow'].map((colour) => {
       return (
         <ColourPickerItem
           colourName={colour}

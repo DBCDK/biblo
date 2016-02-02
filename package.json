@@ -101,6 +101,7 @@
     "karma": "^0.13.9",
     "karma-cli": "0.1.1",
     "karma-coverage": "^0.5.2",
+    "karma-jsdom-launcher": "^3.0.0",
     "karma-junit-reporter": "^0.3.2",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.0.2",
@@ -115,6 +116,7 @@
     "parallelshell": "^2.0.0",
     "phantomjs": "^1.9.17",
     "redux-devtools": "^3.0.2",
+    "redux-mock-store": "0.0.6",
     "selenium-webdriver": "2.47.0",
     "sinon": "^1.17.2",
     "wallaby-webpack": "0.0.10"

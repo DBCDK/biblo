@@ -20,11 +20,6 @@ const initialState = {
 export default function groupReducer(state = initialState, action) {
   Object.freeze(state);
   switch (action.type) {
-    case SAVE_GROUP:
-      return assignToEmpty(state, {
-        name: action.name
-      });
-
     case CHANGE_GROUP_IMAGE:
       return assignToEmpty(state, {
         imageFile: action.imageFile,

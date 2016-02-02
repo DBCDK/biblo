@@ -5,14 +5,7 @@
  */
 /* eslint-disable no-use-before-define */
 
-import {SAVE_GROUP, CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
-
-export function saveGroup(name) {
-  return {
-    type: SAVE_GROUP,
-    name
-  };
-}
+import {CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
@@ -61,15 +54,15 @@ export function asyncSubmitGroupCreateForm(imageFile, name, description, colour)
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.onreadystatechange = (e) => {
       if (
-        e.currentTarget.readyState === 4 &&
-        e.currentTarget.status !== 404 &&
-        e.currentTarget.status !== 500 &&
-        e.currentTarget.status !== 403
+        e.target.readyState === 4 &&
+        e.target.status !== 404 &&
+        e.target.status !== 500 &&
+        e.target.status !== 403
       ) {
         const data = JSON.parse(e.target.response);
         dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status));
       }
-      else if (e.currentTarget.readyState === 4) {
+      else if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
         dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status));
       }

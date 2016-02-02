@@ -31,7 +31,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(test|node_modules|bower|__tests__|ImageEditor)\//,
+        exclude: /(test|node_modules|bower|__tests__)\//,
         loader: 'isparta'
       }
     ],
@@ -49,5 +49,9 @@ module.exports = {
 
   plugins: [
     extractCss
-  ]
+  ],
+
+  node: {
+    fs: 'empty'
+  }
 };

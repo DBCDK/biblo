@@ -42,7 +42,7 @@ export function changeGroupColour(colourEvent) {
   return {
     type: CHANGE_GROUP_COLOUR,
     colour: colourEvent.target.value
-  }
+  };
 }
 
 export function asyncSubmitGroupCreateForm(imageFile, name, description, colour) {

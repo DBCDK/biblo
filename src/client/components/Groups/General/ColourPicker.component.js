@@ -4,49 +4,51 @@ import React from 'react';
 
 import ColourPickerItem from './ColourPickerItem.component';
 
-import 'normalize.css';
 import './_colourpicker.component.scss';
 
-export default class ColourPicker extends React.Component {
-  render() {
-    const inputName = this.props.baseName + '_colour';
-    const colourPickerItems = ['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow'].map((colour) => {
-      return (
-        <ColourPickerItem
-          colourName={colour}
-          inputName={inputName}
-          key={'colour-picker-item-' + colour}
-          onChangeFunction={this.props.onChangeFunction} />
-      );
-    });
-
-    const content = (
-      <div className="colour-picker">
-        {colourPickerItems}
-      </div>
+const ColourPicker = ({baseName, colours, onChangeFunction, wrapInForm}) => {
+  const inputName = baseName + '_colour';
+  const colourPickerItems = colours.map((colour) => {
+    return (
+      <ColourPickerItem
+        colourName={colour}
+        inputName={inputName}
+        key={'colour-picker-item-' + colour}
+        onChangeFunction={onChangeFunction} />
     );
+  });
 
-    if (this.props.wrapInForm) {
-      return (
-        <form>
-          {content}
-        </form>
-      );
-    }
+  const content = (
+    <div className="colour-picker">
+      {colourPickerItems}
+    </div>
+  );
 
-    return content;
+  if (wrapInForm) {
+    return (
+      <form>
+        {content}
+      </form>
+    );
   }
-}
+
+  return content;
+};
 
 ColourPicker.displayName = 'ColourPicker';
 
 ColourPicker.propTypes = {
-  baseName: React.PropTypes.string.isRequired,
-  wrapInForm: React.PropTypes.bool,
-  onChangeFunction: React.PropTypes.func.isRequired
+  baseName: React.PropTypes.string,
+  colours: React.PropTypes.array,
+  onChangeFunction: React.PropTypes.func,
+  wrapInForm: React.PropTypes.bool
 };
 
 ColourPicker.defaultProps = {
-  baseName: 'colourPicker',
-  wrapInForm: true
+  baseName: 'ColourPicker',
+  colours: ['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow'],
+  onChangeFunction: () => {},
+  wrapInForm: false
 };
+
+export default ColourPicker;

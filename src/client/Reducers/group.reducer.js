@@ -5,10 +5,16 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {SAVE_GROUP} from '../Constants/action.constants';
+import {SAVE_GROUP, CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
 
 const initialState = {
-  name: ''
+  name: '',
+  description: '',
+  colour: '',
+  imageFile: null,
+  UI: {
+    imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg'
+  }
 };
 
 export default function groupReducer(state = initialState, action) {
@@ -17,6 +23,27 @@ export default function groupReducer(state = initialState, action) {
     case SAVE_GROUP:
       return assignToEmpty(state, {
         name: action.name
+      });
+
+    case CHANGE_GROUP_IMAGE:
+      return assignToEmpty(state, {
+        imageFile: action.imageFile,
+        UI: assignToEmpty(state.UI, {
+          imageSrc: action.imageSrc
+        })
+      });
+
+    case SUBMIT_CREATE_GROUP:
+      return assignToEmpty(state, {
+        name: action.groupName,
+        description: action.groupDescription,
+        colour: action.groupColour,
+        imageFile: action.groupImage
+      });
+
+    case CHANGE_GROUP_COLOUR:
+      return assignToEmpty(state, {
+        colour: action.colour
       });
 
     default:

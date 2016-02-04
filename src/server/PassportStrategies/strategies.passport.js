@@ -15,13 +15,12 @@ export function Unilogin(app, uniloginConfig) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  passport.use('unilogin', new UniloginStrategy(
+  passport.use(new UniloginStrategy(
     {
       id: uniloginConfig.id,
       secret: uniloginConfig.secret,
       uniloginBasePath: uniloginConfig.uniloginBasePath,
-      maxTicketAge: 0,
-      failureFlash: true
+      maxTicketAge: 30
     }, (error, req, ticket, done) => {
 
       if (error && error.auth.error) {

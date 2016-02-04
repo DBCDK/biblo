@@ -9,6 +9,7 @@ export default class FrontpageContainer extends React.Component {
       <div className="frontpage--container">
         <h1>Biblo</h1>
         <p>Content area...</p>
+        <a href="/login" >Login</a>
       </div>
     );
   }

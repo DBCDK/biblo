@@ -5,7 +5,7 @@
  */
 
 import expect from 'expect';
-import groupReducer from '../../reducers/group.reducer';
+import groupReducer from '../group.reducer';
 import * as types from '../../Constants/action.constants';
 import assignToEmpty from '../../Utils/assign';
 

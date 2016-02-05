@@ -16,7 +16,7 @@ import * as groupActions from '../../../Actions/group.actions';
 // SASS
 import './_groupcreatecontainer.component.scss';
 
-class GroupCreateContainer extends React.Component {
+export class GroupCreateContainer extends React.Component {
   groupFormSubmit(event, name, description) {
     if ('FormData' in window) {
       event.preventDefault();

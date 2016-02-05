@@ -53,5 +53,9 @@ module.exports = {
 
   node: {
     fs: 'empty'
+  },
+
+  externals: {
+    sinon: 'sinon'
   }
 };

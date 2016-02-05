@@ -5,7 +5,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {SAVE_GROUP, CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
+import {CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
 
 const initialState = {
   name: '',

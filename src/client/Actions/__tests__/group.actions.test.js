@@ -17,7 +17,7 @@ describe('test group actions', () => {
   let xhrMock;
 
   beforeEach(() => {
-    xhrMock = sinon.useFakeXMLHttpRequest();
+    xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
   });
 
   afterEach(() => {
@@ -40,15 +40,28 @@ describe('test group actions', () => {
   it('should test CHANGE_GROUP_IMAGE without file reader support', (done) => {
     // remove filereader support
     let _fileReader = window.FileReader;
-    delete window.FileReader;
 
     // test the action
     const imageFile = new Blob(['detteerenbilledfil'], {type: 'image/png'});
-    const expected = [{
-      imageFile: imageFile,
-      imageSrc: 'http://rubycycling.dk/wp-content/uploads/2016/01/Billede-kommer-snart_02.jpg',
-      type: types.CHANGE_GROUP_IMAGE
-    }];
+    let expected;
+
+    // Delete is only possible on jsdom (e.g. not wallaby because it uses phantomjs), so if we can delete the property, we want to run the test.
+    try {
+      delete window.FileReader;
+
+      expected = [{
+        imageFile: imageFile,
+        imageSrc: 'http://rubycycling.dk/wp-content/uploads/2016/01/Billede-kommer-snart_02.jpg',
+        type: types.CHANGE_GROUP_IMAGE
+      }];
+    }
+    catch (e) {
+      expected = [{
+        imageFile: imageFile,
+        imageSrc: 'data:image/png;base64,ZGV0dGVlcmVuYmlsbGVkZmls',
+        type: types.CHANGE_GROUP_IMAGE
+      }];
+    }
 
     const store = mockStore({}, expected, done);
     store.dispatch(actions.asyncChangeImage(imageFile));

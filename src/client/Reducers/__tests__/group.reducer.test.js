@@ -4,9 +4,9 @@
  * @file: Tests for the group reducer
  */
 
-import expect from 'expect'
-import groupReducer from '../../reducers/group.reducer'
-import * as types from '../../Constants/action.constants'
+import expect from 'expect';
+import groupReducer from '../../reducers/group.reducer';
+import * as types from '../../Constants/action.constants';
 import assignToEmpty from '../../Utils/assign';
 
 describe('Test Group reducer', () => {
@@ -18,17 +18,16 @@ describe('Test Group reducer', () => {
         imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg'
       },
       colour: '',
-        description: '',
+      description: '',
       imageFile: null,
       name: ''
     };
   });
 
   it('should return initial state, given no state', () => {
-    const state = undefined;
     const action = {};
 
-    expect(groupReducer(state, action)).toEqual(initialState);
+    expect(groupReducer(undefined, action)).toEqual(initialState); // eslint-disable-line no-undefined
   });
 
   it('should test CHANGE_GROUP_IMAGE action', () => {

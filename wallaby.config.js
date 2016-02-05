@@ -10,6 +10,7 @@ module.exports = function() {
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
       {pattern: 'testlib/phantomPolyfill.js', instrument: false},
       {pattern: 'node_modules/babel-core/browser-polyfill.js', instrument: false}, // seen in this issue: https://github.com/wallabyjs/public/issues/109 -- https://babeljs.io/docs/learn-es2015/#map-set-weak-map-weak-set
+      {pattern: 'testlib/Blob.js', instrument: false},
       {pattern: 'src/**/*.scss', instrument: false, load: false},
       {pattern: 'src/**/*.js', load: false},
       {pattern: 'src/**/*.test.js', ignore: true}

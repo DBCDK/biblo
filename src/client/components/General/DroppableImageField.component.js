@@ -1,25 +1,21 @@
 'use strict';
 
 import React from 'react';
-import Modernizr from 'modernizr';
 
 import './_droppableimagefield.component.scss';
 
 export default class DroppableImageField extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      imgSrc: props.imageSrc
-    };
-
+  constructor() {
+    super();
     this.readFiles.bind(this);
   }
 
   componentDidMount() {
     let self = this;
-    if (Modernizr.draganddrop) {
-      let dropSpot = document.getElementById('droppableImageField');
+
+    var div = document.createElement('div');
+    if (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) {
+      let dropSpot = self.refs.droppableImageField;
       let hoverMessage = document.getElementById('drop-files-here-message');
 
       dropSpot.ondragover = () => {
@@ -52,35 +48,23 @@ export default class DroppableImageField extends React.Component {
 
   readFiles(files) {
     if (files && files[0]) {
-      const file = files[0];
-
-      if ('FileReader' in window) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-          this.setState({
-            imgSrc: e.target.result
-          });
-        };
-
-        reader.readAsDataURL(file);
-      }
-      else {
+      if (!('FileReader' in window)) {
         document.getElementById('filereader-fallback-message').className = 'uploaded';
       }
 
-      this.props.onFile(file);
+      this.props.onFile(files[0]);
     }
   }
 
   render() {
     return (
-      <div className="droppable-image-field" id="droppableImageField">
+      <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'}>
         <label>
           <div className="image-and-plus-button-container">
-            <img src={this.state.imgSrc} />
+            <img src={this.props.imageSrc} />
             <div className="upload-plus-button"> </div>
           </div>
-          <input accept='image/*' type="file" className="droppable-image-field--file-input" name="droppableimagefield" ref="droppableimagefieldinput" />
+          <input accept='image/*' type="file" className="droppable-image-field--file-input" name={this.props.fieldName} ref="droppableimagefieldinput" />
         </label>
         <p id='drop-files-here-message'>Smid din fil her.</p>
         <p id='filereader-fallback-message'>Din file vil blive oploadet når du trykker OK.</p>
@@ -93,7 +77,8 @@ export default class DroppableImageField extends React.Component {
 DroppableImageField.displayName = 'DroppableImageField';
 DroppableImageField.propTypes = {
   imageSrc: React.PropTypes.string,
-  onFile: React.PropTypes.func.isRequired
+  onFile: React.PropTypes.func.isRequired,
+  fieldName: React.PropTypes.string.isRequired
 };
 DroppableImageField.defaultProps = {
   imageSrc: 'http://orig07.deviantart.net/a9e4/f/2014/228/c/d/minecraft_skins__1___notch_by_kienbennett-d7vdvy3.jpg'

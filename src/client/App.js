@@ -13,14 +13,20 @@ import thunk from 'redux-thunk';
 
 import rootReducer from './Reducers/root.reducer';
 
-export default function renderComponent(Comp, target) {
+export function wrapComponentInProvider(Comp) { // eslint-disable-line react/display-name
   const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
   const store = createStoreWithMiddleware(rootReducer);
 
-  ReactDOM.render(
+  return (
     <Provider store={store}>
       <Comp />
-    </Provider>,
+    </Provider>
+  );
+}
+
+export function renderComponent(Comp, target) {
+  ReactDOM.render(
+    wrapComponentInProvider(Comp),
     document.getElementById(target)
   );
 }

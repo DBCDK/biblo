@@ -49,5 +49,13 @@ module.exports = {
 
   plugins: [
     extractCss
-  ]
+  ],
+
+  node: {
+    fs: 'empty'
+  },
+
+  externals: {
+    sinon: 'sinon'
+  }
 };

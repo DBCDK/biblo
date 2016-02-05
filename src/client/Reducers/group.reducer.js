@@ -5,7 +5,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {SAVE_GROUP, CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
+import {CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
 
 const initialState = {
   name: '',
@@ -20,11 +20,6 @@ const initialState = {
 export default function groupReducer(state = initialState, action) {
   Object.freeze(state);
   switch (action.type) {
-    case SAVE_GROUP:
-      return assignToEmpty(state, {
-        name: action.name
-      });
-
     case CHANGE_GROUP_IMAGE:
       return assignToEmpty(state, {
         imageFile: action.imageFile,

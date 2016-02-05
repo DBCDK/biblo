@@ -2,5 +2,5 @@
 
 require('./tests.general');
 
-let context = require.context('./src/client/Components', true, /\.test\.js?$/);
+let context = require.context('./src/client/components', true, /\.test\.js?$/);
 context.keys().forEach(context);

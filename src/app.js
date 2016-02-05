@@ -30,6 +30,7 @@ import expressValidator from 'express-validator';
 import compression from 'compression';
 import expressSession from 'express-session';
 import helmet from 'helmet';
+import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 
 module.exports.run = function (worker) {
   // Setup
@@ -153,6 +154,9 @@ module.exports.run = function (worker) {
 
   // Setup passport
   PassportStrategies.Unilogin(app, BIBLO_CONFIG.unilogin);
+
+  // Setting middleware
+  app.use('*', GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
 
   app.use('/grupper', GroupRoutes);
   app.use('/', MainRoutes);

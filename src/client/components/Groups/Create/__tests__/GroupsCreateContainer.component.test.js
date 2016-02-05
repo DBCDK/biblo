@@ -4,18 +4,31 @@
  * @file: Tests for group create container.
  */
 
-import expect from 'expect'; // eslint-disable-line
+import expect from 'expect';
 
-import React from 'react'; // eslint-disable-line
-import ReactDOM from 'react-dom'; // eslint-disable-line
-import TestUtils from 'react-addons-test-utils'; // eslint-disable-line
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-import {wrapComponentInProvider} from '../../../../App'; // eslint-disable-line
+import {GroupCreateContainer} from '../GroupCreateContainer.component';
 
-// import GroupCreateContainer from '../GroupCreateContainer.component';
+import groupReducer from '../../../../Reducers/group.reducer';
 
 describe('Test group create container', () => {
   it('Test group create container can render', () => {
-    // TestUtils.renderIntoDocument(wrapComponentInProvider(<GroupCreateContainer />));
+    // just get initial state
+    let group = groupReducer(undefined, {}); // eslint-disable-line no-undefined
+
+    // actions for this test (just use spies)
+    let actions = {};
+
+    let component = (
+      <GroupCreateContainer
+        group={group}
+        actions={actions} />
+    );
+    let dm = TestUtils.renderIntoDocument(component);
+    let dmn = ReactDOM.findDOMNode(dm);
+    expect(dmn.innerHTML).toContain('Opret gruppe');
   });
 });

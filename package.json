@@ -115,6 +115,6 @@
     "redux-devtools": "^3.0.2",
     "selenium-webdriver": "2.47.0",
     "sinon": "^1.17.2",
-    "wallaby-webpack": "0.0.10"
+    "wallaby-webpack": "^0.0.13"
   }
 }

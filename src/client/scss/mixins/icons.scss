@@ -1,0 +1,6 @@
+@mixin icon($size: 19px) {
+  display: inline-block;
+  width: $size;
+  height: $size;
+  vertical-align: middle;
+}

@@ -1,0 +1,52 @@
+@import 'settings';
+@import 'tools';
+
+.navbar-mobile-menu {
+  @include single-transition(top, 400ms, ease-in-out, null);
+  background-color: $melrose;
+  position: fixed;
+  width: 100%;
+  z-index: 101;
+  top: -400px;
+  left: 0;
+  overflow: hidden;
+  box-shadow: #B5B5B5 0px 1px 2px;
+  &.is-active {
+    top: 0;
+  }
+  .inner {
+    margin: 80px 40px 80px 40px;
+    @include min-screen($tablet) {
+      margin: 40px 20px 60px;
+    }
+  }
+  &.profile {
+    background-color: $carnation;
+    @include min-screen($tablet + 1) {
+      position: absolute;
+      width: auto;
+      right: 40px;
+      left: inherit;
+      &.is-active {
+        top: 82px;
+      }
+    }
+  }
+  &.menu {
+    @include min-screen($tablet + 1) {
+      display: none;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    margin-bottom: 10px;
+  }
+  a {
+    @extend %fredoka-header;
+    @include hover-transition((color: white));
+  }
+}

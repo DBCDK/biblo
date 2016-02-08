@@ -1,9 +1,16 @@
 'use strict';
 /**
  * @file
- * entry point for create group page
+ * entry point for the search page
  */
-import renderComponent from '../../../App';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import GroupCreateContainer from './GroupCreateContainer.component';
 
-renderComponent(GroupCreateContainer, 'content');
+/**
+ * Client side rendering of the Frontpage Component
+ */
+ReactDOM.render(
+  <GroupCreateContainer />,
+  document.getElementById('content')
+);

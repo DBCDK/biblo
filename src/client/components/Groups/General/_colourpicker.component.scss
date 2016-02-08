@@ -20,13 +20,6 @@
       }
     }
 
-    .colour-picker--colour:checked + label {
-      display: block;
-      .colour-box {
-        border-color: #a0a0a0;
-      }
-    }
-
     .colour-picker--colour:focus + label {
       .colour-box {
         border-style: solid;
@@ -44,28 +37,32 @@
         cursor: pointer;
       }
 
-      .blue {
-        background-color: #4740b7;
+      .blueish-green {
+        background-color: aquamarine;
       }
 
-      .blueish-green {
-        background-color: #38ceb6;
+      .blue {
+        background-color: blue;
+      }
+
+      .green {
+        background-color: green;
+      }
+
+      .bordeaux {
+        background-color: #800000;
       }
 
       .red {
-        background-color: #f35065;
+        background-color: red;
       }
 
-      .light-purple {
-        background-color: #aba6ff;
-      }
-
-      .light-blue {
-        background-color: #60b0e9;
+      .salmon {
+        background-color: salmon;
       }
 
       .yellow {
-        background-color: #fff100;
+        background-color: yellow;
       }
     }
   }

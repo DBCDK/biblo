@@ -16,16 +16,17 @@ module.exports = [{
     groups: './src/client/components/Groups/index.js',
     groupcreate: './src/client/components/Groups/Create/index.js',
     groupdetail: './src/client/components/Groups/Detail/index.js',
-    groupedit: './src/client/components/Groups/Edit/index.js',
-    footer: './src/client/components/Footer/index.js',
-    navbar: './src/client/components/Navbar/index.js'
+    groupedit: './src/client/components/Groups/Edit/index.js'
   },
 
   output: {
     path: path.join(__dirname, 'public/js'),
     filename: '[name].js'
   },
-
+  resolve: {
+    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')],
+    extensions: ['', '.js']
+  },
   module: {
     loaders: [
       {
@@ -34,14 +35,17 @@ module.exports = [{
         loader: 'babel',
         query: {
           presets: ['react', 'es2015']
-        }
+        },
       },
       {
         test: /\.(scss|css)$/,
         loader: extractTextPlugin.extract(
           // activate source maps via loader query
           'css?sourceMap!' +
-          'sass?sourceMap'
+          'sass?sourceMap' +
+          "&includePaths[]=" + path.resolve(__dirname, "./src/client/scss/") +
+          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib") +
+          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries")
         )
       }
     ]
@@ -51,7 +55,8 @@ module.exports = [{
     react: 'React',
     'react-dom': 'ReactDOM',
     lodash: '_',
-    newrelic: 'newrelic'
+    newrelic: 'newrelic',
+    modernizr: 'Modernizr'
   },
 
   plugins: [

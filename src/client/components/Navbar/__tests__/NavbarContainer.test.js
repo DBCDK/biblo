@@ -10,7 +10,7 @@ import {assert} from 'chai';
 
 import NavbarContainer from '../NavbarContainer.component.js';
 
-describe('Test frontpage', () => {
+describe('Test NavbarContainer Component', () => {
 
   it('Assert className navbar--container', () => {
     const render = TestUtils.createRenderer();
@@ -19,7 +19,72 @@ describe('Test frontpage', () => {
     const rendered = render.getRenderOutput();
 
     const result = rendered.props.className;
-    const expected = 'navbar--container';
-    assert.equal(result, expected, 'Found className navbar--container');
+    const expected = 'navbar';
+    assert.equal(result, expected, 'Found className navbar');
+  });
+
+  it('Assert hide unhide menu', (done) => {
+
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
+    let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
+    let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
+
+    assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
+    TestUtils.Simulate.click(menuButton);
+    setTimeout(() => {
+      assert.isTrue(menu.classList.contains('is-active'), 'menu is active');
+      assert.isTrue(menuButton.classList.contains('is-active'), 'menu button is active');
+      TestUtils.Simulate.click(menuButton);
+      setTimeout(() => {
+        assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
+        assert.isFalse(menuButton.classList.contains('is-active'), 'menu button is not active');
+        done();
+      });
+
+    }, 0);
+  });
+
+  it('Assert hide unhide profile dropdown', (done) => {
+
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
+    let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'icon-link--profile');
+    let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'profile');
+    let closeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
+
+    assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
+    TestUtils.Simulate.click(menuButton);
+    setTimeout(() => {
+      assert.isTrue(menu.classList.contains('is-active'), 'menu is active');
+      assert.isTrue(closeButton.classList.contains('is-active'), 'menu close button is active');
+      TestUtils.Simulate.click(menuButton);
+      setTimeout(() => {
+        assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
+        assert.isFalse(closeButton.classList.contains('is-active'), 'menu close button is not active');
+        done();
+      });
+    });
+  });
+
+  it('Assert click overlay', (done) => {
+
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
+    let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
+    let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
+    let clickOverlay = TestUtils.findRenderedDOMComponentWithClass(dom, 'click-overlay');
+
+    TestUtils.Simulate.click(menuButton);
+    setTimeout(() => {
+      assert.isTrue(menu.classList.contains('is-active'), 'menu is active');
+      assert.isTrue(menuButton.classList.contains('is-active'), 'menu button is active');
+      assert.isTrue(clickOverlay.classList.contains('is-active'), 'clickOverlay is active');
+      TestUtils.Simulate.click(clickOverlay);
+      setTimeout(() => {
+        assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
+        assert.isFalse(menuButton.classList.contains('is-active'), 'menu button is not active');
+        assert.isFalse(clickOverlay.classList.contains('is-active'), 'clickOverlay is not active');
+        done();
+      });
+    });
+
   });
 });

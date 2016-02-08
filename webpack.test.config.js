@@ -4,6 +4,7 @@
  */
 
 require('webpack');
+var path = require('path');
 var extractTextPlugin = require('extract-text-webpack-plugin');
 
 /**
@@ -19,6 +20,10 @@ var extractCss = new extractTextPlugin('style.css');
  * @type {{entry: {app: string}, output: {path: string, filename: string}, module: {loaders: *[]}, plugins: *[]}}
  */
 module.exports = {
+  resolve: {
+    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')],
+    extensions: ['', '.js']
+  },
   module: {
     preLoaders: [
       {
@@ -31,7 +36,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(test|node_modules|bower|__tests__)\//,
+        exclude: /(test|node_modules|bower|__tests__|ImageEditor)\//,
         loader: 'isparta'
       }
     ],
@@ -39,9 +44,11 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         loader: extractTextPlugin.extract(
-          // activate source maps via loader query
           'css?sourceMap!' +
-          'sass?sourceMap'
+          'sass?sourceMap' +
+          "&includePaths[]=" + path.resolve(__dirname, "./src/client/scss/") +
+          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib") +
+          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries")
         )
       }
     ]
@@ -49,13 +56,5 @@ module.exports = {
 
   plugins: [
     extractCss
-  ],
-
-  node: {
-    fs: 'empty'
-  },
-
-  externals: {
-    sinon: 'sinon'
-  }
+  ]
 };

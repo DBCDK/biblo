@@ -5,17 +5,13 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['mocha', 'sinon', 'phantomjs-shim'],
     files: [
-      'tests.actions.webpack.js',
-      'tests.components.webpack.js',
-      'tests.reducers.webpack.js'
+      'tests.components.webpack.js'
     ],
     proxies: {
     },
     exclude: [],
     preprocessors: {
-      'tests.actions.webpack.js': ['webpack'],
-      'tests.components.webpack.js': ['webpack'],
-      'tests.reducers.webpack.js': ['webpack']
+      'tests.components.webpack.js': ['webpack']
     },
     reporters: ['mocha', 'junit', 'coverage'],
     junitReporter: {
@@ -25,7 +21,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['jsdom'],
+    browsers: ['PhantomJS'],
     singleRun: false,
     webpack: require('./webpack.test.config'),
     webpackMiddleware: {

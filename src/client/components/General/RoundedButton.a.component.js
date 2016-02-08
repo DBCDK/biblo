@@ -3,13 +3,15 @@
 import React from 'react';
 import './_roundedbutton.a.component.scss';
 
-const RoundedButton = ({clickFunction, href, buttonText}) => {
-  return (
-    <a className="rounded-button" onClick={clickFunction} href={href}>{buttonText}</a>
-  );
-};
+export default class RoundedButton extends React.Component {
+  render() {
+    return (
+      <a className="rounded-button" onClick={this.props.clickFunction} href={this.props.href}>{this.props.buttonText}</a>
+    );
+  }
+}
 
-RoundedButton.displayName = 'RoundedButton.a.component';
+RoundedButton.displayName = 'RoundedButton';
 
 RoundedButton.propTypes = {
   buttonText: React.PropTypes.string.isRequired,
@@ -21,5 +23,3 @@ RoundedButton.defaultProps = {
   clickFunction: () => {},
   href: '#'
 };
-
-export default RoundedButton;

@@ -12,17 +12,15 @@ const newrelic = config.biblo.newrelic && require('newrelic') || null;
 
 // Libraries
 import express from 'express';
-import * as path from 'path';
+import path from 'path';
 import Logger from 'dbc-node-logger';
 import RedisStore from 'connect-redis';
+import reload from 'reload';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
-
-// Passport Strategies
-import * as PassportStrategies from './server/PassportStrategies/strategies.passport';
 
 // Middleware
 import bodyParser from 'body-parser';
@@ -30,7 +28,6 @@ import expressValidator from 'express-validator';
 import compression from 'compression';
 import expressSession from 'express-session';
 import helmet from 'helmet';
-import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 
 module.exports.run = function (worker) {
   // Setup
@@ -109,9 +106,9 @@ module.exports.run = function (worker) {
       break;
   }
 
-  const redisStore = RedisStore(expressSession);
+  let redisStore = RedisStore(expressSession);
 
-  const sessionMiddleware = expressSession({
+  let sessionMiddleware = expressSession({
     store: new redisStore({
       host: redisConfig.host,
       port: redisConfig.port,
@@ -152,14 +149,13 @@ module.exports.run = function (worker) {
   // Setting sessions
   app.use(sessionMiddleware);
 
-  // Setup passport
-  PassportStrategies.Unilogin(app, BIBLO_CONFIG.unilogin);
-
-  // Setting middleware
-  app.use('*', GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
-
   app.use('/grupper', GroupRoutes);
   app.use('/', MainRoutes);
+
+  // If running in dev-mode enable auto reload in browser when the server restarts
+  if (ENV === 'development' && !process.env.DISABLE_SOCKET_RELOAD) { // eslint-disable-line no-process-env
+    reload(server, app, 1000, true);
+  }
 
   // Graceful handling of errors
   app.use((err, req, res, next) => {

@@ -1,0 +1,17 @@
+@import "settings";
+@import "extends/font-styles";
+
+
+html, body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: $melrose;
+}
+
+h2 {
+  @extend %fredoka-header;
+}
+

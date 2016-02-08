@@ -197,7 +197,7 @@
     "max-statements": 0,
     "no-plusplus": 0,
 
-    "react/display-name": 1,
+    "react/display-name": 0,
     "react/jsx-boolean-value": 0,
     "react/jsx-curly-spacing": 1,
     "react/jsx-no-duplicate-props": 1,
@@ -213,7 +213,7 @@
     "react/no-multi-comp": 1,
     "react/no-unknown-property": 1,
     "react/prop-types": 1,
-    "react/react-in-jsx-scope": 1,
+    "react/react-in-jsx-scope": 0,
     "react/require-extension": 1,
     "react/self-closing-comp": 1,
     "react/sort-comp": 0,

@@ -1,0 +1,58 @@
+@import 'settings';
+@import 'tools';
+
+.navbar--toggle {
+  @include min-screen($tablet + 1) {
+    display: none;
+  }
+  z-index: 102;
+  position: relative;
+  vertical-align: text-top;
+  padding-top: 6px;
+  display: inline-block;
+  height: 22px;
+  width: 30px;
+
+  span, span:before, span:after {
+    cursor: pointer;
+    border-radius: 1px;
+    height: 5px;
+    width: 30px;
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    position: absolute;
+    display: block;
+    content: '';
+  }
+
+  span:before {
+    top: -10px;
+  }
+
+  span:after {
+    bottom: -10px;
+  }
+
+  span, span:before, span:after {
+    transition: all 400ms ease-in-out;
+  }
+
+  &.is-active {
+    top: 0px;
+    right: 0px;
+
+    span {
+      background: rgba(255, 255, 255, 0);
+    }
+    span:before, #nav-toggle span:after {
+    }
+    span:before {
+      transform-origin: top right;
+      transform: rotate(-45deg);
+    }
+    span:after {
+      transform-origin: bottom right;
+      transform: rotate(45deg);
+    }
+  }
+}

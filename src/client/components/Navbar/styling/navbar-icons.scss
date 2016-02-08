@@ -1,0 +1,9 @@
+.icon--profile {
+  @include hover-transition((background-color: $carnation));
+  @include icon(42px);
+}
+
+.icon--search {
+  @include hover-transition((background-color: $turquoise));
+  @include icon(42px);
+}

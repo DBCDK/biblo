@@ -1,0 +1,60 @@
+@import 'settings';
+@import 'tools';
+
+@import 'navbar-icons';
+
+.navbar {
+  position: relative;
+}
+
+.navbar--container {
+  @include clearfix();
+  padding: 20px 40px;
+  @include max-screen(600px) {
+    padding: 20px;
+  }
+  background-color: $black;
+  @include min-screen(600px + 1) {
+    position: relative;
+    z-index: 102;
+  }
+}
+
+.navbar--menu {
+  @include span(8);
+  @include max-screen(600px) {
+    display: none;
+  }
+  text-align: left;
+  ul {
+    @extend %inline-list;
+    position: relative;
+    top: 22px;
+
+  }
+  li {
+    &:first-child {
+      margin-left: 0;
+    }
+    margin-left: 20px;
+  }
+  a {
+    @extend %fredoka-header;
+    @include hover-transition((color: $melrose));
+  }
+}
+
+.navbar--icons {
+  @include span(4 last);
+  @include max-screen(600px) {
+    @include span(12 last);
+  }
+  text-align: right;
+  a {
+    margin-left: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+

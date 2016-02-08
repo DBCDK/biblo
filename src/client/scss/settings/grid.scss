@@ -1,0 +1,15 @@
+$gutter: 0.25;
+$margin: 40px;
+
+// Suzy configuration
+$susy: (
+  container: 1024px,
+  columns: 12,  // The number of columns in your grid
+  gutters: 1/4, // The size of a gutter in relation to a single column
+  debug: (
+    image: hide,
+    color: blue,
+    output: overlay,
+    toggle: top right,
+  ),
+);

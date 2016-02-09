@@ -51,7 +51,8 @@ module.exports = [{
     react: 'React',
     'react-dom': 'ReactDOM',
     lodash: '_',
-    newrelic: 'newrelic'
+    newrelic: 'newrelic',
+    'normalize.css': 'normalize.css'
   },
 
   plugins: [

@@ -16,11 +16,16 @@ import groupReducer from '../../../../Reducers/group.reducer';
 
 describe('Test group create container', () => {
   it('Test group create container can render', () => {
+    const noop = () => {};
+
     // just get initial state
     let group = groupReducer(undefined, {}); // eslint-disable-line no-undefined
 
     // actions for this test (just use spies)
-    let actions = {};
+    let actions = {
+      changeGroupColour: noop,
+      asyncChangeImage: noop
+    };
 
     let component = (
       <GroupCreateContainer

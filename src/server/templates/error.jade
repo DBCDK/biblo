@@ -1,9 +1,8 @@
 //- error.jade
 extends layout
 
-block content
-    #error.row
-       h2 Der er sket en fejl!
-       if (errortext)
-            p !{errortext}
-       img(src!=errorImage)
+#error.row
+  h2 Der er sket en fejl!
+  if (errortext)
+    p !{errortext}
+  img(src!=errorImage)

@@ -3,15 +3,13 @@
 import React from 'react';
 import './_roundedbutton.submit.component.scss';
 
-export default class RoundedButtonSubmit extends React.Component {
-  render() {
-    return (
-      <input className="rounded-button-submit" onClick={this.props.clickFunction} type='submit' value={this.props.buttonText} />
-    );
-  }
-}
+const RoundedButtonSubmit = ({clickFunction, buttonText}) => {
+  return (
+    <input className="rounded-button-submit" onClick={clickFunction} type='submit' value={buttonText} />
+  );
+};
 
-RoundedButtonSubmit.displayName = 'RoundedButton.submit';
+RoundedButtonSubmit.displayName = 'RoundedButton.submit.component';
 
 RoundedButtonSubmit.propTypes = {
   buttonText: React.PropTypes.string.isRequired,
@@ -21,3 +19,5 @@ RoundedButtonSubmit.propTypes = {
 RoundedButtonSubmit.defaultProps = {
   clickFunction: () => {}
 };
+
+export default RoundedButtonSubmit;

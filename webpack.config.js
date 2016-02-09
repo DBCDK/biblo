@@ -35,7 +35,7 @@ module.exports = [{
         loader: 'babel',
         query: {
           presets: ['react', 'es2015']
-        },
+        }
       },
       {
         test: /\.(scss|css)$/,
@@ -55,8 +55,7 @@ module.exports = [{
     react: 'React',
     'react-dom': 'ReactDOM',
     lodash: '_',
-    newrelic: 'newrelic',
-    modernizr: 'Modernizr'
+    newrelic: 'newrelic'
   },
 
   plugins: [

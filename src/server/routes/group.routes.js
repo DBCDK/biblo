@@ -27,24 +27,20 @@ GroupRoutes.get('/opret', (req, res) => {
 });
 
 GroupRoutes.post('/opret', upload.single('group_image'), (req, res) => {
-  // console.log(req.file);
-  // console.log(req.body);
+  let data = {
+    status: 'INCOMPLETE'
+  };
+
+  // Do creation processing
+
+  data.status = 'OK';
+  data.redirect = '/grupper/new_id';
 
   if (req.xhr) {
-    let data = {
-      status: 'INCOMPLETE'
-    };
-
-    // Do creation processing
-
-    data.status = 'OK';
-    data.redirect = '/grupper/new_id';
-
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(data));
   }
   else {
-    let data = {};
     let windowData = {
       propertyName: 'DATA',
       data: JSON.stringify(data).replace('\'', '\\\'')

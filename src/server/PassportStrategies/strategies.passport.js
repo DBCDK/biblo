@@ -27,7 +27,11 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.auth.error
         };
-        logger.warning(`Error when comparing auth's in ticket from UNI-Loing`, {error: error, query: req.query, ticket: ticket});
+        logger.warning(`Error when comparing auth's in ticket from UNI-Loing`, {
+          error: error,
+          query: req.query,
+          ticket: ticket
+        });
         return done(null, false, error.auth.message);
       }
 
@@ -35,17 +39,36 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.timestamp.message
         };
-        logger.warning(`Error when validating timestamps in ticket from UNI-Loing`, {error: error, query: req.query, ticket: ticket});
+        logger.warning(`Error when validating timestamps in ticket from UNI-Loing`, {
+          error: error,
+          query: req.query,
+          ticket: ticket
+        });
         return done(null, false, error.timestamp.message);
       }
 
-      // const serviceProvider = app.get('serviceProvider');
-      // let promise = serviceProvider.trigger('checkProfileName', ticket.user);
-
-      // promise[0].then((res) => {});
-
-      logger.info('User was successfully logged in, about to get or create user', {ticket: ticket});
-      return done(null, {unilogin: ticket.user});
+      const serviceProvider = app.get('serviceProvider');
+      serviceProvider.trigger('checkProfileName', ticket.user)[0].then((res) => {
+        // Check if user exists
+        if (!res.body.exists) {
+          // user doesn't exist, create user
+          return serviceProvider.trigger('createProfile', ticket.user)[0];
+        }
+        return {};
+      }).then(() => {
+        // user now exists, login
+        return serviceProvider.trigger('loginViaUnilogin', {
+          username: ticket.user,
+          timestamp: ticket.timestamp,
+          authtoken: ticket.auth,
+          ttl: 0 // use default ttl
+        })[0];
+      }).then((res) => {
+        logger.info('User was successfully logged in', {ticket: ticket, user: res});
+        done(null, res.body);
+      }).catch((err) => {
+        done(err);
+      });
     }
   ));
 

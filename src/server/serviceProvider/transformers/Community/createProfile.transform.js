@@ -4,13 +4,13 @@
  * @file
  * Uses the custom method 'checkIfUserExists' to check whether a user exists.
  */
-const checkProfileName = {
+const createProfile = {
 
   /**
    * @return {string}
    */
   event() {
-    return 'checkProfileName';
+    return 'createProfile';
   },
 
   /**
@@ -18,7 +18,7 @@ const checkProfileName = {
    * @param {Object} query
    */
   requestTransform(event, query) {
-    return this.callServiceClient('community', 'checkIfUserProfileExists', {
+    return this.callServiceClient('community', 'createProfile', {
       username: query || ''
     });
   },
@@ -28,8 +28,8 @@ const checkProfileName = {
    * @return {Object}
    */
   responseTransform(response) {
-    return {body: JSON.parse(response.body), statusCode: response.statusCode, statusMessage: response.statusMessage};
+    return {body: response.body, statusCode: response.statusCode, statusMessage: response.statusMessage};
   }
 };
 
-export default checkProfileName;
+export default createProfile;

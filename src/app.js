@@ -65,7 +65,7 @@ module.exports.run = function (worker) {
   const EMAIL_REDIRECT = process.env.EMAIL_REDIRECT || 'localhost:' + app.get('port'); // eslint-disable-line no-process-env
 
   // Configure app variables
-  app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker)); // eslint-disable-line no-process-env
+  app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker));
   app.set('logger', logger);
   app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);

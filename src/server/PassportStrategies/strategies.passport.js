@@ -39,7 +39,12 @@ export function Unilogin(app, uniloginConfig) {
         return done(null, false, error.timestamp.message);
       }
 
-      logger.info('User was successfully logged in', {ticket: ticket});
+      // const serviceProvider = app.get('serviceProvider');
+      // let promise = serviceProvider.trigger('checkProfileName', ticket.user);
+
+      // promise[0].then((res) => {});
+
+      logger.info('User was successfully logged in, about to get or create user', {ticket: ticket});
       return done(null, {unilogin: ticket.user});
     }
   ));

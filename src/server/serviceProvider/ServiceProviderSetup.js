@@ -8,6 +8,9 @@
 import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
 import path from 'path';
 
+// import clients
+import CommunityClient from 'dbc-node-community-client';
+
 /**
  * Helper function for registering service clients. If cachetime is defined in config, wrap methods with the
  * client cache manager
@@ -27,7 +30,6 @@ function registerServiceClient(provider, config, clientCache, clientName, client
   else {
     provider.registerServiceClient(clientName, methods);
   }
-
 }
 
 /**
@@ -42,13 +44,14 @@ export default function initProvider(config, logger, sockets) {
   const provider = Provider(logger);
   provider.dispatcher(sockets);
 
-  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config.provider.services, ClientCache(config.cache)); // eslint-disable-line
+  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config.provider.services, ClientCache(config.cache));
 
   // Register all clients
-  // ...
+  RegisterClientOnProvider('community', CommunityClient);
 
   // Transforms are autorequired to lessen boilerplate code
-  AutoRequire(path.join(__dirname, 'transformers'), 'transform.js').map(provider.registerTransform);
+  AutoRequire(path.join(__dirname, 'transformers'), 'transform.js')
+    .map((transformObject) => provider.registerTransform(transformObject.default));
 
   return provider;
 }

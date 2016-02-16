@@ -94,7 +94,9 @@
     "walk": "2.3.9",
     "webpack": "1.12.13",
     "xmldom": "0.1.22",
-    "xss-filters": "1.2.6"
+    "xss-filters": "1.2.6",
+    "postcss-loader": "^0.8.0",
+    "svg-sprite-loader": "0.0.16"
   },
   "devDependencies": {
     "babel-eslint": "^4.0.5",
@@ -130,8 +132,6 @@
     "redux-mock-store": "0.0.6",
     "selenium-webdriver": "2.47.0",
     "sinon": "^1.17.2",
-    "wallaby-webpack": "^0.0.13",
-    "postcss-loader": "^0.8.0",
-    "svg-sprite-loader": "0.0.16"
+    "wallaby-webpack": "^0.0.13"
   }
 }

@@ -41,7 +41,13 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
 
   if (req.file) {
     if (req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
-      req.callServiceProvider('updateProfileImage', req.file);
+      req.callServiceProvider('updateProfileImage', req.file)
+        .then((res) => {
+          console.log(JSON.stringify(res));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
     else {
       errors.push({
@@ -179,7 +185,7 @@ ProfileRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
   });
 });
 
-ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, (req, res) => {
+ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, ssrMiddleware, fullProfileOnSession, (req, res) => {
   let data = {};
 
   res.render('page', {

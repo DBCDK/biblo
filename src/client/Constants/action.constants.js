@@ -19,3 +19,6 @@ export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 export const CHANGE_GROUP_IMAGE = 'CHANGE_GROUP_IMAGE';
 export const CHANGE_GROUP_COLOUR = 'CHANGE_GROUP_COLOUR';
 export const SUBMIT_CREATE_GROUP = 'SUBMIT_CREATE_GROUP';
+
+// Post Actions
+export const ADD_POST = 'ADD_POST';

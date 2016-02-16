@@ -1,16 +1,25 @@
 @import "compass";
 
-@mixin hover-transition($properties, $duration: 200ms) {
+@mixin hover-transition($properties, $duration: 200ms, $lighten: true) {
 
   @each $property, $value in $properties {
-    @include single-transition($property, $duration, null, null);
+    @include single-transition(all, $duration, null, null);
     #{$property}: $value;
     &:hover {
-      @if($value == white) {
+      @if($value == white or $lighten == false) {
         #{$property}: darken($value, 10%);
       }
       @else {
         #{$property}: lighten($value, 10%);
+      }
+
+    }
+    &:active{
+      @if($value == white or $lighten == false) {
+        #{$property}: darken($value, 20%);
+      }
+      @else {
+        #{$property}: lighten($value, 20%);
       }
 
     }

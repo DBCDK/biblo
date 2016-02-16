@@ -3,6 +3,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var extractTextPlugin = require('extract-text-webpack-plugin');
+var autoprefixer = require('autoprefixer');
 
 //var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 var noErrorsPlugin = new webpack.NoErrorsPlugin();
@@ -17,7 +18,7 @@ module.exports = [{
     frontpage: './src/client/components/FrontPage/index.js',
     groups: './src/client/components/Groups/index.js',
     groupcreate: './src/client/components/Groups/Create/index.js',
-    groupdetail: './src/client/components/Groups/Detail/index.js',
+    groupdetail: './src/client/components/Groups/View/index.js',
     groupedit: './src/client/components/Groups/Edit/index.js'
   },
 
@@ -44,15 +45,25 @@ module.exports = [{
         test: /\.(scss|css)$/,
         loader: extractTextPlugin.extract(
           // activate source maps via loader query
-          'css?sourceMap!' +
-          'sass?sourceMap' +
+          'css?sourceMap' +
+          '!sass?sourceMap' +
           "&includePaths[]=" + path.resolve(__dirname, "./src/client/scss/") +
           "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib") +
-          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries")
+          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries") +
+          '!postcss-loader'
         )
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite?' + JSON.stringify({
+          name: '[name]_[hash]',
+          prefixize: true
+        })
       }
     ]
   },
+
+  postcss: [autoprefixer({browsers: ['last 2 versions'] }) ],
 
   externals: {
     react: 'React',

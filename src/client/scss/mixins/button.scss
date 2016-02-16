@@ -1,0 +1,18 @@
+@import 'hover-transition';
+@import "../settings/colors";
+
+@mixin button($background: $melrose, $color: white, $lighten: false) {
+  padding: 7px 30px;
+  border-radius: 5px;
+  color: $color;
+  border: none;
+  display: inline-block;
+  svg {
+    fill: $color;
+    padding-right: 10px;
+    position: relative;
+    display: inline-block;
+    top: 2px;
+  }
+  @include hover-transition((background: $background), 200ms, $lighten);
+}

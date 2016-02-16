@@ -4,6 +4,7 @@
 
 html, body {
   -webkit-tap-highlight-color: transparent;
+  @extend %body;
 }
 
 a {
@@ -15,3 +16,11 @@ h2 {
   @extend %fredoka-header;
 }
 
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  display: inline-block;
+  @include hover-transition((background: $melrose), 200ms, false);
+}

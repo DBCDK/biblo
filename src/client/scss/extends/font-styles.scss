@@ -17,3 +17,26 @@
     display: inline-block;
   }
 }
+
+%h2-body {
+  font-family: $body-font;
+  font-size: 32px;
+  @include max-screen(600px) {
+    font-size: 20px;
+  }
+  color: $dark;
+  text-transform: none;
+}
+
+%h3-body {
+  font-family: $body-font;
+  font-size: 20px;
+  color: $melrose;
+  text-transform: none;
+}
+
+%body {
+  font-family: $body-font;
+  font-size: 18px;
+  color: $dark;
+}

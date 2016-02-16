@@ -8,7 +8,7 @@
     @include span(3.4 of 24);
 
     .colour-picker--colour {
-      // Can't hide it because of accessibility, so just push it to the left.
+      // Can\'t hide it because of accessibility, so just push it to the left.
       left: -999999em;
       position: absolute;
     }

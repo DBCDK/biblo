@@ -1,0 +1,63 @@
+@import "tools";
+@import "settings";
+
+.post-list {
+}
+
+.post-wrapper {
+  @include clearfix();
+  margin-bottom: 20px;
+}
+
+.post {
+  margin-left: 100px;
+  /* box-sizing: border-box; */
+  position: relative;
+  top: 0;
+  /* float: right; */
+  background: #eee;
+  padding: 20px;
+  border-radius: 5px;
+  img {
+    max-width: 100%;
+  }
+
+  .add-comment {
+    @include button($melrose);
+  }
+}
+
+.post--header {
+  .username {
+    @extend %h3-body;
+  }
+  .time {
+    color: $gray;
+    display: inline-block;
+    padding-left: 10px;
+  }
+}
+
+.post-profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  float: left;
+  img {
+    width: 100%;
+  }
+}
+
+.post::before {
+  top: 15px;
+  bottom: auto;
+  left: -15px;
+  border-width: 15px 15px 15px 0;
+  border-color: transparent #eee;
+  content: "";
+  position: absolute;
+  border-style: solid;
+  display: block;
+  width: 0;
+}

@@ -1,0 +1,53 @@
+@import 'tools';
+@import 'settings';
+
+.post-add {
+  textarea {
+    overflow:hidden;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    min-height: 100px;
+  }
+  button {
+    @include button($melrose);
+    float: right;
+  }
+}
+
+.post-input-wrapper {
+  padding: 5px 20px;
+  border: #ccc 1px solid;
+  .preview-image img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+}
+
+
+
+#upload-post-image {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.post-add--actions {
+  margin-top: 10px;
+}
+
+.post-add--image {
+  label {
+    @include button($athens-gray, $melrose, false);
+  }
+  svg {
+    padding-right: 10px;
+    position: relative;
+    display: inline-block;
+    top: 2px;
+  }
+}

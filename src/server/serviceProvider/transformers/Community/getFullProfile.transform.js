@@ -33,7 +33,15 @@ const getFullProfileTransform = {
    */
   responseTransform(response) {
     let body = JSON.parse(response.body);
-    body.image.url = '/profil/billede/' + body.image.id;
+
+    if (body.image) {
+      body.image.url = '/profil/billede/' + body.image.id;
+    }
+    else {
+      body.image = {};
+      body.image.url = 'https://www.climb4shalva.org/img/person-icon.png';
+    }
+
     return {body: body, statusCode: response.statusCode, statusMessage: response.statusMessage};
   }
 };

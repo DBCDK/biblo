@@ -179,7 +179,7 @@ ProfileRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
   });
 });
 
-ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, (req, res) => {
+ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, ssrMiddleware, fullProfileOnSession, (req, res) => {
   let data = {};
 
   res.render('page', {

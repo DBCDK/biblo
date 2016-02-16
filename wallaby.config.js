@@ -4,7 +4,7 @@ let webpackConfig = require('./webpack.test.config');
 let babel = require('babel-core');
 let webpackPostprocessor = wallabyWebpack(webpackConfig);
 
-module.exports = function() {
+module.exports = function(wallaby) {
   return {
     files: [
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
@@ -27,6 +27,10 @@ module.exports = function() {
       window.__moduleBundler.loadTests();
     },
 
-    testFramework: 'mocha@2.2.4'
+    testFramework: 'mocha@2.2.4',
+
+    compilers: {
+      '**/*.js': wallaby.compilers.babel()
+    }
   };
 };

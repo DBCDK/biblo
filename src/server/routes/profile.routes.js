@@ -41,13 +41,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
 
   if (req.file) {
     if (req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
-      req.callServiceProvider('updateProfileImage', req.file)
-        .then((res) => {
-          console.log(JSON.stringify(res));
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      req.callServiceProvider('updateProfileImage', req.file);
     }
     else {
       errors.push({

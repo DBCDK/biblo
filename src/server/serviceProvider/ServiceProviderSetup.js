@@ -9,6 +9,7 @@ import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
 import path from 'path';
 
 // import clients
+import Borchk from 'dbc-node-borchk';
 import CommunityClient from 'dbc-node-community-client';
 
 /**
@@ -47,6 +48,7 @@ export default function initProvider(config, logger, sockets) {
   const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config.provider.services, ClientCache(config.cache));
 
   // Register all clients
+  RegisterClientOnProvider('borchk', Borchk);
   RegisterClientOnProvider('community', CommunityClient);
 
   // Transforms are autorequired to lessen boilerplate code

@@ -33,7 +33,7 @@ MainRoutes.get('/logout', function(req, res) {
 });
 
 MainRoutes.get('/error', (req, res) => {
-  let errorMsg = 'Some error message';
+  let errorMsg = 'Der er sket en fejl!';
   if (req.session.passportError) {
     errorMsg = req.session.passportError.message;
   }

@@ -12,6 +12,8 @@ module.exports = [{
   name: 'browser',
 
   entry: {
+    profileedit: './src/client/components/Profile/Edit/index.js',
+    profiledetail: './src/client/components/Profile/Detail/index.js',
     frontpage: './src/client/components/FrontPage/index.js',
     groups: './src/client/components/Groups/index.js',
     groupcreate: './src/client/components/Groups/Create/index.js',
@@ -34,7 +36,8 @@ module.exports = [{
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['react', 'es2015'],
+          plugins: ['transform-runtime', 'transform-async-to-generator']
         }
       },
       {

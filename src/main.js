@@ -12,6 +12,7 @@ if (config.newrelic) {
 }
 
 require('babel-register')({
-  presets: ['react', 'es2015']
+  presets: ['react', 'es2015'],
+  plugins: ['transform-runtime', 'transform-async-to-generator']
 });
 require('./scaling');

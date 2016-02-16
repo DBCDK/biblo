@@ -28,7 +28,7 @@ const checkProfileName = {
    * @return {Object}
    */
   responseTransform(response) {
-    return {body: JSON.parse(response.body), statusCode: response.statusCode, statusMessage: response.statusMessage};
+    return {status: response.statusCode, data: JSON.parse(response.body), errors: []};
   }
 };
 

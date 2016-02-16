@@ -16,5 +16,9 @@ block append footerscripts
       each val in data
         script window['!{val.propertyName}'] = '!{val.data}';
 
+  if jsonData && jsonData.length
+      each val in jsonData
+        script(id='JSONDATA', type='application/json') !{val}
+
 block prepend body
     #content

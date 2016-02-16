@@ -20,6 +20,7 @@ import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
+import ProfileRoutes from './server/routes/profile.routes';
 
 // Passport Strategies
 import * as PassportStrategies from './server/PassportStrategies/strategies.passport';
@@ -159,6 +160,7 @@ module.exports.run = function (worker) {
   app.use('*', GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
 
   app.use('/grupper', GroupRoutes);
+  app.use('/profil', ProfileRoutes);
   app.use('/', MainRoutes);
 
   // Graceful handling of errors

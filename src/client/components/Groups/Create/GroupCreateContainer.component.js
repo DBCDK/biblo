@@ -56,7 +56,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
-      group: state.groupReducer
+      group: state.groupCreateReducer
     };
   },
 

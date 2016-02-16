@@ -12,14 +12,14 @@ import TestUtils from 'react-addons-test-utils';
 
 import {GroupCreateContainer} from '../GroupCreateContainer.component';
 
-import groupReducer from '../../../../Reducers/group.reducer';
+import groupCreateReducer from '../../../../Reducers/groupCreate.reducer';
 
 describe('Test group create container', () => {
   it('Test group create container can render', () => {
     const noop = () => {};
 
     // just get initial state
-    let group = groupReducer(undefined, {}); // eslint-disable-line no-undefined
+    let group = groupCreateReducer(undefined, {}); // eslint-disable-line no-undefined
 
     // actions for this test (just use spies)
     let actions = {

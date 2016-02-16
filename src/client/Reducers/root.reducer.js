@@ -6,11 +6,11 @@
  */
 
 import {combineReducers} from 'redux';
-import groupReducer from './group.reducer';
+import groupCreateReducer from './groupCreate.reducer';
 import profileReducer from './profile.reducer';
 
 const rootReducer = combineReducers({
-  groupReducer,
+  groupCreateReducer,
   profileReducer
 });
 

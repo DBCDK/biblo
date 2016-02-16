@@ -166,7 +166,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
   });
 });
 
-ProfileRoutes.get('/image/:id', ssrMiddleware, (req, res) => {
+ProfileRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
   req.callServiceProvider('getProfileImage', req.params.id).then((imageObject) => {
     const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + imageObject[0].body.url;
 

@@ -33,7 +33,7 @@ const getFullProfileTransform = {
    */
   responseTransform(response) {
     let body = JSON.parse(response.body);
-    body.image = body.image.name;
+    body.image.url = '/profil/billede/' + body.image.id;
     return {body: body, statusCode: response.statusCode, statusMessage: response.statusMessage};
   }
 };

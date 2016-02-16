@@ -5,7 +5,7 @@
  */
 
 import expect from 'expect';
-import groupReducer from '../group.reducer';
+import groupCreateReducer from '../groupCreate.reducer';
 import * as types from '../../Constants/action.constants';
 import assignToEmpty from '../../Utils/assign';
 
@@ -27,7 +27,7 @@ describe('Test Group reducer', () => {
   it('should return initial state, given no state', () => {
     const action = {};
 
-    expect(groupReducer(undefined, action)).toEqual(initialState); // eslint-disable-line no-undefined
+    expect(groupCreateReducer(undefined, action)).toEqual(initialState); // eslint-disable-line no-undefined
   });
 
   it('should test CHANGE_GROUP_IMAGE action', () => {
@@ -48,7 +48,7 @@ describe('Test Group reducer', () => {
       }
     });
 
-    expect(groupReducer(state, action)).toEqual(expected);
+    expect(groupCreateReducer(state, action)).toEqual(expected);
   });
 
   it('should test SUBMIT_CREATE_GROUP action', () => {
@@ -73,7 +73,7 @@ describe('Test Group reducer', () => {
       imageFile
     });
 
-    expect(groupReducer(state, action)).toEqual(expected);
+    expect(groupCreateReducer(state, action)).toEqual(expected);
   });
 
   it('should test CHANGE_GROUP_COLOUR action', () => {
@@ -88,6 +88,6 @@ describe('Test Group reducer', () => {
       colour
     });
 
-    expect(groupReducer(state, action)).toEqual(expected);
+    expect(groupCreateReducer(state, action)).toEqual(expected);
   });
 });

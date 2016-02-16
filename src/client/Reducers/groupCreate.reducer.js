@@ -17,7 +17,7 @@ const initialState = {
   }
 };
 
-export default function groupReducer(state = initialState, action) {
+export default function groupCreateReducer(state = initialState, action) {
   Object.freeze(state);
   switch (action.type) {
     case CHANGE_GROUP_IMAGE:

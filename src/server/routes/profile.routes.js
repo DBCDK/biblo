@@ -19,14 +19,9 @@ let upload = multer({storage: multer.memoryStorage()});
 const ProfileRoutes = express.Router();
 
 ProfileRoutes.get('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, (req, res) => {
-  let data = {
-    profile: req.user.profile
-  };
-
   res.render('page', {
     css: [],
-    js: ['/js/profileedit.js'],
-    jsonData: [JSON.stringify(data)]
+    js: ['/js/profileedit.js']
   });
 });
 

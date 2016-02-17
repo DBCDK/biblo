@@ -20,5 +20,8 @@ block append footerscripts
       each val in jsonData
         script(id='JSONDATA', type='application/json') !{val}
 
+  if profile
+      script(id='JSONDATA_USER_PROFILE', type='application/json') !{profile}
+
 block prepend body
     #content

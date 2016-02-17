@@ -10,14 +10,27 @@
 }
 
 .post {
-  margin-left: 100px;
-  /* box-sizing: border-box; */
-  position: relative;
-  top: 0;
-  /* float: right; */
-  background: #eee;
-  padding: 20px;
-  border-radius: 5px;
+  @include min-screen($tablet) {
+    margin-left: 100px;
+    position: relative;
+    top: 0;
+    background: #eee;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  @include max-screen($tablet - 1px) {
+    border-bottom: 1px solid rgba($dark, 0.15);
+    padding-bottom: 20px;
+    .post--header {
+      margin-left: 75px;
+      height: 60px;
+      span {
+        padding: 0;
+        display: block;
+      }
+    }
+  }
+
   img {
     max-width: 100%;
   }

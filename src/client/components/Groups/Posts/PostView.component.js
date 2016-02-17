@@ -7,7 +7,7 @@ import TimeToString from '../../../Utils/timeToString.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 
-export default function PostView({content, image, timestamp, profile}) {
+export default function PostView({content, image, timeCreated, profile}) {
   return (
     <div className='post-wrapper' >
       <div className='post-profile-image' >
@@ -15,7 +15,7 @@ export default function PostView({content, image, timestamp, profile}) {
       </div>
       <div className='post' >
         <div className='post--header' >
-          <span className='username' >{profile.name}</span> <span className='time' >{TimeToString(timestamp)}</span>
+          <span className='username' >{profile.name}</span> <span className='time' >{TimeToString(timeCreated)}</span>
         </div>
         <p className='content' >{content}</p>
         {

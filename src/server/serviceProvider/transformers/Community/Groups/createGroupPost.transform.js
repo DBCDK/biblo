@@ -21,8 +21,8 @@ const CreateGroupPost = {
         if (response.statusCode === 200 && query.image) {
           const user = connection.request.user || {id: '', profileId: ''};
           const accessToken = user.id;
-          const uid = response.body.id;
-          return this.callServiceClient('community', 'updateImage', {uid, image: query.image, accessToken, relation: 'Posts'});
+          const relationId = response.body.id;
+          return this.callServiceClient('community', 'updateImage', {relationId, image: query.image, accessToken, relationType: 'Posts'});
         }
         return response;
       });

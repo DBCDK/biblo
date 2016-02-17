@@ -46,7 +46,7 @@ class NavbarContainer extends React.Component {
           <div className="navbar--menu">
             <ul className="inline-list">
               <li><NavbarLink value='Det Sker' url='#det-sker-dummy'/></li>
-              <li><NavbarLink value='Grupper' url='#det-sker-dummy'/></li>
+              <li><NavbarLink value='Grupper' url='/grupper'/></li>
             </ul>
           </div>
           <div className="navbar--icons">

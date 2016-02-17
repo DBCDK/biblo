@@ -20,7 +20,8 @@ describe('Test Group reducer', () => {
       colour: '',
       description: '',
       imageFile: null,
-      name: ''
+      name: '',
+      errors: []
     };
   });
 
@@ -63,6 +64,7 @@ describe('Test Group reducer', () => {
       groupDescription: description,
       groupColour: colour,
       groupImage: imageFile,
+      errors: [],
       type: types.SUBMIT_CREATE_GROUP
     };
 

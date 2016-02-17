@@ -63,27 +63,28 @@ export function asyncSubmitGroupCreateForm(imageFile, name, description, colour)
         if (data.redirect) {
           window.location.href = data.redirect;
         }
-        dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status));
+        dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status, data.errors));
       }
       else if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
         if (data.redirect) {
           window.location.href = data.redirect;
         }
-        dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status));
+        dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status, data.errors));
       }
     };
     request.send(formData);
   };
 }
 
-function submitGroupCreateForm(imageFile, name, description, colour, status) {
+function submitGroupCreateForm(imageFile, name, description, colour, status, errors = []) {
   return {
     type: SUBMIT_CREATE_GROUP,
     groupImage: imageFile,
     groupName: name,
     groupDescription: description,
     groupColour: colour,
-    status
+    status,
+    errors
   };
 }

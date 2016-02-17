@@ -14,7 +14,8 @@ const initialState = {
   imageFile: null,
   UI: {
     imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg'
-  }
+  },
+  errors: []
 };
 
 export default function groupCreateReducer(state = initialState, action) {
@@ -33,7 +34,8 @@ export default function groupCreateReducer(state = initialState, action) {
         name: action.groupName,
         description: action.groupDescription,
         colour: action.groupColour,
-        imageFile: action.groupImage
+        imageFile: action.groupImage,
+        errors: action.errors
       });
 
     case CHANGE_GROUP_COLOUR:

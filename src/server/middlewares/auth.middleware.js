@@ -55,7 +55,7 @@ export function ensureUserHasProfile(req, res, next) {
   }
 
   // user has a profile, send them to where they want to go.
-  if (req.user && req.user.profile.hasFilledInProfile) {
+  if (req.user && (req.user.profile.hasFilledInProfile || req.user.profile.profile.hasFilledInProfile)) {
     return next();
   }
 

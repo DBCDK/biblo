@@ -8,13 +8,15 @@
 import express from 'express';
 import multer from 'multer';
 
-import {ensureUserHasProfile} from '../middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
+import {fullProfileOnSession} from '../middlewares/data.middleware';
+import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
 
 const GroupRoutes = express.Router();
 
-GroupRoutes.get('/opret', ensureUserHasProfile, (req, res) => {
+GroupRoutes.get('/opret', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, ensureUserHasProfile, (req, res) => {
   let data = {};
   let windowData = {
     propertyName: 'DATA',

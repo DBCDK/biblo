@@ -21,6 +21,7 @@ describe('Test Group Form component', () => {
       <GroupForm
         changeColourAction={noop}
         changeImageAction={noop}
+        errors={[]}
         groupImageSrc={imageSrc}
         submit={noop} />
     );

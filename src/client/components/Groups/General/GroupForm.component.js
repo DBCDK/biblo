@@ -21,8 +21,14 @@ export default class GroupForm extends React.Component {
   }
 
   render() {
+    const errorObj = {};
+    this.props.errors.forEach((error) => {
+      errorObj[error.field] = (<p className={'errorMessage ' + error.field}>{error.errorMessage}</p>);
+    });
+
     return (
       <div className="group-form">
+        {errorObj.general || ''}
         <form method="POST" encType="multipart/form-data" id="group_form_component" ref="group-form">
           <div className="group-image-upload">
             <DroppableImageField
@@ -30,11 +36,13 @@ export default class GroupForm extends React.Component {
               onFile={this.props.changeImageAction}
               fieldName={'group_image'}
             />
+            {errorObj.group_image || ''}
           </div>
 
           <div className="group-name-field">
             <label htmlFor="group-name-input-field"><strong>Gruppens navn</strong></label><br />
             <input id="group-name-input-field" name="group-name" required placeholder="Find på et gruppenavn" ref={"groupNameInput"} />
+            {errorObj['group-name'] || ''}
           </div>
           <br />
 
@@ -48,6 +56,7 @@ export default class GroupForm extends React.Component {
               rows="5"
               ref={"groupDescriptionArea"}
             />
+            {errorObj['group-description'] || ''}
           </div>
           <br />
 
@@ -58,6 +67,7 @@ export default class GroupForm extends React.Component {
               colours={['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow']}
               onChangeFunction={this.props.changeColourAction}
               wrapInForm={false} />
+            {errorObj['group-colour-picker_colour'] || ''}
           </div>
           <br />
 
@@ -76,6 +86,7 @@ GroupForm.displayName = 'GroupForm';
 GroupForm.propTypes = {
   changeColourAction: React.PropTypes.func.isRequired,
   changeImageAction: React.PropTypes.func.isRequired,
+  errors: React.PropTypes.array.isRequired,
   groupImageSrc: React.PropTypes.string.isRequired,
   submit: React.PropTypes.func.isRequired
 };

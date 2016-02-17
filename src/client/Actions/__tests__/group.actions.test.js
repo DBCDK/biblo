@@ -82,6 +82,7 @@ describe('test group actions', () => {
       groupImage: imageFile,
       groupName: name,
       status: 'OK',
+      errors: [],
       type: types.SUBMIT_CREATE_GROUP
     };
 
@@ -98,6 +99,7 @@ describe('test group actions', () => {
       groupImage: imageFile,
       groupName: name,
       status: 'UNAUTHORIZED',
+      errors: [],
       type: types.SUBMIT_CREATE_GROUP
     };
 
@@ -120,6 +122,7 @@ describe('test group actions', () => {
       groupImage: null,
       groupName: name,
       status: 'OK',
+      errors: [],
       type: types.SUBMIT_CREATE_GROUP
     };
 

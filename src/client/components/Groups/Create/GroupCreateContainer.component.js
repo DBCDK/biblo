@@ -36,6 +36,7 @@ export class GroupCreateContainer extends React.Component {
         <GroupForm
           changeColourAction={this.props.actions.changeGroupColour}
           changeImageAction={this.props.actions.asyncChangeImage}
+          errors={this.props.group.errors}
           groupImageSrc={this.props.group.UI.imageSrc}
           submit={this.groupFormSubmit.bind(this)} />
       </div>

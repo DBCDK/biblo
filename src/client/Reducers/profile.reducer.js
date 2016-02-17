@@ -20,15 +20,21 @@ let initialState = {
   lastUpdated: '',
   hasFilledInProfile: false,
   id: -1,
-  userIsLoggedIn: false
+  userIsLoggedIn: false,
+  image: {
+    url: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
+  }
 };
 
-let jsonData = document.getElementById('JSONDATA');
+let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
 
 if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   let data = JSON.parse(jsonData.innerHTML);
   if (data.profile) {
     initialState = assignToEmpty(initialState, data.profile);
+  }
+  if (data.userIsLoggedIn) {
+    initialState = assignToEmpty(initialState, data.userIsLoggedIn);
   }
 }
 

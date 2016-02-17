@@ -20,7 +20,6 @@ export function fullProfileOnSession(req, res, next) {
 
     next();
   }).catch((err) => {
-    console.error(err);
     next();
   });
 }

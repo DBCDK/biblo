@@ -60,10 +60,16 @@ export function asyncSubmitGroupCreateForm(imageFile, name, description, colour)
         e.target.status !== 403
       ) {
         const data = JSON.parse(e.target.response);
+        if (data.redirect) {
+          window.location.href = data.redirect;
+        }
         dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status));
       }
       else if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
+        if (data.redirect) {
+          window.location.href = data.redirect;
+        }
         dispatch(submitGroupCreateForm(imageFile, name, description, colour, data.status));
       }
     };

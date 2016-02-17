@@ -8,6 +8,8 @@
 import express from 'express';
 import multer from 'multer';
 
+import {groupCreateForm} from '../forms/group.forms';
+
 import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
@@ -30,15 +32,61 @@ GroupRoutes.get('/opret', ensureAuthenticated, ssrMiddleware, fullProfileOnSessi
   });
 });
 
-GroupRoutes.post('/opret', upload.single('group_image'), (req, res) => {
+GroupRoutes.post('/opret', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
+  let errors = [];
 
-  // Do creation processing
+  groupCreateForm.handle(req, {
+    other(form) {
+      for (let key in form.fields) {
+        if (form.fields.hasOwnProperty(key)) {
+          if (form.fields[key].error) {
+            errors.push({
+              errorMessage: form.fields[key].error,
+              field: key
+            });
+          }
+        }
+      }
+    }
+  });
 
-  data.status = 'OK';
-  data.redirect = '/grupper/new_id';
+  if (!req.file) {
+    errors.push({
+      errorMessage: 'Husk at vælge et coverbillede!',
+      field: 'group_image'
+    });
+  }
+
+  if (errors.length > 0) {
+    data.status = 'ERROR';
+    data.errors = errors;
+  }
+  else {
+    // request is valid
+    let createRes = (await req.callServiceProvider('createGroup', {
+      name: req.body['group-name'],
+      description: req.body['group-description'],
+      colour: req.body['group-colour-picker_colour'],
+      group_image: req.file
+    }))[0];
+
+    if (createRes.status === 200) {
+      data.status = 'OK';
+      data.redirect = '/grupper/' + createRes.data.id;
+      data.group = createRes.data;
+    }
+    else {
+      errors.push({
+        field: 'general',
+        errorMessage: 'Der skete en fejl ved gruppe oprettelse, prøv igen senere!'
+      });
+      data.status = 'ERROR';
+      data.errors = errors;
+    }
+  }
 
   if (req.xhr) {
     res.setHeader('Content-Type', 'application/json');

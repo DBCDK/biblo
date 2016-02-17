@@ -30,8 +30,25 @@ const GetGroupTransform = {
     return post;
   },
 
-  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('community', 'getGroup', query);
+  requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
+    const filter = [
+      {
+        relation: 'posts',
+        scope: {
+          limit: 100,
+          order: 'timeCreated DESC',
+          include: ['image', 'owner', {
+            relation: 'comments',
+            scope: {
+              limit: 1,
+              order: 'timeCreated DESC',
+              include: ['owner']
+            }
+          }]
+        }
+      }
+    ];
+    return this.callServiceClient('community', 'getGroup', {id, filter});
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars

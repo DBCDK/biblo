@@ -31,17 +31,19 @@ export function fullProfileOnSession(req, res, next) {
         url: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
       }
     },
-    userIsLoggedIn: false
+    userIsLoggedIn: false,
+    errors: []
   };
 
   req.callServiceProvider('getFullProfile').then((result) => {
     if (result && result[0] && result[0].statusMessage === 'OK') {
-      req.session.passport.user.profile = {profile: result[0].body, userIsLoggedIn: true};
+      req.session.passport.user.profile = {profile: result[0].body, userIsLoggedIn: true, errors: []};
     }
 
     res.locals.profile = JSON.stringify(req.session.passport.user.profile);
     next();
   }).catch((err) => {
+    req.session.passport.user.profile.errors.push(err);
     res.locals.profile = JSON.stringify(req.session.passport.user.profile);
     next();
   });

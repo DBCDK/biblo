@@ -6,11 +6,16 @@ const UpdateProfileImageTransform = {
     return 'updateProfileImage';
   },
 
-  requestTransform(event, profileImage, connection) {
+  requestTransform(event, image, connection) {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
     const uid = user.profileId;
-    return this.callServiceClient('community', 'updateProfileImage', {uid, profileImage, accessToken});
+    return this.callServiceClient('community', 'updateImage', {
+      relationId: uid,
+      relationType: 'Profiles',
+      image,
+      accessToken
+    });
   },
 
   responseTransform(response) {

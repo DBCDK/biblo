@@ -4,13 +4,13 @@
  * @file
  * Get the user profile + profile image.
  */
-const getProfileImageTransform = {
+const getImageTransform = {
 
   /**
    * @return {string}
    */
   event() {
-    return 'getProfileImage';
+    return 'getImage';
   },
 
   /**
@@ -20,7 +20,7 @@ const getProfileImageTransform = {
    * @returns {Promise}
    */
   requestTransform(event, id) {
-    return this.callServiceClient('community', 'getProfileImage', {id});
+    return this.callServiceClient('community', 'getImage', {id});
   },
 
   /**
@@ -32,4 +32,4 @@ const getProfileImageTransform = {
   }
 };
 
-export default getProfileImageTransform;
+export default getImageTransform;

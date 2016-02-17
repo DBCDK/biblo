@@ -17,6 +17,14 @@ const CreateGroupPost = {
         uid: passport.user.profileId,
         postownerid: passport.user.profileId,
         accessToken: passport.user.id
+      }).then((response) => {
+        if (response.statusCode === 200 && query.image) {
+          const user = connection.request.user || {id: '', profileId: ''};
+          const accessToken = user.id;
+          const uid = response.body.id;
+          return this.callServiceClient('community', 'updateImage', {uid, image: query.image, accessToken, relation: 'Posts'});
+        }
+        return response;
       });
     }
 

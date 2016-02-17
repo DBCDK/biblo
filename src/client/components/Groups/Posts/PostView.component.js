@@ -7,7 +7,7 @@ import TimeToString from '../../../Utils/timeToString.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 
-export default function PostView({content, uri, timestamp, profile}) {
+export default function PostView({content, image, timestamp, profile}) {
   return (
     <div className='post-wrapper' >
       <div className='post-profile-image' >
@@ -19,8 +19,8 @@ export default function PostView({content, uri, timestamp, profile}) {
         </div>
         <p className='content' >{content}</p>
         {
-          uri &&
-          <div className='media' ><img src={uri} alt="image for post" /></div>
+          image &&
+          <div className='media' ><img src={image} alt="image for post" /></div>
         }
         <a className='add-comment' href="#add-comment" ><Icon glyph={backSvg} />Svar</a>
       </div>
@@ -30,7 +30,7 @@ export default function PostView({content, uri, timestamp, profile}) {
 
 PostView.propTypes = {
   content: React.PropTypes.string,
-  uri: React.PropTypes.string,
+  image: React.PropTypes.string,
   timestamp: React.PropTypes.string,
   profile: React.PropTypes.object
 };

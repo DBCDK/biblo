@@ -40,11 +40,20 @@ export default class PostAdd extends React.Component {
   }
 
   render() {
+    if (this.props.profile.role === 0) {
+      return (
+        <div className='post-add' >
+          <a href="/login" >Log ind for at skrive et indlæg</a>
+        </div>
+      );
+    }
     return (
       <div className='post-add' >
-        <form method="POST" encType="application/x-www-form-urlencoded" id="post_form_component" ref="group-form"
+        <form method="POST" action="/grupper/post" encType="multipart/form-data" id="post_form_component" ref="group-form"
               onSubmit={this.onSubmit.bind(this)} >
           <div className='post-input-wrapper' >
+            <input type="hidden" name="method" value="post" />
+            <input type="hidden" name="groupId" value={this.props.groupId} />
           <textarea ref='postTextarea' name="content" placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
                     onChange={(e) => this.setState({text: e.target.value})} ></textarea>
@@ -59,7 +68,7 @@ export default class PostAdd extends React.Component {
             <div className='post-add--image' >
               <label htmlFor="upload-post-image" >
                 <input id="upload-post-image" accept='image/*' type="file"
-                       className="droppable-image-field--file-input" name="image  "
+                       className="droppable-image-field--file-input" name="image"
                        ref="image-input" onChange={this.readURL.bind(this)}
                   />
                 <Icon glyph={cameraSvg} />Tilføj billede eller video</label>
@@ -69,3 +78,8 @@ export default class PostAdd extends React.Component {
       </div>);
   }
 }
+
+PostAdd.propTypes = {
+  profile: React.PropTypes.object,
+  groupId: React.PropTypes.number
+};

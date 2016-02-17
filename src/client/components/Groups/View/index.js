@@ -8,9 +8,10 @@ import ReactDOM from 'react-dom';
 import GroupViewContainer from './GroupViewContainer.component.js';
 
 const data = window.DATA && JSON.parse(window.DATA) || {};
+
+// @todo this is a dummy profile, should be exchanged with a real profile
 const profile = {
-  loggedIn: window.USER_IS_LOGGED_IN,
-  role: 1,
+  role: window.USER_IS_LOGGED_IN && 1 || 0,
   id: 1,
   name: 'Dummy Dum Dum'
 };

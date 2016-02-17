@@ -25,6 +25,7 @@ const GetGroupTransform = {
 
   parsePost(post) {
     post.owner = this.parseProfile(post.owner);
+    post.image = post.image && '/billede/' + post.image.id || null;
     post.comments = post.comments.map(comment => this.parseComment(comment));
     return post;
   },

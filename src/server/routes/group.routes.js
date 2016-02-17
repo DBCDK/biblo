@@ -87,6 +87,7 @@ function showGroup(groupData, res) {
   res.render('page', {
     css: ['/css/groupdetail.css'],
     js: ['/js/groupdetail.js'],
+    // jsonData: [JSON.stringify({groupData})],
     data: [windowData]
   });
 }
@@ -110,20 +111,24 @@ function fetchGroupData(params, req, res, update = {}) {
  */
 GroupRoutes.get('/:id', (req, res) => fetchGroupData(req.params, req, res));
 
+
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/:id', (req, res) => {
+GroupRoutes.post('/post', upload.single('image'), (req, res) => {
+  const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
   let serviceProvider = req.app.get('serviceProvider');
   const params ={
     title: ' ',
     content: req.body.content,
-    groupId: req.params.id
+    groupId: req.body.groupId,
+    image
   };
   serviceProvider.trigger('createGroupPost', params, {request: req})[0].then(() => {
-    fetchGroupData(req.params, req, res, {update: 'Dit indlæg er blevet tilføjet'});
-  }); // @todo handle errors
+    res.redirect(`/grupper/${req.body.groupId}`);
+  });
 });
+
 
 GroupRoutes.get('/', (req, res) => {
   let data = {};

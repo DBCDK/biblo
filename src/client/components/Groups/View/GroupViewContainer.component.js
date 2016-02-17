@@ -18,6 +18,8 @@ export default class GroupViewContainer extends React.Component {
   }
 
   render() {
+    // Dummyimage is used until images can be saved on and retrieved from groups
+    const dummyImage = 'http://lorempixel.com/200/200/';
 
     if (this.props.error) {
       return (
@@ -27,24 +29,21 @@ export default class GroupViewContainer extends React.Component {
     return (
       <PageLayout>
         <div className='group' >
-          <GroupHeader uri="http://lorempixel.com/200/200/" />
+          <GroupHeader uri={dummyImage} />
 
           <div className='group--content' >
             <div className="details" >
               <h2 className='group--title' >{this.props.name}</h2>
-
               <p className='group--description' >{this.props.description}</p>
-
               <div className='group--follow' >
                 <Follow active={this.state.following}
                         onClick={() => this.setState({following: !this.state.following})}
                         text={this.state.following && 'Følger' || 'Følg gruppen'} />
               </div>
-
             </div>
             <div className='group--post-add' >
               <h2>Skriv i gruppen</h2>
-              <PostAdd />
+              <PostAdd profile={this.props.profile} groupId={this.props.id} />
             </div>
             <div className='group--post-view' >
               <h2>{this.props.posts.length} brugere skriver</h2>
@@ -58,6 +57,8 @@ export default class GroupViewContainer extends React.Component {
 }
 
 GroupViewContainer.propTypes = {
+  id: React.PropTypes.number,
+  profile: React.PropTypes.object,
   error: React.PropTypes.string,
   name: React.PropTypes.string,
   description: React.PropTypes.string,

@@ -4,8 +4,11 @@
  * @file
  * Configure main routes
  */
+import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
+import http from 'http';
+import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
 
 const MainRoutes = express.Router();
 
@@ -21,7 +24,7 @@ MainRoutes.get('/login', passport.authenticate('unilogin',
     failureRedirect: '/error'
   }
 ), (req, res) => {
-  res.redirect('/');
+  res.redirect(req.headers.referer);
 });
 
 MainRoutes.get('/logout', function(req, res) {
@@ -41,6 +44,20 @@ MainRoutes.get('/error', (req, res) => {
   req.session.passportError = null;
   res.send(errorMsg);
 });
+
+MainRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
+  req.callServiceProvider('getImage', req.params.id).then((imageObject) => {
+    const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + imageObject[0].body.url;
+
+    res.setHeader('Content-Type', imageObject[0].body.type);
+    http.get(imageUrl, function(result) {
+      result.pipe(res);
+    });
+  }).catch((err) => {
+    res.send(JSON.stringify({errors: [err]}));
+  });
+});
+
 
 export default MainRoutes;
 

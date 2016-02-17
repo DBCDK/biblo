@@ -5,10 +5,8 @@
  * Configure profile routes
  */
 
-import config from '@dbcdk/biblo-config';
 import express from 'express';
 import multer from 'multer';
-import http from 'http';
 
 import {ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
 import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
@@ -158,19 +156,6 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     css: [],
     js: ['/js/profileedit.js'],
     jsonData: [JSON.stringify(data)]
-  });
-});
-
-ProfileRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
-  req.callServiceProvider('getProfileImage', req.params.id).then((imageObject) => {
-    const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + imageObject[0].body.url;
-
-    res.setHeader('Content-Type', imageObject[0].body.type);
-    http.get(imageUrl, function(result) {
-      result.pipe(res);
-    });
-  }).catch((err) => {
-    res.send(JSON.stringify({errors: [err]}));
   });
 });
 

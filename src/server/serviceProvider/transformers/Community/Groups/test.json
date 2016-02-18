@@ -1,0 +1,19 @@
+{
+  "include": [
+    {
+      "relation": "posts",
+      "scope": {
+        "limit": 1,
+        "order": "timeCreated ASC",
+        "include": ["image", "owner", {
+          "relation": "comments",
+          "scope": {
+            "limit": 1,
+            "order": "timeCreated ASC",
+            "include": ["owner"]
+          }
+        }]
+      }
+    }
+  ]
+}

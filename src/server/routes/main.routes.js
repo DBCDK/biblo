@@ -9,6 +9,7 @@ import express from 'express';
 import passport from 'passport';
 import http from 'http';
 import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
+import {setReferer, redirectBackToOrigin} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
 
@@ -19,12 +20,12 @@ MainRoutes.get('/', (req, res) => {
   });
 });
 
-MainRoutes.get('/login', passport.authenticate('unilogin',
+MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',
   {
     failureRedirect: '/error'
   }
-), (req, res) => {
-  res.redirect(req.headers.referer);
+), redirectBackToOrigin, (req, res) => {
+  res.redirect('/');
 });
 
 MainRoutes.get('/logout', function(req, res) {

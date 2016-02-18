@@ -1,7 +1,5 @@
 'use strict';
 
-import {orderBy} from 'lodash';
-
 const GetGroupTransform = {
 
   event() {
@@ -10,12 +8,19 @@ const GetGroupTransform = {
 
   parseProfile(owner) {
     if (owner) {
-
       return {
         id: owner.id,
-        displayName: owner.displayName
+        displayName: owner.displayName,
+        image: owner.image && '/billede/' + owner.image.id || null
       };
     }
+
+    // All posts, groups and comments should have an owner. This is a fallback in case of mysterious events
+    return {
+      id: 0,
+      displayName: 'Anonym',
+      image: 'http://lorempixel.com/200/200/'
+    };
   },
 
   parseComment(comment) {
@@ -37,7 +42,7 @@ const GetGroupTransform = {
         scope: {
           limit: 100,
           order: 'timeCreated DESC',
-          include: ['image', 'owner', {
+          include: ['image', {owner: ['image']}, {
             relation: 'comments',
             scope: {
               limit: 1,
@@ -52,11 +57,9 @@ const GetGroupTransform = {
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-    const body = JSON.parse(response.body);
-
     if (response.statusCode === 200) {
+      const body = JSON.parse(response.body);
       body.posts = body.posts.map(post => this.parsePost(post));
-      body.posts = orderBy(body.posts, 'timeCreated', 'desc');
       return body;
     }
 

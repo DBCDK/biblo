@@ -67,7 +67,7 @@ class NavbarContainer extends React.Component {
           <div className="">
             <ul className="">
               <li><NavbarLink value='Lånerstatus' url='#lånerstatus'/></li>
-              <li><NavbarLink value='Log ud' url='#log ud'/></li>
+              <li><NavbarLink value='Log ud' url='/logout'/></li>
             </ul>
           </div>
         </NavbarMobileMenu>

@@ -39,6 +39,11 @@ export function ensureAuthenticated(req, res, next) {
   return next();
 }
 
+export function setReferer(req, res, next) {
+  req.session.returnUrl = req.headers.referer;
+  return next();
+}
+
 /**
  * Middleware to make sure a user has filled in their profile,
  * only checks logged in users, so best to use it with ensureAuthenticated.

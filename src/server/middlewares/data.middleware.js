@@ -13,6 +13,15 @@
  * @param next
  */
 export function fullProfileOnSession(req, res, next) {
+  if (!req.isAuthenticated()) {
+    res.locals.profile = JSON.stringify({
+      profile: {
+        userIsLoggedIn: false
+      }
+    });
+    return next();
+  }
+
   req.session.passport.user.profile = {
     profile: {
       username: '',
@@ -31,13 +40,12 @@ export function fullProfileOnSession(req, res, next) {
         url: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
       }
     },
-    userIsLoggedIn: false,
     errors: []
   };
 
   req.callServiceProvider('getFullProfile').then((result) => {
     if (result && result[0] && result[0].statusMessage === 'OK') {
-      req.session.passport.user.profile = {profile: result[0].body, userIsLoggedIn: true, errors: []};
+      req.session.passport.user.profile = {profile: Object.assign(result[0].body, {userIsLoggedIn: true}), errors: []};
     }
 
     res.locals.profile = JSON.stringify(req.session.passport.user.profile);

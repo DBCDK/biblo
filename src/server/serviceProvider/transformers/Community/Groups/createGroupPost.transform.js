@@ -7,8 +7,8 @@ const CreateGroupPost = {
 
   requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
 
+    // If user is logged in create the post
     if (connection.request.session.passport) {
-      // If user is logged in create the post
       const passport = connection.request.session.passport;
       return this.callServiceClient('community', 'createGroupPost', {
         title: query.title,
@@ -19,10 +19,12 @@ const CreateGroupPost = {
         accessToken: passport.user.id
       }).then((response) => {
         if (response.statusCode === 200 && query.image) {
+          const image = query.image;
+          query.image = {data: 'Binary Image Data!'};
           const user = connection.request.user || {id: '', profileId: ''};
           const accessToken = user.id;
           const relationId = response.body.id;
-          return this.callServiceClient('community', 'updateImage', {relationId, image: query.image, accessToken, relationType: 'Posts'});
+          return this.callServiceClient('community', 'updateImage', {relationId, image, accessToken, relationType: 'Posts'});
         }
         return response;
       });

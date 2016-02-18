@@ -7,10 +7,12 @@
 
 import {combineReducers} from 'redux';
 import groupCreateReducer from './groupCreate.reducer';
+import groupViewReducer from './groupView.reducer';
 import profileReducer from './profile.reducer';
 
 const rootReducer = combineReducers({
   groupCreateReducer,
+  groupViewReducer,
   profileReducer
 });
 

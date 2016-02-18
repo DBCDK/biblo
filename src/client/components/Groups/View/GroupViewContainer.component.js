@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import {connect} from 'react-redux';
+
 import PageLayout from '../../Layout/PageLayout.component.js';
 import Follow from '../../General/Follow/Follow.component.js';
 import GroupHeader from './GroupViewHeader.component.js';
@@ -9,7 +11,7 @@ import PostAdd from '../Posts/PostsAdd.component.js';
 
 import './scss/group-view.scss';
 
-export default class GroupViewContainer extends React.Component {
+class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,9 +20,6 @@ export default class GroupViewContainer extends React.Component {
   }
 
   render() {
-    // Dummyimage is used until images can be saved on and retrieved from groups
-    const dummyImage = 'http://lorempixel.com/200/200/';
-
     if (this.props.error) {
       return (
         <div className="error">{this.props.error}</div>
@@ -29,12 +28,12 @@ export default class GroupViewContainer extends React.Component {
     return (
       <PageLayout>
         <div className='group' >
-          <GroupHeader uri={dummyImage} />
+          <GroupHeader uri={this.props.group.image} />
 
           <div className='group--content' >
             <div className="details" >
-              <h2 className='group--title' >{this.props.name}</h2>
-              <p className='group--description' >{this.props.description}</p>
+              <h2 className='group--title' >{this.props.group.name}</h2>
+              <p className='group--description' >{this.props.group.description}</p>
               <div className='group--follow' >
                 <Follow active={this.state.following}
                         onClick={() => this.setState({following: !this.state.following})}
@@ -43,11 +42,11 @@ export default class GroupViewContainer extends React.Component {
             </div>
             <div className='group--post-add' >
               <h2>Skriv i gruppen</h2>
-              <PostAdd profile={this.props.profile} groupId={this.props.id} />
+              <PostAdd profile={this.props.profile} groupId={this.props.group.id} />
             </div>
             <div className='group--post-view' >
-              <h2>{this.props.posts.length} brugere skriver</h2>
-              <PostList posts={this.props.posts} />
+              <h2>{this.props.group.posts && this.props.group.posts.length} brugere skriver</h2>
+              <PostList posts={this.props.group.posts} profile={this.props.profile} />
             </div>
           </div>
         </div>
@@ -58,10 +57,27 @@ export default class GroupViewContainer extends React.Component {
 
 GroupViewContainer.propTypes = {
   id: React.PropTypes.number,
-  profile: React.PropTypes.object,
+  profile: React.PropTypes.object.isRequired,
+  group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
-  name: React.PropTypes.string,
-  description: React.PropTypes.string,
-  posts: React.PropTypes.array,
   following: React.PropTypes.bool
 };
+
+
+/**
+ * Connect the redux state and actions to container props
+ */
+export default connect(
+  // Map redux state to group prop
+  (state) => {
+    return {
+      profile: state.profileReducer,
+      group: state.groupViewReducer
+    };
+  },
+
+  // Map group actions to actions props
+  (dispatch) => { // eslint-disable-line no-unused-vars
+    return {};
+  }
+)(GroupViewContainer);

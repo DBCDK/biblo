@@ -128,15 +128,10 @@ GroupRoutes.get('/:id/rediger', (req, res) => {
  * @param res
  */
 function showGroup(groupData, res) {
-  let windowData = {
-    propertyName: 'DATA',
-    data: JSON.stringify(groupData).replace('\'', '\\\'')
-  };
   res.render('page', {
     css: ['/css/groupdetail.css'],
     js: ['/js/groupdetail.js'],
-    // jsonData: [JSON.stringify({groupData})],
-    data: [windowData]
+    jsonData: [JSON.stringify({groupData})]
   });
 }
 
@@ -157,7 +152,7 @@ function fetchGroupData(params, req, res, update = {}) {
 /**
  * Get group view
  */
-GroupRoutes.get('/:id', (req, res) => fetchGroupData(req.params, req, res));
+GroupRoutes.get('/:id', ssrMiddleware, fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
 
 
 /**

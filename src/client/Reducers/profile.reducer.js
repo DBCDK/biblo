@@ -33,9 +33,6 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   if (data.profile) {
     initialState = assignToEmpty(initialState, data.profile);
   }
-  if (data.userIsLoggedIn) {
-    initialState = assignToEmpty(initialState, data.userIsLoggedIn);
-  }
 }
 
 export default function profileReducer(state = initialState, action) {

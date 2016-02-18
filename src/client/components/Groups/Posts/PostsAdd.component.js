@@ -40,7 +40,7 @@ export default class PostAdd extends React.Component {
   }
 
   render() {
-    if (this.props.profile.role === 0) {
+    if (!this.props.profile.userIsLoggedIn) {
       return (
         <div className='post-add' >
           <a href="/login" >Log ind for at skrive et indlæg</a>

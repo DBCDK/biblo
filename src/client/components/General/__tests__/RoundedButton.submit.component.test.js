@@ -10,7 +10,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-import RoundedButtonSubmit from '../RoundedButton.submit.component';
+import RoundedButtonSubmit from '../RoundedButton/RoundedButton.submit.component.js';
 
 describe('Test rounded button', () => {
   it('Check rounded submit button onclick calls clickFunction', () => {

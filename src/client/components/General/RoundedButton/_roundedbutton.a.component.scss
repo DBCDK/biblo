@@ -1,0 +1,16 @@
+.rounded-button {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #2acc94;
+  color: white;
+  border-style: none;
+  display: inline-block;
+}
+
+.rounded-button:hover {
+  padding: 7px;
+  border-style: solid;
+  border-color: #2acc94;
+  background-color: #62edc6;
+}

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 
 import ColourPicker from './ColourPicker.component';
 import DroppableImageField from '../../General/DroppableImageField.component';
-import RoundedButtonSubmit from '../../General/RoundedButton.submit.component';
+import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
 
 import 'normalize.css';

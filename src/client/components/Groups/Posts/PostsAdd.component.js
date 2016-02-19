@@ -1,8 +1,13 @@
 'use strict';
 
-import './scss/post-add.scss';
+// import components
 import autosize from 'autosize';
 import React from 'react';
+
+// import css
+import './scss/post-add.scss';
+
+// import svg
 import Icon from '../../General/Icon/Icon.component.js';
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
 
@@ -57,7 +62,6 @@ export default class PostAdd extends React.Component {
           <textarea ref='postTextarea' name="content" placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
                     onChange={(e) => this.setState({text: e.target.value})} ></textarea>
-
             <div className='preview-image' >
               {this.state.image && <img src={this.state.image} alt="preview" />}
             </div>

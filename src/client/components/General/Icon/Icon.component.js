@@ -1,5 +1,7 @@
 'use strict';
 
+import React from 'react';
+
 /**
  * Creates an SVG Icon. Import the svg file and pass it as a glyph property
  *

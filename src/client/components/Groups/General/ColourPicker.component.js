@@ -6,13 +6,13 @@ import ColourPickerItem from './ColourPickerItem.component';
 
 import './_colourpicker.component.scss';
 
-const ColourPicker = ({baseName, colours, onChangeFunction, wrapInForm}) => {
+const ColourPicker = ({baseName, colours, disabled, onChangeFunction, wrapInForm}) => {
   const inputName = baseName + '_colour';
   const colourPickerItems = colours.map((colour) => {
     return (
       <ColourPickerItem
         colourName={colour}
-        disabled={this.props.disabled}
+        disabled={disabled}
         inputName={inputName}
         key={'colour-picker-item-' + colour}
         onChangeFunction={onChangeFunction} />

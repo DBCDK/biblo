@@ -18,39 +18,47 @@ import './_groupcreatecontainer.component.scss';
 
 export class GroupCreateContainer extends React.Component {
   groupFormSubmit(event, name, description) {
-    console.log(this.props.group.UI.submitState);
+    const actions = this.props.actions;
+    const group = this.props.group;
+
     if (
       'FormData' in window &&
-      this.props.group.UI.submitState !== 'SUBMITTING' &&
-      this.props.group.UI.submitState !== 'UPLOAD_COMPLETE' &&
-      this.props.group.UI.submitState !== 'UPLOAD_FAILED' &&
-      this.props.group.UI.submitState !== 'UPLOAD_CANCELED'
+      group.UI.submitState !== 'SUBMITTING' &&
+      group.UI.submitState !== 'UPLOAD_COMPLETE' &&
+      group.UI.submitState !== 'UPLOAD_FAILED' &&
+      group.UI.submitState !== 'UPLOAD_CANCELED'
     ) {
       event.preventDefault();
-      this.props.actions.asyncSubmitGroupCreateForm(
-        this.props.group.imageFile,
+      actions.asyncSubmitGroupCreateForm(
+        group.imageFile,
         name,
         description,
-        this.props.group.colour
+        group.colour
       );
     }
   }
 
   render() {
+    const actions = this.props.actions;
+    const group = this.props.group;
+    const submit = this.groupFormSubmit.bind(this);
+
     return (
-      <div className="group-create">
+      <div>
         <PageLayout>
-          <BackButton />
-          <h1>Opret gruppe</h1>
-          <GroupForm
-            changeColourAction={this.props.actions.changeGroupColour}
-            changeImageAction={this.props.actions.asyncChangeImage}
-            errors={this.props.group.errors}
-            groupImageSrc={this.props.group.UI.imageSrc}
-            submitState={this.props.group.UI.submitState}
-            submitProgress={this.props.group.UI.submitProgress}
-            submit={this.groupFormSubmit.bind(this)} />
-          </PageLayout>
+          <div className="group-create">
+            <BackButton />
+            <h1>Opret gruppe</h1>
+            <GroupForm
+              changeColourAction={actions.changeGroupColour}
+              changeImageAction={actions.asyncChangeImage}
+              errors={group.errors}
+              groupImageSrc={group.UI.imageSrc}
+              submitState={group.UI.submitState}
+              submitProgress={group.UI.submitProgress}
+              submit={submit} />
+          </div>
+        </PageLayout>
       </div>
     );
   }

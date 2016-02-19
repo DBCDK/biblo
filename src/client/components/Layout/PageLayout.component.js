@@ -1,5 +1,7 @@
 'use strict';
 
+import React from 'react';
+
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';
 import {PropTypes} from 'react';

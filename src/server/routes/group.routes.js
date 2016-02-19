@@ -181,7 +181,7 @@ GroupRoutes.get('/', (req, res) => {
   };
 
   res.render('page', {
-    css: [],
+    css: ['/css/groups.css'],
     js: ['/js/groups.js'],
     data: [windowData]
   });

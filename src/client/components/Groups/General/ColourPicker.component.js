@@ -12,6 +12,7 @@ const ColourPicker = ({baseName, colours, onChangeFunction, wrapInForm}) => {
     return (
       <ColourPickerItem
         colourName={colour}
+        disabled={this.props.disabled}
         inputName={inputName}
         key={'colour-picker-item-' + colour}
         onChangeFunction={onChangeFunction} />
@@ -40,6 +41,7 @@ ColourPicker.displayName = 'ColourPicker';
 ColourPicker.propTypes = {
   baseName: React.PropTypes.string,
   colours: React.PropTypes.array,
+  disabled: React.PropTypes.bool,
   onChangeFunction: React.PropTypes.func,
   wrapInForm: React.PropTypes.bool
 };
@@ -47,6 +49,7 @@ ColourPicker.propTypes = {
 ColourPicker.defaultProps = {
   baseName: 'ColourPicker',
   colours: ['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow'],
+  disabled: false,
   onChangeFunction: () => {},
   wrapInForm: false
 };

@@ -1,0 +1,23 @@
+.back-button {
+  height: 0.5em;
+  border-radius: 3px;
+  margin: 10px;
+  display: block;
+}
+
+.back-button--arrow-container {
+  position: relative;
+  top: 0.5em;
+  left: 0.5em;
+}
+
+.back-button--arrow {
+  display: inline-block;
+  padding: 0.1em;
+  height: 100%;
+  width: 100%;
+}
+
+.back-button--alt-text {
+  font-size: 0;
+}

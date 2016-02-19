@@ -8,6 +8,7 @@ const ColourPickerItem = ({colourName, inputName, onChangeFunction}) => {
         <input
           name={inputName}
           className={'colour-picker--colour ' + colourName}
+          disabled={this.props.disabled}
           type='radio'
           id={'colour-picker--colour-' + colourName}
           onChange={onChangeFunction}
@@ -26,6 +27,7 @@ const ColourPickerItem = ({colourName, inputName, onChangeFunction}) => {
 ColourPickerItem.displayName = 'ColourPickerItem';
 ColourPickerItem.propTypes = {
   colourName: React.PropTypes.string.isRequired,
+  disabled: React.PropTypes.bool.isRequired,
   inputName: React.PropTypes.string.isRequired,
   onChangeFunction: React.PropTypes.func.isRequired
 };

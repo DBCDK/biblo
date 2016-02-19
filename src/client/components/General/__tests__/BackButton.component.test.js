@@ -10,7 +10,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-import BackButton from '../BackButton.component';
+import BackButton from '../BackButton/BackButton.component.js';
 
 describe('Test backbutton', () => {
   it('Check backbutton onclick calls window.history.back', () => {

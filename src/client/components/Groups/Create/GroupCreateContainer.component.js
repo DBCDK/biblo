@@ -7,7 +7,8 @@ import {connect} from 'react-redux';
 
 // Components
 import GroupForm from '../General/GroupForm.component';
-import BackButton from '../../General/BackButton.component';
+import BackButton from '../../General/BackButton/BackButton.component.js';
+import PageLayout from '../../Layout/PageLayout.component';
 
 // Actions
 import * as groupActions from '../../../Actions/group.actions';
@@ -17,7 +18,14 @@ import './_groupcreatecontainer.component.scss';
 
 export class GroupCreateContainer extends React.Component {
   groupFormSubmit(event, name, description) {
-    if ('FormData' in window) {
+    console.log(this.props.group.UI.submitState);
+    if (
+      'FormData' in window &&
+      this.props.group.UI.submitState !== 'SUBMITTING' &&
+      this.props.group.UI.submitState !== 'UPLOAD_COMPLETE' &&
+      this.props.group.UI.submitState !== 'UPLOAD_FAILED' &&
+      this.props.group.UI.submitState !== 'UPLOAD_CANCELED'
+    ) {
       event.preventDefault();
       this.props.actions.asyncSubmitGroupCreateForm(
         this.props.group.imageFile,
@@ -31,16 +39,18 @@ export class GroupCreateContainer extends React.Component {
   render() {
     return (
       <div className="group-create">
-        <BackButton />
-        <h1>Opret gruppe</h1>
-        <GroupForm
-          changeColourAction={this.props.actions.changeGroupColour}
-          changeImageAction={this.props.actions.asyncChangeImage}
-          errors={this.props.group.errors}
-          groupImageSrc={this.props.group.UI.imageSrc}
-          submitState={this.props.group.UI.submitState}
-          submitProgress={this.props.group.UI.submitProgress}
-          submit={this.groupFormSubmit.bind(this)} />
+        <PageLayout>
+          <BackButton />
+          <h1>Opret gruppe</h1>
+          <GroupForm
+            changeColourAction={this.props.actions.changeGroupColour}
+            changeImageAction={this.props.actions.asyncChangeImage}
+            errors={this.props.group.errors}
+            groupImageSrc={this.props.group.UI.imageSrc}
+            submitState={this.props.group.UI.submitState}
+            submitProgress={this.props.group.UI.submitProgress}
+            submit={this.groupFormSubmit.bind(this)} />
+          </PageLayout>
       </div>
     );
   }

@@ -7,7 +7,8 @@ import {connect} from 'react-redux';
 
 // Components
 import GroupForm from '../General/GroupForm.component';
-import BackButton from '../../General/BackButton.component';
+import BackButton from '../../General/BackButton/BackButton.component.js';
+import PageLayout from '../../Layout/PageLayout.component';
 
 // Actions
 import * as groupActions from '../../../Actions/group.actions';
@@ -17,30 +18,47 @@ import './_groupcreatecontainer.component.scss';
 
 export class GroupCreateContainer extends React.Component {
   groupFormSubmit(event, name, description) {
-    if ('FormData' in window) {
+    const actions = this.props.actions;
+    const group = this.props.group;
+
+    if (
+      'FormData' in window &&
+      group.UI.submitState !== 'SUBMITTING' &&
+      group.UI.submitState !== 'UPLOAD_COMPLETE' &&
+      group.UI.submitState !== 'UPLOAD_FAILED' &&
+      group.UI.submitState !== 'UPLOAD_CANCELED'
+    ) {
       event.preventDefault();
-      this.props.actions.asyncSubmitGroupCreateForm(
-        this.props.group.imageFile,
+      actions.asyncSubmitGroupCreateForm(
+        group.imageFile,
         name,
         description,
-        this.props.group.colour
+        group.colour
       );
     }
   }
 
   render() {
+    const actions = this.props.actions;
+    const group = this.props.group;
+    const submit = this.groupFormSubmit.bind(this);
+
     return (
-      <div className="group-create">
-        <BackButton />
-        <h1>Opret gruppe</h1>
-        <GroupForm
-          changeColourAction={this.props.actions.changeGroupColour}
-          changeImageAction={this.props.actions.asyncChangeImage}
-          errors={this.props.group.errors}
-          groupImageSrc={this.props.group.UI.imageSrc}
-          submitState={this.props.group.UI.submitState}
-          submitProgress={this.props.group.UI.submitProgress}
-          submit={this.groupFormSubmit.bind(this)} />
+      <div>
+        <PageLayout>
+          <div className="group-create">
+            <BackButton />
+            <h1>Opret gruppe</h1>
+            <GroupForm
+              changeColourAction={actions.changeGroupColour}
+              changeImageAction={actions.asyncChangeImage}
+              errors={group.errors}
+              groupImageSrc={group.UI.imageSrc}
+              submitState={group.UI.submitState}
+              submitProgress={group.UI.submitProgress}
+              submit={submit} />
+          </div>
+        </PageLayout>
       </div>
     );
   }

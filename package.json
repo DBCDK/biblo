@@ -80,6 +80,7 @@
     "passport": "0.3.2",
     "passport-unilogin": "^1.0.0",
     "path": "^0.12.7",
+    "postcss-loader": "^0.8.0",
     "react": "0.14.7",
     "react-addons-test-utils": "0.14.7",
     "react-dom": "0.14.7",
@@ -91,13 +92,13 @@
     "sass-mediaqueries": "^1.6.1",
     "socketcluster": "4.3.1",
     "susy": "^2.2.11",
+    "svg-inline-loader": "^0.4.0",
+    "svg-sprite-loader": "0.0.16",
     "vhost": "3.0.2",
     "walk": "2.3.9",
     "webpack": "1.12.13",
     "xmldom": "0.1.22",
-    "xss-filters": "1.2.6",
-    "postcss-loader": "^0.8.0",
-    "svg-sprite-loader": "0.0.16"
+    "xss-filters": "1.2.6"
   },
   "devDependencies": {
     "babel-eslint": "^4.0.5",

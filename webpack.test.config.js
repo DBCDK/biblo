@@ -51,6 +51,10 @@ module.exports = {
           "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib") +
           "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries")
         )
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline'
       }
     ]
   },

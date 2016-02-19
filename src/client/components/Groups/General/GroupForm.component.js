@@ -27,14 +27,15 @@ export default class GroupForm extends React.Component {
       errorObj[error.field] = (<p className={'errorMessage ' + error.field}>{error.errorMessage}</p>);
     });
 
-    let extraClasses = '';
+    let disabled = false;
     let submitArea = <RoundedButtonSubmit buttonText="OK"/>;
 
     if (this.props.submitState === 'SUBMITTING') {
-      extraClasses += ' disabled';
+      disabled = true;
       submitArea = <ProgressBar completed={this.props.submitProgress} height={'35px'} />;
     }
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
+      disabled = true;
       submitArea = (<ProgressBar completed={this.props.submitProgress} height={'35px'}><p className="progressbar--message">Behandler</p></ProgressBar>);
     }
 
@@ -42,8 +43,9 @@ export default class GroupForm extends React.Component {
       <div className="group-form">
         {errorObj.general || ''}
         <form method="POST" encType="multipart/form-data" id="group_form_component" ref="group-form">
-          <div className={'group-image-upload' + extraClasses}>
+          <div className={'group-image-upload'}>
             <DroppableImageField
+              disabled={disabled}
               imageSrc={this.props.groupImageSrc}
               onFile={this.props.changeImageAction}
               fieldName={'group_image'}
@@ -51,16 +53,23 @@ export default class GroupForm extends React.Component {
             {errorObj.group_image || ''}
           </div>
 
-          <div className={'group-name-field' + extraClasses}>
+          <div className={'group-name-field'}>
             <label htmlFor="group-name-input-field"><strong>Gruppens navn</strong></label><br />
-            <input id="group-name-input-field" name="group-name" required placeholder="Find på et gruppenavn" ref={'groupNameInput'} />
+            <input
+              disabled={disabled}
+              id="group-name-input-field"
+              name="group-name"
+              required
+              placeholder="Find på et gruppenavn"
+              ref={'groupNameInput'} />
             {errorObj['group-name'] || ''}
           </div>
           <br />
 
-          <div className={'group-description-field' + extraClasses}>
+          <div className={'group-description-field'}>
             <label htmlFor="group-description-area"><strong>Beskrivelse af gruppen</strong></label><br />
             <textarea
+              disabled={disabled}
               id="group-description-area"
               placeholder="Her kan du skrive lidt om gruppen"
               name="group-description"
@@ -72,18 +81,19 @@ export default class GroupForm extends React.Component {
           </div>
           <br />
 
-          <div className={'group-colour-picker' + extraClasses}>
+          <div className={'group-colour-picker'}>
             <label><strong>Vælg en farve til gruppen</strong></label>
             <ColourPicker
               baseName="group-colour-picker"
               colours={['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow']}
+              disabled={disabled}
               onChangeFunction={this.props.changeColourAction}
               wrapInForm={false} />
             {errorObj['group-colour-picker_colour'] || ''}
           </div>
           <br />
 
-          <div className={'group-form-submit-button' + extraClasses}>
+          <div className={'group-form-submit-button'}>
             {submitArea}
           </div>
         </form>

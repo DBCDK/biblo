@@ -2,12 +2,13 @@
 
 import React from 'react';
 
-const ColourPickerItem = ({colourName, inputName, onChangeFunction}) => {
+const ColourPickerItem = ({colourName, disabled, inputName, onChangeFunction}) => {
   return (
     <span className="colour-picker--item">
         <input
           name={inputName}
           className={'colour-picker--colour ' + colourName}
+          disabled={disabled}
           type='radio'
           id={'colour-picker--colour-' + colourName}
           onChange={onChangeFunction}
@@ -26,6 +27,7 @@ const ColourPickerItem = ({colourName, inputName, onChangeFunction}) => {
 ColourPickerItem.displayName = 'ColourPickerItem';
 ColourPickerItem.propTypes = {
   colourName: React.PropTypes.string.isRequired,
+  disabled: React.PropTypes.bool.isRequired,
   inputName: React.PropTypes.string.isRequired,
   onChangeFunction: React.PropTypes.func.isRequired
 };

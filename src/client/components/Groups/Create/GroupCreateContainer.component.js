@@ -38,6 +38,8 @@ export class GroupCreateContainer extends React.Component {
           changeImageAction={this.props.actions.asyncChangeImage}
           errors={this.props.group.errors}
           groupImageSrc={this.props.group.UI.imageSrc}
+          submitState={this.props.group.UI.submitState}
+          submitProgress={this.props.group.UI.submitProgress}
           submit={this.groupFormSubmit.bind(this)} />
       </div>
     );

@@ -10,10 +10,12 @@ const UpdateProfileImageTransform = {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
     const uid = user.profileId;
+    const imageFile = image;
+    image = {data: 'Binary Image Data!'};
     return this.callServiceClient('community', 'updateImage', {
       relationId: uid,
       relationType: 'Profiles',
-      image,
+      imageFile,
       accessToken
     });
   },

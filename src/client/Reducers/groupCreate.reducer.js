@@ -5,7 +5,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {CHANGE_GROUP_IMAGE, SUBMIT_CREATE_GROUP, CHANGE_GROUP_COLOUR} from '../Constants/action.constants';
+import * as types from '../Constants/action.constants';
 
 const initialState = {
   name: '',
@@ -13,7 +13,9 @@ const initialState = {
   colour: '',
   imageFile: null,
   UI: {
-    imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg'
+    imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg',
+    submitState: null,
+    submitProgress: 0
   },
   errors: []
 };
@@ -21,7 +23,7 @@ const initialState = {
 export default function groupCreateReducer(state = initialState, action) {
   Object.freeze(state);
   switch (action.type) {
-    case CHANGE_GROUP_IMAGE:
+    case types.CHANGE_GROUP_IMAGE:
       return assignToEmpty(state, {
         imageFile: action.imageFile,
         UI: assignToEmpty(state.UI, {
@@ -29,7 +31,7 @@ export default function groupCreateReducer(state = initialState, action) {
         })
       });
 
-    case SUBMIT_CREATE_GROUP:
+    case types.SUBMIT_CREATE_GROUP:
       return assignToEmpty(state, {
         name: action.groupName,
         description: action.groupDescription,
@@ -38,9 +40,51 @@ export default function groupCreateReducer(state = initialState, action) {
         errors: action.errors
       });
 
-    case CHANGE_GROUP_COLOUR:
+    case types.CHANGE_GROUP_COLOUR:
       return assignToEmpty(state, {
         colour: action.colour
+      });
+
+    case types.GROUP_FORM_HAS_SUBMITTED:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitState: null
+        })
+      });
+
+    case types.GROUP_FORM_IS_SUBMITTING:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitState: 'SUBMITTING'
+        })
+      });
+
+    case types.GROUP_FORM_UPLOAD_COMPLETED:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitState: 'UPLOAD_COMPLETE'
+        })
+      });
+
+    case types.GROUP_FORM_UPLOAD_FAILED:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitState: 'UPLOAD_FAILED'
+        })
+      });
+
+    case types.GROUP_FORM_UPLOAD_CANCELED:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitState: 'UPLOAD_CANCELED'
+        })
+      });
+
+    case types.GROUP_FORM_UPLOAD_PROGRESS:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitProgress: action.progress
+        })
       });
 
     default:

@@ -6,6 +6,8 @@ const CreateGroupTransform = {
   },
 
   requestTransform(event, query, connection) {
+    const imageFile = query.group_image || {};
+    query.group_image = {data: 'Binary Image Data!'};
     if (connection.request.session.passport) {
       // If user is logged in create the post
       const passport = connection.request.session.passport;
@@ -13,7 +15,7 @@ const CreateGroupTransform = {
         name: query.name,
         description: query.description,
         colour: query.colour,
-        coverImage: query.group_image,
+        coverImage: imageFile,
         uid: passport.user.profileId,
         accessToken: passport.user.id
       });

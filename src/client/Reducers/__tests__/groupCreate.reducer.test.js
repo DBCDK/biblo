@@ -9,13 +9,26 @@ import groupCreateReducer from '../groupCreate.reducer';
 import * as types from '../../Constants/action.constants';
 import assignToEmpty from '../../Utils/assign';
 
-describe('Test Group reducer', () => {
-  let initialState;
+describe('Test GroupCreate reducer', () => {
+  let initialState = { // initial state mock
+    UI: {
+      imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg',
+      submitProgress: 0,
+      submitState: null
+    },
+    colour: '',
+    description: '',
+    imageFile: null,
+    name: '',
+    errors: []
+  };
 
   beforeEach(() => {
     initialState = { // initial state mock
       UI: {
-        imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg'
+        imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg',
+        submitProgress: 0,
+        submitState: null
       },
       colour: '',
       description: '',
@@ -44,9 +57,9 @@ describe('Test Group reducer', () => {
 
     const expected = assignToEmpty(initialState, {
       imageFile: imageFile,
-      UI: {
+      UI: assignToEmpty(initialState.UI, {
         imageSrc: imageSrc
-      }
+      })
     });
 
     expect(groupCreateReducer(state, action)).toEqual(expected);

@@ -11,7 +11,7 @@ import PostAdd from '../Posts/PostsAdd.component.js';
 
 import './scss/group-view.scss';
 
-class GroupViewContainer extends React.Component {
+export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +20,11 @@ class GroupViewContainer extends React.Component {
   }
 
   render() {
-    if (this.props.error) {
+    if (this.props.group.error) {
       return (
-        <div className="error">{this.props.error}</div>
+        <PageLayout>
+          <div className="error" >{this.props.group.error}</div>
+        </PageLayout>
       );
     }
     return (
@@ -33,7 +35,9 @@ class GroupViewContainer extends React.Component {
           <div className='group--content' >
             <div className="details" >
               <h2 className='group--title' >{this.props.group.name}</h2>
+
               <p className='group--description' >{this.props.group.description}</p>
+
               <div className='group--follow' >
                 <Follow active={this.state.following}
                         onClick={() => this.setState({following: !this.state.following})}
@@ -45,7 +49,7 @@ class GroupViewContainer extends React.Component {
               <PostAdd profile={this.props.profile} groupId={this.props.group.id} />
             </div>
             <div className='group--post-view' >
-              <h2>{this.props.group.posts && this.props.group.posts.length} brugere skriver</h2>
+              <h2>{this.props.group.posts.length} {this.props.group.posts.length === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} />
             </div>
           </div>

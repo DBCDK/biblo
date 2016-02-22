@@ -2,9 +2,20 @@
 let wallabyWebpack = require('wallaby-webpack');
 let webpackConfig = require('./webpack.test.config');
 let babel = require('babel-core');
-let webpackPostprocessor = wallabyWebpack(webpackConfig);
+let path = require('path');
 
 module.exports = function(wallaby) {
+  webpackConfig.resolve = {
+    root: [
+      wallaby.projectCacheDir,
+      path.join(wallaby.projectCacheDir, 'src/client/components'),
+      path.join(wallaby.projectCacheDir, 'node_modules')
+    ],
+      extensions: ['', '.js', '.svg']
+  };
+
+  let webpackPostprocessor = wallabyWebpack(webpackConfig);
+
   return {
     files: [
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
@@ -13,7 +24,8 @@ module.exports = function(wallaby) {
       {pattern: 'testlib/Blob.js', instrument: false},
       {pattern: 'src/**/*.scss', instrument: false, load: false},
       {pattern: 'src/**/*.js', load: false},
-      {pattern: 'src/**/*.test.js', ignore: true}
+      {pattern: 'src/**/*.test.js', ignore: true},
+      {pattern: 'src/**/*.svg', load: false}
     ],
 
     tests: [

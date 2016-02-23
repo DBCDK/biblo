@@ -14,8 +14,8 @@ const UpdateProfileImageTransform = {
     image = {data: 'Binary Image Data!'};
     return this.callServiceClient('community', 'updateImage', {
       relationId: uid,
-      relationType: 'Profiles',
-      imageFile,
+      relationType: 'profileImageCollection',
+      image: imageFile,
       accessToken
     });
   },

@@ -53,8 +53,8 @@ MainRoutes.get('/billede/:id/:size', ssrMiddleware, (req, res) => {
       const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + result[0].body.url;
 
       res.setHeader('Content-Type', result[0].body.type);
-      http.get(imageUrl, function(result) {
-        result.pipe(res);
+      http.get(imageUrl, function(result2) {
+        result2.pipe(res);
       });
     })
     .catch((err) => {

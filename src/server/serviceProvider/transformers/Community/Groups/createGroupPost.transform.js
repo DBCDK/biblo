@@ -24,7 +24,7 @@ const CreateGroupPost = {
           const user = connection.request.user || {id: '', profileId: ''};
           const accessToken = user.id;
           const relationId = response.body.id;
-          return this.callServiceClient('community', 'updateImage', {relationId, image, accessToken, relationType: 'Posts'});
+          return this.callServiceClient('community', 'updateImage', {relationId, image, accessToken, relationType: 'postImageCollection'});
         }
         return response;
       });

@@ -14,7 +14,7 @@ export default class ProfileEditContainer extends React.Component {
         <form method="post" encType="multipart/form-data">
           <div>
             <label>
-              <img src={this.props.profile.image.url} />
+              <img src={this.props.profile.image.url.medium} />
               <p><strong>Upload et profilebillede her!</strong></p>
               <input type="file" name="profile_image" />
             </label>

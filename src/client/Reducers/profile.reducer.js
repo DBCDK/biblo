@@ -22,7 +22,11 @@ let initialState = {
   id: -1,
   userIsLoggedIn: false,
   image: {
-    url: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
+    url: {
+      small: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg',
+      medium: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg',
+      large: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
+    }
   }
 };
 

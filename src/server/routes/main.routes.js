@@ -46,7 +46,24 @@ MainRoutes.get('/error', (req, res) => {
   res.send(errorMsg);
 });
 
+MainRoutes.get('/billede/:id/:size', ssrMiddleware, (req, res) => {
+  res.setHeader('Cache-Control', 'public, max-age=360000');
+  req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size})
+    .then((result) => {
+      const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + result[0].body.url;
+
+      res.setHeader('Content-Type', result[0].body.type);
+      http.get(imageUrl, function(result2) {
+        result2.pipe(res);
+      });
+    })
+    .catch((err) => {
+      res.send(JSON.stringify({errors: [err]}));
+    });
+});
+
 MainRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
+  res.setHeader('Cache-Control', 'public, max-age=360000');
   req.callServiceProvider('getImage', req.params.id).then((imageObject) => {
     const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + imageObject[0].body.url;
 
@@ -58,7 +75,6 @@ MainRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
     res.send(JSON.stringify({errors: [err]}));
   });
 });
-
 
 export default MainRoutes;
 

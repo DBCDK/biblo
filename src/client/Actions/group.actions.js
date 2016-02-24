@@ -6,6 +6,11 @@
 /* eslint-disable no-use-before-define */
 
 import * as types from '../Constants/action.constants';
+import SocketClient from 'dbc-node-serviceprovider-socketclient';
+
+const joinGroup = SocketClient('joinGroup');
+const leaveGroup = SocketClient('leaveGroup');
+
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
@@ -135,5 +140,26 @@ export function groupFormUploadProgress(e) {
     type: types.GROUP_FORM_UPLOAD_PROGRESS,
     event: e,
     progress: Math.floor((e.loaded/e.total)*100)
+  };
+}
+
+
+export function asyncGroupFollow(enableFollow, groupId, profileId) {
+  return function(dispatch) {
+    dispatch(groupFollow(enableFollow));
+
+    if (enableFollow) {
+      joinGroup.request({groupId, profileId});
+    }
+    else {
+      leaveGroup.request({groupId, profileId});
+    }
+  };
+}
+
+export function groupFollow(enableFollow) {
+  return {
+    type: types.GROUP_FOLLOW,
+    enableFollow: enableFollow
   };
 }

@@ -39,7 +39,7 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   }
 }
 
-export default function profileReducer(state = initialState, action) {
+export default function profileReducer(state = initialState, action={}) {
   Object.freeze(state);
   switch (action.type) {
     case GET_USER_PROFILE:

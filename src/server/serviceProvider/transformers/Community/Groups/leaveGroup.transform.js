@@ -11,6 +11,9 @@ const LeaveGroupTransform = {
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+    if (response.statusCode === 200) {
+      return {};
+    }
     return {error: 'Gruppen kan ikke findes'};
   }
 };

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import PageLayout from '../../Layout/PageLayout.component.js';
@@ -8,6 +9,8 @@ import Follow from '../../General/Follow/Follow.component.js';
 import GroupHeader from './GroupViewHeader.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../Posts/PostsAdd.component.js';
+
+import * as actions from '../../../Actions/group.actions.js';
 
 import './scss/group-view.scss';
 
@@ -17,6 +20,16 @@ export class GroupViewContainer extends React.Component {
     this.state = {
       following: props.following || false
     };
+
+    this.toggleFollow = this.toggleFollow.bind(this);
+
+  }
+
+  toggleFollow() {
+    this.props.groupActions.asyncGroupFollow(!this.state.following);
+    this.setState({
+      following: !this.state.following
+    });
   }
 
   render() {
@@ -40,7 +53,7 @@ export class GroupViewContainer extends React.Component {
 
               <div className='group--follow' >
                 <Follow active={this.state.following}
-                        onClick={() => this.setState({following: !this.state.following})}
+                        onClick={this.toggleFollow}
                         text={this.state.following && 'Følger' || 'Følg gruppen'} />
               </div>
             </div>
@@ -82,6 +95,8 @@ export default connect(
 
   // Map group actions to actions props
   (dispatch) => { // eslint-disable-line no-unused-vars
-    return {};
+    return {
+      groupActions: bindActionCreators(actions, dispatch)
+    };
   }
 )(GroupViewContainer);

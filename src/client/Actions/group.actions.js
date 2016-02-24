@@ -137,3 +137,17 @@ export function groupFormUploadProgress(e) {
     progress: Math.floor((e.loaded/e.total)*100)
   };
 }
+
+
+export function asyncGroupFollow(enableFollow) {
+  return function(dispatch) {
+    dispatch(groupFollow(enableFollow));
+  };
+}
+
+export function groupFollow(enableFollow) {
+  return {
+    type: types.GROUP_FOLLOW,
+    enableFollow: enableFollow
+  };
+}

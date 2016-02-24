@@ -5,7 +5,8 @@
  */
 
 import parseJsonData from '../Utils/parseJsonData.js';
-import {GET_GROUP} from '../Constants/action.constants';
+import assignToEmpty from '../Utils/assign';
+import * as types from '../Constants/action.constants';
 
 const defaultState = {
   name: '',
@@ -22,9 +23,10 @@ const initialState = Object.assign({}, defaultState, groupData);
 export default function groupViewReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case GET_GROUP:
+    case types.GET_GROUP:
       return state;
-
+    case types.GROUP_FOLLOW:
+      return assignToEmpty(state, {isFollowing: action.enableFollow});
     default:
       return state;
   }

@@ -7,7 +7,7 @@ import PageLayout from '../../Layout/PageLayout.component.js';
 import Follow from '../../General/Follow/Follow.component.js';
 import GroupHeader from './GroupViewHeader.component.js';
 import PostList from '../Posts/PostList.component.js';
-import PostAdd from '../Posts/PostsAdd.component.js';
+import PostAdd from '../AddContent/AddContent.component';
 
 import './scss/group-view.scss';
 
@@ -46,11 +46,11 @@ export class GroupViewContainer extends React.Component {
             </div>
             <div className='group--post-add' >
               <h2>Skriv i gruppen</h2>
-              <PostAdd profile={this.props.profile} groupId={this.props.group.id} />
+              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile} parentId={this.props.group.id} type="post" />
             </div>
             <div className='group--post-view' >
               <h2>{this.props.group.posts.length} {this.props.group.posts.length === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
-              <PostList posts={this.props.group.posts} profile={this.props.profile} />
+              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id} />
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 'use strict';
 
-const CreateGroupPost = {
+const CreateGroupContent = {
   event() {
-    return 'createGroupPost';
+    return 'createGroupContent';
   },
 
   requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
@@ -10,12 +10,13 @@ const CreateGroupPost = {
     // If user is logged in create the post
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
-      return this.callServiceClient('community', 'createGroupPost', {
+      const method = query.type === 'post' && 'createPost' || 'createComment';
+      return this.callServiceClient('community', method, {
         title: query.title,
         content: query.content,
-        groupId: query.groupId,
+        parentId: query.parentId,
         uid: passport.user.profileId,
-        postownerid: passport.user.profileId,
+        ownerid: passport.user.profileId,
         accessToken: passport.user.id
       }).then((response) => {
         if (response.statusCode === 200 && query.image) {
@@ -24,7 +25,12 @@ const CreateGroupPost = {
           const user = connection.request.user || {id: '', profileId: ''};
           const accessToken = user.id;
           const relationId = response.body.id;
-          return this.callServiceClient('community', 'updateImage', {relationId, image, accessToken, relationType: 'postImageCollection'});
+          return this.callServiceClient('community', 'updateImage', {
+            relationId,
+            image,
+            accessToken,
+            relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
+          });
         }
         return response;
       });
@@ -41,4 +47,4 @@ const CreateGroupPost = {
   }
 };
 
-export default CreateGroupPost;
+export default CreateGroupContent;

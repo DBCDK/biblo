@@ -25,12 +25,13 @@ const GetGroupTransform = {
 
   parseComment(comment) {
     comment.owner = this.parseProfile(comment.owner);
+    comment.image = comment.image && '/billede/' + comment.image.id + '/medium' || null;
     return comment;
   },
 
   parsePost(post) {
     post.owner = this.parseProfile(post.owner);
-    post.image = post.image && '/billede/' + post.image.id || null;
+    post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
     post.comments = post.comments.map(comment => this.parseComment(comment));
     return post;
   },
@@ -40,14 +41,14 @@ const GetGroupTransform = {
       {
         relation: 'posts',
         scope: {
-          limit: 100,
+          limit: 10,
           order: 'timeCreated DESC',
           include: ['image', {owner: ['image']}, {
             relation: 'comments',
             scope: {
               limit: 1,
               order: 'timeCreated DESC',
-              include: ['owner']
+              include: ['image', {owner: ['image']}]
             }
           }]
         }

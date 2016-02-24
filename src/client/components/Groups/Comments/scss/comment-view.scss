@@ -1,27 +1,43 @@
 @import "tools";
 @import "settings";
 
-.post-list {
+.comment-list {
 }
 
-.post-wrapper {
+.post-list .post-list {
+  @include max-screen($tablet - 1px) {
+    margin-bottom: 20px;
+    background-color: #eee;
+    border-radius: 5px;
+  }
+}
+
+.comment-wrapper {
   @include clearfix();
+  @include max-screen($tablet - 1px) {
+    padding: 10px;
+    border-bottom: 1px solid rgba($dark, 0.15);
+    margin-bottom: 0;
+  }
+
   margin-bottom: 20px;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
 }
 
-.post {
+.comment {
   @include min-screen($tablet) {
-    margin-left: 100px;
+    margin-left: 70px;
     position: relative;
     top: 0;
-    background: #eee;
+    background: white;
     padding: 20px;
     border-radius: 5px;
   }
   @include max-screen($tablet - 1px) {
-    border-bottom: 1px solid rgba($dark, 0.15);
-    padding-bottom: 20px;
-    .post--header {
+    .comment--header {
       margin-left: 75px;
       height: 60px;
       span {
@@ -34,17 +50,9 @@
   img {
     max-width: 100%;
   }
-
-  .comment-add-button {
-    @include button($melrose);
-  }
-
-  .is-hidden {
-    display: none;
-  }
 }
 
-.post--header {
+.comment--header {
   .username {
     @extend %h3-body;
   }
@@ -55,21 +63,17 @@
   }
 }
 
-.post--content {
-  margin-bottom: 20px;
-}
-
-.post-profile-image {
+.comment-profile-image {
   @include profileImage();
   float: left;
 }
 
-.post::before {
+.comment::before {
   top: 15px;
   bottom: auto;
   left: -15px;
   border-width: 15px 15px 15px 0;
-  border-color: transparent #eee;
+  border-color: transparent white;
   content: "";
   position: absolute;
   border-style: solid;

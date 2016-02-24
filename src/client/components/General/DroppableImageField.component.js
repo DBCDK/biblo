@@ -42,7 +42,7 @@ export default class DroppableImageField extends React.Component {
     }
 
     this.refs.droppableimagefieldinput.onchange = (e) => {
-      this.readFiles(e.srcElement.files);
+      this.readFiles((e.srcElement || e.target).files);
     };
   }
 

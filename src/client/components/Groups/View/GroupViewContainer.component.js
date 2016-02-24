@@ -26,7 +26,7 @@ export class GroupViewContainer extends React.Component {
   }
 
   toggleFollow() {
-    this.props.groupActions.asyncGroupFollow(!this.state.following);
+    this.props.groupActions.asyncGroupFollow(!this.state.following, this.props.group.id, this.props.profile.id);
     this.setState({
       following: !this.state.following
     });

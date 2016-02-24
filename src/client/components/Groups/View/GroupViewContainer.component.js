@@ -77,7 +77,8 @@ GroupViewContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
-  following: React.PropTypes.bool
+  following: React.PropTypes.bool,
+  groupActions: React.PropTypes.object
 };
 
 

@@ -59,6 +59,6 @@ describe('Test GroupView Component', () => {
     }];
     const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile}/>);
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '1 bruger skriver');
-    assert.deepEqual(tree.subTree('PostList').getRenderOutput().props, {posts: group.posts, profile});
+    assert.deepEqual(tree.subTree('PostList').getRenderOutput().props, {posts: group.posts, profile, groupId: group.id });
   });
 });

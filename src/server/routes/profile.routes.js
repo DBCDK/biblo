@@ -88,7 +88,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
   }
 
   if (typeof b.displayname === 'string' && b.displayname.length > 0) {
-    const displayNameExists = (await req.callServiceProvider('checkProfileName', b.displayname))[0];
+    const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
 
     if (displayNameExists.data && !displayNameExists.data.exists) {
       updatedProfileObject.displayName = b.displayname;

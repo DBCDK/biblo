@@ -29,8 +29,11 @@ class NavbarContainer extends React.Component {
       profile: false
     };
 
-    if (type === 'profile' && active.profile) {
-      active.profile = false;
+    if (type === 'profile') {
+      if (active.profile) {
+        active.profile = false;
+      }
+
     }
     else if (!this.state.active.button) {
       active[type] = true;

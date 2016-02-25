@@ -40,7 +40,11 @@ export function ensureAuthenticated(req, res, next) {
 }
 
 export function setReferer(req, res, next) {
-  req.session.returnUrl = req.headers.referer;
+  if (req.query.destination) {
+    req.session.returnUrl = req.query.destination || '/';
+    delete req.query.destination;
+  }
+
   return next();
 }
 

@@ -1,0 +1,10 @@
+@mixin profileImage($size: 50px) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
+
+}

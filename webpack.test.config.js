@@ -3,7 +3,7 @@
  * Config file for webpack
  */
 
-require('webpack');
+var webpack = require('webpack');
 var path = require('path');
 var extractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -60,7 +60,8 @@ module.exports = {
   },
 
   plugins: [
-    extractCss
+    extractCss,
+    new webpack.IgnorePlugin(/(ReactContext)/)
   ],
 
   node: {

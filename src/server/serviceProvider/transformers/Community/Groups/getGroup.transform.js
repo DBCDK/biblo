@@ -65,15 +65,19 @@ const GetGroupTransform = {
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
 
-
     if (response.statusCode === 200) {
 
-      const uid = connection.request.session.passport.user.profileId;
+      const uid = typeof connection.request.session.passport !== 'undefined' ? connection.request.session.passport.user.profileId : null;
+
+      const loggedIn = typeof uid !== 'undefined';
 
       const body = JSON.parse(response.body);
       body.posts = body.posts.map(post => this.parsePost(post));
-      // is the current user following the group?
-      body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
+
+      if (loggedIn) {
+        // is the current user following the group?
+        body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
+      }
 
       return body;
     }

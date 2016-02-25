@@ -57,7 +57,13 @@ const GetGroupTransform = {
         }
       },
       {
-        relation: 'members'
+        relation: 'members',
+        scope: {
+          limit: 10
+        }
+      },
+      {
+        relation: 'owner'
       }
     ];
     return this.callServiceClient('community', 'getGroup', {id, filter});
@@ -77,6 +83,8 @@ const GetGroupTransform = {
       if (loggedIn) {
         // is the current user following the group?
         body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
+        // get some members who aren't owners
+        body.members = _.filter(body.members, (member) => member.id !== body.owner.id);
       }
 
       return body;

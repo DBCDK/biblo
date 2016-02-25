@@ -4,33 +4,68 @@ import './scss/post-view.scss';
 
 import React from 'react';
 import TimeToString from '../../../Utils/timeToString.js';
+import CommentAdd from '../AddContent/AddContent.component';
+import CommentList from '../Comments/CommentList.component';
 import Icon from '../../General/Icon/Icon.component.js';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 
-export default function PostView({content, image, timeCreated, owner}) {
-  return (
-    <div className='post-wrapper' >
-      <div className='post-profile-image' >
-        <img src={owner.image || null} alt={owner.displayName} />
-      </div>
-      <div className='post' >
-        <div className='post--header' >
-          <span className='username' >{owner.displayName}</span> <span className='time' >{TimeToString(timeCreated)}</span>
-        </div>
-        <p className='content' >{content}</p>
-        {
-          image &&
-          <div className='media' ><img src={image} alt="image for post" /></div>
-        }
-        <a className='add-comment' href="#add-comment" ><Icon glyph={backSvg} />Svar</a>
-      </div>
-    </div>
-  );
-}
+export default class PostView extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isCommentInputVisible: false
+    };
+  }
+
+  toggleCommentInput(event) {
+    event.preventDefault();
+    this.setState({isCommentInputVisible: !this.state.isCommentInputVisible});
+  }
+
+  render() {
+    const {content, image, timeCreated, owner, id, profile, groupId, comments} = this.props;
+
+    return (
+      <div className='post-wrapper'>
+        <div className='post-profile-image'>
+          <img src={owner.image || null} alt={owner.displayName}/>
+        </div>
+        <div className='post'>
+          <div className='post--header'>
+            <span className='username'>{owner.displayName}</span> <span
+            className='time'>{TimeToString(timeCreated)}</span>
+          </div>
+          <div className='post--content'>
+            <p className='content'>{content}</p>
+            {
+              image &&
+              <div className='media'><img src={image} alt="image for post"/></div>
+            }
+          </div>
+          <CommentList comments={comments} profile={profile} groupId={groupId}/>
+          {this.state.isCommentInputVisible &&
+          <div className="comment-add-wrapper">
+            <CommentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={id} type="comment"
+                        abort={e => this.toggleCommentInput(e)}/>
+          </div>
+          ||
+          <a className="comment-add-button" href="#add-comment"
+             onClick={e => this.toggleCommentInput(e)}><Icon glyph={backSvg}/>Svar</a>
+          }
+        </div>
+      </div>
+    );
+  }
+}
 PostView.propTypes = {
   content: React.PropTypes.string,
   image: React.PropTypes.string,
-  timestamp: React.PropTypes.string,
-  profile: React.PropTypes.object
+  timeCreated: React.PropTypes.string,
+  owner: React.PropTypes.object,
+  id: React.PropTypes.number,
+  profile: React.PropTypes.object,
+  groupId: React.PropTypes.number,
+  comments: React.PropTypes.array
 };

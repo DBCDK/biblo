@@ -158,17 +158,18 @@ GroupRoutes.get('/:id', ssrMiddleware, fullProfileOnSession, (req, res) => fetch
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/post', upload.single('image'), (req, res) => {
+GroupRoutes.post('/content/:type', upload.single('image'), (req, res) => {
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
   let serviceProvider = req.app.get('serviceProvider');
   const params ={
     title: ' ',
     content: req.body.content,
-    groupId: req.body.groupId,
+    parentId: req.body.parentId,
+    type: req.params.type,
     image
   };
-  serviceProvider.trigger('createGroupPost', params, {request: req})[0].then(() => {
-    res.redirect(`/grupper/${req.body.groupId}`);
+  serviceProvider.trigger('createGroupContent', params, {request: req})[0].then(() => {
+    res.redirect(req.body.redirect);
   });
 });
 

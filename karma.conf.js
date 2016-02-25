@@ -7,7 +7,8 @@ module.exports = function(config) {
     files: [
       'tests.actions.webpack.js',
       'tests.components.webpack.js',
-      'tests.reducers.webpack.js'
+      'tests.reducers.webpack.js',
+      'tests.utils.webpack.js'
     ],
     proxies: {
     },
@@ -15,7 +16,8 @@ module.exports = function(config) {
     preprocessors: {
       'tests.actions.webpack.js': ['webpack'],
       'tests.components.webpack.js': ['webpack'],
-      'tests.reducers.webpack.js': ['webpack']
+      'tests.reducers.webpack.js': ['webpack'],
+      'tests.utils.webpack.js': ['webpack']
     },
     reporters: ['mocha', 'junit', 'coverage'],
     junitReporter: {

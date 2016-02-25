@@ -3,7 +3,8 @@
 import './addContent.scss';
 import autosize from 'autosize';
 import React from 'react';
-import Icon from '../../General/Icon/Icon.component.js';
+import Login from '../../General/Login/Login.component';
+import Icon from '../../General/Icon/Icon.component';
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
 
 export default class AddContent extends React.Component {
@@ -43,7 +44,7 @@ export default class AddContent extends React.Component {
     if (!this.props.profile.userIsLoggedIn) {
       return (
         <div className='content-add'>
-          <a href="/login">Log ind for at skrive et indlæg</a>
+          <Login>Log ind for at skrive et indlæg</Login>
         </div>
       );
     }

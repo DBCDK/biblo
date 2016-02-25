@@ -9,12 +9,7 @@ import Follow from '../../General/Follow/Follow.component.js';
 import GroupHeader from './GroupViewHeader.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
-<<<<<<< HEAD
-
 import * as actions from '../../../Actions/group.actions.js';
-=======
->>>>>>> d7494805c0cb9877449645c198fa5c24585b585c
-
 import './scss/group-view.scss';
 
 export class GroupViewContainer extends React.Component {

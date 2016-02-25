@@ -143,10 +143,14 @@ function showGroup(groupData, res) {
  * @param req
  * @param res
  */
-function fetchGroupData(params, req, res, update = {}) {
-  req.app.get('serviceProvider').trigger('getGroup', params)[0]
-    .then((response) => showGroup(Object.assign(response, update), res))
-    .catch(() => res.redirect('/error'));
+async function fetchGroupData(params, req, res, update = {}) {
+  let response = (await req.callServiceProvider('getGroup', params))[0];
+  if (response) {
+    showGroup(Object.assign(response, update), res);
+  }
+  else {
+    res.redirect('/error');
+  }
 }
 
 /**

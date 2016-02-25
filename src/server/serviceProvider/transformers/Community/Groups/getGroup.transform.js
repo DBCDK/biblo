@@ -1,5 +1,7 @@
 'use strict';
 
+import * as _ from 'lodash';
+
 const GetGroupTransform = {
 
   event() {
@@ -36,6 +38,7 @@ const GetGroupTransform = {
   },
 
   requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
+
     const filter = [
       {
         relation: 'posts',
@@ -51,15 +54,26 @@ const GetGroupTransform = {
             }
           }]
         }
+      },
+      {
+        relation: 'members'
       }
     ];
     return this.callServiceClient('community', 'getGroup', {id, filter});
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+
+
     if (response.statusCode === 200) {
+
+      const uid = connection.request.session.passport.user.profileId;
+
       const body = JSON.parse(response.body);
       body.posts = body.posts.map(post => this.parsePost(post));
+      // is the current user following the group?
+      body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
+
       return body;
     }
 

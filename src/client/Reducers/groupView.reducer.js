@@ -12,6 +12,7 @@ const defaultState = {
   name: '',
   description: '',
   id: null,
+  isFollowing: false,
   image: 'http://lorempixel.com/200/200/',
   posts: []
 };
@@ -22,6 +23,7 @@ const initialState = Object.assign({}, defaultState, groupData);
 
 export default function groupViewReducer(state = initialState, action = {}) {
   Object.freeze(state);
+
   switch (action.type) {
     case types.GET_GROUP:
       return state;

@@ -18,7 +18,7 @@ export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      following: props.following || false
+      following: props.group.isFollowing
     };
 
     this.toggleFollow = this.toggleFollow.bind(this);
@@ -77,7 +77,6 @@ GroupViewContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
-  following: React.PropTypes.bool,
   groupActions: React.PropTypes.object
 };
 

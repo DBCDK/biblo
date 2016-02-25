@@ -36,34 +36,35 @@ export class GroupViewContainer extends React.Component {
     if (this.props.group.error) {
       return (
         <PageLayout>
-          <div className="error" >{this.props.group.error}</div>
+          <div className="error">{this.props.group.error}</div>
         </PageLayout>
       );
     }
     return (
       <PageLayout>
-        <div className='group' >
-          <GroupHeader uri={this.props.group.image} />
+        <div className='group'>
+          <GroupHeader uri={this.props.group.image}/>
 
-          <div className='group--content' >
-            <div className="details" >
-              <h2 className='group--title' >{this.props.group.name}</h2>
+          <div className='group--content'>
+            <div className="details">
+              <h2 className='group--title'>{this.props.group.name}</h2>
 
-              <p className='group--description' >{this.props.group.description}</p>
+              <p className='group--description'>{this.props.group.description}</p>
 
-              <div className='group--follow' >
+              <div className='group--follow'>
                 <Follow active={this.state.following}
                         onClick={this.toggleFollow}
                         text={this.state.following && 'Følger' || 'Følg gruppen'} />
               </div>
             </div>
-            <div className='group--post-add' >
+            <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
-              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile} parentId={this.props.group.id} type="post" />
+              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
+                       parentId={this.props.group.id} type="post"/>
             </div>
-            <div className='group--post-view' >
+            <div className='group--post-view'>
               <h2>{this.props.group.posts.length} {this.props.group.posts.length === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
-              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id} />
+              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}/>
             </div>
           </div>
         </div>

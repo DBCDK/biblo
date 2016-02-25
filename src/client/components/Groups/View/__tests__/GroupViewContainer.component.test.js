@@ -33,7 +33,12 @@ describe('Test GroupView Component', () => {
 
     // AddContent form is added with props
     assert.equal(tree.subTree('AddContent').getRenderOutput().type, AddContent);
-    assert.deepEqual(tree.subTree('AddContent').getRenderOutput().props, {redirectTo: '/grupper/1', profile, parentId: 1, type: 'post'});
+    assert.deepEqual(tree.subTree('AddContent').getRenderOutput().props, {
+      redirectTo: '/grupper/1',
+      profile,
+      parentId: 1,
+      type: 'post'
+    });
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '0 brugere skriver');
 
     // No posts renedered Posts
@@ -41,7 +46,7 @@ describe('Test GroupView Component', () => {
   });
 
   it('Group View Rendered with posts', () => {
-    group.posts= [{
+    group.posts = [{
       comments: [],
       content: 'test',
       groupid: 1,
@@ -59,6 +64,10 @@ describe('Test GroupView Component', () => {
     }];
     const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile}/>);
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '1 bruger skriver');
-    assert.deepEqual(tree.subTree('PostList').getRenderOutput().props, {posts: group.posts, profile, groupId: group.id });
+    assert.deepEqual(tree.subTree('PostList').getRenderOutput().props, {
+      posts: group.posts,
+      profile,
+      groupId: group.id
+    });
   });
 });

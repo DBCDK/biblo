@@ -44,9 +44,9 @@ const getFullProfileTransform = {
     else {
       body.image = {
         url: {
-          small: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg',
-          medium: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg',
-          large: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
+          small: '/no_profile.png',
+          medium: '/no_profile.png',
+          large: '/no_profile.png'
         }
       };
     }

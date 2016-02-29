@@ -5,6 +5,9 @@
     "src/server",
     "node_modules"
   ],
+  "ignore": [
+    "src/client"
+  ],
   "env": {
     "NODE_ENV": "development"
   },

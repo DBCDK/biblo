@@ -5,7 +5,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {GET_USER_PROFILE} from '../Constants/action.constants';
+import {GET_USER_PROFILE, SELECT_SUGGESTED_LIBRARY, UNSELECT_LIBRARY} from '../Constants/action.constants';
 
 let initialState = {
   username: '',
@@ -23,9 +23,9 @@ let initialState = {
   userIsLoggedIn: false,
   image: {
     url: {
-      small: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg',
-      medium: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg',
-      large: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
+      small: '/no_profile.png',
+      medium: '/no_profile.png',
+      large: '/no_profile.png'
     }
   }
 };
@@ -44,6 +44,21 @@ export default function profileReducer(state = initialState, action={}) {
   switch (action.type) {
     case GET_USER_PROFILE:
       return state;
+
+    case SELECT_SUGGESTED_LIBRARY:
+      const l = action.library;
+      return assignToEmpty(state, {
+        favoriteLibrary: {
+          libraryId: l.id,
+          libraryName: l.navn,
+          libraryAddress: [l.adresse, l.by, l.postnr].join(', ')
+        }
+      });
+
+    case UNSELECT_LIBRARY:
+      return assignToEmpty(state, {
+        favoriteLibrary: {}
+      });
 
     default:
       return state;

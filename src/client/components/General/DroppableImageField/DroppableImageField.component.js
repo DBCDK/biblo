@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+import Icon from '../Icon/Icon.component.js';
+
+import bluePencilSvg from '../Icon/svg/ikon-skriv/ikon-skriv-02.svg';
 import './_droppableimagefield.component.scss';
 
 export default class DroppableImageField extends React.Component {
@@ -62,7 +65,7 @@ export default class DroppableImageField extends React.Component {
         <label>
           <div className="image-and-plus-button-container">
             <img src={this.props.imageSrc} />
-            <div className="upload-plus-button"> </div>
+            <Icon glyph={bluePencilSvg} className="upload-plus-button" />
           </div>
           <input accept='image/*' type="file" className="droppable-image-field--file-input" name={this.props.fieldName} ref="droppableimagefieldinput" />
         </label>
@@ -81,5 +84,5 @@ DroppableImageField.propTypes = {
   fieldName: React.PropTypes.string.isRequired
 };
 DroppableImageField.defaultProps = {
-  imageSrc: 'http://orig07.deviantart.net/a9e4/f/2014/228/c/d/minecraft_skins__1___notch_by_kienbennett-d7vdvy3.jpg'
+  imageSrc: '/no_profile.png'
 };

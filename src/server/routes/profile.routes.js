@@ -18,7 +18,7 @@ const ProfileRoutes = express.Router();
 
 ProfileRoutes.get('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, (req, res) => {
   res.render('page', {
-    css: [],
+    css: ['/css/profileedit.css'],
     js: ['/js/profileedit.js']
   });
 });
@@ -28,6 +28,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     status: 'INCOMPLETE'
   };
 
+  const p = req.session.passport.user.profile.profile;
   const b = req.body;
   let updatedProfileObject = {};
   let errors = [];
@@ -87,24 +88,29 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     });
   }
 
-  if (typeof b.displayname === 'string' && b.displayname.length > 0) {
-    const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
+  if (
+    typeof b.displayname === 'string' &&
+    b.displayname.length > 0
+  ) {
+    if (b.displayname !== p.displayName) {
+      const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
 
-    if (displayNameExists.data && !displayNameExists.data.exists) {
-      updatedProfileObject.displayName = b.displayname;
-      updatedProfileObject.hasFilledInProfile = true;
-    }
-    else if (displayNameExists.data && displayNameExists.data.exists) {
-      errors.push({
-        field: 'displayname',
-        errorMessage: 'Brugernavnet er desværre taget!'
-      });
-    }
-    else {
-      errors.push({
-        field: 'displayname',
-        errorMessage: 'Der er sket en fejl! Prøv igen senere!'
-      });
+      if (displayNameExists.data && !displayNameExists.data.exists) {
+        updatedProfileObject.displayName = b.displayname;
+        updatedProfileObject.hasFilledInProfile = true;
+      }
+      else if (displayNameExists.data && displayNameExists.data.exists) {
+        errors.push({
+          field: 'displayname',
+          errorMessage: 'Brugernavnet er desværre taget!'
+        });
+      }
+      else {
+        errors.push({
+          field: 'displayname',
+          errorMessage: 'Der er sket en fejl! Prøv igen senere!'
+        });
+      }
     }
   }
   else {
@@ -124,6 +130,14 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
 
   if (typeof b.phone === 'string') {
     updatedProfileObject.phone = b.phone;
+  }
+
+  if (typeof b.birthday === 'string') {
+    updatedProfileObject.birthday = b.birthday;
+  }
+
+  if (typeof b.fullName === 'string') {
+    updatedProfileObject.fullName = b.fullName;
   }
 
   if (errors.length > 0) {
@@ -153,7 +167,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
   }
 
   return res.render('page', {
-    css: [],
+    css: ['/css/profileedit.css'],
     js: ['/js/profileedit.js'],
     jsonData: [JSON.stringify(data)]
   });

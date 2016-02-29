@@ -4,7 +4,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import ProfileForm from './ProfileForm.component';
+import ProfileForm from './profileForm.component';
 
 import * as ProfileActions from '../../../Actions/profile.actions';
 import * as EntitySuggestLibraryActions from '../../../Actions/entitySuggetLibrary.actions';

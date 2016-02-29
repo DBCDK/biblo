@@ -24,14 +24,14 @@ ProfileRoutes.get('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOnS
 });
 
 ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, upload.single('profile_image'), async function editProfilePost(req, res) {
-  let data = {
-    status: 'INCOMPLETE'
-  };
-
   const p = req.session.passport.user.profile.profile;
   const b = req.body;
   let updatedProfileObject = {};
   let errors = [];
+  let data = {
+    status: 'INCOMPLETE',
+    query: b
+  };
 
   if (req.file) {
     if (req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
@@ -93,22 +93,30 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     b.displayname.length > 0
   ) {
     if (b.displayname !== p.displayName) {
-      const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
+      if (!(/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(b.displayname)) && b.displayname !== p.username) {
+        const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
 
-      if (displayNameExists.data && !displayNameExists.data.exists) {
-        updatedProfileObject.displayName = b.displayname;
-        updatedProfileObject.hasFilledInProfile = true;
-      }
-      else if (displayNameExists.data && displayNameExists.data.exists) {
-        errors.push({
-          field: 'displayname',
-          errorMessage: 'Brugernavnet er desværre taget!'
-        });
+        if (displayNameExists.data && !displayNameExists.data.exists) {
+          updatedProfileObject.displayName = b.displayname;
+          updatedProfileObject.hasFilledInProfile = true;
+        }
+        else if (displayNameExists.data && displayNameExists.data.exists) {
+          errors.push({
+            field: 'displayname',
+            errorMessage: 'Brugernavnet er desværre taget!'
+          });
+        }
+        else {
+          errors.push({
+            field: 'displayname',
+            errorMessage: 'Der er sket en fejl! Prøv igen senere!'
+          });
+        }
       }
       else {
         errors.push({
           field: 'displayname',
-          errorMessage: 'Der er sket en fejl! Prøv igen senere!'
+          errorMessage: 'Man må ikke benytte CPR-nummer, lånerkortnummer eller uni-login som brugernavn.'
         });
       }
     }

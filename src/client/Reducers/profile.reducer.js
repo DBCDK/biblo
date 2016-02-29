@@ -57,7 +57,9 @@ export default function profileReducer(state = initialState, action={}) {
 
     case UNSELECT_LIBRARY:
       return assignToEmpty(state, {
-        favoriteLibrary: {}
+        favoriteLibrary: {
+          libraryId: initialState.favoriteLibrary.libraryId
+        }
       });
 
     default:

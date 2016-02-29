@@ -15,7 +15,7 @@ export default function GroupMembersBox({members, owner}) {
 
   const memberImages = membersCopy.map((member) => {
     const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner': '');
-    return <div className={classes}><img src={member.image || null} alt={member.displayName}/></div>
+    return <div className={classes}><img src={member.image || null} alt={member.displayName}/></div>;
   });
 
   return (

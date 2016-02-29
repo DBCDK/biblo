@@ -14,3 +14,20 @@
   border-color: #2acc94;
   background-color: #62edc6;
 }
+
+.rounded-button--compact {
+  margin: 0;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background-color: #2acc94;
+  color: white;
+  border-style: none;
+  display: inline-block;
+}
+
+.rounded-button--compact:hover {
+  padding: 0 3px;
+  border-style: solid;
+  border-color: #2acc94;
+  background-color: #62edc6;
+}

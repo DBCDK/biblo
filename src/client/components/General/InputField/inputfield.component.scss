@@ -1,0 +1,27 @@
+@import "tools";
+@import "settings";
+
+.inputfield {
+  label {
+    p {
+      margin-bottom: 0;
+    }
+
+    width: 100%;
+  }
+
+  input {
+    background-color: #f2f2f2;
+    border: #d5d4e6 solid 1px;
+    font-size: 15pt;
+    font-weight: 400;
+    font-family: $body-font;
+    width: 99%;
+    overflow: visible;
+  }
+
+  input:disabled {
+    color: lighten(rgb(58, 58, 58), 10%);
+    border-color: #00A000;
+  }
+}

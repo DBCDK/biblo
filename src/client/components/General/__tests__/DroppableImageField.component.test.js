@@ -9,7 +9,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import DroppableImageField from '../DroppableImageField.component';
+import DroppableImageField from '../DroppableImageField/DroppableImageField.component.js';
 
 describe('Test droppable image field component', () => {
   it('Check component renders', () => {

@@ -30,3 +30,8 @@ export const GROUP_FOLLOW = 'GROUP_FOLLOW';
 
 // Post Actions
 export const ADD_POST = 'ADD_POST';
+
+// Entity Suggest Actions
+export const FIND_LIBRARIES = 'FIND_LIBRARIES';
+export const SELECT_SUGGESTED_LIBRARY = 'SELECT_SUGGESTED_LIBRARY';
+export const UNSELECT_LIBRARY = 'UNSELECT_LIBRARY';

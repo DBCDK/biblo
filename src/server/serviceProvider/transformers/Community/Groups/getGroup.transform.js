@@ -59,7 +59,8 @@ const GetGroupTransform = {
       {
         relation: 'members',
         scope: {
-          limit: 10
+          limit: 10,
+          include: ['image']
         }
       },
       {

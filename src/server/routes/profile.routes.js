@@ -76,10 +76,15 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
       });
     }
   }
-  else if (typeof b.libraryId === 'string' && b.libraryId.length > 0) {
-    updatedProfileObject.favoriteLibrary = {
-      libraryId: b.libraryId
-    };
+  else if (
+    typeof b.libraryId === 'string' &&
+    b.libraryId.length > 0
+  ) {
+    if (p.favoriteLibrary.libraryId !== b.libraryId) {
+      updatedProfileObject.favoriteLibrary = {
+        libraryId: b.libraryId
+      };
+    }
   }
   else {
     errors.push({
@@ -93,7 +98,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     b.displayname.length > 0
   ) {
     if (b.displayname !== p.displayName) {
-      if (!(/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(b.displayname)) && b.displayname !== p.username) {
+      if (!(/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(b.displayname)) && b.displayname.toLowerCase() !== p.username.toLowerCase()) {
         const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
 
         if (displayNameExists.data && !displayNameExists.data.exists) {
@@ -140,7 +145,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     updatedProfileObject.phone = b.phone;
   }
 
-  if (typeof b.birthday === 'string') {
+  if (typeof b.birthday === 'string' && b.birthday.length > 0) {
     updatedProfileObject.birthday = b.birthday;
   }
 

@@ -8,16 +8,19 @@
     object-fit: cover;
     width: 200px;
     height: 200px;
+    cursor: pointer;
   }
 
   label {
     display: block;
     text-align: center;
+    cursor: pointer;
 
     .image-and-plus-button-container {
       position: relative;
       display: inline-block;
       margin: auto;
+      cursor: pointer;
     }
 
     .upload-plus-button {
@@ -27,12 +30,16 @@
       width: 35px;
       height: 35px;
       background-size: 25px;
+      cursor: pointer;
     }
 
     .droppable-image-field--file-input {
       display: none;
+      cursor: pointer;
     }
   }
+
+  cursor: pointer;
 }
 
 #drop-files-here-message {

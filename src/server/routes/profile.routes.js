@@ -80,7 +80,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
     typeof b.libraryId === 'string' &&
     b.libraryId.length > 0
   ) {
-    if (p.favoriteLibrary.libraryId !== b.libraryId) {
+    if ((p.favoriteLibrary || {}).libraryId !== b.libraryId) {
       updatedProfileObject.favoriteLibrary = {
         libraryId: b.libraryId
       };

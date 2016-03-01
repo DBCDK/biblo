@@ -1,9 +1,8 @@
 @import "tools";
 @import "settings";
 
-.container {
-  @include container;
-  @include span(12);
+.profile-edit--container {
+  @include clearfix;
 }
 
 .profile-edit--title {

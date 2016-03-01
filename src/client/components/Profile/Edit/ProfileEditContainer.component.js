@@ -57,6 +57,8 @@ export default class ProfileEditContainer extends React.Component {
                 searchAction={this.librarySearch.bind(this)}
                 searchElements={searchElements}
                 unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
+                checkDisplayNameFunction={this.props.actions.asyncCheckDisplayNameExists}
+                displayNameExists={this.props.profile.displayNameExists}
               />
             </div>
             <div className="after-profile-edit--form-component-container">

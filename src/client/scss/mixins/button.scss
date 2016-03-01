@@ -1,4 +1,5 @@
 @import 'hover-transition';
+@import 'no-selection';
 @import "../settings/colors";
 
 @mixin button($background: $melrose, $color: white, $lighten: false) {
@@ -7,6 +8,7 @@
   color: $color;
   border: none;
   display: inline-block;
+  cursor: pointer;
   svg {
     fill: $color;
     padding-right: 10px;
@@ -15,4 +17,5 @@
     top: 2px;
   }
   @include hover-transition((background: $background), 200ms, $lighten);
+  @include no-selection();
 }

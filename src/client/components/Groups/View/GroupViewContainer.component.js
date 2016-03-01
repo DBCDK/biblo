@@ -21,6 +21,7 @@ export class GroupViewContainer extends React.Component {
     };
 
     this.toggleFollow = this.toggleFollow.bind(this);
+    this.toggleMembersExpanded = this.toggleMembersExpanded.bind(this);
 
   }
 
@@ -29,6 +30,10 @@ export class GroupViewContainer extends React.Component {
     this.setState({
       following: !this.state.following
     });
+  }
+
+  toggleMembersExpanded() {
+    this.props.groupActions.groupMembersExpand(!this.props.group.isMembersExpanded);
   }
 
   render() {
@@ -66,7 +71,12 @@ export class GroupViewContainer extends React.Component {
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}/>
             </div>
           </div>
-          <GroupMembersBox members={this.props.group.members} owner={this.props.group.owner} />
+          <GroupMembersBox
+            members={this.props.group.members}
+            owner={this.props.group.owner}
+            onExpand={this.toggleMembersExpanded}
+            isExpanded={this.props.group.isMembersExpanded}
+            />
         </div>
       </PageLayout>
     );

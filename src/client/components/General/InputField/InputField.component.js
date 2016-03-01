@@ -29,10 +29,10 @@ export default function InputField({defaultValue, error, onChangeFunc, name, tit
 
 InputField.displayName = 'InputField';
 InputField.propTypes = {
-  defaultValue: React.PropTypes.string.isRequired,
-  error: React.PropTypes.any.isRequired,
+  defaultValue: React.PropTypes.string,
+  error: React.PropTypes.any,
   onChangeFunc: React.PropTypes.func.isRequired,
-  type: React.PropTypes.string.isRequired,
+  type: React.PropTypes.string,
   name: React.PropTypes.string,
   title: React.PropTypes.string,
   placeholder: React.PropTypes.string,

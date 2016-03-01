@@ -10,6 +10,8 @@ import {GET_USER_PROFILE, SELECT_SUGGESTED_LIBRARY, UNSELECT_LIBRARY} from '../C
 let initialState = {
   username: '',
   displayName: '',
+  fullName: '',
+  birthday: '',
   favoriteLibrary: {
     libraryId: ''
   },
@@ -27,7 +29,10 @@ let initialState = {
       medium: '/no_profile.png',
       large: '/no_profile.png'
     }
-  }
+  },
+  submitState: '',
+  submitProgress: 0,
+  errors: []
 };
 
 let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
@@ -39,7 +44,33 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   }
 }
 
-export default function profileReducer(state = initialState, action={}) {
+let statusMessage = document.getElementById('JSONDATA');
+
+if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
+  let statusMessageData = JSON.parse(statusMessage.innerHTML);
+  if (statusMessageData && statusMessageData.status === 'ERROR') {
+    initialState = assignToEmpty(initialState, {
+      birthday: statusMessageData.query.birthday,
+      description: statusMessageData.query.description,
+      displayName: statusMessageData.query.displayname,
+      email: statusMessageData.query.email,
+      fullName: statusMessageData.query.fullName,
+      favoriteLibrary: {
+        libraryId: statusMessageData.query.libraryId,
+        loanerId: statusMessageData.query.loanerId,
+        pincode: statusMessageData.query.pincode
+      },
+      phone: statusMessageData.query.phone,
+      search: statusMessageData.query.search
+    });
+
+    statusMessageData.errors.forEach((error) => {
+      initialState.errors.push(error);
+    });
+  }
+}
+
+export default function profileReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
     case GET_USER_PROFILE:

@@ -16,7 +16,7 @@ import './more-button.scss';
  */
 export default function MoreButton({text, onClick}) { // eslint-disable-line no-unused-vars
   return (
-    <a className='more-button'>
+    <a className='more-button' onClick={onClick}>
       <Icon glyph={plusSvg} />{text}
     </a>
   );

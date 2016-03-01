@@ -14,6 +14,7 @@ const defaultState = {
   id: null,
   isFollowing: false,
   image: 'http://lorempixel.com/200/200/',
+  isMembersExpanded: false,
   posts: []
 };
 
@@ -29,6 +30,8 @@ export default function groupViewReducer(state = initialState, action = {}) {
       return state;
     case types.GROUP_FOLLOW:
       return assignToEmpty(state, {isFollowing: action.enableFollow});
+    case types.GROUP_MEMBERS_EXPAND:
+      return assignToEmpty(state, {isMembersExpanded: action.expand});
     default:
       return state;
   }

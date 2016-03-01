@@ -163,3 +163,10 @@ export function groupFollow(enableFollow) {
     enableFollow: enableFollow
   };
 }
+
+export function groupMembersExpand(expand) {
+  return {
+    type: types.GROUP_MEMBERS_EXPAND,
+    expand: expand
+  };
+}

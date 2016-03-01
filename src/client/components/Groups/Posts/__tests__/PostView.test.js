@@ -15,7 +15,7 @@ describe('Test of Comment Components', () => {
     groupId: 1,
     content: 'test content',
     image: 'some_url',
-    timeCreated: (new Date()).getUTCDate(),
+    timeCreated: (new Date()).toISOString(),
     owner: {
       displayName: 'testUser',
       image: 'some_profile_image'

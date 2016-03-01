@@ -42,9 +42,11 @@ export default class ProfileEditContainer extends React.Component {
               changeImageAction={this.props.actions.getProfile}
               submit={this.imageSubmit}
               errors={this.props.profile.errors || []}
-              profileImageSrc={((this.props.profile.image || {}).url).medium}
+              profileImageSrc={((this.props.profile.image || {}).url).small}
               submitState={this.props.profile.submitState}
               submitProgress={this.props.profile.submitProgress}
+              fullName={this.props.profile.fullName}
+              birthday={this.props.profile.birthday}
               phone={this.props.profile.phone}
               displayName={this.props.profile.displayName}
               description={this.props.profile.description}

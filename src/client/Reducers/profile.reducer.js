@@ -5,7 +5,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {GET_USER_PROFILE, SELECT_SUGGESTED_LIBRARY, UNSELECT_LIBRARY} from '../Constants/action.constants';
+import {GET_USER_PROFILE, SELECT_SUGGESTED_LIBRARY, UNSELECT_LIBRARY, CHECK_IF_DISPLAYNAME_IS_TAKEN} from '../Constants/action.constants';
 
 let initialState = {
   username: '',
@@ -32,7 +32,8 @@ let initialState = {
   },
   submitState: '',
   submitProgress: 0,
-  errors: []
+  errors: [],
+  displayNameExists: false
 };
 
 let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
@@ -92,6 +93,13 @@ export default function profileReducer(state = initialState, action = {}) {
           libraryId: initialState.favoriteLibrary.libraryId
         }
       });
+
+    case CHECK_IF_DISPLAYNAME_IS_TAKEN:
+      return (
+        action.displayname !== state.displayName ?
+          assignToEmpty(state, {displayNameExists: action.exists}) :
+          assignToEmpty(state, {displayNameExists: false})
+      );
 
     default:
       return state;

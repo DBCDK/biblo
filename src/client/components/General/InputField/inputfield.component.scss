@@ -18,6 +18,10 @@
     font-family: $body-font;
     width: 99%;
     overflow: visible;
+    
+    .error {
+      border-color: red;
+    }
   }
 
   input:disabled {

@@ -14,6 +14,7 @@ export const CHANGE_PROFILE_AGE = 'CHANGE_PROFILE_AGE';
 
 // Profile Actions
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
+export const CHECK_IF_DISPLAYNAME_IS_TAKEN = 'CHECK_IF_DISPLAYNAME_IS_TAKEN';
 
 // Group Actions
 export const CHANGE_GROUP_IMAGE = 'CHANGE_GROUP_IMAGE';

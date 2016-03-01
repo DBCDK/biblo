@@ -1,8 +1,19 @@
 'use strict';
 
 import React from 'react';
+import {debounce} from 'lodash';
 
-export default function DisplayNameField({defaultValue, errors, onChangeFunc}) {
+let debouncedCheckDisplayNameFunction;
+
+function onChange(onChangeFunc, checkDisplayNameFunction, e) {
+  if (!debouncedCheckDisplayNameFunction) {
+    debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 500);
+  }
+  debouncedCheckDisplayNameFunction(e.target.value);
+  onChangeFunc(e);
+}
+
+export default function DisplayNameField({defaultValue, errors, onChangeFunc, checkDisplayNameFunction, displayNameExists}) {
   return (
     <div className="display-name--form-area">
       <label>
@@ -10,26 +21,33 @@ export default function DisplayNameField({defaultValue, errors, onChangeFunc}) {
           <strong>Vælg et brugernavn</strong>
         </p>
         <input
+          className={displayNameExists ? 'error' : ''}
           required
           name="displayname"
           placeholder="Dit brugernavn"
           defaultValue={defaultValue}
-          onChange={onChangeFunc}
+          onChange={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
         />
         {errors.displayname || ''}
+        {displayNameExists ? <p className="errorMessage">Brugernavnet er optaget!</p> : ''}
       </label>
     </div>
   );
 }
 
 DisplayNameField.displayName = 'DisplayNameField';
+
 DisplayNameField.propTypes = {
   defaultValue: React.PropTypes.string.isRequired,
   errors: React.PropTypes.object.isRequired,
-  onChangeFunc: React.PropTypes.func.isRequired
+  onChangeFunc: React.PropTypes.func.isRequired,
+  checkDisplayNameFunction: React.PropTypes.func.isRequired,
+  displayNameExists: React.PropTypes.bool
 };
+
 DisplayNameField.defaultProps = {
   defaultValue: '',
   errors: {},
-  onChangeFunc: () => {}
+  onChangeFunc: () => {},
+  displayNameExists: false
 };

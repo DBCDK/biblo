@@ -100,6 +100,8 @@ export default class ProfileForm extends React.Component {
               defaultValue={this.props.displayName}
               errors={errorObj}
               onChangeFunc={(e) => this.setState({displayName: e.target.value})}
+              checkDisplayNameFunction={this.props.checkDisplayNameFunction}
+              displayNameExists={this.props.displayNameExists}
             />
 
             <div className="description--form-area">
@@ -239,11 +241,14 @@ ProfileForm.propTypes = {
   unselectLibraryFunction: React.PropTypes.func.isRequired,
   search: React.PropTypes.string,
   fullName: React.PropTypes.string,
-  birthday: React.PropTypes.string
+  birthday: React.PropTypes.string,
+  checkDisplayNameFunction: React.PropTypes.func.isRequired,
+  displayNameExists: React.PropTypes.bool
 };
 
 ProfileForm.defaultProps = {
   searchElements: [],
   librarySearchDisabled: false,
-  submitProgress: 0
+  submitProgress: 0,
+  displayNameExists: false
 };

@@ -110,7 +110,7 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
     request.upload.addEventListener('error', () => dispatch(profileEditSubmitStateChange('UPLOAD_FAILED')));
     request.upload.addEventListener('abort', () => dispatch(profileEditSubmitStateChange('UPLOAD_CANCELED')));
     request.send(formData);
-  }
+  };
 }
 
 export function profileEditSubmit(
@@ -173,12 +173,12 @@ export function profileEditUploadProgress(event) {
     type: types.PROFILE_EDIT_UPLOAD_PROGRESS,
     event,
     progress: Math.floor((event.loaded/event.total)*100)
-  }
+  };
 }
 
 export function profileEditSubmitStateChange(state) {
   return {
     type: types.PROFILE_EDIT_SUBMIT_STATE_CHANGE,
     state
-  }
+  };
 }

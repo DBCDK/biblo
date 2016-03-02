@@ -7,10 +7,9 @@ let image = {
   shouldDisplay: false
 };
 
-let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE').innerHTML;
-
-if (data.length > 0) {
-  image = JSON.parse(data);
+let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
+if (data && data.innerHTML && data.innerHTML.length > 0) {
+  image = JSON.parse(data.innerHTML);
 }
 
 export default function NavBarProfileImage({url, notifications}) {

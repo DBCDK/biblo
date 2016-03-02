@@ -4,7 +4,7 @@ import React from 'react';
 import './scss/group-members-box.scss';
 import MoreButton from '../../General/MoreButton/MoreButton.component.js';
 
-export default function GroupMembersBox({members, owner, onExpand, isExpanded}) {
+export default function GroupMembersBox({members, owner, onExpand, isExpanded, isLoadingMembers}) {
 
   // this is necessary to avoid modifying Redux state
   let membersCopy = members.slice();
@@ -28,7 +28,7 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded}) 
   if (membersCopy.length > 9) {
     moreButton = (
       <div className='members-button'>
-        <MoreButton onClick={onExpand} text={buttonText}/>
+        <MoreButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText}/>
       </div>
     );
   }

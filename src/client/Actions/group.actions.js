@@ -172,9 +172,16 @@ export function groupFollow(enableFollow) {
 export function asyncGroupMembersExpand(expand, groupId) {
   if (expand) {
     return (dispatch) => {
+
+      // handle getGroup responses
       getGroupListener((res) => {
         dispatch(groupMembersExpand(expand, res.members));
       });
+
+      // signal that members are loading
+      dispatch(groupMembersLoading());
+
+      // send request for more group members
       getGroup.request({id: groupId, allMembers: true});
     };
   }
@@ -190,5 +197,11 @@ export function groupMembersExpand(expand, members = null) {
     type: types.GROUP_MEMBERS_EXPAND,
     expand: expand,
     members: members
+  };
+}
+
+export function groupMembersLoading() {
+  return {
+    type: types.GROUP_MEMBERS_LOADING
   };
 }

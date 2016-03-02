@@ -76,6 +76,7 @@ export class GroupViewContainer extends React.Component {
             owner={this.props.group.owner}
             onExpand={this.toggleMembersExpanded}
             isExpanded={this.props.group.isMembersExpanded}
+            isLoadingMembers={this.props.group.isLoadingMembers}
             />
         </div>
       </PageLayout>

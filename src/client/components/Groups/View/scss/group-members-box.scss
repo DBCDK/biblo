@@ -15,7 +15,7 @@
 }
 
 .members-box {
-  padding:100px;
+  padding: 100px;
   display: block;
 }
 
@@ -28,8 +28,10 @@
   border: 5px solid $white;
   margin:15px;
   display: inline-block;
+  cursor: pointer;
 
   &.owner {
     border-color: $carnation;
   }
+
 }

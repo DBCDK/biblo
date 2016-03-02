@@ -2,9 +2,9 @@
 
 import React from 'react';
 import './scss/group-members-box.scss';
-import MoreButton from '../../General/MoreButton/MoreButton.component.js';
+import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
 
-export default function GroupMembersBox({members, owner, onExpand, isExpanded}) {
+export default function GroupMembersBox({members, owner, onExpand, isExpanded, isLoadingMembers}) {
 
   // this is necessary to avoid modifying Redux state
   let membersCopy = members.slice();
@@ -18,28 +18,27 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded}) 
 
   const memberImages = visibleMembers.map((member) => {
     const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
-    return <div key={member.id} className={classes}><img src={member.image || null} alt={member.displayName}/></div>;
+    return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || null} alt={member.displayName}/></a>;
   });
 
   const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
 
-  // show MoreButton if there are more than 9 members
-  let moreButton = null;
+  // show ExpandButton if there are more than 9 members
+  let expandButton = null;
   if (membersCopy.length > 9) {
-    moreButton = (
+    expandButton = (
       <div className='members-button'>
-        <MoreButton onClick={onExpand} text={buttonText}/>
+        <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText} />
       </div>
     );
   }
-
 
   return (
     <div className='group--sidebar'>
       <div className='group-view-members-box'>
         {memberImages}
       </div>
-      {moreButton}
+      {expandButton}
     </div>
   );
 }

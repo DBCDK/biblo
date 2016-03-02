@@ -9,21 +9,20 @@ import express from 'express';
 import multer from 'multer';
 
 import {ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
-import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
-import {fullProfileOnSession} from '../middlewares/data.middleware';
+import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
 
 const ProfileRoutes = express.Router();
 
-ProfileRoutes.get('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, (req, res) => {
+ProfileRoutes.get('/rediger', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, (req, res) => {
   res.render('page', {
     css: ['/css/profileedit.css'],
     js: ['/js/profileedit.js']
   });
 });
 
-ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, upload.single('profile_image'), async function editProfilePost(req, res) {
+ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, upload.single('profile_image'), async function editProfilePost(req, res) {
   const p = req.session.passport.user.profile.profile;
   const b = req.body;
   let updatedProfileObject = {};
@@ -186,7 +185,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, ssrMiddleware, fullProfileOn
   });
 });
 
-ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, ssrMiddleware, fullProfileOnSession, (req, res) => {
+ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, (req, res) => {
   let data = {};
 
   res.render('page', {

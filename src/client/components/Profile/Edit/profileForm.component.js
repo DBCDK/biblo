@@ -25,6 +25,8 @@ export default class ProfileForm extends React.Component {
       phone: props.phone,
       libraryId: (props.favoriteLibrary || {}).libraryId || '',
       search: props.search,
+      birthday: props.birthday,
+      fullName: props.fullName,
       loanerId: '',
       pincode: ''
     };
@@ -36,13 +38,15 @@ export default class ProfileForm extends React.Component {
     let elem = ReactDOM.findDOMNode(this.refs['profile-form']);
     elem.onsubmit = (e) => this.props.submit(
       e,
-      this.state.displayname,
+      this.state.displayName,
       this.state.email,
       this.state.phone,
       this.state.libraryId,
       this.state.loanerId,
       this.state.pincode,
-      this.state.description
+      this.state.description,
+      this.state.birthday,
+      this.state.fullName
     );
   }
 

@@ -23,7 +23,7 @@ export function asyncChangeImage(file) {
       reader.readAsDataURL(file);
     }
     else {
-      dispatch(changeImage(file, 'http://rubycycling.dk/wp-content/uploads/2016/01/Billede-kommer-snart_02.jpg'));
+      dispatch(changeImage(file, '/Billede-kommer-snart.jpg'));
     }
   };
 }

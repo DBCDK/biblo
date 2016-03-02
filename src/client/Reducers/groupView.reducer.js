@@ -36,7 +36,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
       }
       return assignToEmpty(state, {isMembersExpanded: action.expand});
     case types.GROUP_MEMBERS_LOADING:
-       return assignToEmpty(state, {isLoadingMembers: true});
+      return assignToEmpty(state, {isLoadingMembers: true});
     default:
       return state;
   }

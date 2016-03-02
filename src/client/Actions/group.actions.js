@@ -202,6 +202,6 @@ export function groupMembersExpand(expand, members = null) {
 
 export function groupMembersLoading() {
   return {
-    type: types.GROUP_MEMBERS_LOADING,
+    type: types.GROUP_MEMBERS_LOADING
   };
 }

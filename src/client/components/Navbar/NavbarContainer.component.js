@@ -6,6 +6,8 @@ import NavbarLink from './NavbarLink.component.js';
 import NavbarIconLink from './NavbarIconLink.component.js';
 import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
+import NavBarProfileImage from './NavBarProfileImage.component';
+import {PROFILE_EDIT} from '../../Constants/hyperlinks.constants';
 
 import './styling/navbar.scss';
 
@@ -52,6 +54,7 @@ class NavbarContainer extends React.Component {
           <div className="navbar--icons">
             <NavbarIconLink icon='search' url="#search"/>
             <NavbarIconLink icon='profile' url="#profile" onClick={() => this.onToggle('profile')}/>
+            <NavBarProfileImage url={PROFILE_EDIT} />
             <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
           </div>
         </div>

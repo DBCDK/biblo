@@ -12,13 +12,12 @@ import {groupCreateForm} from '../forms/group.forms';
 
 import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
-import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
 
 const GroupRoutes = express.Router();
 
-GroupRoutes.get('/opret', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, ensureUserHasProfile, (req, res) => {
+GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, (req, res) => {
   let data = {};
   let windowData = {
     propertyName: 'DATA',
@@ -32,7 +31,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, ssrMiddleware, fullProfileOnSessi
   });
 });
 
-GroupRoutes.post('/opret', ensureAuthenticated, ssrMiddleware, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
+GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
@@ -156,7 +155,7 @@ async function fetchGroupData(params, req, res, update = {}) {
 /**
  * Get group view
  */
-GroupRoutes.get('/:id', ssrMiddleware, fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
+GroupRoutes.get('/:id', fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
 
 
 /**

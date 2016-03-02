@@ -12,7 +12,7 @@ import assignToEmpty from '../../Utils/assign';
 describe('Test GroupCreate reducer', () => {
   let initialState = { // initial state mock
     UI: {
-      imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg',
+      imageSrc: '/no_group_image.png',
       submitProgress: 0,
       submitState: null
     },
@@ -26,7 +26,7 @@ describe('Test GroupCreate reducer', () => {
   beforeEach(() => {
     initialState = { // initial state mock
       UI: {
-        imageSrc: 'https://pbs.twimg.com/profile_images/269279233/llama270977_smiling_llama_400x400.jpg',
+        imageSrc: '/no_group_image.png',
         submitProgress: 0,
         submitState: null
       },

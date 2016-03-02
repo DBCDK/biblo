@@ -37,7 +37,7 @@ export function fullProfileOnSession(req, res, next) {
       hasFilledInProfile: false,
       id: -1,
       image: {
-        url: 'http://www.insite.io/browser/home/accounts/assets/images/no-profile-image.jpg'
+        url: {}
       }
     },
     errors: []
@@ -55,4 +55,53 @@ export function fullProfileOnSession(req, res, next) {
     res.locals.profile = JSON.stringify(req.session.passport.user.profile);
     next();
   });
+}
+
+/**
+ * This middleware checks if a user is logged in, if they are, it tries to set the users profile image to a local.
+ * @param req
+ * @param res
+ * @param next
+ */
+export function ensureProfileImage(req, res, next) {
+  let image = {
+    shouldDisplay: false
+  };
+
+  if (req.isAuthenticated()) {
+    (new Promise((resolve) => {
+      if (
+        req.session.passport.user &&
+        req.session.passport.user.profile &&
+        req.session.passport.user.profile.profile
+      ) {
+        resolve(req.session.passport.user.profile.profile);
+      }
+      else {
+        fullProfileOnSession(req, res, () => {
+          resolve(req.session.passport.user.profile.profile);
+        });
+      }
+    })).then((profile) => {
+      if (
+        profile.image &&
+        profile.image.url &&
+        profile.image.url.small &&
+        profile.image.url.small.length > 0
+      ) {
+        image.url = req.session.passport.user.profile.profile.image.url.small;
+        image.shouldDisplay = true;
+      }
+
+      res.locals.profileImage = JSON.stringify(image);
+      next();
+    }).catch(() => {
+      res.locals.profileImage = JSON.stringify(image);
+      next();
+    });
+  }
+  else {
+    res.locals.profileImage = JSON.stringify(image);
+    next();
+  }
 }

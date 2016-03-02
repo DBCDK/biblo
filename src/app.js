@@ -32,6 +32,8 @@ import compression from 'compression';
 import expressSession from 'express-session';
 import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
+import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
+import {ensureProfileImage} from './server/middlewares/data.middleware';
 
 module.exports.run = function (worker) {
   // Setup
@@ -163,6 +165,8 @@ module.exports.run = function (worker) {
 
   // Setting middleware
   app.use('*', GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
+  app.use(ssrMiddleware);
+  app.use(ensureProfileImage);
 
   app.use('/grupper', GroupRoutes);
   app.use('/profil', ProfileRoutes);

@@ -13,26 +13,33 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded}) 
   owner.isOwner = true;
   membersCopy.unshift(owner);
 
-  if (!isExpanded) {
-    // show only the first 9 members
-    membersCopy = membersCopy.slice(0, 9);
-  }
+  // if not expanded then show only the top 9 members
+  let visibleMembers = (!isExpanded) ? membersCopy.slice(0, 9) : membersCopy;
 
-  const memberImages = membersCopy.map((member) => {
-    const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner': '');
+  const memberImages = visibleMembers.map((member) => {
+    const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
     return <div key={member.id} className={classes}><img src={member.image || null} alt={member.displayName}/></div>;
   });
 
   const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
+
+  // show MoreButton if there are more than 9 members
+  let moreButton = null;
+  if (membersCopy.length > 9) {
+    moreButton = (
+      <div className='members-button'>
+        <MoreButton onClick={onExpand} text={buttonText}/>
+      </div>
+    );
+  }
+
 
   return (
     <div className='group--sidebar'>
       <div className='group-view-members-box'>
         {memberImages}
       </div>
-      <div className='members-button'>
-        <MoreButton onClick={onExpand} text={buttonText}/>
-      </div>
+      {moreButton}
     </div>
   );
 }

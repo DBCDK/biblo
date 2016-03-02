@@ -33,7 +33,7 @@ export class GroupViewContainer extends React.Component {
   }
 
   toggleMembersExpanded() {
-    this.props.groupActions.groupMembersExpand(!this.props.group.isMembersExpanded);
+    this.props.groupActions.asyncGroupMembersExpand(!this.props.group.isMembersExpanded, this.props.group.id);
   }
 
   render() {

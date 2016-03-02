@@ -38,6 +38,7 @@ module.exports.run = function (worker) {
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
   const server = worker.httpServer;
+  const scServer = worker.getSCServer();
   const ENV = app.get('env');
   const PRODUCTION = ENV === 'production';
   const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'biblo'; // eslint-disable-line no-process-env
@@ -152,6 +153,10 @@ module.exports.run = function (worker) {
 
   // Setting sessions
   app.use(sessionMiddleware);
+
+  scServer.addMiddleware(scServer.MIDDLEWARE_EMIT, (req, next) => {
+    sessionMiddleware(req.socket.request, {}, next);
+  });
 
   // Setup passport
   PassportStrategies.Unilogin(app, BIBLO_CONFIG.unilogin);

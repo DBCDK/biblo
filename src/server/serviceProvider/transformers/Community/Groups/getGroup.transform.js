@@ -38,7 +38,9 @@ const GetGroupTransform = {
     return post;
   },
 
-  requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {id, allMembers}, connection) { // eslint-disable-line no-unused-vars
+
+    let memberLimit = (typeof allMembers !== 'undefined' && allMembers) ? 1000 : 15;
 
     const filter = [
       {
@@ -59,7 +61,7 @@ const GetGroupTransform = {
       {
         relation: 'members',
         scope: {
-          limit: 10,
+          limit: memberLimit,
           include: ['image']
         }
       },

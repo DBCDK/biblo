@@ -8,7 +8,6 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
-import {ssrMiddleware} from '../middlewares/serviceprovider.middleware';
 import {setReferer, redirectBackToOrigin} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
@@ -46,7 +45,7 @@ MainRoutes.get('/error', (req, res) => {
   res.send(errorMsg);
 });
 
-MainRoutes.get('/billede/:id/:size', ssrMiddleware, (req, res) => {
+MainRoutes.get('/billede/:id/:size', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=360000');
   req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size})
     .then((result) => {
@@ -62,7 +61,7 @@ MainRoutes.get('/billede/:id/:size', ssrMiddleware, (req, res) => {
     });
 });
 
-MainRoutes.get('/billede/:id', ssrMiddleware, (req, res) => {
+MainRoutes.get('/billede/:id', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=360000');
   req.callServiceProvider('getImage', req.params.id).then((imageObject) => {
     const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + imageObject[0].body.url;

@@ -5,7 +5,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
-import {GET_USER_PROFILE, SELECT_SUGGESTED_LIBRARY, UNSELECT_LIBRARY, CHECK_IF_DISPLAYNAME_IS_TAKEN} from '../Constants/action.constants';
+import * as types from '../Constants/action.constants';
 
 let initialState = {
   username: '',
@@ -33,7 +33,12 @@ let initialState = {
   submitState: '',
   submitProgress: 0,
   errors: [],
-  displayNameExists: false
+  displayNameExists: false,
+  imageFile: null,
+  UI: {
+    submitState: '',
+    submitProgress: 0
+  }
 };
 
 let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
@@ -74,10 +79,10 @@ if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length >
 export default function profileReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case GET_USER_PROFILE:
+    case types.GET_USER_PROFILE:
       return state;
 
-    case SELECT_SUGGESTED_LIBRARY:
+    case types.SELECT_SUGGESTED_LIBRARY:
       const l = action.library;
       return assignToEmpty(state, {
         favoriteLibrary: {
@@ -87,19 +92,45 @@ export default function profileReducer(state = initialState, action = {}) {
         }
       });
 
-    case UNSELECT_LIBRARY:
+    case types.UNSELECT_LIBRARY:
       return assignToEmpty(state, {
         favoriteLibrary: {
           libraryId: initialState.favoriteLibrary.libraryId
         }
       });
 
-    case CHECK_IF_DISPLAYNAME_IS_TAKEN:
+    case types.CHECK_IF_DISPLAYNAME_IS_TAKEN:
       return (
         action.displayname !== state.displayName ?
           assignToEmpty(state, {displayNameExists: action.exists}) :
           assignToEmpty(state, {displayNameExists: false})
       );
+
+    case types.CHANGE_PROFILE_IMAGE:
+      return assignToEmpty(state, {
+        imageFile: action.imageFile,
+        image: assignToEmpty(state.image, {
+          url: assignToEmpty(state.image.url, {
+            small: action.imageSrc,
+            medium: action.imageSrc,
+            large: action.imageSrc
+          })
+        })
+      });
+
+    case types.PROFILE_EDIT_SUBMIT_STATE_CHANGE:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitState: action.state
+        })
+      });
+
+    case types.PROFILE_EDIT_UPLOAD_PROGRESS:
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          submitProgress: action.progress
+        })
+      });
 
     default:
       return state;

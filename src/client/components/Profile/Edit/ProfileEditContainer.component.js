@@ -13,8 +13,31 @@ import * as EntitySuggestLibraryActions from '../../../Actions/entitySuggetLibra
 import './profileEditContainer.component.scss';
 
 export default class ProfileEditContainer extends React.Component {
-  imageSubmit() {
+  profileEditSubmit(event, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName) {
+    const actions = this.props.actions;
+    const profile = this.props.profile;
 
+    if (
+      'FormData' in window &&
+      profile.UI.submitState !== 'SUBMITTING' &&
+      profile.UI.submitState !== 'UPLOAD_COMPLETE' &&
+      profile.UI.submitState !== 'UPLOAD_FAILED' &&
+      profile.UI.submitState !== 'UPLOAD_CANCELED'
+    ) {
+      event.preventDefault();
+      actions.asyncProfileEditSubmit(
+        profile.imageFile,
+        displayname,
+        email,
+        phone,
+        libraryId,
+        loanerId,
+        pincode,
+        description,
+        birthday,
+        fullName
+      );
+    }
   }
 
   librarySearch(e) {
@@ -41,12 +64,12 @@ export default class ProfileEditContainer extends React.Component {
             </div>
             <div className="profile-edit--form-component-container">
               <ProfileForm
-                changeImageAction={this.props.actions.getProfile}
-                submit={this.imageSubmit}
+                changeImageAction={this.props.actions.asyncChangeProfileImage}
+                submit={this.profileEditSubmit.bind(this)}
                 errors={this.props.profile.errors || []}
-                profileImageSrc={((this.props.profile.image || {}).url).small}
-                submitState={this.props.profile.submitState}
-                submitProgress={this.props.profile.submitProgress}
+                profileImageSrc={((this.props.profile.image || {}).url || {}).small}
+                submitState={this.props.profile.UI.submitState}
+                submitProgress={this.props.profile.UI.submitProgress}
                 fullName={this.props.profile.fullName}
                 birthday={this.props.profile.birthday}
                 phone={this.props.profile.phone}

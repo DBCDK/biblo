@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './scss/group-members-box.scss';
-import MoreButton from '../../General/MoreButton/MoreButton.component.js';
+import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
 
 export default function GroupMembersBox({members, owner, onExpand, isExpanded, isLoadingMembers}) {
 
@@ -23,12 +23,12 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded, i
 
   const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
 
-  // show MoreButton if there are more than 9 members
-  let moreButton = null;
+  // show ExpandButton if there are more than 9 members
+  let expandButton = null;
   if (membersCopy.length > 9) {
-    moreButton = (
+    expandButton = (
       <div className='members-button'>
-        <MoreButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText}/>
+        <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText}/>
       </div>
     );
   }
@@ -39,7 +39,7 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded, i
       <div className='group-view-members-box'>
         {memberImages}
       </div>
-      {moreButton}
+      {expandButton}
     </div>
   );
 }

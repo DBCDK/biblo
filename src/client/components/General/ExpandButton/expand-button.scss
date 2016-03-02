@@ -1,6 +1,6 @@
 @import "tools";
 @import "settings";
 
-.more-button {
+.expand-button {
   @include button($white, $black, false);
 }

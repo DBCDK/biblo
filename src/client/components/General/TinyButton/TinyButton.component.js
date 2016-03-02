@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import './tiny-button.scss'
+import './tiny-button.scss';
 
 const TinyButton = ({clickFunction, icon}) => {
   return (

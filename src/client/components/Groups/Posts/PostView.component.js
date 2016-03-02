@@ -7,7 +7,10 @@ import TimeToString from '../../../Utils/timeToString.js';
 import CommentAdd from '../AddContent/AddContent.component';
 import CommentList from '../Comments/CommentList.component';
 import Icon from '../../General/Icon/Icon.component.js';
+import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
+import flagSvg from '../../General/Icon/svg/functions/flag.svg';
+import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 export default class PostView extends React.Component {
 
@@ -34,8 +37,12 @@ export default class PostView extends React.Component {
         </div>
         <div className='post'>
           <div className='post--header'>
-            <span className='username'>{owner.displayName}</span> <span
-            className='time'>{TimeToString(timeCreated)}</span>
+            <span className='username'>{owner.displayName}</span>
+            <span className='time'>{TimeToString(timeCreated)}</span>
+            <span className='buttons'>
+              <TinyButton icon={<Icon glyph={flagSvg}/>}/>
+              <TinyButton icon={<Icon glyph={pencilSvg}/>}/>
+            </span>
           </div>
           <div className='post--content'>
             <p className='content'>{content}</p>

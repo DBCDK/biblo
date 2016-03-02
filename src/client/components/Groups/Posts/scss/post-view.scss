@@ -51,8 +51,12 @@
   }
   .time {
     color: $gray;
-    display: inline-block;
+    display: inline;
     padding-left: 10px;
+  }
+  .buttons {
+    display: inline;
+    float:right;
   }
 }
 

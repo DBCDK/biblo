@@ -7,9 +7,14 @@
 
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
+import {once} from 'lodash';
+
 
 const joinGroup = SocketClient('joinGroup');
+const getGroup = SocketClient('getGroup');
 const leaveGroup = SocketClient('leaveGroup');
+
+const getGroupListener = once(getGroup.response);
 
 
 export function asyncChangeImage(file) {
@@ -139,13 +144,13 @@ export function groupFormUploadProgress(e) {
   return {
     type: types.GROUP_FORM_UPLOAD_PROGRESS,
     event: e,
-    progress: Math.floor((e.loaded/e.total)*100)
+    progress: Math.floor((e.loaded / e.total) * 100)
   };
 }
 
 
 export function asyncGroupFollow(enableFollow, groupId, profileId) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(groupFollow(enableFollow));
 
     if (enableFollow) {
@@ -164,9 +169,26 @@ export function groupFollow(enableFollow) {
   };
 }
 
-export function groupMembersExpand(expand) {
+export function asyncGroupMembersExpand(expand, groupId) {
+  if (expand) {
+    return (dispatch) => {
+      getGroupListener((res) => {
+        dispatch(groupMembersExpand(expand, res.members));
+      });
+      getGroup.request({id: groupId, allMembers: true});
+    };
+  }
+
+  return (dispatch) => {
+    dispatch(groupMembersExpand(expand));
+  };
+
+}
+
+export function groupMembersExpand(expand, members = null) {
   return {
     type: types.GROUP_MEMBERS_EXPAND,
-    expand: expand
+    expand: expand,
+    members: members
   };
 }

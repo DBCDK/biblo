@@ -18,7 +18,7 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded, i
 
   const memberImages = visibleMembers.map((member) => {
     const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
-    return <div key={member.id} className={classes}><img src={member.image || null} alt={member.displayName}/></div>;
+    return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || null} alt={member.displayName}/></a>;
   });
 
   const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
@@ -28,11 +28,10 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded, i
   if (membersCopy.length > 9) {
     expandButton = (
       <div className='members-button'>
-        <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText}/>
+        <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText} />
       </div>
     );
   }
-
 
   return (
     <div className='group--sidebar'>

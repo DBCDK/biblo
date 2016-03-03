@@ -1,0 +1,56 @@
+@import "tools";
+@import "settings";
+
+.activity-row--container {
+  .activity-row {
+    @include clearfix;
+
+    .activity-row--image {
+      @include span(5 of 24);
+      max-width: 200px;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    .activity-row--children {
+      .activity-row--date {
+        color: #c9c9c9;
+      }
+
+      @include span(18 of 24);
+    }
+
+    .activity-row--children.no-image {
+      @include span(23 of 24);
+    }
+
+    .activity-row--like-answer {
+      @include span(23 of 24);
+
+      .activity-row--like-answer--likes {
+        svg {
+          fill: #f35065;
+          color: #f35065;
+        }
+      }
+
+      .rounded-button--compact {
+        background-color: #938ee9;
+        margin-left: 5px;
+        margin-right: 5px;
+
+        .rounded-button--back--svg {
+          fill: white;
+          color: white;
+        }
+      }
+
+      .rounded-button--compact:hover {
+        background-color: lighten(#938ee9, 5%);
+        border-color: #938ee9;
+      }
+    }
+  }
+}

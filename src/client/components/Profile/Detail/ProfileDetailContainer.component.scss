@@ -1,0 +1,30 @@
+@import "tools";
+@import "settings";
+
+.p-detail--image-container {
+  background: linear-gradient(180deg, #d784e7 70%, #ffffff 30%);
+  padding-top: 100px;
+
+  img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.p-detail--displayname-description-follow {
+  align-content: center;
+  text-align: center;
+
+  p {
+    margin: 5px;
+    font-family: $body-font;
+    font-weight: 600;
+  }
+}
+
+.p-detail--displayname {
+  font-size: 16pt;
+}

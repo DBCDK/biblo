@@ -189,7 +189,7 @@ ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfile
   let data = {};
 
   res.render('page', {
-    css: [],
+    css: ['/css/profiledetail.css'],
     js: ['/js/profiledetail.js'],
     jsonData: [JSON.stringify(data)]
   });

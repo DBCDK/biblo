@@ -25,75 +25,53 @@ const GetGroupTransform = {
     };
   },
 
-  parseComment(comment) {
-    comment.owner = this.parseProfile(comment.owner);
-    comment.image = comment.image && '/billede/' + comment.image.id + '/medium' || null;
-    return comment;
-  },
-
-  parsePost(post) {
-    post.owner = this.parseProfile(post.owner);
-    post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
-    post.comments = post.comments.map(comment => this.parseComment(comment));
-    return post;
+  parseGroup(group) {
+    group.owner = this.parseProfile(group.owner);
+    group.image = group.coverImage && '/billede/' + group.coverImage.id + '/medium' || null;
+    return group;
   },
 
   requestTransform(event, {id, allMembers}, connection) { // eslint-disable-line no-unused-vars
 
     let memberLimit = (typeof allMembers !== 'undefined' && allMembers) ? 1000 : 15;
 
-    const filter = [
-      {
-        relation: 'posts',
-        scope: {
-          limit: 10,
-          order: 'timeCreated DESC',
-          include: ['image', {owner: ['image']}, {
-            relation: 'comments',
-            scope: {
-              limit: 1,
-              order: 'timeCreated DESC',
-              include: ['image', {owner: ['image']}]
-            }
-          }]
+    const groupFilter = {
+      counts: 'posts',
+      include: [
+        {
+          relation: 'members',
+          scope: {
+            limit: memberLimit,
+            include: ['image']
+          }
+        },
+        {
+          relation: 'owner'
+        },
+        {
+          relation: 'coverImage'
         }
-      },
-      {
-        relation: 'members',
-        scope: {
-          limit: memberLimit,
-          include: ['image']
-        }
-      },
-      {
-        relation: 'owner'
-      }
-    ];
-    return this.callServiceClient('community', 'getGroup', {id, filter});
+      ]
+    };
+
+    return this.callServiceClient('community', 'getGroup', {id, filter: groupFilter});
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
 
-    if (response.statusCode === 200) {
+    const uid = typeof connection.request.session.passport !== 'undefined' ? connection.request.session.passport.user.profileId : null;
 
-      const uid = typeof connection.request.session.passport !== 'undefined' ? connection.request.session.passport.user.profileId : null;
+    const loggedIn = typeof uid !== 'undefined';
+    const body = this.parseGroup(JSON.parse(response.body));
 
-      const loggedIn = typeof uid !== 'undefined';
-
-      const body = JSON.parse(response.body);
-      body.posts = body.posts.map(post => this.parsePost(post));
-
-      if (loggedIn) {
-        // is the current user following the group?
-        body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
-        // get some members who aren't owners
-        body.members = _.filter(body.members, (member) => member.id !== body.owner.id);
-      }
-
-      return body;
+    if (loggedIn) {
+      // is the current user following the group?
+      body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
+      // get some members who aren't owners
+      body.members = _.filter(body.members, (member) => member.id !== body.owner.id);
     }
 
-    return {error: 'Gruppen kan ikke findes'};
+    return body;
   }
 };
 

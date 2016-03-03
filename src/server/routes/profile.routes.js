@@ -185,8 +185,15 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   });
 });
 
-ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, (req, res) => {
+ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, async function(req, res) {
   let data = {};
+
+  try {
+    console.log((await req.callServiceProvider('getUserFeed', req.params.id))[0].body);
+  }
+  catch (e) {
+    console.error(e);
+  }
 
   res.render('page', {
     css: ['/css/profiledetail.css'],

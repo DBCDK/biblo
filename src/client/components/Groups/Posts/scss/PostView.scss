@@ -81,3 +81,16 @@
   display: block;
   width: 0;
 }
+
+.post--load-more-comments {
+  @include clearfix();
+  margin-bottom: 20px;
+  margin-left: 70px;
+  a {
+    margin-right: 20px;
+  }
+}
+
+.post--comment-count {
+  color: $gray;
+}

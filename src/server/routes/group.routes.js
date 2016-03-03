@@ -119,7 +119,6 @@ GroupRoutes.get('/:id/rediger', (req, res) => {
   });
 });
 
-
 /**
  * Method for showing group
  *
@@ -134,6 +133,19 @@ function showGroup(groupData, res) {
   });
 }
 
+function fetchCommentData(callServiceProvider, posts, skip = 0, limit = 1) {
+  return posts.map(post => {
+    return callServiceProvider('getComments', {
+      id: post.id,
+      skip: skip,
+      limit: limit
+    }).then(comments => {
+      post.comments = comments[0] || [];
+      post.numberOfCommentsLoaded = limit;
+      return post;
+    });
+  });
+}
 
 /**
  * Get data for a group
@@ -143,11 +155,20 @@ function showGroup(groupData, res) {
  * @param res
  */
 async function fetchGroupData(params, req, res, update = {}) {
-  let response = (await req.callServiceProvider('getGroup', params))[0];
-  if (response) {
-    showGroup(Object.assign(response, update), res);
+  try {
+
+    let response = (await Promise.all([
+      req.callServiceProvider('getGroup', params),
+      req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 2})
+    ]));
+    const group = response[0][0];
+    const posts = response[1][0];
+
+    group.posts = (await Promise.all(fetchCommentData(req.callServiceProvider, posts)));
+    group.numberOfPostsLoaded = group.posts.length;
+    showGroup(Object.assign(group, update), res);
   }
-  else {
+  catch (e) {
     res.redirect('/error');
   }
 }
@@ -157,14 +178,13 @@ async function fetchGroupData(params, req, res, update = {}) {
  */
 GroupRoutes.get('/:id', fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
 
-
 /**
  * Add a post to a group
  */
 GroupRoutes.post('/content/:type', upload.single('image'), (req, res) => {
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
   let serviceProvider = req.app.get('serviceProvider');
-  const params ={
+  const params = {
     title: ' ',
     content: req.body.content,
     parentId: req.body.parentId,
@@ -175,7 +195,6 @@ GroupRoutes.post('/content/:type', upload.single('image'), (req, res) => {
     res.redirect(req.body.redirect);
   });
 });
-
 
 GroupRoutes.get('/', (req, res) => {
   let data = {};

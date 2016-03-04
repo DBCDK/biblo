@@ -12,7 +12,7 @@ const RoundedButton = ({clickFunction, href, buttonText, compact}) => {
 RoundedButton.displayName = 'RoundedButton.a.component';
 
 RoundedButton.propTypes = {
-  buttonText: React.PropTypes.string.isRequired,
+  buttonText: React.PropTypes.any.isRequired,
   clickFunction: React.PropTypes.func,
   href: React.PropTypes.string,
   compact: React.PropTypes.bool
@@ -20,7 +20,7 @@ RoundedButton.propTypes = {
 
 RoundedButton.defaultProps = {
   clickFunction: () => {},
-  href: '#',
+  href: '#!',
   compact: false
 };
 

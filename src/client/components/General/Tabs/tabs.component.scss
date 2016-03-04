@@ -1,0 +1,32 @@
+.tab-container {
+  width: 100%;
+  display: block;
+  border-bottom: #c9c9c9 solid 1px;
+
+  .tabs {
+    @include inline-list;
+
+    .tab {
+      font-family: $header-font;
+      border: none;
+      margin: 5px;
+      background-color: #4740b7;
+      color: white;
+      margin-bottom: 0;
+      border-bottom: #4740b7 solid 1px;
+      height: 100%;
+
+      .tab--title {
+        padding: 0 10px;
+      }
+    }
+
+    .tab--selected {
+      border: #c9c9c9 solid 1px;
+      border-bottom: white solid 2px;
+      background-color: white;
+      height: 100%;
+      color: #4740b7;
+    }
+  }
+}

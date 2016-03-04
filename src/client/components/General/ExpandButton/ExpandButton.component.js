@@ -12,6 +12,7 @@ import './expand-button.scss';
  *
  * @param text
  * @param onClick
+ * @param isLoading
  * @returns {XML}
  * @constructor
  */

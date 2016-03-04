@@ -185,11 +185,21 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   });
 });
 
-ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, (req, res) => {
-  let data = {};
+ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, async function(req, res) {
+  let data = {
+    feed: {},
+    errors: []
+  };
+
+  try {
+    data.feed = (await req.callServiceProvider('getUserFeed', req.params.id))[0].body;
+  }
+  catch (e) {
+    data.errors = [e];
+  }
 
   res.render('page', {
-    css: [],
+    css: ['/css/profiledetail.css'],
     js: ['/js/profiledetail.js'],
     jsonData: [JSON.stringify(data)]
   });

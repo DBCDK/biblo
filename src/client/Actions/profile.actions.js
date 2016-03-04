@@ -37,16 +37,25 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
   return function(dispatch) {
     dispatch(profileEditSubmitStateChange('SUBMITTING'));
 
+    let fields = {
+      displayname,
+      description,
+      email,
+      phone,
+      fullName,
+      birthday,
+      libraryId,
+      loanerId,
+      pincode
+    };
+
     let formData = new FormData();
-    formData.append('displayname', displayname);
-    formData.append('description', description);
-    formData.append('email', email);
-    formData.append('phone', phone);
-    formData.append('fullName', fullName);
-    formData.append('birthday', birthday);
-    formData.append('libraryId', libraryId);
-    formData.append('loanerId', loanerId);
-    formData.append('pincode', pincode);
+
+    for (var key in fields) {
+      if (fields.hasOwnProperty(key) && fields[key] && fields[key].length > 0) {
+        formData.append(key, fields[key]);
+      }
+    }
 
     if (imageFile) {
       formData.append('profile_image', imageFile);

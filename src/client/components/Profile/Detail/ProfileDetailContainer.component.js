@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import PageLayout from '../../Layout/PageLayout.component';
@@ -13,6 +14,9 @@ import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
 import Follow from '../../General/Follow/Follow.component';
 import Icon from '../../General/Icon/Icon.component';
+
+import * as feedActions from '../../../Actions/feed.actions';
+
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 
@@ -21,7 +25,7 @@ import './ProfileDetailContainer.component.scss';
 class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
-    userProfile.image = userProfile.image.url.medium;
+    userProfile.image = userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png';
     let feed = this.props.feed.feed.map((activity) => {
       switch (activity.type) {
         case 'comment':
@@ -98,9 +102,22 @@ class ProfileDetailContainer extends React.Component {
     });
 
     let desc = '';
+    let showMore = '';
 
     if (userProfile.description && userProfile.description.length > 0) {
       desc = <p>“{userProfile.description}”</p>;
+    }
+
+    if (
+      this.props.feed.count &&
+      this.props.feed.count.comments &&
+      this.props.feed.count.commentsTotal &&
+      this.props.feed.count.posts &&
+      this.props.feed.count.postsTotal &&
+      (this.props.feed.count.posts < this.props.feed.count.postsTotal ||
+      this.props.feed.count.comments < this.props.feed.count.commentsTotal)
+    ) {
+      showMore = <VisFlereButton onClick={() => this.props.feedActions.asyncGetUserFeed(userProfile.id, 5)} />;
     }
 
     return (
@@ -126,8 +143,7 @@ class ProfileDetailContainer extends React.Component {
         <ActivityRow title="Se hvad Sofiie92 har lavet:" />
 
         {feed}
-
-        <VisFlereButton onClick={() => {}} />
+        {showMore}
       </PageLayout>
     );
   }
@@ -136,7 +152,8 @@ class ProfileDetailContainer extends React.Component {
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
-  feed: React.PropTypes.object.isRequired
+  feed: React.PropTypes.object.isRequired,
+  feedActions: React.PropTypes.object.isRequired
 };
 
 /**
@@ -152,7 +169,9 @@ export default connect(
   },
 
   // Map actions to props
-  () => {
-    return {};
+  (dispatcher) => {
+    return {
+      feedActions: bindActionCreators(feedActions, dispatcher)
+    };
   }
 )(ProfileDetailContainer);

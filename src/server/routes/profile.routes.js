@@ -192,9 +192,9 @@ ProfileRoutes.get('/:id', ensureAuthenticated, redirectBackToOrigin, fullProfile
   };
 
   try {
-    data.feed = (await req.callServiceProvider('getUserFeed', req.params.id))[0].body;
+    data.feed = (await req.callServiceProvider('getUserFeed', {userId: req.params.id, offset: 0}))[0].body;
   }
-  catch (e) {
+  catch (e) { // eslint-disable-line no-catch-shadow
     data.errors = [e];
   }
 

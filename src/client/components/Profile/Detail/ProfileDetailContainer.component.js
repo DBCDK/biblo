@@ -12,6 +12,9 @@ import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.componen
 import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
 import Follow from '../../General/Follow/Follow.component';
+import Icon from '../../General/Icon/Icon.component';
+import flagSvg from '../../General/Icon/svg/functions/flag.svg';
+import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 
 import './ProfileDetailContainer.component.scss';
 
@@ -110,6 +113,14 @@ class ProfileDetailContainer extends React.Component {
           <p className="p-detail--displayname">{userProfile.displayName}</p>
           {desc}
           <Follow active={false} text="Følg" />
+          <div className="p-detail--groups-flag-buttons--container">
+            <a href="#!Grupper" className="p-detail--groups-button--container">
+              <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
+            </a>
+            <a href="#!FlagUser" className="p-detail--flag-button--container">
+              <div className="p-detail--flag-button"> <Icon glyph={flagSvg} width={42} height={42} /><p> Anmeld </p></div>
+            </a>
+          </div>
         </div>
 
         <ActivityRow title="Se hvad Sofiie92 har lavet:" />

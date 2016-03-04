@@ -117,7 +117,14 @@ class ProfileDetailContainer extends React.Component {
       (this.props.feed.count.posts < this.props.feed.count.postsTotal ||
       this.props.feed.count.comments < this.props.feed.count.commentsTotal)
     ) {
-      showMore = <VisFlereButton onClick={() => this.props.feedActions.asyncGetUserFeed(userProfile.id, 5)} />;
+      showMore = (
+        <VisFlereButton
+          onClick={() => this.props.feedActions.asyncGetUserFeed(
+            userProfile.id,
+            Math.max(this.props.feed.count.posts, this.props.feed.count.comments)
+          )}
+        />
+      );
     }
 
     return (
@@ -140,7 +147,7 @@ class ProfileDetailContainer extends React.Component {
           </div>
         </div>
 
-        <ActivityRow title="Se hvad Sofiie92 har lavet:" />
+        <ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`} />
 
         {feed}
         {showMore}

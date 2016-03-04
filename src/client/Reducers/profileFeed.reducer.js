@@ -33,6 +33,14 @@ export default function profileFeedReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
     case types.GET_USER_FEED:
+      let existingKeys = state.feed.map((activity) => {
+        return `${activity.type}_${activity.id}`;
+      });
+
+      action.feed = action.feed.filter((activity) => {
+        return existingKeys.indexOf(`${activity.type}_${activity.id}`) < 0;
+      });
+
       return assignToEmpty(state, {
         feed: state.feed.concat(action.feed || []),
         count: assignToEmpty(state.count, action.count),

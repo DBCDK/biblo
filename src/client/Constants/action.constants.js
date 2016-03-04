@@ -8,6 +8,11 @@
  * export const YOUR_ACTION_CONSTANT = 'YOUR_ACTION_CONSTANT';
  */
 
+
+// Actions for high-level UI functionality
+export const OPEN_MODAL_WINDOW = 'OPEN_MODAL_WINDOW';
+export const CLOSE_MODAL_WINDOW = 'CLOSE_MODAL_WINDOW';
+
 // Actions for profileReducer
 export const CHANGE_PROFILE_USERNAME = 'CHANGE_PROFILE_USERNAME';
 export const CHANGE_PROFILE_AGE = 'CHANGE_PROFILE_AGE';

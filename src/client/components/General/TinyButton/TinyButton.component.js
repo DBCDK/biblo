@@ -3,10 +3,10 @@
 import React from 'react';
 import './tiny-button.scss';
 
-const TinyButton = ({clickFunction, icon}) => {
+const TinyButton = ({icon, clickFunction}) => {
   return (
-    <span className='tiny-button'>
-      <a onClick={clickFunction}>{icon}</a>
+    <span className='tiny-button' onClick={clickFunction}>
+      <a>{icon}</a>
     </span>
   );
 };

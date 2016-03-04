@@ -10,7 +10,8 @@ import GroupHeader from './GroupViewHeader.component.js';
 import GroupMembersBox from './GroupViewMembersBox.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
-import * as actions from '../../../Actions/group.actions.js';
+import * as groupActions from '../../../Actions/group.actions.js';
+import * as uiActions from '../../../Actions/ui.actions.js';
 import './scss/group-view.scss';
 
 export class GroupViewContainer extends React.Component {
@@ -68,7 +69,7 @@ export class GroupViewContainer extends React.Component {
             </div>
             <div className='group--post-view'>
               <h2>{this.props.group.posts.length} {this.props.group.posts.length === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
-              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}/>
+              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id} uiActions={this.props.uiActions}/>
             </div>
           </div>
           <GroupMembersBox
@@ -89,7 +90,8 @@ GroupViewContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
-  groupActions: React.PropTypes.object
+  groupActions: React.PropTypes.object,
+  uiActions: React.PropTypes.object
 };
 
 
@@ -108,7 +110,8 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => { // eslint-disable-line no-unused-vars
     return {
-      groupActions: bindActionCreators(actions, dispatch)
+      groupActions: bindActionCreators(groupActions, dispatch),
+      uiActions: bindActionCreators(uiActions, dispatch)
     };
   }
 )(GroupViewContainer);

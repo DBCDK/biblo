@@ -30,9 +30,6 @@
 
     .activity-row--children {
       @include span(18 of 24);
-
-      border: #e0e0e0 solid 1px;
-      border-radius: 5px;
       margin: 10px;
       padding: 5px;
     }

@@ -13,7 +13,7 @@ export default function CommentView({content, image, timeCreated, owner}) {
       </div>
       <div className='comment' >
         <div className='comment--header' >
-          <span className='username' >{owner.displayName}</span> <span className='time' >{TimeToString(timeCreated)}</span>
+          <a href={`/profil/${owner.id}`}><span className='username' >{owner.displayName}</span></a> <span className='time' >{TimeToString(timeCreated)}</span>
         </div>
         <p className='content' >{content}</p>
         {

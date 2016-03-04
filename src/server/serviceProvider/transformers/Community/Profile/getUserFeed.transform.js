@@ -80,10 +80,7 @@ const getUserFeedTransform = {
       post.timeCreated = post.timeCreated || '2016-03-03T12:49:19.000Z';
       post.imageSrc = false;
 
-      if (post.image) {
-        post.imageSrc = `/billede/${post.image.id}/small`;
-      }
-      else if (post.group && post.group.coverImage) {
+      if (post.group && post.group.coverImage) {
         post.imageSrc = `/billede/${post.group.coverImage.id}/small`;
       }
 
@@ -95,13 +92,7 @@ const getUserFeedTransform = {
       comment.timeCreated = comment.timeCreated || '2001-01-01T12:00:00.000Z';
       comment.imageSrc = false;
 
-      if (comment.image) {
-        comment.imageSrc = `/billede/${comment.image.id}/small`;
-      }
-      else if (comment.post && comment.post.image) {
-        comment.imageSrc = `/billede/${comment.post.image.id}/small`;
-      }
-      else if (comment.post && comment.post.group && comment.post.group.coverImage) {
+      if (comment.post && comment.post.group && comment.post.group.coverImage) {
         comment.imageSrc = `/billede/${comment.post.group.coverImage.id}/small`;
       }
 

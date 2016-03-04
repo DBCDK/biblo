@@ -40,7 +40,7 @@ class PostView extends React.Component {
         </div>
         <div className='post'>
           <div className='post--header'>
-            <span className='username'>{owner.displayName}</span>
+            <a href={`/profil/${owner.id}`}><span className='username'>{owner.displayName}</span></a>
             <span className='time'>{TimeToString(timeCreated)}</span>
             <span className='buttons'>
               <TinyButton icon={<Icon glyph={flagSvg}/>}/>
@@ -67,7 +67,7 @@ class PostView extends React.Component {
           </div>
           {this.state.isCommentInputVisible &&
           <div className="comment-add-wrapper">
-            <CommentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={id} type="comment"
+            <CommentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id} type="comment"
                         abort={e => this.toggleCommentInput(e)}/>
           </div>
           ||
@@ -91,5 +91,6 @@ PostView.propTypes = {
   comments: React.PropTypes.array,
   commentsCount: React.PropTypes.number,
   numberOfCommentsLoaded: React.PropTypes.number,
-  loadingComments: React.PropTypes.bool
+  loadingComments: React.PropTypes.bool,
+  commentRedirect: React.PropTypes.string
 };

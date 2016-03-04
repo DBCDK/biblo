@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import PageLayout from '../../Layout/PageLayout.component';
@@ -18,7 +17,6 @@ class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     let feed = this.props.feed.feed.map((activity) => {
-      console.log(activity);
       switch (activity.type) {
         case 'comment':
           let title = userProfile.displayName + ' skrev en kommentar';

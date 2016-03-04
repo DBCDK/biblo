@@ -23,6 +23,6 @@ export default function Tabs({tabs, selected, onClick}) {
       </ul>
     </div>
   );
-};
+}
 
 Tabs.displayName = 'Tabs';

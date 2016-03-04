@@ -5,6 +5,8 @@
  */
 
 import React from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
@@ -12,8 +14,60 @@ import ActivityRow from './ActivityRow.component';
 
 import './ProfileDetailContainer.component.scss';
 
-export default class ProfileDetailContainer extends React.Component {
+class ProfileDetailContainer extends React.Component {
   render() {
+    let userProfile = this.props.feed.profile;
+    let feed = this.props.feed.feed.map((activity) => {
+      console.log(activity);
+      switch (activity.type) {
+        case 'comment':
+          let title = userProfile.displayName + ' skrev en kommentar';
+
+          if (activity.post && activity.post.group && activity.post.group.name) {
+            title += ' til et indlæg i gruppen ' + activity.post.group.name + ':';
+          }
+          else {
+            title += ' til et indlæg:';
+          }
+
+          return (
+            <ActivityRow
+              date={activity.timeCreated}
+              likes={0}
+              imageSrc={activity.imageSrc}
+              key={'comment_' + activity.id}
+              answerFunction={() => {}}
+              title={title}
+            >
+              <p>{activity.content}</p>
+            </ActivityRow>
+          );
+
+        case 'post':
+          return (
+            <ActivityRow
+              date={activity.timeCreated}
+              likes={0}
+              imageSrc={activity.imageSrc}
+              key={'post_' + activity.id}
+              answerFunction={() => {}}
+              title={userProfile.displayName + ' oprettede et indlæg i gruppen ' + activity.group.name + ':'}
+            >
+              <p>{activity.content}</p>
+            </ActivityRow>
+          );
+
+        default:
+          return '';
+      }
+    });
+
+    let desc = '';
+
+    if (userProfile.description && userProfile.description.length > 0) {
+      desc = <p>“{userProfile.description}”</p>;
+    }
+
     return (
       <PageLayout>
         <div className="p-detail--image-container">
@@ -21,47 +75,14 @@ export default class ProfileDetailContainer extends React.Component {
         </div>
 
         <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname">Sofiiie92</p>
-          <p>“Selv om livet er svært... er det ret sjovt alligevel”</p>
+          <p className="p-detail--displayname">{userProfile.displayName}</p>
+          {desc}
           <button>Følg</button>
         </div>
 
-        <ActivityRow>
-          <strong>Se hvad Sofiie92 har lavet:</strong>
-        </ActivityRow>
+        <ActivityRow title="Se hvad Sofiie92 har lavet:" />
 
-        <ActivityRow date="3002">
-          <p>
-            Sausage dolore voluptate, brisket corned beef officia ad eu shankle porchetta turducken jowl short ribs. Ham hock porchetta tongue excepteur aute. Quis aliquip andouille consequat shank do sed ipsum pork laboris esse anim tongue ball tip. Veniam drumstick nulla ut, culpa exercitation rump salami prosciutto mollit et. Ut ut mollit fatback consequat quis ex t-bone pork shankle. Esse officia salami pastrami andouille velit pig shoulder tempor meatball turkey.
-          </p>
-        </ActivityRow>
-
-        <ActivityRow date={(new Date()).toISOString()} imageSrc="/no_group_image.png">
-          <p>bobby er sej!</p>
-        </ActivityRow>
-
-        <ActivityRow date="213" likes={15} answerFunction={() => {}}>
-          <p>
-            Bacon ipsum dolor amet consectetur tenderloin corned beef, filet mignon andouille landjaeger chicken cupidatat pastrami tri-tip duis id capicola leberkas. Picanha bacon shank, adipisicing aliqua ea beef ribs landjaeger. Pork loin nulla minim, commodo ut shoulder elit cupim. Ground round culpa picanha pancetta, nisi bresaola veniam consequat sed. Turducken ham exercitation ipsum magna quis pastrami shank. Beef ribs irure turkey duis occaecat, laboris kevin non pork chop labore incididunt aute magna spare ribs ullamco.
-          </p>
-        </ActivityRow>
-
-        <ActivityRow date={(new Date()).toISOString()} imageSrc="/no_group_image.png" likes={2} answerFunction={() => {}}>
-          <p>
-            Ground round pancetta voluptate kevin lorem tenderloin id meatloaf t-bone elit pig biltong aliquip. Sirloin meatloaf aute, excepteur shoulder pork loin tri-tip porchetta veniam magna beef cillum biltong labore. Leberkas ullamco ut, pancetta in culpa commodo chicken cupidatat. Jerky landjaeger meatloaf tongue filet mignon. Shankle ullamco nulla, boudin porchetta occaecat nisi strip steak elit picanha bacon andouille ground round rump quis. Reprehenderit ex strip steak, eu lorem sunt veniam cow prosciutto tenderloin excepteur duis cupidatat.
-          </p>
-        </ActivityRow>
-
-        <ActivityRow date={(new Date()).toISOString()} imageSrc="/no_group_image.png">
-          <p>
-            Ham strip steak ipsum prosciutto, esse culpa corned beef aute enim adipisicing in short loin chuck. Jerky est et ad aute. Consequat beef ribs do voluptate, ribeye rump meatball venison sirloin ut fatback turkey. Ball tip occaecat beef ribs, aliquip dolore porchetta deserunt shank. Brisket sirloin occaecat, rump in ullamco cow deserunt bresaola in voluptate turkey exercitation.
-            Ground round pancetta voluptate kevin lorem tenderloin id meatloaf t-bone elit pig biltong aliquip. Sirloin meatloaf aute, excepteur shoulder pork loin tri-tip porchetta veniam magna beef cillum biltong labore. Leberkas ullamco ut, pancetta in culpa commodo chicken cupidatat. Jerky landjaeger meatloaf tongue filet mignon. Shankle ullamco nulla, boudin porchetta occaecat nisi strip steak elit picanha bacon andouille ground round rump quis. Reprehenderit ex strip steak, eu lorem sunt veniam cow prosciutto tenderloin excepteur duis cupidatat.
-          </p>
-        </ActivityRow>
-
-        <ActivityRow date="1">
-          <p>bobbyboy!</p>
-        </ActivityRow>
+        {feed}
 
         <VisFlereButton onClick={() => {}} />
       </PageLayout>
@@ -70,3 +91,25 @@ export default class ProfileDetailContainer extends React.Component {
 }
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
+ProfileDetailContainer.propTypes = {
+  profile: React.PropTypes.object.isRequired,
+  feed: React.PropTypes.object.isRequired
+};
+
+/**
+ * Connect the redux state and actions to container props
+ */
+export default connect(
+  // Map redux state to props
+  (state) => {
+    return {
+      profile: state.profileReducer,
+      feed: state.profileFeedReducer
+    };
+  },
+
+  // Map actions to props
+  () => {
+    return {};
+  }
+)(ProfileDetailContainer);

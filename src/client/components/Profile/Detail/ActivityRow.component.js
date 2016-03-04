@@ -10,15 +10,15 @@ import backSvg from '../../General/Icon/svg/functions/back.svg';
 
 import './ActivityRow.component.scss';
 
-export default function ActivityRow({children, imageSrc, date, answerFunction, likes}) {
+export default function ActivityRow({children, imageSrc, date, answerFunction, likes, title}) {
   let image = '';
 
   if (imageSrc) {
     image = <img src={imageSrc} />;
   }
 
-  let like = '';
-  let answerButton = '';
+  let like, answerButton, activityTitle, childHtml;
+  like = answerButton = activityTitle = childHtml = '';
 
   if (answerFunction) {
     answerButton = (
@@ -36,6 +36,18 @@ export default function ActivityRow({children, imageSrc, date, answerFunction, l
     );
   }
 
+  if (title) {
+    activityTitle = <h3>{title}</h3>;
+  }
+
+  if (children) {
+    childHtml = (
+      <div className={'activity-row--children' + (imageSrc ? '' : ' no-image')}>
+        {children}
+      </div>
+    );
+  }
+
   let likeAnswer = (
     <div className="activity-row--like-answer">
       {answerButton} {like}
@@ -45,18 +57,18 @@ export default function ActivityRow({children, imageSrc, date, answerFunction, l
   return (
     <div className="activity-row--container">
       <div className="activity-row">
+        <div className="activity-row--title">
+          {activityTitle}
+          <div className='activity-row--date'>
+            {date ? TimeToString(date) : ''}
+          </div>
+        </div>
+
         <div className={'activity-row--image'}>
           {image}
         </div>
 
-        <div className={'activity-row--children' + (imageSrc ? '' : ' no-image')}>
-          <div className='activity-row--date'>
-            {date ? TimeToString(date) : ''}
-          </div>
-
-          {children}
-        </div>
-
+        {childHtml}
         {likeAnswer}
       </div>
       <hr />

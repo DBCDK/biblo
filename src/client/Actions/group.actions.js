@@ -40,6 +40,12 @@ export function changeImage(file, src) {
   };
 }
 
+export function listGroups () {
+  return {
+    type: types.LIST_GROUPS
+  }
+}
+
 export function changeGroupColour(colourEvent) {
   return {
     type: types.CHANGE_GROUP_COLOUR,

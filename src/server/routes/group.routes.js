@@ -196,7 +196,7 @@ GroupRoutes.post('/content/:type', upload.single('image'), (req, res) => {
   });
 });
 
-GroupRoutes.get('/', (req, res) => {
+/*GroupRoutes.get('/', (req, res) => {
   let data = {};
   let windowData = {
     propertyName: 'DATA',
@@ -208,6 +208,32 @@ GroupRoutes.get('/', (req, res) => {
     js: ['/js/groups.js'],
     data: [windowData]
   });
-});
+});*/
+
+
+function listGroups(groupData, res) {
+  res.render('page', {
+    css     : ['/css/groups.css'],
+    js      : ['/js/groups.js'],
+    jsonData: [JSON.stringify({groupData})]
+  });
+}
+
+
+GroupRoutes.get('/',  (req, res) => getGroups(req.params, req, res));
+async function getGroups(params, req, res, update = {}) {
+  //try {
+    let response = (await req.callServiceProvider('listGroups', {}))[0];
+    listGroups(Object.assign(response, update), res);
+  //} catch (e){
+  //  console.log(e);
+  //}
+
+}
+
+
+
+
+
 
 export default GroupRoutes;

@@ -11,13 +11,15 @@ import groupViewReducer from './groupView.reducer';
 import profileReducer from './profile.reducer';
 import profileFeedReducer from './profileFeed.reducer';
 import entitySuggestReducer from './entitySuggestLibrary.reducer';
+import listGroupsReducer from './listGroups.reducer';
 
 const rootReducer = combineReducers({
   groupCreateReducer,
   groupViewReducer,
   profileReducer,
   profileFeedReducer,
-  entitySuggestReducer
+  entitySuggestReducer,
+  listGroupsReducer
 });
 
 export default rootReducer;

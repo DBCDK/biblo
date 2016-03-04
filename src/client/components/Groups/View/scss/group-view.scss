@@ -33,6 +33,11 @@
   overflow: hidden;
 }
 
+.group--tile {
+  display: inline-block;
+  text-align: center;
+}
+
 .group--content {
   @include min-screen($tablet) {
     @include span(8);

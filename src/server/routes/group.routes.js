@@ -168,7 +168,7 @@ async function fetchGroupData(params, req, res, update = {}) {
     group.numberOfPostsLoaded = group.posts.length;
     showGroup(Object.assign(group, update), res);
   }
-  catch (e) {
+  catch (e) { // eslint-disable-line no-catch-shadow
     res.redirect('/error');
   }
 }

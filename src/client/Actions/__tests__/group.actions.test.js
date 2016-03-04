@@ -26,7 +26,7 @@ describe('test group actions', () => {
       type: types.CHANGE_GROUP_IMAGE
     }];
 
-    const store = mockStore({}, expected, () => {done(); xhrMock.restore();}); // eslint-disable-line brace-style
+    const store = mockStore({}, expected, () => {done(); xhrMock.restore(); }); // eslint-disable-line brace-style
     store.dispatch(actions.asyncChangeImage(imageFile));
   });
 
@@ -49,7 +49,7 @@ describe('test group actions', () => {
         type: types.CHANGE_GROUP_IMAGE
       }];
     }
-    catch (e) {
+    catch (e) { // eslint-disable-line no-catch-shadow
       expected = [{
         imageFile: imageFile,
         imageSrc: 'data:image/png;base64,ZGV0dGVlcmVuYmlsbGVkZmls',
@@ -57,7 +57,7 @@ describe('test group actions', () => {
       }];
     }
 
-    mockStore({}, expected, () => {done(); xhrMock.restore();}) // eslint-disable-line brace-style
+    mockStore({}, expected, () => {done(); xhrMock.restore(); }) // eslint-disable-line brace-style
       .dispatch(actions.asyncChangeImage(imageFile));
 
     // restore filereader support
@@ -102,7 +102,7 @@ describe('test group actions', () => {
       setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, '{"status":"OK"}'), 10);
     };
 
-    const store = mockStore({}, expected, () => {done(); xhrMock.restore();}); // eslint-disable-line brace-style
+    const store = mockStore({}, expected, () => {done(); xhrMock.restore(); }); // eslint-disable-line brace-style
     store.dispatch(actions.asyncSubmitGroupCreateForm(imageFile, name, description, colour));
 
     expected = {
@@ -119,7 +119,7 @@ describe('test group actions', () => {
       setTimeout(() => xhr.respond(403, {'Content-Type': 'application/json'}, '{"status":"UNAUTHORIZED"}'), 10);
     };
 
-    mockStore({}, expected, () => {done(); xhrMock.restore();}) // eslint-disable-line brace-style
+    mockStore({}, expected, () => {done(); xhrMock.restore(); }) // eslint-disable-line brace-style
       .dispatch(actions.asyncSubmitGroupCreateForm(imageFile, name, description, colour));
 
   });
@@ -161,7 +161,7 @@ describe('test group actions', () => {
       setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, '{"status":"OK"}'), 10);
     };
 
-    const store = mockStore({}, expected, () => {done(); xhrMock.restore();}); // eslint-disable-line brace-style
+    const store = mockStore({}, expected, () => {done(); xhrMock.restore(); }); // eslint-disable-line brace-style
     store.dispatch(actions.asyncSubmitGroupCreateForm(null, name, description, colour));
   });
 

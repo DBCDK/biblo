@@ -47,3 +47,6 @@ export const ADD_POST = 'ADD_POST';
 export const FIND_LIBRARIES = 'FIND_LIBRARIES';
 export const SELECT_SUGGESTED_LIBRARY = 'SELECT_SUGGESTED_LIBRARY';
 export const UNSELECT_LIBRARY = 'UNSELECT_LIBRARY';
+
+// Feed actions
+export const GET_USER_FEED = 'GET_USER_FEED';

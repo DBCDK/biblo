@@ -13,7 +13,7 @@ import GroupList from './List/GroupList.component';
 import RoundedButton from '../General/RoundedButton/RoundedButton.a.component.js';
 import {CREATE_GROUP_LINK} from '../../Constants/hyperlinks.constants';
 
-export default class GroupsContainer extends React.Component {
+export class GroupsContainer extends React.Component {
   render() {
     return (
       <PageLayout>

@@ -9,13 +9,12 @@ import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once} from 'lodash';
 
-
 const joinGroup = SocketClient('joinGroup');
 const getGroup = SocketClient('getGroup');
 const leaveGroup = SocketClient('leaveGroup');
-
 const getGroupListener = once(getGroup.response);
-
+const loadPosts = SocketClient('getPosts');
+const loadComments = SocketClient('getComments');
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
@@ -148,7 +147,6 @@ export function groupFormUploadProgress(e) {
   };
 }
 
-
 export function asyncGroupFollow(enableFollow, groupId, profileId) {
   return function (dispatch) {
     dispatch(groupFollow(enableFollow));
@@ -203,5 +201,49 @@ export function groupMembersExpand(expand, members = null) {
 export function groupMembersLoading() {
   return {
     type: types.GROUP_MEMBERS_LOADING
+  };
+}
+
+export function asyncShowMorePosts(id, skip, limit) {
+  return function (dispatch) {
+    loadPosts.request({id, skip, limit});
+    const event = loadPosts.response(response => {
+      dispatch(showMorePosts(response, skip + limit));
+      event.off();
+    });
+  };
+}
+export function showMorePosts(posts, numberOfPostsLoaded) {
+  return {
+    type: types.GROUP_SHOW_MORE_POSTS,
+    posts,
+    numberOfPostsLoaded
+  };
+}
+
+export function asyncShowMoreComments(id, skip, limit) {
+  return function (dispatch) {
+    dispatch(moreCommentsLoading(id));
+    loadComments.request({id, skip, limit});
+    const event = loadComments.response(response => {
+      dispatch(showMoreComments(id, response, skip + limit));
+      event.off();
+    });
+  };
+}
+
+export function moreCommentsLoading(postId) {
+  return {
+    type: types.GROUP_LOADING_MORE_COMMENTS,
+    postId
+  };
+}
+
+export function showMoreComments(id, comments, numberOfCommentsLoaded) {
+  return {
+    type: types.GROUP_SHOW_MORE_COMMENTS,
+    id,
+    comments,
+    numberOfCommentsLoaded
   };
 }

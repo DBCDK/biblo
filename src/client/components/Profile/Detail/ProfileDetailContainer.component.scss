@@ -1,0 +1,49 @@
+@import "tools";
+@import "settings";
+
+.p-detail--image-container {
+  background: linear-gradient(180deg, #d784e7 70%, #ffffff 30%);
+  padding-top: 100px;
+
+  img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+.p-detail--displayname-description-follow {
+  align-content: center;
+  text-align: center;
+
+  p {
+    margin: 5px;
+    font-family: $body-font;
+    font-weight: 600;
+  }
+}
+
+.p-detail--displayname {
+  font-size: 16pt;
+}
+
+.p-detail--groups-button--container, .p-detail--flag-button--container {
+  display: inline-block;
+  border: #f2f2f2 solid 2px;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+
+  p {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.p-detail--groups-button--container:hover, .p-detail--flag-button--container:hover {
+  background-color: #b0a8a8;
+  border-color: #b0a8a8;
+}

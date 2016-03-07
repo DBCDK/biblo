@@ -3,7 +3,8 @@
 import React from 'react';
 import PostView from './PostView.component.js';
 
-export default function PostList({posts = [], profile = {}, groupId, uiActions}) {
+
+export default function PostList({posts = [], profile = {}, groupId= null, uiActions = null}) {
   return (
     <div className='post-list' >
       {

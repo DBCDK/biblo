@@ -1,0 +1,22 @@
+@import "tools";
+@import "settings";
+
+.show-more-button--container {
+  .show-more-button {
+    border: #eeeeee solid 1px;
+    border-radius: 2px;
+    padding: 7px;
+    align-content: center;
+    font-family: $header-font;
+    display: inline-block;
+    cursor: pointer;
+
+    svg {
+      fill: #938ee9;
+    }
+  }
+
+  margin: 12px;
+  overflow: hidden;
+  text-align: center;
+}

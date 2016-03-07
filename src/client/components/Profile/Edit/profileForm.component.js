@@ -50,6 +50,12 @@ export default class ProfileForm extends React.Component {
     );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.favoriteLibrary && this.state.libraryId !== nextProps.favoriteLibrary.libraryId) {
+      this.setState({libraryId: nextProps.favoriteLibrary.libraryId});
+    }
+  }
+
   render() {
     const errorObj = {};
     this.props.errors.forEach((error) => {
@@ -192,7 +198,7 @@ export default class ProfileForm extends React.Component {
                 <input
                   type='hidden'
                   name='libraryId'
-                  value={this.props.favoriteLibrary.libraryId || '100451'}
+                  value={this.state.libraryId}
                   ref="libraryId"
                 />
               </div>

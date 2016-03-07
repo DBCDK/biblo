@@ -19,7 +19,8 @@ describe('Test GroupView Component', () => {
     id: 1,
     image: 'test_image',
     name: 'test name',
-    posts: []
+    posts: [],
+    postsCount: 0
   };
 
   const profile = {
@@ -27,7 +28,7 @@ describe('Test GroupView Component', () => {
   };
 
   it('Group View Component is being rendered', () => {
-    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile}/>);
+    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} />);
     assert.equal(group.description, tree.subTree('.group--description').text());
     assert.equal(group.name, tree.subTree('.group--title').text());
 
@@ -62,12 +63,16 @@ describe('Test GroupView Component', () => {
       timeCreated: '2016-02-19T12:34:11.000Z',
       title: ' '
     }];
-    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile}/>);
+    group.postsCount = 1;
+    const actions = {};
+
+    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={actions}/>);
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '1 bruger skriver');
     assert.deepEqual(tree.subTree('PostList').getRenderOutput().props, {
       posts: group.posts,
       profile,
-      groupId: group.id
+      groupId: group.id,
+      actions: actions
     });
   });
 });

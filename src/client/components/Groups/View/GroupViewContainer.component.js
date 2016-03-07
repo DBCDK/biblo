@@ -10,8 +10,10 @@ import GroupHeader from './GroupViewHeader.component.js';
 import GroupMembersBox from './GroupViewMembersBox.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
+
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
+import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import './scss/group-view.scss';
 
 export class GroupViewContainer extends React.Component {
@@ -45,10 +47,12 @@ export class GroupViewContainer extends React.Component {
         </PageLayout>
       );
     }
+
+    console.log(this.props.group);
     return (
       <PageLayout>
         <div className='group'>
-          <GroupHeader uri={this.props.group.image}/>
+          <GroupHeader uri={this.props.group.image || ''}/>
 
           <div className='group--content'>
             <div className="details">
@@ -59,7 +63,7 @@ export class GroupViewContainer extends React.Component {
               <div className='group--follow'>
                 <Follow active={this.state.following}
                         onClick={this.toggleFollow}
-                        text={this.state.following && 'Følger' || 'Følg gruppen'} />
+                        text={this.state.following && 'Følger' || 'Følg gruppen'}/>
               </div>
             </div>
             <div className='group--post-add'>
@@ -68,8 +72,14 @@ export class GroupViewContainer extends React.Component {
                        parentId={this.props.group.id} type="post"/>
             </div>
             <div className='group--post-view'>
-              <h2>{this.props.group.posts.length} {this.props.group.posts.length === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
-              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id} uiActions={this.props.uiActions}/>
+              <h2>{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
+              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
+                        actions={this.props.groupActions}  uiActions={this.props.uiActions}/>
+              {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
+              <ExpandButton isLoading={this.props.group.loadingPosts}
+                            onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
+                            text="Vis flere"/>
+              }
             </div>
           </div>
           <GroupMembersBox
@@ -93,7 +103,6 @@ GroupViewContainer.propTypes = {
   groupActions: React.PropTypes.object,
   uiActions: React.PropTypes.object
 };
-
 
 /**
  * Connect the redux state and actions to container props

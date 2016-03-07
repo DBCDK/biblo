@@ -1,12 +1,7 @@
 'use strict';
 
-
 import parseJsonData from '../Utils/parseJsonData.js';
-import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
-
-const defaultState = [
-];
 
 const groupData = parseJsonData('JSONDATA', 'groupData');
 

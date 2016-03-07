@@ -5,14 +5,14 @@ import GroupViewTile from '../View/GroupViewTile.component.js';
 
 export default function GroupList({groups = []}) {
   return (
-      <div className='group--list'>
-        {
-          groups && groups.map((item) => (
-            <GroupViewTile key={item.id} group={item}/>
-          ))
-        }
-      </div>
-  )
+    <div className='group--list'>
+      {
+        groups && groups.map((item) => (
+          <GroupViewTile key={item.id} group={item}/>
+        ))
+      }
+    </div>
+  );
 }
 
 GroupList.propTypes = {

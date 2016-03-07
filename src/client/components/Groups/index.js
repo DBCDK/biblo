@@ -5,6 +5,5 @@
  */
 import {renderComponent} from '../../App';
 import GroupsContainer from './GroupsContainer.component';
-import * as actions from  '../../Actions/group.actions';
 
 renderComponent(GroupsContainer, 'content');

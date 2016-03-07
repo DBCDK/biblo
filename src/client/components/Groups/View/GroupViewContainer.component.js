@@ -54,7 +54,6 @@ export class GroupViewContainer extends React.Component {
           <div className='group--content'>
             <div className="details">
               <h2 className='group--title'>{this.props.group.name}</h2>
-
               <p className='group--description'>{this.props.group.description}</p>
 
               <div className='group--follow'>

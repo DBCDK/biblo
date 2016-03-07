@@ -3,8 +3,7 @@
  * @file
  * entry point for the search page
  */
-import React from 'react';
-import ReactDOM from 'react-dom';
+
 import FrontpageContainer from './FrontpageContainer.component';
 import {renderComponent} from '../../App';
 

@@ -48,7 +48,6 @@ export class GroupViewContainer extends React.Component {
       );
     }
 
-    console.log(this.props.group);
     return (
       <PageLayout>
         <div className='group'>
@@ -74,7 +73,7 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-view'>
               <h2>{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        actions={this.props.groupActions}  uiActions={this.props.uiActions}/>
+                        actions={this.props.groupActions} uiActions={this.props.uiActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}

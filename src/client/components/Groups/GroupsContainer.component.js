@@ -17,9 +17,8 @@ export class GroupsContainer extends React.Component {
   render() {
     return (
       <PageLayout>
-        <h1>Velkommen til grupper!</h1>
         <RoundedButton buttonText='Opret en gruppe!' href={CREATE_GROUP_LINK}/>
-        <GroupList groups={this.props.groups}/>
+        <GroupList title="Velkommen til grupper!" groups={this.props.groups}/>
       </PageLayout>
     );
   }

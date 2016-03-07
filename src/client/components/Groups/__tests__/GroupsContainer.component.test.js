@@ -21,8 +21,7 @@ describe('GroupsContainer component tests', () => {
 
     const comp = TestUtils.renderIntoDocument(<GroupsContainer groups={groups}/>);
 
-    expect(ReactDOM.findDOMNode(comp).children[1].children[0].textContent).toEqual("Velkommen til grupper!");
-    expect(ReactDOM.findDOMNode(comp).children[1].children[2].textContent).toEqual("heste test 1 følger ");
+    expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent).toEqual('Velkommen til grupper!heste test 1 følger ');
 
   });
 });

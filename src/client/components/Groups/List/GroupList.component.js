@@ -6,7 +6,7 @@ import GroupViewTile from '../View/GroupViewTile.component.js';
 export default function GroupList({title, groups = []}) {
   return (
     <div className='group--list'>
-      <h1 className='fredoka-header'>{title}</h1>
+      <h2>{title}</h2>
       <hr/>
       {
         groups && groups.map((item) => (

@@ -4,8 +4,11 @@
 import './scss/group-view.scss';
 
 .group--list {
+  h2 {
+    font-family: $header-font;
+  }
   padding-left: 10px;
   padding-left: 20px;
-  padding-bottom: 20px;
   display:block;
+  text-decoration: underline;
 }

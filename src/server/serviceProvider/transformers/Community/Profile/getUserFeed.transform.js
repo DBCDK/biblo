@@ -17,28 +17,36 @@ const getUserFeedTransform = {
    *
    * @param event
    * @param userId
+   * @param offset
    * @param connection
    * @returns {Promise}
    */
-  requestTransform(event, userId, connection) {
+  requestTransform(event, {userId, offset}, connection) {
     return new Promise((resolve, reject) => {
       const user = connection.request.user || {id: ''};
       const accessToken = user.id;
+      offset = offset || 0;
+      const commentsWhere = {
+        commentownerid: userId
+      };
+
+      const postsWhere = {
+        postownerid: userId
+      };
+
       const postsFilter = {
-        where: {
-          postownerid: userId
-        },
+        where: postsWhere,
         include: [
           {relation: 'group', scope: {include: ['coverImage']}},
           'image'
         ],
-        limit: 10
+        limit: 5,
+        skip: offset,
+        order: 'timeCreated DESC'
       };
 
       const commentsFilter = {
-        where: {
-          commentownerid: userId
-        },
+        where: commentsWhere,
         include: [
           {
             relation: 'post',
@@ -53,13 +61,17 @@ const getUserFeedTransform = {
           },
           'image'
         ],
-        limit: 10
+        limit: 5,
+        skip: offset,
+        order: 'timeCreated DESC'
       };
 
       Promise.all([
         this.callServiceClient('community', 'getPosts', {accessToken, filter: postsFilter}),
         this.callServiceClient('community', 'getAllComments', {accessToken, filter: commentsFilter}),
-        this.callServiceClient('community', 'getFullProfile', {accessToken, uid: userId})
+        this.callServiceClient('community', 'getFullProfile', {accessToken, uid: userId}),
+        this.callServiceClient('community', 'countComments', {accessToken, where: commentsWhere}),
+        this.callServiceClient('community', 'countPosts', {accessToken, where: postsWhere})
       ])
         .then((response) => {
           resolve(response);
@@ -74,7 +86,7 @@ const getUserFeedTransform = {
    * @param {Object} response
    * @return {Object}
    */
-  responseTransform(response) {
+  responseTransform(response, query) {
     let posts = (JSON.parse(response[0].body) || []).map((post) => {
       post.type = 'post';
       post.timeCreated = post.timeCreated || '2016-03-03T12:49:19.000Z';
@@ -138,8 +150,15 @@ const getUserFeedTransform = {
       };
     }
 
+    let count = {
+      commentsTotal: JSON.parse(response[3].body).count,
+      postsTotal: JSON.parse(response[4].body).count,
+      comments: comments.length + (query.offset || 0),
+      posts: posts.length + (query.offset || 0)
+    };
+
     return {
-      body: {feed, profile},
+      body: {feed, profile, count},
       statusCode: response[0].statusCode,
       statusMessage: response[0].statusMessage
     };

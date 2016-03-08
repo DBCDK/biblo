@@ -9,8 +9,10 @@ import expect from 'expect';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
+import {renderComponent} from '../../../../App';
 
 import {GroupCreateContainer} from '../GroupCreateContainer.component';
+
 
 import groupCreateReducer from '../../../../Reducers/groupCreate.reducer';
 
@@ -27,11 +29,20 @@ describe('Test group create container', () => {
       asyncChangeImage: noop
     };
 
+    let uiActions = {
+      openModalWindow: noop,
+      closeModalWindow: noop
+    };
+
     let component = (
       <GroupCreateContainer
         group={group}
-        actions={actions} />
+        actions={actions}
+        uiActions={uiActions}
+        />
     );
+
+
     let dm = TestUtils.renderIntoDocument(component);
     let dmn = ReactDOM.findDOMNode(dm);
     expect(dmn.innerHTML).toContain('Opret gruppe');

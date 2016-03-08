@@ -35,12 +35,27 @@ class PostView extends React.Component {
   }
 
   render() {
-    const {content, image, timeCreated, owner, id, profile, groupId, comments, commentsCount, numberOfCommentsLoaded, actions, loadingComments} = this.props;
+    const {
+      groupActions,
+      content,
+      image,
+      timeCreated,
+      owner,
+      id,
+      profile,
+      groupId,
+      comments,
+      uiActions,
+      commentsCount,
+      numberOfCommentsLoaded,
+      loadingComments,
+      commentRedirect
+    } = this.props;
 
     const flagModalContent = (
       <CreateFlagDialog
         submitFunction={this.submitFlag}
-        onClose={this.props.uiActions.closeModalWindow}
+        onClose={uiActions.closeModalWindow}
         contentType={'post'}
         contentId={id}
       />
@@ -79,7 +94,7 @@ class PostView extends React.Component {
 
           <div className="post--load-more-comments">
             {commentsCount > numberOfCommentsLoaded &&
-            <ExpandButton isLoading={loadingComments} onClick={() => actions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)} text="Vis flere" />
+            <ExpandButton isLoading={loadingComments} onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)} text="Vis flere" />
             }
             {commentsCount && <span
               className="post--comment-count">{commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}</span>
@@ -102,7 +117,7 @@ class PostView extends React.Component {
 }
 
 PostView.propTypes = {
-  actions: React.PropTypes.object,
+  groupActions: React.PropTypes.object,
   content: React.PropTypes.string,
   image: React.PropTypes.string,
   timeCreated: React.PropTypes.string,

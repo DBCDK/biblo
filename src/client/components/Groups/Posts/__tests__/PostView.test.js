@@ -5,11 +5,25 @@ import TestUtils from 'react-addons-test-utils';
 import {expect} from 'chai';
 import sd from 'skin-deep';
 
-
+import * as uiActions from '../../../../Actions/ui.actions.js';
 import PostView from '../PostView.component';
 import AddContent from '../../AddContent/AddContent.component';
 
 describe('Test of Comment Components', () => {
+
+  const noop = () => {};
+
+  // actions for this test (just use spies)
+  let groupActions = {
+    changeGroupColour: noop,
+    asyncChangeImage: noop
+  };
+
+  let uiActions = {
+    openModalWindow: noop,
+    closeModalWindow: noop
+  };
+
   const props = {
     id: 1,
     groupId: 1,
@@ -22,7 +36,9 @@ describe('Test of Comment Components', () => {
     },
     profile: {
       userIsLoggedIn: true
-    }
+    },
+    uiActions: uiActions,
+    groupActions: groupActions
   };
 
   it('it should show generate html', () => {

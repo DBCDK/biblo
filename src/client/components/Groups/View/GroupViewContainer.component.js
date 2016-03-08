@@ -10,6 +10,7 @@ import GroupHeader from './GroupViewHeader.component.js';
 import GroupMembersBox from './GroupViewMembersBox.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component.js';
 
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
@@ -48,8 +49,14 @@ export class GroupViewContainer extends React.Component {
       );
     }
 
+    console.log(this.props);
+
+    const modal = (this.props.ui.modal.isOpen) ? <ModalWindow onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
+
+
     return (
       <PageLayout>
+        {modal}
         <div className='group'>
           <GroupHeader uri={this.props.group.image || ''}/>
 
@@ -73,7 +80,7 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-view'>
               <h2>{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        actions={this.props.groupActions} uiActions={this.props.uiActions}/>
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
@@ -100,7 +107,8 @@ GroupViewContainer.propTypes = {
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
   groupActions: React.PropTypes.object,
-  uiActions: React.PropTypes.object
+  uiActions: React.PropTypes.object,
+  ui: React.PropTypes.object
 };
 
 /**
@@ -111,7 +119,8 @@ export default connect(
   (state) => {
     return {
       profile: state.profileReducer,
-      group: state.groupViewReducer
+      group: state.groupViewReducer,
+      ui: state.uiReducer
     };
   },
 

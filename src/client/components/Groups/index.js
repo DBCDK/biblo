@@ -10,7 +10,4 @@ import GroupsContainer from './GroupsContainer.component';
 /**
  * Client side rendering of the Frontpage Component
  */
-ReactDOM.render(
-  <GroupsContainer />,
-  document.getElementById('content')
-);
+renderComponent(GroupsContainer, 'content');

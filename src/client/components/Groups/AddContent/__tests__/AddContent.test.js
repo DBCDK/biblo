@@ -12,7 +12,7 @@ describe('Test of AddConent Component', () => {
     userIsLoggedIn: true
   };
   const defaultComponent = TestUtils.renderIntoDocument(
-    <AddContent profile={profile} parentId="1" type="test" redirectTo="some_url"/>);
+    <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
 
   it('it should render form', () => {
     const component = defaultComponent;
@@ -36,7 +36,7 @@ describe('Test of AddConent Component', () => {
 
   it('it should add image to state + show exampleimage', () => {
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId="1" type="test" redirectTo="some_url"/>);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
     sinon.stub(component, 'readURL', () => { // eslint-disable-line no-undef
       component.setState({image: 'some_image_url'});
     });
@@ -62,7 +62,7 @@ describe('Test of AddConent Component', () => {
   it('it should call abort action', () => {
     const abort = sinon.spy(); // eslint-disable-line no-undef
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId="1" type="test" redirectTo="some_url" abort={abort}/>);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort}/>);
     let input = TestUtils.findRenderedDOMComponentWithClass(component, 'alert');
     expect(ReactDom.findDOMNode(input).value).to.be.eql('Fortryd');
     TestUtils.Simulate.click(input);
@@ -73,7 +73,7 @@ describe('Test of AddConent Component', () => {
   it('it should be hidden if user not logged in', () => {
     profile.userIsLoggedIn = false;
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId="1" type="test" redirectTo="some_url"/>);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
     let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
     expect(form.length).to.be.eql(0);
     let aTag = TestUtils.findRenderedDOMComponentWithTag(component, 'a');

@@ -193,7 +193,6 @@ export function asyncGroupMembersExpand(expand, groupId) {
   return (dispatch) => {
     dispatch(groupMembersExpand(expand));
   };
-
 }
 
 export function groupMembersExpand(expand, members = null) {

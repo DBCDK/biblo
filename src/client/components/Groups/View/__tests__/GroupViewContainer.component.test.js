@@ -27,8 +27,29 @@ describe('Test GroupView Component', () => {
     userIsLoggedIn: true
   };
 
+
+  const ui = {
+    modal: {
+      isOpen: false,
+      children: null
+    }
+  };
+
+  const noop = () => {};
+
+  // actions for this test (just use spies)
+  let groupActions = {
+    changeGroupColour: noop,
+    asyncChangeImage: noop
+  };
+
+  let uiActions = {
+    openModalWindow: noop,
+    closeModalWindow: noop
+  };
+
   it('Group View Component is being rendered', () => {
-    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} />);
+    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={groupActions} uiActions={uiActions} ui={ui} />);
     assert.equal(group.description, tree.subTree('.group--description').text());
     assert.equal(group.name, tree.subTree('.group--title').text());
 
@@ -66,13 +87,7 @@ describe('Test GroupView Component', () => {
     group.postsCount = 1;
     const actions = {};
 
-    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={actions}/>);
+    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={actions} uiActions={uiActions} ui={ui} />);
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '1 bruger skriver');
-    assert.deepEqual(tree.subTree('PostList').getRenderOutput().props, {
-      posts: group.posts,
-      profile,
-      groupId: group.id,
-      actions: actions
-    });
   });
 });

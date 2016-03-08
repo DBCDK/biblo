@@ -9,10 +9,8 @@ import expect from 'expect';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import {renderComponent} from '../../../../App';
 
 import {GroupCreateContainer} from '../GroupCreateContainer.component';
-
 
 import groupCreateReducer from '../../../../Reducers/groupCreate.reducer';
 

@@ -19,11 +19,6 @@ describe('Test of Comment Components', () => {
     asyncChangeImage: noop
   };
 
-  let uiActions = {
-    openModalWindow: noop,
-    closeModalWindow: noop
-  };
-
   const props = {
     id: 1,
     groupId: 1,

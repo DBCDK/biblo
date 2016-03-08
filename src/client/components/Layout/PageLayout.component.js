@@ -34,5 +34,5 @@ export default class PageLayout extends React.Component {
 }
 
 PageLayout.propTypes = {
-  children: PropTypes.any.isRequired,
+  children: PropTypes.any.isRequired
 };

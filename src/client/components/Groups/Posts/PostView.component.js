@@ -48,8 +48,7 @@ class PostView extends React.Component {
       uiActions,
       commentsCount,
       numberOfCommentsLoaded,
-      loadingComments,
-      commentRedirect
+      loadingComments
     } = this.props;
 
     const flagModalContent = (

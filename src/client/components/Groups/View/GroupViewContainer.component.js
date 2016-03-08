@@ -49,10 +49,7 @@ export class GroupViewContainer extends React.Component {
       );
     }
 
-    console.log(this.props);
-
     const modal = (this.props.ui.modal.isOpen) ? <ModalWindow onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
-
 
     return (
       <PageLayout>
@@ -63,7 +60,6 @@ export class GroupViewContainer extends React.Component {
           <div className='group--content'>
             <div className="details">
               <h2 className='group--title'>{this.props.group.name}</h2>
-
               <p className='group--description'>{this.props.group.description}</p>
 
               <div className='group--follow'>

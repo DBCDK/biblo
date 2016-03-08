@@ -56,7 +56,7 @@
     "connect-redis": "3.0.2",
     "css-loader": "0.23.1",
     "dbc-node-borchk": "^2.0.1",
-    "dbc-node-community-client": "^1.0.1",
+    "dbc-node-community-client": "^1.0.16",
     "dbc-node-entitysuggest": "^2.0.2",
     "dbc-node-logger": "^1.4.6",
     "dbc-node-serviceprovider": "^3.0.4",

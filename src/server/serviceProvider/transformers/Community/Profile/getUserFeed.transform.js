@@ -26,6 +26,10 @@ const getUserFeedTransform = {
       const user = connection.request.user || {id: ''};
       const accessToken = user.id;
       offset = offset || 0;
+      const profileFilter = {
+        include: ['image', {relation: 'groups', scope: {include: ['coverImage']}}]
+      };
+
       const commentsWhere = {
         commentownerid: userId
       };
@@ -69,7 +73,7 @@ const getUserFeedTransform = {
       Promise.all([
         this.callServiceClient('community', 'getPosts', {accessToken, filter: postsFilter}),
         this.callServiceClient('community', 'getAllComments', {accessToken, filter: commentsFilter}),
-        this.callServiceClient('community', 'getFullProfile', {accessToken, uid: userId}),
+        this.callServiceClient('community', 'getFullProfile', {accessToken, uid: userId, profileFilter}),
         this.callServiceClient('community', 'countComments', {accessToken, where: commentsWhere}),
         this.callServiceClient('community', 'countPosts', {accessToken, where: postsWhere})
       ])

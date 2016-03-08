@@ -14,11 +14,14 @@ import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
 import Follow from '../../General/Follow/Follow.component';
 import Icon from '../../General/Icon/Icon.component';
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
+import * as uiActions from '../../../Actions/ui.actions';
 
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
+import followersSvg from '../../General/Icon/svg/functions/followers.svg';
 
 import './ProfileDetailContainer.component.scss';
 
@@ -68,6 +71,7 @@ class ProfileDetailContainer extends React.Component {
                 actions={{}}
                 loadingComments={false}
                 commentRedirect={`/profil/${userProfile.id}`}
+                uiActions={this.props.uiActions}
               />
             </ActivityRow>
           );
@@ -92,6 +96,7 @@ class ProfileDetailContainer extends React.Component {
                 numberOfCommentsLoaded={0}
                 actions={{}}
                 loadingComments={false}
+                uiActions={this.props.uiActions}
               />
             </ActivityRow>
           );
@@ -127,8 +132,18 @@ class ProfileDetailContainer extends React.Component {
       );
     }
 
+    const modal = (
+      (this.props.ui.modal.isOpen) ?
+        (<ModalWindow onClose={() => {this.props.uiActions.closeModalWindow()}}>
+          {this.props.ui.modal.children}
+        </ModalWindow>) :
+        null
+    );
+
     return (
       <PageLayout>
+        {modal}
+
         <div className="p-detail--image-container">
           <img src={userProfile.image || '/no_profile.png'} alt={userProfile.displayName} />
         </div>
@@ -137,12 +152,18 @@ class ProfileDetailContainer extends React.Component {
           <p className="p-detail--displayname">{userProfile.displayName}</p>
           {desc}
           <Follow active={false} text="Følg" />
+          <div className="p-detail--report-container">
+            <a className="p-detail--report-anchor" href="#!flagUser" onClick={() => {console.log('flag person!');}}>
+              <Icon glyph={flagSvg} height={30} />
+              <p> Anmeld </p>
+            </a>
+          </div>
           <div className="p-detail--groups-flag-buttons--container">
             <a href="#!Grupper" className="p-detail--groups-button--container">
               <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
             </a>
-            <a href="#!FlagUser" className="p-detail--flag-button--container">
-              <div className="p-detail--flag-button"> <Icon glyph={flagSvg} width={42} height={42} /><p> Anmeld </p></div>
+            <a href="#!Followers" className="p-detail--flag-button--container">
+              <div className="p-detail--flag-button"> <Icon glyph={followersSvg} width={42} height={42} /><p> Følgere </p></div>
             </a>
           </div>
         </div>
@@ -160,7 +181,8 @@ ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
-  feedActions: React.PropTypes.object.isRequired
+  feedActions: React.PropTypes.object.isRequired,
+  uiActions: React.PropTypes.object.isRequired
 };
 
 /**
@@ -171,14 +193,16 @@ export default connect(
   (state) => {
     return {
       profile: state.profileReducer,
-      feed: state.profileFeedReducer
+      feed: state.profileFeedReducer,
+      ui: state.uiReducer
     };
   },
 
   // Map actions to props
   (dispatcher) => {
     return {
-      feedActions: bindActionCreators(feedActions, dispatcher)
+      feedActions: bindActionCreators(feedActions, dispatcher),
+      uiActions: bindActionCreators(uiActions, dispatcher)
     };
   }
 )(ProfileDetailContainer);

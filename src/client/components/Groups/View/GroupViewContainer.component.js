@@ -21,7 +21,8 @@ export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      following: props.group.isFollowing
+      following: props.group.isFollowing,
+      showloginToFollowMessage: false
     };
 
     this.toggleFollow = this.toggleFollow.bind(this);
@@ -30,10 +31,15 @@ export class GroupViewContainer extends React.Component {
   }
 
   toggleFollow() {
-    this.props.groupActions.asyncGroupFollow(!this.state.following, this.props.group.id, this.props.profile.id);
-    this.setState({
-      following: !this.state.following
-    });
+    if (this.props.profile.userIsLoggedIn) {
+      this.props.groupActions.asyncGroupFollow(!this.state.following, this.props.group.id, this.props.profile.id);
+      this.setState({
+        following: !this.state.following
+      });
+    }
+    else {
+      this.setState({showloginToFollowMessage: true});
+    }
   }
 
   toggleMembersExpanded() {
@@ -65,6 +71,7 @@ export class GroupViewContainer extends React.Component {
               <div className='group--follow'>
                 <Follow active={this.state.following}
                         onClick={this.toggleFollow}
+                        showLoginLink={this.state.showloginToFollowMessage}
                         text={this.state.following && 'Følger' || 'Følg gruppen'}/>
               </div>
             </div>

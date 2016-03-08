@@ -11,6 +11,7 @@ import {once} from 'lodash';
 
 const joinGroup = SocketClient('joinGroup');
 const getGroup = SocketClient('getGroup');
+const listGroups = SocketClient('listGroups');
 const leaveGroup = SocketClient('leaveGroup');
 const getGroupListener = once(getGroup.response);
 const loadPosts = SocketClient('getPosts');
@@ -40,9 +41,42 @@ export function changeImage(file, src) {
   };
 }
 
-export function listGroups() {
+export function showMoreGroups(response, skip, limit) {
   return {
-    type: types.LIST_GROUPS
+    type: types.LIST_GROUPS,
+    groupData: response,
+    skip: skip,
+    limit: limit
+  };
+}
+
+export function asyncShowGroups(skip, limit) {
+  return function (dispatch) {
+    listGroups.request({skip, limit});
+    const event = listGroups.response(response => {
+      console.log("showGroups response:", response);
+      dispatch(showMoreGroups(response, skip, limit));
+      event.off();
+    })
+  };
+}
+
+export function asyncShowMoreComments(id, skip, limit) {
+  return function (dispatch) {
+    dispatch(moreCommentsLoading(id));
+    loadComments.request({id, skip, limit});
+    const event = loadComments.response(response => {
+      dispatch(showMoreComments(id, response, skip + limit));
+      event.off();
+    });
+  };
+}
+
+
+export function moreCommentsLoading(postId) {
+  return {
+    type: types.GROUP_LOADING_MORE_COMMENTS,
+    postId
   };
 }
 

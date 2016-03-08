@@ -3,13 +3,13 @@
 import parseJsonData from '../Utils/parseJsonData.js';
 import * as types from '../Constants/action.constants';
 
-const groupData = parseJsonData('JSONDATA', 'groupData');
-
-export default function listGroupsReducer(state = groupData, action = {}) {
+export default function listGroupsReducer(state, action = {}) {
+  Object.freeze(state);
   switch (action.type) {
     case types.LIST_GROUPS:
-      return state;
+      return action.groupData;
     default:
-      return state;
+      const groupData = parseJsonData('JSONDATA', 'groupData');
+      return groupData;
   }
 }

@@ -5,39 +5,71 @@ const CreateGroupContent = {
     return 'createGroupContent';
   },
 
-  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
+  upsertContent(query, user) {
+    const method = query.type === 'post' && 'createPost' || 'createComment';
 
-    // If user is logged in create the post
-    if (connection.request.session.passport) {
-      const passport = connection.request.session.passport;
-      const method = query.type === 'post' && 'createPost' || 'createComment';
-      return this.callServiceClient('community', method, {
-        title: query.title,
-        content: query.content,
-        parentId: query.parentId,
-        uid: passport.user.profileId,
-        ownerid: passport.user.profileId,
-        accessToken: passport.user.id
-      }).then((response) => {
-        if (response.statusCode === 200 && query.image) {
-          const image = query.image;
-          query.image = {data: 'Binary Image Data!'};
-          const user = connection.request.user || {id: '', profileId: ''};
-          const accessToken = user.id;
-          const relationId = response.body.id;
-          return this.callServiceClient('community', 'updateImage', {
-            relationId,
-            image,
-            accessToken,
-            relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
-          });
-        }
-        return response;
-      });
+    if (query.removeImage) {
+      this.callServiceClient('community', 'removeImage', {imageId: query.removeImage});
     }
 
-    // If user is not logged in return an error
-    return Promise.reject(new Error('user not logged in'));
+    return this.callServiceClient('community', method, {
+      title: query.title,
+      content: query.content,
+      timeCreated: query.timeCreated || (new Date()).toUTCString(),
+      parentId: query.parentId,
+      id: query.id || null,
+      uid: user.profileId,
+      ownerid: query.ownerid || user.profileId,
+      accessToken: user.id
+    }).then((response) => {
+      if (response.statusCode === 200 && query.image) {
+        const image = query.image;
+        query.image = {data: 'Binary Image Data!'};
+        return this.callServiceClient('community', 'updateImage', {
+          relationId: response.body.id,
+          image,
+          accessToken: user.id,
+          relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
+        });
+      }
+
+      return response;
+    });
+  },
+
+  getSingleContent(query, user) {
+    const postFilter = {
+      where: {id: query.id},
+      include: ['image']
+    };
+    const method = query.type === 'post' && 'getPosts' || 'getComments';
+    return this.callServiceClient('community', method, {filter: postFilter}).then(response => {
+      const post = JSON.parse(response.body)[0];
+      const ownerId = query.type === 'post' && post.postownerid || post.commentownerid;
+      if (ownerId !== user.profileId) {
+        return Promise.reject(new Error('user does not have access to edit content'));
+      }
+
+      query.ownerId = ownerId;
+      query.timeCreated = post.timeCreated;
+      query.removeImage = query.imageRemoved && post.image.id || false;
+      return query;
+    });
+  },
+
+  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
+    // If user is not logged in create the post
+    if (!connection.request.session.passport) {
+      return Promise.reject(new Error('user not logged in'));
+    }
+    const user = connection.request.session.passport.user;
+
+    // If id is set content is being editted. Check if user has access to edit content
+    if (query.id) {
+      return this.getSingleContent(query, user).then(reponseQuery => this.upsertContent(reponseQuery, user));
+    }
+
+    return this.upsertContent(query, user);
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars

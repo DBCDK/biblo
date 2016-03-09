@@ -16,6 +16,7 @@ const FlagCommentTransform = {
         description: query.flag.cause,
         accessToken: passport.user.id
       };
+
       return this.callServiceClient('community', 'flagComment', params);
     }
 

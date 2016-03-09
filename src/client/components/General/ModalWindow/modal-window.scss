@@ -18,9 +18,21 @@
   left: 30vw;
   width: 40vw;
   border-radius: $padding;
+  max-height: 60vh;
 }
 
 .modal-window--content {
   background-color: white;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
+.modal-window--close-button {
+  float: right;
+}
+
+.modal-window--close-button--container {
+  top: 10px;
+  right: 30px;
+  position: absolute;
+}

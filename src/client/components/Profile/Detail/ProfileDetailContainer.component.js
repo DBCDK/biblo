@@ -7,6 +7,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import assignToEmpty from '../../../Utils/assign';
 
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
@@ -28,7 +29,10 @@ import './ProfileDetailContainer.component.scss';
 class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
-    const profileImage = userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png';
+    userProfile = assignToEmpty(userProfile, {
+      image: userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png'
+    });
+
     let feed = this.props.feed.feed.map((activity) => {
       switch (activity.type) {
         case 'comment':
@@ -172,7 +176,7 @@ class ProfileDetailContainer extends React.Component {
         {modal}
 
         <div className="p-detail--image-container">
-          <img src={profileImage} alt={userProfile.displayName} />
+          <img src={userProfile.image} alt={userProfile.displayName} />
         </div>
 
         <div className="p-detail--displayname-description-follow">

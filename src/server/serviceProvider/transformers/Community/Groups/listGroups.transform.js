@@ -5,12 +5,11 @@ const ListGroupsTransform = {
     return 'listGroups';
   },
 
-  requestTransform(event, {skip=0}) { // eslint-disable-line no-unused-vars
-    console.log("listGroupsTransform skip:", skip);
+  requestTransform(event, {skip=0, limit=15}) { // eslint-disable-line no-unused-vars
     return this.callServiceClient('community',
       'listGroups', {
         filter: {
-          limit: 15,
+          limit: limit,
           skip:  skip,
           order: 'timeCreated DESC',
           counts: 'members',

@@ -19,11 +19,13 @@ describe('Test of AddConent Component', () => {
     let form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
     expect(ReactDom.findDOMNode(form).method).to.be.eql('post');
     let inputContent = TestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
-    expect(inputContent.length).to.be.eql(4);
+    expect(inputContent.length).to.be.eql(6);
     expect(ReactDom.findDOMNode(inputContent[0]).type).to.be.eql('hidden');
     expect(ReactDom.findDOMNode(inputContent[1]).type).to.be.eql('hidden');
-    expect(ReactDom.findDOMNode(inputContent[2]).type).to.be.eql('submit');
-    expect(ReactDom.findDOMNode(inputContent[3]).type).to.be.eql('file');
+    expect(ReactDom.findDOMNode(inputContent[2]).type).to.be.eql('hidden');
+    expect(ReactDom.findDOMNode(inputContent[3]).type).to.be.eql('hidden');
+    expect(ReactDom.findDOMNode(inputContent[4]).type).to.be.eql('submit');
+    expect(ReactDom.findDOMNode(inputContent[5]).type).to.be.eql('file');
 
   });
   it('it should render form with properties', () => {
@@ -62,7 +64,7 @@ describe('Test of AddConent Component', () => {
   it('it should call abort action', () => {
     const abort = sinon.spy(); // eslint-disable-line no-undef
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort}/>);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort} />);
     let input = TestUtils.findRenderedDOMComponentWithClass(component, 'alert');
     expect(ReactDom.findDOMNode(input).value).to.be.eql('Fortryd');
     TestUtils.Simulate.click(input);
@@ -78,5 +80,24 @@ describe('Test of AddConent Component', () => {
     expect(form.length).to.be.eql(0);
     let aTag = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
     expect(ReactDom.findDOMNode(aTag).href).to.contain('login');
+  });
+
+  it('it should be in edit mode if id is passed', () => {
+    profile.userIsLoggedIn = true;
+    profile.id=1;
+    const owner ={
+      id: 1
+    };
+    const component = TestUtils.renderIntoDocument(
+      <AddContent owner={owner} profile={profile} parentId={1} text="text to test" image="some_url" type="test" redirectTo="some_url"/>);
+    let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
+    expect(form.length).to.be.eql(1);
+    let textarea = TestUtils.findRenderedDOMComponentWithTag(component, 'textarea');
+    expect(textarea.value).to.be.equal('text to test');
+    let image = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
+    expect(image.src).to.be.contain('some_url');
+    let removeImage = TestUtils.findRenderedDOMComponentWithClass(component, 'remove-image');
+    TestUtils.Simulate.click(removeImage);
+    expect(() => TestUtils.findRenderedDOMComponentWithTag(component, 'img')).to.throw(Error);
   });
 });

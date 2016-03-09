@@ -133,20 +133,6 @@ function showGroup(groupData, res) {
   });
 }
 
-function fetchCommentData(callServiceProvider, posts, skip = 0, limit = 1) {
-  return posts.map(post => {
-    return callServiceProvider('getComments', {
-      id: post.id,
-      skip: skip,
-      limit: limit
-    }).then(comments => {
-      post.comments = comments[0] || [];
-      post.numberOfCommentsLoaded = limit;
-      return post;
-    });
-  });
-}
-
 /**
  * Get data for a group
  *
@@ -159,16 +145,14 @@ async function fetchGroupData(params, req, res, update = {}) {
 
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
-      req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 2})
+      req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 5})
     ]));
     const group = response[0][0];
-    const posts = response[1][0];
-
-    group.posts = (await Promise.all(fetchCommentData(req.callServiceProvider, posts)));
+    group.posts = response[1][0];
     group.numberOfPostsLoaded = group.posts.length;
     showGroup(Object.assign(group, update), res);
   }
-  catch (e) { // eslint-disable-line no-catch-shadow
+  catch (e) {
     res.redirect('/error');
   }
 }
@@ -181,19 +165,20 @@ GroupRoutes.get('/:id', fullProfileOnSession, (req, res) => fetchGroupData(req.p
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/content/:type', upload.single('image'), (req, res) => {
+GroupRoutes.post('/content/:type', upload.single('image'), async function (req, res) {
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
-  let serviceProvider = req.app.get('serviceProvider');
-  const params = {
+
+  let params = {
     title: ' ',
     content: req.body.content,
     parentId: req.body.parentId,
     type: req.params.type,
-    image
+    image,
+    id: req.body.id
   };
-  serviceProvider.trigger('createGroupContent', params, {request: req})[0].then(() => {
-    res.redirect(req.body.redirect);
-  });
+
+  await req.callServiceProvider('createGroupContent', params, {request: req});
+  res.redirect(req.body.redirect);
 });
 
 

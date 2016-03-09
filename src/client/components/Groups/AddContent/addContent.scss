@@ -17,9 +17,23 @@
   background-color: white;
   padding: 5px 20px;
   border: #ccc 1px solid;
-  .preview-image img {
+}
+
+.content-add--preview-image {
+  position: relative;
+  display: inline-block;
+  img {
     max-width: 100px;
     max-height: 100px;
+  }
+
+  svg {
+    fill: white;
+  }
+  a {
+    position: absolute;
+    right: 10px;
+    top: 10px;
   }
 }
 

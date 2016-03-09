@@ -15,18 +15,16 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const {title, groups, expand, delta = 15, skip = 0, limit} = this.props;
+    const {title, groups, actions, delta = 15, skip = 0, limit} = this.props;
+    console.log(actions);
     var hasMore = true, expand= {};
     if (limit<=groups.length) hasMore= false;
 
+    var expandButton;
     if (hasMore) {
-      return (
-        <ExpandButton text="Vis flere"
-                      onClick={() => expand(skip, limit + delta)}  />
-      );
-      ) else {
-        return ();
-      }
+      expandButton = <ExpandButton text="Vis flere"
+                                   isLoading=={()=> actions.moreGroupsLoading}
+                                   onClick={()=> actions.asyncShowGroups(skip, limit + delta)}/>;
     }
 
     return (
@@ -38,6 +36,7 @@ class GroupList extends React.Component {
             <GroupViewTile key={item.id} group={item}/>
           ))
         }
+        {expandButton}
       </div>
     );
   }

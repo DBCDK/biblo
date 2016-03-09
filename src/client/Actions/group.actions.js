@@ -50,6 +50,13 @@ export function showMoreGroups(response, skip, limit) {
   };
 }
 
+export function moreGroupsLoading() {
+  console.log("moreGroupsLoading");
+  return {
+    type: types.LIST_GROUPS_IS_LOADING
+  }
+}
+
 export function asyncShowGroups(skip, limit) {
   return function (dispatch) {
     listGroups.request({skip, limit});
@@ -70,7 +77,6 @@ export function asyncShowMoreComments(id, skip, limit) {
     });
   };
 }
-
 
 export function moreCommentsLoading(postId) {
   return {

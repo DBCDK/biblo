@@ -20,8 +20,7 @@ export class GroupsContainer extends React.Component {
     return (
       <PageLayout>
         <RoundedButton buttonText='Opret en gruppe!' href={CREATE_GROUP_LINK}/>
-        <GroupList title="Velkommen til grupper!" groups={groups}
-                   expand={actions.asyncShowGroups}/>
+        <GroupList title="Velkommen til grupper!" groups={groups} actions = {actions} />
       </PageLayout>
     );
   }

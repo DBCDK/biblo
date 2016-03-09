@@ -42,6 +42,7 @@ export function changeImage(file, src) {
 }
 
 export function showMoreGroups(response, skip, limit) {
+  console.log("showMoreGroups:", limit);
   return {
     type: types.LIST_GROUPS,
     groupData: response,
@@ -59,6 +60,7 @@ export function moreGroupsLoading() {
 
 export function asyncShowGroups(skip, limit) {
   return function (dispatch) {
+    dispatch(moreGroupsLoading());
     listGroups.request({skip, limit});
     const event = listGroups.response(response => {
       dispatch(showMoreGroups(response, skip, limit));

@@ -15,16 +15,15 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const {title, groups, actions, delta = 15, skip = 0, limit} = this.props;
-    console.log(actions);
-    var hasMore = true, expand= {};
-    if (limit<=groups.length) hasMore= false;
+    const {title, groups, actions, delta = 15, skip = 0, limit, isLoading} = this.props;
+    var hasMore = true;
+    if (limit>groups.length) hasMore= false;
 
     var expandButton;
     if (hasMore) {
       expandButton = <ExpandButton text="Vis flere"
-                                   isLoading=={()=> actions.moreGroupsLoading}
-                                   onClick={()=> actions.asyncShowGroups(skip, limit + delta)}/>;
+                                   isLoading={isLoading}
+                                   onClick={()=> actions.asyncShowGroups(skip, parseInt(limit) + parseInt(delta))}/>;
     }
 
     return (

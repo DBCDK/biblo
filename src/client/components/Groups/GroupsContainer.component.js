@@ -15,12 +15,12 @@ import {CREATE_GROUP_LINK} from '../../Constants/hyperlinks.constants';
 
 export class GroupsContainer extends React.Component {
   render() {
-    const {groups, actions} = this.props;
-    groupActions.asyncShowGroups()
+    console.log("GroupsContainer:", this.props);
+    const {data, actions} = this.props;
     return (
       <PageLayout>
         <RoundedButton buttonText='Opret en gruppe!' href={CREATE_GROUP_LINK}/>
-        <GroupList title="Velkommen til grupper!" groups={groups} actions = {actions} />
+        <GroupList title="Velkommen til grupper!" groups={data.groups} limit={data.groupsLimit} isLoading={data.loadingGroups} actions = {actions} />
       </PageLayout>
     );
   }
@@ -28,14 +28,14 @@ export class GroupsContainer extends React.Component {
 
 GroupsContainer.displayName = 'GroupsContainer';
 GroupsContainer.propTypes = {
-  groups: React.PropTypes.array
+  data: React.PropTypes.object
 };
 
 export default connect(
   // Map redux state to group prop
   (state) => {
     return {
-      groups: state.listGroupsReducer
+      data: state.listGroupsReducer
     };
   },
 

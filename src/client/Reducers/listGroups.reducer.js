@@ -7,14 +7,32 @@ import assignToEmpty from '../Utils/assign';
 
 export default function listGroupsReducer(state, action = {}) {
   Object.freeze(state);
+  console.log("state:", state);
+  console.log("action:", action);
   switch (action.type) {
     case types.LIST_GROUPS:
-      return action.groupData;
+      console.log("LIST_GROUPS");
+      var out = assignToEmpty(state, {
+        loadingGroups: false,
+        groups: action.groupData,
+        groupsLimit: action.groupsLimit
+      });
+      return out;
     case types.LIST_GROUPS_IS_LOADING:
-    case types.GROUP_LOADING_MORE_POSTS:
-      return assignToEmpty(state, {loadingGroups: true});
+      console.log("LIST_GROUPS_IS_LOADING");
+      var out = assignToEmpty(state, {
+        loadingGroups: true,
+        groups: state.groups,
+        groupsLimit: action.groupsLimit
+      });
+      return out;
     default:
-      const groupData = parseJsonData('JSONDATA', 'groupData');
-      return groupData;
+      var jsonData = parseJsonData('JSONDATA', 'jsonData');
+      var out = assignToEmpty(state, {
+        loadingGroups: false,
+        groups: jsonData.groups,
+        groupsLimit: 15
+      });
+      return out;
   }
 }

@@ -1,0 +1,52 @@
+@import "mixins/button.scss";
+
+.create-flag-dialog {
+
+  form {
+    margin-left: 10px;
+
+    input[type=radio] {
+      margin-bottom:10px;
+      margin-right: 10px;
+    }
+
+    label {
+      display:block;
+    }
+  }
+}
+
+.create-flag-dialog--radio-group {
+  margin-bottom: 20px;
+}
+
+.create-flag-dialog--required-field--emphasis {
+  color: red;
+  -webkit-animation-name: wiggle;
+  -webkit-animation-iteration-count: 2;
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-duration: 0.2s;
+}
+
+.create-flag-dialog--button--confirm {
+  @include button($melrose);
+  float:right;
+}
+
+.create-flag-dialog--button--cancel {
+  @include button($carnation);
+  float:right;
+  margin-right: 10px;
+}
+
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: translateX(-10px);
+  }
+  50% {
+    -webkit-transform: translateX(10px);
+  }
+  100% {
+    -webkit-transform: translateX(-10px);
+  }
+}

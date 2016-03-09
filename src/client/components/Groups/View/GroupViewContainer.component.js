@@ -10,16 +10,19 @@ import GroupHeader from './GroupViewHeader.component.js';
 import GroupMembersBox from './GroupViewMembersBox.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
-import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
-import * as actions from '../../../Actions/group.actions.js';
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component.js';
 
+import * as groupActions from '../../../Actions/group.actions.js';
+import * as uiActions from '../../../Actions/ui.actions.js';
+import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import './scss/group-view.scss';
 
 export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      following: props.group.isFollowing
+      following: props.group.isFollowing,
+      showloginToFollowMessage: false
     };
 
     this.toggleFollow = this.toggleFollow.bind(this);
@@ -28,10 +31,15 @@ export class GroupViewContainer extends React.Component {
   }
 
   toggleFollow() {
-    this.props.groupActions.asyncGroupFollow(!this.state.following, this.props.group.id, this.props.profile.id);
-    this.setState({
-      following: !this.state.following
-    });
+    if (this.props.profile.userIsLoggedIn) {
+      this.props.groupActions.asyncGroupFollow(!this.state.following, this.props.group.id, this.props.profile.id);
+      this.setState({
+        following: !this.state.following
+      });
+    }
+    else {
+      this.setState({showloginToFollowMessage: true});
+    }
   }
 
   toggleMembersExpanded() {
@@ -46,10 +54,14 @@ export class GroupViewContainer extends React.Component {
         </PageLayout>
       );
     }
+
+    const modal = (this.props.ui.modal.isOpen) ? <ModalWindow onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
+
     return (
       <PageLayout>
+        {modal}
         <div className='group'>
-          <GroupHeader uri={this.props.group.image}/>
+          <GroupHeader uri={this.props.group.image || ''}/>
 
           <div className='group--content'>
             <div className="details">
@@ -59,6 +71,7 @@ export class GroupViewContainer extends React.Component {
               <div className='group--follow'>
                 <Follow active={this.state.following}
                         onClick={this.toggleFollow}
+                        showLoginLink={this.state.showloginToFollowMessage}
                         text={this.state.following && 'Følger' || 'Følg gruppen'}/>
               </div>
             </div>
@@ -70,7 +83,7 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-view'>
               <h2>{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        actions={this.props.groupActions}/>
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
@@ -96,7 +109,9 @@ GroupViewContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
-  groupActions: React.PropTypes.object
+  groupActions: React.PropTypes.object,
+  uiActions: React.PropTypes.object,
+  ui: React.PropTypes.object
 };
 
 /**
@@ -107,14 +122,16 @@ export default connect(
   (state) => {
     return {
       profile: state.profileReducer,
-      group: state.groupViewReducer
+      group: state.groupViewReducer,
+      ui: state.uiReducer
     };
   },
 
   // Map group actions to actions props
   (dispatch) => { // eslint-disable-line no-unused-vars
     return {
-      groupActions: bindActionCreators(actions, dispatch)
+      groupActions: bindActionCreators(groupActions, dispatch),
+      uiActions: bindActionCreators(uiActions, dispatch)
     };
   }
 )(GroupViewContainer);

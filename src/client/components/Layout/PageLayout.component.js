@@ -14,16 +14,23 @@ window.addEventListener('load', () => {
 
 import './page-layout.scss';
 
-export default function PageLayout(props) {
-  return (
-    <div className="container">
-      <NavBar />
-      <div className="content">
-        {props.children}
+export default class PageLayout extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <NavBar />
+        <div className="content">
+          {this.props.children}
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
 }
 
 PageLayout.propTypes = {

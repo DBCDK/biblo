@@ -44,6 +44,22 @@
 }
 
 .p-detail--groups-button--container:hover, .p-detail--flag-button--container:hover {
-  background-color: #b0a8a8;
-  border-color: #b0a8a8;
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+}
+
+.p-detail--report-container {
+  margin: 10px;
+  margin-bottom: 0;
+
+  .p-detail--report-anchor {
+    display: inline-flex;
+    border: #f2f2f2 solid 2px;
+    border-radius: 5px;
+    padding: 8px 15px;
+  }
+
+  .p-detail--report-anchor:hover {
+    background-color: #f2f2f2;
+  }
 }

@@ -1,0 +1,26 @@
+.modal-window--overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color:rgba(0,0,0, 0.5);
+  z-index: 200;
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal-window--window {
+  $padding: 10px;
+  padding: 10px $padding $padding $padding;
+  position: fixed;
+  background: white;
+  z-index: 201;
+  top: 30vh;
+  left: 30vw;
+  width: 40vw;
+  border-radius: $padding;
+}
+
+.modal-window--content {
+  background-color: white;
+}
+

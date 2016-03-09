@@ -7,7 +7,6 @@ import plusSvg from '../Icon/svg/functions/plus.svg';
 import checkedSvg from '../Icon/svg/functions/checked.svg';
 import Login from '../../General/Login/Login.component.js';
 
-
 import './follow.scss';
 
 /**

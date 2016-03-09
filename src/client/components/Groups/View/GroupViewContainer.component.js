@@ -13,6 +13,7 @@ import PostAdd from '../AddContent/AddContent.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component.js';
 
 import * as groupActions from '../../../Actions/group.actions.js';
+import * as flagActions from '../../../Actions/flag.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import './scss/group-view.scss';
@@ -27,7 +28,6 @@ export class GroupViewContainer extends React.Component {
 
     this.toggleFollow = this.toggleFollow.bind(this);
     this.toggleMembersExpanded = this.toggleMembersExpanded.bind(this);
-
   }
 
   toggleFollow() {
@@ -62,12 +62,10 @@ export class GroupViewContainer extends React.Component {
         {modal}
         <div className='group'>
           <GroupHeader uri={this.props.group.image || ''}/>
-
           <div className='group--content'>
             <div className="details">
               <h2 className='group--title'>{this.props.group.name}</h2>
               <p className='group--description'>{this.props.group.description}</p>
-
               <div className='group--follow'>
                 <Follow active={this.state.following}
                         onClick={this.toggleFollow}
@@ -83,7 +81,7 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-view'>
               <h2>{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        groupActions={this.props.groupActions} uiActions={this.props.uiActions}/>
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} flagActions={this.props.flagActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
@@ -110,6 +108,7 @@ GroupViewContainer.propTypes = {
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
   groupActions: React.PropTypes.object,
+  flagActions: React.PropTypes.object,
   uiActions: React.PropTypes.object,
   ui: React.PropTypes.object
 };
@@ -131,6 +130,7 @@ export default connect(
   (dispatch) => { // eslint-disable-line no-unused-vars
     return {
       groupActions: bindActionCreators(groupActions, dispatch),
+      flagActions: bindActionCreators(flagActions, dispatch),
       uiActions: bindActionCreators(uiActions, dispatch)
     };
   }

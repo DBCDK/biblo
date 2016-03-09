@@ -36,6 +36,22 @@ const GetPostsTransform = {
     return post;
   },
 
+  fetchCommentsForPost(post, limit=1, skip=0) {
+    const commentFilter = {
+      limit: limit,
+      skip: skip,
+      order: 'timeCreated DESC',
+      include: ['image', {owner: ['image']}]
+    };
+
+    return this.callServiceClient('community', 'getComments', {id: post.id, filter: commentFilter})
+      .then(response => {
+        post.comments = JSON.parse(response.body);
+        post.numberOfCommentsLoaded = skip + limit;
+        return post;
+      });
+  },
+
   requestTransform(event, {id, skip, limit}, connection) { // eslint-disable-line no-unused-vars
 
     const postFilter = {
@@ -56,7 +72,8 @@ const GetPostsTransform = {
     }
 
     const posts = JSON.parse(response.body);
-    return posts.map(post => this.parsePost(post));
+    return Promise.all(posts.map(post => this.fetchCommentsForPost(post)
+      .then(postWithComments => this.parsePost(postWithComments))));
   }
 };
 

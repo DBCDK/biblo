@@ -4,7 +4,7 @@ import './scss/PostView.scss';
 
 import React from 'react';
 import TimeToString from '../../../Utils/timeToString.js';
-import CommentAdd from '../AddContent/AddContent.component';
+import ContentAdd from '../AddContent/AddContent.component';
 import CommentList from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
@@ -22,7 +22,8 @@ class PostView extends React.Component {
     super(props);
 
     this.state = {
-      isCommentInputVisible: false
+      isCommentInputVisible: false,
+      isEditting: false
     };
 
     this.submitPostFlag = this.submitPostFlag.bind(this);
@@ -39,6 +40,12 @@ class PostView extends React.Component {
     this.props.flagActions.flagPost(flag);
   }
 
+
+  toggleEditting() {
+    this.setState({isEditting: !this.state.isEditting});
+  }
+
+
   render() {
     const {
       groupActions,
@@ -54,7 +61,7 @@ class PostView extends React.Component {
       commentsCount,
       numberOfCommentsLoaded,
       loadingComments
-    } = this.props;
+      } = this.props;
 
     const postFlagModalContent = (
       <CreateFlagDialog
@@ -80,34 +87,43 @@ class PostView extends React.Component {
                   this.props.uiActions.openModalWindow(postFlagModalContent);
                 }}
                 icon={<Icon glyph={flagSvg} />}
-                />
-              <TinyButton
-                clickFunction={() => {}}
-                icon={<Icon glyph={pencilSvg}/>}
-                />
+              />
+              {profile.id === owner.id &&
+              <TinyButton clickFunction={() => this.toggleEditting()} icon={<Icon glyph={pencilSvg}/>}/>
+              }
             </span>
           </div>
-          <div className='post--content'>
-            <p className='content'>{content}</p>
-            {
-              image &&
-              <div className='media'><img src={image} alt="image for post"/></div>
-            }
-          </div>
+          {
+            this.state.isEditting &&
+            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id}/>
+            ||
+            <div className='post--content'>
+              <p className='content'>{content}</p>
+              {
+                image &&
+                <div className='media'><img src={image} alt="image for post"/></div>
+              }
+            </div>
+          }
           <CommentList comments={comments} profile={profile} groupId={groupId}/>
 
           <div className="post--load-more-comments">
             {commentsCount > numberOfCommentsLoaded &&
-            <ExpandButton isLoading={loadingComments} onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)} text="Vis flere" />
-            }
-            {commentsCount && <span
-              className="post--comment-count">{commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}</span>
-              || ''
+            (<div>
+              <ExpandButton isLoading={loadingComments}
+                            onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
+                            text="Vis flere"/>
+              <span className="post--comment-count">
+                {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
+              </span>
+            </div>)
             }
           </div>
           {this.state.isCommentInputVisible &&
           <div className="comment-add-wrapper">
-            <CommentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id} type="comment"
+            <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
+                        type="comment"
                         abort={e => this.toggleCommentInput(e)}/>
           </div>
           ||

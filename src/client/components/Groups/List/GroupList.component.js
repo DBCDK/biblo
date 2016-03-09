@@ -4,6 +4,8 @@ import React from 'react';
 import GroupViewTile from '../View/GroupViewTile.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
+import './scss/group-list.scss';
+
 
 export default
 class GroupList extends React.Component {
@@ -13,9 +15,22 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const {title, groups, actions, delta = 15, skip = 0, limit} = this.props;
+    const {title, groups, expand, delta = 15, skip = 0, limit} = this.props;
+    var hasMore = true, expand= {};
+    if (limit<=groups.length) hasMore= false;
+
+    if (hasMore) {
+      return (
+        <ExpandButton text="Vis flere"
+                      onClick={() => expand(skip, limit + delta)}  />
+      );
+      ) else {
+        return ();
+      }
+    }
+
     return (
-      <div className='group--list'>
+      <div className="group--list">
         <h2>{title}</h2>
         <hr/>
         {
@@ -23,7 +38,6 @@ class GroupList extends React.Component {
             <GroupViewTile key={item.id} group={item}/>
           ))
         }
-        <ExpandButton text="Vis flere" onClick={() => actions.asyncShowGroups(skip + delta, limit)}  />
       </div>
     );
   }

@@ -41,18 +41,16 @@ export function changeImage(file, src) {
   };
 }
 
-export function showMoreGroups(response, skip, limit) {
-  console.log("showMoreGroups:", limit);
+export function showGroups(response, skip, limit) {
   return {
     type: types.LIST_GROUPS,
-    groupData: response,
+    groups: response,
     skip: skip,
     limit: limit
   };
 }
 
 export function moreGroupsLoading() {
-  console.log("moreGroupsLoading");
   return {
     type: types.LIST_GROUPS_IS_LOADING
   }
@@ -63,7 +61,7 @@ export function asyncShowGroups(skip, limit) {
     dispatch(moreGroupsLoading());
     listGroups.request({skip, limit});
     const event = listGroups.response(response => {
-      dispatch(showMoreGroups(response, skip, limit));
+      dispatch(showGroups(response, skip, limit));
       event.off();
     })
   };

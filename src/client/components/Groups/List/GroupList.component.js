@@ -6,7 +6,6 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
 import './scss/group-list.scss';
 
-
 export default
 class GroupList extends React.Component {
 
@@ -15,7 +14,7 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const {title, groups, actions, delta = 15, skip = 0, limit, isLoading} = this.props;
+    const {title, groups, expand, delta = 15, skip = 0, limit, isLoading} = this.props;
     var hasMore = true;
     if (limit>groups.length) hasMore= false;
 
@@ -23,7 +22,7 @@ class GroupList extends React.Component {
     if (hasMore) {
       expandButton = <ExpandButton text="Vis flere"
                                    isLoading={isLoading}
-                                   onClick={()=> actions.asyncShowGroups(skip, parseInt(limit) + parseInt(delta))}/>;
+                                   onClick={()=> expand(skip, parseInt(limit) + parseInt(delta))}/>;
     }
 
     return (

@@ -15,12 +15,11 @@ import {CREATE_GROUP_LINK} from '../../Constants/hyperlinks.constants';
 
 export class GroupsContainer extends React.Component {
   render() {
-    console.log("GroupsContainer:", this.props);
     const {data, actions} = this.props;
     return (
       <PageLayout>
         <RoundedButton buttonText='Opret en gruppe!' href={CREATE_GROUP_LINK}/>
-        <GroupList title="Velkommen til grupper!" groups={data.groups} limit={data.groupsLimit} isLoading={data.loadingGroups} actions = {actions} />
+        <GroupList title="Velkommen til grupper!" groups={data.groups} limit={data.groupsLimit} isLoading={data.loadingGroups} expand={actions.asyncShowGroups} actions = {actions} />
       </PageLayout>
     );
   }

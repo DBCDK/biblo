@@ -165,7 +165,7 @@ export default class AddContent extends React.Component {
         attachment.video = null;
         this.setState({attachment: attachment});
 
-        this.refs['group-post-form'][6].value = null;
+        this.refs.fileInput.value = null;
         this.submitForm();
 
       }
@@ -206,7 +206,7 @@ export default class AddContent extends React.Component {
     return (
       <div className='content-add' >
         <form method="POST" action={`/grupper/content/${this.props.type}`} encType="multipart/form-data"
-              id="content_form_component" ref="group-form"
+              id="content_form_component" ref="group-post-form"
               onSubmit={this.onSubmit.bind(this)} >
           <div className='content-input-wrapper' >
             <input type="hidden" name="id" value={this.props.id || null} />

@@ -33,11 +33,10 @@ export default class CreateFlagDialog extends React.Component {
     else {
       this.props.submitFunction({
         cause: this.state.selectedCause,
-        flagId: this.props.contentId
+        contentId: this.props.contentId
       });
       this.setState({hasBeenSubmitted: true});
     }
-
   }
 
   onChangeCause(e) {
@@ -52,9 +51,7 @@ export default class CreateFlagDialog extends React.Component {
     const confirmMessage = (
       <form>
         <h4>Tak for din henvendelse</h4>
-
         <p>Vores moderatorer er blevet underrettet om det anmeldte indhold.</p>
-
         <div className='create-flag-button--button-group'>
           <input className='create-flag-dialog--button--confirm' type='button' value='Luk'
                  onClick={this.props.onClose}/>

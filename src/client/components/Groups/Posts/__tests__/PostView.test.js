@@ -76,7 +76,7 @@ describe('Test of Comment Components', () => {
       expect(addContent.props.abort).to.be.a('function');
     });
 
-    it('it should remove AddComment Component after click on abort button', () => {
+    xit('it should remove AddComment Component after click on abort button', () => {
       const addContent = TestUtils.findRenderedComponentWithType(component, AddContent);
       const input = TestUtils.findRenderedDOMComponentWithClass(addContent, 'alert');
       TestUtils.Simulate.click(input);

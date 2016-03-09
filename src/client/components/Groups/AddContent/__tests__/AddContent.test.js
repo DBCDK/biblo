@@ -1,58 +1,199 @@
 'use strict';
 
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import chai from 'chai';
-let expect = chai.expect;
+import {expect, assert} from 'chai';
 import AddContent from '../AddContent.component';
 
 describe('Test of AddConent Component', () => {
   const profile = {
     userIsLoggedIn: true
   };
-  const defaultComponent = TestUtils.renderIntoDocument(
-    <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
+
+  let defaultComponent = null;
+
+  beforeEach(() => {
+    defaultComponent = TestUtils.renderIntoDocument(
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" />);
+  });
+
+  afterEach(() => {
+    defaultComponent = null;
+  });
+
+  it('onSubmit method should throw an alert if state.text is empty', () => {
+    let component = TestUtils.renderIntoDocument(
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={() => {}}
+      />
+    );
+
+    let spy = sinon.spy(window, 'alert'); // eslint-disable-line no-undef
+    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
+    TestUtils.Simulate.submit(form);
+    assert.isTrue(spy.called, 'alert method was invoked');
+    spy.restore();
+  });
+
+  it('onSubmit method should call uploadVideoFile attachment.video field has a value', () => {
+    let component = TestUtils.renderIntoDocument(
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={() => {}}
+      />
+    );
+
+    component.state = {
+      text: 'test',
+      attachment: {
+        video: {
+          file: {
+          }
+        }
+      }
+    };
+
+    let spy = sinon.spy(component, 'uploadVideoFile'); // eslint-disable-line no-undef
+    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
+    TestUtils.Simulate.submit(form);
+    assert.isTrue(spy.called, 'uploadVideoFile method was invoked');
+    spy.restore();
+  });
+
+  it('readInput method should return false if given filetype is neither image or video', () => {
+    let component = TestUtils.renderIntoDocument(
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={() => {}}
+      />
+    );
+
+    const input = {
+      target: {
+        files: [
+          {
+            type: 'test/hest'
+          }
+        ]
+      }
+    };
+
+    const response = component.readInput(input);
+    assert.isFalse(response, 'Method did return false');
+  });
+
+  it('readInput method should call handleImage method if file is of type image', () => {
+    let component = TestUtils.renderIntoDocument(
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={() => {}}
+      />
+    );
+
+    const mock = sinon.mock(component); // eslint-disable-line no-undef
+    const expectation = mock.expects('handleImage');
+
+    const input = {
+      target: {
+        files: [
+          {
+            type: 'image/jpeg'
+          }
+        ]
+      }
+    };
+
+    component.readInput(input);
+    assert.isTrue(expectation.called, 'handleImage was called');
+    mock.restore();
+  });
+
+  it('readInput method should call handleVideo method if file is of type image', () => {
+    let component = TestUtils.renderIntoDocument(
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={() => {}}
+      />
+    );
+
+    const spy = sinon.spy(component, 'handleVideo'); // eslint-disable-line no-undef
+
+    const input = {
+      target: {
+        files: [
+          {
+            type: 'video/mov'
+          }
+        ]
+      }
+    };
+
+    component.readInput(input);
+    assert.isTrue(spy.called, 'handleVideo was called');
+    expect(component.state.attachment.video.file).to.be.eql({type: 'video/mov', progress: 0}, 'Video file was found in component state');
+
+    spy.restore();
+  });
 
   it('it should render form', () => {
     const component = defaultComponent;
     let form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    expect(ReactDom.findDOMNode(form).method).to.be.eql('post');
+    const method = ReactDOM.findDOMNode(form).method.toUpperCase();
+    expect(method).to.equal('POST');
     let inputContent = TestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
-    expect(inputContent.length).to.be.eql(6);
-    expect(ReactDom.findDOMNode(inputContent[0]).type).to.be.eql('hidden');
-    expect(ReactDom.findDOMNode(inputContent[1]).type).to.be.eql('hidden');
-    expect(ReactDom.findDOMNode(inputContent[2]).type).to.be.eql('hidden');
-    expect(ReactDom.findDOMNode(inputContent[3]).type).to.be.eql('hidden');
-    expect(ReactDom.findDOMNode(inputContent[4]).type).to.be.eql('submit');
-    expect(ReactDom.findDOMNode(inputContent[5]).type).to.be.eql('file');
-
+    expect(inputContent.length).to.be.eql(7);
+    expect(ReactDOM.findDOMNode(inputContent[0]).type).to.be.eql('hidden');
+    expect(ReactDOM.findDOMNode(inputContent[1]).type).to.be.eql('hidden');
+    expect(ReactDOM.findDOMNode(inputContent[2]).type).to.be.eql('hidden');
+    expect(ReactDOM.findDOMNode(inputContent[3]).type).to.be.eql('hidden');
+    expect(ReactDOM.findDOMNode(inputContent[4]).type).to.be.eql('submit');
+    expect(ReactDOM.findDOMNode(inputContent[5]).type).to.be.eql('reset');
+    expect(ReactDOM.findDOMNode(inputContent[6]).type).to.be.eql('file');
   });
+
   it('it should render form with properties', () => {
     const component = defaultComponent;
     let form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    expect(ReactDom.findDOMNode(form).action).to.be.eql('/grupper/content/test');
+    expect(ReactDOM.findDOMNode(form).action).to.have.string('/grupper/content/test');
     let input = TestUtils.findRenderedDOMComponentWithClass(component, 'redirect');
-    expect(ReactDom.findDOMNode(input).value).to.be.eql('some_url');
+    expect(ReactDOM.findDOMNode(input).value).to.be.eql('some_url');
   });
 
   it('it should add image to state + show exampleimage', () => {
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
-    sinon.stub(component, 'readURL', () => { // eslint-disable-line no-undef
-      component.setState({image: 'some_image_url'});
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" />);
+    sinon.stub(component, 'readInput', () => { // eslint-disable-line no-undef
+      const state = {attachment: {image: 'some_image_url'}};
+      component.setState(state);
     });
-    let fileInput = TestUtils.findRenderedDOMComponentWithClass(component, 'upload-content-image');
-    expect(ReactDom.findDOMNode(fileInput).id).to.be.equal('upload-image-test-1');
+    let fileInput = TestUtils.findRenderedDOMComponentWithClass(component, 'upload-content-media');
+    expect(ReactDOM.findDOMNode(fileInput).id).to.be.equal('upload-media-test-1');
     TestUtils.Simulate.change(fileInput);
 
-    expect(component.state.image).to.be.equal('some_image_url');
-    expect(component.readURL.called).to.be.equal(true);
+    expect(component.state.attachment.image).to.be.equal('some_image_url');
+    expect(component.readInput.called).to.be.equal(true);
 
     let image = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
-    expect(ReactDom.findDOMNode(image).src).to.contain('some_image_url');
-
+    expect(ReactDOM.findDOMNode(image).src).to.contain('some_image_url');
   });
+
   it('it should add textarea value to state', () => {
     let textarea = TestUtils.findRenderedDOMComponentWithTag(defaultComponent, 'textarea');
     textarea.value = 'some test value';
@@ -60,26 +201,24 @@ describe('Test of AddConent Component', () => {
     expect(defaultComponent.state.text).to.be.equal(textarea.value);
   });
 
-
   it('it should call abort action', () => {
     const abort = sinon.spy(); // eslint-disable-line no-undef
     const component = TestUtils.renderIntoDocument(
       <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort} />);
     let input = TestUtils.findRenderedDOMComponentWithClass(component, 'alert');
-    expect(ReactDom.findDOMNode(input).value).to.be.eql('Fortryd');
+    expect(ReactDOM.findDOMNode(input).value).to.be.eql('Fortryd');
     TestUtils.Simulate.click(input);
     expect(abort.called).to.be.equal(true);
   });
 
-
   it('it should be hidden if user not logged in', () => {
     profile.userIsLoggedIn = false;
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" />);
     let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
     expect(form.length).to.be.eql(0);
     let aTag = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
-    expect(ReactDom.findDOMNode(aTag).href).to.contain('login');
+    expect(ReactDOM.findDOMNode(aTag).href).to.contain('login');
   });
 
   it('it should be in edit mode if id is passed', () => {

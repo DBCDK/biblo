@@ -7,9 +7,11 @@ const CreateGroupContent = {
 
   upsertContent(query, user) {
     const method = query.type === 'post' && 'createPost' || 'createComment';
+
     if (query.removeImage) {
       this.callServiceClient('community', 'removeImage', {imageId: query.removeImage});
     }
+
     return this.callServiceClient('community', method, {
       title: query.title,
       content: query.content,
@@ -30,6 +32,7 @@ const CreateGroupContent = {
           relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
         });
       }
+
       return response;
     });
   },
@@ -55,7 +58,6 @@ const CreateGroupContent = {
   },
 
   requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
-
     // If user is not logged in create the post
     if (!connection.request.session.passport) {
       return Promise.reject(new Error('user not logged in'));

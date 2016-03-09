@@ -15,7 +15,6 @@ const flagCommentSocketClient = SocketClient('flagComment');
 
 export function flagPost(flag) {
   flagPostSocketClient.request({flag});
-  flagGroupSocketClient.request({flag});
 
   return {
     type: types.FLAG_POST

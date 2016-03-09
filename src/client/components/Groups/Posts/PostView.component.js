@@ -27,7 +27,7 @@ class PostView extends React.Component {
     };
 
     this.submitPostFlag = this.submitPostFlag.bind(this);
-
+    this.submitCommentFlag = this.submitCommentFlag.bind(this);
   }
 
   toggleCommentInput(event) {
@@ -40,6 +40,15 @@ class PostView extends React.Component {
     this.props.flagActions.flagPost(flag);
   }
 
+  submitCommentFlag(flag) { // eslint-disable-line
+    flag.flagger = this.props.profile.id;
+    this.props.flagActions.flagComment(flag);
+  }
+
+  submitGroupFlag(flag) { // eslint-disable-line
+    flag.flagger = this.props.profile.id;
+    this.props.flagActions.flagGroup(flag);
+  }
 
   toggleEditting() {
     this.setState({isEditting: !this.state.isEditting});
@@ -106,7 +115,7 @@ class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId}/>
+          <CommentList comments={comments} profile={profile} groupId={groupId} submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}/>
 
           <div className="post--load-more-comments">
             {commentsCount > numberOfCommentsLoaded &&

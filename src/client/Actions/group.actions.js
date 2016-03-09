@@ -54,7 +54,6 @@ export function asyncShowGroups(skip, limit) {
   return function (dispatch) {
     listGroups.request({skip, limit});
     const event = listGroups.response(response => {
-      console.log("showGroups response:", response);
       dispatch(showMoreGroups(response, skip, limit));
       event.off();
     })

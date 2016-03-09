@@ -28,7 +28,7 @@ import './ProfileDetailContainer.component.scss';
 class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
-    userProfile.image = userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png';
+    const profileImage = userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png';
     let feed = this.props.feed.feed.map((activity) => {
       switch (activity.type) {
         case 'comment':
@@ -132,9 +132,36 @@ class ProfileDetailContainer extends React.Component {
       );
     }
 
+    let groupsModalContent = '';
+
+    if (userProfile.groups && userProfile.groups.length > 0) {
+      groupsModalContent = (
+        <div>
+          {userProfile.groups.map((group) => {
+            return (
+              <div className="user-feed--groups-modal--group" key={`group_${group.id}`}>
+                <img src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'} />
+                {group.name}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    else {
+      groupsModalContent = (
+        <div className="user-feed--groups-modal--text">
+          <h2>{userProfile.displayName} følger ingen grupper!</h2>
+          <p>Det var da lidt kedeligt</p>
+        </div>
+      );
+    }
+
     const modal = (
       (this.props.ui.modal.isOpen) ?
-        (<ModalWindow onClose={() => {this.props.uiActions.closeModalWindow()}}>
+        (<ModalWindow onClose={() => {
+          this.props.uiActions.closeModalWindow();
+        }}>
           {this.props.ui.modal.children}
         </ModalWindow>) :
         null
@@ -145,7 +172,7 @@ class ProfileDetailContainer extends React.Component {
         {modal}
 
         <div className="p-detail--image-container">
-          <img src={userProfile.image || '/no_profile.png'} alt={userProfile.displayName} />
+          <img src={profileImage} alt={userProfile.displayName} />
         </div>
 
         <div className="p-detail--displayname-description-follow">
@@ -153,13 +180,15 @@ class ProfileDetailContainer extends React.Component {
           {desc}
           <Follow active={false} text="Følg" />
           <div className="p-detail--report-container">
-            <a className="p-detail--report-anchor" href="#!flagUser" onClick={() => {console.log('flag person!');}}>
+            <a className="p-detail--report-anchor" href="#!flagUser" onClick={() => {}}>
               <Icon glyph={flagSvg} height={30} />
               <p> Anmeld </p>
             </a>
           </div>
           <div className="p-detail--groups-flag-buttons--container">
-            <a href="#!Grupper" className="p-detail--groups-button--container">
+            <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
+              this.props.uiActions.openModalWindow(groupsModalContent);
+            }}>
               <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
             </a>
             <a href="#!Followers" className="p-detail--flag-button--container">
@@ -182,7 +211,8 @@ ProfileDetailContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired
+  uiActions: React.PropTypes.object.isRequired,
+  ui: React.PropTypes.object.isRequired
 };
 
 /**

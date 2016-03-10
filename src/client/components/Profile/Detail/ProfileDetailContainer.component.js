@@ -206,6 +206,15 @@ export class ProfileDetailContainer extends React.Component {
         null
     );
 
+    // include edit button when user views her own page.
+    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
+    const isLoggedIn = this.props.profile.userIsLoggedIn;
+
+    let editButton = null;
+    if (isLoggedIn && isMyProfile) {
+      editButton = (<a href={PROFILE_EDIT} className='p-detail--edit-button'><Icon glyph={editSvg} width={24} height={24} /></a>);
+    }
+
     return (
       <PageLayout>
         {modal}
@@ -216,7 +225,7 @@ export class ProfileDetailContainer extends React.Component {
 
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname">{userProfile.displayName}</p>
-          <a href={PROFILE_EDIT} className='p-detail--edit-button'><Icon glyph={editSvg} width={24} height={24} /></a>
+          {editButton}
           {desc}
           <div className="p-detail--groups-flag-buttons--container">
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {

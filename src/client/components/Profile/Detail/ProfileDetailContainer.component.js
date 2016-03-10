@@ -55,6 +55,22 @@ class ProfileDetailContainer extends React.Component {
             activity.image = '/billede/' + activity.image.id + '/small';
           }
 
+          activity = assignToEmpty({
+            imageSrc: '',
+            id: '',
+            timeCreated: Date.now()
+          }, activity);
+
+          activity.post = assignToEmpty({
+            content: '',
+            id: ''
+          }, activity.post);
+
+          activity.post.group = assignToEmpty({
+            id: '',
+            name: ''
+          }, activity.post.group);
+
           return (
             <ActivityRow
               likes={0}
@@ -81,6 +97,18 @@ class ProfileDetailContainer extends React.Component {
           );
 
         case 'post':
+          activity = assignToEmpty({
+            imageSrc: '',
+            id: '',
+            content: '',
+            timeCreated: Date.now()
+          }, activity);
+
+          activity.group = assignToEmpty({
+            id: '',
+            name: ''
+          }, activity.group);
+
           return (
             <ActivityRow
               likes={0}
@@ -140,13 +168,16 @@ class ProfileDetailContainer extends React.Component {
 
     if (userProfile.groups && userProfile.groups.length > 0) {
       groupsModalContent = (
-        <div>
+        <div className="groups-modal--container">
           {userProfile.groups.map((group) => {
             return (
-              <div className="user-feed--groups-modal--group" key={`group_${group.id}`}>
-                <img src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'} />
-                {group.name}
-              </div>
+              <a key={`group_${group.id}`} href={'/grupper/' + group.id} className="user-feed--groups-modal--group">
+                <img
+                  className="user-feed--groups-modal--group-image"
+                  src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
+                />
+                <div className="user-feed--groups-modal--group-name">{group.name}</div>
+              </a>
             );
           })}
         </div>
@@ -182,26 +213,20 @@ class ProfileDetailContainer extends React.Component {
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname">{userProfile.displayName}</p>
           {desc}
-          <Follow active={false} text="Følg" />
-          <div className="p-detail--report-container">
-            <a className="p-detail--report-anchor" href="#!flagUser" onClick={() => {}}>
-              <Icon glyph={flagSvg} height={30} />
-              <p> Anmeld </p>
-            </a>
-          </div>
           <div className="p-detail--groups-flag-buttons--container">
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
               this.props.uiActions.openModalWindow(groupsModalContent);
             }}>
               <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
             </a>
-            <a href="#!Followers" className="p-detail--flag-button--container">
-              <div className="p-detail--flag-button"> <Icon glyph={followersSvg} width={42} height={42} /><p> Følgere </p></div>
-            </a>
           </div>
         </div>
 
-        <ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`} />
+        {
+          (this.props.feed.feed.length > 0) ?
+            (<ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`} />) :
+            (<ActivityRow title={'Her er tomt!'}>{userProfile.displayName} har ikke lavet noget...</ActivityRow>)
+        }
 
         {feed}
         {showMore}

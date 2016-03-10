@@ -1,3 +1,6 @@
+@import "tools";
+@import "settings";
+
 .modal-window--overlay {
   position: fixed;
   top: 0px;
@@ -14,16 +17,22 @@
   position: fixed;
   background: white;
   z-index: 201;
-  top: 30vh;
-  left: 30vw;
-  width: 40vw;
   border-radius: $padding;
-  max-height: 60vh;
+  max-height: 80vh;
+  width: 90vw;
+  left: 3vw;
+  top: 5vh;
+
+  @include min-screen($tablet + 1) {
+    top: 10vh;
+    left: 30vw;
+    width: 40vw;
+  }
 }
 
 .modal-window--content {
   background-color: white;
-  max-height: 60vh;
+  max-height: 80vh;
   overflow-y: auto;
 }
 

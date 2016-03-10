@@ -99,6 +99,7 @@
     "susy": "^2.2.11",
     "svg-inline-loader": "^0.4.0",
     "svg-sprite-loader": "0.0.16",
+    "teaspoon": "^6.1.2",
     "vhost": "3.0.2",
     "walk": "2.3.9",
     "webpack": "1.12.13",

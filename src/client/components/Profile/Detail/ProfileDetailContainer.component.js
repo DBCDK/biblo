@@ -24,7 +24,7 @@ import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 
 import './ProfileDetailContainer.component.scss';
 
-class ProfileDetailContainer extends React.Component {
+export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {

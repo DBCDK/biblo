@@ -64,35 +64,6 @@
   }
 }
 
-/*
-.groups-modal--container:nth-child(1) {
-  @include clearfix;
-  margin-top: 10px;
-  @include span(6 of 12);
-  @include min-screen($tablet) {
-    @include span(4 of 12);
-  }
-}
-
-.groups-modal--container:nth-child(2) {
-  @include max-screen($tablet) {
-    @include span(6 of 12 last)
-  }
-}
-
-.groups-modal--container:nth-child(3) {
-  @include min-screen($tablet) {
-    @include span(4 of 12 last);
-  }
-}
-
-.user-feed--groups-modal--group:nth-child(3) {
-  @include min-screen($tablet) {
-    @include span(4 of 12 last)
-  }
-}
-*/
-
 .groups-modal--container {
   @include clearfix;
 }

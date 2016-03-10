@@ -13,16 +13,13 @@ import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
-import Follow from '../../General/Follow/Follow.component';
 import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
-import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
-import followersSvg from '../../General/Icon/svg/functions/followers.svg';
 
 import './ProfileDetailContainer.component.scss';
 

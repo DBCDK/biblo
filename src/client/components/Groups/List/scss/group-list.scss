@@ -2,9 +2,10 @@
 @import "settings";
 
 .group--list {
-  padding-left: 10px;
-  padding-right: 10px;
   display:block;
+  h2 {
+    height: 12px;
+  }
 }
 
 .group--showmore {

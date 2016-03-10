@@ -64,13 +64,13 @@ export default class AddContent extends React.Component {
   /**
    * Callback for the 'Fortryd'-button on the 'group-post-form'
    */
-  onAbort() {
+  onAbort(event) {
     if (this.abortXHR) {
       this.abortXHR();
     }
 
     if (this.props.abort) {
-      this.props.abort();
+      this.props.abort(event);
     }
 
     this.setState({text: '', attachment: {image: null, video: null, video_file: null}});
@@ -242,7 +242,7 @@ export default class AddContent extends React.Component {
 
           <div className='content-add--actions' >
             <input type="submit" className='button submit' value="OK" />
-            <input ref="abort" type="reset" className='button alert' onClick={this.onAbort.bind(this, null)} value="Fortryd" />
+            <input ref="abort" type="reset" className='button alert' onClick={this.onAbort.bind(this)} value="Fortryd" />
             <div className='content-add--media' >
               <label htmlFor={uniqueId} >
                 <input

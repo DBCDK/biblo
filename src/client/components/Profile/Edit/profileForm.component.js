@@ -124,6 +124,7 @@ export default class ProfileForm extends React.Component {
                   name="description"
                   defaultValue={this.props.description}
                   ref="description"
+                  onChange={(e) => this.setState({description: e.target.value})}
                 />
                 {errorObj.description || ''}
               </label>

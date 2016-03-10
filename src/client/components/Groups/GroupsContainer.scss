@@ -1,0 +1,35 @@
+@import 'tools';
+
+.header {
+  height: 150px;
+  background-color: $turquoise;
+
+  .iconcontainer {
+    @include span(3);
+    align-content: center;
+    .icon {
+      padding-top: 30px;
+      padding-left: 30px;
+      fill: $white
+    }
+  }
+  .description {
+    @include span(9 last);
+    color: $white;
+    align-content: center;
+    font-size: 14px;
+    .text {
+      h2 {
+        color: $white;
+      }
+      width: 80%;
+    }
+  }
+}
+
+.lists {
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}

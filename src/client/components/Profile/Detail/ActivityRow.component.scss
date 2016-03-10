@@ -18,7 +18,10 @@
     }
 
     .activity-row--image {
-      @include span(5 of 24);
+     @include min-screen($tablet) {
+       @include span(5 of 24);
+     }
+
       max-width: 200px;
 
       img {

@@ -17,6 +17,7 @@ import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
+import * as flagActions from '../../../Actions/flag.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
@@ -51,6 +52,8 @@ class ProfileDetailContainer extends React.Component {
             activity.image = '/billede/' + activity.image.id + '/small';
           }
 
+          console.log(activity);
+
           return (
             <ActivityRow
               likes={0}
@@ -64,11 +67,12 @@ class ProfileDetailContainer extends React.Component {
                 owner={userProfile}
                 id={activity.post.id}
                 profile={this.props.profile}
-                groupId={activity.post.group.id}
+                groupId={activity.post.groupid}
                 comments={[activity]}
                 commentsCount={0}
                 numberOfCommentsLoaded={1}
                 actions={{}}
+                flagActions={this.props.flagActions}
                 loadingComments={false}
                 commentRedirect={`/profil/${userProfile.id}`}
                 uiActions={this.props.uiActions}
@@ -95,6 +99,7 @@ class ProfileDetailContainer extends React.Component {
                 commentsCount={0}
                 numberOfCommentsLoaded={0}
                 actions={{}}
+                flagActions={this.props.flagActions}
                 loadingComments={false}
                 uiActions={this.props.uiActions}
               />
@@ -178,13 +183,6 @@ class ProfileDetailContainer extends React.Component {
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname">{userProfile.displayName}</p>
           {desc}
-          <Follow active={false} text="Følg" />
-          <div className="p-detail--report-container">
-            <a className="p-detail--report-anchor" href="#!flagUser" onClick={() => {}}>
-              <Icon glyph={flagSvg} height={30} />
-              <p> Anmeld </p>
-            </a>
-          </div>
           <div className="p-detail--groups-flag-buttons--container">
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
               this.props.uiActions.openModalWindow(groupsModalContent);
@@ -211,6 +209,7 @@ ProfileDetailContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
+  flagActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired
 };
@@ -232,6 +231,7 @@ export default connect(
   (dispatcher) => {
     return {
       feedActions: bindActionCreators(feedActions, dispatcher),
+      flagActions: bindActionCreators(flagActions, dispatcher),
       uiActions: bindActionCreators(uiActions, dispatcher)
     };
   }

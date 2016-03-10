@@ -21,6 +21,7 @@ import * as flagActions from '../../../Actions/flag.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
+import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import './ProfileDetailContainer.component.scss';
 
@@ -217,8 +218,12 @@ class ProfileDetailContainer extends React.Component {
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
               this.props.uiActions.openModalWindow(groupsModalContent);
             }}>
-              <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
+              <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p></div>
             </a>
+            <a href="/profil/rediger" className="p-detail--groups-button--container">
+              <div className="p-detail--groups-button"> <Icon glyph={editSvg} width={42} height={42} /><p>Rediger</p></div>
+            </a>
+
           </div>
         </div>
 

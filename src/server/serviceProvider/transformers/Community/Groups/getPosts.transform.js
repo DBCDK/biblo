@@ -41,7 +41,8 @@ const GetPostsTransform = {
       limit: limit,
       skip: skip,
       order: 'timeCreated DESC',
-      include: ['image', {owner: ['image']}]
+      include: ['image', {owner: ['image']}],
+      where: {postid: post.id}
     };
 
     return this.callServiceClient('community', 'getComments', {id: post.id, filter: commentFilter})

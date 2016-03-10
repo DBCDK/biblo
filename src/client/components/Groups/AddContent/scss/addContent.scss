@@ -2,6 +2,7 @@
 @import 'settings';
 
 .content-add {
+  margin-bottom: 20px;
   textarea {
     overflow: hidden;
     width: 100%;
@@ -9,6 +10,13 @@
     box-sizing: border-box;
     border: none;
     min-height: 100px;
+    outline: none;
+    &::placeholder {
+      color: $dark;
+    }
+    &:focus::placeholder {
+      color: $gray;
+    }
   }
 }
 

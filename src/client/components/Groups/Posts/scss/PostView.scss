@@ -12,7 +12,7 @@
 
 .post {
   @include min-screen($tablet) {
-    margin-left: 100px;
+    margin-left: 80px;
     position: relative;
     top: 0;
     background: #eee;
@@ -32,6 +32,10 @@
     }
   }
 
+  p {
+    margin-top: 0;
+  }
+
   img {
     max-width: 100%;
   }
@@ -43,9 +47,15 @@
   .is-hidden {
     display: none;
   }
+
+  .content-input-wrapper {
+    border: none;
+    border-radius: 5px;
+  }
 }
 
 .post--header {
+  margin-bottom: 20px;
   .username {
     @extend %h3-body;
   }
@@ -55,8 +65,15 @@
     padding-left: 10px;
   }
   .buttons {
-    display: inline;
-    float:right;
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    svg {
+      fill: $gray;
+    }
+    .active svg{
+      fill: $melrose;
+    }
   }
 }
 
@@ -73,7 +90,7 @@
   top: 15px;
   bottom: auto;
   left: -15px;
-  border-width: 15px 15px 15px 0;
+  border-width: 16px 16px 16px 0;
   border-color: transparent #eee;
   content: "";
   position: absolute;

@@ -24,14 +24,7 @@ const ElasticTranscoder = new AWS.ElasticTranscoder({
   secretAccessKey: AMAZON_CONFIG.key
 });
 
-const upload = multer({
-  storage: multer.diskStorage({
-    filename: (req, file, cb) => {
-      const pid = req.session.passport.user.profile.profile.id;
-      cb(null, Date.now() + '_' + pid + '_' + file.originalname.replace(new RegExp(' ', 'g'), '_'));
-    }
-  })
-});
+const upload = multer({storage: multer.memoryStorage()});
 
 const uploadS3 = multer({
   storage: s3({
@@ -215,8 +208,14 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
   }
   req.session.videoupload = null;
 
-  await req.callServiceProvider('createGroupContent', params, {request: req});
-  res.redirect(req.body.redirect);
+  try {
+    await req.callServiceProvider('createGroupContent', params, {request: req});
+    res.redirect(req.body.redirect);
+  }
+  catch (e) {
+    res.redirect('/error');
+  }
+
 });
 
 /**

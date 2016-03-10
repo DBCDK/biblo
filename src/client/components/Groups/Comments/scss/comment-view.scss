@@ -29,7 +29,7 @@
 
 .comment {
   @include min-screen($tablet) {
-    margin-left: 70px;
+    margin-left: 80px;
     position: relative;
     top: 0;
     background: white;
@@ -38,7 +38,7 @@
   }
   @include max-screen($tablet - 1px) {
     .comment--header {
-      margin-left: 75px;
+      margin-left: 80px;
       height: 60px;
       span {
         padding: 0;
@@ -53,6 +53,7 @@
 }
 
 .comment--header {
+  margin-right: 40px;
   .username {
     @extend %h3-body;
   }
@@ -67,6 +68,18 @@
   }
 }
 
+.comment--actions {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  svg {
+    fill: $gray;
+  }
+  .active svg{
+    fill: $melrose;
+  }
+}
+
 .comment-profile-image {
   @include profileImage();
   float: left;
@@ -76,7 +89,7 @@
   top: 15px;
   bottom: auto;
   left: -15px;
-  border-width: 15px 15px 15px 0;
+  border-width: 16px 16px 16px 0;
   border-color: transparent white;
   content: "";
   position: absolute;
@@ -84,3 +97,4 @@
   display: block;
   width: 0;
 }
+

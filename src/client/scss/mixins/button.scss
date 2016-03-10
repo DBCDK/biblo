@@ -3,7 +3,7 @@
 @import "../settings/colors";
 
 @mixin button($background: $melrose, $color: white, $lighten: false) {
-  padding: 7px 30px;
+  padding: 8px 30px;
   border-radius: 5px;
   color: $color;
   border: none;

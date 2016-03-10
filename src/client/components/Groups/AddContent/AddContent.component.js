@@ -31,7 +31,10 @@ export default class AddContent extends React.Component {
   }
 
   componentDidMount() {
-    autosize(this.refs.postTextarea);
+    autosize(this.refs.contentTextarea);
+    if (this.refs.contentTextarea) {
+      this.refs.contentTextarea.focus();
+    }
   }
 
   /**
@@ -218,7 +221,8 @@ export default class AddContent extends React.Component {
           <textarea required="required" ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
-                    onChange={(e) => this.setState({text: e.target.value})} />
+                    onChange={(e) => this.setState({text: e.target.value})}
+            />
             {this.state.attachment.image &&
             <div className='content-add--preview-image' >
               <img src={this.state.attachment.image} alt="preview" />

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+
 import './scss/group-view.scss';
 
 import Icon from '../../General/Icon/Icon.component.js';
@@ -8,7 +9,6 @@ import groupSvg from '../../General/Icon/svg/functions/group.svg';
 
 
 export default class GroupViewTile extends React.Component {
-
 
   render() {
     var group = this.props.group; // groupStr = this.getMembersCountString();
@@ -19,7 +19,7 @@ export default class GroupViewTile extends React.Component {
       <div className="group--tile" key={group.id}>
         <div>
           <a href={groupUrl}>
-            <img className="group--coverimage" src={this.getCoverImageUrl()} align="middle"/>
+            <img className="coverimage" src={this.getCoverImageUrl()} align="middle"/>
           </a>
         </div>
         <div className="group--caption">

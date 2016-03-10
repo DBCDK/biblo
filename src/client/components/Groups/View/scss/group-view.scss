@@ -35,28 +35,29 @@
 
 .group--tile {
   position: relative;
-  width: 140px;
+  width: 120px;
   max-height: 200px;
   display: inline-block;
-  padding-left: 10px;
+  padding-right: 29px;
   padding-bottom: 20px;
+
+  .coverimage {
+    width: 130px;
+    height: 130px;
+    display: inline-block;
+    box-shadow: #666 0px 2px 12px;
+  }
+
   .icon {
     padding-right: 5px;
     fill: $turquoise;
   }
-}
 
-.group--coverimage {
-  width: 120px;
-  height: 120px;
-  display: inline-block;
-  box-shadow: #666 0px 2px 12px;
-}
-
-.group--title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  .group--title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .group--caption {

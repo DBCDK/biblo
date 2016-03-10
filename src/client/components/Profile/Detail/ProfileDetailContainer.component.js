@@ -17,6 +17,7 @@ import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
+import * as flagActions from '../../../Actions/flag.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
@@ -81,11 +82,12 @@ class ProfileDetailContainer extends React.Component {
                 owner={userProfile}
                 id={activity.post.id}
                 profile={this.props.profile}
-                groupId={activity.post.group.id}
+                groupId={activity.post.groupid}
                 comments={[activity]}
                 commentsCount={0}
                 numberOfCommentsLoaded={1}
                 actions={{}}
+                flagActions={this.props.flagActions}
                 loadingComments={false}
                 commentRedirect={`/profil/${userProfile.id}`}
                 uiActions={this.props.uiActions}
@@ -124,6 +126,7 @@ class ProfileDetailContainer extends React.Component {
                 commentsCount={0}
                 numberOfCommentsLoaded={0}
                 actions={{}}
+                flagActions={this.props.flagActions}
                 loadingComments={false}
                 uiActions={this.props.uiActions}
               />
@@ -237,6 +240,7 @@ ProfileDetailContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
+  flagActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired
 };
@@ -258,6 +262,7 @@ export default connect(
   (dispatcher) => {
     return {
       feedActions: bindActionCreators(feedActions, dispatcher),
+      flagActions: bindActionCreators(flagActions, dispatcher),
       uiActions: bindActionCreators(uiActions, dispatcher)
     };
   }

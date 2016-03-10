@@ -1,14 +1,13 @@
 @import "tools";
 @import "settings";
 
-import './scss/group-view.scss';
-
 .group--list {
-  h2 {
-    font-family: $header-font;
-  }
-  padding-left: 10px;
-  padding-left: 20px;
   display:block;
-  text-decoration: underline;
+  h2 {
+    height: 12px;
+  }
+}
+
+.group--showmore {
+  text-align: right
 }

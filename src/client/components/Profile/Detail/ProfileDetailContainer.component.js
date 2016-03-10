@@ -28,7 +28,7 @@ import {PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
 import './ProfileDetailContainer.component.scss';
 
-class ProfileDetailContainer extends React.Component {
+export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {

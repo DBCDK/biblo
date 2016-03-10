@@ -1,16 +1,16 @@
 'use strict';
 
-
 const ListGroupsTransform = {
   event() {
     return 'listGroups';
   },
 
-  requestTransform(event) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {skip=0, limit=15}) { // eslint-disable-line no-unused-vars
     return this.callServiceClient('community',
       'listGroups', {
         filter: {
-          limit: 15,
+          limit: limit,
+          skip: skip,
           order: 'timeCreated DESC',
           counts: 'members',
           include: [{
@@ -25,7 +25,6 @@ const ListGroupsTransform = {
     const body = JSON.parse(response.body);
     return body;
   }
-
 };
 
 export default ListGroupsTransform;

@@ -63,3 +63,29 @@
     background-color: #f2f2f2;
   }
 }
+
+.groups-modal--container {
+  @include clearfix;
+}
+
+.user-feed--groups-modal--group-image {
+  object-fit: cover;
+  width: 30vw;
+  height: 30vw;
+  @include min-screen($tablet + 1) {
+    width: 10vw;
+    height: 10vw;
+  }
+}
+
+.user-feed--groups-modal-group-info--container {
+}
+
+.user-feed--groups-modal--group {
+  @include max-screen($tablet) {
+    @include gallery(6 of 12);
+  }
+  @include min-screen($tablet + 1) {
+    @include gallery(4 of 12);
+  }
+}

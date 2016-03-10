@@ -25,7 +25,7 @@ module.exports = function(wallaby) {
       {pattern: 'src/**/*.scss', instrument: false, load: false},
       {pattern: 'src/**/*.js', load: false},
       {pattern: 'src/**/*.test.js', ignore: true},
-      {pattern: 'src/**/*.svg', load: false}
+      {pattern: 'src/**/*.svg', load: false, instrument: false}
     ],
 
     tests: [
@@ -39,7 +39,7 @@ module.exports = function(wallaby) {
       window.__moduleBundler.loadTests();
     },
 
-    testFramework: 'mocha@2.2.4',
+    testFramework: 'mocha',
 
     compilers: {
       '**/*.js': wallaby.compilers.babel()

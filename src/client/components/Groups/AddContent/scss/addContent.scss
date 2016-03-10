@@ -3,35 +3,46 @@
 
 .content-add {
   textarea {
-    overflow:hidden;
+    overflow: hidden;
     width: 100%;
     padding: 0;
     box-sizing: border-box;
     border: none;
     min-height: 100px;
   }
-
 }
 
 .content-input-wrapper {
   background-color: white;
   padding: 5px 20px;
   border: #ccc 1px solid;
-  .preview-image img {
+}
+
+.content-add--preview-image {
+  position: relative;
+  display: inline-block;
+  img {
     max-width: 100px;
     max-height: 100px;
   }
+
+  svg {
+    fill: white;
+  }
+  a {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
 }
 
-
-
-.upload-content-image {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
+.upload-content-media {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 .content-add--actions {
@@ -48,7 +59,30 @@
   }
 }
 
-.content-add--image {
+.preview-video--name {
+  font-size: 14px;
+}
+
+progress[value] {
+  width: 100%;
+  appearance: none;
+
+  &::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  }
+
+  &::-moz-progress-bar {
+    background-color: #5FC55F;
+  }
+
+  &::-webkit-progress-value {
+    background-color: #5FC55F;
+  }
+}
+
+.content-add--media {
   label {
     @include button($athens-gray, $melrose, false);
     border: 1px solid #ccc;

@@ -1,10 +1,6 @@
 'use strict';
 
-
-import expect from 'expect';
-
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
 import GroupList from '../GroupList.component';
@@ -20,8 +16,6 @@ describe('Test of GroupList', () => {
       groupsLimit: 15
     };
 
-    const comp = TestUtils.renderIntoDocument(<GroupList groups={data.groups}/>);
-  })
-
-
+    TestUtils.renderIntoDocument(<GroupList groups={data.groups}/>);
+  });
 });

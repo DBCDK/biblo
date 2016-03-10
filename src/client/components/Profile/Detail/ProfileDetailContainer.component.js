@@ -7,12 +7,12 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import assignToEmpty from '../../../Utils/assign';
 
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
-import Follow from '../../General/Follow/Follow.component';
 import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
@@ -20,16 +20,17 @@ import * as feedActions from '../../../Actions/feed.actions';
 import * as flagActions from '../../../Actions/flag.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
-import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
-import followersSvg from '../../General/Icon/svg/functions/followers.svg';
 
 import './ProfileDetailContainer.component.scss';
 
 class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
-    const profileImage = userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png';
+    userProfile = assignToEmpty(userProfile, {
+      image: userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png'
+    });
+
     let feed = this.props.feed.feed.map((activity) => {
       switch (activity.type) {
         case 'comment':
@@ -52,7 +53,21 @@ class ProfileDetailContainer extends React.Component {
             activity.image = '/billede/' + activity.image.id + '/small';
           }
 
-          console.log(activity);
+          activity = assignToEmpty({
+            imageSrc: '',
+            id: '',
+            timeCreated: Date.now()
+          }, activity);
+
+          activity.post = assignToEmpty({
+            content: '',
+            id: ''
+          }, activity.post);
+
+          activity.post.group = assignToEmpty({
+            id: '',
+            name: ''
+          }, activity.post.group);
 
           return (
             <ActivityRow
@@ -81,6 +96,18 @@ class ProfileDetailContainer extends React.Component {
           );
 
         case 'post':
+          activity = assignToEmpty({
+            imageSrc: '',
+            id: '',
+            content: '',
+            timeCreated: Date.now()
+          }, activity);
+
+          activity.group = assignToEmpty({
+            id: '',
+            name: ''
+          }, activity.group);
+
           return (
             <ActivityRow
               likes={0}
@@ -141,13 +168,16 @@ class ProfileDetailContainer extends React.Component {
 
     if (userProfile.groups && userProfile.groups.length > 0) {
       groupsModalContent = (
-        <div>
+        <div className="groups-modal--container">
           {userProfile.groups.map((group) => {
             return (
-              <div className="user-feed--groups-modal--group" key={`group_${group.id}`}>
-                <img src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'} />
-                {group.name}
-              </div>
+              <a key={`group_${group.id}`} href={'/grupper/' + group.id} className="user-feed--groups-modal--group">
+                <img
+                  className="user-feed--groups-modal--group-image"
+                  src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
+                />
+                <div className="user-feed--groups-modal--group-name">{group.name}</div>
+              </a>
             );
           })}
         </div>
@@ -177,7 +207,7 @@ class ProfileDetailContainer extends React.Component {
         {modal}
 
         <div className="p-detail--image-container">
-          <img src={profileImage} alt={userProfile.displayName} />
+          <img src={userProfile.image} alt={userProfile.displayName} />
         </div>
 
         <div className="p-detail--displayname-description-follow">
@@ -189,13 +219,14 @@ class ProfileDetailContainer extends React.Component {
             }}>
               <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
             </a>
-            <a href="#!Followers" className="p-detail--flag-button--container">
-              <div className="p-detail--flag-button"> <Icon glyph={followersSvg} width={42} height={42} /><p> Følgere </p></div>
-            </a>
           </div>
         </div>
 
-        <ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`} />
+        {
+          (this.props.feed.feed.length > 0) ?
+            (<ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`} />) :
+            (<ActivityRow title={'Her er tomt!'}>{userProfile.displayName} har ikke lavet noget...</ActivityRow>)
+        }
 
         {feed}
         {showMore}

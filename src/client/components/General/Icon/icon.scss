@@ -2,4 +2,7 @@
 
 .icon {
   fill: $gray;
+  :hover {
+    fill: darken($gray, 10%);
+  }
 }

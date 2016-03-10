@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import './scss/group-view.scss';
+import './scss/group-tile.scss';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import groupSvg from '../../General/Icon/svg/functions/group.svg';

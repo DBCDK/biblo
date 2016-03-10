@@ -7,7 +7,7 @@
 // import libs
 import React from 'react';
 import expect from 'expect';
-import $r from 'react-testutil-query';
+import $ from 'teaspoon';
 
 // import components
 import {ProfileDetailContainer} from '../ProfileDetailContainer.component';
@@ -42,9 +42,9 @@ describe('Test profile detail container (public profile)', () => {
       />
     );
 
-    let $root = $r(component);
+    let $root = $(component).render();
 
-    const emptyHeader = $root.find('.activity-row--title').first().dom().innerHTML;
+    const emptyHeader = $root.find('.activity-row--title').text();
     expect(emptyHeader).toContain('Her er tomt!');
 
     const firstActivityRow = $root.find('.activity-row').first().dom().innerHTML;
@@ -76,8 +76,7 @@ describe('Test profile detail container (public profile)', () => {
       />
     );
 
-    let $root = $r(component);
-
+    let $root = $(component).render();
 
     let activityRows = $root.find('.activity-row--container > .activity-row');
 

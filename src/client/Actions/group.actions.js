@@ -53,7 +53,7 @@ export function showGroups(response, skip, limit) {
 export function moreGroupsLoading() {
   return {
     type: types.LIST_GROUPS_IS_LOADING
-  }
+  };
 }
 
 export function asyncShowGroups(skip, limit) {
@@ -63,7 +63,7 @@ export function asyncShowGroups(skip, limit) {
     const event = listGroups.response(response => {
       dispatch(showGroups(response, skip, limit));
       event.off();
-    })
+    });
   };
 }
 

@@ -25,6 +25,9 @@ class PostView extends React.Component {
       isCommentInputVisible: false,
       isEditting: false
     };
+
+    this.submitPostFlag = this.submitPostFlag.bind(this);
+    this.submitCommentFlag = this.submitCommentFlag.bind(this);
   }
 
   toggleCommentInput(event) {
@@ -32,12 +35,25 @@ class PostView extends React.Component {
     this.setState({isCommentInputVisible: !this.state.isCommentInputVisible});
   }
 
+  submitPostFlag(flag) { // eslint-disable-line
+    flag.flagger = this.props.profile.id;
+    this.props.flagActions.flagPost(flag);
+  }
+
+  submitCommentFlag(flag) { // eslint-disable-line
+    flag.flagger = this.props.profile.id;
+    this.props.flagActions.flagComment(flag);
+  }
+
+  submitGroupFlag(flag) { // eslint-disable-line
+    flag.flagger = this.props.profile.id;
+    this.props.flagActions.flagGroup(flag);
+  }
+
   toggleEditting() {
     this.setState({isEditting: !this.state.isEditting});
   }
 
-  submitFlag(flag) { // eslint-disable-line
-  }
 
   render() {
     const {
@@ -56,9 +72,9 @@ class PostView extends React.Component {
       loadingComments
       } = this.props;
 
-    const flagModalContent = (
+    const postFlagModalContent = (
       <CreateFlagDialog
-        submitFunction={this.submitFlag}
+        submitFunction={this.submitPostFlag}
         onClose={uiActions.closeModalWindow}
         contentType={'post'}
         contentId={id}
@@ -77,7 +93,7 @@ class PostView extends React.Component {
             <span className='buttons'>
               <TinyButton
                 clickFunction={() => {
-                  this.props.uiActions.openModalWindow(flagModalContent);
+                  this.props.uiActions.openModalWindow(postFlagModalContent);
                 }}
                 icon={<Icon glyph={flagSvg} />}
               />
@@ -99,7 +115,7 @@ class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId}/>
+          <CommentList comments={comments} profile={profile} groupId={groupId} submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}/>
 
           <div className="post--load-more-comments">
             {commentsCount > numberOfCommentsLoaded &&
@@ -136,10 +152,11 @@ PostView.propTypes = {
   timeCreated: React.PropTypes.string,
   owner: React.PropTypes.object,
   id: React.PropTypes.number,
-  profile: React.PropTypes.object,
+  profile: React.PropTypes.object.isRequired,
   groupId: React.PropTypes.number,
   comments: React.PropTypes.array,
   uiActions: React.PropTypes.object.isRequired,
+  flagActions: React.PropTypes.object.isRequired,
   commentsCount: React.PropTypes.number,
   numberOfCommentsLoaded: React.PropTypes.number,
   loadingComments: React.PropTypes.bool,

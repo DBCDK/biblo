@@ -57,3 +57,9 @@ export const UNSELECT_LIBRARY = 'UNSELECT_LIBRARY';
 
 // Feed actions
 export const GET_USER_FEED = 'GET_USER_FEED';
+
+// Flag Actions
+export const FLAG_POST = 'FLAG_POST';
+export const FLAG_COMMENT = 'FLAG_COMMENT';
+export const FLAG_GROUP = 'FLAG_GROUP';
+export const FLAG_PROFILE = 'FLAG_PROFILE';

@@ -10,7 +10,7 @@ const ListGroupsTransform = {
       'listGroups', {
         filter: {
           limit: limit,
-          skip:  skip,
+          skip: skip,
           order: 'timeCreated DESC',
           counts: 'members',
           include: [{

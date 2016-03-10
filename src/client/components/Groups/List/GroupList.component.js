@@ -52,8 +52,8 @@ GroupList.propTypes = {
   delta: React.PropTypes.number,
   skip: React.PropTypes.number,
   limit: React.PropTypes.number,
-  isLoading: React.PropTypes.bool
-
+  isLoading: React.PropTypes.bool,
+  expand: React.PropTypes.func
 };
 
 GroupList.displayName = 'GroupList';

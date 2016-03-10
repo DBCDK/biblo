@@ -1,7 +1,7 @@
 'use strict';
 
+import React from 'react';
 import Icon from '../Icon/Icon.component.js';
-
 import plusSvg from '../Icon/svg/functions/plus.svg';
 import spinnerSvg from '../Icon/svg/spinners/loading-spin.svg';
 

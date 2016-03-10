@@ -21,10 +21,14 @@ import * as flagActions from '../../../Actions/flag.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
+import editSvg from '../../General/Icon/svg/functions/pencil.svg';
+
+import {PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
+
 
 import './ProfileDetailContainer.component.scss';
 
-class ProfileDetailContainer extends React.Component {
+export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
@@ -212,13 +216,15 @@ class ProfileDetailContainer extends React.Component {
 
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname">{userProfile.displayName}</p>
+          <a href={PROFILE_EDIT} className='p-detail--edit-button'><Icon glyph={editSvg} width={24} height={24} /></a>
           {desc}
           <div className="p-detail--groups-flag-buttons--container">
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
               this.props.uiActions.openModalWindow(groupsModalContent);
             }}>
-              <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p> Grupper </p></div>
+              <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p></div>
             </a>
+
           </div>
         </div>
 

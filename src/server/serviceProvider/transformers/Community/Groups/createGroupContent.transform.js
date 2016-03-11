@@ -77,8 +77,12 @@ const CreateGroupContent = {
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
     // @todo handle errors
-    const isSuccesful = response.statusCode === 200;
-    return JSON.parse(isSuccesful);
+    let result = false;
+    if (response.statusCode === 200) {
+      result = response.body;
+    }
+
+    return result;
   }
 };
 

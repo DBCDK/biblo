@@ -7,7 +7,7 @@ import ContentGridElement from './ContentGridElement.component.js';
 import './content-grid.scss';
 
 function ContentGrid({items=[]}) {
-  
+
   const elements = items.map((e) => {
     return (
       <ContentGridElement
@@ -19,7 +19,6 @@ function ContentGrid({items=[]}) {
         />
     );
   });
-
 
   return (
     <div className="content-grid">

@@ -20,11 +20,9 @@ import './GroupsContainer.scss';
 
 
 export class GroupsContainer extends React.Component {
-
-
-
   render() {
-    const text = 'Her kan du deltage, se hvad andre skriver og uploader. Du kan også lave din egen gruppe - om det du interesserer dig mest for. Du kan spørge gruppeværterne i alle grupperne om mere information.';
+    const text = 'Her kan du deltage, se hvad andre skriver og uploader. Du kan også lave din egen gruppe - om det du ' +
+      'interesserer dig mest for. Du kan spørge gruppeværterne i alle grupperne om mere information.';
     const {data, actions} = this.props;
     return (
       <PageLayout>

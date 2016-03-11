@@ -5,7 +5,7 @@ import React from 'react';
 import './content-grid.scss';
 
 
-function ContentGridElement({ title = 'Untitled', text='', url=null, imageUrl=null}) {
+function ContentGridElement({title = 'Untitled', text='', url=null, imageUrl=null}) {
 
   return (
     <li className="content-grid-element">

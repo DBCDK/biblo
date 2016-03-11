@@ -1,0 +1,28 @@
+@import 'tools';
+
+.colored-header {
+  height: 150px;
+  background-color: $turquoise;
+
+  .colored-header--iconcontainer {
+    @include span(3);
+    align-content: center;
+    .icon {
+      padding-top: 30px;
+      padding-left: 30px;
+      fill: $white
+    }
+  }
+  .colored-header--description {
+    @include span(9 last);
+    color: $white;
+    align-content: center;
+    font-size: 14px;
+    .colored-header--text {
+      h2 {
+        color: $white;
+      }
+      width: 80%;
+    }
+  }
+}

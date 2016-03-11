@@ -233,8 +233,6 @@ function createElasticTranscoderJob(videoData, postId, logger) {
 GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function(req, res) {
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
 
-  console.log(req.body);
-
   let params = {
     title: ' ',
     content: req.body.content,

@@ -220,7 +220,13 @@ export default class AddContent extends React.Component {
           </div>
 
           <div className='content-add--actions' >
-            <input type="submit" className='button submit' id='submit-btn' value="OK" disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100} />
+            <input
+              type='submit'
+              className='button submit'
+              id='submit-btn'
+              value='OK'
+              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100}
+            />
             <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this, null)} value="Fortryd" />
             <div className='content-add--media' >
               <label htmlFor={uniqueId} >

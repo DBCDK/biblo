@@ -105,7 +105,8 @@ describe('Test of AddConent Component', () => {
       />
     );
 
-    const spy = sinon.spy(component, 'handleVideo'); // eslint-disable-line no-undef
+    const mock = sinon.mock(component); // eslint-disable-line no-undef
+    const expectation = mock.expects('handleVideo');
 
     const input = {
       target: {
@@ -118,10 +119,8 @@ describe('Test of AddConent Component', () => {
     };
 
     component.readInput(input);
-    assert.isTrue(spy.called, 'handleVideo was called');
-    expect(component.state.attachment.video.file).to.be.eql({type: 'video/mov', progress: 0}, 'Video file was found in component state');
-
-    spy.restore();
+    assert.isTrue(expectation.called, 'handleVideo was called');
+    mock.restore();
   });
 
   it('it should render form', () => {

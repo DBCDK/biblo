@@ -231,6 +231,7 @@ function createElasticTranscoderJob(videoData, postId, logger) {
  * Add a post to a group
  */
 GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function(req, res) {
+  const logger = req.app.get('logger');
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
 
   let params = {
@@ -250,12 +251,18 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
 
   // creating video conversion jobs at ElasticTranscoder
   if (req.session.videoupload && response) {
-    const logger = req.app.get('logger');
     createElasticTranscoderJob(req.session.videoupload, response[0].id, logger);
   }
 
   req.session.videoupload = null;
-  res.redirect(req.body.redirect);
+
+  if (!response[0]) {
+    logger.error('An occured when creating a new post', {params: params});
+    res.redirect('/error');
+  }
+  else {
+    res.redirect(req.body.redirect);
+  }
 });
 
 /**

@@ -31,7 +31,10 @@ export default class AddContent extends React.Component {
   }
 
   componentDidMount() {
-    autosize(this.refs.postTextarea);
+    autosize(this.refs.contentTextarea);
+    if (this.refs.contentTextarea) {
+      this.refs.contentTextarea.focus();
+    }
   }
 
   /**
@@ -61,13 +64,13 @@ export default class AddContent extends React.Component {
   /**
    * Callback for the 'Fortryd'-button on the 'group-post-form'
    */
-  onAbort() {
+  onAbort(event) {
     if (this.abortXHR) {
       this.abortXHR();
     }
 
     if (this.props.abort) {
-      this.props.abort();
+      this.props.abort(event);
     }
 
     this.setState({text: '', attachment: {image: null, video: null, video_file: null}});
@@ -218,7 +221,8 @@ export default class AddContent extends React.Component {
           <textarea required="required" ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
-                    onChange={(e) => this.setState({text: e.target.value})} />
+                    onChange={(e) => this.setState({text: e.target.value})}
+            />
             {this.state.attachment.image &&
             <div className='content-add--preview-image' >
               <img src={this.state.attachment.image} alt="preview" />
@@ -238,7 +242,7 @@ export default class AddContent extends React.Component {
 
           <div className='content-add--actions' >
             <input type="submit" className='button submit' value="OK" />
-            <input ref="abort" type="reset" className='button alert' onClick={this.onAbort.bind(this, null)} value="Fortryd" />
+            <input ref="abort" type="reset" className='button alert' onClick={this.onAbort.bind(this)} value="Fortryd" />
             <div className='content-add--media' >
               <label htmlFor={uniqueId} >
                 <input

@@ -1,11 +1,17 @@
 'use strict';
 
 import React from 'react';
+import classnames from 'classnames';
 import './tiny-button.scss';
 
-const TinyButton = ({icon, clickFunction}) => {
+const TinyButton = ({icon, clickFunction, active}) => {
+  const classes = {
+    'tiny-button': true,
+    active: active
+  };
+
   return (
-    <span className='tiny-button' onClick={clickFunction}>
+    <span className={classnames(classes)} onClick={clickFunction}>
       <a>{icon}</a>
     </span>
   );

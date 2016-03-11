@@ -18,6 +18,11 @@
 .foreground-image {
   width: 200px;
   height: 200px;
+  img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+  }
   position: relative;
   top: 40px;
   margin: auto;
@@ -41,10 +46,18 @@
   @include min-screen($tablet) {
     @include span(8);
   }
+  .expand-button {
+    border: 1px solid $light-gray;
+    @extend %fredoka-button;
+    svg {
+      fill: $melrose;
+    }
+  }
 }
 
 .group {
   @include clearfix();
+  padding-bottom: 10px;
 
   h2 {
     @extend %h2-body;

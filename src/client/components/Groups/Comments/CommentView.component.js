@@ -7,54 +7,91 @@ import TimeToString from '../../../Utils/timeToString.js';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
+import ContentAdd from '../AddContent/AddContent.component.js';
 
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
+import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
+export default
+class CommentView extends React.Component {
 
-export default function CommentView({content, commentId, image, timeCreated, owner, submitFlagFunction = () => {}, uiActions = {}}) {
+  constructor(props) {
+    super(props);
 
-  const commentFlagModalContent = (
-    <CreateFlagDialog
-      submitFunction={submitFlagFunction}
-      onClose={uiActions.closeModalWindow}
-      contentType={'comment'}
-      contentId={commentId}
-      />
-  );
+    this.state = {
+      isEditting: false
+    };
+  }
 
-  return (
-    <div className='comment-wrapper' >
-      <div className='comment-profile-image' >
-        <img className='profile-image' src={owner.image || null} alt={owner.displayName} />
-      </div>
-      <div className='comment' >
-        <div className='comment--header' >
-          <a href={`/profil/${owner.id}`}><span className='username' >{owner.displayName}</span></a> <span className='time' >{TimeToString(timeCreated)}</span>
-          <span className='buttons'>
+  toggleEditting() {
+    this.setState({isEditting: !this.state.isEditting});
+  }
+
+  render() {
+    const {id, content, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions} = this.props;
+
+    const commentFlagModalContent = (
+      <CreateFlagDialog
+        submitFunction={submitFlagFunction}
+        onClose={uiActions.closeModalWindow}
+        contentType={'comment'}
+        contentId={id}
+        />
+    );
+    return (
+      <div className='comment-wrapper'>
+        <div className='comment-profile-image'>
+          <img className='profile-image' src={owner.image || null} alt={owner.displayName}/>
+        </div>
+        <div className='comment'>
+          <div className='comment--header'>
+            <a href={`/profil/${owner.id}`}>
+              <span className='username'>{owner.displayName}</span>
+            </a> <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+          </div>
+
+          <div className='comment--actions'>
+            {profile.id === owner.id &&
+            <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
+                        icon={<Icon glyph={pencilSvg}/>}/>
+            ||
             <TinyButton
               clickFunction={() => {
                 uiActions.openModalWindow(commentFlagModalContent);
               }}
               icon={<Icon glyph={flagSvg} />}
               />
-          </span>
+            }
+          </div>
+          {
+            this.state.isEditting &&
+            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment"
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id}/>
+            ||
+            <div className="comment--content">
+              <p className='content'>{content}</p>
+              {
+                image &&
+                <div className='media'><img src={image} alt="image for post"/></div>
+              }
+            </div>
+          }
         </div>
-        <p className='content' >{content}</p>
-        {
-          image &&
-          <div className='media' ><img src={image} alt="image for post" /></div>
-        }
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 CommentView.propTypes = {
+  id: React.PropTypes.number,
+  postId: React.PropTypes.number,
+  groupId: React.PropTypes.number,
   content: React.PropTypes.string,
-  commentId: React.PropTypes.number,
   image: React.PropTypes.string,
+  timeCreated: React.PropTypes.string,
+  profile: React.PropTypes.object,
+  owner: React.PropTypes.object,
   submitFlagFunction: React.PropTypes.func.isRequired,
   timestamp: React.PropTypes.string,
-  owner: React.PropTypes.object,
   uiActions: React.PropTypes.object.isRequired
 };

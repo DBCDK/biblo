@@ -3,12 +3,15 @@
 import React from 'react';
 import CommentView from './CommentView.component';
 
-export default function CommentList({comments = [], profile = {}, submitFlagFunction = () => {}, uiActions= {}}) {
+export default function CommentList({comments = [], profile = {}, groupId = null, postId = null, submitFlagFunction = () => {
+}, uiActions= {}}) {
   return (
-    <div className='post-list' >
+    <div className='post-list'>
       {
         comments
-        && comments.map((item) => (<CommentView key={item.id} {...item} commentId={item.id} profile={profile} submitFlagFunction={submitFlagFunction} uiActions={uiActions}/>))
+        && comments.map((item) => (
+          <CommentView key={item.id} {...item} groupId={groupId} postId={postId} profile={profile}
+                       submitFlagFunction={submitFlagFunction} uiActions={uiActions}/>))
         || 'Der er ikke skrevet nogen kommentarer til indlægget endnu'
       }
     </div>);

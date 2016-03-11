@@ -12,8 +12,14 @@ describe('Test of Comment Components', () => {
     image: 'some_url',
     timeCreated: (new Date()).toISOString(),
     owner: {
+      id: 1,
       displayName: 'testUser',
       image: 'some_profile_image'
+    },
+    profile: {
+      id: 1
+    },
+    uiActions: {
     }
   };
 

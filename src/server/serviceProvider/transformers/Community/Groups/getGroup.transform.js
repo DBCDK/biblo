@@ -59,7 +59,7 @@ const GetGroupTransform = {
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
 
-    const uid = typeof connection.request.session.passport !== 'undefined' ? connection.request.session.passport.user.profileId : null;
+    const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
 
     const loggedIn = typeof uid !== 'undefined';
     const body = this.parseGroup(JSON.parse(response.body));

@@ -38,13 +38,16 @@ const CreateGroupContent = {
   },
 
   getSingleContent(query, user) {
-    const postFilter = {
+    const filter = {
       where: {id: query.id},
       include: ['image']
     };
     const method = query.type === 'post' && 'getPosts' || 'getComments';
-    return this.callServiceClient('community', method, {filter: postFilter}).then(response => {
+    return this.callServiceClient('community', method, {filter: filter}).then(response => {
       const post = JSON.parse(response.body)[0];
+      if (!post) {
+        return Promise.reject(new Error('content does not exists'));
+      }
       const ownerId = query.type === 'post' && post.postownerid || post.commentownerid;
       if (ownerId !== user.profileId) {
         return Promise.reject(new Error('user does not have access to edit content'));

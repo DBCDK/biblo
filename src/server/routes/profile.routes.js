@@ -23,6 +23,7 @@ ProfileRoutes.get('/rediger', ensureAuthenticated, fullProfileOnSession, ensureP
 });
 
 ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, upload.single('profile_image'), async function editProfilePost(req, res) {
+  const logger = req.app.get('logger');
   const p = req.session.passport.user.profile.profile;
   const b = req.body;
   let updatedProfileObject = {};
@@ -77,7 +78,9 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   }
   else if (
     typeof b.libraryId === 'string' &&
-    b.libraryId.length > 0
+    b.libraryId.length > 0 ||
+    typeof b.libraryId === 'number' &&
+    b.libraryId > 0
   ) {
     if ((p.favoriteLibrary || {}).libraryId !== b.libraryId) {
       updatedProfileObject.favoriteLibrary = {
@@ -135,26 +138,50 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   if (typeof b.description === 'string') {
     updatedProfileObject.description = b.description;
   }
+  else {
+    updatedProfileObject.description = '';
+  }
 
   if (typeof b.email === 'string') {
     updatedProfileObject.email = b.email;
+  }
+  else {
+    updatedProfileObject.email = '';
   }
 
   if (typeof b.phone === 'string') {
     updatedProfileObject.phone = b.phone;
   }
+  else {
+    updatedProfileObject.phone = '';
+  }
 
   if (typeof b.birthday === 'string' && b.birthday.length > 0) {
     updatedProfileObject.birthday = b.birthday;
+  }
+  else {
+    updatedProfileObject.birthday = null;
   }
 
   if (typeof b.fullName === 'string') {
     updatedProfileObject.fullName = b.fullName;
   }
+  else {
+    updatedProfileObject.fullName = '';
+  }
 
-  if (errors.length > 0) {
+  if (JSON.stringify(updatedProfileObject) === '{}') {
+    data.status = 'OK';
+    data.redirect = '/profil/' + p.id;
+
+    if (!req.xhr) {
+      return res.redirect(data.redirect);
+    }
+  }
+  else if (errors.length > 0) {
     data.status = 'ERROR';
     data.errors = errors;
+    logger.info('Errors found in profile submit', data);
   }
   else {
     const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];

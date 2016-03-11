@@ -89,16 +89,17 @@ class PostView extends React.Component {
         <div className='post'>
           <div className='post--header'>
             <a href={`/profil/${owner.id}`}><span className='username'>{owner.displayName}</span></a>
-            <span className='time'>{TimeToString(timeCreated)}</span>
+            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons'>
+              {profile.id === owner.id &&
+              <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()} icon={<Icon glyph={pencilSvg}/>}/>
+                ||
               <TinyButton
                 clickFunction={() => {
                   this.props.uiActions.openModalWindow(postFlagModalContent);
                 }}
                 icon={<Icon glyph={flagSvg} />}
-              />
-              {profile.id === owner.id &&
-              <TinyButton clickFunction={() => this.toggleEditting()} icon={<Icon glyph={pencilSvg}/>}/>
+                />
               }
             </span>
           </div>
@@ -115,8 +116,7 @@ class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId} submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}/>
-
+          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions} />
           <div className="post--load-more-comments">
             {commentsCount > numberOfCommentsLoaded &&
             (<div>

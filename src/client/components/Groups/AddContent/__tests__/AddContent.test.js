@@ -40,34 +40,6 @@ describe('Test of AddConent Component', () => {
     spy.restore();
   });
 
-  it('onSubmit method should call uploadVideoFile attachment.video field has a value', () => {
-    let component = TestUtils.renderIntoDocument(
-      <AddContent
-        profile={profile}
-        parentId={1}
-        type="test"
-        redirectTo="some_url"
-        abort={() => {}}
-      />
-    );
-
-    component.state = {
-      text: 'test',
-      attachment: {
-        video: {
-          file: {
-          }
-        }
-      }
-    };
-
-    let spy = sinon.spy(component, 'uploadVideoFile'); // eslint-disable-line no-undef
-    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    TestUtils.Simulate.submit(form);
-    assert.isTrue(spy.called, 'uploadVideoFile method was invoked');
-    spy.restore();
-  });
-
   it('readInput method should return false if given filetype is neither image or video', () => {
     let component = TestUtils.renderIntoDocument(
       <AddContent

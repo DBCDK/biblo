@@ -23,8 +23,7 @@ export default class AddContent extends React.Component {
       text: props.text || '',
       attachment: {
         image: props.image || null,
-        video: null,
-        video_file: null
+        video: null
       },
       imageRemoved: false
     };
@@ -43,22 +42,10 @@ export default class AddContent extends React.Component {
    * @param {Event} e
    */
   onSubmit(e) {
-    if (!this.state.text.length) {
+    if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
       alert('Dit indlæg skal indeholde tekst'); // eslint-disable-line no-alert
     }
-
-    if (this.state.attachment.video) {
-      e.preventDefault();
-      this.uploadVideoFile(this.state.attachment.video.file);
-    }
-  }
-
-  /**
-   * Programmatically submits the 'group-post-form'
-   */
-  submitForm() {
-    this.refs['group-post-form'].submit();
   }
 
   /**
@@ -73,7 +60,7 @@ export default class AddContent extends React.Component {
       this.props.abort(event);
     }
 
-    this.setState({text: '', attachment: {image: null, video: null, video_file: null}});
+    this.setState({text: '', attachment: {image: null, video: null}});
     this.abortXHR = null;
   }
 
@@ -112,7 +99,7 @@ export default class AddContent extends React.Component {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-      const attachment = {image: e.target.result, video: null, video_file: null};
+      const attachment = {image: e.target.result, video: null};
       this.setState({attachment: attachment});
     };
 
@@ -126,8 +113,9 @@ export default class AddContent extends React.Component {
    */
   handleVideo(file) {
     file.progress = 0;
-    const attachment = {image: null, video: {file: file}, video_file: null};
+    const attachment = {image: null, video: {file: file}};
     this.setState({attachment: attachment});
+    this.uploadVideoFile(file);
   }
 
   /**
@@ -160,20 +148,11 @@ export default class AddContent extends React.Component {
 
     XHR.onload = (e) => {
       this.abortXHR = null;
-      try {
-        const response = JSON.parse(e.target.response);
-        let attachment = this.state.attachment;
-
-        attachment.video_file = response.file;
-        attachment.video = null;
-        this.setState({attachment: attachment});
-
+      if (e.target.status === 200) {
         this.refs.fileInput.value = null;
-        this.submitForm();
-
       }
-      catch (err) { // eslint-disable-line no-catch-shadow
-        console.error('Some error occurred', err); // eslint-disable-line no-console
+      else {
+        console.error('Some error occurred', e.target); // eslint-disable-line no-console
       }
     };
 
@@ -206,6 +185,8 @@ export default class AddContent extends React.Component {
 
     const uniqueId = `upload-media-${this.props.type}-${this.props.id || this.props.parentId}`;
 
+    const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
+
     return (
       <div className='content-add' >
         <form method="POST" action={`/grupper/content/${this.props.type}`} encType="multipart/form-data"
@@ -216,9 +197,7 @@ export default class AddContent extends React.Component {
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved} />
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo} />
             <input type="hidden" name="parentId" value={this.props.parentId} />
-            {this.state.attachment.video_file &&
-            <input type="hidden" className="video_file" name="video_file" value={this.state.attachment.video_file} />}
-          <textarea required="required" ref='contentTextarea' name="content"
+          <textarea ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
                     onChange={(e) => this.setState({text: e.target.value})}
@@ -234,15 +213,21 @@ export default class AddContent extends React.Component {
               {this.state.attachment.video &&
               <div>
                 <span className="preview-video--name" >{this.state.attachment.video.file.name}</span>
-                <progress max="100" value={this.state.attachment.video.file.progress || 0} />
+                <progress className={progressStatusClass} max="100" value={this.state.attachment.video.file.progress || 0} />
               </div>
               }
             </div>
           </div>
 
           <div className='content-add--actions' >
-            <input type="submit" className='button submit' value="OK" />
-            <input ref="abort" type="reset" className='button alert' onClick={this.onAbort.bind(this)} value="Fortryd" />
+            <input
+              type='submit'
+              className='button submit'
+              id='submit-btn'
+              value='OK'
+              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100}
+            />
+            <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this, null)} value="Fortryd" />
             <div className='content-add--media' >
               <label htmlFor={uniqueId} >
                 <input

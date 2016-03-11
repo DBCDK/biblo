@@ -189,9 +189,49 @@ async function fetchGroupData(params, req, res, update = {}) {
 GroupRoutes.get('/:id', fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
 
 /**
+ * Creating ElasticTranscoder jobs at AWS
+ *
+ * @param {Object} videoData
+ * @param {string} postId
+ * @param {Object} logger
+ */
+function createElasticTranscoderJob(videoData, postId, logger) {
+  if (typeof postId !== 'string') {
+    postId = postId.toString();
+  }
+  // AWS Docs: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ElasticTranscoder.html#createJob-property
+  const params = {
+    Input: {
+      Key: videoData.videofile
+    },
+    PipelineId: '1456826915509-r6pfck',
+    Output: {
+      Key: `${videoData.pureFileName}.mp4`,
+      PresetId: '1351620000001-100070', // WEB-preset
+      ThumbnailPattern: `${videoData.pureFileName}_thumb_{count}`
+    },
+    UserMetadata: {
+      postId: postId,
+      destinationContainer: 'uxdev-biblo-output-videobucket', // our output bucket
+      mimetype: 'video/mp4' // mimetype af output
+    }
+  };
+
+  ElasticTranscoder.createJob(params, (err) => {
+    if (err) {
+      logger.error('ElasticTranscoder job creation failed', {error: err, params: params});
+    }
+    else {
+      logger.info('ElasticTranscoder job was successfully created', {params: params});
+    }
+  });
+}
+
+/**
  * Add a post to a group
  */
 GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function(req, res) {
+  const logger = req.app.get('logger');
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
 
   let params = {
@@ -206,56 +246,48 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
   if (req.session.videoupload) {
     params.video = req.session.videoupload;
   }
+
+  const response = await req.callServiceProvider('createGroupContent', params, {request: req});
+
+  // creating video conversion jobs at ElasticTranscoder
+  if (req.session.videoupload && response) {
+    createElasticTranscoderJob(req.session.videoupload, response[0].id, logger);
+  }
+
   req.session.videoupload = null;
 
-  try {
-    await req.callServiceProvider('createGroupContent', params, {request: req});
-    res.redirect(req.body.redirect);
-  }
-  catch (e) {
+  if (!response[0]) {
+    logger.error('An occured when creating a new post', {params: params});
     res.redirect('/error');
   }
-
+  else {
+    res.redirect(req.body.redirect);
+  }
 });
 
 /**
- * // TODO mmj docs...
+ * API endpoint for uploading video to AWS S3
  */
 GroupRoutes.post('/api/uploadmedia', ensureAuthenticated, uploadS3.single('video'), (req, res) => {
-  const pureFileName = req.file.filename.substring(0, req.file.filename.lastIndexOf('.'));
+  const logger = req.app.get('logger');
+  const video = req.file && req.file.mimetype && req.file.mimetype.indexOf('video') >= 0 && req.file || null;
+  const pureFileName = video.filename.substring(0, video.filename.lastIndexOf('.'));
 
-  // AWS Docs: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ElasticTranscoder.html#createJob-property
-  const params = {
-    Input: {
-      Key: req.file.key
-    },
-    PipelineId: '1456826915509-r6pfck',
-    Output: {
-      Key: `${pureFileName}.mp4`,
-      PresetId: '1351620000001-100070', // WEB-preset
-      ThumbnailPattern: `${pureFileName}_thumb_{count}`
-    }
-  };
+  if (video) {
+    req.session.videoupload = {
+      mimetype: video.mimetype,
+      videofile: video.key,
+      container: 'uxdev-biblo-input-videobucket',
+      pureFileName: pureFileName
+    };
 
-  ElasticTranscoder.createJob(params, (err) => {
-    if (err) {
-      res.status(400).send({
-        status: 'NOT',
-        error: err
-      });
-    }
-    else {
-      req.session.videoupload = {
-        mimetype: req.file.mimetype,
-        videofile: 'uploads/' + req.file.filename,
-        container: 'uxdev-biblo-input-videobucket'
-      };
-      res.status(200).send({
-        status: 'OK',
-        file: req.file.filename
-      });
-    }
-  });
+    logger.info('Successfully uploaded video to AWS S3', {video: video});
+    res.sendStatus(200);
+  }
+  else {
+    logger.error('An error uccurred while uploading a video to AWS', {session: req.session});
+    res.sendStatus(400);
+  }
 });
 
 function listGroups(groupData, res) {

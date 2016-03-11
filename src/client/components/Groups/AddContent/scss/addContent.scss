@@ -82,11 +82,32 @@ progress[value] {
   }
 
   &::-moz-progress-bar {
-    background-color: #5FC55F;
+    background-color: #6085c5;
   }
 
   &::-webkit-progress-value {
-    background-color: #5FC55F;
+    background-color: #6085c5;
+    //background-color: #5FC55F;
+  }
+
+  &.done {
+    &::-moz-progress-bar {
+      background-color: #5FC55F;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #5FC55F;
+    }
+  }
+
+  &.error {
+    &::-moz-progress-bar {
+      background-color: #c52f3e;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #c52f3e;
+    }
   }
 }
 

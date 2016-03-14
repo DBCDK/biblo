@@ -3,16 +3,7 @@
 import React, {PropTypes} from 'react';
 import './styling/navbar-profile-image.scss';
 
-let image = {
-  shouldDisplay: false
-};
-
-let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
-if (data && data.innerHTML && data.innerHTML.length > 0) {
-  image = JSON.parse(data.innerHTML);
-}
-
-export default function NavBarProfileImage({url, notifications}) {
+export default function NavBarProfileImage({image, url,  notifications}) {
   let html = <span />;
 
   if (image.shouldDisplay) {

@@ -7,7 +7,7 @@ import NavbarIconLink from './NavbarIconLink.component.js';
 import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
-import {DET_SKER_PAGE, GROUP_OVERVIEW, PROFILE_EDIT, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
+import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
 import Icon from '../General/Icon/Icon.component';
 import bibloSvg from './svg/biblo_negative.svg';

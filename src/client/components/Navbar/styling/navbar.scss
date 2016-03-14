@@ -8,8 +8,10 @@
 }
 
 .navbar--container {
+  height: 80px;
   @include clearfix();
-  padding: 20px 40px;
+  padding-left: 40px;
+  vertical-align: middle;
   @include max-screen($tablet) {
     padding: 20px;
   }
@@ -21,16 +23,17 @@
 }
 
 .navbar--menu {
-  @include span(8);
+  @include span(10);
   @include max-screen(600px) {
     display: none;
   }
   text-align: left;
+  vertical-align: middle;
   ul {
     @extend %inline-list;
     position: relative;
-    top: 22px;
-
+    vertical-align: middle;
+    padding-top: 22px;
   }
   li {
     &:first-child {
@@ -45,11 +48,8 @@
 }
 
 .navbar--icons {
-  @include span(4 last);
-  @include max-screen(600px) {
-    @include span(12 last);
-  }
-  text-align: right;
+  @include span(2 last);
+  padding-top: 20px;
   a {
     margin-left: 10px;
     &:first-child {
@@ -58,3 +58,18 @@
   }
 }
 
+.navbar--profile {
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  vertical-align: middle;
+
+  div {
+    position: relative;
+  }
+
+  img {
+    width: 42px;
+    height: 42px;
+  }
+}

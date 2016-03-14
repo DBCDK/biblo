@@ -40,33 +40,31 @@ describe('Test NavbarContainer Component', () => {
         assert.isFalse(menuButton.classList.contains('is-active'), 'menu button is not active');
         done();
       });
-
     }, 0);
   });
 
   it('Assert hide unhide profile dropdown', (done) => {
-
     let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
-    let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'icon-link--profile');
-    let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'profile');
-    let closeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
+    let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');
+    let toggleButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
 
-    assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
+    assert.isFalse(toggleButton.classList.contains('is-active'), 'menu is not active');
+    done();
+
     TestUtils.Simulate.click(menuButton);
     setTimeout(() => {
-      assert.isTrue(menu.classList.contains('is-active'), 'menu is active');
-      assert.isTrue(closeButton.classList.contains('is-active'), 'menu close button is active');
-      TestUtils.Simulate.click(menuButton);
+      assert.isTrue(toggleButton.classList.contains('is-active'), 'menu is active');
+      assert.isTrue(toggleButton.classList.contains('is-active'), 'menu close button is active');
+      TestUtils.Simulate.click(toggleButton);
       setTimeout(() => {
-        assert.isFalse(menu.classList.contains('is-active'), 'menu is not active');
-        assert.isFalse(closeButton.classList.contains('is-active'), 'menu close button is not active');
+        assert.isFalse(toggleButton.classList.contains('is-active'), 'menu is not active');
         done();
       });
     });
+
   });
 
   it('Assert click overlay', (done) => {
-
     let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');

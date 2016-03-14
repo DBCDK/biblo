@@ -3,7 +3,7 @@
 import React, {PropTypes} from 'react';
 import './styling/navbar-profile-image.scss';
 
-export default function NavBarProfileImage({image, url,  notifications}) {
+export default function NavBarProfileImage({image, url, notifications}) {
   let html = <span />;
 
   if (image.shouldDisplay) {

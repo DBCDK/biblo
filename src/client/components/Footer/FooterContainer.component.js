@@ -16,9 +16,10 @@ export default class FooterContainer extends React.Component {
           <div className="footer--left-coloumn">
             <ul>
               <li>
-              <a className='bibloLogo' href={hyperlinks.DET_SKER_PAGE}> <Icon icon="profile" width='100'  height='30' glyph={bibloSvg}> </Icon> </a>
+                <a className='bibloLogo' href={hyperlinks.DET_SKER_PAGE}>
+                  <Icon icon="profile" width='100' height='30' glyph={bibloSvg}/>
+                </a>
               </li>
-
               <li>
                 <a href={hyperlinks.GROUP_OVERVIEW}>
                   <h2>GRUPPER</h2>
@@ -50,7 +51,7 @@ export default class FooterContainer extends React.Component {
         </div>
 
         <div className="footer--bottom">
-          <img className="footer--bottom-image" src="/footer_layer_258.png" />
+          <img className="footer--bottom-image" src="/footer_layer_258.png"/>
         </div>
       </div>
     );

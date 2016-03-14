@@ -24,7 +24,6 @@ if (data && data.innerHTML && data.innerHTML.length > 0) {
   image = JSON.parse(data.innerHTML);
 }
 
-
 export default
 class NavbarContainer extends React.Component {
   constructor(props) {
@@ -55,21 +54,11 @@ class NavbarContainer extends React.Component {
     this.setState({active});
   }
 
-  renderProfileImage() {
-    if (image.shouldDisplay) {
-      return <NavBarProfileImage image={image} url={PUBLIC_PROFILE}/>;
-    }
-    else {
-      return <NavBarProfileImage image={image} url={PROFILE_EDIT}/>;
-    }
-  }
-
   renderLoginLink() {
     if (!image.shouldDisplay) {
       return <li><NavbarLink value='Log ind' url='/login'/></li>;
-    } else {
-      return <li><NavbarLink value='Log ud' url='/logout'/></li>
     }
+    return <li><NavbarLink value='Log ud' url='/logout'/></li>;
   }
 
   render() {
@@ -78,21 +67,23 @@ class NavbarContainer extends React.Component {
         <div className="navbar--container">
           <div className="navbar--menu">
             <ul className="inline-list">
-              <a className='bibloLogo' href='/'> <Icon icon="profile" width='100'  height='30' glyph={bibloSvg}> </Icon> </a>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
+              <a className='bibloLogo' href='/'> <Icon icon="profile" width='100' height='30' glyph={bibloSvg} />
+              </a>
+              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
             </ul>
           </div>
 
           <div className="navbar--icons">
-            <NavbarIconLink className="navbar--profile" glyph={profileSvg} url="#" onClick={() => this.onToggle('profile')}/>
-            {this.renderProfileImage()}
+            <NavbarIconLink className="navbar--profile" glyph={profileSvg} url="#"
+                            onClick={() => this.onToggle('profile')}/>
+            <NavBarProfileImage image={image} url={PUBLIC_PROFILE}/>;
             <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
           </div>
         </div>
         <NavbarMobileMenu active={this.state.active.menu} type='menu'>
           <div className="">
             <ul className="">
-              <li><NavbarLink value='Det Sker' url={DET_SKER_PAGE} /></li>
+              <li><NavbarLink value='Det Sker' url={DET_SKER_PAGE}/></li>
               <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
             </ul>
           </div>

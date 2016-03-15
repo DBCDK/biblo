@@ -54,11 +54,29 @@ class NavbarContainer extends React.Component {
     this.setState({active});
   }
 
-  renderLoginLink() {
-    if (!image.shouldDisplay) {
-      return <li><NavbarLink value='Log ind' url='/login'/></li>;
+  renderProfile() {
+    if (image.shouldDisplay) {
+      return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>);
     }
-    return <li><NavbarLink value='Log ud' url='/logout'/></li>;
+    return (<NavbarIconLink className="navbar--profile" url="#" glyph={profileSvg}
+                             onClick={() => this.onToggle('profile')}/>);
+  }
+
+  renderProfileLinks() {
+    if (!image.shouldDisplay) {
+      return (
+        <ul className="">
+          <li><NavbarLink value='Log ind' url='/login'/></li>
+        </ul>
+      );
+    }
+
+    return (
+      <ul className="">
+        <li><NavbarLink value='Profil' url='/profil'/></li>
+        <li><NavbarLink value='Log ud' url='/logout'/></li>
+      </ul>
+    );
   }
 
   render() {
@@ -67,16 +85,15 @@ class NavbarContainer extends React.Component {
         <div className="navbar--container">
           <div className="navbar--menu">
             <ul className="inline-list">
-              <a className='bibloLogo' href='/'> <Icon icon="profile" width='100' height='30' glyph={bibloSvg} />
+              <a href={DET_SKER_PAGE}> <Icon icon="profile" width='100' height='30'
+                                                                   glyph={bibloSvg}/>
               </a>
               <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
             </ul>
           </div>
 
           <div className="navbar--icons">
-            <NavbarIconLink className="navbar--profile" glyph={profileSvg} url="#"
-                            onClick={() => this.onToggle('profile')}/>
-            <NavBarProfileImage image={image} url={PUBLIC_PROFILE}/>;
+            {this.renderProfile()}
             <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
           </div>
         </div>
@@ -90,9 +107,7 @@ class NavbarContainer extends React.Component {
         </NavbarMobileMenu>
         <NavbarMobileMenu active={this.state.active.profile} type='profile'>
           <div className="">
-            <ul className="">
-              {this.renderLoginLink()}
-            </ul>
+            {this.renderProfileLinks()}
           </div>
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')}/>

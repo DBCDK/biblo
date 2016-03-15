@@ -11,9 +11,10 @@
 }
 
 .post {
+  position: relative;
+
   @include min-screen($tablet) {
     margin-left: 80px;
-    position: relative;
     top: 0;
     background: #eee;
     padding: 20px;

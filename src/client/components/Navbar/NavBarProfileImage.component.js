@@ -3,12 +3,12 @@
 import React, {PropTypes} from 'react';
 import './styling/navbar-profile-image.scss';
 
-export default function NavBarProfileImage({image, url, notifications}) {
+export default function NavBarProfileImage({image, url, onClick, notifications}) {
   let html = <span />;
 
   if (image.shouldDisplay) {
     html = (
-      <a className={'profile-image--icon'} href={url}>
+      <a className={'profile-image--icon'} onClick={(event) => onClick && onClick(event)}>
         <div>
           {notifications > 0 ? <span className="profile-image--notification-count">{notifications}</span> : <span />}
           <img src={image.url} />

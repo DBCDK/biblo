@@ -17,7 +17,7 @@ export const PUBLIC_PROFILE = '/profil';
 export const PROFILE_EDIT = '/profil/rediger';
 
 // Links to static pages
-export const DET_SKER_PAGE = '#!/Pages/DetSker';
+export const DET_SKER_PAGE = '/';
 export const OM_BIBLIO_PAGE = '#!/Pages/om_biblo';
 export const SOS = '#!/Pages/sos';
 export const SIKKERHED_PAA_BIBLO = '#!/Pages/sikkerhed';

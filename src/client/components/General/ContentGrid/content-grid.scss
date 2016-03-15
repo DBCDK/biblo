@@ -14,7 +14,17 @@
 }
 
 .content-grid-element {
-  @include gallery(1 of 3);
+  @include min-screen($tablet) {
+    @include gallery(1 of 3);
+  }
+  @include max-screen($tablet - 1px) {
+    @include gallery(1 of 2);
+  }
+
+  @include max-screen($phone - 1px) {
+
+  }
+
 
   a {
     color: $black;

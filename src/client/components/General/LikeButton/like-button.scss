@@ -1,0 +1,26 @@
+@import 'tools';
+
+.like-button {
+
+  @include no-selection();
+
+  cursor: pointer;
+  margin-left: 20px;
+
+  p {
+    position: relative;
+    top: -3px;
+    left: 5px;
+    font-size: 0.8rem;
+    color: $black;
+    display: inline;
+  }
+
+  fill: $carnation;
+
+  &:hover {
+    fill: saturate(lighten($carnation, 10%), 50%);
+  }
+
+}
+

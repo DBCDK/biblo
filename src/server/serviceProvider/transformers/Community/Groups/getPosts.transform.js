@@ -29,10 +29,16 @@ const GetPostsTransform = {
     return comment;
   },
 
+
+  parseLike(like) {
+    return like.profileId;
+  },
+
   parsePost(post) {
     post.owner = this.parseProfile(post.owner);
     post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
     post.comments = post.comments && post.comments.map(comment => this.parseComment(comment)) || [];
+    post.likes = post.likes && post.likes.map(like => this.parseLike(like)) || [];
     return post;
   },
 
@@ -61,7 +67,7 @@ const GetPostsTransform = {
       counts: 'comments',
       where: {groupid: id},
       order: 'timeCreated DESC',
-      include: ['image', {owner: ['image']}]
+      include: ['image', {owner: ['image']}, 'likes']
     };
 
     return this.callServiceClient('community', 'getPosts', {id, filter: postFilter});

@@ -60,6 +60,12 @@ export default function groupViewReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {posts: postsloadingComments});
+    case types.LIKE_POST:
+      console.log('like reducer', action);
+      return state;
+    case types.UNLIKE_POST:
+      console.log('unlike reducer', action);
+      return state;
     default:
       return state;
   }

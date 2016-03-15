@@ -8,31 +8,24 @@
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 
-const flagPostSocketClient = SocketClient('flagPost');
-const flagGroupSocketClient = SocketClient('flagGroup');
-const flagCommentSocketClient = SocketClient('flagComment');
+const likePostSocketClient = SocketClient('likePost');
+const unlikePostSocketClient = SocketClient('unlikePost');
 
-
-export function flagPost(flag) {
-  flagPostSocketClient.request({flag});
-
+export function likePost(like) {
+  likePostSocketClient.request({
+    profileId: like.profileId,
+    postId: like.postId
+  });
   return {
-    type: types.FLAG_POST
+    type: types.LIKE_POST,
+    profileId: like.profileId,
+    postId: like.postId
   };
 }
 
-export function flagComment(flag) {
-  flagCommentSocketClient.request({flag});
-
+export function unlikePost(like) {
+  unlikePostSocketClient.request({like});
   return {
-    type: types.FLAG_COMMENT
-  };
-}
-
-export function flagGroup(flag) {
-  flagGroupSocketClient.request({flag});
-
-  return {
-    type: types.FLAG_GROUP
+    type: types.UNLIKE_POST
   };
 }

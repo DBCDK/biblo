@@ -7,6 +7,7 @@ import TimeToString from '../../../Utils/timeToString.js';
 import ContentAdd from '../AddContent/AddContent.component';
 import CommentList from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
+import LikeButton from '../../General/LikeButton/LikeButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
@@ -14,6 +15,8 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
+
+import {includes} from 'lodash';
 
 export default
 class PostView extends React.Component {
@@ -27,6 +30,8 @@ class PostView extends React.Component {
     };
 
     this.submitPostFlag = this.submitPostFlag.bind(this);
+    this.likePost = this.likePost.bind(this);
+    this.unlikePost = this.unlikePost.bind(this);
     this.submitCommentFlag = this.submitCommentFlag.bind(this);
   }
 
@@ -48,6 +53,19 @@ class PostView extends React.Component {
   submitGroupFlag(flag) { // eslint-disable-line
     flag.flagger = this.props.profile.id;
     this.props.flagActions.flagGroup(flag);
+  }
+
+  likePost() {
+    console.log('liked post', this.props.id);
+    this.props.likeActions.likePost({
+      postId: this.props.id,
+      profileId: this.props.profile.id
+    });
+  }
+
+  unlikePost() {
+    console.log('unliked post', this.props.id);
+    this.props.likeActions.unlikePost();
   }
 
   toggleEditting() {
@@ -79,6 +97,17 @@ class PostView extends React.Component {
         contentType={'post'}
         contentId={id}
       />
+    );
+
+    const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
+
+    const likeButton = (
+      <LikeButton
+        likeFunction={this.likePost}
+        unlikeFunction={this.unlikePost}
+        usersWhoLikeThis={this.props.likes}
+        isLikedByCurrentUser={isLikedByCurrentUser}
+        />
     );
 
     return (
@@ -139,6 +168,7 @@ class PostView extends React.Component {
           <a className="comment-add-button" href="#add-comment"
              onClick={e => this.toggleCommentInput(e)}><Icon glyph={backSvg}/>Svar</a>
           }
+          {likeButton}
         </div>
       </div>
     );
@@ -151,12 +181,14 @@ PostView.propTypes = {
   image: React.PropTypes.string,
   timeCreated: React.PropTypes.string,
   owner: React.PropTypes.object,
+  likes: React.PropTypes.array,
   id: React.PropTypes.number,
   profile: React.PropTypes.object.isRequired,
   groupId: React.PropTypes.number,
   comments: React.PropTypes.array,
   uiActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
   commentsCount: React.PropTypes.number,
   numberOfCommentsLoaded: React.PropTypes.number,
   loadingComments: React.PropTypes.bool,

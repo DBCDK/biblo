@@ -56,11 +56,10 @@ class NavbarContainer extends React.Component {
 
   renderProfile() {
     if (image.shouldDisplay) {
-      return <NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>
-    } else {
-      return <NavbarIconLink className="navbar--profile" url="#" glyph={profileSvg}
-                             onClick={() => this.onToggle('profile')}/>
+      return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>);
     }
+    return (<NavbarIconLink className="navbar--profile" url="#" glyph={profileSvg}
+                             onClick={() => this.onToggle('profile')}/>);
   }
 
   renderProfileLinks() {
@@ -69,7 +68,7 @@ class NavbarContainer extends React.Component {
         <ul className="">
           <li><NavbarLink value='Log ind' url='/login'/></li>
         </ul>
-      )
+      );
     }
 
     return (
@@ -77,7 +76,7 @@ class NavbarContainer extends React.Component {
         <li><NavbarLink value='Profil' url='/profil'/></li>
         <li><NavbarLink value='Log ud' url='/logout'/></li>
       </ul>
-    )
+    );
   }
 
   render() {

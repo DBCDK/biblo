@@ -13,7 +13,7 @@ const GetGroupTransform = {
       return {
         id: owner.id,
         displayName: owner.displayName,
-        image: owner.image && '/billede/' + owner.image.id || null
+        image: owner.image
       };
     }
 
@@ -46,7 +46,10 @@ const GetGroupTransform = {
           }
         },
         {
-          relation: 'owner'
+          relation: 'owner',
+          scope: {
+            include: ['image']
+          }
         },
         {
           relation: 'coverImage'

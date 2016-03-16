@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import autosize from 'autosize';
+import 'nodep-date-input-polyfill-danish';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
@@ -161,13 +162,14 @@ export default class ProfileForm extends React.Component {
             />
 
             <InputField
-              defaultValue={this.props.birthday}
+              defaultValue={(new Date(this.props.birthday)).toISOString().split('T')[0]} // YYYY-MM-DD
               error={errorObj.birthday}
               onChangeFunc={(e) => this.setState({birthday: e.target.value})}
-              type="text"
+              type="date"
               name="birthday"
               title="Din fødselsdag"
               placeholder="Din fødselsdag"
+              min={new Date()}
             />
 
             <div className="library--form-area">

@@ -25,7 +25,6 @@ import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import {PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
-
 import './ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
@@ -36,9 +35,14 @@ export class ProfileDetailContainer extends React.Component {
     });
 
     let feed = this.props.feed.feed.map((activity) => {
+      activity.owner = assignToEmpty({
+        id: '',
+        displayName: ''
+      }, activity.owner);
+
       switch (activity.type) {
         case 'comment':
-          let title = userProfile.displayName + ' skrev en kommentar';
+          let title = activity.owner.displayName + ' skrev en kommentar';
 
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
@@ -51,12 +55,6 @@ export class ProfileDetailContainer extends React.Component {
             title += ' til et indlæg:';
           }
 
-          activity.owner = userProfile;
-
-          if (activity.image && activity.image.id) {
-            activity.image = '/billede/' + activity.image.id + '/small';
-          }
-
           activity = assignToEmpty({
             imageSrc: '',
             id: '',
@@ -67,6 +65,11 @@ export class ProfileDetailContainer extends React.Component {
             content: '',
             id: ''
           }, activity.post);
+
+          activity.post.owner = assignToEmpty({
+            displayName: '',
+            id: ''
+          }, activity.post.owner);
 
           activity.post.group = assignToEmpty({
             id: '',
@@ -83,7 +86,7 @@ export class ProfileDetailContainer extends React.Component {
               <PostView
                 content={activity.post.content}
                 timeCreated={activity.timeCreated}
-                owner={userProfile}
+                owner={activity.post.owner}
                 id={activity.post.id}
                 profile={this.props.profile}
                 groupId={activity.post.groupid}
@@ -93,13 +96,27 @@ export class ProfileDetailContainer extends React.Component {
                 actions={{}}
                 flagActions={this.props.flagActions}
                 loadingComments={false}
-                commentRedirect={`/profil/${userProfile.id}`}
+                commentRedirect={`/profil/${activity.owner.id}`}
                 uiActions={this.props.uiActions}
+                image={activity.post.image}
               />
             </ActivityRow>
           );
 
         case 'post':
+          let postTitle = activity.owner.displayName + ' oprettede et indlæg';
+
+          if (activity.group && activity.group.name) {
+            postTitle = (
+              <span>
+                {postTitle} i gruppen <a href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+              </span>
+            );
+          }
+          else {
+            postTitle += ':';
+          }
+
           activity = assignToEmpty({
             imageSrc: '',
             id: '',
@@ -117,12 +134,12 @@ export class ProfileDetailContainer extends React.Component {
               likes={0}
               imageSrc={activity.imageSrc}
               key={'post_' + activity.id}
-              title={userProfile.displayName + ' oprettede et indlæg i gruppen ' + activity.group.name + ':'}
+              title={postTitle}
             >
               <PostView
                 content={activity.content}
                 timeCreated={activity.timeCreated}
-                owner={userProfile}
+                owner={activity.owner}
                 id={activity.id}
                 profile={this.props.profile}
                 groupId={activity.group.id}
@@ -133,6 +150,7 @@ export class ProfileDetailContainer extends React.Component {
                 flagActions={this.props.flagActions}
                 loadingComments={false}
                 uiActions={this.props.uiActions}
+                image={activity.image}
               />
             </ActivityRow>
           );

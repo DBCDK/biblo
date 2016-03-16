@@ -25,7 +25,6 @@ import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import {PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
-
 import './ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
@@ -54,10 +53,6 @@ export class ProfileDetailContainer extends React.Component {
           }
           else {
             title += ' til et indlæg:';
-          }
-
-          if (activity.image && activity.image.id) {
-            activity.image = '/billede/' + activity.image.id + '/small';
           }
 
           activity = assignToEmpty({
@@ -103,11 +98,25 @@ export class ProfileDetailContainer extends React.Component {
                 loadingComments={false}
                 commentRedirect={`/profil/${activity.owner.id}`}
                 uiActions={this.props.uiActions}
+                image={activity.post.image}
               />
             </ActivityRow>
           );
 
         case 'post':
+          let postTitle = activity.owner.displayName + ' oprettede et indlæg';
+
+          if (activity.group && activity.group.name) {
+            postTitle = (
+              <span>
+                {postTitle} i gruppen <a href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+              </span>
+            );
+          }
+          else {
+            postTitle += ':';
+          }
+
           activity = assignToEmpty({
             imageSrc: '',
             id: '',
@@ -125,7 +134,7 @@ export class ProfileDetailContainer extends React.Component {
               likes={0}
               imageSrc={activity.imageSrc}
               key={'post_' + activity.id}
-              title={userProfile.displayName + ' oprettede et indlæg i gruppen ' + activity.group.name + ':'}
+              title={postTitle}
             >
               <PostView
                 content={activity.content}
@@ -141,6 +150,7 @@ export class ProfileDetailContainer extends React.Component {
                 flagActions={this.props.flagActions}
                 loadingComments={false}
                 uiActions={this.props.uiActions}
+                image={activity.image}
               />
             </ActivityRow>
           );

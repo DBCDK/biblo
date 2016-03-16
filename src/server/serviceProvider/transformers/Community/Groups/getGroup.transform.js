@@ -1,6 +1,7 @@
 'use strict';
 
 import * as _ from 'lodash';
+import parseProfile from '../../../parsers/profile.parser';
 
 const GetGroupTransform = {
 
@@ -8,25 +9,8 @@ const GetGroupTransform = {
     return 'getGroup';
   },
 
-  parseProfile(owner) {
-    if (owner) {
-      return {
-        id: owner.id,
-        displayName: owner.displayName,
-        image: owner.image && '/billede/' + owner.image.id || null
-      };
-    }
-
-    // All posts, groups and comments should have an owner. This is a fallback in case of mysterious events
-    return {
-      id: 0,
-      displayName: 'Anonym',
-      image: 'http://lorempixel.com/200/200/'
-    };
-  },
-
   parseGroup(group) {
-    group.owner = this.parseProfile(group.owner);
+    group.owner = parseProfile(group.owner, true, 'small');
     group.image = group.coverImage && '/billede/' + group.coverImage.id + '/medium' || null;
     return group;
   },
@@ -46,7 +30,10 @@ const GetGroupTransform = {
           }
         },
         {
-          relation: 'owner'
+          relation: 'owner',
+          scope: {
+            include: ['image']
+          }
         },
         {
           relation: 'coverImage'
@@ -68,7 +55,9 @@ const GetGroupTransform = {
       // is the current user following the group?
       body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
       // get some members who aren't owners
-      body.members = _.filter(body.members, (member) => member.id !== body.owner.id);
+      body.members = (_.filter(body.members, (member) => member.id !== body.owner.id)).map((member) => {
+        return parseProfile(member, true, 'small');
+      });
     }
 
     return body;

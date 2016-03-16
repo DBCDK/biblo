@@ -18,7 +18,7 @@ export default function GroupMembersBox({members, owner, onExpand, isExpanded, i
 
   const memberImages = visibleMembers.map((member) => {
     const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
-    return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || null} alt={member.displayName}/></a>;
+    return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || '/no_profile.png'} alt={member.displayName}/></a>;
   });
 
   const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';

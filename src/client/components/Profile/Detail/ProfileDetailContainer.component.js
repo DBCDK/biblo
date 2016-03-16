@@ -36,9 +36,14 @@ export class ProfileDetailContainer extends React.Component {
     });
 
     let feed = this.props.feed.feed.map((activity) => {
+      activity.owner = assignToEmpty({
+        id: '',
+        displayName: ''
+      }, activity.owner);
+
       switch (activity.type) {
         case 'comment':
-          let title = userProfile.displayName + ' skrev en kommentar';
+          let title = activity.owner.displayName + ' skrev en kommentar';
 
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
@@ -50,8 +55,6 @@ export class ProfileDetailContainer extends React.Component {
           else {
             title += ' til et indlæg:';
           }
-
-          activity.owner = userProfile;
 
           if (activity.image && activity.image.id) {
             activity.image = '/billede/' + activity.image.id + '/small';
@@ -68,6 +71,11 @@ export class ProfileDetailContainer extends React.Component {
             id: ''
           }, activity.post);
 
+          activity.post.owner = assignToEmpty({
+            displayName: '',
+            id: ''
+          }, activity.post.owner);
+
           activity.post.group = assignToEmpty({
             id: '',
             name: ''
@@ -83,7 +91,7 @@ export class ProfileDetailContainer extends React.Component {
               <PostView
                 content={activity.post.content}
                 timeCreated={activity.timeCreated}
-                owner={userProfile}
+                owner={activity.post.owner}
                 id={activity.post.id}
                 profile={this.props.profile}
                 groupId={activity.post.groupid}
@@ -93,7 +101,7 @@ export class ProfileDetailContainer extends React.Component {
                 actions={{}}
                 flagActions={this.props.flagActions}
                 loadingComments={false}
-                commentRedirect={`/profil/${userProfile.id}`}
+                commentRedirect={`/profil/${activity.owner.id}`}
                 uiActions={this.props.uiActions}
               />
             </ActivityRow>
@@ -122,7 +130,7 @@ export class ProfileDetailContainer extends React.Component {
               <PostView
                 content={activity.content}
                 timeCreated={activity.timeCreated}
-                owner={userProfile}
+                owner={activity.owner}
                 id={activity.id}
                 profile={this.props.profile}
                 groupId={activity.group.id}

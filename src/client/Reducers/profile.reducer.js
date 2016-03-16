@@ -132,6 +132,18 @@ export default function profileReducer(state = initialState, action = {}) {
         })
       });
 
+    case types.PROFILE_EDIT_SUBMIT:
+      console.log(action);
+      return assignToEmpty(state, {
+        birthday: action.birthday,
+        description: action.description,
+        displayname: action.displayname,
+        email: action.email,
+        errors: action.errors,
+        fullName: action.fullName,
+        phone: action.phone
+      });
+
     default:
       return state;
   }

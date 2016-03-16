@@ -3,4 +3,7 @@
 
 .expand-button {
   @include button($white, $black, false);
+  svg {
+    pointer-events: none;
+  }
 }

@@ -20,7 +20,11 @@ describe('Test GroupView Component', () => {
     image: 'test_image',
     name: 'test name',
     posts: [],
-    postsCount: 0
+    postsCount: 0,
+    owner: {
+      id: 1
+    },
+    members: []
   };
 
   const profile = {

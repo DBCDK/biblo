@@ -20,7 +20,7 @@ export default function ExpandButton({text, onClick, isLoading}) { // eslint-dis
   const icon = (isLoading) ? <Icon glyph={spinnerSvg} /> : <Icon glyph={plusSvg} />;
   return (
     <a className='expand-button' onClick={onClick}>
-      {icon} {text}
+      {icon}{text}
     </a>
   );
 }

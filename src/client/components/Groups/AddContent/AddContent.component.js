@@ -31,7 +31,7 @@ export default class AddContent extends React.Component {
 
   componentDidMount() {
     autosize(this.refs.contentTextarea);
-    if (this.refs.contentTextarea) {
+    if (this.refs.contentTextarea && this.props.autofocus) {
       this.refs.contentTextarea.focus();
     }
   }
@@ -174,10 +174,15 @@ export default class AddContent extends React.Component {
     }
   }
 
+  onFocus() {
+    // @todo make animated scroll to top of element -svi
+    // window.scrollBy(0, event.target.getBoundingClientRect().top - 20);
+  }
+
   render() {
     if (!this.props.profile.userIsLoggedIn) {
       return (
-        <div className='content-add' >
+        <div className='content-add'>
           <Login>Log ind for at skrive et indlæg</Login>
         </div>
       );
@@ -188,38 +193,40 @@ export default class AddContent extends React.Component {
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
     return (
-      <div className='content-add' >
+      <div className='content-add'>
         <form method="POST" action={`/grupper/content/${this.props.type}`} encType="multipart/form-data"
               id="content_form_component" ref="group-post-form"
-              onSubmit={this.onSubmit.bind(this)} >
-          <div className='content-input-wrapper' >
-            <input type="hidden" name="id" value={this.props.id || null} />
-            <input type="hidden" name="imageRemoved" value={this.state.imageRemoved} />
-            <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo} />
-            <input type="hidden" name="parentId" value={this.props.parentId} />
+              onSubmit={this.onSubmit.bind(this)}>
+          <div className='content-input-wrapper'>
+            <input type="hidden" name="id" value={this.props.id || null}/>
+            <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
+            <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
+            <input type="hidden" name="parentId" value={this.props.parentId}/>
           <textarea ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
                     onChange={(e) => this.setState({text: e.target.value})}
-            />
+                    onFocus={e => this.onFocus(e)}
+          />
             {this.state.attachment.image &&
-            <div className='content-add--preview-image' >
-              <img src={this.state.attachment.image} alt="preview" />
-              <a href="#removeImage" className="remove-image" onClick={(e) => this.clearImage(e)} ><Icon glyph={close} /></a>
+            <div className='content-add--preview-image'>
+              <img src={this.state.attachment.image} alt="preview"/>
+              <a href="#removeImage" className="remove-image" onClick={(e) => this.clearImage(e)}><Icon glyph={close}/></a>
             </div>
             }
 
-            <div className='preview-video' >
+            <div className='preview-video'>
               {this.state.attachment.video &&
               <div>
-                <span className="preview-video--name" >{this.state.attachment.video.file.name}</span>
-                <progress className={progressStatusClass} max="100" value={this.state.attachment.video.file.progress || 0} />
+                <span className="preview-video--name">{this.state.attachment.video.file.name}</span>
+                <progress className={progressStatusClass} max="100"
+                          value={this.state.attachment.video.file.progress || 0}/>
               </div>
               }
             </div>
           </div>
 
-          <div className='content-add--actions' >
+          <div className='content-add--actions'>
             <input
               type='submit'
               className='button submit'
@@ -227,9 +234,13 @@ export default class AddContent extends React.Component {
               value='OK'
               disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100}
             />
-            <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this, null)} value="Fortryd" />
-            <div className='content-add--media' >
-              <label htmlFor={uniqueId} >
+            {
+              (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100)) &&
+              <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
+                     value="Fortryd"/>
+            }
+            <div className='content-add--media'>
+              <label htmlFor={uniqueId}>
                 <input
                   id={uniqueId}
                   accept='image/*,video/*'
@@ -240,9 +251,9 @@ export default class AddContent extends React.Component {
                   ref="fileInput"
                 />
 
-                <Icon glyph={videoSvg} />
-                <Icon glyph={cameraSvg} />
-                Upload
+                <Icon glyph={videoSvg}/>
+                <Icon glyph={cameraSvg}/>
+                <span className="content-add--media-label">Upload</span>
               </label>
             </div>
           </div>
@@ -254,6 +265,7 @@ export default class AddContent extends React.Component {
 AddContent.displayName = 'AddContent';
 AddContent.propTypes = {
   abort: React.PropTypes.func,
+  autofocus: React.PropTypes.bool,
   profile: React.PropTypes.object.isRequired,
   parentId: React.PropTypes.number.isRequired,
   redirectTo: React.PropTypes.string.isRequired,

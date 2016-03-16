@@ -108,6 +108,19 @@ export class ProfileDetailContainer extends React.Component {
           );
 
         case 'post':
+          let postTitle = activity.owner.displayName + ' oprettede et indlæg';
+
+          if (activity.group && activity.group.name) {
+            postTitle = (
+              <span>
+                {postTitle} i gruppen <a href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+              </span>
+            );
+          }
+          else {
+            postTitle += ':';
+          }
+
           activity = assignToEmpty({
             imageSrc: '',
             id: '',
@@ -125,7 +138,7 @@ export class ProfileDetailContainer extends React.Component {
               likes={0}
               imageSrc={activity.imageSrc}
               key={'post_' + activity.id}
-              title={userProfile.displayName + ' oprettede et indlæg i gruppen ' + activity.group.name + ':'}
+              title={postTitle}
             >
               <PostView
                 content={activity.content}

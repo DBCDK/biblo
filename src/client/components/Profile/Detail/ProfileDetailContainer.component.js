@@ -31,7 +31,7 @@ export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
-      image: userProfile && userProfile.image && userProfile.image.url && userProfile.image.url.medium || '/no_profile.png'
+      image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
     });
 
     let feed = this.props.feed.feed.map((activity) => {

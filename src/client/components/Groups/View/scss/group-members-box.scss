@@ -4,7 +4,7 @@
 
 .group--sidebar {
 
-  @include min-screen($tablet) {
+  @include min-screen($desktop) {
     @include span(4 last);
   }
 

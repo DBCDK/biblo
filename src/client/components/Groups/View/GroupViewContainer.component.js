@@ -11,11 +11,15 @@ import GroupMembersBox from './GroupViewMembersBox.component.js';
 import PostList from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component.js';
+import TinyButton from '../../General/TinyButton/TinyButton.component.js';
+import Icon from '../../General/Icon/Icon.component';
+import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
+
+import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as flagActions from '../../../Actions/flag.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
-import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import './scss/group-view.scss';
 
 export class GroupViewContainer extends React.Component {
@@ -55,7 +59,8 @@ export class GroupViewContainer extends React.Component {
       );
     }
 
-    const modal = (this.props.ui.modal.isOpen) ? <ModalWindow onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
+    const modal = (this.props.ui.modal.isOpen) ? <ModalWindow
+      onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
 
     return (
       <PageLayout>
@@ -63,7 +68,7 @@ export class GroupViewContainer extends React.Component {
         <div className='group'>
           <GroupHeader uri={this.props.group.image || ''}/>
           <div className='group--content'>
-            <div className="details">
+            <div className="group--details">
               <h2 className='group--title'>{this.props.group.name}</h2>
               <p className='group--description'>{this.props.group.description}</p>
               <div className='group--follow'>
@@ -73,15 +78,24 @@ export class GroupViewContainer extends React.Component {
                         text={this.state.following && 'Følger' || 'Følg gruppen'}/>
               </div>
             </div>
+            {this.props.profile.id === this.props.group.owner.id &&
+            <div className="group--actions">
+              <TinyButton active={this.state.isEditting}
+                          clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`}
+                          icon={<Icon glyph={pencilSvg}/>}/>
+            </div>
+            }
             <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
               <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
                        parentId={this.props.group.id} type="post"/>
             </div>
             <div className='group--post-view'>
-              <h2>{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
+              <h2
+                className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} flagActions={this.props.flagActions}/>
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions}
+                        flagActions={this.props.flagActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
@@ -89,13 +103,14 @@ export class GroupViewContainer extends React.Component {
               }
             </div>
           </div>
+          <h2 className="group--memberbox-header">{this.props.group.members.length} Brugere i gruppen</h2>
           <GroupMembersBox
             members={this.props.group.members}
             owner={this.props.group.owner}
             onExpand={this.toggleMembersExpanded}
             isExpanded={this.props.group.isMembersExpanded}
             isLoadingMembers={this.props.group.isLoadingMembers}
-            />
+          />
         </div>
       </PageLayout>
     );

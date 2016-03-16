@@ -66,7 +66,7 @@ class CommentView extends React.Component {
           {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment"
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id}/>
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}/>
             ||
             <div className="comment--content">
               <p className='content'>{content}</p>

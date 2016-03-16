@@ -54,7 +54,6 @@ class PostView extends React.Component {
     this.setState({isEditting: !this.state.isEditting});
   }
 
-
   render() {
     const {
       groupActions,
@@ -92,14 +91,15 @@ class PostView extends React.Component {
             <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons'>
               {profile.id === owner.id &&
-              <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()} icon={<Icon glyph={pencilSvg}/>}/>
-                ||
+              <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
+                          icon={<Icon glyph={pencilSvg}/>}/>
+              ||
               <TinyButton
                 clickFunction={() => {
                   this.props.uiActions.openModalWindow(postFlagModalContent);
                 }}
                 icon={<Icon glyph={flagSvg} />}
-                />
+              />
               }
             </span>
           </div>
@@ -116,24 +116,24 @@ class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions} />
+          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
+                       submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}/>
+          {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments">
-            {commentsCount > numberOfCommentsLoaded &&
-            (<div>
-              <ExpandButton isLoading={loadingComments}
-                            onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
-                            text="Vis flere"/>
+            <ExpandButton isLoading={loadingComments}
+                          onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
+                          text="Vis flere"/>
               <span className="post--comment-count">
                 {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
               </span>
-            </div>)
-            }
           </div>
+          }
           {this.state.isCommentInputVisible &&
           <div className="comment-add-wrapper">
             <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
                         type="comment"
-                        abort={e => this.toggleCommentInput(e)}/>
+                        abort={e => this.toggleCommentInput(e)}
+                        autofocus={true}/>
           </div>
           ||
           <a className="comment-add-button" href="#add-comment"

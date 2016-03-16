@@ -1,5 +1,7 @@
 'use strict';
 
+import assignToEmpty from '../../../../../client/Utils/assign';
+
 /**
  * @file
  * Get a users feed.
@@ -42,6 +44,7 @@ const getUserFeedTransform = {
         where: postsWhere,
         include: [
           {relation: 'group', scope: {include: ['coverImage']}},
+          {relation: 'owner', scope: {include: ['image']}},
           'image'
         ],
         limit: 5,
@@ -58,11 +61,19 @@ const getUserFeedTransform = {
               include: [{
                 relation: 'group',
                 scope: {
-                  include: ['coverImage']
+                  include: [
+                    'coverImage'
+                  ]
+                }
+              }, {
+                relation: 'owner',
+                scope: {
+                  include: ['image']
                 }
               }]
             }
           },
+          {relation: 'owner', scope: {include: ['image']}},
           'image'
         ],
         limit: 5,
@@ -100,6 +111,15 @@ const getUserFeedTransform = {
         post.imageSrc = `/billede/${post.group.coverImage.id}/small`;
       }
 
+      if (post.owner && post.owner.image && post.owner.image.id) {
+        post.owner = assignToEmpty(post.owner, {
+          image: '/billede/' + post.owner.image.id + '/medium'
+        });
+      }
+      else {
+        post.owner.image = '/no_profile.png';
+      }
+
       return post;
     });
 
@@ -110,6 +130,20 @@ const getUserFeedTransform = {
 
       if (comment.post && comment.post.group && comment.post.group.coverImage) {
         comment.imageSrc = `/billede/${comment.post.group.coverImage.id}/small`;
+      }
+
+      if (comment.owner && comment.owner.image && comment.owner.image.id) {
+        comment.owner.image = `/billede/${comment.owner.image.id}/medium`;
+      }
+      else if (comment.owner) {
+        comment.owner.image = '/no_profile.png';
+      }
+
+      if (comment.post && comment.post.owner && comment.post.owner.image && comment.post.owner.image.id) {
+        comment.post.owner.image = `/billede/${comment.post.owner.image.id}/medium`;
+      }
+      else if (comment.post && comment.post.owner) {
+        comment.post.owner.image = '/no_profile.png';
       }
 
       return comment;

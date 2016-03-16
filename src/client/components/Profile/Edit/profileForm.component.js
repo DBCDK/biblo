@@ -162,7 +162,7 @@ export default class ProfileForm extends React.Component {
             />
 
             <InputField
-              defaultValue={this.props.birthday}
+              defaultValue={(new Date(this.props.birthday)).toISOString().split('T')[0]} // YYYY-MM-DD
               error={errorObj.birthday}
               onChangeFunc={(e) => this.setState({birthday: e.target.value})}
               type="date"

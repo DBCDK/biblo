@@ -35,8 +35,6 @@ export class ProfileDetailContainer extends React.Component {
     });
 
     let feed = this.props.feed.feed.map((activity) => {
-      console.log(activity);
-
       activity.owner = assignToEmpty({
         id: '',
         displayName: ''

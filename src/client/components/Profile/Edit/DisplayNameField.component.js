@@ -6,11 +6,13 @@ import {debounce} from 'lodash';
 let debouncedCheckDisplayNameFunction;
 
 function onChange(onChangeFunc, checkDisplayNameFunction, e) {
-  if (!debouncedCheckDisplayNameFunction) {
-    debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 500);
+  if (e.target.value !== '') {
+    if (!debouncedCheckDisplayNameFunction) {
+      debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 500);
+    }
+    debouncedCheckDisplayNameFunction(e.target.value);
+    onChangeFunc(e);
   }
-  debouncedCheckDisplayNameFunction(e.target.value);
-  onChangeFunc(e);
 }
 
 export default function DisplayNameField({defaultValue, errors, onChangeFunc, checkDisplayNameFunction, displayNameExists}) {

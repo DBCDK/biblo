@@ -23,7 +23,6 @@ ProfileRoutes.get('/rediger', ensureAuthenticated, fullProfileOnSession, ensureP
 });
 
 ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, upload.single('profile_image'), async function editProfilePost(req, res) {
-  const logger = req.app.get('logger');
   const p = req.session.passport.user.profile.profile;
   const b = req.body;
   let updatedProfileObject = {};
@@ -181,7 +180,6 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   else if (errors.length > 0) {
     data.status = 'ERROR';
     data.errors = errors;
-    logger.info('Errors found in profile submit', data);
   }
   else {
     const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];

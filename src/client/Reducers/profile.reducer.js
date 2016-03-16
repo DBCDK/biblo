@@ -133,7 +133,6 @@ export default function profileReducer(state = initialState, action = {}) {
       });
 
     case types.PROFILE_EDIT_SUBMIT:
-      console.log(action);
       return assignToEmpty(state, {
         birthday: action.birthday,
         description: action.description,

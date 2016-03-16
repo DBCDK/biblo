@@ -81,17 +81,7 @@ export default class GroupForm extends React.Component {
           </div>
           <br />
 
-          <div className={'group-colour-picker'}>
-            <label><strong>Vælg en farve til gruppen</strong></label>
-            <ColourPicker
-              baseName="group-colour-picker"
-              colours={['blueish-green', 'blue', 'red', 'light-purple', 'light-blue', 'yellow']}
-              disabled={disabled}
-              onChangeFunction={this.props.changeColourAction}
-              wrapInForm={false} />
-            {errorObj['group-colour-picker_colour'] || ''}
-          </div>
-          <br />
+          <input type="hidden" value="blue" name="group-colour-picker_colour" />
 
           <div className={'group-form-submit-button'}>
             {submitArea}

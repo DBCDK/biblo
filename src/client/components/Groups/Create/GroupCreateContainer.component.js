@@ -33,7 +33,7 @@ export class GroupCreateContainer extends React.Component {
         group.imageFile,
         name,
         description,
-        group.colour
+        'blue' // group.colour
       );
     }
   }

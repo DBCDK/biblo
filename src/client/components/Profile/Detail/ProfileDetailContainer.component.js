@@ -25,7 +25,6 @@ import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import {PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
-
 import './ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
@@ -36,6 +35,8 @@ export class ProfileDetailContainer extends React.Component {
     });
 
     let feed = this.props.feed.feed.map((activity) => {
+      console.log(activity);
+
       activity.owner = assignToEmpty({
         id: '',
         displayName: ''
@@ -54,10 +55,6 @@ export class ProfileDetailContainer extends React.Component {
           }
           else {
             title += ' til et indlæg:';
-          }
-
-          if (activity.image && activity.image.id) {
-            activity.image = '/billede/' + activity.image.id + '/small';
           }
 
           activity = assignToEmpty({
@@ -103,6 +100,7 @@ export class ProfileDetailContainer extends React.Component {
                 loadingComments={false}
                 commentRedirect={`/profil/${activity.owner.id}`}
                 uiActions={this.props.uiActions}
+                image={activity.post.image}
               />
             </ActivityRow>
           );
@@ -154,6 +152,7 @@ export class ProfileDetailContainer extends React.Component {
                 flagActions={this.props.flagActions}
                 loadingComments={false}
                 uiActions={this.props.uiActions}
+                image={activity.image}
               />
             </ActivityRow>
           );

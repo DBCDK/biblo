@@ -70,7 +70,7 @@ const getUserFeedTransform = {
                 scope: {
                   include: ['image']
                 }
-              }]
+              }, 'image']
             }
           },
           {relation: 'owner', scope: {include: ['image']}},
@@ -113,11 +113,15 @@ const getUserFeedTransform = {
 
       if (post.owner && post.owner.image && post.owner.image.id) {
         post.owner = assignToEmpty(post.owner, {
-          image: '/billede/' + post.owner.image.id + '/medium'
+          image: '/billede/' + post.owner.image.id + '/small'
         });
       }
       else {
         post.owner.image = '/no_profile.png';
+      }
+
+      if (post.image && post.image.id) {
+        post.image = `/billede/${post.image.id}/small`;
       }
 
       return post;
@@ -133,17 +137,25 @@ const getUserFeedTransform = {
       }
 
       if (comment.owner && comment.owner.image && comment.owner.image.id) {
-        comment.owner.image = `/billede/${comment.owner.image.id}/medium`;
+        comment.owner.image = `/billede/${comment.owner.image.id}/small`;
       }
       else if (comment.owner) {
         comment.owner.image = '/no_profile.png';
       }
 
       if (comment.post && comment.post.owner && comment.post.owner.image && comment.post.owner.image.id) {
-        comment.post.owner.image = `/billede/${comment.post.owner.image.id}/medium`;
+        comment.post.owner.image = `/billede/${comment.post.owner.image.id}/small`;
       }
       else if (comment.post && comment.post.owner) {
         comment.post.owner.image = '/no_profile.png';
+      }
+
+      if (comment.post && comment.post.image && comment.post.image.id) {
+        comment.post.image = `/billede/${comment.post.image.id}/small`;
+      }
+
+      if (comment.image && comment.image.id) {
+        comment.image = `/billede/${comment.image.id}/small`;
       }
 
       return comment;

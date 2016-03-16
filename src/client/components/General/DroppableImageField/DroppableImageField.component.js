@@ -61,7 +61,7 @@ export default class DroppableImageField extends React.Component {
     }
   }
 
-  handleTouchStart(evt) {
+  handleTouchStart() {
     this.refs.droppableimagefieldinput.click();
   }
 

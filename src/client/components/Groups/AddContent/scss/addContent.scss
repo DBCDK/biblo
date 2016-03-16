@@ -123,3 +123,9 @@ progress[value] {
     top: 2px;
   }
 }
+
+.content-add--media-label {
+  @include max-screen($desktop - 1px) {
+    display: none;
+  }
+}

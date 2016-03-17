@@ -17,8 +17,9 @@ export default class DroppableImageField extends React.Component {
     let self = this;
 
     var div = document.createElement('div');
+    let dropSpot = self.refs.droppableImageField;
+
     if (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) {
-      let dropSpot = self.refs.droppableImageField;
       let hoverMessage = document.getElementById('drop-files-here-message');
 
       dropSpot.ondragover = () => {
@@ -47,6 +48,7 @@ export default class DroppableImageField extends React.Component {
     this.refs.droppableimagefieldinput.onchange = (e) => {
       this.readFiles((e.srcElement || e.target).files);
     };
+
   }
 
   readFiles(files) {
@@ -59,9 +61,13 @@ export default class DroppableImageField extends React.Component {
     }
   }
 
+  handleTouchStart() {
+    this.refs.droppableimagefieldinput.click();
+  }
+
   render() {
     return (
-      <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'}>
+      <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'} onTouchStart={this.handleTouchStart.bind(this)}>
         <label>
           <div className="image-and-plus-button-container">
             <img src={this.props.imageSrc} />

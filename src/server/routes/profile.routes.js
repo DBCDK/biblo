@@ -8,7 +8,7 @@
 import express from 'express';
 import multer from 'multer';
 
-import {ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
 import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
@@ -23,7 +23,6 @@ ProfileRoutes.get('/rediger', ensureAuthenticated, fullProfileOnSession, ensureP
 });
 
 ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, upload.single('profile_image'), async function editProfilePost(req, res) {
-  const logger = req.app.get('logger');
   const p = req.session.passport.user.profile.profile;
   const b = req.body;
   let updatedProfileObject = {};
@@ -181,7 +180,6 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   else if (errors.length > 0) {
     data.status = 'ERROR';
     data.errors = errors;
-    logger.info('Errors found in profile submit', data);
   }
   else {
     const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];
@@ -212,8 +210,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   });
 });
 
-
-ProfileRoutes.get(['/:id', '/'], ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, async function (req, res) {
+ProfileRoutes.get(['/:id', '/'], ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureProfileImage, async function (req, res) {
   let profile,
     profileId = req.params.id,
     data = {

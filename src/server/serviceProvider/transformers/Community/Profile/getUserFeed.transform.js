@@ -1,6 +1,6 @@
 'use strict';
 
-import assignToEmpty from '../../../../../client/Utils/assign';
+import profileParser from '../../../parsers/profile.parser';
 
 /**
  * @file
@@ -111,13 +111,8 @@ const getUserFeedTransform = {
         post.imageSrc = `/billede/${post.group.coverImage.id}/small`;
       }
 
-      if (post.owner && post.owner.image && post.owner.image.id) {
-        post.owner = assignToEmpty(post.owner, {
-          image: '/billede/' + post.owner.image.id + '/small'
-        });
-      }
-      else {
-        post.owner.image = '/no_profile.png';
+      if (post.owner) {
+        post.owner = profileParser(post.owner, true, 'small');
       }
 
       if (post.image && post.image.id) {
@@ -136,18 +131,12 @@ const getUserFeedTransform = {
         comment.imageSrc = `/billede/${comment.post.group.coverImage.id}/small`;
       }
 
-      if (comment.owner && comment.owner.image && comment.owner.image.id) {
-        comment.owner.image = `/billede/${comment.owner.image.id}/small`;
-      }
-      else if (comment.owner) {
-        comment.owner.image = '/no_profile.png';
+      if (comment.owner) {
+        comment.owner = profileParser(comment.owner, true, 'small');
       }
 
-      if (comment.post && comment.post.owner && comment.post.owner.image && comment.post.owner.image.id) {
-        comment.post.owner.image = `/billede/${comment.post.owner.image.id}/small`;
-      }
-      else if (comment.post && comment.post.owner) {
-        comment.post.owner.image = '/no_profile.png';
+      if (comment.post && comment.post.owner) {
+        comment.post.owner = profileParser(comment.post.owner, true, 'small');
       }
 
       if (comment.post && comment.post.image && comment.post.image.id) {
@@ -172,33 +161,7 @@ const getUserFeedTransform = {
       return 0;
     });
 
-    let profile = JSON.parse(response[2].body || '{}');
-    delete profile.username;
-    delete profile.favoriteLibrary;
-    delete profile.email;
-    delete profile.phone;
-    delete profile.created;
-    delete profile.lastUpdated;
-    delete profile.hasFilledInProfile;
-    delete profile.birthday;
-    delete profile.fullName;
-
-    if (profile.image) {
-      profile.image.url = {
-        small: '/billede/' + profile.image.id + '/small',
-        medium: '/billede/' + profile.image.id + '/medium',
-        large: '/billede/' + profile.image.id + '/large'
-      };
-    }
-    else {
-      profile.image = {
-        url: {
-          small: '/no_profile.png',
-          medium: '/no_profile.png',
-          large: '/no_profile.png'
-        }
-      };
-    }
+    let profile = profileParser(JSON.parse(response[2].body || '{}'), true, false);
 
     let count = {
       commentsTotal: JSON.parse(response[3].body).count,

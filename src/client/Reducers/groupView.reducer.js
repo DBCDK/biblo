@@ -14,7 +14,7 @@ const defaultState = {
   id: null,
   isFollowing: false,
   isLoadingMembers: false,
-  image: 'http://lorempixel.com/200/200/',
+  image: '/no_group_image.png',
   isMembersExpanded: false,
   posts: []
 };

@@ -1,36 +1,21 @@
 'use strict';
 
+import parseProfile from '../../../parsers/profile.parser';
+
 const GetPostsTransform = {
 
   event() {
     return 'getPosts';
   },
 
-  parseProfile(owner) {
-    if (owner) {
-      return {
-        id: owner.id,
-        displayName: owner.displayName,
-        image: owner.image && '/billede/' + owner.image.id + '/medium' || null
-      };
-    }
-
-    // All posts, groups and comments should have an owner. This is a fallback in case of mysterious events
-    return {
-      id: 0,
-      displayName: 'Anonym',
-      image: 'http://lorempixel.com/200/200/'
-    };
-  },
-
   parseComment(comment) {
-    comment.owner = this.parseProfile(comment.owner);
+    comment.owner = parseProfile(comment.owner, true, 'small');
     comment.image = comment.image && '/billede/' + comment.image.id + '/medium' || null;
     return comment;
   },
 
   parsePost(post) {
-    post.owner = this.parseProfile(post.owner);
+    post.owner = parseProfile(post.owner, true, 'small');
     post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
     post.comments = post.comments && post.comments.map(comment => this.parseComment(comment)) || [];
     return post;

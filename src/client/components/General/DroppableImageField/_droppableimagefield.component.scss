@@ -34,7 +34,8 @@
     }
 
     .droppable-image-field--file-input {
-      display: none;
+      width: 0px;
+      height: 0px;
       cursor: pointer;
     }
   }

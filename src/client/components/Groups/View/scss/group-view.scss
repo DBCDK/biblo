@@ -43,7 +43,12 @@
 }
 
 .group--content {
-  @include min-screen($tablet) {
+  position: relative;
+  .group--details, .group--post-add, .group--post-view-header{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  @include min-screen($desktop) {
     @include span(8);
   }
   .expand-button {
@@ -52,6 +57,19 @@
     svg {
       fill: $melrose;
     }
+  }
+}
+
+.group--details {
+  margin-right: 50px;
+}
+
+.group--actions {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  @include min-screen($desktop) {
+    top: 40px;
   }
 }
 
@@ -70,5 +88,9 @@
     text-align: center;
   }
 }
-
-
+.group--sidebar, .group--memberbox-header {
+  @include max-screen($desktop - 1px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}

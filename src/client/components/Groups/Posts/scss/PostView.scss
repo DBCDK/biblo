@@ -8,20 +8,27 @@
 .post-wrapper {
   @include clearfix();
   margin-bottom: 20px;
+  @include max-screen($tablet - 1px) {
+    padding: 0 20px;
+    border-bottom: 5px solid rgba($dark, 0.15);
+  }
 }
 
 .post {
   position: relative;
 
   @include min-screen($tablet) {
-    margin-left: 80px;
+    margin-left: 100px;
     top: 0;
     background: #eee;
     padding: 20px;
     border-radius: 5px;
   }
+  @include screen($tablet, $desktop) {
+
+    margin-right: 20px;
+  }
   @include max-screen($tablet - 1px) {
-    border-bottom: 1px solid rgba($dark, 0.15);
     padding-bottom: 20px;
     .post--header {
       margin-left: 75px;
@@ -72,7 +79,7 @@
     svg {
       fill: $gray;
     }
-    .active svg{
+    .active svg {
       fill: $melrose;
     }
   }
@@ -85,25 +92,35 @@
 .post-profile-image {
   @include profileImage();
   float: left;
+  @include min-screen($tablet) {
+    margin-left: 20px;
+  }
+
 }
 
 .post::before {
-  top: 15px;
-  bottom: auto;
-  left: -15px;
-  border-width: 16px 16px 16px 0;
-  border-color: transparent #eee;
-  content: "";
-  position: absolute;
-  border-style: solid;
-  display: block;
-  width: 0;
+  @include min-screen($tablet) {
+    top: 15px;
+    bottom: auto;
+    left: -15px;
+    border-width: 16px 16px 16px 0;
+    border-color: transparent #eee;
+    content: "";
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+  }
 }
 
 .post--load-more-comments {
   @include clearfix();
   margin-bottom: 20px;
   margin-left: 70px;
+  @include max-screen($tablet - 1) {
+    margin-left: 0;
+    text-align: center;
+  }
   a {
     margin-right: 20px;
   }

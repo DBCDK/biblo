@@ -58,7 +58,16 @@
   }
 }
 
+.navbar--icons {
+  .navbar--link {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+  }
+}
+
 .navbar--profile {
+  pointer-events: none;
   vertical-align: middle;
   display: inline-block;
   width: 35px;

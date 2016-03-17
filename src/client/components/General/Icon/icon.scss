@@ -1,6 +1,7 @@
 @import '../../../scss/settings';
 
 .icon {
+  pointer-events: none;
   fill: $gray;
   :hover {
     fill: darken($gray, 10%);

@@ -115,12 +115,18 @@ module.exports.run = function (worker) {
 
   const redisStore = RedisStore(expressSession);
 
+  const redisInstance = new redisStore({
+    host: redisConfig.host,
+    port: redisConfig.port,
+    prefix: APP_NAME + '_session_'
+  });
+
+  redisInstance.client.on('error', function() {
+    logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
+  })
+
   const sessionMiddleware = expressSession({
-    store: new redisStore({
-      host: redisConfig.host,
-      port: redisConfig.port,
-      prefix: APP_NAME + '_session_'
-    }),
+    store: redisInstance,
     secret: redisConfig.secret + APP_NAME,
     name: APP_NAME,
     rolling: true,
@@ -198,6 +204,8 @@ module.exports.run = function (worker) {
   logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
   logger.log('debug', 'APPLICATION: ' + APPLICATION);
   logger.log('debug', 'EMAIL_REDIRECT: ' + EMAIL_REDIRECT);
+
+
 
   /*eslint-disable */
   if (!PRODUCTION && process.env.ENABLE_HEAP_DUMPS) {

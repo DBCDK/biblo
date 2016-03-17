@@ -1,11 +1,16 @@
 @import 'tools';
 
 .colored-header {
-  height: 150px;
+  @include clearfix();
   background-color: $turquoise;
+  padding-bottom: 20px;
 
   .colored-header--iconcontainer {
     @include span(3);
+    @include max-screen($tablet) {
+      display: none;
+    }
+
     align-content: center;
     .icon {
       padding-top: 30px;

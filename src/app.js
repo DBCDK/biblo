@@ -123,7 +123,7 @@ module.exports.run = function (worker) {
 
   redisInstance.client.on('error', function() {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
-  })
+  });
 
   const sessionMiddleware = expressSession({
     store: redisInstance,
@@ -204,8 +204,6 @@ module.exports.run = function (worker) {
   logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
   logger.log('debug', 'APPLICATION: ' + APPLICATION);
   logger.log('debug', 'EMAIL_REDIRECT: ' + EMAIL_REDIRECT);
-
-
 
   /*eslint-disable */
   if (!PRODUCTION && process.env.ENABLE_HEAP_DUMPS) {

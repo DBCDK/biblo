@@ -2,6 +2,7 @@
 
 .icon {
   fill: $gray;
+  pointer-events: none;
   :hover {
     fill: darken($gray, 10%);
   }

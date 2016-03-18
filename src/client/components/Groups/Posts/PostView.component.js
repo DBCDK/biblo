@@ -75,22 +75,37 @@ class PostView extends React.Component {
     this.setState({isEditting: !this.state.isEditting});
   }
 
+  getVideoPlayer() {
+    const sources = this.props.video.resolutions.map((resolution, key) => {
+      return (
+        <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />
+      );
+    });
+
+    return (
+      <video controls >
+        {sources}
+      </video>
+    );
+  }
+
   render() {
     const {
-      groupActions,
-      content,
-      image,
-      timeCreated,
-      owner,
-      id,
-      profile,
-      groupId,
-      comments,
-      uiActions,
-      commentsCount,
-      numberOfCommentsLoaded,
-      loadingComments
-      } = this.props;
+            groupActions,
+            content,
+            image,
+            video,
+            timeCreated,
+            owner,
+            id,
+            profile,
+            groupId,
+            comments,
+            uiActions,
+            commentsCount,
+            numberOfCommentsLoaded,
+            loadingComments
+          } = this.props;
 
     const postFlagModalContent = (
       <CreateFlagDialog
@@ -109,22 +124,22 @@ class PostView extends React.Component {
         unlikeFunction={this.unlikePost}
         usersWhoLikeThis={this.props.likes}
         isLikedByCurrentUser={isLikedByCurrentUser}
-        />
+      />
     );
 
     return (
-      <div className='post-wrapper'>
-        <div className='post-profile-image'>
-          <img src={owner.image || null} alt={owner.displayName}/>
+      <div className='post-wrapper' >
+        <div className='post-profile-image' >
+          <img src={owner.image || null} alt={owner.displayName} />
         </div>
-        <div className='post'>
-          <div className='post--header'>
-            <a href={`/profil/${owner.id}`}><span className='username'>{owner.displayName}</span></a>
-            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
-            <span className='buttons'>
+        <div className='post' >
+          <div className='post--header' >
+            <a href={`/profil/${owner.id}`} ><span className='username' >{owner.displayName}</span></a>
+            <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className='buttons' >
               {profile.id === owner.id &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                          icon={<Icon glyph={pencilSvg}/>}/>
+                          icon={<Icon glyph={pencilSvg}/>} />
               ||
               <TinyButton
                 clickFunction={() => {
@@ -139,40 +154,45 @@ class PostView extends React.Component {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
                         abort={() => this.toggleEditting()} text={content} image={image} id={id}
-                        addContentAction={groupActions.editPost}/>
+                        addContentAction={groupActions.editPost} />
             ||
-            <div className='post--content'>
-              <p className='content'>{content}</p>
+            <div className='post--content' >
+              <p className='content' >{content}</p>
               {
                 image &&
-                <div className='media'><img src={image} alt="image for post"/></div>
+                <div className='media' ><img src={image} alt="image for post" />
+                </div>
+              }
+              {
+                video && video.resolutions.length ? this.getVideoPlayer() : null
               }
             </div>
           }
           <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
                        submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
-                       groupActions={this.props.groupActions}/>
+                       groupActions={this.props.groupActions} />
           {commentsCount > numberOfCommentsLoaded &&
-          <div className="post--load-more-comments">
+          <div className="post--load-more-comments" >
             <ExpandButton isLoading={loadingComments}
                           onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
-                          text="Vis flere"/>
-              <span className="post--comment-count">
+                          text="Vis flere" />
+              <span className="post--comment-count" >
                 {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
               </span>
           </div>
           }
           {this.state.isCommentInputVisible &&
-          <div className="comment-add-wrapper">
+          <div className="comment-add-wrapper" >
             <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
                         type="comment"
                         abort={() => this.toggleCommentInput()}
                         addContentAction={groupActions.addComment}
-                        autofocus={true}/>
+                        autofocus={true}
+            />
           </div>
           ||
           <a className="comment-add-button" href="#add-comment"
-             onClick={e => this.toggleCommentInput(e)}><Icon glyph={backSvg}/>Svar</a>
+             onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
           }
           {likeButton}
         </div>
@@ -182,21 +202,22 @@ class PostView extends React.Component {
 }
 
 PostView.propTypes = {
-  groupActions: React.PropTypes.object,
-  content: React.PropTypes.string,
-  image: React.PropTypes.string,
-  timeCreated: React.PropTypes.string,
-  owner: React.PropTypes.object,
-  likes: React.PropTypes.array,
-  id: React.PropTypes.number,
-  profile: React.PropTypes.object.isRequired,
-  groupId: React.PropTypes.number,
-  comments: React.PropTypes.array,
-  uiActions: React.PropTypes.object.isRequired,
-  flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
   commentsCount: React.PropTypes.number,
-  numberOfCommentsLoaded: React.PropTypes.number,
+  commentRedirect: React.PropTypes.string,
+  comments: React.PropTypes.array,
+  content: React.PropTypes.string,
+  flagActions: React.PropTypes.object.isRequired,
+  groupActions: React.PropTypes.object,
+  groupId: React.PropTypes.number,
+  id: React.PropTypes.number,
+  image: React.PropTypes.string,
+  likes: React.PropTypes.array,
   loadingComments: React.PropTypes.bool,
-  commentRedirect: React.PropTypes.string
+  owner: React.PropTypes.object,
+  profile: React.PropTypes.object.isRequired,
+  timeCreated: React.PropTypes.string,
+  uiActions: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
+  numberOfCommentsLoaded: React.PropTypes.number,
+  video: React.PropTypes.object
 };

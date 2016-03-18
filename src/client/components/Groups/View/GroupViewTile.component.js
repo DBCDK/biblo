@@ -11,8 +11,7 @@ import groupSvg from '../../General/Icon/svg/functions/group.svg';
 export default class GroupViewTile extends React.Component {
 
   render() {
-    var group = this.props.group;
-    var groupStr = this.getMembersCountString();
+    var group = this.props.group; // groupStr = this.getMembersCountString();
 
     var groupUrl = '/grupper/' + group.id;
 
@@ -26,9 +25,6 @@ export default class GroupViewTile extends React.Component {
         <div className="group--caption">
           <div className="group--title"><Icon className="icon" glyph={groupSvg}/> {group.name} </div>
        </div>
-        <div className="followers">
-          {groupStr}
-        </div>
       </div>
     );
   }

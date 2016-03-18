@@ -20,7 +20,8 @@ const CreateGroupContent = {
       id: query.id || null,
       uid: user.profileId,
       ownerid: query.ownerid || user.profileId,
-      accessToken: user.id
+      accessToken: user.id,
+      video: query.video || null
     }).then((response) => {
       if (response.statusCode === 200 && query.image) {
         const image = query.image;

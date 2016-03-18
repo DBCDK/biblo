@@ -236,7 +236,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
 
   let params = {
     title: ' ',
-    content: req.body.content || ' git s',
+    content: req.body.content || ' ',
     parentId: req.body.parentId,
     type: req.params.type,
     image,

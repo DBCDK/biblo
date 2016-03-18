@@ -10,7 +10,7 @@ const GetPostsTransform = {
 
     const postFilter = {
       where: {id},
-      include: ['image']
+      include: ['image', 'likes']
     };
 
     return this.callServiceClient('community', 'getPosts', {filter: postFilter});

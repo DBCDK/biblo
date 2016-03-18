@@ -19,6 +19,7 @@ import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as flagActions from '../../../Actions/flag.actions.js';
+import * as likeActions from '../../../Actions/like.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
 import './scss/group-view.scss';
 
@@ -94,8 +95,7 @@ export class GroupViewContainer extends React.Component {
               <h2
                 className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        groupActions={this.props.groupActions} uiActions={this.props.uiActions}
-                        flagActions={this.props.flagActions}/>
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} flagActions={this.props.flagActions} likeActions={this.props.likeActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
@@ -124,6 +124,7 @@ GroupViewContainer.propTypes = {
   error: React.PropTypes.string,
   groupActions: React.PropTypes.object,
   flagActions: React.PropTypes.object,
+  likeActions: React.PropTypes.object,
   uiActions: React.PropTypes.object,
   ui: React.PropTypes.object
 };
@@ -146,6 +147,7 @@ export default connect(
     return {
       groupActions: bindActionCreators(groupActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
+      likeActions: bindActionCreators(likeActions, dispatch),
       uiActions: bindActionCreators(uiActions, dispatch)
     };
   }

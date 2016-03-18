@@ -8,7 +8,8 @@ import AddContent from '../AddContent.component';
 
 describe('Test of AddConent Component', () => {
   const profile = {
-    userIsLoggedIn: true
+    userIsLoggedIn: true,
+    hasFilledInProfile: true
   };
 
   let defaultComponent = null;

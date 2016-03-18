@@ -204,7 +204,7 @@ export default class AddContent extends React.Component {
   }
 
   render() {
-    if (!this.props.profile.userIsLoggedIn || this.props.profile.hasFilledInProfile) {
+    if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
         <div className='content-add'>
           <Login>Log ind for at skrive et indlæg</Login>

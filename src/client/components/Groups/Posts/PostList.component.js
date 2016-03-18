@@ -4,7 +4,7 @@ import React from 'react';
 import PostView from './PostView.component.js';
 
 
-export default function PostList({posts = [], profile = {}, groupId= null, uiActions = null, groupActions = null, flagActions = null}) {
+export default function PostList({posts = [], profile = {}, groupId= null, uiActions = null, groupActions = null, flagActions = null, likeActions = null}) {
   return (
     <div className='post-list' >
       {
@@ -12,10 +12,12 @@ export default function PostList({posts = [], profile = {}, groupId= null, uiAct
         && posts.map((item) => (<PostView
           key={item.id} {...item}
           profile={profile}
+          likes={item.likes}
           groupId={groupId}
           uiActions={uiActions}
           groupActions={groupActions}
           flagActions={flagActions}
+          likeActions={likeActions}
           />))
         || 'Der er ikke skrevet nogen indlæg i gruppen endnu'
       }
@@ -28,5 +30,6 @@ PostList.propTypes = {
   groupId: React.PropTypes.number.isRequired,
   groupActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired
 };

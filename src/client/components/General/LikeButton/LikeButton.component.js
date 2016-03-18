@@ -17,8 +17,10 @@ export default function LikeButton({usersWhoLikeThis=[1], isLikedByCurrentUser =
 
   const glyph = (isLikedByCurrentUser) ? heartFullSvg : heartSvg;
 
+  const clickFunction = (isLikedByCurrentUser) ? unlikeFunction : likeFunction;
+
   return (
-    <a className='like-button' onClick={isLikedByCurrentUser && likeFunction || unlikeFunction}>
+    <a className='like-button' onClick={clickFunction}>
       <Icon glyph={glyph} className={'like-button--heart-icon'}/>
       {text}
     </a>

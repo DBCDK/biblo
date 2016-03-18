@@ -13,8 +13,8 @@ const CreateGroupContent = {
     }
 
     return this.callServiceClient('community', method, {
-      title: query.title,
-      content: query.content,
+      title: query.title || '',
+      content: query.content || '',
       timeCreated: query.timeCreated || (new Date()).toUTCString(),
       parentId: query.parentId,
       id: query.id || null,
@@ -30,6 +30,8 @@ const CreateGroupContent = {
           image,
           accessToken: user.id,
           relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
+        }).then(() => {
+          return response;
         });
       }
 

@@ -1,0 +1,23 @@
+@import 'tools';
+@import 'settings';
+
+.message {
+  position: relative;
+  padding: 8px 20px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.message.error {
+  background-color: $carnation;
+  color: white;
+}
+
+.message--close {
+  position: absolute;
+  right: 20px;
+  line-height: 30px;
+  svg {
+    fill: white;
+  }
+}

@@ -2,15 +2,18 @@
 
 import autosize from 'autosize';
 import React from 'react';
+import Classnames from 'classnames';
 
 // Components
 import Login from '../../General/Login/Login.component';
 import Icon from '../../General/Icon/Icon.component';
+import Message from '../../General/Message/Message.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
 import videoSvg from '../../General/Icon/svg/functions/video.svg';
 import close from '../../General/Icon/svg/functions/close.svg';
+import spinner from '../../General/Icon/svg/spinners/loading-spin.svg';
 
 // Styles
 import './scss/addContent.scss';
@@ -25,7 +28,10 @@ export default class AddContent extends React.Component {
         image: props.image || null,
         video: null
       },
-      imageRemoved: false
+      imageRemoved: false,
+      errorMsg: null,
+      target: `/grupper/content/${props.type}`,
+      isLoading: false
     };
   }
 
@@ -44,7 +50,30 @@ export default class AddContent extends React.Component {
   onSubmit(e) {
     if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
-      alert('Dit indlæg skal indeholde tekst'); // eslint-disable-line no-alert
+      this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
+    }
+    else if (XMLHttpRequest && FormData) {
+      this.setState({isLoading: true});
+      e.preventDefault();
+      var request = new XMLHttpRequest();
+      request.open('POST', this.state.target);
+      request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      request.send(new FormData(e.target));
+      request.onload = (event) => {
+        this.setState({isLoading: false});
+        if (event.target.status === 200) {
+          this.props.addContentAction(JSON.parse(event.target.response));
+          if (this.props.abort) {
+            this.props.abort();
+          }
+          else {
+            this.setState({text: '', attachment: {image: null, video: null}});
+          }
+        }
+        else {
+          this.state({errorMsg: 'Hmm. Vi kunne desvære ikke oprette dit indlæg - prøv igen'});
+        }
+      };
     }
   }
 
@@ -174,13 +203,8 @@ export default class AddContent extends React.Component {
     }
   }
 
-  onFocus() {
-    // @todo make animated scroll to top of element -svi
-    // window.scrollBy(0, event.target.getBoundingClientRect().top - 20);
-  }
-
   render() {
-    if (!this.props.profile.userIsLoggedIn) {
+    if (!this.props.profile.userIsLoggedIn || this.props.profile.hasFilledInProfile) {
       return (
         <div className='content-add'>
           <Login>Log ind for at skrive et indlæg</Login>
@@ -193,10 +217,10 @@ export default class AddContent extends React.Component {
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
     return (
-      <div className='content-add'>
-        <form method="POST" action={`/grupper/content/${this.props.type}`} encType="multipart/form-data"
+      <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})} >
+        <form method="POST" action={this.state.target} encType="multipart/form-data"
               id="content_form_component" ref="group-post-form"
-              onSubmit={this.onSubmit.bind(this)}>
+              onSubmit={e => this.onSubmit(e)}>
           <div className='content-input-wrapper'>
             <input type="hidden" name="id" value={this.props.id || null}/>
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
@@ -206,7 +230,6 @@ export default class AddContent extends React.Component {
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
                     onChange={(e) => this.setState({text: e.target.value})}
-                    onFocus={e => this.onFocus(e)}
           />
             {this.state.attachment.image &&
             <div className='content-add--preview-image'>
@@ -225,15 +248,22 @@ export default class AddContent extends React.Component {
               }
             </div>
           </div>
-
+          <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})} >
+          {
+            this.state.errorMsg &&
+            <Message type="error" onClose={() => this.setState({errorMsg: null})}>{this.state.errorMsg}</Message>
+          }
+          </div>
           <div className='content-add--actions'>
-            <input
+            <button
               type='submit'
               className='button submit'
               id='submit-btn'
-              value='OK'
-              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100}
-            />
+              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
+            >
+              {(this.state.isLoading) && <Icon glyph={spinner} />}
+              OK
+            </button>
             {
               (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100)) &&
               <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
@@ -265,6 +295,7 @@ export default class AddContent extends React.Component {
 AddContent.displayName = 'AddContent';
 AddContent.propTypes = {
   abort: React.PropTypes.func,
+  addContentAction: React.PropTypes.func.isRequired,
   autofocus: React.PropTypes.bool,
   profile: React.PropTypes.object.isRequired,
   parentId: React.PropTypes.number.isRequired,

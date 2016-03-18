@@ -1,9 +1,9 @@
 'use strict';
 
-const GetPostsTransform = {
+const GetSingleCommentsTransform = {
 
   event() {
-    return 'getSinglePosts';
+    return 'getSingleComment';
   },
 
   parseProfile(owner) {
@@ -29,31 +29,25 @@ const GetPostsTransform = {
     return comment;
   },
 
-  parsePost(post) {
-    post.owner = this.parseProfile(post.owner);
-    post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
-    post.comments = post.comments && post.comments.map(comment => this.parseComment(comment)) || [];
-    return post;
-  },
-
   requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
 
-    const postFilter = {
-      where: {id},
-      include: ['image', {owner: ['image']}, 'likes']
+    const commentFilter = {
+      where: {id: id},
+      order: 'timeCreated DESC',
+      include: ['image', {owner: ['image']}]
     };
 
-    return this.callServiceClient('community', 'getPosts', {filter: postFilter});
+    return this.callServiceClient('community', 'getComments', {id, filter: commentFilter});
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
     if (response.statusCode !== 200) {
-      throw new Error('Call to community service, with method getPosts failed');
+      throw new Error('Call to community service, with method getComments failed');
     }
 
-    const posts = JSON.parse(response.body);
-    return posts && this.parsePost(posts[0]) || null;
+    const comments = JSON.parse(response.body).map(comment => this.parseComment(comment));
+    return comments[0];
   }
 };
 
-export default GetPostsTransform;
+export default GetSingleCommentsTransform;

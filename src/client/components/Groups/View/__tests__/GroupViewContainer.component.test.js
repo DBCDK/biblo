@@ -44,7 +44,8 @@ describe('Test GroupView Component', () => {
   // actions for this test (just use spies)
   let groupActions = {
     changeGroupColour: noop,
-    asyncChangeImage: noop
+    asyncChangeImage: noop,
+    addPost: noop
   };
 
   let uiActions = {
@@ -62,6 +63,7 @@ describe('Test GroupView Component', () => {
     assert.deepEqual(tree.subTree('AddContent').getRenderOutput().props, {
       redirectTo: '/grupper/1',
       profile,
+      addContentAction: noop,
       parentId: 1,
       type: 'post'
     });

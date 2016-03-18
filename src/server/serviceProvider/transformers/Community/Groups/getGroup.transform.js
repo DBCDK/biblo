@@ -11,7 +11,7 @@ const GetGroupTransform = {
 
   parseGroup(group) {
     group.owner = parseProfile(group.owner, true, 'small');
-    group.image = group.coverImage && '/billede/' + group.coverImage.id + '/medium' || null;
+    group.image = group.coverImage && '/billede/' + group.coverImage.id + '/small' || null;
     return group;
   },
 

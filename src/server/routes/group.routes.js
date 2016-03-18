@@ -33,7 +33,7 @@ const uploadS3 = multer({
     accessKeyId: AMAZON_CONFIG.keyId,
     secretAccessKey: AMAZON_CONFIG.key,
     region: AMAZON_CONFIG.region,
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
       const pid = req.session.passport.user.profile.profile.id;
       const filename = Date.now() + '_' + pid + '_' + file.originalname.replace(new RegExp(' ', 'g'), '_');
       file.filename = filename;
@@ -58,7 +58,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserH
   });
 });
 
-GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function(req, res) {
+GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
@@ -230,7 +230,7 @@ function createElasticTranscoderJob(videoData, postId, logger) {
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function(req, res) {
+GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function (req, res) {
   const logger = req.app.get('logger');
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
 
@@ -240,28 +240,51 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     parentId: req.body.parentId,
     type: req.params.type,
     image,
-    id: req.body.id
+    id: req.body.id,
+    imageRemoved: req.body.imageRemoved === 'true' || false
   };
 
   if (req.session.videoupload) {
     params.video = req.session.videoupload;
   }
 
-  const response = await req.callServiceProvider('createGroupContent', params, {request: req});
+  try {
+    const response = (await req.callServiceProvider('createGroupContent', params, {request: req}))[0];
 
-  // creating video conversion jobs at ElasticTranscoder
-  if (req.session.videoupload && response) {
-    createElasticTranscoderJob(req.session.videoupload, response[0].id, logger);
+    // creating video conversion jobs at ElasticTranscoder
+    if (req.session.videoupload && response) {
+      createElasticTranscoderJob(req.session.videoupload, response.id, logger);
+    }
+
+    req.session.videoupload = null;
+
+    if (req.xhr) {
+      let content;
+      if (params.type === 'post') {
+        content = (await req.callServiceProvider('getSinglePosts', {id: response.id}))[0];
+      }
+      else {
+        content = (await req.callServiceProvider('getSingleComment', {id: response.id}))[0];
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(content));
+    }
+    else if (!response) {
+      logger.error('An error occured when creating a new post', {params: params});
+      res.redirect('/error');
+    }
+    else {
+      res.redirect(req.body.redirect);
+    }
   }
-
-  req.session.videoupload = null;
-
-  if (!response[0]) {
-    logger.error('An occured when creating a new post', {params: params, response: response});
-    res.redirect('/error');
-  }
-  else {
-    res.redirect(req.body.redirect);
+  catch (e) {
+    logger.error('An occured when creating a new post/comment', {params: params, error: e});
+    if (req.xhr) {
+      res.sendStatus(400);
+    }
+    else {
+      res.redirect('/error');
+    }
   }
 });
 

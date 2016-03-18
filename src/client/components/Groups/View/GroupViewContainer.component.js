@@ -89,6 +89,7 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
               <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
+                       addContentAction={this.props.groupActions.addPost}
                        parentId={this.props.group.id} type="post"/>
             </div>
             <div className='group--post-view'>
@@ -103,7 +104,7 @@ export class GroupViewContainer extends React.Component {
               }
             </div>
           </div>
-          <h2 className="group--memberbox-header">{this.props.group.members.length} Brugere i gruppen</h2>
+          <h2 className="group--memberbox-header">{this.props.group.members.length + 1} følger gruppen</h2>
           <GroupMembersBox
             members={this.props.group.members}
             owner={this.props.group.owner}
@@ -143,7 +144,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => { // eslint-disable-line no-unused-vars
+  (dispatch) => {
     return {
       groupActions: bindActionCreators(groupActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),

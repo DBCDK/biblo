@@ -28,7 +28,7 @@ class CommentView extends React.Component {
   }
 
   render() {
-    const {id, content, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions} = this.props;
+    const {id, content, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions} = this.props;
 
     const commentFlagModalContent = (
       <CreateFlagDialog
@@ -36,7 +36,7 @@ class CommentView extends React.Component {
         onClose={uiActions.closeModalWindow}
         contentType={'comment'}
         contentId={id}
-        />
+      />
     );
     return (
       <div className='comment-wrapper'>
@@ -60,13 +60,14 @@ class CommentView extends React.Component {
                 uiActions.openModalWindow(commentFlagModalContent);
               }}
               icon={<Icon glyph={flagSvg} />}
-              />
+            />
             }
           </div>
           {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment"
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}/>
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}
+                        addContentAction={groupActions.editComment}/>
             ||
             <div className="comment--content">
               <p className='content'>{content}</p>
@@ -93,5 +94,6 @@ CommentView.propTypes = {
   owner: React.PropTypes.object,
   submitFlagFunction: React.PropTypes.func.isRequired,
   timestamp: React.PropTypes.string,
+  groupActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired
 };

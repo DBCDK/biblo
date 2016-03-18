@@ -266,6 +266,34 @@ export function showMorePosts(posts, numberOfPostsLoaded) {
   };
 }
 
+export function addPost(post) {
+  return {
+    type: types.GROUP_ADD_POST,
+    post
+  };
+}
+
+export function editPost(post) {
+  return {
+    type: types.GROUP_EDIT_POST,
+    post
+  };
+}
+
+export function addComment(comment) {
+  return {
+    type: types.GROUP_ADD_COMMENT,
+    comment
+  };
+}
+
+export function editComment(comment) {
+  return {
+    type: types.GROUP_EDIT_COMMENT,
+    comment
+  };
+}
+
 export function asyncShowMoreComments(id, skip, limit) {
   return function (dispatch) {
     dispatch(moreCommentsLoading(id));

@@ -1,7 +1,6 @@
 'use strict';
-let newRelicConfig = require('@dbcdk/biblo-config').newrelic;
-const ENV = (process.env.NODE_ENV) ? process.env.NODE_ENV : 'local'; // eslint-disable-line no-process-env
-const NAME = newRelicConfig.palle.app_name + ' - ' + ENV;
+let newRelicConfig = require('@dbcdk/biblo-config').biblo.getConfig({}).newrelic;
+const NAME = newRelicConfig.app_name;
 /**
  * New Relic agent configuration.
  *

@@ -257,7 +257,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
   req.session.videoupload = null;
 
   if (!response[0]) {
-    logger.error('An occured when creating a new post', {params: params});
+    logger.error('An occured when creating a new post', {params: params, response: response});
     res.redirect('/error');
   }
   else {

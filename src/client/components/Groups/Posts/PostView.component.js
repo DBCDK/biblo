@@ -79,6 +79,7 @@ class PostView extends React.Component {
     const {
       groupActions,
       content,
+      html,
       image,
       timeCreated,
       owner,
@@ -142,7 +143,9 @@ class PostView extends React.Component {
                         addContentAction={groupActions.editPost}/>
             ||
             <div className='post--content'>
-              <p className='content'>{content}</p>
+              {
+                <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
+              }
               {
                 image &&
                 <div className='media'><img src={image} alt="image for post"/></div>
@@ -184,6 +187,7 @@ class PostView extends React.Component {
 PostView.propTypes = {
   groupActions: React.PropTypes.object,
   content: React.PropTypes.string,
+  html: React.PropTypes.string,
   image: React.PropTypes.string,
   timeCreated: React.PropTypes.string,
   owner: React.PropTypes.object,

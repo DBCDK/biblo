@@ -23,6 +23,7 @@ describe('Test of Comment Components', () => {
     id: 1,
     groupId: 1,
     content: 'test content',
+    html: 'test content',
     image: 'some_url',
     timeCreated: (new Date()).toISOString(),
     owner: {
@@ -43,7 +44,7 @@ describe('Test of Comment Components', () => {
     expect(tree.subTree('.post-profile-image').subTree('img').getRenderOutput().props.alt).to.be.equal(props.owner.displayName);
     expect(tree.subTree('.username').text()).to.be.equal(props.owner.displayName);
     expect(tree.subTree('.time').text()).to.be.equal('Lige nu');
-    expect(tree.subTree('.content').text()).to.be.equal(props.content);
+    expect(tree.subTree('.content').props.dangerouslySetInnerHTML.__html).to.be.equal(props.html);
     expect(tree.subTree('.media').subTree('img').getRenderOutput().props.src).to.be.equal(props.image);
   });
 

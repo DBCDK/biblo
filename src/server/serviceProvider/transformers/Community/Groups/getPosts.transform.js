@@ -1,6 +1,6 @@
 'use strict';
 
-import parseProfile from '../../../parsers/profile.parser';
+import parsePost from '../../../parsers/post.parser';
 
 const GetPostsTransform = {
 
@@ -8,26 +8,7 @@ const GetPostsTransform = {
     return 'getPosts';
   },
 
-  parseComment(comment) {
-    comment.owner = parseProfile(comment.owner, true, 'small');
-    comment.image = comment.image && '/billede/' + comment.image.id + '/medium' || null;
-    return comment;
-  },
-
-
-  parseLike(like) {
-    return like.profileId;
-  },
-
-  parsePost(post) {
-    post.owner = parseProfile(post.owner, true, 'small');
-    post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
-    post.comments = post.comments && post.comments.map(comment => this.parseComment(comment)) || [];
-    post.likes = post.likes && post.likes.map(like => this.parseLike(like)) || [];
-    return post;
-  },
-
-  fetchCommentsForPost(post, limit=1, skip=0) {
+  fetchCommentsForPost(post, limit = 1, skip = 0) {
     const commentFilter = {
       limit: limit,
       skip: skip,
@@ -65,7 +46,7 @@ const GetPostsTransform = {
 
     const posts = JSON.parse(response.body);
     return Promise.all(posts.map(post => this.fetchCommentsForPost(post)
-      .then(postWithComments => this.parsePost(postWithComments))));
+      .then(postWithComments => parsePost(postWithComments))));
   }
 };
 

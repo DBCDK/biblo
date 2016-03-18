@@ -85,6 +85,7 @@ export class ProfileDetailContainer extends React.Component {
             >
               <PostView
                 content={activity.post.content}
+                html={activity.post.html}
                 timeCreated={activity.timeCreated}
                 owner={activity.post.owner}
                 id={activity.post.id}
@@ -138,6 +139,7 @@ export class ProfileDetailContainer extends React.Component {
             >
               <PostView
                 content={activity.content}
+                html={activity.html}
                 timeCreated={activity.timeCreated}
                 owner={activity.owner}
                 id={activity.id}

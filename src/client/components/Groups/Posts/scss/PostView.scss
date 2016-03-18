@@ -1,10 +1,6 @@
 @import "tools";
 @import "settings";
 
-.post-list {
-
-}
-
 .post-wrapper {
   @include clearfix();
   margin-bottom: 20px;
@@ -12,6 +8,10 @@
     padding: 0 20px;
     border-bottom: 5px solid rgba($dark, 0.15);
   }
+}
+
+video {
+  max-width: 100%;
 }
 
 .post {
@@ -95,7 +95,6 @@
   @include min-screen($tablet) {
     margin-left: 20px;
   }
-
 }
 
 .post::before {

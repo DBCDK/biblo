@@ -8,7 +8,7 @@
 // Config
 import config from '@dbcdk/biblo-config';
 // newrelic needs to be required the es5 way because we only wants to load new relic if specified in config.js
-const newrelic = config.biblo.newrelic && require('newrelic') || null;
+const newrelic = config.biblo.getConfig({}).newrelic.enabled && require('newrelic') || null;
 
 // Libraries
 import express from 'express';
@@ -36,7 +36,7 @@ import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
 import {ensureProfileImage} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile} from './server/middlewares/auth.middleware';
 
-module.exports.run = function (worker) {
+module.exports.run = function(worker) {
   // Setup
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
@@ -84,12 +84,11 @@ module.exports.run = function (worker) {
   app.enable('trust proxy');
 
   // settings production specific options
-  if (!PRODUCTION && newrelic) {
-    newrelic.agent_enabled = false;
+  if (newrelic) {
+    app.locals.newrelic = true;
   }
 
   // setting local vars that should be available to our template engine
-  app.locals.newrelic = newrelic;
   app.locals.env = ENV;
   app.locals.production = PRODUCTION;
   app.locals.title = BIBLO_CONFIG.applicationTitle || 'Biblo'; // eslint-disable-line no-process-env
@@ -116,12 +115,18 @@ module.exports.run = function (worker) {
 
   const redisStore = RedisStore(expressSession);
 
+  const redisInstance = new redisStore({
+    host: redisConfig.host,
+    port: redisConfig.port,
+    prefix: APP_NAME + '_session_'
+  });
+
+  redisInstance.client.on('error', function() {
+    logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
+  });
+
   const sessionMiddleware = expressSession({
-    store: new redisStore({
-      host: redisConfig.host,
-      port: redisConfig.port,
-      prefix: APP_NAME + '_session_'
-    }),
+    store: redisInstance,
     secret: redisConfig.secret + APP_NAME,
     name: APP_NAME,
     rolling: true,
@@ -210,11 +215,13 @@ module.exports.run = function (worker) {
     function get() {
       return process.memoryUsage().rss;
     }
+
     function check() {
       var now = get();
-      console.log('Memory: %d MB', Math.floor(now/oneMb));
-      if (now - last < threshold)
+      console.log('Memory: %d MB', Math.floor(now / oneMb));
+      if (now - last < threshold) {
         return;
+      }
 
       heapdump.writeSnapshot();
       console.log('Memory increase from %d MB to %d MB. Wrote dump',

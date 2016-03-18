@@ -58,7 +58,7 @@ class NavbarContainer extends React.Component {
     if (image.shouldDisplay) {
       return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>);
     }
-    return (<NavbarIconLink className="navbar--profile" url="#" glyph={profileSvg}
+    return (<NavbarIconLink width="35" height="35" className="navbar--profile" url="#" glyph={profileSvg}
                              onClick={() => this.onToggle('profile')}/>);
   }
 

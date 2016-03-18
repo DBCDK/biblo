@@ -10,12 +10,14 @@ export default function NavBarIconLink(props) {
   return (
     <a
       className="navbar--link" href={props.url} onClick={(event) => props.onClick && props.onClick(event)}>
-      <Icon className={props.className} width="100" height="30" glyph={props.glyph}/>
+      <Icon className={props.className} width={props.width} height={props.height} glyph={props.glyph}/>
     </a>
   );
 }
 
 NavBarIconLink.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
   url: PropTypes.string.isRequired,
   glyph: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,

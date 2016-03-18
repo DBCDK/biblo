@@ -8,7 +8,7 @@
 import express from 'express';
 import multer from 'multer';
 
-import {ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile} from '../middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
 import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
@@ -210,8 +210,7 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   });
 });
 
-
-ProfileRoutes.get(['/:id', '/'], ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureProfileImage, ensureUserHasProfile, async function (req, res) {
+ProfileRoutes.get(['/:id', '/'], ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureProfileImage, async function (req, res) {
   let profile,
     profileId = req.params.id,
     data = {

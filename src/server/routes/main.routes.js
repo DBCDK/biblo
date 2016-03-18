@@ -8,11 +8,11 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
-import {setReferer, redirectBackToOrigin} from '../middlewares/auth.middleware.js';
+import {setReferer, redirectBackToOrigin, ensureUserHasProfile} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
 
-MainRoutes.get('/', (req, res) => {
+MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
   res.render('page', {
     css: ['/css/frontpage.css'],
     js: ['/js/frontpage.js']

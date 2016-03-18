@@ -24,3 +24,7 @@ h2 {
   display: inline-block;
   @include hover-transition((background: $melrose), 200ms, false);
 }
+
+svg {
+  pointer-events: none;
+}

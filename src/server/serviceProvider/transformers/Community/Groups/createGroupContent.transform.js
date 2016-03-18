@@ -13,14 +13,15 @@ const CreateGroupContent = {
     }
 
     return this.callServiceClient('community', method, {
-      title: query.title,
-      content: query.content,
+      title: query.title || '',
+      content: query.content || '',
       timeCreated: query.timeCreated || (new Date()).toUTCString(),
       parentId: query.parentId,
       id: query.id || null,
       uid: user.profileId,
       ownerid: query.ownerid || user.profileId,
-      accessToken: user.id
+      accessToken: user.id,
+      video: query.video || null
     }).then((response) => {
       if (response.statusCode === 200 && query.image) {
         const image = query.image;
@@ -30,6 +31,8 @@ const CreateGroupContent = {
           image,
           accessToken: user.id,
           relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
+        }).then(() => {
+          return response;
         });
       }
 

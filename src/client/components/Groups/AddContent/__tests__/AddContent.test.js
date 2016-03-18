@@ -8,7 +8,8 @@ import AddContent from '../AddContent.component';
 
 describe('Test of AddConent Component', () => {
   const profile = {
-    userIsLoggedIn: true
+    userIsLoggedIn: true,
+    hasFilledInProfile: true
   };
 
   let defaultComponent = null;
@@ -22,7 +23,7 @@ describe('Test of AddConent Component', () => {
     defaultComponent = null;
   });
 
-  it('onSubmit method should throw an alert if state.text is empty', () => {
+  it('onSubmit method should add an error if state.text is empty', () => {
     let component = TestUtils.renderIntoDocument(
       <AddContent
         profile={profile}
@@ -33,11 +34,9 @@ describe('Test of AddConent Component', () => {
       />
     );
 
-    let spy = sinon.spy(window, 'alert'); // eslint-disable-line no-undef
     const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
     TestUtils.Simulate.submit(form);
-    assert.isTrue(spy.called, 'alert method was invoked');
-    spy.restore();
+    TestUtils.findRenderedDOMComponentWithClass(component, 'message');
   });
 
   it('readInput method should return false if given filetype is neither image or video', () => {
@@ -129,13 +128,14 @@ describe('Test of AddConent Component', () => {
     const method = ReactDOM.findDOMNode(form).method.toUpperCase();
     expect(method).to.equal('POST');
     let inputContent = TestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
-    expect(inputContent.length).to.be.eql(6);
+    expect(inputContent.length).to.be.eql(5);
     expect(ReactDOM.findDOMNode(inputContent[0]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[1]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[2]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[3]).type).to.be.eql('hidden');
-    expect(ReactDOM.findDOMNode(inputContent[4]).type).to.be.eql('submit');
-    expect(ReactDOM.findDOMNode(inputContent[5]).type).to.be.eql('file');
+    expect(ReactDOM.findDOMNode(inputContent[4]).type).to.be.eql('file');
+    let submit = TestUtils.findRenderedDOMComponentWithTag(component, 'button');
+    expect(submit.type).to.be.eql('submit');
   });
 
   it('it should render form with properties', () => {

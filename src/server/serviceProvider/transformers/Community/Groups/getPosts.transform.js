@@ -11,6 +11,7 @@ const GetPostsTransform = {
   parseComment(comment) {
     comment.owner = parseProfile(comment.owner, true, 'small');
     comment.image = comment.image && '/billede/' + comment.image.id + '/medium' || null;
+    comment.video = comment.video && this.handleVideo(comment.video) || null;
     return comment;
   },
 
@@ -22,12 +23,19 @@ const GetPostsTransform = {
   parsePost(post) {
     post.owner = parseProfile(post.owner, true, 'small');
     post.image = post.image && '/billede/' + post.image.id + '/medium' || null;
+    post.video = post.video && this.handleVideo(post.video) || null;
     post.comments = post.comments && post.comments.map(comment => this.parseComment(comment)) || [];
     post.likes = post.likes && post.likes.map(like => this.parseLike(like)) || [];
     return post;
   },
 
-  fetchCommentsForPost(post, limit=1, skip=0) {
+  handleVideo(video) {
+    // Remove original video as we don't want to expose it to the client
+    video.resolutions = video.resolutions.filter(resolution => resolution.size !== 'original_video');
+    return video;
+  },
+
+  fetchCommentsForPost(post, limit = 1, skip = 0) {
     const commentFilter = {
       limit: limit,
       skip: skip,
@@ -52,7 +60,24 @@ const GetPostsTransform = {
       counts: 'comments',
       where: {groupid: id},
       order: 'timeCreated DESC',
-      include: ['image', {owner: ['image']}, 'likes']
+      include: [
+        'image', {
+          owner: ['image']
+        },
+        'likes',
+        {
+          relation: 'video',
+          scope: {
+            include: [
+              {
+                relation: 'resolutions',
+                scope: {
+                  include: ['video']
+                }
+              }]
+          }
+        }
+      ]
     };
 
     return this.callServiceClient('community', 'getPosts', {id, filter: postFilter});

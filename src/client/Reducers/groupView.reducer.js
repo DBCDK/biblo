@@ -25,6 +25,7 @@ const initialState = Object.assign({}, defaultState, groupData);
 
 export default function groupViewReducer(state = initialState, action = {}) {
   Object.freeze(state);
+  let posts;
   switch (action.type) {
     case types.GET_GROUP:
       return state;
@@ -33,13 +34,38 @@ export default function groupViewReducer(state = initialState, action = {}) {
     case types.GROUP_MEMBERS_EXPAND:
       if (action.members !== null) {
         // update members and transition away from loading state
-        return assignToEmpty(state, {isMembersExpanded: action.expand, members: action.members, isLoadingMembers: false});
+        return assignToEmpty(state, {
+          isMembersExpanded: action.expand,
+          members: action.members,
+          isLoadingMembers: false
+        });
       }
       return assignToEmpty(state, {isMembersExpanded: action.expand});
     case types.GROUP_MEMBERS_LOADING:
       return assignToEmpty(state, {isLoadingMembers: true});
+    case types.GROUP_ADD_POST:
+      return assignToEmpty(state, {posts: [action.post, ...state.posts]});
+    case types.GROUP_ADD_COMMENT:
+      const postsWithNewComment = state.posts.map(post => {
+        if (post.id === action.comment.postid) {
+          post.comments = [action.comment, ...post.comments];
+        }
+        return post;
+      });
+      return assignToEmpty(state, {posts: postsWithNewComment});
+    case types.GROUP_EDIT_POST:
+      posts = state.posts.map(post => (post.id === action.post.id) && action.post || post);
+      return assignToEmpty(state, {posts});
+    case types.GROUP_EDIT_COMMENT:
+      posts = state.posts.map(post => {
+        if (post.id === action.comment.postid) {
+          post.comments = post.comments.map(comment => (comment.id === action.comment.id) && action.comment || comment);
+        }
+        return post;
+      });
+      return assignToEmpty(state, {posts});
     case types.GROUP_SHOW_MORE_POSTS:
-      const posts = [...state.posts, ...action.posts];
+      posts = [...state.posts, ...action.posts];
       return assignToEmpty(state, {posts, numberOfPostsLoaded: action.numberOfPostsLoaded, loadingPosts: false});
     case types.GROUP_LOADING_MORE_POSTS:
       return assignToEmpty(state, {loadingPosts: true});

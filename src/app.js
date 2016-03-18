@@ -34,6 +34,7 @@ import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
 import {ensureProfileImage} from './server/middlewares/data.middleware';
+import {ensureUserHasProfile} from './server/middlewares/auth.middleware';
 
 module.exports.run = function (worker) {
   // Setup
@@ -168,7 +169,7 @@ module.exports.run = function (worker) {
   app.use(ssrMiddleware);
   app.use(ensureProfileImage);
 
-  app.use('/grupper', GroupRoutes);
+  app.use('/grupper', ensureUserHasProfile, GroupRoutes);
   app.use('/profil', ProfileRoutes);
   app.use('/', MainRoutes);
 

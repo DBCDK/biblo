@@ -200,6 +200,7 @@ export function asyncGroupFollow(enableFollow, groupId, profileId) {
       joinGroup.request({groupId, profileId});
     }
     else {
+
       leaveGroup.request({groupId, profileId});
     }
   };

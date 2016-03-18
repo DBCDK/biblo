@@ -7,6 +7,7 @@
 import parseJsonData from '../Utils/parseJsonData.js';
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
+import {includes, filter} from 'lodash';
 
 const defaultState = {
   name: '',
@@ -61,11 +62,33 @@ export default function groupViewReducer(state = initialState, action = {}) {
       });
       return assignToEmpty(state, {posts: postsloadingComments});
     case types.LIKE_POST:
-      console.log('like reducer', action);
-      return state;
+      const postsCopyLiked = [...state.posts];
+
+      postsCopyLiked.forEach(post => {
+        if (post.id === action.postId) {
+          const isAlreadyLikedByUser = includes(post.likes, action.profileId);
+          if (!isAlreadyLikedByUser) {
+            post.likes.push(action.profileId);
+          }
+        }
+      });
+
+      return assignToEmpty(state, {posts: postsCopyLiked});
     case types.UNLIKE_POST:
-      console.log('unlike reducer', action);
-      return state;
+      const postsCopyUnliked = [...state.posts];
+
+      postsCopyUnliked.forEach(post => {
+        if (post.id === action.postId) {
+          const isAlreadyLikedByUser = includes(post.likes, action.profileId);
+          if (isAlreadyLikedByUser) {
+            post.likes = filter(post.likes, (id) => {
+              return (id !== action.profileId);
+            });
+          }
+        }
+      });
+
+      return assignToEmpty(state, {posts: postsCopyUnliked});
     default:
       return state;
   }

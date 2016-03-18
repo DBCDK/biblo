@@ -1,20 +1,20 @@
 'use strict';
 
-const LikePostTransform = {
+const UnlikePostTransform = {
 
   event() {
-    return 'likePost';
+    return 'unlikePost';
   },
 
   requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
     // check user is logged in
     if (connection.request.session.passport) {
-      // If user is logged in like on post
+
       const passport = connection.request.session.passport;
       const profileId = query.profileId;
       const postId = query.postId;
       const accessToken = passport.user.id;
-      return this.callServiceClient('community', 'likePost', {profileId, postId, accessToken});
+      return this.callServiceClient('community', 'unlikePost', {profileId, postId, accessToken});
     }
     return Promise.reject(new Error('user not logged in'));
   },
@@ -30,4 +30,4 @@ const LikePostTransform = {
   }
 };
 
-export default LikePostTransform;
+export default UnlikePostTransform;

@@ -24,8 +24,13 @@ export function likePost(like) {
 }
 
 export function unlikePost(like) {
-  unlikePostSocketClient.request({like});
+  unlikePostSocketClient.request({
+    profileId: like.profileId,
+    postId: like.postId
+  });
   return {
-    type: types.UNLIKE_POST
+    type: types.UNLIKE_POST,
+    profileId: like.profileId,
+    postId: like.postId
   };
 }

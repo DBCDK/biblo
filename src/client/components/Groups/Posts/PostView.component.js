@@ -56,7 +56,6 @@ class PostView extends React.Component {
   }
 
   likePost() {
-    console.log('liked post', this.props.id);
     this.props.likeActions.likePost({
       postId: this.props.id,
       profileId: this.props.profile.id
@@ -64,8 +63,10 @@ class PostView extends React.Component {
   }
 
   unlikePost() {
-    console.log('unliked post', this.props.id);
-    this.props.likeActions.unlikePost();
+    this.props.likeActions.unlikePost({
+      postId: this.props.id,
+      profileId: this.props.profile.id
+    });
   }
 
   toggleEditting() {

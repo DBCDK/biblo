@@ -125,6 +125,7 @@ progress[value] {
 }
 
 .content-add--media-label {
+  pointer-events: none;
   @include max-screen($desktop - 1px) {
     display: none;
   }

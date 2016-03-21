@@ -47,7 +47,8 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
-                {title} til et indlæg i gruppen <a href={`/grupper/${activity.post.group.id}`}>{activity.post.group.name}</a>:
+                {title} til et indlæg i gruppen <a
+                href={`/grupper/${activity.post.group.id}`}>{activity.post.group.name}</a>:
               </span>
             );
           }
@@ -231,18 +232,29 @@ export class ProfileDetailContainer extends React.Component {
     const isLoggedIn = this.props.profile.userIsLoggedIn;
 
     let editButton = null;
+    let profileImage = null;
     if (isLoggedIn && isMyProfile) {
-      editButton = (<a href={PROFILE_EDIT} className='p-detail--edit-button'><Icon glyph={editSvg} width={24} height={24} /></a>);
+      editButton = (
+        <a href={PROFILE_EDIT}>
+          <div className='p-detail--edit-button'><Icon className="icon" glyph={editSvg}
+                                                       width={24} height={24}/></div>
+        </a>);
+      profileImage = (<a href={PROFILE_EDIT}>
+        <div className="p-detail--image-container">
+          <img src={userProfile.image} alt={userProfile.displayName}/>
+        </div>
+      </a>);
+    }
+    else {
+      profileImage = (<div className="p-detail--image-container">
+        <img src={userProfile.image} alt={userProfile.displayName}/>
+      </div>);
     }
 
     return (
       <PageLayout>
         {modal}
-
-        <div className="p-detail--image-container">
-          <img src={userProfile.image} alt={userProfile.displayName} />
-        </div>
-
+        {profileImage}
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname">{userProfile.displayName}</p>
           {editButton}
@@ -251,7 +263,8 @@ export class ProfileDetailContainer extends React.Component {
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
               this.props.uiActions.openModalWindow(groupsModalContent);
             }}>
-              <div className="p-detail--groups-button"> <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p></div>
+              <div className="p-detail--groups-button"><Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
+              </div>
             </a>
 
           </div>
@@ -259,7 +272,7 @@ export class ProfileDetailContainer extends React.Component {
 
         {
           (this.props.feed.feed.length > 0) ?
-            (<ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`} />) :
+            (<ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`}/>) :
             (<ActivityRow title={'Her er tomt!'}>{userProfile.displayName} har ikke lavet noget...</ActivityRow>)
         }
 

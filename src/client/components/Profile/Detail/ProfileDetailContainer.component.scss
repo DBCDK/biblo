@@ -32,6 +32,10 @@
 }
 
 .p-detail--edit-button {
+  display: inline-block;
+  .icon {
+    pointer-events: none;
+  }
 }
 
 .p-detail--groups-button--container, .p-detail--flag-button--container {

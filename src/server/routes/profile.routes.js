@@ -10,6 +10,7 @@ import multer from 'multer';
 
 import {ensureUserHasProfile, ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
 import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
+import {profileEditForm} from '../forms/profile.form';
 
 let upload = multer({storage: multer.memoryStorage()});
 
@@ -43,6 +44,21 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
       });
     }
   }
+
+  profileEditForm.handle(req, {
+    other(form) {
+      for (let key in form.fields) {
+        if (form.fields.hasOwnProperty(key)) {
+          if (form.fields[key].error) {
+            errors.push({
+              errorMessage: form.fields[key].error,
+              field: key
+            });
+          }
+        }
+      }
+    }
+  });
 
   if (
     typeof b.libraryId === 'string' && b.libraryId.length > 0 &&

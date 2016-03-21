@@ -28,8 +28,7 @@ class CommentView extends React.Component {
   }
 
   render() {
-    const {id, content, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions} = this.props;
-
+    const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions} = this.props;
     const commentFlagModalContent = (
       <CreateFlagDialog
         submitFunction={submitFlagFunction}
@@ -70,7 +69,9 @@ class CommentView extends React.Component {
                         addContentAction={groupActions.editComment}/>
             ||
             <div className="comment--content">
-              <p className='content'>{content}</p>
+              {
+                <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
+              }
               {
                 image &&
                 <div className='media'><img src={image} alt="image for post"/></div>
@@ -88,6 +89,7 @@ CommentView.propTypes = {
   postId: React.PropTypes.number,
   groupId: React.PropTypes.number,
   content: React.PropTypes.string,
+  html: React.PropTypes.string,
   image: React.PropTypes.string,
   timeCreated: React.PropTypes.string,
   profile: React.PropTypes.object,

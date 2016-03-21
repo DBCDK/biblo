@@ -81,7 +81,7 @@ describe('Test profile detail container (public profile)', () => {
     let activityRows = $root.find('.activity-row--container > .activity-row');
 
     expect(activityRows[0].innerHTML).toContain(`Se hvad ${profileMock.displayName} har lavet:`);
-    expect(activityRows[1].innerHTML).toContain(feedMock.feed[0].content);
-    expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].content);
+    expect(activityRows[1].innerHTML).toContain(feedMock.feed[0].html);
+    expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].html);
   });
 });

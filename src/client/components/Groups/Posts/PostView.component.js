@@ -91,21 +91,22 @@ class PostView extends React.Component {
 
   render() {
     const {
-            groupActions,
-            content,
-            image,
-            video,
-            timeCreated,
-            owner,
-            id,
-            profile,
-            groupId,
-            comments,
-            uiActions,
-            commentsCount,
-            numberOfCommentsLoaded,
-            loadingComments
-          } = this.props;
+      groupActions,
+      content,
+      html,
+      image,
+      video,
+      timeCreated,
+      owner,
+      id,
+      profile,
+      groupId,
+      comments,
+      uiActions,
+      commentsCount,
+      numberOfCommentsLoaded,
+      loadingComments
+      } = this.props;
 
     const postFlagModalContent = (
       <CreateFlagDialog
@@ -156,8 +157,10 @@ class PostView extends React.Component {
                         abort={() => this.toggleEditting()} text={content} image={image} id={id}
                         addContentAction={groupActions.editPost} />
             ||
-            <div className='post--content' >
-              <p className='content' >{content}</p>
+            <div className='post--content'>
+              {
+                <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
+              }
               {
                 image &&
                 <div className='media' ><img src={image} alt="image for post" />
@@ -206,6 +209,7 @@ PostView.propTypes = {
   commentRedirect: React.PropTypes.string,
   comments: React.PropTypes.array,
   content: React.PropTypes.string,
+  html: React.PropTypes.string,
   flagActions: React.PropTypes.object.isRequired,
   groupActions: React.PropTypes.object,
   groupId: React.PropTypes.number,

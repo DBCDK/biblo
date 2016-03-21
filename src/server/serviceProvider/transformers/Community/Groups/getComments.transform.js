@@ -1,32 +1,11 @@
 'use strict';
 
+import parseComment from '../../../parsers/comment.parser';
+
 const GetCommentsTransform = {
 
   event() {
     return 'getComments';
-  },
-
-  parseProfile(owner) {
-    if (owner) {
-      return {
-        id: owner.id,
-        displayName: owner.displayName,
-        image: owner.image && '/billede/' + owner.image.id + '/medium' || null
-      };
-    }
-
-    // All posts, groups and comments should have an owner. This is a fallback in case of mysterious events
-    return {
-      id: 0,
-      displayName: 'Anonym',
-      image: 'http://lorempixel.com/200/200/'
-    };
-  },
-
-  parseComment(comment) {
-    comment.owner = this.parseProfile(comment.owner);
-    comment.image = comment.image && '/billede/' + comment.image.id + '/medium' || null;
-    return comment;
   },
 
   requestTransform(event, {id, skip, limit}, connection) { // eslint-disable-line no-unused-vars
@@ -48,7 +27,7 @@ const GetCommentsTransform = {
       throw new Error('Call to community service, with method getComments failed');
     }
 
-    const comments = JSON.parse(response.body).map(comment => this.parseComment(comment));
+    const comments = JSON.parse(response.body).map(comment => parseComment(comment));
     return comments;
   }
 };

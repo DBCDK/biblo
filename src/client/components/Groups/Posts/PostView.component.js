@@ -209,14 +209,11 @@ PostView.propTypes = {
   commentRedirect: React.PropTypes.string,
   comments: React.PropTypes.array,
   content: React.PropTypes.string,
-<<<<<<< HEAD
   html: React.PropTypes.string,
-=======
   flagActions: React.PropTypes.object.isRequired,
   groupActions: React.PropTypes.object,
   groupId: React.PropTypes.number,
   id: React.PropTypes.number,
->>>>>>> c2e322c069b6495119b110274f178c476eef7c1a
   image: React.PropTypes.string,
   likes: React.PropTypes.array,
   loadingComments: React.PropTypes.bool,

@@ -76,14 +76,20 @@ class PostView extends React.Component {
   }
 
   getVideoPlayer() {
+    let thumbUrl = '';
     const sources = this.props.video.resolutions.map((resolution, key) => {
+      if (key === 0) {
+        const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
+        thumbUrl = `${pureFileName}_thumb_00001.png`;
+      }
+
       return (
         <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />
       );
     });
 
     return (
-      <video controls >
+      <video controls preload="metadata" poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`} >
         {sources}
       </video>
     );

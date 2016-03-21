@@ -208,7 +208,7 @@ function createElasticTranscoderJob(videoData, postId, logger) {
     PipelineId: '1456826915509-r6pfck',
     Output: {
       Key: `${videoData.pureFileName}.mp4`,
-      PresetId: '1351620000001-100070', // WEB-preset
+      PresetId: '1458561295144-kcngbn', // WEB-Biblo-preset
       ThumbnailPattern: `${videoData.pureFileName}_thumb_{count}`
     },
     UserMetadata: {

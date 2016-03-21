@@ -233,15 +233,18 @@ export class ProfileDetailContainer extends React.Component {
     let profileImage = null;
     if (isLoggedIn && isMyProfile) {
       editButton = (
-        <a href={PROFILE_EDIT}> <div className='p-detail--edit-button'><Icon className="icon" glyph={editSvg}
-                                                                              width={24} height={24}/></div> </a>);
+        <a href={PROFILE_EDIT}>
+          <div className='p-detail--edit-button'><Icon className="icon" glyph={editSvg}
+                                                       width={24} height={24}/></div>
+        </a>);
       profileImage = (<a href={PROFILE_EDIT}>
         <div className="p-detail--image-container">
           <img src={userProfile.image} alt={userProfile.displayName}/>
         </div>
       </a>);
-    } else {
-      profileimage = (<div className="p-detail--image-container">
+    }
+    else {
+      profileImage = (<div className="p-detail--image-container">
         <img src={userProfile.image} alt={userProfile.displayName}/>
       </div>);
     }

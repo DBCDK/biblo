@@ -140,12 +140,12 @@ class PostView extends React.Component {
         <div className='post--profile-image'>
           <img src={owner.image || null} alt={owner.displayName}/>
         </div>
-        <div className='post'>
-          <div className='post--header'>
-            <a href={`/profil/${owner.id}`}><span className='username'>{owner.displayName}</span></a>
-            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
-            <span className='buttons'>
-              {profile.id === owner.id &&
+        <div className='post' >
+          <div className='post--header' >
+            <a href={`/profil/${owner.id}`} ><span className='username' >{owner.displayName}</span></a>
+            <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className='buttons' >
+              {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                           icon={<Icon glyph={pencilSvg}/>}/>
               ||

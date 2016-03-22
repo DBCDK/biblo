@@ -19,7 +19,9 @@
     "test": "karma start --single-run=true",
     "test:watch": "karma start",
     "tail": "tail -f log.log",
-    "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'"
+    "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
+    "test:perf": "artillery run -o ./artillery/report.json ./artillery/loadtest.json && artillery report ./artillery/report.json",
+    "test:perf:remote": "artillery run -o ./artillery/report.json -e production ./artillery/loadtest.json && artillery report ./artillery/report.json"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
     "@dbcdk/biblo-config": "^1.9.2",
+    "artillery": "^1.3.11",
     "async": "1.5.0",
     "autolinker": "^0.25.1",
     "autoprefixer": "^6.3.1",
@@ -45,6 +48,7 @@
     "babel": "^6.3.26",
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
+    "babel-plugin-array-includes": "^2.0.3",
     "babel-plugin-transform-async-to-generator": "^6.5.0",
     "babel-plugin-transform-runtime": "^6.5.0",
     "babel-preset-es2015": "^6.3.13",

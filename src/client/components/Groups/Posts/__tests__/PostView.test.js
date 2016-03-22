@@ -121,7 +121,7 @@ describe('Test of Post Components', () => {
       newProps.content = 'some text including a youtube link: https://youtu.be/kNTnrpL1Uw0';
       const tree = sd.shallowRender(<PostView {...newProps} />);
 
-      assert.isNotFalse(tree.subTree('.youtube-container'), 'className youtube-container was found');
+      assert.isNotFalse(tree.subTree('.post--youtube-container'), 'className youtube-container was found');
     });
 
     it('It should not render a div with className youtube-container', () => {
@@ -129,7 +129,7 @@ describe('Test of Post Components', () => {
       newProps.content = 'some text including zero youtube links';
       const tree = sd.shallowRender(<PostView {...newProps} />);
 
-      assert.isFalse(tree.subTree('.youtube-container'), 'className youtube-container was found');
+      assert.isFalse(tree.subTree('.post--youtube-container'), 'className youtube-container was found');
     });
   });
 });

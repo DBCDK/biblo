@@ -15,7 +15,7 @@ video {
   max-width: 100%;
 }
 
-.youtube-container {
+.post--youtube-container {
   position: relative;
   padding-bottom: 50%;
   padding-top: 30px;
@@ -23,7 +23,7 @@ video {
   overflow: hidden;
 }
 
-.youtube-container iframe, .youtube-container object, .youtube-container embed {
+.post--youtube-container iframe, .post--youtube-container object, .post--youtube-container embed {
   position: absolute;
   top: 0;
   left: 0;

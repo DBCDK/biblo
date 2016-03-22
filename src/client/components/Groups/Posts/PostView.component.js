@@ -102,6 +102,10 @@ export default class PostView extends React.Component {
   }
 
   getYoutubeID() {
+    if (isEmpty(this.props.content)) {
+      return null;
+    }
+
     const ids = youtubeIdGetter.linkStringToIds(this.props.content);
     return !isEmpty(ids) ? ids[0] : null;
   }
@@ -182,7 +186,7 @@ export default class PostView extends React.Component {
               }
               {
                 image &&
-                <div className='media' >
+                <div className='post--media' >
                   <img src={image} alt="image for post" />
                 </div>
               }
@@ -191,7 +195,7 @@ export default class PostView extends React.Component {
               }
               {
                 youtube &&
-                <div className="youtube-container" >
+                <div className="post--youtube-container" >
                   <Youtube videoId={youtube} />
                 </div>
               }

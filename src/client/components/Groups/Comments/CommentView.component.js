@@ -52,13 +52,13 @@ class CommentView extends React.Component {
           <div className='comment--actions'>
             {(profile.id === owner.id || profile.isModerator) &&
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                        icon={<Icon glyph={pencilSvg}/>}/>
+                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button"/>}/>
             ||
             <TinyButton
               clickFunction={() => {
                 uiActions.openModalWindow(commentFlagModalContent);
               }}
-              icon={<Icon glyph={flagSvg} />}
+              icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
             />
             }
           </div>

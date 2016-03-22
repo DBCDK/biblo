@@ -54,5 +54,13 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
     p.fullName = profile.fullName;
   }
 
+  /**
+   * To get the correct value, remember to include "communityRoles" relation when getting profile (see getFullProfile transform).
+   * @type {boolean}
+   */
+  p.isModerator = !!(profile.communityRoles && Array.isArray(profile.communityRoles) && profile.communityRoles.filter((role) => {
+      return role.name === 'moderator';
+    }).length > 0);
+
   return p;
 }

@@ -1,15 +1,25 @@
 @import "tools";
 @import "settings";
 
+
 .group--list {
-  display:block;
+  @include container();
   padding-left: 10px;
-  padding-right: 0px;
+  margin-left: 0;
+  padding-right: 5px;
   h2 {
     height: 12px;
+  }
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    padding-left: 0;
   }
 }
 
 .group--showmore {
-  text-align: right
+  text-align: right;
+  clear: both;
 }
+

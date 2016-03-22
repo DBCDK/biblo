@@ -4,6 +4,10 @@ import React from 'react';
 import GroupViewTile from '../View/GroupViewTile.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
+
+import Follow from '../../General/Follow/Follow.component';
+import * as groupActions from '../../../Actions/group.actions';
+
 import './scss/group-list.scss';
 
 export default
@@ -14,14 +18,15 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const {title, groups, expand, delta = 15, skip = 0, limit, isLoading} = this.props;
+    const {title, groups, expand, delta = 15, skip = 0, limit,
+      isLoading, profileId, followOn = false, groupActions} = this.props;
     var hasMore = true;
     if (limit > groups.length) {
       hasMore = false;
     }
 
     var expandButton;
-    if (hasMore) {
+    if (hasMore && expand) {
       expandButton = (
         <ExpandButton className="group-showmore" text="Vis flere"
                       isLoading={isLoading}
@@ -30,32 +35,37 @@ class GroupList extends React.Component {
     }
 
     return (
-      <div className="group--list">
+      <div>
         <h2>{title}</h2>
         <hr/>
+        <div className="group-list">
         {
           groups && groups.map((item) => (
-            <GroupViewTile key={item.id} group={item}/>
+            <GroupViewTile key={item.id}  group={item} actions={groupActions}/>
           ))
         }
-        <div className="group--showmore">
-        {expandButton}
         </div>
+        <div className="group--showmore">
+          {expandButton}
+        </div>
+
       </div>
-    );
+    )
   }
+
 }
 
 GroupList.propTypes = {
   title: React.PropTypes.string.isRequired,
   groups: React.PropTypes.array.isRequired,
+  groupActions: React.PropTypes.array,
   delta: React.PropTypes.number,
   skip: React.PropTypes.number,
   limit: React.PropTypes.number,
   isLoading: React.PropTypes.bool,
+  profileId: React.PropTypes.number,
+  followOn: React.PropTypes.bool,
   expand: React.PropTypes.func
 };
 
 GroupList.displayName = 'GroupList';
-
-

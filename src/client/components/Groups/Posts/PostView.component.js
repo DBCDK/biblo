@@ -144,7 +144,7 @@ class PostView extends React.Component {
             <a href={`/profil/${owner.id}`} ><span className='username' >{owner.displayName}</span></a>
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons' >
-              {profile.id === owner.id &&
+              {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                           icon={<Icon glyph={pencilSvg}/>} />
               ||

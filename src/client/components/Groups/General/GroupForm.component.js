@@ -57,10 +57,13 @@ export default class GroupForm extends React.Component {
             <input
               disabled={disabled}
               id="group-name-input-field"
+              className="group-name--input-field"
               name="group-name"
               required
               placeholder="Find på et gruppenavn"
-              ref={'groupNameInput'} />
+              ref={'groupNameInput'}
+              defaultValue={this.props.defaultValues['group-name']}
+            />
             {errorObj['group-name'] || ''}
           </div>
           <br />
@@ -68,6 +71,7 @@ export default class GroupForm extends React.Component {
           <div className={'group-description-field'}>
             <label htmlFor="group-description-area"><strong>Beskrivelse af gruppen</strong></label><br />
             <textarea
+              className="group-description--text-area"
               disabled={disabled}
               id="group-description-area"
               placeholder="Her kan du skrive lidt om gruppen"
@@ -75,12 +79,10 @@ export default class GroupForm extends React.Component {
               required
               rows="5"
               ref={'groupDescriptionArea'}
+              defaultValue={this.props.defaultValues['group-description']}
             />
             {errorObj['group-description'] || ''}
           </div>
-          <br />
-
-          <input type="hidden" value="blue" name="group-colour-picker_colour" />
 
           <div className={'group-form-submit-button'}>
             {submitArea}
@@ -92,12 +94,20 @@ export default class GroupForm extends React.Component {
 }
 
 GroupForm.displayName = 'GroupForm';
+
 GroupForm.propTypes = {
-  changeColourAction: React.PropTypes.func.isRequired,
   changeImageAction: React.PropTypes.func.isRequired,
   errors: React.PropTypes.array.isRequired,
   groupImageSrc: React.PropTypes.string.isRequired,
   submitState: React.PropTypes.string,
   submitProgress: React.PropTypes.number.isRequired,
-  submit: React.PropTypes.func.isRequired
+  submit: React.PropTypes.func.isRequired,
+  defaultValues: React.PropTypes.object
+};
+
+GroupForm.defaultProps = {
+  defaultValues: {
+    'group-name': '',
+    'group-description': ''
+  }
 };

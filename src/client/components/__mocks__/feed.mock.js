@@ -10,7 +10,7 @@ export const emptyFeedMock = {
 
 export const feedMock = {
   feed: [{
-    content: 'Dette er en totalt nice kommentar, den er faktisk så nice!',
+    html: 'Dette er en totalt nice kommentar, den er faktisk så nice!',
     timeCreated: '2016-03-10T11:42:26.000Z',
     id: 46,
     commentownerid: 109,
@@ -18,7 +18,7 @@ export const feedMock = {
     postid: 42,
     post: {
       title: ' ',
-      content: 'Dette er det vildeste indlæg, totalt vildt mand!',
+      html: 'Dette er det vildeste indlæg, totalt vildt mand!',
       timeCreated: '2016-03-10T11:42:21.000Z',
       id: 42,
       postownerid: 109,
@@ -46,7 +46,7 @@ export const feedMock = {
     owner: profileMock
   }, {
     title: ' ',
-    content: 'Dette er et mindre opslag...',
+    html: 'Dette er et mindre opslag...',
     timeCreated: '2016-03-10T11:42:21.000Z',
     id: 43,
     postownerid: 109,

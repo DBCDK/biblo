@@ -1,17 +1,13 @@
 @import "tools";
 @import "settings";
 
-.post-wrapper {
+.post--wrapper {
   @include clearfix();
   margin-bottom: 20px;
   @include max-screen($tablet - 1px) {
     padding: 0 20px;
     border-bottom: 5px solid rgba($dark, 0.15);
   }
-}
-
-video {
-  max-width: 100%;
 }
 
 .post {
@@ -47,19 +43,40 @@ video {
   img {
     max-width: 100%;
   }
-
-  .comment-add-button {
-    @include button($melrose);
+  video {
+    background-color: #3a3a3a;
+    max-width: 100%;
   }
+
 
   .is-hidden {
     display: none;
   }
 
-  .content-input-wrapper {
+  .add-content--input {
     border: none;
     border-radius: 5px;
   }
+}
+
+.post::before {
+  @include min-screen($tablet) {
+    top: 15px;
+    bottom: auto;
+    left: -15px;
+    border-width: 16px 16px 16px 0;
+    border-color: transparent #eee;
+    content: "";
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+  }
+}
+
+
+.post--add-comment-button {
+  @include button($melrose);
 }
 
 .post--header {
@@ -85,30 +102,15 @@ video {
   }
 }
 
-.post--content {
+.post--content-wrapper {
   margin-bottom: 20px;
 }
 
-.post-profile-image {
+.post--profile-image {
   @include profileImage();
   float: left;
   @include min-screen($tablet) {
     margin-left: 20px;
-  }
-}
-
-.post::before {
-  @include min-screen($tablet) {
-    top: 15px;
-    bottom: auto;
-    left: -15px;
-    border-width: 16px 16px 16px 0;
-    border-color: transparent #eee;
-    content: "";
-    position: absolute;
-    border-style: solid;
-    display: block;
-    width: 0;
   }
 }
 

@@ -4,7 +4,6 @@
  * @file: Tests for the group actions
  */
 
-import expect from 'expect';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
@@ -69,11 +68,9 @@ describe('test group actions', () => {
     const imageFile = new Blob(['detteerenbilledfil'], {type: 'image/png'});
     const name = 'dette er et gruppe navn';
     const description = 'dette er en gruppe beskrivelse';
-    const colour = 'dette er en gruppe farve';
 
     let expectedActions = [
       {
-        groupColour: colour,
         groupDescription: description,
         groupImage: imageFile,
         groupName: name,
@@ -103,10 +100,9 @@ describe('test group actions', () => {
     };
 
     const store = mockStore({}, expected, () => {done(); xhrMock.restore(); }); // eslint-disable-line brace-style
-    store.dispatch(actions.asyncSubmitGroupCreateForm(imageFile, name, description, colour));
+    store.dispatch(actions.asyncSubmitGroupCreateForm(imageFile, name, description));
 
     expected = {
-      groupColour: colour,
       groupDescription: description,
       groupImage: imageFile,
       groupName: name,
@@ -120,7 +116,7 @@ describe('test group actions', () => {
     };
 
     mockStore({}, expected, () => {done(); xhrMock.restore(); }) // eslint-disable-line brace-style
-      .dispatch(actions.asyncSubmitGroupCreateForm(imageFile, name, description, colour));
+      .dispatch(actions.asyncSubmitGroupCreateForm(imageFile, name, description));
 
   });
 
@@ -128,13 +124,11 @@ describe('test group actions', () => {
     xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
     const name = 'dette er et gruppe navn';
     const description = 'dette er en gruppe beskrivelse';
-    const colour = 'dette er en gruppe farve';
 
     let expectedActions = [
       {
         type: types.GROUP_FORM_IS_SUBMITTING
       }, {
-        groupColour: colour,
         groupDescription: description,
         groupImage: null,
         groupName: name,
@@ -162,22 +156,6 @@ describe('test group actions', () => {
     };
 
     const store = mockStore({}, expected, () => {done(); xhrMock.restore(); }); // eslint-disable-line brace-style
-    store.dispatch(actions.asyncSubmitGroupCreateForm(null, name, description, colour));
-  });
-
-  it('should create CHANGE_GROUP_COLOUR action', () => {
-    const colour = 'dette er en farve';
-    const colourEventMock = {
-      target: {
-        value: colour
-      }
-    };
-
-    const expected = {
-      type: types.CHANGE_GROUP_COLOUR,
-      colour
-    };
-
-    expect(actions.changeGroupColour(colourEventMock)).toEqual(expected);
+    store.dispatch(actions.asyncSubmitGroupCreateForm(null, name, description));
   });
 });

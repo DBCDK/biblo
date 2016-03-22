@@ -142,7 +142,17 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
   }
 
   if (typeof b.email === 'string') {
-    updatedProfileObject.email = b.email;
+    let emailValidity = (/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i) // eslint-disable-line
+      .test(b.email);
+    if (emailValidity) {
+      updatedProfileObject.email = b.email;
+    }
+    else {
+      errors.push({
+        field: 'email',
+        errorMessage: 'Du skal skrive en gyldig email addresse.'
+      });
+    }
   }
   else {
     updatedProfileObject.email = '';
@@ -169,17 +179,17 @@ ProfileRoutes.post('/rediger', ensureAuthenticated, fullProfileOnSession, ensure
     updatedProfileObject.fullName = '';
   }
 
-  if (JSON.stringify(updatedProfileObject) === '{}') {
+  if (errors.length > 0) {
+    data.status = 'ERROR';
+    data.errors = errors;
+  }
+  else if (JSON.stringify(updatedProfileObject) === '{}') {
     data.status = 'OK';
     data.redirect = '/profil/' + p.id;
 
     if (!req.xhr) {
       return res.redirect(data.redirect);
     }
-  }
-  else if (errors.length > 0) {
-    data.status = 'ERROR';
-    data.errors = errors;
   }
   else {
     const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];

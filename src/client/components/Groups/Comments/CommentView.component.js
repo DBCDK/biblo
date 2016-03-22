@@ -58,7 +58,7 @@ class CommentView extends React.Component {
               clickFunction={() => {
                 uiActions.openModalWindow(commentFlagModalContent);
               }}
-              icon={<Icon glyph={flagSvg}  className="icon flag-comment--button"/>}
+              icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
             />
             }
           </div>

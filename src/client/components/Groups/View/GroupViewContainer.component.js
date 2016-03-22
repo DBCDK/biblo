@@ -4,6 +4,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+// COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
 import Follow from '../../General/Follow/Follow.component.js';
 import GroupHeader from './GroupViewHeader.component.js';
@@ -15,13 +16,17 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
+// SVG
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
+// ACTIONS
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as flagActions from '../../../Actions/flag.actions.js';
 import * as likeActions from '../../../Actions/like.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
-import './scss/group-view.scss';
+
+// SCSS
+import './scss/groupView.scss';
 
 export class GroupViewContainer extends React.Component {
   constructor(props) {

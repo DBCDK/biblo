@@ -1,5 +1,6 @@
 @import "settings";
 @import "extends/font-styles";
+@import "extends/shakeit";
 
 
 html, body {
@@ -31,4 +32,8 @@ svg {
 
 .twemoji {
   width: 24px;
+}
+
+.shakeit {
+  @extend %shakeit;
 }

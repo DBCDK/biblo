@@ -84,7 +84,8 @@ class PostView extends React.Component {
       }
 
       return (
-        <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />
+        <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`}
+                type={`${resolution.video.type}`} key={key}/>
       );
     });
 
@@ -135,9 +136,9 @@ class PostView extends React.Component {
     );
 
     return (
-      <div className='post-wrapper' >
-        <div className='post-profile-image' >
-          <img src={owner.image || null} alt={owner.displayName} />
+      <div className='post--wrapper'>
+        <div className='post--profile-image'>
+          <img src={owner.image || null} alt={owner.displayName}/>
         </div>
         <div className='post' >
           <div className='post--header' >
@@ -146,7 +147,7 @@ class PostView extends React.Component {
             <span className='buttons' >
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                          icon={<Icon glyph={pencilSvg}/>} />
+                          icon={<Icon glyph={pencilSvg}/>}/>
               ||
               <TinyButton
                 clickFunction={() => {
@@ -161,15 +162,15 @@ class PostView extends React.Component {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
                         abort={() => this.toggleEditting()} text={content} image={image} id={id}
-                        addContentAction={groupActions.editPost} />
+                        addContentAction={groupActions.editPost}/>
             ||
-            <div className='post--content'>
+            <div className='post--content-wrapper'>
               {
-                <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
+                <p className='post--content' dangerouslySetInnerHTML={{__html: html}}/> // eslint-disable-line
               }
               {
                 image &&
-                <div className='media' ><img src={image} alt="image for post" />
+                <div className='post--media'><img src={image} alt="image for post"/>
                 </div>
               }
               {
@@ -179,29 +180,28 @@ class PostView extends React.Component {
           }
           <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
                        submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
-                       groupActions={this.props.groupActions} />
+                       groupActions={this.props.groupActions}/>
           {commentsCount > numberOfCommentsLoaded &&
-          <div className="post--load-more-comments" >
+          <div className="post--load-more-comments">
             <ExpandButton isLoading={loadingComments}
                           onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
-                          text="Vis flere" />
-              <span className="post--comment-count" >
+                          text="Vis flere"/>
+              <span className="post--comment-count">
                 {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
               </span>
           </div>
           }
-          {this.state.isCommentInputVisible &&
-          <div className="comment-add-wrapper" >
+          {
+            this.state.isCommentInputVisible &&
             <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
                         type="comment"
                         abort={() => this.toggleCommentInput()}
                         addContentAction={groupActions.addComment}
                         autofocus={true}
             />
-          </div>
-          ||
-          <a className="comment-add-button" href="#add-comment"
-             onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
+            ||
+            <a className="post--add-comment-button" href="#add-comment"
+               onClick={e => this.toggleCommentInput(e)}><Icon glyph={backSvg}/>Svar</a>
           }
           {likeButton}
         </div>

@@ -48,6 +48,7 @@ export default class AddContent extends React.Component {
    * @param {Event} e
    */
   onSubmit(e) {
+
     if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
@@ -71,7 +72,7 @@ export default class AddContent extends React.Component {
           }
         }
         else {
-          this.state({errorMsg: 'Hmm. Vi kunne desvære ikke oprette dit indlæg - prøv igen'});
+          this.setState({errorMsg: 'Hmm. Vi kunne desvære ikke oprette dit indlæg - prøv igen'});
         }
       };
     }
@@ -217,16 +218,16 @@ export default class AddContent extends React.Component {
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
     return (
-      <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})} >
+      <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
         <form method="POST" action={this.state.target} encType="multipart/form-data"
               id="content_form_component" ref="group-post-form"
               onSubmit={e => this.onSubmit(e)}>
-          <div className='content-input-wrapper'>
+          <div className='content-add--input'>
             <input type="hidden" name="id" value={this.props.id || null}/>
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
             <input type="hidden" name="parentId" value={this.props.parentId}/>
-          <textarea ref='contentTextarea' name="content"
+          <textarea className="content-add--textarea" ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
                     onChange={(e) => this.setState({text: e.target.value})}
@@ -234,7 +235,9 @@ export default class AddContent extends React.Component {
             {this.state.attachment.image &&
             <div className='content-add--preview-image'>
               <img src={this.state.attachment.image} alt="preview"/>
-              <a href="#removeImage" className="remove-image" onClick={(e) => this.clearImage(e)}><Icon glyph={close}/></a>
+              <a href="#removeImage" className="content-add--remove-media" onClick={(e) => this.clearImage(e)}>
+                <Icon glyph={close}/>
+              </a>
             </div>
             }
 
@@ -248,11 +251,11 @@ export default class AddContent extends React.Component {
               }
             </div>
           </div>
-          <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})} >
-          {
-            this.state.errorMsg &&
-            <Message type="error" onClose={() => this.setState({errorMsg: null})}>{this.state.errorMsg}</Message>
-          }
+          <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})}>
+            {
+              this.state.errorMsg &&
+              <Message type="error" onClose={() => this.setState({errorMsg: null})}>{this.state.errorMsg}</Message>
+            }
           </div>
           <div className='content-add--actions'>
             <button
@@ -261,7 +264,7 @@ export default class AddContent extends React.Component {
               id='submit-btn'
               disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
             >
-              {(this.state.isLoading) && <Icon glyph={spinner} />}
+              {(this.state.isLoading) && <Icon glyph={spinner}/>}
               OK
             </button>
             {
@@ -275,7 +278,7 @@ export default class AddContent extends React.Component {
                   id={uniqueId}
                   accept='image/*,video/*'
                   type="file"
-                  className="upload-content-media droppable-media-field--file-input"
+                  className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   onChange={(event) => this.readInput(event)}
                   ref="fileInput"

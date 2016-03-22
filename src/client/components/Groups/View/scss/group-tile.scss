@@ -2,19 +2,32 @@
 @import "settings";
 
 .group--tile {
-  position: relative;
-  width: 120px;
-  max-height: 200px;
-  display: inline-block;
-  padding-right: 29px;
-  padding-bottom: 20px;
+  padding-right: 13px;
+
+  @include min-screen($desktop) {
+    @include gallery(1 of 5);
+    margin-bottom: gutter(20);
+  }
+
+  @include max-screen($desktop - 1) {
+    @include gallery(1 of 4);
+    margin-bottom: gutter(15);
+  }
+
+  @include max-screen($tablet - 1) {
+    @include gallery(1 of 3);
+    margin-bottom: gutter(10);
+  }
+
+  @include max-screen($phone) {
+    @include gallery(1 of 2);
+    margin-bottom: gutter(5);
+  }
 
   .coverimage {
     object-fit: cover;
-    width: 130px;
-    height: 130px;
-    display: inline-block;
     box-shadow: #666 0px 2px 12px;
+    height: 172px;
   }
 
   .icon {

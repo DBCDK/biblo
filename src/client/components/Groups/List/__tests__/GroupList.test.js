@@ -9,7 +9,7 @@ describe('Test of GroupList', () => {
 
   it('Should render', () => {
 
-    var data = {
+    const data = {
       groups: [
         {id: 1, name: 'heste test', membersCount: 1}
       ],

@@ -48,8 +48,8 @@ export default class GroupViewTile extends React.Component {
       </div>
       <div>
         <div className="group--title"><Icon className="icon" glyph={groupSvg}/> {group.name} </div>
-        <div> {this.getMembersCountString()} </div>
       </div>
+      <div> {this.getMembersCountString()} </div>
     </div>);
   }
 }

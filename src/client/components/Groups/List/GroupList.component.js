@@ -34,7 +34,7 @@ class GroupList extends React.Component {
       <div>
         <h2>{title}</h2>
         <hr/>
-        <div className="group-list">
+        <div className="group--list">
         {
           groups && groups.map((item) => (
             <GroupViewTile key={item.id} group={item}/>

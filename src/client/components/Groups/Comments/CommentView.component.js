@@ -50,7 +50,7 @@ class CommentView extends React.Component {
           </div>
 
           <div className='comment--actions'>
-            {profile.id === owner.id &&
+            {(profile.id === owner.id || profile.isModerator) &&
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                         icon={<Icon glyph={pencilSvg}/>}/>
             ||

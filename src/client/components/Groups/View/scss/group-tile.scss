@@ -2,26 +2,29 @@
 @import "settings";
 
 .group--tile {
-  padding-right: 13px;
 
   @include min-screen($desktop) {
     @include gallery(1 of 5);
     margin-bottom: gutter(20);
+    padding-right: 20px;
   }
 
   @include max-screen($desktop - 1) {
     @include gallery(1 of 4);
     margin-bottom: gutter(15);
+    padding-right: 4px;
   }
 
   @include max-screen($tablet - 1) {
     @include gallery(1 of 3);
     margin-bottom: gutter(10);
+    padding-right: 5px;
   }
 
   @include max-screen($phone) {
     @include gallery(1 of 2);
     margin-bottom: gutter(5);
+    padding-right: 0px;
   }
 
   .coverimage {
@@ -36,6 +39,7 @@
   }
 
   .group--title {
+    max-width: 175px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

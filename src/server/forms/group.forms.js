@@ -12,8 +12,5 @@ export const groupCreateForm = forms.create({
   }),
   'group-description': fields.string({
     required: validators.required('Du skal have en beskrivelse!')
-  }),
-  'group-colour-picker_colour': fields.string({
-    required: validators.required('Husk at vælge en farve!')
   })
 });

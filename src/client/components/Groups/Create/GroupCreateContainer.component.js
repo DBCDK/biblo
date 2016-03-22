@@ -32,8 +32,7 @@ export class GroupCreateContainer extends React.Component {
       actions.asyncSubmitGroupCreateForm(
         group.imageFile,
         name,
-        description,
-        'blue' // group.colour
+        description
       );
     }
   }
@@ -50,7 +49,6 @@ export class GroupCreateContainer extends React.Component {
             <BackButton />
             <h1>Opret gruppe</h1>
             <GroupForm
-              changeColourAction={actions.changeGroupColour}
               changeImageAction={actions.asyncChangeImage}
               errors={group.errors}
               groupImageSrc={group.UI.imageSrc}

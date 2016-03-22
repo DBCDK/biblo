@@ -65,19 +65,23 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
   };
   let errors = [];
 
-  groupCreateForm.handle(req, {
-    other(form) {
-      for (let key in form.fields) {
-        if (form.fields.hasOwnProperty(key)) {
-          if (form.fields[key].error) {
-            errors.push({
-              errorMessage: form.fields[key].error,
-              field: key
-            });
-          }
+  function handler(form) {
+    for (let key in form.fields) {
+      if (form.fields.hasOwnProperty(key)) {
+        if (form.fields[key].error) {
+          errors.push({
+            errorMessage: form.fields[key].error,
+            field: key
+          });
         }
       }
     }
+  }
+
+  groupCreateForm.handle(req, {
+    error: handler,
+    empty: handler,
+    other: handler
   });
 
   if (!req.file) {
@@ -96,7 +100,7 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
     let createRes = (await req.callServiceProvider('createGroup', {
       name: req.body['group-name'],
       description: req.body['group-description'],
-      colour: req.body['group-colour-picker_colour'],
+      colour: 'blue',
       group_image: req.file
     }))[0];
 
@@ -133,18 +137,95 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
   }
 });
 
-GroupRoutes.get('/:id/rediger', (req, res) => {
+GroupRoutes.get('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, async function editGroupRoute(req, res) {
   let data = {};
-  let windowData = {
-    propertyName: 'DATA',
-    data: JSON.stringify(data).replace('\'', '\\\'')
-  };
+  data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
+
+  if (data.groupData.groupownerid !== req.session.passport.user.profile.profile.id) {
+    return res.redirect('/error/403');
+  }
 
   res.render('page', {
-    css: [],
+    css: ['/css/groupedit.css'],
     js: ['/js/groupedit.js'],
-    data: [windowData]
+    jsonData: [JSON.stringify(data)]
   });
+});
+
+GroupRoutes.post('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function editGroupRoutePost(req, res) {
+  let data = {
+    status: 'INCOMPLETE'
+  };
+  let errors = [];
+  data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
+
+  function handler(form) {
+    for (let key in form.fields) {
+      if (form.fields.hasOwnProperty(key)) {
+        if (form.fields[key].error) {
+          errors.push({
+            errorMessage: form.fields[key].error,
+            field: key
+          });
+        }
+      }
+    }
+  }
+
+  groupCreateForm.handle(req, {
+    error: handler,
+    empty: handler,
+    other: handler
+  });
+
+  if (errors.length > 0) {
+    data.errors = errors;
+    data.status = 'ERROR';
+  }
+  else {
+    // Handle serviceprovider;
+    let updateQuery = {
+      id: req.params.id,
+      name: req.body['group-name'],
+      description: req.body['group-description'],
+      colour: 'blue'
+    };
+
+    if (req.file) {
+      updateQuery.group_image = req.file;
+    }
+
+    try {
+      data.status = 'OK';
+      data.groupData = (await req.callServiceProvider('updateGroup', updateQuery))[0].data;
+      data.redirect = '/grupper/' + req.params.id;
+    }
+    catch (e) {
+      if (typeof e === 'string') {
+        errors.push({
+          errorMessage: e,
+          field: 'general'
+        });
+      }
+      else {
+        errors.push(e);
+      }
+      data.errors = errors;
+      data.status = 'ERROR';
+    }
+  }
+
+  if (req.xhr) {
+    res.send(JSON.stringify(data));
+    res.end();
+  }
+  else {
+    res.render('page', {
+      css: ['/css/groupedit.css'],
+      js: ['/js/groupedit.js'],
+      jsonData: [JSON.stringify(data)]
+    });
+  }
 });
 
 /**
@@ -208,7 +289,7 @@ function createElasticTranscoderJob(videoData, postId, logger) {
     PipelineId: '1456826915509-r6pfck',
     Output: {
       Key: `${videoData.pureFileName}.mp4`,
-      PresetId: '1351620000001-100070', // WEB-preset
+      PresetId: '1458561295144-kcngbn', // WEB-Biblo-preset
       ThumbnailPattern: `${videoData.pureFileName}_thumb_{count}`
     },
     UserMetadata: {

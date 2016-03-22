@@ -5,9 +5,10 @@
  */
 
 import assignToEmpty from '../Utils/assign';
+import parseJsonData from '../Utils/parseJsonData';
 import * as types from '../Constants/action.constants';
 
-const initialState = {
+let initialState = {
   name: '',
   description: '',
   imageFile: null,
@@ -19,7 +20,13 @@ const initialState = {
   errors: []
 };
 
-export default function groupCreateReducer(state = initialState, action={}) {
+initialState = assignToEmpty(initialState, parseJsonData('JSONDATA', 'groupData'));
+
+if (initialState.image) {
+  initialState.UI.imageSrc = initialState.image;
+}
+
+export default function groupEditReducer(state = initialState, action) {
   Object.freeze(state);
   switch (action.type) {
     case types.CHANGE_GROUP_IMAGE:
@@ -30,7 +37,7 @@ export default function groupCreateReducer(state = initialState, action={}) {
         })
       });
 
-    case types.SUBMIT_CREATE_GROUP:
+    case types.SUBMIT_EDIT_GROUP:
       return assignToEmpty(state, {
         name: action.groupName,
         description: action.groupDescription,

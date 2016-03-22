@@ -1,6 +1,6 @@
 'use strict';
 
-import {profileMock} from './profile.mock';
+import {profileMock, moderatorMock} from './profile.mock';
 
 export const emptyFeedMock = {
   feed: [],
@@ -74,3 +74,11 @@ export const feedMock = {
   count: {comments: 1, commentsTotal: 1, posts: 1, postsTotal: 1},
   profile: profileMock
 };
+
+/**
+ * Mock of the feed object with a moderator as the viewer.
+ * @type {{}}
+ */
+export const moderatedFeedMock = Object.assign({}, feedMock, {
+  profile: moderatorMock
+});

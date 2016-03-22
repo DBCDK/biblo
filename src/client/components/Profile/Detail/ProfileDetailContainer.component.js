@@ -23,7 +23,7 @@ import * as uiActions from '../../../Actions/ui.actions';
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
-import {PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
+import {PROFILE_EDIT, MODERATOR_PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
 import './ProfileDetailContainer.component.scss';
 
@@ -230,16 +230,17 @@ export class ProfileDetailContainer extends React.Component {
     // include edit button when user views her own page.
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const isLoggedIn = this.props.profile.userIsLoggedIn;
+    const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
 
     let editButton = null;
     let profileImage = null;
-    if (isLoggedIn && isMyProfile) {
+    if (isLoggedIn && (isMyProfile || this.props.profile.isModerator)) {
       editButton = (
-        <a href={PROFILE_EDIT}>
+        <a href={editLink}>
           <div className='p-detail--edit-button'><Icon className="icon" glyph={editSvg}
                                                        width={24} height={24}/></div>
         </a>);
-      profileImage = (<a href={PROFILE_EDIT}>
+      profileImage = (<a href={editLink}>
         <div className="p-detail--image-container">
           <img src={userProfile.image} alt={userProfile.displayName}/>
         </div>

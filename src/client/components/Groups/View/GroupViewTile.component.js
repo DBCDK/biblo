@@ -18,7 +18,7 @@ export default class GroupViewTile extends React.Component {
       url = '/billede/' + group.coverImage.id + '/small-square';
     }
     else {
-      url = "/no_group_iamge.png";
+      url = '/no_group_image.png';
     }
     return url;
   }
@@ -37,12 +37,10 @@ export default class GroupViewTile extends React.Component {
   }
 
   render() {
-    var {followOn = false} = this.props;
     var group = this.props.group;
     var groupUrl = '/grupper/' + group.id;
 
-
-    return ( <div key={group.id} className="group--tile">
+    return (<div key={group.id} className="group--tile">
       <div>
         <a href={groupUrl}>
           <img className="coverimage" src={this.getCoverImageUrl()}/>
@@ -50,11 +48,11 @@ export default class GroupViewTile extends React.Component {
       </div>
       <div>
         <div className="group--title"><Icon className="icon" glyph={groupSvg}/> {group.name} </div>
+        <div> {this.getMembersCountString()} </div>
       </div>
-    </div>)
+    </div>);
   }
 }
-
 
 GroupViewTile.propTypes = {
   group: React.PropTypes.object.isRequired

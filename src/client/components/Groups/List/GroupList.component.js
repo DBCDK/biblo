@@ -4,10 +4,6 @@ import React from 'react';
 import GroupViewTile from '../View/GroupViewTile.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
-
-import Follow from '../../General/Follow/Follow.component';
-import * as groupActions from '../../../Actions/group.actions';
-
 import './scss/group-list.scss';
 
 export default
@@ -19,7 +15,7 @@ class GroupList extends React.Component {
 
   render() {
     const {title, groups, expand, delta = 15, skip = 0, limit,
-      isLoading, profileId, followOn = false, groupActions} = this.props;
+      isLoading} = this.props;
     var hasMore = true;
     if (limit > groups.length) {
       hasMore = false;
@@ -41,7 +37,7 @@ class GroupList extends React.Component {
         <div className="group-list">
         {
           groups && groups.map((item) => (
-            <GroupViewTile key={item.id}  group={item} actions={groupActions}/>
+            <GroupViewTile key={item.id} group={item}/>
           ))
         }
         </div>
@@ -50,9 +46,8 @@ class GroupList extends React.Component {
         </div>
 
       </div>
-    )
+    );
   }
-
 }
 
 GroupList.propTypes = {

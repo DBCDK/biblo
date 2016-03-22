@@ -12,14 +12,16 @@ import Icon from '../../General/Icon/Icon.component.js';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
+import Youtube from 'react-youtube';
+import youtubeIdGetter from 'youtube-link-to-id';
+
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
-import {includes} from 'lodash';
+import {includes, isEmpty} from 'lodash';
 
-export default
-class PostView extends React.Component {
+export default class PostView extends React.Component {
 
   constructor(props) {
     super(props);
@@ -76,45 +78,52 @@ class PostView extends React.Component {
   }
 
   getVideoPlayer() {
-    let thumbUrl = '';
-    const sources = this.props.video.resolutions.map((resolution, key) => {
-      if (key === 0) {
-        const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
-        thumbUrl = `${pureFileName}_thumb_00001.png`;
-      }
+    let thumbUrl = null;
+    let sources = [];
 
-      return (
-        <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`}
-                type={`${resolution.video.type}`} key={key}/>
-      );
+    this.props.video.resolutions.forEach((resolution, key) => {
+      if (resolution.size !== 'original_video') {
+        const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
+        if (!thumbUrl) {
+          thumbUrl = `${pureFileName}_thumb_00001.png`;
+        }
+
+        sources.push(
+          <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />);
+      }
     });
 
     return (
       <video controls preload="metadata"
-             poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`}>
+             poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`} >
         {sources}
       </video>
     );
   }
 
+  getYoutubeID() {
+    const ids = youtubeIdGetter.linkStringToIds(this.props.content);
+    return !isEmpty(ids) ? ids[0] : null;
+  }
+
   render() {
     const {
-      groupActions,
-      content,
-      html,
-      image,
-      video,
-      timeCreated,
-      owner,
-      id,
-      profile,
-      groupId,
-      comments,
-      uiActions,
-      commentsCount,
-      numberOfCommentsLoaded,
-      loadingComments
-    } = this.props;
+            groupActions,
+            content,
+            html,
+            image,
+            video,
+            timeCreated,
+            owner,
+            id,
+            profile,
+            groupId,
+            comments,
+            uiActions,
+            commentsCount,
+            numberOfCommentsLoaded,
+            loadingComments
+          } = this.props;
 
     const postFlagModalContent = (
       <CreateFlagDialog
@@ -124,6 +133,8 @@ class PostView extends React.Component {
         contentId={id}
       />
     );
+
+    const youtube = this.getYoutubeID();
 
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
 
@@ -137,18 +148,18 @@ class PostView extends React.Component {
     );
 
     return (
-      <div className='post--wrapper'>
-        <div className='post--profile-image'>
-          <img src={owner.image || null} alt={owner.displayName}/>
+      <div className='post--wrapper' >
+        <div className='post--profile-image' >
+          <img src={owner.image || null} alt={owner.displayName} />
         </div>
-        <div className='post'>
-          <div className='post--header'>
-            <a href={`/profil/${owner.id}`}><span className='username'>{owner.displayName}</span></a>
-            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
-            <span className='buttons'>
+        <div className='post' >
+          <div className='post--header' >
+            <a href={`/profil/${owner.id}`} ><span className='username' >{owner.displayName}</span></a>
+            <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className='buttons' >
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                          icon={<Icon glyph={pencilSvg}/>}/>
+                          icon={<Icon glyph={pencilSvg}/>} />
               ||
               <TinyButton
                 clickFunction={() => {
@@ -163,31 +174,38 @@ class PostView extends React.Component {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
                         abort={() => this.toggleEditting()} text={content} image={image} id={id}
-                        addContentAction={groupActions.editPost}/>
+                        addContentAction={groupActions.editPost} />
             ||
-            <div className='post--content-wrapper'>
+            <div className='post--content-wrapper' >
               {
-                <p className='post--content' dangerouslySetInnerHTML={{__html: html}}/> // eslint-disable-line
+                <p className='post--content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
               {
                 image &&
-                <div className='post--media'><img src={image} alt="image for post"/>
+                <div className='media' >
+                  <img src={image} alt="image for post" />
                 </div>
               }
               {
                 video && video.resolutions.length ? this.getVideoPlayer() : null
               }
+              {
+                youtube &&
+                <div className="youtube-container" >
+                  <Youtube videoId={youtube} />
+                </div>
+              }
             </div>
           }
           <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
                        submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
-                       groupActions={this.props.groupActions}/>
+                       groupActions={this.props.groupActions} />
           {commentsCount > numberOfCommentsLoaded &&
-          <div className="post--load-more-comments">
+          <div className="post--load-more-comments" >
             <ExpandButton isLoading={loadingComments}
                           onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
-                          text="Vis flere"/>
-              <span className="post--comment-count">
+                          text="Vis flere" />
+              <span className="post--comment-count" >
                 {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
               </span>
           </div>
@@ -202,9 +220,10 @@ class PostView extends React.Component {
             />
             ||
             <a className="post--add-comment-button" href="#add-comment"
-               onClick={e => this.toggleCommentInput(e)}><Icon glyph={backSvg}/>Svar</a>
+               onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
           }
           {likeButton}
+
         </div>
       </div>
     );

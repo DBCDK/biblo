@@ -9,7 +9,9 @@ const UpdateProfileTransform = {
   requestTransform(event, profile, connection) {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
-    const uid = user.profileId;
+    const uid = profile.isModerator && profile.uid || user.profileId;
+    profile.isModerator && delete profile.isModerator; // eslint-disable-line no-unused-expressions
+    profile.uid && delete profile.uid; // eslint-disable-line no-unused-expressions
     return this.callServiceClient('community', 'updateProfile', {uid, profile, accessToken});
   },
 

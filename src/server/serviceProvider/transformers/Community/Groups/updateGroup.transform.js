@@ -16,7 +16,8 @@ const UpdateGroupTransform = {
         colour: query.colour,
         coverImage: query.group_image,
         uid: passport.user.profileId,
-        accessToken: passport.user.id
+        accessToken: passport.user.id,
+        isModerator: passport.user.profile.profile.isModerator
       });
     }
 

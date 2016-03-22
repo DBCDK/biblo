@@ -90,7 +90,8 @@ class PostView extends React.Component {
     });
 
     return (
-      <video controls preload="metadata" poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`} >
+      <video controls preload="metadata"
+             poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`}>
         {sources}
       </video>
     );
@@ -113,7 +114,7 @@ class PostView extends React.Component {
       commentsCount,
       numberOfCommentsLoaded,
       loadingComments
-      } = this.props;
+    } = this.props;
 
     const postFlagModalContent = (
       <CreateFlagDialog
@@ -140,11 +141,11 @@ class PostView extends React.Component {
         <div className='post--profile-image'>
           <img src={owner.image || null} alt={owner.displayName}/>
         </div>
-        <div className='post' >
-          <div className='post--header' >
-            <a href={`/profil/${owner.id}`} ><span className='username' >{owner.displayName}</span></a>
-            <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
-            <span className='buttons' >
+        <div className='post'>
+          <div className='post--header'>
+            <a href={`/profil/${owner.id}`}><span className='username'>{owner.displayName}</span></a>
+            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className='buttons'>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                           icon={<Icon glyph={pencilSvg}/>}/>

@@ -16,7 +16,7 @@ describe('Test of AddConent Component', () => {
 
   beforeEach(() => {
     defaultComponent = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" />);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
   });
 
   afterEach(() => {
@@ -148,12 +148,12 @@ describe('Test of AddConent Component', () => {
 
   it('it should add image to state + show exampleimage', () => {
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" />);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
     sinon.stub(component, 'readInput', () => { // eslint-disable-line no-undef
       const state = {attachment: {image: 'some_image_url'}};
       component.setState(state);
     });
-    let fileInput = TestUtils.findRenderedDOMComponentWithClass(component, 'upload-content-media');
+    let fileInput = TestUtils.findRenderedDOMComponentWithClass(component, 'content-add--upload-media');
     expect(ReactDOM.findDOMNode(fileInput).id).to.be.equal('upload-media-test-1');
     TestUtils.Simulate.change(fileInput);
 
@@ -174,7 +174,7 @@ describe('Test of AddConent Component', () => {
   it('it should call abort action', () => {
     const abort = sinon.spy(); // eslint-disable-line no-undef
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort} />);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort}/>);
     let input = TestUtils.findRenderedDOMComponentWithClass(component, 'alert');
     expect(ReactDOM.findDOMNode(input).value).to.be.eql('Fortryd');
     TestUtils.Simulate.click(input);
@@ -184,7 +184,7 @@ describe('Test of AddConent Component', () => {
   it('it should be hidden if user not logged in', () => {
     profile.userIsLoggedIn = false;
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" />);
+      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
     let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
     expect(form.length).to.be.eql(0);
     let aTag = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
@@ -193,20 +193,75 @@ describe('Test of AddConent Component', () => {
 
   it('it should be in edit mode if id is passed', () => {
     profile.userIsLoggedIn = true;
-    profile.id=1;
-    const owner ={
+    profile.id = 1;
+    const owner = {
       id: 1
     };
     const component = TestUtils.renderIntoDocument(
-      <AddContent owner={owner} profile={profile} parentId={1} text="text to test" image="some_url" type="test" redirectTo="some_url"/>);
+      <AddContent owner={owner} profile={profile} parentId={1} text="text to test" image="some_url" type="test"
+                  redirectTo="some_url"/>);
     let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
     expect(form.length).to.be.eql(1);
     let textarea = TestUtils.findRenderedDOMComponentWithTag(component, 'textarea');
     expect(textarea.value).to.be.equal('text to test');
     let image = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
     expect(image.src).to.be.contain('some_url');
-    let removeImage = TestUtils.findRenderedDOMComponentWithClass(component, 'remove-image');
+    let removeImage = TestUtils.findRenderedDOMComponentWithClass(component, 'content-add--remove-media');
     TestUtils.Simulate.click(removeImage);
     expect(() => TestUtils.findRenderedDOMComponentWithTag(component, 'img')).to.throw(Error);
+  });
+
+  it('It should submit form on submit event', (done) => {
+    profile.userIsLoggedIn = true;
+    profile.id = 1;
+
+    const owner = {
+      id: 1
+    };
+
+    const mockContent = {
+      title: ' ',
+      content: 'This is a test',
+      timeCreated: '2016-03-21T14:09:35.000Z',
+      id: 63,
+      postownerid: 7,
+      postcontainergroupid: 1,
+      postid: null,
+      groupid: 1,
+      owner: {
+        description: '',
+        displayName: 'Hesteviskeren fra Heste',
+        id: 7,
+        groups: [],
+        image: '/billede/9/small'
+      },
+      likes: [],
+      image: null,
+      comments: [],
+      html: 'This is a test'
+    };
+
+    const addContentActionMock = sinon.stub(); // eslint-disable-line no-undef
+    const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
+    xhrMock.onCreate = (xhr) => {
+      setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
+
+    };
+
+    const component = TestUtils.renderIntoDocument(
+      <AddContent owner={owner} profile={profile} parentId={1} text="text to test hest" image="some_url" type="test"
+                  redirectTo="some_url" addContentAction={addContentActionMock}/>
+    );
+    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
+    TestUtils.Simulate.submit(form);
+    assert(component.state.isLoading);
+
+    setTimeout(() => {
+      assert(!component.state.isLoading);
+      assert(addContentActionMock.called);
+      assert(addContentActionMock.calledWith(mockContent));
+      xhrMock.restore();
+      done();
+    }, 0);
   });
 });

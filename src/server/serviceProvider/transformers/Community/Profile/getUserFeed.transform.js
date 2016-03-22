@@ -45,7 +45,8 @@ const getUserFeedTransform = {
         include: [
           {relation: 'group', scope: {include: ['coverImage']}},
           {relation: 'owner', scope: {include: ['image']}},
-          'image'
+          'image',
+          'likes'
         ],
         limit: 5,
         skip: offset,
@@ -70,7 +71,10 @@ const getUserFeedTransform = {
                 scope: {
                   include: ['image']
                 }
-              }, 'image']
+              },
+              'image',
+              'likes'
+              ]
             }
           },
           {relation: 'owner', scope: {include: ['image']}},
@@ -103,6 +107,7 @@ const getUserFeedTransform = {
    */
   responseTransform(response, query) {
     let posts = (JSON.parse(response[0].body) || []).map((post) => {
+
       post.type = 'post';
       post.timeCreated = post.timeCreated || '2016-03-03T12:49:19.000Z';
       post.imageSrc = false;
@@ -117,6 +122,12 @@ const getUserFeedTransform = {
 
       if (post.image && post.image.id) {
         post.image = `/billede/${post.image.id}/small`;
+      }
+
+      if (post.likes) {
+        post.likes = post.likes.map((like) => {
+          return like.profileId;
+        });
       }
 
       return post;
@@ -147,6 +158,14 @@ const getUserFeedTransform = {
         comment.image = `/billede/${comment.image.id}/small`;
       }
 
+      if (comment.post && comment.post.likes) {
+        comment.post.likes = comment.post.likes.map((like) => {
+          return like.profileId;
+        });
+      }
+      else {
+        comment.post.likes = [];
+      }
       return comment;
     });
 

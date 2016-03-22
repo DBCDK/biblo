@@ -7,6 +7,7 @@
 import parseJsonData from '../Utils/parseJsonData';
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
+import {filter} from 'lodash';
 
 let initialState = {
   feed: [],
@@ -45,6 +46,42 @@ export default function profileFeedReducer(state = initialState, action = {}) {
         feed: state.feed.concat(action.feed || []),
         count: assignToEmpty(state.count, action.count),
         profile: assignToEmpty(state.profile, action.profile)
+      });
+
+    case types.LIKE_POST:
+      const likedFeedCopy = [...state.feed];
+
+      likedFeedCopy.forEach((activity) => {
+        if (activity.type === 'comment' && activity.commentcontainerpostid === action.postId) {
+          activity.post.likes.push(action.profileId);
+        }
+        else if (activity.type === 'post' && activity.id === action.postId) {
+          activity.likes.push(action.profileId);
+        }
+      });
+
+      return assignToEmpty(state, {
+        feed: likedFeedCopy
+      });
+
+    case types.UNLIKE_POST:
+      const unlikedFeedCopy = [...state.feed];
+
+      unlikedFeedCopy.forEach((activity) => {
+        if (activity.type === 'comment' && activity.commentcontainerpostid === action.postId) {
+          activity.post.likes = filter(activity.post.likes, (id) => {
+            return id !== action.profileId;
+          });
+        }
+        else if (activity.type === 'post' && activity.id === action.postId) {
+          activity.likes = filter(activity.likes, (id) => {
+            return id !== action.profileId;
+          });
+        }
+      });
+
+      return assignToEmpty(state, {
+        feed: unlikedFeedCopy
       });
 
     default:

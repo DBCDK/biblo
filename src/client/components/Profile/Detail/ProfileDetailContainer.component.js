@@ -18,6 +18,8 @@ import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
 import * as flagActions from '../../../Actions/flag.actions';
+import * as likeActions from '../../../Actions/like.actions';
+import * as groupActions from '../../../Actions/group.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
@@ -29,6 +31,7 @@ import './ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
   render() {
+
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
       image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
@@ -90,11 +93,14 @@ export class ProfileDetailContainer extends React.Component {
                 id={activity.post.id}
                 profile={this.props.profile}
                 groupId={activity.post.groupid}
+                likes={activity.post.likes}
                 comments={[activity]}
                 commentsCount={0}
                 numberOfCommentsLoaded={1}
                 actions={{}}
+                likeActions={this.props.likeActions}
                 flagActions={this.props.flagActions}
+                groupActions={this.props.groupActions}
                 loadingComments={false}
                 commentRedirect={`/profil/${activity.owner.id}`}
                 uiActions={this.props.uiActions}
@@ -138,6 +144,7 @@ export class ProfileDetailContainer extends React.Component {
             >
               <PostView
                 content={activity.content}
+                likes={activity.likes}
                 timeCreated={activity.timeCreated}
                 owner={activity.owner}
                 id={activity.id}
@@ -148,6 +155,8 @@ export class ProfileDetailContainer extends React.Component {
                 numberOfCommentsLoaded={0}
                 actions={{}}
                 flagActions={this.props.flagActions}
+                likeActions={this.props.likeActions}
+                groupActions={this.props.groupActions}
                 loadingComments={false}
                 uiActions={this.props.uiActions}
                 image={activity.image}
@@ -272,8 +281,11 @@ ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
+  group: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
+  groupActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired
 };
@@ -286,6 +298,7 @@ export default connect(
   (state) => {
     return {
       profile: state.profileReducer,
+      group: state.groupViewReducer,
       feed: state.profileFeedReducer,
       ui: state.uiReducer
     };
@@ -296,6 +309,8 @@ export default connect(
     return {
       feedActions: bindActionCreators(feedActions, dispatcher),
       flagActions: bindActionCreators(flagActions, dispatcher),
+      likeActions: bindActionCreators(likeActions, dispatcher),
+      groupActions: bindActionCreators(groupActions, dispatcher),
       uiActions: bindActionCreators(uiActions, dispatcher)
     };
   }

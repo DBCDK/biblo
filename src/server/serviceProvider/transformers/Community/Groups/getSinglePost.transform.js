@@ -8,14 +8,14 @@ const GetPostsTransform = {
     return 'getSinglePosts';
   },
 
-  requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {id, filter = {}}, connection) { // eslint-disable-line no-unused-vars
 
     const postFilter = {
       where: {id},
       include: ['image', {owner: ['image']}, 'likes']
     };
 
-    return this.callServiceClient('community', 'getPosts', {filter: postFilter});
+    return this.callServiceClient('community', 'getPosts', {filter: Object.assign(postFilter, filter)});
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars

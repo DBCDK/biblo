@@ -45,7 +45,7 @@ class CommentView extends React.Component {
     const youtube = ExtractYoutubeID(content);
 
     return (
-      <div className='comment-wrapper'>
+      <div className='comment-wrapper' id={`comment_${this.props.id}`}>
         <div className='comment-profile-image'>
           <img className='profile-image' src={owner.image || null} alt={owner.displayName}/>
         </div>

@@ -279,12 +279,14 @@ async function fetchGroupData(params, req, res, update = {}) {
         id: params.postid,
         filter: {
           include: [
-            'image',
+            'image', 'likes',
             {owner: ['image']},
-            'likes',
             {comments: [{owner: ['image']}, 'image']}
           ]
         }
+      }).then((res) => {
+        res[0].id = res[0].id * -1;
+        return Promise.resolve(res);
       });
     }
     else {

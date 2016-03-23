@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
@@ -15,6 +16,7 @@ import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
 import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
+import Follow from '../../General/Follow/Follow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
 import * as flagActions from '../../../Actions/flag.actions';
@@ -30,8 +32,59 @@ import {PROFILE_EDIT, MODERATOR_PROFILE_EDIT} from '../../../Constants/hyperlink
 import './ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
-  render() {
 
+  constructor(props) {
+    super(props);
+
+    // sd466: allow unfollowed groups to stay on screen during session . Default to following = true on startup
+    if (props.feed.profile.groups) {
+      props.feed.profile.groups.map((group) => {
+        group.following = true;
+      });
+    }
+
+    this.state = {
+      groups: props.feed.profile.groups
+    };
+  }
+
+  toggleFollow(group, profileId) {
+    if (this.props.profile.userIsLoggedIn) {
+      group.following = !group.following;
+      this.props.groupActions.asyncGroupFollow(group.following, group.id, profileId);
+      this.setState({groups: this.state.groups});
+      this.props.uiActions.closeModalWindow();
+      this.forceUpdate();
+      this.props.uiActions.openModalWindow(this.renderModalContent());
+    }
+  }
+
+  renderModalContent() {
+    return (
+      <div className="groups-modal--container">
+        {this.state.groups.map((group) => {
+          return (
+            <span key={`group_${group.id}`} className="user-feed--groups-modal--group">
+                <a href={'/grupper/' + group.id}>
+                  <img
+                    className="user-feed--groups-modal--group-image"
+                    src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
+                  />
+                  <div className="user-feed--groups-modal--group-name">{group.name}</div>
+                </a>
+                 <Follow active={group.following}
+                         onClick={this.toggleFollow.bind(this, group, this.props.profile.id)}
+                         showLoginLink={false}
+                         text={group.following && 'Følger' || 'Følg gruppen'}/>
+                 </span>
+          );
+        })}
+      </div>
+    );
+
+  }
+
+  render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
       image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
@@ -199,23 +252,8 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     let groupsModalContent = '';
-
-    if (userProfile.groups && userProfile.groups.length > 0) {
-      groupsModalContent = (
-        <div className="groups-modal--container">
-          {userProfile.groups.map((group) => {
-            return (
-              <a key={`group_${group.id}`} href={'/grupper/' + group.id} className="user-feed--groups-modal--group">
-                <img
-                  className="user-feed--groups-modal--group-image"
-                  src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
-                />
-                <div className="user-feed--groups-modal--group-name">{group.name}</div>
-              </a>
-            );
-          })}
-        </div>
-      );
+    if (this.state.groups && this.state.groups.length > 0) {
+      groupsModalContent = this.renderModalContent();
     }
     else {
       groupsModalContent = (
@@ -276,10 +314,8 @@ export class ProfileDetailContainer extends React.Component {
               <div className="p-detail--groups-button"><Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
               </div>
             </a>
-
           </div>
         </div>
-
         {
           (this.props.feed.feed.length > 0) ?
             (<ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`}/>) :
@@ -291,6 +327,7 @@ export class ProfileDetailContainer extends React.Component {
       </PageLayout>
     );
   }
+
 }
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';

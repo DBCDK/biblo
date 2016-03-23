@@ -3,7 +3,7 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'sinon', 'phantomjs-shim'],
+    frameworks: ['mocha', 'sinon'],
     files: [
       'tests.actions.webpack.js',
       'tests.components.webpack.js',

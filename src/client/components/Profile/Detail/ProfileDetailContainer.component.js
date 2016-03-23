@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators}
+  from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
 

@@ -3,86 +3,16 @@
 import React from 'react';
 import PageLayout from '../Layout/PageLayout.component.js';
 
+import parseJsonData from '../../Utils/parseJsonData.js';
+
 import ColoredHeader from '../General/ColoredHeader/ColoredHeader.component.js';
 import ContentGrid from '../General/ContentGrid/ContentGrid.component.js';
 
 import './_frontpage.scss';
 
-const contentItems = [
-  {
-    id: 1,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 2,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 3,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 4,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 5,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 6,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 7,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 8,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  },
-  {
-    id: 9,
-    title: 'Spørg Biblo og upload jeres svar',
-    text: 'Denne gruppe er til alle jer, der vil uploade jeres svar til "Hvem styrer din Hjerne" og stille spørgsmål til' +
-    ' forskerne. Se også de andres indlæg og giv dem en glad kommentar!',
-    url: '/grupper/1',
-    imageUrl: 'http://lorempixel.com/300/160/'
-  }
-];
+const contentItems = parseJsonData('JSONDATA', 'frontpageData');
 
+console.log(contentItems);
 
 export default function FrontpageContainer() {
 

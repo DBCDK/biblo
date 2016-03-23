@@ -284,9 +284,9 @@ async function fetchGroupData(params, req, res, update = {}) {
             {comments: [{owner: ['image']}, 'image']}
           ]
         }
-      }).then((res) => {
-        res[0].id = res[0].id * -1;
-        return Promise.resolve(res);
+      }).then((result) => {
+        result[0].id *= -1;
+        return Promise.resolve(result);
       });
     }
     else {

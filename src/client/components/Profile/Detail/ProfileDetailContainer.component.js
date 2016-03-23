@@ -16,7 +16,6 @@ import ActivityRow from './ActivityRow.component';
 import PostView from '../../Groups/Posts/PostView.component';
 import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
-import GroupViewTile from '../../Groups/View/GroupViewTile.component';
 import Follow from '../../General/Follow/Follow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
@@ -37,10 +36,13 @@ export class ProfileDetailContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    //sd466: allow unfollowed groups to stay on screen during session . Default to following = true on startup
-    props.feed.profile.groups.map((group) => {
-      group.following = true;
-    })
+    // sd466: allow unfollowed groups to stay on screen during session . Default to following = true on startup
+    if (props.feed.profile.groups) {
+      props.feed.profile.groups.map((group) => {
+        group.following = true;
+      });
+    }
+
     this.state = {
       groups: props.feed.profile.groups
     };
@@ -48,9 +50,8 @@ export class ProfileDetailContainer extends React.Component {
 
   toggleFollow(group, profileId) {
     if (this.props.profile.userIsLoggedIn) {
-      this.props.groupActions.asyncGroupFollow(!group.following, group.id, profileId);
-
-      group.following = ! group.following;
+      group.following = !group.following;
+      this.props.groupActions.asyncGroupFollow(group.following, group.id, profileId);
       this.setState({groups: this.state.groups});
       this.props.uiActions.closeModalWindow();
       this.forceUpdate();
@@ -72,7 +73,7 @@ export class ProfileDetailContainer extends React.Component {
                   <div className="user-feed--groups-modal--group-name">{group.name}</div>
                 </a>
                  <Follow active={group.following}
-                         onClick={this.toggleFollow.bind(this,  group, this.props.profile.id)}
+                         onClick={this.toggleFollow.bind(this, group, this.props.profile.id)}
                          showLoginLink={false}
                          text={group.following && 'Følger' || 'Følg gruppen'}/>
                  </span>

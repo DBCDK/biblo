@@ -137,6 +137,26 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
   }
 });
 
+GroupRoutes.get('/post/:id', async function (req, res) {
+  try {
+    let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'post'}))[0].body;
+    res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}`);
+  }
+  catch (e) {
+    res.redirect('/error/500');
+  }
+});
+
+GroupRoutes.get('/kommentar/:id', async function (req, res) {
+  try {
+    let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'comment'}))[0].body;
+    res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}/${req.params.id}#comment_${req.params.id}`);
+  }
+  catch (e) {
+    res.redirect('/error/500');
+  }
+});
+
 GroupRoutes.get('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, async function editGroupRoute(req, res) {
   let data = {};
   data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
@@ -253,12 +273,31 @@ function showGroup(groupData, res) {
  */
 async function fetchGroupData(params, req, res, update = {}) {
   try {
+    let postsPromise;
+    if (params.postid) {
+      postsPromise = req.callServiceProvider('getSinglePosts', {
+        id: params.postid,
+        filter: {
+          include: [
+            'image',
+            {owner: ['image']},
+            'likes',
+            {comments: [{owner: ['image']}, 'image']}
+          ]
+        }
+      });
+    }
+    else {
+      postsPromise = req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 5});
+    }
+
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
-      req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 5})
+      postsPromise
     ]));
+
     const group = response[0][0];
-    group.posts = response[1][0];
+    group.posts = Array.isArray(response[1][0]) ? response[1][0] : [response[1][0]];
     group.numberOfPostsLoaded = group.posts.length;
     showGroup(Object.assign(group, update), res);
   }
@@ -270,7 +309,7 @@ async function fetchGroupData(params, req, res, update = {}) {
 /**
  * Get group view
  */
-GroupRoutes.get('/:id', fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
+GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
 
 /**
  * Creating ElasticTranscoder jobs at AWS

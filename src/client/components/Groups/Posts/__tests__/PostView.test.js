@@ -89,33 +89,6 @@ describe('Test of Post Components', () => {
   });
 
   describe('Test YouTube related functionality on the PostView.component', () => {
-    it('It should return a youtube video ID', () => {
-      const newProps = cloneDeep(props);
-      newProps.content = 'some text including a youtube link: https://youtu.be/kNTnrpL1Uw0';
-      const tree = sd.shallowRender(<PostView {...newProps} />);
-      const instance = tree.getMountedInstance();
-
-      expect(instance.getYoutubeID()).to.be.equal('kNTnrpL1Uw0');
-    });
-
-    it('It should return only one youtube video ID', () => {
-      const newProps = cloneDeep(props);
-      newProps.content = 'some text including two youtube links: https://youtu.be/kNTnrpL1Uw0 and this one: https://youtu.be/12345678';
-      const tree = sd.shallowRender(<PostView {...newProps} />);
-      const instance = tree.getMountedInstance();
-
-      expect(instance.getYoutubeID()).to.be.equal('12345678');
-    });
-
-    it('It should return null when no YouTube ID is found', () => {
-      const newProps = cloneDeep(props);
-      newProps.content = 'some text including zero youtube links';
-      const tree = sd.shallowRender(<PostView {...newProps} />);
-      const instance = tree.getMountedInstance();
-
-      assert.isNull(instance.getYoutubeID());
-    });
-
     it('It should render a div with className youtube-container', () => {
       const newProps = cloneDeep(props);
       newProps.content = 'some text including a youtube link: https://youtu.be/kNTnrpL1Uw0';

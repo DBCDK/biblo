@@ -4,6 +4,7 @@ import './scss/PostView.scss';
 
 import React from 'react';
 import TimeToString from '../../../Utils/timeToString.js';
+import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
 import ContentAdd from '../AddContent/AddContent.component';
 import CommentList from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
@@ -13,13 +14,12 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
 import Youtube from 'react-youtube';
-import youtubeIdGetter from 'youtube-link-to-id';
 
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
-import {includes, isEmpty} from 'lodash';
+import {includes} from 'lodash';
 
 export default class PostView extends React.Component {
 
@@ -101,15 +101,6 @@ export default class PostView extends React.Component {
     );
   }
 
-  getYoutubeID() {
-    if (isEmpty(this.props.content)) {
-      return null;
-    }
-
-    const ids = youtubeIdGetter.linkStringToIds(this.props.content);
-    return !isEmpty(ids) ? ids[0] : null;
-  }
-
   render() {
     const {
             groupActions,
@@ -138,7 +129,7 @@ export default class PostView extends React.Component {
       />
     );
 
-    const youtube = this.getYoutubeID();
+    const youtube = ExtractYoutubeID(content);
 
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
 
@@ -196,7 +187,7 @@ export default class PostView extends React.Component {
               {
                 youtube &&
                 <div className="post--youtube-container" >
-                  <Youtube videoId={youtube} />
+                  <Youtube videoId={youtube[0]} />
                 </div>
               }
             </div>

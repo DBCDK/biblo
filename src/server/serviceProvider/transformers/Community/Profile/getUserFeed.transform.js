@@ -105,6 +105,7 @@ const getUserFeedTransform = {
 
   /**
    * @param {Object} response
+   * @param {Object} query
    * @return {Object}
    */
   responseTransform(response, query) {

@@ -163,13 +163,13 @@ export default class PostView extends React.Component {
             <span className='buttons' >
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                          icon={<Icon glyph={pencilSvg}/>} />
+                          icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>} />
               ||
               <TinyButton
                 clickFunction={() => {
                   this.props.uiActions.openModalWindow(postFlagModalContent);
                 }}
-                icon={<Icon glyph={flagSvg} />}
+                icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
               />
               }
             </span>

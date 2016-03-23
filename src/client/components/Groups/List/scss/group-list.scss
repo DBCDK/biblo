@@ -1,11 +1,9 @@
 @import "tools";
 @import "settings";
 
-
 .group--list {
   @include container();
-  padding-left: 10px;
-  margin-left: 0;
+
   padding-right: 5px;
   h2 {
     height: 12px;

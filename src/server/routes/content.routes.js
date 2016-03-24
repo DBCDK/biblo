@@ -18,7 +18,7 @@ ContentRoutes.get('/:id', (req, res) => {
 
   // ensure alphanumeric and hyphens are allows in contentId
   const AlphaAndHyphenRegex = /^[a-zA-Z0-9-]+$/;
-  if (contentId.search(AlphaAndHyphenRegex) == -1) {
+  if (contentId.search(AlphaAndHyphenRegex) === -1) {
     res.send('invalid');
   }
 

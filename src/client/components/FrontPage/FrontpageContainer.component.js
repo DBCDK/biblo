@@ -10,22 +10,18 @@ import ContentGrid from '../General/ContentGrid/ContentGrid.component.js';
 
 import './_frontpage.scss';
 
-const contentItems = parseJsonData('JSONDATA', 'frontpageData');
-
-console.log(contentItems);
+const content = parseJsonData('JSONDATA', 'frontpageData');
 
 export default function FrontpageContainer() {
 
-  const welcomeText = '' +
-    'Du kender biblioteket som stedet, hvor du kan lære noget, ' +
-    'lege og møde andre børn. Sådan er det også her på Biblo.dk. ' +
-    'Her kommer der hele tiden nye grupper, konkurrencer og børn til. ' +
-    'Det giver mening at være nysgerrig på Biblo - helt sikkert!';
+  const welcomeText = content.welcome_text;
+
+  const elements = content.elements;
 
   return (
     <PageLayout>
-      <ColoredHeader text={welcomeText} title={'Velkommen til Biblo'} />
-      <ContentGrid items={contentItems} />
+      <ColoredHeader text={welcomeText} title={content.welcome_header} />
+      <ContentGrid items={elements} />
     </PageLayout>
   );
 }

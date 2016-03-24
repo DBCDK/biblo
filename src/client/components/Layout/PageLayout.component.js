@@ -4,6 +4,7 @@ import React from 'react';
 
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';
+import Konami from '../General/Konami/Konami.component';
 import {PropTypes} from 'react';
 
 import FastClick from 'fastclick';
@@ -28,6 +29,7 @@ export default class PageLayout extends React.Component {
           {this.props.children}
         </div>
         <Footer />
+        <Konami />
       </div>
     );
   }

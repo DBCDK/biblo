@@ -52,7 +52,10 @@ const CreateGroupContent = {
         return Promise.reject(new Error('content does not exists'));
       }
       const ownerId = query.type === 'post' && post.postownerid || post.commentownerid;
-      if (ownerId !== user.profileId) {
+      if (user.profile.profile.isModerator) {
+        user.profileId = ownerId;
+      }
+      else if (ownerId !== user.profileId) {
         return Promise.reject(new Error('user does not have access to edit content'));
       }
 
@@ -68,7 +71,7 @@ const CreateGroupContent = {
     if (!connection.request.session.passport) {
       return Promise.reject(new Error('user not logged in'));
     }
-    const user = connection.request.session.passport.user;
+    const user = Object.assign({}, connection.request.session.passport.user);
 
     // If id is set content is being editted. Check if user has access to edit content
     if (query.id) {

@@ -4,10 +4,13 @@ import './scss/comment-view.scss';
 
 import React from 'react';
 import TimeToString from '../../../Utils/timeToString.js';
+import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
+
+import Youtube from 'react-youtube';
 
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -29,6 +32,7 @@ class CommentView extends React.Component {
 
   render() {
     const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions} = this.props;
+
     const commentFlagModalContent = (
       <CreateFlagDialog
         submitFunction={submitFlagFunction}
@@ -37,8 +41,11 @@ class CommentView extends React.Component {
         contentId={id}
       />
     );
+
+    const youtube = ExtractYoutubeID(content);
+
     return (
-      <div className='comment-wrapper'>
+      <div className='comment-wrapper' id={`comment_${this.props.id}`}>
         <div className='comment-profile-image'>
           <img className='profile-image' src={owner.image || null} alt={owner.displayName}/>
         </div>
@@ -50,15 +57,15 @@ class CommentView extends React.Component {
           </div>
 
           <div className='comment--actions'>
-            {profile.id === owner.id &&
+            {(profile.id === owner.id || profile.isModerator) &&
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                        icon={<Icon glyph={pencilSvg}/>}/>
+                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button"/>}/>
             ||
             <TinyButton
               clickFunction={() => {
                 uiActions.openModalWindow(commentFlagModalContent);
               }}
-              icon={<Icon glyph={flagSvg} />}
+              icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
             />
             }
           </div>
@@ -75,6 +82,12 @@ class CommentView extends React.Component {
               {
                 image &&
                 <div className='media'><img src={image} alt="image for post"/></div>
+              }
+              {
+                youtube &&
+                <div className="comment--youtube-container" >
+                  <Youtube videoId={youtube[0]} />
+                </div>
               }
             </div>
           }

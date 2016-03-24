@@ -1,6 +1,8 @@
 'use strict';
 
 import profileParser from '../../../parsers/profile.parser';
+import commentParser from '../../../parsers/comment.parser';
+import postParser from '../../../parsers/post.parser';
 
 /**
  * @file
@@ -103,11 +105,11 @@ const getUserFeedTransform = {
 
   /**
    * @param {Object} response
+   * @param {Object} query
    * @return {Object}
    */
   responseTransform(response, query) {
     let posts = (JSON.parse(response[0].body) || []).map((post) => {
-
       post.type = 'post';
       post.timeCreated = post.timeCreated || '2016-03-03T12:49:19.000Z';
       post.imageSrc = false;
@@ -116,57 +118,15 @@ const getUserFeedTransform = {
         post.imageSrc = `/billede/${post.group.coverImage.id}/small`;
       }
 
-      if (post.owner) {
-        post.owner = profileParser(post.owner, true, 'small');
-      }
-
-      if (post.image && post.image.id) {
-        post.image = `/billede/${post.image.id}/small`;
-      }
-
-      if (post.likes) {
-        post.likes = post.likes.map((like) => {
-          return like.profileId;
-        });
-      }
-
-      return post;
+      return postParser(post);
     });
 
     let comments = (JSON.parse(response[1].body) || []).map((comment) => {
       comment.type = 'comment';
       comment.timeCreated = comment.timeCreated || '2001-01-01T12:00:00.000Z';
       comment.imageSrc = false;
-
-      if (comment.post && comment.post.group && comment.post.group.coverImage) {
-        comment.imageSrc = `/billede/${comment.post.group.coverImage.id}/small`;
-      }
-
-      if (comment.owner) {
-        comment.owner = profileParser(comment.owner, true, 'small');
-      }
-
-      if (comment.post && comment.post.owner) {
-        comment.post.owner = profileParser(comment.post.owner, true, 'small');
-      }
-
-      if (comment.post && comment.post.image && comment.post.image.id) {
-        comment.post.image = `/billede/${comment.post.image.id}/small`;
-      }
-
-      if (comment.image && comment.image.id) {
-        comment.image = `/billede/${comment.image.id}/small`;
-      }
-
-      if (comment.post && comment.post.likes) {
-        comment.post.likes = comment.post.likes.map((like) => {
-          return like.profileId;
-        });
-      }
-      else {
-        comment.post.likes = [];
-      }
-      return comment;
+      comment.post = postParser(comment.post);
+      return commentParser(comment);
     });
 
     let feed = posts.concat(comments);

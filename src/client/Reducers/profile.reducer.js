@@ -35,6 +35,7 @@ let initialState = {
   errors: [],
   displayNameExists: false,
   imageFile: null,
+  isModerator: false,
   UI: {
     submitState: '',
     submitProgress: 0

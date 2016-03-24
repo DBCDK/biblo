@@ -84,9 +84,9 @@ export class GroupViewContainer extends React.Component {
                         text={this.state.following && 'Følger' || 'Følg gruppen'}/>
               </div>
             </div>
-            {this.props.profile.id === this.props.group.owner.id &&
+            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) &&
             <div className="group--actions">
-              <TinyButton active={this.state.isEditting}
+              <TinyButton active={false}
                           clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`}
                           icon={<Icon glyph={pencilSvg}/>}/>
             </div>

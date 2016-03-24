@@ -2,12 +2,22 @@
 @import "settings";
 
 .group--list {
-  display:block;
+  @include container();
+
+  padding-right: 5px;
   h2 {
     height: 12px;
+  }
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    padding-left: 0;
   }
 }
 
 .group--showmore {
-  text-align: right
+  text-align: right;
+  clear: both;
 }
+

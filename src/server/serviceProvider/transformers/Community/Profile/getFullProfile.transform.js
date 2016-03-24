@@ -23,8 +23,18 @@ const getFullProfileTransform = {
   requestTransform(event, query, connection) {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
-    const uid = user.profileId;
-    return this.callServiceClient('community', 'getFullProfile', {uid, accessToken});
+    const uid = query && query.isModerator && query.id || user.profileId;
+    return this.callServiceClient(
+      'community',
+      'getFullProfile',
+      {
+        uid,
+        accessToken,
+        profileFilter: {
+          include: ['image', 'communityRoles']
+        }
+      }
+    );
   },
 
   /**
@@ -50,6 +60,10 @@ const getFullProfileTransform = {
         }
       };
     }
+
+    body.isModerator = !!(body.communityRoles && Array.isArray(body.communityRoles) && body.communityRoles.filter((role) => {
+      return role.name === 'moderator';
+    }).length > 0);
 
     return {body: body, statusCode: response.statusCode, statusMessage: response.statusMessage};
   }

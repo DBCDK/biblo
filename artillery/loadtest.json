@@ -1,0 +1,42 @@
+{
+  "config": {
+    "target": "http://localhost:8080",
+    "phases": [
+      {
+        "duration": 60,
+        "arrivalRate": 5
+      },
+      {
+        "duration": 120,
+        "arrivalRate": 5,
+        "rampTo": 50
+      },
+      {
+        "duration": 600,
+        "arrivalRate": 50
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "Go to the front page",
+      "flow": [
+        {
+          "get": {
+            "url": "/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Go to the frontpage, go to groups, create a group, view that group, create a post in that group, create a comment on that post",
+      "flow": [
+        {
+          "get": {
+            "url": "/"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -19,7 +19,9 @@
     "test": "karma start --single-run=true",
     "test:watch": "karma start",
     "tail": "tail -f log.log",
-    "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'"
+    "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
+    "test:perf": "artillery run -o ./artillery/report.json ./artillery/loadtest.json && artillery report ./artillery/report.json",
+    "test:perf:remote": "artillery run -o ./artillery/report.json -e production ./artillery/loadtest.json && artillery report ./artillery/report.json"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
     "@dbcdk/biblo-config": "^1.9.2",
+    "artillery": "^1.3.11",
     "async": "1.5.0",
     "autolinker": "^0.25.1",
     "autoprefixer": "^6.3.1",
@@ -45,6 +48,7 @@
     "babel": "^6.3.26",
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
+    "babel-plugin-array-includes": "^2.0.3",
     "babel-plugin-transform-async-to-generator": "^6.5.0",
     "babel-plugin-transform-runtime": "^6.5.0",
     "babel-preset-es2015": "^6.3.13",
@@ -92,6 +96,7 @@
     "react-addons-test-utils": "0.14.7",
     "react-dom": "0.14.7",
     "react-redux": "4.3.0",
+    "react-youtube": "^5.1.0",
     "redux": "3.2.1",
     "redux-thunk": "1.0.3",
     "sanitize-html": "^1.11.3",
@@ -107,7 +112,8 @@
     "walk": "2.3.9",
     "webpack": "1.12.13",
     "xmldom": "0.1.22",
-    "xss-filters": "1.2.6"
+    "xss-filters": "1.2.6",
+    "youtube-link-to-id": "^1.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^4.0.5",
@@ -132,15 +138,12 @@
     "karma-junit-reporter": "^0.3.2",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.0.2",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-phantomjs-shim": "^1.2.0",
     "karma-sinon": "^1.0.4",
     "karma-webpack": "^1.5.1",
     "mocha": "^2.2.4",
     "mocha-jenkins-reporter": "^0.1.9",
     "node-libs-browser": "^1.0.0",
     "parallelshell": "^2.0.0",
-    "phantomjs": "^1.9.17",
     "redux-devtools": "^3.0.2",
     "redux-mock-store": "0.0.6",
     "selenium-webdriver": "2.47.0",

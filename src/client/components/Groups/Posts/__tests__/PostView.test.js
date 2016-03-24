@@ -2,16 +2,18 @@
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import {expect} from 'chai';
-import sd from 'skin-deep';
+import {expect, assert} from 'chai';
+import sd from 'skin-deep'; // see http://willcodefor.beer/react-testing-with-shallow-rendering-and-skin-deep/
+import {cloneDeep} from 'lodash';
 
 import * as uiActions from '../../../../Actions/ui.actions.js';
 import PostView from '../PostView.component';
 import AddContent from '../../AddContent/AddContent.component';
 
-describe('Test of Comment Components', () => {
+describe('Test of Post Components', () => {
 
-  const noop = () => {};
+  const noop = () => {
+  };
 
   // actions for this test (just use spies)
   let groupActions = {
@@ -63,6 +65,7 @@ describe('Test of Comment Components', () => {
       expect(forms.length).to.be.equal(0);
       TestUtils.findRenderedDOMComponentWithClass(component, 'post--add-comment-button');
     });
+
     it('it should show AddComment Component after click', () => {
       let button = TestUtils.findRenderedDOMComponentWithClass(component, 'post--add-comment-button');
       TestUtils.Simulate.click(button);
@@ -85,5 +88,21 @@ describe('Test of Comment Components', () => {
     });
   });
 
+  describe('Test YouTube related functionality on the PostView.component', () => {
+    it('It should render a div with className youtube-container', () => {
+      const newProps = cloneDeep(props);
+      newProps.content = 'some text including a youtube link: https://youtu.be/kNTnrpL1Uw0';
+      const tree = sd.shallowRender(<PostView {...newProps} />);
 
+      assert.isNotFalse(tree.subTree('.post--youtube-container'), 'className youtube-container was found');
+    });
+
+    it('It should not render a div with className youtube-container', () => {
+      const newProps = cloneDeep(props);
+      newProps.content = 'some text including zero youtube links';
+      const tree = sd.shallowRender(<PostView {...newProps} />);
+
+      assert.isFalse(tree.subTree('.post--youtube-container'), 'className youtube-container was found');
+    });
+  });
 });

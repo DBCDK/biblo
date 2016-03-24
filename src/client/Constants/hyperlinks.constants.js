@@ -15,6 +15,9 @@ export const GROUP_OVERVIEW = '/grupper';
 // Links for profile
 export const PUBLIC_PROFILE = '/profil';
 export const PROFILE_EDIT = '/profil/rediger';
+export const MODERATOR_PROFILE_EDIT = (id) => {
+  return '/profil/rediger/moderator/' + id;
+};
 
 // Links to static pages
 export const DET_SKER_PAGE = '/';

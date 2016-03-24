@@ -13,8 +13,8 @@ import $ from 'teaspoon';
 import {ProfileDetailContainer} from '../ProfileDetailContainer.component';
 
 // import mocks
-import {profileMock} from '../../../__mocks__/profile.mock';
-import {emptyFeedMock, feedMock} from '../../../__mocks__/feed.mock';
+import {profileMock, moderatorMock} from '../../../__mocks__/profile.mock';
+import {emptyFeedMock, feedMock, moderatedFeedMock} from '../../../__mocks__/feed.mock';
 import {uiMock} from '../../../__mocks__/ui.mock';
 
 describe('Test profile detail container (public profile)', () => {
@@ -83,5 +83,37 @@ describe('Test profile detail container (public profile)', () => {
     expect(activityRows[0].innerHTML).toContain(`Se hvad ${profileMock.displayName} har lavet:`);
     expect(activityRows[1].innerHTML).toContain(feedMock.feed[0].html);
     expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].html);
+  });
+
+  it('should render rows containing an edit link when a moderator is viewing', () => {
+    const noop = () => {};
+
+    // actions for this test (just use spies)
+    let feedActions = {
+      asyncGetUserFeed: noop,
+      getUserFeed: noop
+    };
+
+    let uiActions = {
+      openModalWindow: noop,
+      closeModalWindow: noop
+    };
+
+    let component = (
+      <ProfileDetailContainer
+        feed={moderatedFeedMock}
+        feedActions={feedActions}
+        profile={moderatorMock}
+        ui={uiMock}
+        uiActions={uiActions}
+      />
+    );
+
+    let $root = $(component).render();
+    let postEditButtons = $root.find('.edit-post--button');
+    let commentEditButtons = $root.find('.edit-comment--button');
+
+    expect(postEditButtons.length).toEqual(4); // two posts, and two comments with posts wrapped around.
+    expect(commentEditButtons.length).toEqual(2); // two comments.
   });
 });

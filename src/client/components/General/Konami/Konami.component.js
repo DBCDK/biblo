@@ -28,7 +28,7 @@ export default class Konami extends React.Component {
 
     document.onkeydown = (e) => {
       e = e || window.event;
-      let charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+      let charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
       self.state.combo.push(charCode);
       if (konamiCombo === JSON.stringify(self.state.combo.slice(Math.max(self.state.combo.length - 10, 1)))) {
         self.shakeBody();

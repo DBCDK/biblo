@@ -49,7 +49,7 @@ export default class ProfileEditContainer extends React.Component {
   render() {
     let searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
       return {
-        text: [suggestion.navn, suggestion.adresse, suggestion.postnr, suggestion.by].join(', '),
+        text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
       };
     });

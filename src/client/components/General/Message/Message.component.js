@@ -13,7 +13,7 @@ export default function Message({children, type, onClose}) {
   return (
     <div className={`message ${type}`}>
       {children}
-      {close &&
+      {onClose &&
       <a href="#removeMessage" className="message--close" onClick={(e) => onClose(e)}><Icon glyph={closeSvg}/></a>
       }
     </div>

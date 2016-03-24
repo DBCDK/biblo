@@ -294,6 +294,7 @@ export class ProfileDetailContainer extends React.Component {
         </div>
       </a>);
     }
+
     else {
       profileImage = (<div className="p-detail--image-container">
         <img src={userProfile.image} alt={userProfile.displayName}/>

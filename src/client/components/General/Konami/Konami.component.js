@@ -4,7 +4,7 @@ import React from 'react';
 
 import './konami.component.scss';
 
-const konamiCombo = '[38,38,40,40,37,39,37,39,66,65]';
+const konamiCombo = '[38,40,40,37,39,37,39,66,65]';
 
 export default class Konami extends React.Component {
   constructor() {
@@ -30,7 +30,7 @@ export default class Konami extends React.Component {
       e = e || window.event;
       let charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
       self.state.combo.push(charCode);
-      if (konamiCombo === JSON.stringify(self.state.combo.slice(Math.max(self.state.combo.length - 10, 1)))) {
+      if (konamiCombo === JSON.stringify(self.state.combo.slice(Math.max(self.state.combo.length - 9, 1)))) {
         self.shakeBody();
       }
     };

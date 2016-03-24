@@ -8,7 +8,7 @@ let debouncedCheckDisplayNameFunction;
 function onChange(onChangeFunc, checkDisplayNameFunction, e) {
   if (e.target.value !== '') {
     if (!debouncedCheckDisplayNameFunction) {
-      debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 500);
+      debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 1000);
     }
     debouncedCheckDisplayNameFunction(e.target.value);
     onChangeFunc(e);

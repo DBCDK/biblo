@@ -21,7 +21,7 @@ export const MODERATOR_PROFILE_EDIT = (id) => {
 
 // Links to static pages
 export const DET_SKER_PAGE = '/';
-export const OM_BIBLIO_PAGE = '#!/Pages/om_biblo';
-export const SOS = '#!/Pages/sos';
-export const SIKKERHED_PAA_BIBLO = '#!/Pages/sikkerhed';
-export const CONTACT = '#!/Pages/kontakt';
+export const OM_BIBLIO_PAGE = '/indhold/om-biblo';
+export const SOS = '/indhold/spoergsmaal-og-svar';
+export const SIKKERHED_PAA_BIBLO = '/indhold/sikkerhed-paa-biblo';
+export const CONTACT = '/indhold/kontakt';

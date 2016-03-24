@@ -1,20 +1,20 @@
 'use strict';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import autosize from "autosize";
 
-import autosize from 'autosize';
-import 'nodep-date-input-polyfill-danish';
+import DroppableImageField from "../../General/DroppableImageField/DroppableImageField.component.js";
+import RoundedButtonSubmit from "../../General/RoundedButton/RoundedButton.submit.component.js";
+import RoundedButton from "../../General/RoundedButton/RoundedButton.a.component";
+import ProgressBar from "../../General/ProgressBar/ProgressBar.component";
+import DisplayNameField from "./DisplayNameField.component";
+import InputField from "../../General/InputField/InputField.component";
+import SearchDropDown from "./SearchDropDown.component";
+import Message from '../../General/Message/Message.component';
 
-import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
-import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
-import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
-import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
-import DisplayNameField from './DisplayNameField.component';
-import InputField from '../../General/InputField/InputField.component';
-import SearchDropDown from './SearchDropDown.component';
-
-import './profileform.component.scss';
+import "nodep-date-input-polyfill-danish";
+import "./profileform.component.scss";
 
 export default class ProfileForm extends React.Component {
   constructor(props) {
@@ -60,7 +60,11 @@ export default class ProfileForm extends React.Component {
   render() {
     const errorObj = {};
     this.props.errors.forEach((error) => {
-      errorObj[error.field] = (<p className={'errorMessage ' + error.field}>{error.errorMessage}</p>);
+      errorObj[error.field] = (
+        <Message type="error">
+          <span className={error.field}>{error.errorMessage}</span>
+        </Message>
+      );
     });
 
     let disabled = false;

@@ -3,6 +3,8 @@
 import React from 'react';
 import {debounce} from 'lodash';
 
+import Message from '../../General/Message/Message.component';
+
 let debouncedCheckDisplayNameFunction;
 
 function onChange(onChangeFunc, checkDisplayNameFunction, e) {
@@ -31,7 +33,7 @@ export default function DisplayNameField({defaultValue, errors, onChangeFunc, ch
           onChange={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
         />
         {errors.displayname || ''}
-        {displayNameExists ? <p className="errorMessage">Brugernavnet er optaget!</p> : ''}
+        {displayNameExists ? <Message type="error"><span>Brugernavnet er optaget!</span></Message> : ''}
       </label>
     </div>
   );

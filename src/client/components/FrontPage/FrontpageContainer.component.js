@@ -26,4 +26,4 @@ export default function FrontpageContainer() {
   );
 }
 
-FrontpageContainer.displayName = 'FrontpageContainer';
+FrontpageContainer.displayName = 'ErrorPageContainer';

@@ -18,6 +18,7 @@ module.exports = [{
     frontpage: './src/client/components/FrontPage/index.js',
     article: './src/client/components/Article/index.js',
     groups: './src/client/components/Groups/index.js',
+    error: './src/client/components/ErrorPage/index.js',
     groupcreate: './src/client/components/Groups/Create/index.js',
     groupdetail: './src/client/components/Groups/View/index.js',
     groupedit: './src/client/components/Groups/Edit/index.js'

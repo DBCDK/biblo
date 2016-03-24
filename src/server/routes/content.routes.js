@@ -35,8 +35,8 @@ ContentRoutes.get('/:id', (req, res) => {
     getRes.on('end', () => {
 
       if (getRes.statusCode !== 200) {
-        // TODO: send to real 404 error page
-        res.status(404);
+        // send to 404 error page
+        res.status(404).render('error', {errorData: JSON.stringify({statusCode: 404})});
       }
       else {
         const articleData = JSON.parse(str);

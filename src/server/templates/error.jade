@@ -1,8 +1,12 @@
 //- error.jade
 extends layout
 
-#error.row
-  h2 Der er sket en fejl!
-  if (errortext)
-    p !{errortext}
-  img(src!=errorImage)
+block append styles
+  link(rel='stylesheet', href='/css/error.css')
+
+block append footerscripts
+  script(src='/js/error.js' defer=true)
+  script(id='JSONDATA', type='application/json') !{errorData}
+
+block prepend body
+  #content

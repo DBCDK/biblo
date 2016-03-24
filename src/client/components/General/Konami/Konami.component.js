@@ -23,6 +23,11 @@ export default class Konami extends React.Component {
     }, 500);
   }
 
+  playSound() {
+    const audio = new Audio('/konami.mp3');
+    audio.play();
+  }
+
   componentDidMount() {
     let self = this;
 
@@ -32,6 +37,7 @@ export default class Konami extends React.Component {
       self.state.combo.push(charCode);
       if (konamiCombo === JSON.stringify(self.state.combo.slice(Math.max(self.state.combo.length - 9, 1)))) {
         self.shakeBody();
+        self.playSound();
       }
     };
   }

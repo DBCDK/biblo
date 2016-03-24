@@ -278,6 +278,7 @@ export class ProfileDetailContainer extends React.Component {
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
+    const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
 
     let editButton = null;
     let profileImage = null;
@@ -293,6 +294,7 @@ export class ProfileDetailContainer extends React.Component {
         </div>
       </a>);
     }
+
     else {
       profileImage = (<div className="p-detail--image-container">
         <img src={userProfile.image} alt={userProfile.displayName}/>
@@ -318,8 +320,8 @@ export class ProfileDetailContainer extends React.Component {
         </div>
         {
           (this.props.feed.feed.length > 0) ?
-            (<ActivityRow title={`Se hvad ${userProfile.displayName} har lavet:`}/>) :
-            (<ActivityRow title={'Her er tomt!'}>{userProfile.displayName} har ikke lavet noget...</ActivityRow>)
+            (<ActivityRow title={`Se hvad ${currentUserAddressing} har lavet:`}/>) :
+            (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing.charAt(0).toUpperCase()} har ikke lavet noget...</ActivityRow>)
         }
 
         {feed}

@@ -48,7 +48,6 @@ describe('Test profile detail container (public profile)', () => {
     expect(emptyHeader).toContain('Her er tomt!');
 
     const firstActivityRow = $root.find('.activity-row').first().dom().innerHTML;
-    expect(firstActivityRow).toContain(profileMock.displayName);
     expect(firstActivityRow).toContain('har ikke lavet noget...');
   });
 
@@ -80,7 +79,7 @@ describe('Test profile detail container (public profile)', () => {
 
     let activityRows = $root.find('.activity-row--container > .activity-row');
 
-    expect(activityRows[0].innerHTML).toContain(`Se hvad ${profileMock.displayName} har lavet:`);
+    expect(activityRows[0].innerHTML).toContain(`Se hvad du har lavet:`);
     expect(activityRows[1].innerHTML).toContain(feedMock.feed[0].html);
     expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].html);
   });

@@ -16,7 +16,7 @@ const MainRoutes = express.Router();
 MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
 
 
-  const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-frontpage/frontpage_elements.json';
+  const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-frontpage/frontpage_content.json';
 
   // fetch page settings from AWS
   https.get(settingsUrl, (getRes) => {
@@ -29,8 +29,8 @@ MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
     getRes.on('end', () => {
 
       if (getRes.statusCode !== 200) {
-        // TODO: send to real 404 error page
-        res.send('404');
+        // send to 404 error page
+        res.status(404);
       }
       else {
         const frontpageData = JSON.parse(str);
@@ -47,7 +47,6 @@ MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
     });
 
   }).end();
-
 
 });
 

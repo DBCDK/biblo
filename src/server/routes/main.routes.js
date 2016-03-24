@@ -8,15 +8,44 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
+import https from 'https';
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
-  res.render('page', {
-    css: ['/css/frontpage.css'],
-    js: ['/js/frontpage.js']
-  });
+  const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-frontpage/frontpage_content.json';
+
+  // fetch page settings from AWS
+  https.get(settingsUrl, (getRes) => {
+    let str = '';
+
+    getRes.on('data', (chunk) => {
+      str += chunk;
+    });
+
+    getRes.on('end', () => {
+
+      if (getRes.statusCode !== 200) {
+        // send to 404 error page
+        res.status(404);
+      }
+      else {
+        const frontpageData = JSON.parse(str);
+
+        res.render('page', {
+          css: ['/css/frontpage.css'],
+          js: ['/js/frontpage.js'],
+          jsonData: [JSON.stringify({
+            frontpageData: frontpageData
+          })]
+        });
+      }
+
+    });
+
+  }).end();
+
 });
 
 MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',

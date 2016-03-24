@@ -1,0 +1,21 @@
+@import 'tools';
+
+.article {
+  @include container();
+}
+
+.article-header {
+  margin-bottom: 40px;
+}
+
+.article-main {
+  @include span(3 of 5);
+}
+
+.article-factbox {
+  @include span(last 2 of 5);
+  background: $light-gray;
+  margin-top: 10px;
+  display: block;
+  border-radius: 5px;
+}

@@ -14,7 +14,13 @@ ContentRoutes.get('/:id', (req, res) => {
   // enable caching
   res.setHeader('Cache-Control', 'public, max-age=36000');
 
-  const contentId = parseInt(req.params.id, 10);
+  const contentId = '' + req.params.id;
+
+  // ensure alphanumeric and hyphens are allows in contentId
+  const AlphaAndHyphenRegex = /^[a-zA-Z0-9-]+$/;
+  if (contentId.search(AlphaAndHyphenRegex) === -1) {
+    res.send('invalid');
+  }
 
   const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-article/' + contentId + '/settings.json';
 
@@ -30,7 +36,7 @@ ContentRoutes.get('/:id', (req, res) => {
 
       if (getRes.statusCode !== 200) {
         // TODO: send to real 404 error page
-        res.send('404');
+        res.status(404);
       }
       else {
         const articleData = JSON.parse(str);

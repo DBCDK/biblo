@@ -11,10 +11,10 @@ const ContentRoutes = express.Router();
 
 ContentRoutes.get('/:id', (req, res) => {
 
-  // TODO: enable caching
-  //res.setHeader('Cache-Control', 'public, max-age=36000');
+  // enable caching
+  res.setHeader('Cache-Control', 'public, max-age=36000');
 
-  const contentId = parseInt(req.params.id);
+  const contentId = parseInt(req.params.id, 10);
 
   const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-article/' + contentId + '/settings.json';
 

@@ -14,8 +14,6 @@ import {setReferer, redirectBackToOrigin, ensureUserHasProfile} from '../middlew
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
-
-
   const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-frontpage/frontpage_content.json';
 
   // fetch page settings from AWS

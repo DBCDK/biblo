@@ -1,5 +1,7 @@
 'use strict';
 
+import {quarantinedMiddleware} from '../middlewares/auth.middlewares';
+
 const CreateGroupTransform = {
   event() {
     return 'createGroup';
@@ -11,13 +13,15 @@ const CreateGroupTransform = {
     if (connection.request.session.passport) {
       // If user is logged in create the post
       const passport = connection.request.session.passport;
-      return this.callServiceClient('community', 'createGroup', {
-        name: query.name,
-        description: query.description,
-        colour: query.colour,
-        coverImage: imageFile,
-        uid: passport.user.profileId,
-        accessToken: passport.user.id
+      return quarantinedMiddleware(this, passport.user.profileId, () => {
+        return this.callServiceClient('community', 'createGroup', {
+          name: query.name,
+          description: query.description,
+          colour: query.colour,
+          coverImage: imageFile,
+          uid: passport.user.profileId,
+          accessToken: passport.user.id
+        });
       });
     }
 
@@ -26,7 +30,7 @@ const CreateGroupTransform = {
   },
 
   responseTransform(response) {
-    return {status: response.statusCode, data: response.body, errors: []};
+    return {status: response.statusCode, data: response.body, errors: response.errors || []};
   }
 };
 

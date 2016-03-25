@@ -1,5 +1,7 @@
 'use strict';
 
+import {quarantinedMiddleware} from '../middlewares/auth.middlewares';
+
 const UpdateProfileImageTransform = {
 
   event() {
@@ -10,16 +12,18 @@ const UpdateProfileImageTransform = {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
     uid = isModerator ? uid : user.profileId;
-    return this.callServiceClient('community', 'updateImage', {
-      relationId: uid,
-      relationType: 'profileImageCollection',
-      image: file,
-      accessToken
+    return quarantinedMiddleware(this, user.profileId, () => {
+      return this.callServiceClient('community', 'updateImage', {
+        relationId: uid,
+        relationType: 'profileImageCollection',
+        image: file,
+        accessToken
+      });
     });
   },
 
   responseTransform(response) {
-    return {status: response.statusCode === 200, data: response.body, errors: []};
+    return {status: response.statusCode === 200, data: response.body, errors: response.errors || []};
   }
 };
 

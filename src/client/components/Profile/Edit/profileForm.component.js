@@ -100,7 +100,6 @@ export default class ProfileForm extends React.Component {
     return (
       <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
         <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')}>
-          {errorObj.general || ''}
           <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form">
             <div className={'profile-image-upload'}>
               <DroppableImageField
@@ -111,6 +110,8 @@ export default class ProfileForm extends React.Component {
               />
               {errorObj.profile_image || ''}
             </div>
+
+            {errorObj.general || ''}
 
             <div className="padded-area">
               <DisplayNameField

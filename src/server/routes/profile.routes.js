@@ -233,7 +233,7 @@ ProfileRoutes.post(
 
       const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];
 
-      if (result.errors && result.errors.length > 1) {
+      if (result.errors && result.errors.length > 0) {
         data.status = 'ERROR';
         data.errors = result.errors;
       }

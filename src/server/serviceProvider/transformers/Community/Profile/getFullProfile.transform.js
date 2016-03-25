@@ -24,17 +24,20 @@ const getFullProfileTransform = {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
     const uid = query && query.isModerator && query.id || user.profileId;
-    return this.callServiceClient(
-      'community',
-      'getFullProfile',
-      {
-        uid,
-        accessToken,
-        profileFilter: {
-          include: ['image', 'communityRoles']
+    return Promise.all([
+      this.callServiceClient(
+        'community',
+        'getFullProfile',
+        {
+          uid,
+          accessToken,
+          profileFilter: {
+            include: ['image', 'communityRoles']
+          }
         }
-      }
-    );
+      ),
+      this.callServiceClient('community', 'checkIfProfileIsQuarantined', uid)
+    ]);
   },
 
   /**
@@ -42,7 +45,7 @@ const getFullProfileTransform = {
    * @return {Object}
    */
   responseTransform(response) {
-    let body = JSON.parse(response.body);
+    let body = JSON.parse(response[0].body);
 
     if (body.image) {
       body.image.url = {
@@ -65,7 +68,9 @@ const getFullProfileTransform = {
       return role.name === 'moderator';
     }).length > 0);
 
-    return {body: body, statusCode: response.statusCode, statusMessage: response.statusMessage};
+    body.quarantined = JSON.parse(response[1].body).quarantined;
+
+    return {body: body, statusCode: response[0].statusCode, statusMessage: response[0].statusMessage};
   }
 };
 

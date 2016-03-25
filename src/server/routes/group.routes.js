@@ -218,9 +218,17 @@ GroupRoutes.post('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensu
     }
 
     try {
-      data.status = 'OK';
-      data.groupData = (await req.callServiceProvider('updateGroup', updateQuery))[0].data;
-      data.redirect = '/grupper/' + req.params.id;
+      let updateGroupResponse = (await req.callServiceProvider('updateGroup', updateQuery))[0];
+      if (updateGroupResponse.errors && updateGroupResponse.errors.length > 0) {
+        errors = updateGroupResponse.errors.concat(errors);
+        data.status = 'ERROR';
+        data.errors = errors;
+      }
+      else {
+        data.status = 'OK';
+        data.groupData = updateGroupResponse.data;
+        data.redirect = '/grupper/' + req.params.id;
+      }
     }
     catch (e) {
       if (typeof e === 'string') {

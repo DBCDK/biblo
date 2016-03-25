@@ -63,12 +63,18 @@ export default class AddContent extends React.Component {
       request.onload = (event) => {
         this.setState({isLoading: false});
         if (event.target.status === 200) {
-          this.props.addContentAction(JSON.parse(event.target.response));
-          if (this.props.abort) {
-            this.props.abort();
+          const addContentReponse = JSON.parse(event.target.response);
+          if (addContentReponse.errors && addContentReponse.errors.length > 0) {
+            this.setState({errorMsg: addContentReponse.errors[0].errorMessage});
           }
           else {
-            this.setState({text: '', attachment: {image: null, video: null}});
+            this.props.addContentAction(addContentReponse);
+            if (this.props.abort) {
+              this.props.abort();
+            }
+            else {
+              this.setState({text: '', attachment: {image: null, video: null}});
+            }
           }
         }
         else {

@@ -1,5 +1,7 @@
 'use strict';
 
+import twemoji from 'twemoji';
+
 /**
  *
  * @param profile: Profile from communityservice
@@ -11,8 +13,8 @@
 export default function profileParser(profile = {}, isPublic = false, size = false) {
   let p = {};
 
-  p.description = profile.description;
-  p.displayName = profile.displayName || 'Anonym';
+  p.description = twemoji.parse(profile.description);
+  p.displayName = twemoji.parse(profile.displayName || 'Anonym');
   p.id = profile.id || 0;
   p.groups = profile.groups || [];
 

@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable react/no-danger */
+
 import './scss/PostView.scss';
 
 import React from 'react';
@@ -145,11 +147,13 @@ export default class PostView extends React.Component {
     return (
       <div className='post--wrapper' >
         <div className='post--profile-image' >
-          <img src={owner.image || null} alt={owner.displayName} />
+          <a href={`/profil/${owner.id}`}>
+            <img src={owner.image || null} alt={owner.displayName} />
+          </a>
         </div>
         <div className='post' >
           <div className='post--header' >
-            <a href={`/profil/${owner.id}`} ><span className='username' >{owner.displayName}</span></a>
+            <a href={`/profil/${owner.id}`} ><span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} /></a>
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons' >
               {(profile.id === owner.id || profile.isModerator) &&

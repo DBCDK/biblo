@@ -55,8 +55,8 @@ describe('Test GroupView Component', () => {
 
   it('Group View Component is being rendered', () => {
     const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={groupActions} uiActions={uiActions} ui={ui} />);
-    assert.equal(group.description, tree.subTree('.group--description').text());
-    assert.equal(group.name, tree.subTree('.group--title').text());
+    assert.equal(`<p class="group--description">${group.description}</p>`, tree.subTree('.group--description').toString());
+    assert.equal(`<h2 class="group--title">${group.name}</h2>`, tree.subTree('.group--title').toString());
 
     // AddContent form is added with props
     assert.equal(tree.subTree('AddContent').getRenderOutput().type, AddContent);

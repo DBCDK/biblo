@@ -44,7 +44,7 @@ describe('Test of Post Components', () => {
 
     expect(tree.subTree('.post--profile-image').subTree('img').getRenderOutput().props.src).to.be.equal(props.owner.image);
     expect(tree.subTree('.post--profile-image').subTree('img').getRenderOutput().props.alt).to.be.equal(props.owner.displayName);
-    expect(tree.subTree('.username').text()).to.be.equal(props.owner.displayName);
+    expect(tree.subTree('.username').toString()).to.be.equal(`<span class="username">${props.owner.displayName}</span>`);
     expect(tree.subTree('.time').text()).to.be.equal('Lige nu');
     expect(tree.subTree('.post--content').props.dangerouslySetInnerHTML.__html).to.be.equal(props.html);
     expect(tree.subTree('.post--media').subTree('img').getRenderOutput().props.src).to.be.equal(props.image);

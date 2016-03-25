@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable react/no-danger */
+
 /**
  * @file: Dette er den offentlige profil.
  */
@@ -9,6 +11,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
+import twemoji from 'twemoji';
 
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
@@ -70,7 +73,7 @@ export class ProfileDetailContainer extends React.Component {
                     className="user-feed--groups-modal--group-image"
                     src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
                   />
-                  <div className="user-feed--groups-modal--group-name">{group.name}</div>
+                  <div className="user-feed--groups-modal--group-name" dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
                 </a>
                  <Follow active={group.following}
                          onClick={this.toggleFollow.bind(this, group, this.props.profile.id)}
@@ -81,7 +84,6 @@ export class ProfileDetailContainer extends React.Component {
         })}
       </div>
     );
-
   }
 
   render() {
@@ -103,8 +105,10 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
-                {title} til et indlæg i gruppen <a
-                href={`/grupper/${activity.post.group.id}`}>{activity.post.group.name}</a>:
+                <span dangerouslySetInnerHTML={{__html: title}} />
+                <span> til et indlæg i gruppen </span>
+                <a href={`/grupper/${activity.post.group.id}`} dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}} />
+                <span>:</span>
               </span>
             );
           }
@@ -170,7 +174,7 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                {postTitle} i gruppen <a href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i gruppen <a href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
               </span>
             );
           }
@@ -306,7 +310,7 @@ export class ProfileDetailContainer extends React.Component {
         {modal}
         {profileImage}
         <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname">{userProfile.displayName}</p>
+          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}} />
           {editButton}
           {desc}
           <div className="p-detail--groups-flag-buttons--container">

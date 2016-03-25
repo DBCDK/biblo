@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable react/no-danger */
+
 import './scss/comment-view.scss';
 
 import React from 'react';
@@ -47,12 +49,14 @@ class CommentView extends React.Component {
     return (
       <div className='comment-wrapper' id={`comment_${this.props.id}`}>
         <div className='comment-profile-image'>
-          <img className='profile-image' src={owner.image || null} alt={owner.displayName}/>
+          <a href={`/profil/${owner.id}`}>
+            <img className='profile-image' src={owner.image || null} alt={owner.displayName}/>
+          </a>
         </div>
         <div className='comment'>
           <div className='comment--header'>
             <a href={`/profil/${owner.id}`}>
-              <span className='username'>{owner.displayName}</span>
+              <span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} />
             </a> <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
           </div>
 

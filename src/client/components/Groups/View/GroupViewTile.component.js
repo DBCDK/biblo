@@ -1,6 +1,9 @@
 'use strict';
 
+/* eslint-disable react/no-danger */
+
 import React from 'react';
+import twemoji from 'twemoji';
 
 import './scss/group-tile.scss';
 
@@ -47,7 +50,10 @@ export default class GroupViewTile extends React.Component {
         </a>
       </div>
       <div>
-        <div className="group--title"><Icon className="icon" glyph={groupSvg}/> {group.name} </div>
+        <div className="group--title">
+          <Icon className="icon" glyph={groupSvg}/>
+          <span dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
+        </div>
       </div>
       <div> {this.getMembersCountString()} </div>
     </div>);

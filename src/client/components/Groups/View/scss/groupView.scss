@@ -42,6 +42,10 @@
 
   h2 {
     @extend %h2-body;
+
+    .emoji {
+      width: 24px;
+    }
   }
   h3 {
     @extend %h3-body;
@@ -56,5 +60,11 @@
   @include max-screen($desktop - 1px) {
     margin-left: 20px;
     margin-right: 20px;
+  }
+}
+
+.group--description {
+  .emoji {
+    width: 24px;
   }
 }

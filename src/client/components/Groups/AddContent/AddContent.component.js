@@ -64,12 +64,11 @@ export default class AddContent extends React.Component {
         this.setState({isLoading: false});
         if (event.target.status === 200) {
           const addContentReponse = JSON.parse(event.target.response);
-          console.log(addContentReponse);
           if (addContentReponse.errors && addContentReponse.errors.length > 0) {
             this.setState({errorMsg: addContentReponse.errors[0].errorMessage});
           }
           else {
-            this.props.addContentAction();
+            this.props.addContentAction(addContentReponse);
             if (this.props.abort) {
               this.props.abort();
             }

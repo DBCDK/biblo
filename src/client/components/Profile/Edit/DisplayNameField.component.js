@@ -31,6 +31,7 @@ export default function DisplayNameField({defaultValue, errors, onChangeFunc, ch
           placeholder="Dit brugernavn"
           defaultValue={defaultValue}
           onChange={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
+          onBlur={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
         />
         {errors.displayname || ''}
         {displayNameExists ? <Message type="error"><span>Brugernavnet er optaget!</span></Message> : ''}

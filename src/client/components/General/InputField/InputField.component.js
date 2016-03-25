@@ -4,7 +4,7 @@ import React from 'react';
 
 import './inputfield.component.scss';
 
-export default function InputField({defaultValue, error, onChangeFunc, name, title, placeholder, type, required, disabled, autocomplete}) {
+export default function InputField({defaultValue, error, onChangeFunc, name, title, placeholder, type, required, disabled, autocomplete = true}) {
   return (
     <div className={name + '--form-area inputfield'}>
       <label>
@@ -18,6 +18,7 @@ export default function InputField({defaultValue, error, onChangeFunc, name, tit
           placeholder={placeholder}
           defaultValue={defaultValue}
           onChange={onChangeFunc}
+          onBlur={onChangeFunc}
           disabled={disabled}
           autoComplete={autocomplete}
         />

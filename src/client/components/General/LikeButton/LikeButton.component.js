@@ -13,7 +13,7 @@ import heartFullSvg from '../Icon/svg/functions/heart-full.svg';
 
 export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}}) {
 
-  const text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : null;
+  const text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
 
   const glyph = (isLikedByCurrentUser) ? heartFullSvg : heartSvg;
 

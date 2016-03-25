@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
+import Message from '../../General/Message/Message.component';
 
 import 'normalize.css';
 import './_groupform.component.scss';
@@ -23,7 +24,11 @@ export default class GroupForm extends React.Component {
   render() {
     const errorObj = {};
     this.props.errors.forEach((error) => {
-      errorObj[error.field] = (<p className={'errorMessage ' + error.field}>{error.errorMessage}</p>);
+      errorObj[error.field] = (
+        <Message type='error'>
+          <span className={error.field}>{error.errorMessage}</span>
+        </Message>
+      );
     });
 
     let disabled = false;
@@ -39,7 +44,7 @@ export default class GroupForm extends React.Component {
     }
 
     return (
-      <div className="group-form">
+      <div className={'group-form' + (this.props.errors.length > 0 && ' shakeit' || '')}>
         {errorObj.general || ''}
         <form method="POST" encType="multipart/form-data" id="group_form_component" ref="group-form">
           <div className={'group-image-upload'}>

@@ -109,6 +109,10 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
       data.redirect = '/grupper/' + createRes.data.id;
       data.group = createRes.data;
     }
+    else if (createRes.errors && createRes.errors.length > 0) {
+      data.status = 'ERROR';
+      data.errors = errors.concat(createRes.errors);
+    }
     else {
       errors.push({
         field: 'general',
@@ -410,12 +414,31 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     }
   }
   catch (e) {
-    logger.error('An occured when creating a new post/comment', {params: params, error: e});
-    if (req.xhr) {
-      res.sendStatus(400);
+    const errorObj = {
+      message: e.message,
+      name: e.name
+    };
+    if (errorObj.message === 'user is quarantined') {
+      if (req.xhr) {
+        let content = {errors: [{
+          errorMessage: 'Du er i karantæne!',
+          field: 'general'
+        }]};
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(content));
+      }
+      else {
+        res.redirect('/error/403?message=' + encodeURIComponent('Du er i karantæne!'));
+      }
     }
     else {
-      res.redirect('/error');
+      logger.error('An occured when creating a new post/comment', {params: params, error: errorObj});
+      if (req.xhr) {
+        res.sendStatus(400);
+      }
+      else {
+        res.redirect('/error');
+      }
     }
   }
 });

@@ -51,18 +51,18 @@ export class ProfileDetailContainer extends React.Component {
     };
   }
 
-  toggleFollow(group, profileId) {
+  toggleFollow(group, profileId, isMyProfile) {
     if (this.props.profile.userIsLoggedIn) {
       group.following = !group.following;
       this.props.groupActions.asyncGroupFollow(group.following, group.id, profileId);
       this.setState({groups: this.state.groups});
       this.props.uiActions.closeModalWindow();
       this.forceUpdate();
-      this.props.uiActions.openModalWindow(this.renderModalContent());
+      this.props.uiActions.openModalWindow(this.renderModalContent(isMyProfile));
     }
   }
 
-  renderModalContent() {
+  renderModalContent(isMyProfile) {
     return (
       <div className="groups-modal--container">
         {this.state.groups.map((group) => {
@@ -73,12 +73,14 @@ export class ProfileDetailContainer extends React.Component {
                     className="user-feed--groups-modal--group-image"
                     src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
                   />
-                  <div className="user-feed--groups-modal--group-name" dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
+                  <div className="user-feed--groups-modal--group-name"
+                       dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
                 </a>
-                 <Follow active={group.following}
-                         onClick={this.toggleFollow.bind(this, group, this.props.profile.id)}
-                         showLoginLink={false}
-                         text={group.following && 'Følger' || 'Følg gruppen'}/>
+              {isMyProfile ?
+                <Follow active={group.following}
+                        onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
+                        showLoginLink={false}
+                        text={group.following && 'Følger' || 'Følg gruppen'}/> : ''}
                  </span>
           );
         })}
@@ -91,6 +93,7 @@ export class ProfileDetailContainer extends React.Component {
     userProfile = assignToEmpty(userProfile, {
       image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
     });
+    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
 
     let feed = this.props.feed.feed.map((activity) => {
       activity.owner = assignToEmpty({
@@ -105,9 +108,10 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
-                <span dangerouslySetInnerHTML={{__html: title}} />
+                <span dangerouslySetInnerHTML={{__html: title}}/>
                 <span> til et indlæg i gruppen </span>
-                <a href={`/grupper/${activity.post.group.id}`} dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}} />
+                <a href={`/grupper/${activity.post.group.id}`}
+                   dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}}/>
                 <span>:</span>
               </span>
             );
@@ -174,7 +178,8 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i gruppen <a href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i gruppen <a
+                href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
               </span>
             );
           }
@@ -257,7 +262,7 @@ export class ProfileDetailContainer extends React.Component {
 
     let groupsModalContent = '';
     if (this.state.groups && this.state.groups.length > 0) {
-      groupsModalContent = this.renderModalContent();
+      groupsModalContent = this.renderModalContent(isMyProfile);
     }
     else {
       groupsModalContent = (
@@ -279,7 +284,6 @@ export class ProfileDetailContainer extends React.Component {
     );
 
     // include edit button when user views her own page.
-    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
     const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
@@ -310,7 +314,7 @@ export class ProfileDetailContainer extends React.Component {
         {modal}
         {profileImage}
         <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}} />
+          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
           {editButton}
           {desc}
           <div className="p-detail--groups-flag-buttons--container">
@@ -325,7 +329,8 @@ export class ProfileDetailContainer extends React.Component {
         {
           (this.props.feed.feed.length > 0) ?
             (<ActivityRow title={`Se hvad ${currentUserAddressing} har lavet:`}/>) :
-            (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing.charAt(0).toUpperCase()} har ikke lavet noget...</ActivityRow>)
+            (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing.charAt(0).toUpperCase()} har ikke lavet
+              noget...</ActivityRow>)
         }
 
         {feed}

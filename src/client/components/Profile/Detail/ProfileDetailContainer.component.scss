@@ -86,14 +86,26 @@
   }
 }
 
+
+.user-feed--groups-modal--group-name {
+  overflow: hidden;
+  line-height: 2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .user-feed--groups-modal-group-info--container {
 }
 
 .user-feed--groups-modal--group {
+  padding-top: 10px;
   @include max-screen($tablet) {
     @include gallery(6 of 12);
   }
   @include min-screen($tablet + 1) {
     @include gallery(4 of 12);
+  }
+  .follow {
+    padding: 8px 20px;
   }
 }

@@ -15,8 +15,7 @@ describe('GroupsContainer component tests', () => {
   it('should render Opret button and Nyeste grupper', () => {
 
     const data = {
-      groups: [
-      ],
+      groups: [],
       groupsLimit: 15
     };
 
@@ -27,7 +26,7 @@ describe('GroupsContainer component tests', () => {
 
     const comp = TestUtils.renderIntoDocument(<GroupsContainer data={data} actions={actions}/>);
     expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent)
-     .toEqual('Opret ny gruppeNyeste grupper'); //Expect group listing title to be "Nyeste grupper"
+      .toEqual('Opret ny gruppeNyeste grupper'); // Expect group listing title to be "Nyeste grupper"
 
   });
 

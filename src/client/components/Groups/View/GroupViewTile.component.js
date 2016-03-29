@@ -14,7 +14,7 @@ import groupSvg from '../../General/Icon/svg/functions/group.svg';
 export default class GroupViewTile extends React.Component {
 
   getCoverImageUrl() {
-    var url,
+    let url,
       group = this.props.group;
 
     if (group.coverImage) {
@@ -27,7 +27,7 @@ export default class GroupViewTile extends React.Component {
   }
 
   getMembersCountString() {
-    var groupStr,
+    let groupStr,
       group = this.props.group;
 
     if (group.membersCount === 1) {
@@ -40,8 +40,8 @@ export default class GroupViewTile extends React.Component {
   }
 
   render() {
-    var group = this.props.group;
-    var groupUrl = '/grupper/' + group.id;
+    let group = this.props.group;
+    let groupUrl = '/grupper/' + group.id;
 
     return (<div key={group.id} className="group--tile">
       <div>

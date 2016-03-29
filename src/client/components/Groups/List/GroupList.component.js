@@ -6,22 +6,22 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
 import './scss/group-list.scss';
 
-export default
-class GroupList extends React.Component {
+export default class GroupList extends React.Component {
 
   constructor(props) {
     super(props);
   }
 
   render() {
-    const {title, groups, expand, delta = 15, skip = 0, limit,
-      isLoading} = this.props;
-    var hasMore = true;
+    const {title, groups, expand, delta = 15, skip = 0, limit, isLoading} = this.props;
+
+    let hasMore = true;
     if (limit > groups.length) {
       hasMore = false;
     }
 
-    var expandButton;
+    let expandButton;
+
     if (hasMore && expand) {
       expandButton = (
         <ExpandButton className="group-showmore" text="Vis flere"

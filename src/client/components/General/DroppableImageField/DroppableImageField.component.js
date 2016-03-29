@@ -67,17 +67,17 @@ export default class DroppableImageField extends React.Component {
 
   render() {
     return (
-      <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'} onTouchStart={this.handleTouchStart.bind(this)}>
+      <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'} onTouchStart={this.handleTouchStart.bind(this)} >
         <label>
-          <div className="image-and-plus-button-container">
+          <div className="image-and-plus-button-container" >
             <img src={this.props.imageSrc} />
             <Icon glyph={bluePencilSvg} className="upload-plus-button" />
           </div>
           <input accept='image/*' type="file" className="droppable-image-field--file-input" name={this.props.fieldName} ref="droppableimagefieldinput" />
         </label>
-        <p id='drop-files-here-message'>Smid din fil her.</p>
-        <p id='filereader-fallback-message'>Din file vil blive oploadet når du trykker OK.</p>
-        <p id='wrong-filetype-message'>Du kan kun uploade billeder i dette felt, prøv med en anden fil!</p>
+        <p id='drop-files-here-message' >Smid din fil her.</p>
+        <p id='filereader-fallback-message' >Din file vil blive oploadet når du trykker OK.</p>
+        <p id='wrong-filetype-message' >Du kan kun uploade billeder i dette felt, prøv med en anden fil!</p>
       </div>
     );
   }
@@ -89,6 +89,7 @@ DroppableImageField.propTypes = {
   onFile: React.PropTypes.func.isRequired,
   fieldName: React.PropTypes.string.isRequired
 };
+
 DroppableImageField.defaultProps = {
   imageSrc: '/no_profile.png'
 };

@@ -13,7 +13,7 @@ import twemoji from 'twemoji';
 export default function profileParser(profile = {}, isPublic = false, size = false) {
   let p = {};
 
-  p.description = twemoji.parse(profile.description);
+  p.description = twemoji.parse(profile.description || '');
   p.displayName = twemoji.parse(profile.displayName || 'Anonym');
   p.id = profile.id || 0;
   p.groups = profile.groups || [];

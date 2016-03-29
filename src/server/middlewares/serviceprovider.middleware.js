@@ -1,6 +1,8 @@
 'use strict';
 
 function callServiceProvider(req, res, next, event, query, timeout) {
+  const logger = req.app.get('logger');
+
   return new Promise((resolve, reject) => {
     let promises = [];
     let timer;
@@ -23,6 +25,7 @@ function callServiceProvider(req, res, next, event, query, timeout) {
           resolve2(result);
         })
         .catch((err) => {
+          logger.error('An error occurred in callServiceProvider', {event, error: err.message ? err.message : err});
           reject2(err);
         });
     }));
@@ -32,6 +35,7 @@ function callServiceProvider(req, res, next, event, query, timeout) {
       resolve(result);
     }).catch((err) => {
       clearTimeout(timer);
+      logger.error('An error occurred in callServiceProvider', {event, error: err.message ? err.message : err});
       reject(err);
     });
   });

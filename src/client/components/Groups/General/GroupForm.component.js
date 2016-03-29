@@ -45,7 +45,6 @@ export default class GroupForm extends React.Component {
 
     return (
       <div className={'group-form' + (this.props.errors.length > 0 && ' shakeit' || '')}>
-        {errorObj.general || ''}
         <form method="POST" encType="multipart/form-data" id="group_form_component" ref="group-form">
           <div className={'group-image-upload'}>
             <DroppableImageField
@@ -89,6 +88,7 @@ export default class GroupForm extends React.Component {
             {errorObj['group-description'] || ''}
           </div>
 
+          {errorObj.general || ''}
           <div className={'group-form-submit-button'}>
             {submitArea}
           </div>

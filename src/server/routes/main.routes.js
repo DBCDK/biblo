@@ -8,16 +8,16 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
-import https from 'https';
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
-  const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-frontpage/frontpage_content.json';
+  const settingsUrl = config.biblo.getConfig({}).provider.services.community.endpoint +
+    'api/fileContainers/uxdev-biblo-content-frontpage/download/frontpage_content.json';
 
   // fetch page settings from AWS
-  https.get(settingsUrl, (getRes) => {
+  http.get(settingsUrl, (getRes) => {
     let str = '';
 
     getRes.on('data', (chunk) => {

@@ -6,13 +6,13 @@ const getLibraryDetails = {
     return 'getLibraryDetails';
   },
 
-  requestTransform(event, query) {
+  requestTransform(event, query) { // eslint-disable-line no-unused-vars
     return this.callServiceClient('openagency', 'getOpenAgency', {
-        id: [query.agencyId]
+      id: [query.agencyId]
     });
   },
 
-  responseTransform(response, query) {
+  responseTransform(response, query) { // eslint-disable-line no-unused-vars
     // TODO: error handling and response formatting
     return response;
   }

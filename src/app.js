@@ -12,6 +12,7 @@ const newrelic = config.biblo.getConfig({}).newrelic.enabled && require('newreli
 
 // Libraries
 import express from 'express';
+import globalTunnel from 'global-tunnel';
 import * as path from 'path';
 import Logger from 'dbc-node-logger';
 import RedisStore from 'connect-redis';
@@ -52,6 +53,10 @@ module.exports.run = function(worker) {
 
   // Direct requests to app
   server.on('request', app);
+
+  if (process.env.http_proxy) { // eslint-disable-line no-process-env
+    globalTunnel.initialize();
+  }
 
   // Setting bodyparser
   app.use(bodyParser.json());

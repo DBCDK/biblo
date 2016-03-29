@@ -12,6 +12,7 @@ import path from 'path';
 import Borchk from 'dbc-node-borchk';
 import CommunityClient from 'dbc-node-community-client';
 import EntitySuggest from 'dbc-node-entitysuggest';
+import OpenAgency from 'dbc-node-openagency-client';
 
 /**
  * Helper function for registering service clients. If cachetime is defined in config, wrap methods with the
@@ -52,6 +53,7 @@ export default function initProvider(config, logger, sockets) {
   RegisterClientOnProvider('borchk', Borchk);
   RegisterClientOnProvider('community', CommunityClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);
+  RegisterClientOnProvider('openagency', OpenAgency);
 
   // Transforms are autorequired to lessen boilerplate code
   AutoRequire(path.join(__dirname, 'transformers'), 'transform.js')

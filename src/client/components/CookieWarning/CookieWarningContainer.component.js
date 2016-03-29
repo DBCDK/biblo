@@ -20,7 +20,7 @@ export default class CookieWarningContainer extends React.Component {
 
   onClose() {
     Cookies.set('reddi-fe-cookie', 'bum-bum', {expires: 365});
-    this.setState({displayWarning: false})
+    this.setState({displayWarning: false});
   }
 
   render() {

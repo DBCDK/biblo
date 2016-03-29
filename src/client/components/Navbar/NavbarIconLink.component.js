@@ -9,7 +9,7 @@ import Icon from '../General/Icon/Icon.component';
 export default function NavBarIconLink(props) {
   return (
     <a
-      className="navbar--link" href={props.url} onClick={(event) => props.onClick && props.onClick(event)}>
+      className="navbar--link" href={props.url} onClick={(event) => props.onClose && props.onClose(event)}>
       <Icon className={props.className} width={props.width} height={props.height} glyph={props.glyph}/>
     </a>
   );

@@ -12,7 +12,7 @@ import React, {PropTypes} from 'react';
 export default function NavbarLink(props) {
   return (
     <a className='navbar--link' href={props.url}
-       onClick={(event) => props.onClick && props.onClick(event)}>{props.value}</a>
+       onClick={(event) => props.onClose && props.onClose(event)}>{props.value}</a>
   );
 }
 

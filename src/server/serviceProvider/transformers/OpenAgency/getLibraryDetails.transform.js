@@ -1,32 +1,21 @@
 'use strict';
 
-const findSuggestedLibrary = {
+const getLibraryDetails = {
 
   event() {
-    return 'findSuggestedLibrary';
+    return 'getLibraryDetails';
   },
 
-  requestTransform(event, query) {
-    return this.callServiceClient('entitysuggest', 'getLibrarySuggestions', {
-      query: query
+  requestTransform(event, query) { // eslint-disable-line no-unused-vars
+    return this.callServiceClient('openagency', 'getOpenAgency', {
+      id: [query.agencyId]
     });
   },
 
-  responseTransform(response, query) {
-    return {
-      body: {
-        suggestions: response.response.suggestions.map(
-          (suggest) => {
-            return suggest.suggestion;
-          }
-        ),
-        numFound: response.response.numFound,
-        query
-      },
-      statusCode: 200,
-      statusMessage: 'OK'
-    };
+  responseTransform(response, query) { // eslint-disable-line no-unused-vars
+    // TODO: error handling and response formatting
+    return response;
   }
 };
 
-export default findSuggestedLibrary;
+export default getLibraryDetails;

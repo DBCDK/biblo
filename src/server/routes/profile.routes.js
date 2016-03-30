@@ -17,19 +17,41 @@ const ProfileRoutes = express.Router();
 
 ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res) {
   let p = req.session.passport.user.profile.profile;
+
+  let fullProfile = {};
   if (p.isModerator && req.params.id) {
     try {
-      res.locals.profile = JSON.stringify({
-        profile: (await req.callServiceProvider('getFullProfile', {
-          isModerator: p.isModerator,
-          id: req.params.id
-        }))[0].body, errors: []
-      });
+      fullProfile = (await req.callServiceProvider('getFullProfile', {
+        isModerator: p.isModerator,
+        id: req.params.id
+      }))[0].body;
     }
     catch (e) {
-      res.locals.profile = JSON.stringify({profile: {}, errors: [e]});
+      // eslint-disable-line no-empty
     }
   }
+  else {
+    try {
+      fullProfile = (await req.callServiceProvider('getFullProfile', {
+        isModerator: false,
+        id: p.id
+      }))[0].body;
+    }
+    catch (e) {
+      // eslint-disable-line no-empty
+    }
+  }
+
+  // fetch library details and attach to favorite library
+  const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
+  const selectedLibrary = {
+    libraryId: agency.agencyId,
+    libraryName: agency.agencyName,
+    libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+  };
+  fullProfile.favoriteLibrary = selectedLibrary;
+
+  res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
 
   res.render('page', {
     css: ['/css/profileedit.css'],
@@ -50,6 +72,21 @@ ProfileRoutes.post(
         id: req.params.id
       }))[0].body;
     }
+    else {
+      p = (await req.callServiceProvider('getFullProfile', {
+        isModerator: false,
+        id: p.id
+      }))[0].body;
+    }
+
+    // fetch library details and attach to favorite library
+    const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
+    const selectedLibrary = {
+      libraryId: agency.agencyId,
+      libraryName: agency.agencyName,
+      libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+    };
+    p.favoriteLibrary = selectedLibrary;
 
     const b = req.body;
     let updatedProfileObject = {};

@@ -53,6 +53,19 @@ module.exports.run = function(worker) {
   // Direct requests to app
   server.on('request', app);
 
+  // error handler
+  app.use((req, res, next) => {
+    try {
+      next();
+    }
+    catch (err) {
+      logger.error(
+        'An unknown error occurred',
+        {error: (err.message && err.name ? {message: err.message, name: err.name} : err)}
+      );
+    }
+  });
+
   // Setting bodyparser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));

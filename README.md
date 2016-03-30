@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/DBCDK/biblo.svg?branch=master)](https://travis-ci.org/DBCDK/biblo)
 [![Coverage Status](https://coveralls.io/repos/DBCDK/biblo/badge.svg?branch=master&service=github)](https://coveralls.io/github/DBCDK/biblo?branch=master)
 [![Code Climate](https://codeclimate.com/github/DBCDK/biblo/badges/gpa.svg)](https://codeclimate.com/github/DBCDK/biblo)
+[![bitHound Overall Score](https://www.bithound.io/github/DBCDK/biblo/badges/score.svg)](https://www.bithound.io/github/DBCDK/biblo)
 
 As default the application will load on localhost:8080. Se a running example on [biblo.demo.dbc.dk](https://biblo.demo.dbc.dk)
 

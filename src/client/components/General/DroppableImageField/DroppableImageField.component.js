@@ -89,7 +89,8 @@ DroppableImageField.displayName = 'DroppableImageField';
 DroppableImageField.propTypes = {
   imageSrc: React.PropTypes.string,
   onFile: React.PropTypes.func.isRequired,
-  fieldName: React.PropTypes.string.isRequired
+  fieldName: React.PropTypes.string.isRequired,
+  overlayText: React.PropTypes.string
 };
 
 DroppableImageField.defaultProps = {

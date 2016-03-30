@@ -129,7 +129,7 @@ export default class ProfileForm extends React.Component {
                 imageSrc={this.props.profileImageSrc}
                 onFile={this.props.changeImageAction}
                 fieldName={'profile_image'}
-                overlayText={this.props.profileImageSrc == "/no_profile.png"? "Upload dit billede" : ""}
+                overlayText={this.props.profileImageSrc === '/no_profile.png'? 'Upload dit billede' : ''}
               />
               {errorObj.profile_image || ''}
             </div>

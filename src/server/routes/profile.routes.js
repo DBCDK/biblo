@@ -15,7 +15,7 @@ let upload = multer({storage: multer.memoryStorage()});
 
 const ProfileRoutes = express.Router();
 
-ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res) {
+ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res, next) {
   let p = req.session.passport.user.profile.profile;
 
   let fullProfile = {};
@@ -27,7 +27,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
       }))[0].body;
     }
     catch (e) {
-      // eslint-disable-line no-empty
+      return next(e);
     }
   }
   else {
@@ -38,18 +38,25 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
       }))[0].body;
     }
     catch (e) {
-      // eslint-disable-line no-empty
+      return next(e);
     }
   }
 
   // fetch library details and attach to favorite library
-  const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
-  const selectedLibrary = {
-    libraryId: agency.agencyId,
-    libraryName: agency.agencyName,
-    libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
-  };
-  fullProfile.favoriteLibrary = selectedLibrary;
+  if (p && p.favoriteLibrary && p.favoriteLibrary.libraryId) {
+    try {
+      const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
+      const selectedLibrary = {
+        libraryId: agency.agencyId,
+        libraryName: agency.agencyName,
+        libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+      };
+      fullProfile.favoriteLibrary = selectedLibrary;
+    }
+    catch (e) {
+      return next(e);
+    }
+  }
 
   res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
 

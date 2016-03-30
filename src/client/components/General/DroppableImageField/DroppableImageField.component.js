@@ -65,12 +65,14 @@ export default class DroppableImageField extends React.Component {
     this.refs.droppableimagefieldinput.click();
   }
 
+
   render() {
     return (
       <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'} onTouchStart={this.handleTouchStart.bind(this)} >
         <label>
           <div className="image-and-plus-button-container" >
             <img src={this.props.imageSrc} />
+            <div className="droppable-image-overlay">{this.props.overlayText}</div>
             <Icon glyph={bluePencilSvg} className="upload-plus-button" />
           </div>
           <input accept='image/*' type="file" className="droppable-image-field--file-input" name={this.props.fieldName} ref="droppableimagefieldinput" />
@@ -91,5 +93,6 @@ DroppableImageField.propTypes = {
 };
 
 DroppableImageField.defaultProps = {
-  imageSrc: '/no_profile.png'
+  imageSrc: '/no_profile.png',
+  overlayText: ''
 };

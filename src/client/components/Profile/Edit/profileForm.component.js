@@ -97,7 +97,6 @@ export default class ProfileForm extends React.Component {
       );
     }
 
-
     let searchField = null;
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
       searchField = (
@@ -119,6 +118,7 @@ export default class ProfileForm extends React.Component {
       );
     }
 
+
     return (
       <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
         <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')}>
@@ -129,6 +129,7 @@ export default class ProfileForm extends React.Component {
                 imageSrc={this.props.profileImageSrc}
                 onFile={this.props.changeImageAction}
                 fieldName={'profile_image'}
+                overlayText={this.props.profileImageSrc == "/no_profile.png"? "Upload dit billede" : ""}
               />
               {errorObj.profile_image || ''}
             </div>

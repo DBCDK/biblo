@@ -42,7 +42,8 @@
     "**/extjs/src/**",
     "**/extjs/welcome/**",
     "bower_components/**",
-    "**/testlib/**"
+    "**/testlib/**",
+    "*.config.js"
   ],
   "test": [
     "**/test/**",

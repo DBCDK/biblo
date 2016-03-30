@@ -97,6 +97,28 @@ export default class ProfileForm extends React.Component {
       );
     }
 
+
+    let searchField = null;
+    if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
+      searchField = (
+        <div className="search-area">
+          <InputField
+            defaultValue={this.props.search}
+              error={errorObj.search}
+              onChangeFunc={this.props.searchAction}
+              type="text"
+              name="search"
+              title="Bibliotek søger"
+              placeholder="Søg efter dit bibliotek her"
+              autocomplete="off"
+              disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
+              required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
+              />
+          <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements}/>
+        </div>
+      );
+    }
+
     return (
       <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
         <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')}>
@@ -187,22 +209,7 @@ export default class ProfileForm extends React.Component {
                   {libraryDescription}
                 </div>
 
-                <div className="search-area">
-                  <InputField
-                    defaultValue={this.props.search}
-                    error={errorObj.search}
-                    onChangeFunc={this.props.searchAction}
-                    type="text"
-                    name="search"
-                    title="Bibliotek søger"
-                    placeholder="Søg efter dit bibliotek her"
-                    autocomplete="off"
-                    disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
-                    required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
-                  />
-
-                  <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements}/>
-                </div>
+                {searchField}
 
                 <div className='hidden'>
                   <input

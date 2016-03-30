@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
-    "@dbcdk/biblo-config": "^1.9.2",
+    "@dbcdk/biblo-config": "^1.9.3",
     "artillery": "^1.3.11",
     "async": "1.5.0",
     "autolinker": "^0.25.1",
@@ -65,6 +65,7 @@
     "dbc-node-community-client": "^1.0.19",
     "dbc-node-entitysuggest": "^2.0.2",
     "dbc-node-logger": "^1.4.6",
+    "dbc-node-openagency-client": "^2.0.4",
     "dbc-node-serviceprovider": "^3.0.4",
     "dbc-node-serviceprovider-socketclient": "^2.1.2",
     "express": "4.13.4",
@@ -76,6 +77,7 @@
     "helmet": "1.1.0",
     "helmet-csp": "1.0.3",
     "jade": "1.11.0",
+    "js-cookie": "^2.1.0",
     "jsonpath-object-transform": "https://github.com/vibjerg/jsonpath-object-transform/archive/1.0.5.tar.gz",
     "lodash": "4.2.1",
     "modernizr": "^3.3.1",
@@ -148,7 +150,7 @@
     "redux-mock-store": "0.0.6",
     "selenium-webdriver": "2.47.0",
     "sinon": "^1.17.2",
-    "skin-deep": "^0.14.0",
+    "skin-deep": "^0.16.0",
     "wallaby-webpack": "^0.0.21"
   }
 }

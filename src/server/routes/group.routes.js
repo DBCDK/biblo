@@ -34,7 +34,7 @@ const uploadS3 = multer({
     accessKeyId: AMAZON_CONFIG.keyId,
     secretAccessKey: AMAZON_CONFIG.key,
     region: AMAZON_CONFIG.region,
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
       const pid = req.session.passport.user.profile.profile.id;
       const filename = Date.now() + '_' + pid + '_' + file.originalname.replace(new RegExp(' ', 'g'), '_');
       file.filename = filename;
@@ -59,7 +59,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserH
   });
 });
 
-GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
+GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function(req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
@@ -141,22 +141,26 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
   }
 });
 
-GroupRoutes.get('/post/:id', async function (req, res) {
+GroupRoutes.get('/post/:id', async function(req, res) {
   try {
     let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'post'}))[0].body;
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}`);
   }
   catch (e) {
+    const logger = req.app.get('logger');
+    logger.error('An error occured while retrieving a group', {error: e, params: req.params});
     res.redirect('/error/500');
   }
 });
 
-GroupRoutes.get('/kommentar/:id', async function (req, res) {
+GroupRoutes.get('/kommentar/:id', async function(req, res) {
   try {
     let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'comment'}))[0].body;
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}/${req.params.id}#comment_${req.params.id}`);
   }
   catch (e) {
+    const logger = req.app.get('logger');
+    logger.error('An error occured while retrieving a comment', {error: e, params: req.params});
     res.redirect('/error/500');
   }
 });
@@ -282,6 +286,7 @@ function showGroup(groupData, res) {
  * @param params
  * @param req
  * @param res
+ * @param {Object} update
  */
 async function fetchGroupData(params, req, res, update = {}) {
   try {
@@ -316,6 +321,8 @@ async function fetchGroupData(params, req, res, update = {}) {
     showGroup(Object.assign(group, update), res);
   }
   catch (e) {
+    const logger = req.app.get('logger');
+    logger.error('An error occured while fetching groupdata', {error: e, params: params, session: req.session});
     res.redirect('/error');
   }
 }
@@ -341,15 +348,15 @@ function createElasticTranscoderJob(videoData, postId, logger) {
     Input: {
       Key: videoData.videofile
     },
-    PipelineId: '1456826915509-r6pfck',
+    PipelineId: AMAZON_CONFIG.transcoding.pipelineId,
     Output: {
       Key: `${videoData.pureFileName}.mp4`,
-      PresetId: '1458561295144-kcngbn', // WEB-Biblo-preset
+      PresetId: AMAZON_CONFIG.transcoding.presetId,
       ThumbnailPattern: `${videoData.pureFileName}_thumb_{count}`
     },
     UserMetadata: {
       postId: postId,
-      destinationContainer: 'uxdev-biblo-output-videobucket', // our output bucket
+      destinationContainer: AMAZON_CONFIG.buckets.videoOutputBucket,
       mimetype: 'video/mp4' // mimetype af output
     }
   };
@@ -367,7 +374,7 @@ function createElasticTranscoderJob(videoData, postId, logger) {
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function (req, res) {
+GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function(req, res) {
   const logger = req.app.get('logger');
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
   let params = {
@@ -420,10 +427,12 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     };
     if (errorObj.message === 'user is quarantined') {
       if (req.xhr) {
-        let content = {errors: [{
-          errorMessage: 'Du er i karantæne!',
-          field: 'general'
-        }]};
+        let content = {
+          errors: [{
+            errorMessage: 'Du er i karantæne!',
+            field: 'general'
+          }]
+        };
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(content));
       }
@@ -477,8 +486,14 @@ function listGroups(groupData, res) {
 }
 
 async function getGroups(params, req, res, update = {}) {
-  let response = (await req.callServiceProvider('listGroups', {}))[0];
-  listGroups(Object.assign(response, update), res);
+  try {
+    let response = (await req.callServiceProvider('listGroups', {}))[0];
+    listGroups(Object.assign(response, update), res);
+  }
+  catch (e) {
+    const logger = req.app.get('logger');
+    logger.error('An error occured while retrieving groups', {error: e});
+  }
 }
 GroupRoutes.get('/', (req, res) => getGroups(req.params, req, res));
 

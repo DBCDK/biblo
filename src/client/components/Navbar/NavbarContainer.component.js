@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ClickOverlay from 'General/ClickOverlay/ClickOverlay.Component.js';
+import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
 import NavbarLink from './NavbarLink.component.js';
 import NavbarIconLink from './NavbarIconLink.component.js';
 import NavbarToggle from './NavbarToggle.component.js';

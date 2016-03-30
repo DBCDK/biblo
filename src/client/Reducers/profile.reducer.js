@@ -7,6 +7,7 @@
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 
+
 let initialState = {
   username: '',
   displayName: '',
@@ -53,6 +54,7 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
 
 let statusMessage = document.getElementById('JSONDATA');
 
+
 if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
   let statusMessageData = JSON.parse(statusMessage.innerHTML);
   if (statusMessageData && statusMessageData.status === 'ERROR') {
@@ -75,11 +77,14 @@ if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length >
       initialState.errors.push(error);
     });
   }
+
+
 }
 
 export default function profileReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
+
     case types.GET_USER_PROFILE:
       return state;
 

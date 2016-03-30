@@ -12,6 +12,10 @@
   }
 
   label {
+    img {
+      pointer-events: none;
+    }
+
     display: block;
     text-align: center;
     cursor: pointer;

@@ -5,7 +5,8 @@
  * Configure main routes
  */
 import express from 'express';
-import https from 'https';
+import config from '@dbcdk/biblo-config';
+import http from 'http';
 
 const ContentRoutes = express.Router();
 
@@ -22,10 +23,13 @@ ContentRoutes.get('/:id', (req, res) => {
     res.send('invalid');
   }
 
-  const settingsUrl = 'https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-article/' + contentId + '/settings.json';
+  const settingsUrl = config.biblo.getConfig({}).provider.services.community.endpoint +
+    'api/fileContainers/uxdev-biblo-content-article/download/' +
+    encodeURIComponent(contentId + '/settings.json');
+
 
   // fetch page settings from AWS
-  https.get(settingsUrl, (getRes) => {
+  http.get(settingsUrl, (getRes) => {
     let str = '';
 
     getRes.on('data', (chunk) => {

@@ -88,7 +88,6 @@ export default class ProfileForm extends React.Component {
     if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
       libraryDescription = (
         <div>
-          Du har valgt følgende bibliotek: <br />
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />
           <RoundedButton clickFunction={() => this.props.unselectLibraryFunction()}
@@ -96,7 +95,6 @@ export default class ProfileForm extends React.Component {
         </div>
       );
     }
-
 
     let searchField = null;
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
@@ -108,7 +106,7 @@ export default class ProfileForm extends React.Component {
               onChangeFunc={this.props.searchAction}
               type="text"
               name="search"
-              title="Bibliotek søger"
+              title="Vælg dit bibliotek"
               placeholder="Søg efter dit bibliotek her"
               autocomplete="off"
               disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
@@ -118,6 +116,7 @@ export default class ProfileForm extends React.Component {
         </div>
       );
     }
+
 
     return (
       <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
@@ -129,6 +128,7 @@ export default class ProfileForm extends React.Component {
                 imageSrc={this.props.profileImageSrc}
                 onFile={this.props.changeImageAction}
                 fieldName={'profile_image'}
+                overlayText={this.props.profileImageSrc === '/no_profile.png'? 'Upload dit billede' : ''}
               />
               {errorObj.profile_image || ''}
             </div>
@@ -225,7 +225,7 @@ export default class ProfileForm extends React.Component {
                   onChangeFunc={(e) => this.setState({loanerId: e.target.value})}
                   type="text"
                   name="loanerId"
-                  title="Lånernummer"
+                  title="Dit lånernummer"
                   placeholder="Lånernummer"
                 />
 
@@ -234,7 +234,7 @@ export default class ProfileForm extends React.Component {
                   onChangeFunc={(e) => this.setState({pincode: e.target.value})}
                   type="text"
                   name="pincode"
-                  title="Pinkode"
+                  title="Din pinkode"
                   placeholder="Pinkode"
                 />
               </div>

@@ -30,10 +30,10 @@ function runAllTests(driverCaps) {
       driver.get(BASE_URL + endpoint);
       driver.wait(webdriver.until.elementIsVisible(driver.findElement({tagName: 'body'})), driverTimeout);
       const body = driver.findElement({tagName: 'body'});
-      const header = body.findElement({tagName: 'h1'});
+      const header = body.findElement({tagName: 'h2'});
 
       header.getText().then((text) => {
-        assert.equal(text, 'Funkys Venner');
+        assert.equal(text, 'VELKOMMEN TIL BIBLO');
       });
     });
   });

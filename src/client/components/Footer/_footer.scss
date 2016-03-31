@@ -24,11 +24,24 @@
 }
 
 .footer--left-coloumn {
-  @include span(6 of 12);
+  @include max-screen($tablet) {
+    @include span (12 of 12)
+  }
+
+  @include min-screen($tablet +1) {
+    @include span(6 of 12);
+  }
+
 }
 
 .footer--right-coloumn {
-  @include span(5 of 12);
+  @include max-screen($tablet) {
+    @include span(12 of 12);
+  }
+
+  @include min-screen($tablet +1) {
+    @include span(5 of 12);
+  }
 
   a {
     color: white;

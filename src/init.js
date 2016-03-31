@@ -9,4 +9,7 @@ require('babel-register')({
 });
 
 module.exports.run = function() {
+  require('pmx').init({
+    ignore_routes: [/socketcluster/]
+  });
 };

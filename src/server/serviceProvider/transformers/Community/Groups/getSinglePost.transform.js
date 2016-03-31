@@ -11,7 +11,7 @@ const GetPostsTransform = {
   requestTransform(event, {id, filter = {}}, connection) { // eslint-disable-line no-unused-vars
 
     const postFilter = {
-      where: {id},
+      where: {id, markedAsDeleted: null},
       include: ['image', {owner: ['image']}, 'likes']
     };
 

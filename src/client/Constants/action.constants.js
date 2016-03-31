@@ -53,6 +53,7 @@ export const GROUP_LOADING_MORE_COMMENTS = 'GROUP_LOADING_MORE_COMMENTS';
 
 // Post Actions
 export const ADD_POST = 'ADD_POST';
+export const DELETE_POST = 'DELETE_POST';
 
 // Entity Suggest Actions
 export const FIND_LIBRARIES = 'FIND_LIBRARIES';

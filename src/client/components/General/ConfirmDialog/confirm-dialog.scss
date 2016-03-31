@@ -1,0 +1,19 @@
+@import 'tools';
+
+.confirm-dialog--content {
+  padding: 20px;
+}
+
+.confirm-dialog--button-group {
+}
+
+.confirm-dialog--button {
+  float: right;
+  &.confirm {
+    @include button($melrose);
+  }
+  &.cancel {
+    @include button($carnation);
+    margin-right: 10px;
+  }
+}

@@ -316,6 +316,7 @@ async function fetchGroupData(params, req, res, update = {}) {
     ]));
 
     const group = response[0][0];
+
     group.posts = Array.isArray(response[1][0]) ? response[1][0] : [response[1][0]];
     group.numberOfPostsLoaded = group.posts.length;
     showGroup(Object.assign(group, update), res);

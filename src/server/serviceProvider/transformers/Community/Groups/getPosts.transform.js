@@ -31,7 +31,7 @@ const GetPostsTransform = {
       limit: limit,
       skip: skip,
       counts: 'comments',
-      where: {groupid: id},
+      where: {groupid: id, markedAsDeleted: null},
       order: 'timeCreated DESC',
       include: [
         'image', {

@@ -12,6 +12,7 @@ import CommentList from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import LikeButton from '../../General/LikeButton/LikeButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
+import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
@@ -36,6 +37,7 @@ export default class PostView extends React.Component {
     this.submitPostFlag = this.submitPostFlag.bind(this);
     this.likePost = this.likePost.bind(this);
     this.unlikePost = this.unlikePost.bind(this);
+    this.deletePost = this.deletePost.bind(this);
     this.submitCommentFlag = this.submitCommentFlag.bind(this);
   }
 
@@ -73,6 +75,31 @@ export default class PostView extends React.Component {
       postId: this.props.id,
       profileId: this.props.profile.id
     });
+  }
+
+  deletePost() {
+
+    const content = (
+      <div>
+        <p>Du er ved at slette et indlæg, du selv har skrevet. Hvis andre brugere har svaret på dit indlæg, vil det også blive slettet.</p>
+        <p>Er du sikker på, at du vil slette indlægget og alle svar?</p>
+      </div>
+    );
+
+    const dialog = (
+      <ConfirmDialog
+      cancelButtonText={'Fortryd'}
+      confirmButtonText={'Slet Indlæg'}
+      cancelFunc={() => {
+        this.props.uiActions.closeModalWindow();
+      }}
+      confirmFunc={() => {
+        this.props.groupActions.asyncDeletePost(this.props.id);
+        this.props.uiActions.closeModalWindow();
+      }}
+      >{content}</ConfirmDialog>
+    );
+    this.props.uiActions.openModalWindow(dialog);
   }
 
   toggleEditting() {
@@ -173,7 +200,7 @@ export default class PostView extends React.Component {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
                         abort={() => this.toggleEditting()} text={content} image={image} id={id}
-                        addContentAction={groupActions.editPost} />
+                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} />
             ||
             <div className='post--content-wrapper' >
               {
@@ -222,7 +249,6 @@ export default class PostView extends React.Component {
                onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
           }
           {likeButton}
-
         </div>
       </div>
     );

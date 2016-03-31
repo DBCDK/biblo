@@ -8,9 +8,11 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
+import AWS from 'aws-sdk';
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
+const s3 = new AWS.S3();
 
 MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
   const settingsUrl = config.biblo.getConfig({}).provider.services.community.endpoint +
@@ -78,12 +80,12 @@ MainRoutes.get('/billede/:id/:size', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=360000');
   req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size})
     .then((result) => {
-      const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + result[0].body.url;
-
-      res.setHeader('Content-Type', result[0].body.type);
-      http.get(imageUrl, function(result2) {
-        result2.pipe(res);
-      });
+      res.redirect(
+        s3.getSignedUrl('getObject', {
+          Bucket: result[0].body.container,
+          Key: result[0].body.name
+        })
+      );
     })
     .catch((err) => {
       res.send(JSON.stringify({errors: [err]}));

@@ -39,7 +39,8 @@ const getUserFeedTransform = {
       };
 
       const postsWhere = {
-        postownerid: userId
+        postownerid: userId,
+        markedAsDeleted: null
       };
 
       const postsFilter = {

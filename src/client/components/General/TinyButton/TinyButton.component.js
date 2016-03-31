@@ -13,6 +13,7 @@ const TinyButton = ({icon, clickFunction, active}) => {
   return (
     <span className={classnames(classes)} onClick={clickFunction}>
       <a>{icon}</a>
+      <div className="tiny-button--click-overlay"> </div>
     </span>
   );
 };

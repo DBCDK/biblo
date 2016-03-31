@@ -105,9 +105,11 @@ export class GroupViewContainer extends React.Component {
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
                         groupActions={this.props.groupActions} uiActions={this.props.uiActions} flagActions={this.props.flagActions} likeActions={this.props.likeActions}/>
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
-              <ExpandButton isLoading={this.props.group.loadingPosts}
+              <div className="expand-wrapper">
+                <ExpandButton isLoading={this.props.group.loadingPosts}
                             onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
                             text="Vis flere"/>
+               </div>
               }
             </div>
           </div>

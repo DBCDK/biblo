@@ -14,6 +14,14 @@
   @include min-screen($desktop) {
     @include span(8);
   }
+
+  .expand-wrapper {
+    margin-left: 100px;
+    @include max-screen($tablet) {
+      text-align: center;
+    }
+  }
+
   .expand-button {
     border: 1px solid $light-gray;
     @extend %fredoka-button;

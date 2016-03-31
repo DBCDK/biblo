@@ -2,6 +2,9 @@
 
 .article {
   @include container();
+  img {
+    width: 100%;
+  }
 }
 
 .article-header {

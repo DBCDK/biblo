@@ -8,7 +8,6 @@ import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submi
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
 import Message from '../../General/Message/Message.component';
 
-import 'normalize.css';
 import './_groupform.component.scss';
 
 export default class GroupForm extends React.Component {

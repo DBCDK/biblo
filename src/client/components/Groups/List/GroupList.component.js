@@ -40,9 +40,10 @@ export default class GroupList extends React.Component {
             <GroupViewTile key={item.id} group={item}/>
           ))
         }
-        </div>
-        <div className="group--showmore">
-          {expandButton}
+          <div className="group--showmore">
+            {expandButton}
+          </div>
+
         </div>
 
       </div>

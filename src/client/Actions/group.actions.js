@@ -15,6 +15,7 @@ const listGroups = SocketClient('listGroups');
 const leaveGroup = SocketClient('leaveGroup');
 const getGroupListener = once(getGroup.response);
 const loadPosts = SocketClient('getPosts');
+const markPostAsDeleted = SocketClient('deletePost');
 const loadComments = SocketClient('getComments');
 
 export function asyncChangeImage(file) {
@@ -373,5 +374,19 @@ export function showMoreComments(id, comments, numberOfCommentsLoaded) {
     id,
     comments,
     numberOfCommentsLoaded
+  };
+}
+
+export function asyncDeletePost(postId) {
+  return function (dispatch) {
+    dispatch(deletePost(postId));
+    markPostAsDeleted.request({id: postId});
+  };
+}
+
+export function deletePost(postId) {
+  return {
+    type: types.DELETE_POST,
+    postId: postId
   };
 }

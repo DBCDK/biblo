@@ -24,8 +24,7 @@ if (data && data.innerHTML && data.innerHTML.length > 0) {
   image = JSON.parse(data.innerHTML);
 }
 
-export default
-class NavbarContainer extends React.Component {
+export default class NavbarContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,9 +84,10 @@ class NavbarContainer extends React.Component {
         <div className="navbar--container">
           <div className="navbar--menu">
             <ul className="inline-list">
-              <a href={DET_SKER_PAGE}> <Icon icon="profile" width='100' height='30'
-                                                                   glyph={bibloSvg}/>
-              </a>
+              <li>
+                <a className='bibloLogo' href={DET_SKER_PAGE}>
+                  <Icon icon="profile" width='100' height='30' glyph={bibloSvg}/>
+              </a></li>
               <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
             </ul>
           </div>

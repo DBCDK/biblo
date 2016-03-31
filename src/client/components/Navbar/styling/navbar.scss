@@ -1,6 +1,5 @@
 @import 'settings';
 @import 'tools';
-
 @import 'navbar-icons';
 
 .navbar {
@@ -11,11 +10,12 @@
   @include clearfix();
   vertical-align: middle;
   @include max-screen($tablet) {
-    padding: 20px;
+    padding: 0px 20px 0px 20px;
   }
+  height: 80px;
+
   background-color: $black;
   @include min-screen($tablet + 1) {
-    height: 80px;
     position: relative;
     z-index: 102;
     padding: 0 20px;
@@ -24,9 +24,16 @@
 
 .navbar--menu {
   @include span(6);
-  @include max-screen(600px) {
-    display: none;
+  .bibloLogo {
+    display: block;
   }
+
+  .navbar--link {
+    @include max-screen(600px) {
+      display: none;
+    }
+  }
+
   vertical-align: middle;
   ul {
     @extend %inline-list;

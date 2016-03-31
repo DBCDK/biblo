@@ -16,9 +16,12 @@
   }
 
   .expand-wrapper {
-    margin-left: 100px;
     @include max-screen($tablet) {
       text-align: center;
+    }
+
+    @include min-screen($tablet + 1) {
+      margin-left: 100px;
     }
   }
 

@@ -5,6 +5,7 @@
   @include container();
 
   padding-right: 5px;
+  padding-bottom: 20px;
   h2 {
     height: 12px;
   }
@@ -14,10 +15,19 @@
     list-style-type: none;
     padding-left: 0;
   }
+  .expand-button {
+    border: 1px solid $light-gray;
+    @extend %fredoka-button;
+    svg {
+      fill: $melrose;
+    }
+  }
 }
 
 .group--showmore {
-  text-align: right;
   clear: both;
+  @include max-screen($tablet) {
+    text-align: center;
+  }
 }
 

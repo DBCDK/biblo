@@ -16,9 +16,12 @@ import './icon.scss';
 
 export default function Icon({glyph, width = 16, height = 16, className = 'icon'}) {
   return (
-    <svg className={className} width={width} height={height} >
-      <use xlinkHref={glyph} />
-    </svg>
+    <span className={className + '--container'} style={{width, height, position: 'relative'}}>
+      <svg className={className} width={width} height={height} >
+        <use xlinkHref={glyph} />
+      </svg>
+      <div className="icon--svg--click-overlay"></div>
+    </span>
   );
 }
 

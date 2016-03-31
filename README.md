@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/DBCDK/biblo.svg?branch=master)](https://travis-ci.org/DBCDK/biblo)
 [![Coverage Status](https://coveralls.io/repos/DBCDK/biblo/badge.svg?branch=master&service=github)](https://coveralls.io/github/DBCDK/biblo?branch=master)
 [![Code Climate](https://codeclimate.com/github/DBCDK/biblo/badges/gpa.svg)](https://codeclimate.com/github/DBCDK/biblo)
+[![bitHound Overall Score](https://www.bithound.io/github/DBCDK/biblo/badges/score.svg)](https://www.bithound.io/github/DBCDK/biblo)
 
 As default the application will load on localhost:8080. Se a running example on [biblo.demo.dbc.dk](https://biblo.demo.dbc.dk)
 
@@ -29,34 +30,34 @@ mv config.example.js config.js
 ## Environment Varibles
 The following environment variables can be used to override default settings in the application
 
-- __EMAIL_REDIRECT__  
+- __EMAIL_REDIRECT__
 Used when a user creates a new account. The value given in `EMAIL_REDIRECT` will be used as basepath in the link that'll appear in the confirmation email sent to the user.
 Typically you'll want the value in `EMAIL_REDIRECT` to be the same as the basepath for the given site the user is signing up at. I.e pg.demo.dbc.dk.  
   
   The default value is `localhost`
 
-- __KAFKA_TOPIC__  
-(inherited from [dbc-node-logger](https://www.npmjs.com/package/dbc-node-logger))  
+- __KAFKA_TOPIC__
+(inherited from [dbc-node-logger](https://www.npmjs.com/package/dbc-node-logger))
 This defines which topic in Kafka the log messages should be associated with 
 
-- __KAFKA_HOST__  
-(inherited from [dbc-node-logger](https://www.npmjs.com/package/dbc-node-logger))  
+- __KAFKA_HOST__
+(inherited from [dbc-node-logger](https://www.npmjs.com/package/dbc-node-logger))
 String that defines the Zookeeper connectionstring. Should be defined as `host:port`. see [winston-kafka-transport](https://www.npmjs.com/package/winston-kafka-transport) and [dbc-node-logger](https://www.npmjs.com/package/dbc-node-logger) 
 
-- __NEW_RELIC_APP_NAME__  
+- __NEW_RELIC_APP_NAME__
 This variable is used to configure the name with which the application should appear in New Relic but also elsewhere.
 Currently this value is also used to identify the application in logs and appended to secrets used in Redis.  
   
   The default value is `app_name`
 
-- __NODE_APPLICATION__  
+- __NODE_APPLICATION__
 Use this varialbe to let the application how stylesheets are compiled and which jade templates are used.
 Currently two values are used to control compiling of SASS and delivering of templates:
   - `pg` Should be used when building Palles Gavebod
   
   The default value is `pg`
 
-- __PORT__  
+- __PORT__
 Defines which portnumber the application should use when bootinh up.
 If `PORT` is undefined the application will be accecsible at port 8080 (i.e. localhost:8080)  
   
@@ -78,7 +79,7 @@ Defines if a worker reboots on crash. (This does not apply to the whole applicat
   The default value is `true`
 
 ## New Relic
-As New Relic is used by DBC A/S this application requires New Relic to be configured.  
+As New Relic is used by DBC A/S this application requires New Relic to be configured.
 If you want to run the application but can't provide a New Relic configuration you can start the application with `NEW_RELIC_NO_CONFIG_FILE=true` which will throw an error but wont crash your application.
 
 ## Testing

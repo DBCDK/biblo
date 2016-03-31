@@ -1,8 +1,11 @@
 'use strict';
 let config = require('./saucelabs.config');
 let assert = require('assert');
+let expect = require('expect');
 let test = require('selenium-webdriver/testing');
 let webdriver = require('selenium-webdriver');
+let bibloconfig = require('@dbcdk/biblo-config');
+let crypto = require('crypto');
 
 let isSauceLabsTest = false;
 let sauceLabsCaps = config.saucelabs.browserCaps;
@@ -30,10 +33,30 @@ function runAllTests(driverCaps) {
       driver.get(BASE_URL + endpoint);
       driver.wait(webdriver.until.elementIsVisible(driver.findElement({tagName: 'body'})), driverTimeout);
       const body = driver.findElement({tagName: 'body'});
-      const header = body.findElement({tagName: 'h1'});
+      const header = body.findElement({tagName: 'h2'});
 
       header.getText().then((text) => {
-        assert.equal(text, 'Funkys Venner');
+        assert.equal(text, 'VELKOMMEN TIL BIBLO');
+      });
+    });
+
+    test.it('Test a user can login', () => {
+      const uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
+      let date = new Date();
+      let timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
+      let user = 'bobby_hansen';
+      let auth = crypto
+        .createHash('md5')
+        .update(timestamp + uniloginSecret + user)
+        .digest('hex');
+      let ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';
+      let url = `${BASE_URL}/login?auth=${auth}&timestamp=${timestamp}&user=${user}&ltoken=${ltoken}`;
+
+      driver.get(url);
+      driver.wait(webdriver.until.elementIsVisible(driver.findElement({tagName: 'body'})), driverTimeout);
+      const body = driver.findElement({tagName: 'body'});
+      body.getText().then((text) => {
+        expect(text).toContain('Redigér Profil');
       });
     });
   });

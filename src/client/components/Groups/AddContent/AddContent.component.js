@@ -211,6 +211,16 @@ export default class AddContent extends React.Component {
   }
 
   render() {
+
+    let deleteButton = null;
+    if (this.props.delete) {
+      deleteButton = (
+        <a className="button delete" onClick={() => this.props.delete()}>
+          <span>Slet</span>
+        </a>
+      );
+    }
+
     if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
         <div className='content-add'>
@@ -278,6 +288,7 @@ export default class AddContent extends React.Component {
               <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
                      value="Fortryd"/>
             }
+            {deleteButton}
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
                 <input
@@ -304,6 +315,7 @@ export default class AddContent extends React.Component {
 AddContent.displayName = 'AddContent';
 AddContent.propTypes = {
   abort: React.PropTypes.func,
+  delete: React.PropTypes.func,
   addContentAction: React.PropTypes.func.isRequired,
   autofocus: React.PropTypes.bool,
   profile: React.PropTypes.object.isRequired,

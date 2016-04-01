@@ -82,6 +82,10 @@
       @include button($carnation);
       margin-right: 10px;
     }
+    &.delete {
+      @include button($melrose);
+      margin-right: 10px;
+    }
   }
 }
 

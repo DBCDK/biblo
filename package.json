@@ -93,6 +93,7 @@
     "path": "^0.12.7",
     "pmx": "^0.6.1",
     "postcss-loader": "^0.8.0",
+    "proxy-agent": "^2.0.0",
     "react": "0.14.8",
     "react-addons-test-utils": "0.14.8",
     "react-dom": "0.14.8",

@@ -16,6 +16,8 @@ import * as path from 'path';
 import Logger from 'dbc-node-logger';
 import RedisStore from 'connect-redis';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
+import AWS from 'aws-sdk';
+import ProxyAgent from 'proxy-agent';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
@@ -83,12 +85,46 @@ module.exports.run = function(worker) {
   // EMAIL Redirect requires port to be defined therefore it must come after
   const EMAIL_REDIRECT = process.env.EMAIL_REDIRECT || 'localhost:' + app.get('port'); // eslint-disable-line no-process-env
 
+  // Configure amazon
+  let amazonConfig;
+
+  if (process.env.AMAZON_S3_KEY && process.env.AMAZON_S3_KEYID) { // eslint-disable-line no-process-env
+    amazonConfig = {
+      key: process.env.AMAZON_S3_KEY, // eslint-disable-line no-process-env
+      keyId: process.env.AMAZON_S3_KEYID // eslint-disable-line no-process-env
+    };
+  }
+  else if (require('@dbcdk/biblo-config').communityservice.amazon) {
+    amazonConfig = require('@dbcdk/biblo-config').communityservice.amazon;
+  }
+  else {
+    amazonConfig = {
+      key: '',
+      keyId: ''
+    };
+  }
+
+  AWS.config.update({
+    region: amazonConfig.region,
+    accessKeyId: amazonConfig.keyId,
+    secretAccessKey: amazonConfig.key
+  });
+
+  if (process.env.http_proxy) { // eslint-disable-line no-process-env
+    AWS.config.update({
+      httpOptions: {
+        agent: ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
+      }
+    });
+  }
+
   // Configure app variables
   app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker));
   app.set('logger', logger);
   app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);
   app.set('Configuration', config);
+  app.set('amazonConfig', amazonConfig);
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));

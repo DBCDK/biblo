@@ -125,6 +125,7 @@ module.exports.run = function(worker) {
   app.set('APPLICATION', APPLICATION);
   app.set('Configuration', config);
   app.set('amazonConfig', amazonConfig);
+  app.set('s3', new AWS.S3());
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));

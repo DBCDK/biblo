@@ -88,10 +88,10 @@ module.exports.run = function(worker) {
   // Configure amazon
   let amazonConfig;
 
-  if (process.env.AMAZON_S3_KEY && process.env.AMAZON_S3_KEYID) {
+  if (process.env.AMAZON_S3_KEY && process.env.AMAZON_S3_KEYID) { // eslint-disable-line no-process-env
     amazonConfig = {
-      key: process.env.AMAZON_S3_KEY,
-      keyId: process.env.AMAZON_S3_KEYID
+      key: process.env.AMAZON_S3_KEY, // eslint-disable-line no-process-env
+      keyId: process.env.AMAZON_S3_KEYID // eslint-disable-line no-process-env
     };
   }
   else if (require('@dbcdk/biblo-config').communityservice.amazon) {
@@ -110,10 +110,10 @@ module.exports.run = function(worker) {
     secretAccessKey: amazonConfig.key
   });
 
-  if (process.env.http_proxy) {
+  if (process.env.http_proxy) { // eslint-disable-line no-process-env
     AWS.config.update({
       httpOptions: {
-        agent: ProxyAgent(process.env.http_proxy)
+        agent: ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
       }
     });
   }

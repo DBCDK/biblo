@@ -47,8 +47,7 @@
     }
 
     .droppable-image-field--file-input {
-      width: 0px;
-      height: 0px;
+      display:none;
       cursor: pointer;
     }
   }

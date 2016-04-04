@@ -29,6 +29,12 @@ export default function groupViewReducer(state = initialState, action = {}) {
   switch (action.type) {
     case types.GET_GROUP:
       return state;
+    case types.DELETE_POST:
+      let postsAfterDelete = [...state.posts];
+      postsAfterDelete = filter(postsAfterDelete, (post)=> {
+        return action.postId !== post.id;
+      });
+      return assignToEmpty(state, {posts: postsAfterDelete});
     case types.GROUP_FOLLOW:
       return assignToEmpty(state, {isFollowing: action.enableFollow});
     case types.GROUP_MEMBERS_EXPAND:

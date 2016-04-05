@@ -30,7 +30,9 @@ initialState.feed = json_feed_data.feed || [];
 initialState.count = assignToEmpty(initialState.count, json_feed_data.count || {});
 initialState.profile = assignToEmpty(initialState.profile, json_feed_data.profile || {});
 
+
 export default function profileFeedReducer(state = initialState, action = {}) {
+
   Object.freeze(state);
   switch (action.type) {
     case types.GET_USER_FEED:
@@ -83,6 +85,24 @@ export default function profileFeedReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         feed: unlikedFeedCopy
       });
+    case types.GROUP_EDIT_POST:
+      const postFeedCopy = [...state.feed];
+      postFeedCopy.forEach((activity) => {
+        if (activity.type === 'post' && activity.postcontainergroupid === action.post.groupid && action.post.id === activity.id) {
+          activity.content = action.post.content;
+          activity.html = action.post.content;
+        }
+      });
+      return assignToEmpty(state, {postFeedCopy});
+    case types.GROUP_EDIT_COMMENT:
+      const commentFeedCopy = [...state.feed];
+      commentFeedCopy.forEach((activity) => {
+        if (activity.type === 'comment' && activity.commmentcontainerpostid === action.postid && action.comment.id === activity.id) {
+          activity.content = action.comment.content;
+          activity.html = action.comment.content;
+        }
+      });
+      return assignToEmpty(state, {feed: commentFeedCopy});
 
     default:
       return state;

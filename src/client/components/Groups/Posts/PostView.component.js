@@ -45,7 +45,12 @@ export default class PostView extends React.Component {
     if (event) {
       event.preventDefault();
     }
-    this.setState({isCommentInputVisible: !this.state.isCommentInputVisible});
+    // if edit comment is initialed then close the post editor
+    let isEditing = this.state.isEditting;
+    if (!this.state.isCommentInputVisible) {
+      isEditing = false;
+    }
+    this.setState({isCommentInputVisible: !this.state.isCommentInputVisible, isEditting: isEditing});
   }
 
   submitPostFlag(flag) { // eslint-disable-line
@@ -103,7 +108,12 @@ export default class PostView extends React.Component {
   }
 
   toggleEditting() {
-    this.setState({isEditting: !this.state.isEditting});
+    // if edit post is initialed then close the comment editor
+    let isCommentInputVisible = this.state.isCommentInputVisible;
+    if (!this.state.isEditting) {
+      isCommentInputVisible = false;
+    }
+    this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
   }
 
   getVideoPlayer() {

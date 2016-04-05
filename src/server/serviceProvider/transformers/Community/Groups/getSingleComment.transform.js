@@ -13,7 +13,22 @@ const GetSingleCommentsTransform = {
     const commentFilter = {
       where: {id: id},
       order: 'timeCreated DESC',
-      include: ['image', {owner: ['image']}]
+      include: [
+        'image',
+        {owner: ['image']},
+        {
+          relation: 'video',
+          scope: {
+            include: [
+              {
+                relation: 'resolutions',
+                scope: {
+                  include: ['video']
+                }
+              }]
+          }
+        }
+      ]
     };
 
     return this.callServiceClient('community', 'getComments', {id, filter: commentFilter});

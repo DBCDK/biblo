@@ -76,17 +76,20 @@ MainRoutes.get('/error', (req, res) => {
 
 MainRoutes.get('/billede/:id/:size', (req, res) => {
   const s3 = req.app.get('s3');
+  const logger = req.app.get('logger');
   res.setHeader('Cache-Control', 'public, max-age=360000');
   req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size})
     .then((result) => {
-      res.redirect(
-        s3.getSignedUrl('getObject', {
-          Bucket: result[0].body.container,
-          Key: result[0].body.name
-        })
-      );
+      let imageUrl = s3.getSignedUrl('getObject', {
+        Bucket: result[0].body.container,
+        Key: result[0].body.name
+      });
+
+      setTimeout(() => res.redirect(imageUrl), 50);
+      logger.info('got image url', {url: imageUrl});
     })
     .catch((err) => {
+      logger.error('An error occurred while getting image!', {error: err});
       res.send(JSON.stringify({errors: [err]}));
     });
 });

@@ -14,7 +14,7 @@ const GetSingleCommentsTransform = {
       where: {id: id},
       order: 'timeCreated DESC',
       include: [
-        'image', 
+        'image',
         {owner: ['image']},
         {
           relation: 'video',

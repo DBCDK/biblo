@@ -24,3 +24,10 @@
 
 }
 
+.like-button--inactive {
+  cursor: default;
+  &:hover {
+    fill: $carnation;;
+  }
+}
+

@@ -11,7 +11,7 @@ import heartFullSvg from '../Icon/svg/functions/heart-full.svg';
  * Creates a binary 'Like' button
  */
 
-export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}}) {
+export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}, active=false}) {
 
   const text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
 
@@ -19,8 +19,10 @@ export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = 
 
   const clickFunction = (isLikedByCurrentUser) ? unlikeFunction : likeFunction;
 
+  const classNames = (!active) ? 'like-button like-button--inactive' : 'like-button';
+
   return (
-    <a className='like-button' onClick={clickFunction}>
+    <a className={classNames} onClick={clickFunction}>
       <Icon glyph={glyph} className={'like-button--heart-icon'}/>
       {text}
     </a>

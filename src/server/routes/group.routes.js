@@ -11,6 +11,7 @@ import s3 from 'multer-s3';
 import * as AWS from 'aws-sdk';
 import config from '@dbcdk/biblo-config';
 import sanitize from 'sanitize-html';
+import ProxyAgent from 'proxy-agent';
 
 import {groupCreateForm} from '../forms/group.forms';
 
@@ -25,22 +26,30 @@ const ElasticTranscoder = new AWS.ElasticTranscoder({
   secretAccessKey: AMAZON_CONFIG.key
 });
 
+let s3Options = {
+  dirname: 'uploads',
+  bucket: AMAZON_CONFIG.buckets.videoInputBucket,
+  accessKeyId: AMAZON_CONFIG.keyId,
+  secretAccessKey: AMAZON_CONFIG.key,
+  region: AMAZON_CONFIG.region,
+  filename: function (req, file, cb) {
+    const pid = req.session.passport.user.profile.profile.id;
+    const filename = Date.now() + '_' + pid + '_' + file.originalname.replace(new RegExp(' ', 'g'), '_');
+    file.filename = filename;
+    cb(null, filename);
+  }
+};
+
+if (process.env.http_proxy) { // eslint-disable-line no-process-env
+  s3Options.httpOptions = {
+    agent: ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
+  };
+}
+
 const upload = multer({storage: multer.memoryStorage()});
 
 const uploadS3 = multer({
-  storage: s3({
-    dirname: 'uploads',
-    bucket: AMAZON_CONFIG.buckets.videoInputBucket,
-    accessKeyId: AMAZON_CONFIG.keyId,
-    secretAccessKey: AMAZON_CONFIG.key,
-    region: AMAZON_CONFIG.region,
-    filename: function(req, file, cb) {
-      const pid = req.session.passport.user.profile.profile.id;
-      const filename = Date.now() + '_' + pid + '_' + file.originalname.replace(new RegExp(' ', 'g'), '_');
-      file.filename = filename;
-      cb(null, filename);
-    }
-  })
+  storage: s3(s3Options)
 });
 
 const GroupRoutes = express.Router();
@@ -59,7 +68,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserH
   });
 });
 
-GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function(req, res) {
+GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
@@ -141,7 +150,7 @@ GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUser
   }
 });
 
-GroupRoutes.get('/post/:id', async function(req, res) {
+GroupRoutes.get('/post/:id', async function (req, res) {
   try {
     let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'post'}))[0].body;
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}`);
@@ -153,7 +162,7 @@ GroupRoutes.get('/post/:id', async function(req, res) {
   }
 });
 
-GroupRoutes.get('/kommentar/:id', async function(req, res) {
+GroupRoutes.get('/kommentar/:id', async function (req, res) {
   try {
     let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'comment'}))[0].body;
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}/${req.params.id}#comment_${req.params.id}`);
@@ -387,7 +396,7 @@ function createElasticTranscoderJob(videoData, postId, commentId, logger) {
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function(req, res) {
+GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function (req, res) {
   const logger = req.app.get('logger');
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
   let params = {

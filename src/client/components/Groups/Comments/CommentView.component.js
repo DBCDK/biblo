@@ -26,14 +26,40 @@ class CommentView extends React.Component {
     this.state = {
       isEditting: false
     };
+
+    this.getVideoPlayer.bind(this);
   }
 
   toggleEditting() {
     this.setState({isEditting: !this.state.isEditting});
   }
 
+  getVideoPlayer() {
+    let thumbUrl = null;
+    let sources = [];
+
+    this.props.video.resolutions.forEach((resolution, key) => {
+      if (resolution.size !== 'original_video') {
+        const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
+        if (!thumbUrl) {
+          thumbUrl = `${pureFileName}_thumb_00001.png`;
+        }
+
+        sources.push(
+          <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />);
+      }
+    });
+
+    return (
+      <video controls preload="metadata"
+             poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`} >
+        {sources}
+      </video>
+    );
+  }
+
   render() {
-    const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions} = this.props;
+    const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions, video} = this.props;
 
     const commentFlagModalContent = (
       <CreateFlagDialog
@@ -88,6 +114,9 @@ class CommentView extends React.Component {
                 <div className='media'><img src={image} alt="image for post"/></div>
               }
               {
+                video && video.resolutions.length ? this.getVideoPlayer() : null
+              }
+              {
                 youtube &&
                 <div className="comment--youtube-container" >
                   <Youtube videoId={youtube[0]} />
@@ -114,5 +143,6 @@ CommentView.propTypes = {
   submitFlagFunction: React.PropTypes.func.isRequired,
   timestamp: React.PropTypes.string,
   groupActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired
+  uiActions: React.PropTypes.object.isRequired,
+  video: React.PropTypes.object
 };

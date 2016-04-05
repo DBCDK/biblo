@@ -172,14 +172,30 @@ export default class PostView extends React.Component {
 
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
 
+    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
+
     const likeButton = (
       <LikeButton
-        likeFunction={this.likePost}
-        unlikeFunction={this.unlikePost}
+        likeFunction={likeFunction}
+        unlikeFunction={unlikeFunction}
         usersWhoLikeThis={this.props.likes}
         isLikedByCurrentUser={isLikedByCurrentUser}
+        active={profile.userIsLoggedIn}
       />
     );
+
+
+    const flagFunction = () => {this.props.uiActions.openModalWindow(postFlagModalContent);};
+    let flagButton = null;
+    if (profile.userIsLoggedIn) {
+      flagButton = (
+        <TinyButton
+          clickFunction={flagFunction}
+          icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
+        />
+      );
+    }
 
     return (
       <div className='post--wrapper' >
@@ -197,12 +213,7 @@ export default class PostView extends React.Component {
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                           icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>} />
               ||
-              <TinyButton
-                clickFunction={() => {
-                  this.props.uiActions.openModalWindow(postFlagModalContent);
-                }}
-                icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
-              />
+              flagButton
               }
             </span>
           </div>

@@ -78,8 +78,8 @@ class CommentView extends React.Component {
       flagButton = (
         <TinyButton
         clickFunction={() => {
-                uiActions.openModalWindow(commentFlagModalContent);
-              }}
+          uiActions.openModalWindow(commentFlagModalContent);
+        }}
         icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
         />
       );

@@ -186,7 +186,9 @@ export default class PostView extends React.Component {
     );
 
 
-    const flagFunction = () => {this.props.uiActions.openModalWindow(postFlagModalContent);};
+    const flagFunction = () => {
+      this.props.uiActions.openModalWindow(postFlagModalContent);
+    };
     let flagButton = null;
     if (profile.userIsLoggedIn) {
       flagButton = (

@@ -13,7 +13,22 @@ const GetPostsTransform = {
       limit: limit,
       skip: skip,
       order: 'timeCreated DESC',
-      include: ['image', {owner: ['image']}],
+      include: [
+        'image',
+        {owner: ['image']},
+        {
+          relation: 'video',
+          scope: {
+            include: [
+              {
+                relation: 'resolutions',
+                scope: {
+                  include: ['video']
+                }
+              }]
+          }
+        }
+      ],
       where: {postid: post.id}
     };
 

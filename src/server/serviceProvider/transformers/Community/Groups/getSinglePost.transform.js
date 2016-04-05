@@ -12,7 +12,23 @@ const GetPostsTransform = {
 
     const postFilter = {
       where: {id, markedAsDeleted: null},
-      include: ['image', {owner: ['image']}, 'likes']
+      include: [
+        'image',
+        {owner: ['image']},
+        'likes',
+        {
+          relation: 'video',
+          scope: {
+            include: [
+              {
+                relation: 'resolutions',
+                scope: {
+                  include: ['video']
+                }
+              }]
+          }
+        }
+      ]
     };
 
     return this.callServiceClient('community', 'getPosts', {filter: Object.assign(postFilter, filter)});

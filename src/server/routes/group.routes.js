@@ -338,11 +338,16 @@ GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], fullProfile
  *
  * @param {Object} videoData
  * @param {string} postId
+ * @param {string} commentId
  * @param {Object} logger
  */
-function createElasticTranscoderJob(videoData, postId, logger) {
-  if (typeof postId !== 'string') {
+function createElasticTranscoderJob(videoData, postId, commentId, logger) {
+  if (postId && typeof postId !== 'string') {
     postId = postId.toString();
+  }
+
+  if (commentId && typeof commentId !== 'string') {
+    commentId = commentId.toString();
   }
   // AWS Docs: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ElasticTranscoder.html#createJob-property
   const params = {
@@ -356,11 +361,18 @@ function createElasticTranscoderJob(videoData, postId, logger) {
       ThumbnailPattern: `${videoData.pureFileName}_thumb_{count}`
     },
     UserMetadata: {
-      postId: postId,
       destinationContainer: AMAZON_CONFIG.buckets.videoOutputBucket,
       mimetype: 'video/mp4' // mimetype af output
     }
   };
+
+  if (postId) {
+    params.UserMetadata.postId = postId;
+  }
+
+  if (commentId) {
+    params.UserMetadata.commentId = commentId;
+  }
 
   ElasticTranscoder.createJob(params, (err) => {
     if (err) {
@@ -396,8 +408,13 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     const response = (await req.callServiceProvider('createGroupContent', params, {request: req}))[0];
 
     // creating video conversion jobs at ElasticTranscoder
-    if (req.session.videoupload && response) {
-      createElasticTranscoderJob(req.session.videoupload, response.id, logger);
+    if (req.session.videoupload && response && params) {
+      if (params.type === 'post') {
+        createElasticTranscoderJob(req.session.videoupload, response.id, null, logger);
+      }
+      else {
+        createElasticTranscoderJob(req.session.videoupload, null, response.id, logger);
+      }
     }
 
     req.session.videoupload = null;

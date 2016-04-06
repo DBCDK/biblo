@@ -55,6 +55,7 @@
     "babel-register": "^6.4.3",
     "babel-runtime": "^6.5.0",
     "body-parser": "1.15.0",
+    "busboy": "^0.2.13",
     "classnames": "^2.2.3",
     "compass-mixins": "^0.12.7",
     "compression": "1.6.1",

@@ -18,6 +18,7 @@ import RedisStore from 'connect-redis';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
+import globalTunnel from 'global-tunnel';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
@@ -111,6 +112,7 @@ module.exports.run = function(worker) {
   });
 
   if (process.env.http_proxy) { // eslint-disable-line no-process-env
+    globalTunnel.initialize();
     AWS.config.update({
       httpOptions: {
         agent: new ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env

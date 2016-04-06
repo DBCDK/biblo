@@ -7,7 +7,6 @@
 
 import express from 'express';
 import multer from 'multer';
-import * as AWS from 'aws-sdk';
 import config from '@dbcdk/biblo-config';
 import sanitize from 'sanitize-html';
 import Busboy from 'busboy';

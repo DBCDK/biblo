@@ -12,13 +12,27 @@
 }
 
 .article-main {
-  @include span(3 of 5);
+
+  @include min-screen($tablet) {
+    @include span(3 of 5);
+  }
+  @include max-screen($tablet - 1px) {
+    @include span(5 of 5);
+  }
 }
 
 .article-factbox {
-  @include span(last 2 of 5);
+
   background: $light-gray;
   margin-top: 10px;
   display: block;
   border-radius: 5px;
+  margin-bottom: 10px;
+
+  @include min-screen($tablet) {
+    @include span(last 2 of 5);
+  }
+  @include max-screen($tablet - 1px) {
+    @include span(5 of 5);
+  }
 }

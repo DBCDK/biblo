@@ -103,10 +103,8 @@ export class ProfileDetailContainer extends React.Component {
       }, activity.owner);
 
       if (isMyProfile) {
-        activity.owner.displayName = "Du";
+        activity.owner.displayName = 'Du';
       }
-
-
       switch (activity.type) {
         case 'comment':
           let title = activity.owner.displayName + ' skrev en kommentar';
@@ -115,7 +113,7 @@ export class ProfileDetailContainer extends React.Component {
             title = (
               <span>
                 <span dangerouslySetInnerHTML={{__html: title}}/>
-                <span> i  </span>
+                <span> i </span>
                 <a href={`/grupper/${activity.post.group.id}`}
                    dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}}/>
                 <span>:</span>
@@ -184,7 +182,7 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i  <a
+                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i <a
                 href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
               </span>
             );
@@ -295,7 +293,7 @@ export class ProfileDetailContainer extends React.Component {
     const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
     let owner = userProfile.displayName;
     owner = owner[0].toUpperCase() + owner.slice(1);
-    const currentUserOwnership = (isMyProfile) ? 'Din' : (owner +'s');
+    const currentUserOwnership = (isMyProfile) ? 'Din' : (owner + 's');
 
     let editButton = null;
     let profileImage = null;

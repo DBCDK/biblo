@@ -128,13 +128,13 @@ export default class PostView extends React.Component {
         }
 
         sources.push(
-          <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />);
+          <source src={`https://s3-eu-west-1.amazonaws.com/${resolution.video.container}/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />);
       }
     });
 
     return (
-      <video controls preload="metadata"
-             poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`} >
+      <video controls preload="none"
+             poster={thumbUrl ? `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}` : false} >
         {sources}
       </video>
     );

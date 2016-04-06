@@ -113,7 +113,7 @@ module.exports.run = function(worker) {
   if (process.env.http_proxy) { // eslint-disable-line no-process-env
     AWS.config.update({
       httpOptions: {
-        agent: ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
+        agent: new ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
       }
     });
   }

@@ -18,15 +18,7 @@ import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.mid
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const AMAZON_CONFIG = config.communityservice.amazon;
-
-AWS.config.region = AMAZON_CONFIG.region;
-const ElasticTranscoder = new AWS.ElasticTranscoder({
-  accessKeyId: AMAZON_CONFIG.keyId,
-  secretAccessKey: AMAZON_CONFIG.key
-});
-
 const upload = multer({storage: multer.memoryStorage()});
-
 const GroupRoutes = express.Router();
 
 GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, (req, res) => {
@@ -325,7 +317,7 @@ GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], fullProfile
  * @param {string} commentId
  * @param {Object} logger
  */
-function createElasticTranscoderJob(videoData, postId, commentId, logger) {
+function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId, logger) {
   if (postId && typeof postId !== 'string') {
     postId = postId.toString();
   }
@@ -373,6 +365,7 @@ function createElasticTranscoderJob(videoData, postId, commentId, logger) {
  */
 GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function (req, res) {
   const logger = req.app.get('logger');
+  const ElasticTranscoder = req.app.get('ElasticTranscoder');
   const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
   let params = {
     title: ' ',
@@ -394,10 +387,10 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     // creating video conversion jobs at ElasticTranscoder
     if (req.session.videoupload && response && params) {
       if (params.type === 'post') {
-        createElasticTranscoderJob(req.session.videoupload, response.id, null, logger);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, logger);
       }
       else {
-        createElasticTranscoderJob(req.session.videoupload, null, response.id, logger);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, logger);
       }
     }
 

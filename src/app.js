@@ -126,6 +126,7 @@ module.exports.run = function(worker) {
   app.set('Configuration', config);
   app.set('amazonConfig', amazonConfig);
   app.set('s3', new AWS.S3());
+  app.set('ElasticTranscoder', new AWS.ElasticTranscoder());
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));

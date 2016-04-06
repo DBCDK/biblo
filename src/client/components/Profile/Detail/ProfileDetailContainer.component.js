@@ -93,6 +93,7 @@ export class ProfileDetailContainer extends React.Component {
     userProfile = assignToEmpty(userProfile, {
       image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
     });
+
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
 
     let feed = this.props.feed.feed.map((activity) => {
@@ -101,6 +102,9 @@ export class ProfileDetailContainer extends React.Component {
         displayName: ''
       }, activity.owner);
 
+      if (isMyProfile) {
+        activity.owner.displayName = 'Du';
+      }
       switch (activity.type) {
         case 'comment':
           let title = activity.owner.displayName + ' skrev en kommentar';
@@ -109,7 +113,7 @@ export class ProfileDetailContainer extends React.Component {
             title = (
               <span>
                 <span dangerouslySetInnerHTML={{__html: title}}/>
-                <span> til et indlæg i gruppen </span>
+                <span> i </span>
                 <a href={`/grupper/${activity.post.group.id}`}
                    dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}}/>
                 <span>:</span>
@@ -117,7 +121,7 @@ export class ProfileDetailContainer extends React.Component {
             );
           }
           else {
-            title += ' til et indlæg:';
+            title += ' ';
           }
 
           activity = assignToEmpty({
@@ -178,7 +182,7 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i gruppen <a
+                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i <a
                 href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
               </span>
             );
@@ -287,6 +291,9 @@ export class ProfileDetailContainer extends React.Component {
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
     const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
+    let owner = userProfile.displayName;
+    owner = owner[0].toUpperCase() + owner.slice(1);
+    const currentUserOwnership = (isMyProfile) ? 'Din' : (owner + 's');
 
     let editButton = null;
     let profileImage = null;
@@ -328,7 +335,7 @@ export class ProfileDetailContainer extends React.Component {
         </div>
         {
           (this.props.feed.feed.length > 0) ?
-            (<ActivityRow title={`Se hvad ${currentUserAddressing} har lavet:`}/>) :
+            (<ActivityRow title={`${currentUserOwnership} aktivitet på siden`}/>) :
             (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing.charAt(0).toUpperCase()} har ikke lavet
               noget...</ActivityRow>)
         }

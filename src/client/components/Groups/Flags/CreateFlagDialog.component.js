@@ -23,11 +23,25 @@ export default class CreateFlagDialog extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeCause = this.onChangeCause.bind(this);
+    this.onSelectTextInput = this.onSelectTextInput.bind(this);
   }
 
   onSubmit() {
-
-    if (this.state.selectedCause === null) {
+    if (this.state.selectedCause === 'andet') {
+      if (this.refs.otherCauseTextInput.value !== '') {
+        // submit free-text cause
+        this.props.submitFunction({
+          cause: this.refs.otherCauseTextInput.value,
+          contentId: this.props.contentId
+        });
+        this.setState({hasBeenSubmitted: true});
+      }
+      else {
+        // free-text field cannot be empty
+        this.setState({emphasizeRequiredFields: true});
+      }
+    }
+    else if (this.state.selectedCause === null) {
       this.setState({emphasizeRequiredFields: true});
     }
     else {
@@ -37,6 +51,12 @@ export default class CreateFlagDialog extends React.Component {
       });
       this.setState({hasBeenSubmitted: true});
     }
+  }
+
+  onSelectTextInput() {
+    this.setState({
+      selectedCause: 'andet'
+    });
   }
 
   onChangeCause(e) {
@@ -68,6 +88,17 @@ export default class CreateFlagDialog extends React.Component {
       );
     });
 
+    const radioGroup = (
+      <div className='create-flag-dialog--radio-group'>
+        {radioButtons}
+        <label key='optional-field'>
+          <input type='radio' name='cause' value='andet' checked={this.state.selectedCause==='andet'} onChange={this.onChangeCause}/>
+          Anden forklaring
+          <textArea className='create-flag-dialog--other-cause' ref='otherCauseTextInput' type='text' onFocus={this.onSelectTextInput} />
+        </label>
+      </div>
+    );
+
     const causeForm = (
       <form>
         <h4>Anmeld indhold</h4>
@@ -76,9 +107,7 @@ export default class CreateFlagDialog extends React.Component {
           Hvad er årsagen til at du vil anmelde dette indhold?
         </p>
 
-        <div className='create-flag-dialog--radio-group'>
-          {radioButtons}
-        </div>
+        {radioGroup}
         <div className='create-flag-button--button-group'>
           <input className='create-flag-dialog--button--confirm' type='button' value='OK' onClick={this.onSubmit}/>
           <input className='create-flag-dialog--button--cancel' type='button' value='Fortryd'

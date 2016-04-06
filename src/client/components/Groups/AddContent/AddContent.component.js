@@ -300,7 +300,6 @@ export default class AddContent extends React.Component {
                   onChange={(event) => this.readInput(event)}
                   ref="fileInput"
                 />
-
                 <Icon glyph={videoSvg}/>
                 <Icon glyph={cameraSvg}/>
                 <span className="content-add--media-label">Upload</span>

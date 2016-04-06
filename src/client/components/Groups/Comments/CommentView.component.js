@@ -72,6 +72,19 @@ class CommentView extends React.Component {
 
     const youtube = ExtractYoutubeID(content);
 
+
+    let flagButton = null;
+    if (profile.userIsLoggedIn) {
+      flagButton = (
+        <TinyButton
+        clickFunction={() => {
+          uiActions.openModalWindow(commentFlagModalContent);
+        }}
+        icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
+        />
+      );
+    }
+
     return (
       <div className='comment-wrapper' id={`comment_${this.props.id}`}>
         <div className='comment-profile-image'>
@@ -91,12 +104,7 @@ class CommentView extends React.Component {
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                         icon={<Icon glyph={pencilSvg} className="icon edit-comment--button"/>}/>
             ||
-            <TinyButton
-              clickFunction={() => {
-                uiActions.openModalWindow(commentFlagModalContent);
-              }}
-              icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
-            />
+            flagButton
             }
           </div>
           {

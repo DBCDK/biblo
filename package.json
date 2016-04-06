@@ -9,6 +9,7 @@
     "dev": "parallelshell \"npm run start:watch -s\" \"npm run serve -s\"",
     "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:dev": "COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" npm run dev",
+    "dev:remoteprofile:localproxy": "NODE_TLS_REJECT_UNAUTHORIZED=0 NEW_RELIC_PROXY_URL=http://localhost:8888 http_proxy=http://localhost:8888 COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
     "serve": "nodemon --exec node --no-stdin src/main.js",

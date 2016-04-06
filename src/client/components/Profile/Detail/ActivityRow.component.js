@@ -42,7 +42,7 @@ export default function ActivityRow({children, imageSrc, date, answerFunction, l
 
   if (children) {
     childHtml = (
-      <div className={'activity-row--children' + (imageSrc ? '' : ' no-image')}>
+      <div className={'activity-row--children--no-image'}>
         {children}
       </div>
     );
@@ -62,10 +62,6 @@ export default function ActivityRow({children, imageSrc, date, answerFunction, l
           <div className='activity-row--date'>
             {date ? TimeToString(date) : ''}
           </div>
-        </div>
-
-        <div className={'activity-row--image'}>
-          {image}
         </div>
 
         {childHtml}

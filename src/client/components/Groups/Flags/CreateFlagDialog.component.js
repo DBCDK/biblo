@@ -6,8 +6,10 @@ import {PropTypes} from 'react';
 import './create-flag-dialog.scss';
 
 const options = [
-  {key: 'incorrect-spelling', text: 'Stavefejl'},
-  {key: 'author-is-a-robot', text: 'Forfatteren er en robot'}
+  {key: 'der er skrevet noget dårligt om mig', text: 'Der er skrevet noget dårligt om mig'},
+  {key: 'der er skrevet noget dårligt om andre', text: 'Der er skrevet noget dårligt om andre'},
+  {key: 'der er skrevet nogle grimme ord', text: 'Der er skrevet nogle grimme ord'},
+  {key: 'der er billeder eller video som jeg ikke kan lide på siden', text: 'Der er billeder eller video som jeg ikke kan lide på siden'}
 ];
 
 export default class CreateFlagDialog extends React.Component {

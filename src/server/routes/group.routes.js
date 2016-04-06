@@ -7,11 +7,10 @@
 
 import express from 'express';
 import multer from 'multer';
-import s3 from 'multer-s3';
 import * as AWS from 'aws-sdk';
 import config from '@dbcdk/biblo-config';
 import sanitize from 'sanitize-html';
-import ProxyAgent from 'proxy-agent';
+import Busboy from 'busboy';
 
 import {groupCreateForm} from '../forms/group.forms';
 
@@ -26,31 +25,7 @@ const ElasticTranscoder = new AWS.ElasticTranscoder({
   secretAccessKey: AMAZON_CONFIG.key
 });
 
-let s3Options = {
-  dirname: 'uploads',
-  bucket: AMAZON_CONFIG.buckets.videoInputBucket,
-  accessKeyId: AMAZON_CONFIG.keyId,
-  secretAccessKey: AMAZON_CONFIG.key,
-  region: AMAZON_CONFIG.region,
-  filename: function (req, file, cb) {
-    const pid = req.session.passport.user.profile.profile.id;
-    const filename = Date.now() + '_' + pid + '_' + file.originalname.replace(new RegExp(' ', 'g'), '_');
-    file.filename = filename;
-    cb(null, filename);
-  }
-};
-
-if (process.env.http_proxy) { // eslint-disable-line no-process-env
-  s3Options.httpOptions = {
-    agent: ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
-  };
-}
-
 const upload = multer({storage: multer.memoryStorage()});
-
-const uploadS3 = multer({
-  storage: s3(s3Options)
-});
 
 const GroupRoutes = express.Router();
 
@@ -482,26 +457,51 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
 /**
  * API endpoint for uploading video to AWS S3
  */
-GroupRoutes.post('/api/uploadmedia', ensureAuthenticated, uploadS3.single('video'), (req, res) => {
+GroupRoutes.post('/api/uploadmedia', ensureAuthenticated, (req, res) => {
   const logger = req.app.get('logger');
-  const video = req.file && req.file.mimetype && req.file.mimetype.indexOf('video') >= 0 && req.file || null;
-  const pureFileName = video.filename.substring(0, video.filename.lastIndexOf('.'));
+  const amazonConfig = req.app.get('amazonConfig');
+  const s3 = req.app.get('s3');
+  let busboy = new Busboy({headers: req.headers});
 
-  if (video) {
-    req.session.videoupload = {
-      mimetype: video.mimetype,
-      videofile: video.key,
-      container: 'uxdev-biblo-input-videobucket',
-      pureFileName: pureFileName
-    };
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    const pid = req.session.passport.user.profile.profile.id;
+    let file_extension = filename.split('.');
+    file_extension = file_extension[file_extension.length - 1];
+    filename = Date.now() + '_profile_' + pid + '.' + file_extension;
 
-    logger.info('Successfully uploaded video to AWS S3', {video: video});
-    res.sendStatus(200);
-  }
-  else {
-    logger.error('An error uccurred while uploading a video to AWS', {session: req.session});
-    res.sendStatus(400);
-  }
+    s3.upload({
+      Bucket: amazonConfig.buckets.videoInputBucket,
+      Key: filename,
+      Body: file
+    }, (err, data) => {
+      if (err) {
+        logger.error('an error occurred while uploading to s3', {error: err});
+        res.sendStatus(400);
+      }
+      else {
+        const video = mimetype && mimetype.indexOf('video') >= 0 && file || null;
+        const pureFileName = filename.substring(0, filename.lastIndexOf('.'));
+
+        if (video) {
+          req.session.videoupload = {
+            mimetype: mimetype,
+            videofile: data.key || data.Key,
+            container: amazonConfig.buckets.videoInputBucket,
+            pureFileName: pureFileName
+          };
+
+          logger.info('Successfully uploaded video to AWS S3', {data});
+          res.sendStatus(200);
+        }
+        else {
+          logger.error('An error uccurred while uploading a video to AWS', {session: req.session});
+          res.sendStatus(400);
+        }
+      }
+    });
+  });
+
+  req.pipe(busboy);
 });
 
 function listGroups(groupData, res) {

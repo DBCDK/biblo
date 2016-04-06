@@ -6,32 +6,59 @@
   @include min-screen($desktop) {
     @include gallery(1 of 5);
     margin-bottom: gutter(20);
-    padding-right: 20px;
+    .coverimage {
+      max-width: 172px;
+      max-height: 172px;
+      object-fit: cover;
+      box-shadow: #666 0px 2px 12px;
+      object-fit: cover;
+      width: 16vw;
+      height: 16vw;
+    }
   }
 
   @include max-screen($desktop - 1) {
     @include gallery(1 of 4);
     margin-bottom: gutter(15);
-    padding-right: 4px;
+    .coverimage {
+      max-width: 172px;
+      max-height: 172px;
+      object-fit: cover;
+      box-shadow: #666 0px 2px 12px;
+      object-fit: cover;
+      width: 18vw;
+      height: 18vw;
+    }
   }
 
   @include max-screen($tablet - 1) {
     @include gallery(1 of 3);
     margin-bottom: gutter(10);
-    padding-right: 5px;
+    .coverimage {
+      max-width: 172px;
+      max-height: 172px;
+      object-fit: cover;
+      box-shadow: #666 0px 2px 12px;
+      object-fit: cover;
+      width: 29vw;
+      height: 29vw;
+    }
   }
 
   @include max-screen($phone) {
-    @include gallery(1 of 2);
-    margin-bottom: gutter(5);
-    padding-right: 0px;
-  }
-
-  .coverimage {
-    object-fit: cover;
-    box-shadow: #666 0px 2px 12px;
-    height: 172px;
     max-width: 172px;
+    max-height: 172px;
+    @include gallery(1 of 2);
+    margin-bottom: gutter(10);
+    padding-bottom: 20px;
+    padding-right: 0px;
+    .coverimage {
+      object-fit: cover;
+      box-shadow: #666 0px 2px 12px;
+      object-fit: cover;
+      width: 40vw;
+      height: 40vw;
+    }
   }
 
   .icon {

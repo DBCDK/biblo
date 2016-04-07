@@ -47,37 +47,37 @@ class CommentView extends React.Component {
 
     const youtube = ExtractYoutubeID(content);
 
-
     let flagButton = null;
     if (profile.userIsLoggedIn) {
       flagButton = (
         <TinyButton
-        clickFunction={() => {
-          uiActions.openModalWindow(commentFlagModalContent);
-        }}
-        icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
+          clickFunction={() => {
+            uiActions.openModalWindow(commentFlagModalContent);
+          }}
+          icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
         />
       );
     }
 
     return (
-      <div className='comment-wrapper' id={`comment_${this.props.id}`}>
-        <div className='comment-profile-image'>
-          <a href={`/profil/${owner.id}`}>
-            <img className='profile-image' src={owner.image || null} alt={owner.displayName}/>
+      <div className='comment-wrapper' id={`comment_${this.props.id}`} >
+        <div className='comment-profile-image' >
+          <a href={`/profil/${owner.id}`} >
+            <img className='profile-image' src={owner.image || null} alt={owner.displayName} />
           </a>
         </div>
-        <div className='comment'>
-          <div className='comment--header'>
-            <a href={`/profil/${owner.id}`}>
+        <div className='comment' >
+          <div className='comment--header' >
+            <a href={`/profil/${owner.id}`} >
               <span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} />
-            </a> <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            </a>
+            <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
           </div>
 
-          <div className='comment--actions'>
+          <div className='comment--actions' >
             {(profile.id === owner.id || profile.isModerator) &&
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button"/>}/>
+                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button"/>} />
             ||
             flagButton
             }
@@ -86,15 +86,17 @@ class CommentView extends React.Component {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment"
                         abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}
-                        addContentAction={groupActions.editComment}/>
+                        addContentAction={groupActions.editComment} />
             ||
-            <div className="comment--content">
+            <div className="comment--content" >
               {
                 <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
               {
                 image &&
-                <div className='media'><img src={image} alt="image for post"/></div>
+                <div className='media' >
+                  <a href={image.replace('medium', 'original')} target="_blank" ><img src={image} alt="image for post" /></a>
+                </div>
               }
               {
                 video && video.resolutions.length ? getVideoPlayer(this.props.video) : null

@@ -46,7 +46,7 @@ const getUserFeedTransform = {
       const postsFilter = {
         where: postsWhere,
         include: [
-          {relation: 'group', scope: {include: ['coverImage']}},
+          {relation: 'group'},
           {relation: 'owner', scope: {include: ['image']}},
           'image',
           'likes'
@@ -63,12 +63,7 @@ const getUserFeedTransform = {
             relation: 'post',
             scope: {
               include: [{
-                relation: 'group',
-                scope: {
-                  include: [
-                    'coverImage'
-                  ]
-                }
+                relation: 'group'
               }, {
                 relation: 'owner',
                 scope: {

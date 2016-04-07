@@ -2,16 +2,8 @@
 
 .lists {
   padding-top: 5px;
-  padding-left: 5px;
-  @include min-screen($phone) {
-    padding-left: 5px;
-  }
-
-  @include min-screen($tablet) {
-    padding-left: 20px;
-  }
-
-  padding-right: 1px;
+  padding-left: 30px;
+  padding-right: 20px;
 }
 
 .emoji {

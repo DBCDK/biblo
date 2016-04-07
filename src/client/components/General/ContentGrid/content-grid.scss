@@ -2,7 +2,10 @@
 @import 'tools';
 
 .content-grid {
-  @include container();
+
+  @include min-screen($phone - 1px) {
+    @include container();
+  }
 
   padding: 30px;
 
@@ -11,19 +14,18 @@
     padding: 0px;
     list-style-type: none;
   }
+
 }
 
 .content-grid-element {
-  @include min-screen($tablet) {
-    @include gallery(1 of 3);
-  }
-  @include max-screen($tablet - 1px) {
+
+  @include min-screen($phone) {
     @include gallery(1 of 2);
   }
 
-  @include max-screen($phone - 1px) {
+  @include min-screen($tablet) {
+    @include gallery(1 of 3);
   }
-
 
   a {
     color: $black;

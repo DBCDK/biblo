@@ -94,15 +94,15 @@ export default class PostView extends React.Component {
 
     const dialog = (
       <ConfirmDialog
-      cancelButtonText={'Fortryd'}
-      confirmButtonText={'Slet Indlæg'}
-      cancelFunc={() => {
-        this.props.uiActions.closeModalWindow();
-      }}
-      confirmFunc={() => {
-        this.props.groupActions.asyncDeletePost(this.props.id);
-        this.props.uiActions.closeModalWindow();
-      }}
+        cancelButtonText={'Fortryd'}
+        confirmButtonText={'Slet Indlæg'}
+        cancelFunc={() => {
+          this.props.uiActions.closeModalWindow();
+        }}
+        confirmFunc={() => {
+          this.props.groupActions.asyncDeletePost(this.props.id);
+          this.props.uiActions.closeModalWindow();
+        }}
       >{content}</ConfirmDialog>
     );
     this.props.uiActions.openModalWindow(dialog);
@@ -149,8 +149,10 @@ export default class PostView extends React.Component {
 
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
 
-    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
+    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {
+    };
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {
+    };
 
     const likeButton = (
       <LikeButton
@@ -161,7 +163,6 @@ export default class PostView extends React.Component {
         active={profile.userIsLoggedIn}
       />
     );
-
 
     const flagFunction = () => {
       this.props.uiActions.openModalWindow(postFlagModalContent);
@@ -179,7 +180,7 @@ export default class PostView extends React.Component {
     return (
       <div className='post--wrapper' >
         <div className='post--profile-image' >
-          <a href={`/profil/${owner.id}`}>
+          <a href={`/profil/${owner.id}`} >
             <img src={owner.image || null} alt={owner.displayName} />
           </a>
         </div>
@@ -209,7 +210,7 @@ export default class PostView extends React.Component {
               {
                 image &&
                 <div className='post--media' >
-                  <img src={image} alt="image for post" />
+                  <a href={image.replace('medium', 'original')} target="_blank" ><img src={image} alt="image for post" /></a>
                 </div>
               }
               {

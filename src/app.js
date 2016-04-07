@@ -56,6 +56,18 @@ module.exports.run = function(worker) {
   // Direct requests to app
   server.on('request', app);
 
+  // robots.txt handler
+  app.get('/robots.txt', (req, res) => {
+    if (process.env.SHOW_IN_SEARCH_ENGINES) { // eslint-disable-line no-process-env
+      res.type('text/plain');
+      res.send('User-agent: *\nDisallow: /api/');
+    }
+    else {
+      res.type('text/plain');
+      res.send('User-agent: *\nDisallow: /');
+    }
+  });
+
   // error handler
   app.use((req, res, next) => {
     try {

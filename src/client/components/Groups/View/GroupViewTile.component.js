@@ -3,13 +3,11 @@
 /* eslint-disable react/no-danger */
 
 import React from 'react';
-import twemoji from 'twemoji';
 
 import './scss/group-tile.scss';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import groupSvg from '../../General/Icon/svg/functions/group.svg';
-
 
 export default class GroupViewTile extends React.Component {
 
@@ -52,7 +50,7 @@ export default class GroupViewTile extends React.Component {
       <div>
         <div className="group--title">
           <Icon className="icon" glyph={groupSvg}/>
-          <span dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
+          <span dangerouslySetInnerHTML={{__html: group.name}}/>
         </div>
       </div>
       <div> {this.getMembersCountString()} </div>

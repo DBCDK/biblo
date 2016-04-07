@@ -4,7 +4,6 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import twemoji from 'twemoji';
 
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
@@ -77,8 +76,8 @@ export class GroupViewContainer extends React.Component {
           <GroupHeader uri={this.props.group.image || ''}/>
           <div className='group--content'>
             <div className="group--details">
-              <h2 className='group--title' dangerouslySetInnerHTML={{__html: twemoji.parse(this.props.group.name)}} />
-              <p className='group--description' dangerouslySetInnerHTML={{__html: twemoji.parse(this.props.group.description)}} />
+              <h2 className='group--title' dangerouslySetInnerHTML={{__html: this.props.group.name}} />
+              <p className='group--description' dangerouslySetInnerHTML={{__html: this.props.group.description}} />
               <div className='group--follow'>
                 <Follow active={this.state.following}
                         onClick={this.toggleFollow}

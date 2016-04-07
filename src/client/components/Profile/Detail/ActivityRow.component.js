@@ -31,7 +31,7 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
   }
 
   if (title) {
-    activityTitle = <h3>{title}</h3>;
+    activityTitle = <h4>{title}</h4>;
   }
 
   if (children) {

@@ -102,12 +102,14 @@ export class ProfileDetailContainer extends React.Component {
         displayName: ''
       }, activity.owner);
 
+      let displayName = activity.owner.displayName;
+
       if (isMyProfile) {
-        activity.owner.displayName = 'Du';
+        displayName = 'Du';
       }
       switch (activity.type) {
         case 'comment':
-          let title = activity.owner.displayName + ' skrev en kommentar';
+          let title = displayName + ' skrev en kommentar';
 
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
@@ -177,7 +179,7 @@ export class ProfileDetailContainer extends React.Component {
           );
 
         case 'post':
-          let postTitle = activity.owner.displayName + ' oprettede et indlæg';
+          let postTitle = displayName + ' oprettede et indlæg';
 
           if (activity.group && activity.group.name) {
             postTitle = (

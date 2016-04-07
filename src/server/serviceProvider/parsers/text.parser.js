@@ -11,10 +11,10 @@ export default function textParser(text) {
   text = sanitizeHtml(text, {
     allowedTags: []
   });
-  
+
   // Add links to the text
   text = autolinker.link(text);
-  
+
   // Add emojis to the text
   text = twemoji.parse(text, {
     className: 'twemoji'

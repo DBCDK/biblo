@@ -71,8 +71,8 @@ const getUserFeedTransform = {
                   include: ['image']
                 }
               },
-              'image',
-              'likes'
+                'image',
+                'likes'
               ]
             }
           },
@@ -127,11 +127,11 @@ const getUserFeedTransform = {
       comment.timeCreated = comment.timeCreated || '2001-01-01T12:00:00.000Z';
       comment.imageSrc = false;
       comment.post = postParser(comment.post);
-      
+
       if (comment.post.group) {
         comment.post.group = groupParser(comment.post.group);
       }
-      
+
       return commentParser(comment);
     });
 

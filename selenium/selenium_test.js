@@ -1,24 +1,25 @@
 'use strict';
-let config = require('./saucelabs.config');
-let assert = require('assert');
-let expect = require('expect');
-let test = require('selenium-webdriver/testing');
-let webdriver = require('selenium-webdriver');
-let bibloconfig = require('@dbcdk/biblo-config');
-let crypto = require('crypto');
 
-let isSauceLabsTest = false;
-let sauceLabsCaps = config.saucelabs.browserCaps;
+var config = require('./saucelabs.config');
+var assert = require('assert');
+var expect = require('expect');
+var test = require('selenium-webdriver/testing');
+var webdriver = require('selenium-webdriver');
+var bibloconfig = require('@dbcdk/biblo-config');
+var crypto = require('crypto');
 
-let SAUCE_URL = 'http://ondemand.saucelabs.com:80/wd/hub';
-let DBC_URLS = ['http://uxwin7-01:4444/wd/hub', 'http://uxwin81-01:4444/wd/hub', 'http://uxwin10-01:5432/wd/hub'];
-let BASE_URL = isSauceLabsTest ? 'https://biblo.demo.dbc.dk' : process.env.SELENIUM_URL || 'http://localhost:8080'; // eslint-disable-line
-let driverTimeout = process.env.DRIVER_TIMEOUT || 10000; // eslint-disable-line no-process-env
+var isSauceLabsTest = false;
+var sauceLabsCaps = config.saucelabs.browserCaps;
+
+var SAUCE_URL = 'http://ondemand.saucelabs.com:80/wd/hub';
+var DBC_URLS = ['http://uxwin7-01:4444/wd/hub', 'http://uxwin81-01:4444/wd/hub', 'http://uxwin10-01:5432/wd/hub'];
+var BASE_URL = isSauceLabsTest ? 'https://biblo.demo.dbc.dk' : process.env.SELENIUM_URL || 'http://localhost:8080'; // eslint-disable-line
+var driverTimeout = process.env.DRIVER_TIMEOUT || 10000; // eslint-disable-line no-process-env
 driverTimeout = parseInt(driverTimeout, 10);
 
 function runAllTests(driverCaps) {
   test.describe('Express endpoint', () => {
-    let driver;
+    var driver;
 
     beforeEach(() => {
       driver = driverCaps.build();
@@ -29,11 +30,11 @@ function runAllTests(driverCaps) {
     });
 
     test.it('Frontpage is reachable', () => {
-      let endpoint = '/';
+      var endpoint = '/';
       driver.get(BASE_URL + endpoint);
       driver.wait(webdriver.until.elementIsVisible(driver.findElement({tagName: 'body'})), driverTimeout);
-      const body = driver.findElement({tagName: 'body'});
-      const header = body.findElement({tagName: 'h2'});
+      var body = driver.findElement({tagName: 'body'});
+      var header = body.findElement({tagName: 'h2'});
 
       header.getText().then((text) => {
         assert.equal(text, 'VELKOMMEN TIL BIBLO');
@@ -41,20 +42,20 @@ function runAllTests(driverCaps) {
     });
 
     test.it('Test a user can login', () => {
-      const uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
-      let date = new Date();
-      let timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
-      let user = 'bobby_hansen';
-      let auth = crypto
+      var uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
+      var date = new Date();
+      var timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
+      var user = 'bobby_hansen';
+      var auth = crypto
         .createHash('md5')
         .update(timestamp + uniloginSecret + user)
         .digest('hex');
-      let ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';
-      let url = `${BASE_URL}/login?auth=${auth}&timestamp=${timestamp}&user=${user}&ltoken=${ltoken}`;
+      var ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';
+      var url = `${BASE_URL}/login?auth=${auth}&timestamp=${timestamp}&user=${user}&ltoken=${ltoken}`;
 
       driver.get(url);
       driver.wait(webdriver.until.elementIsVisible(driver.findElement({tagName: 'body'})), driverTimeout);
-      const body = driver.findElement({tagName: 'body'});
+      var body = driver.findElement({tagName: 'body'});
       body.getText().then((text) => {
         expect(text).toContain('Redigér Profil');
       });

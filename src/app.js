@@ -24,6 +24,7 @@ import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
 import ProfileRoutes from './server/routes/profile.routes';
 import ContentRoutes from './server/routes/content.routes';
+import ApiRoutes from './server/routes/api.routes';
 
 // Passport Strategies
 import * as PassportStrategies from './server/PassportStrategies/strategies.passport';
@@ -229,6 +230,7 @@ module.exports.run = function(worker) {
   app.use('/grupper', ensureUserHasProfile, GroupRoutes);
   app.use('/profil', ProfileRoutes);
   app.use('/indhold', ContentRoutes);
+  app.use('/api', ApiRoutes);
   app.use('/', MainRoutes);
 
   // Graceful handling of errors

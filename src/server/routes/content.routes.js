@@ -45,6 +45,7 @@ ContentRoutes.get('/:id', (req, res) => {
       else {
         const articleData = JSON.parse(str);
 
+        
         res.render('page', {
           css: ['/css/article.css'],
           js: ['/js/article.js'],

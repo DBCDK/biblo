@@ -13,8 +13,6 @@
 
 .article-main {
 
-  padding: 20px;
-
   @include min-screen($tablet) {
     @include span(3 of 5);
   }

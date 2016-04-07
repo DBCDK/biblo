@@ -4,9 +4,15 @@
 .activity-row--container {
   .activity-row {
     @include clearfix;
+    padding-left: 20px;
+    @include min-screen($tablet) {
+      padding-left: 30px;
+    }
+    padding-right: 10px;
 
     .activity-row--title {
       display: inline-block;
+      padding-bottom: 5px;
 
       h3 {
         display: inline;
@@ -37,7 +43,7 @@
       padding: 5px;
     }
 
-    .activity-row--children.no-image {
+    .activity-row--children--no-image {
       @include span(23 of 24);
     }
 

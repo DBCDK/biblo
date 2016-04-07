@@ -15,6 +15,7 @@ import Icon from '../../General/Icon/Icon.component.js';
 import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
+import {getVideoPlayer} from '../General/GroupDisplayUtils';
 
 import Youtube from 'react-youtube';
 
@@ -116,30 +117,6 @@ export default class PostView extends React.Component {
     this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
   }
 
-  getVideoPlayer() {
-    let thumbUrl = null;
-    let sources = [];
-
-    this.props.video.resolutions.forEach((resolution, key) => {
-      if (resolution.size !== 'original_video') {
-        const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
-        if (!thumbUrl) {
-          thumbUrl = `${pureFileName}_thumb_00001.png`;
-        }
-
-        sources.push(
-          <source src={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-output-videobucket/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />);
-      }
-    });
-
-    return (
-      <video controls preload="metadata"
-             poster={`https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`} >
-        {sources}
-      </video>
-    );
-  }
-
   render() {
     const {
             groupActions,
@@ -236,7 +213,7 @@ export default class PostView extends React.Component {
                 </div>
               }
               {
-                video && video.resolutions.length ? this.getVideoPlayer() : null
+                video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
               }
               {
                 youtube &&

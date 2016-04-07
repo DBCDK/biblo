@@ -1,5 +1,7 @@
 'use strict';
 
+import groupParser from '../../../parsers/group.parser';
+
 const ListGroupsTransform = {
   event() {
     return 'listGroups';
@@ -22,7 +24,8 @@ const ListGroupsTransform = {
   },
 
   responseTransform(response) {
-    const body = JSON.parse(response.body);
+    let body = JSON.parse(response.body);
+    body = body.map(groupParser);
     return body;
   }
 };

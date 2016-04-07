@@ -11,7 +11,6 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
-import twemoji from 'twemoji';
 
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
@@ -74,7 +73,7 @@ export class ProfileDetailContainer extends React.Component {
                     src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
                   />
                   <div className="user-feed--groups-modal--group-name"
-                       dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
+                       dangerouslySetInnerHTML={{__html: group.name}}/>
                 </a>
               {isMyProfile ?
                 <Follow active={group.following}
@@ -93,6 +92,7 @@ export class ProfileDetailContainer extends React.Component {
     userProfile = assignToEmpty(userProfile, {
       image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
     });
+
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
 
     let feed = this.props.feed.feed.map((activity) => {
@@ -101,23 +101,28 @@ export class ProfileDetailContainer extends React.Component {
         displayName: ''
       }, activity.owner);
 
+      let displayName = activity.owner.displayName;
+
+      if (isMyProfile) {
+        displayName = 'Du';
+      }
       switch (activity.type) {
         case 'comment':
-          let title = activity.owner.displayName + ' skrev en kommentar';
+          let title = displayName + ' skrev en kommentar';
 
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
                 <span dangerouslySetInnerHTML={{__html: title}}/>
-                <span> til et indlæg i gruppen </span>
+                <span> i </span>
                 <a href={`/grupper/${activity.post.group.id}`}
-                   dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}}/>
+                   dangerouslySetInnerHTML={{__html: activity.post.group.name}}/>
                 <span>:</span>
               </span>
             );
           }
           else {
-            title += ' til et indlæg:';
+            title += ' ';
           }
 
           activity = assignToEmpty({
@@ -173,13 +178,16 @@ export class ProfileDetailContainer extends React.Component {
           );
 
         case 'post':
-          let postTitle = activity.owner.displayName + ' oprettede et indlæg';
+          let postTitle = displayName + ' oprettede et indlæg';
 
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i gruppen <a
-                href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+                <span dangerouslySetInnerHTML={{__html: postTitle}}/>
+                <span> i </span>
+                <a href={`/grupper/${activity.group.id}`}
+                   dangerouslySetInnerHTML={{__html: activity.group.name}}/>
+                <span>:</span>
               </span>
             );
           }
@@ -287,6 +295,9 @@ export class ProfileDetailContainer extends React.Component {
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
     const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
+    let owner = userProfile.displayName;
+    owner = owner[0].toUpperCase() + owner.slice(1);
+    const currentUserOwnership = (isMyProfile) ? 'Din' : (owner + 's');
 
     let editButton = null;
     let profileImage = null;
@@ -328,7 +339,7 @@ export class ProfileDetailContainer extends React.Component {
         </div>
         {
           (this.props.feed.feed.length > 0) ?
-            (<ActivityRow title={`Se hvad ${currentUserAddressing} har lavet:`}/>) :
+            (<ActivityRow title={`${currentUserOwnership} aktivitet på siden`}/>) :
             (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing.charAt(0).toUpperCase()} har ikke lavet
               noget...</ActivityRow>)
         }

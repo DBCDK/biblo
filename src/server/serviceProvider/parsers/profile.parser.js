@@ -17,7 +17,7 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
     description: profile.description,
     displayName: profile.displayName
   };
-  
+
   p.description = textParser(profile.description || '');
   p.displayName = textParser(profile.displayName || 'Anonym');
   p.id = profile.id || 0;

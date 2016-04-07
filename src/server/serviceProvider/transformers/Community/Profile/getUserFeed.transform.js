@@ -3,6 +3,7 @@
 import profileParser from '../../../parsers/profile.parser';
 import commentParser from '../../../parsers/comment.parser';
 import postParser from '../../../parsers/post.parser';
+import groupParser from '../../../parsers/group.parser';
 
 /**
  * @file
@@ -114,6 +115,10 @@ const getUserFeedTransform = {
         post.imageSrc = `/billede/${post.group.coverImage.id}/small`;
       }
 
+      if (post.group) {
+        post.group = groupParser(post.group);
+      }
+
       return postParser(post);
     });
 
@@ -122,6 +127,11 @@ const getUserFeedTransform = {
       comment.timeCreated = comment.timeCreated || '2001-01-01T12:00:00.000Z';
       comment.imageSrc = false;
       comment.post = postParser(comment.post);
+      
+      if (comment.post.group) {
+        comment.post.group = groupParser(comment.post.group);
+      }
+      
       return commentParser(comment);
     });
 

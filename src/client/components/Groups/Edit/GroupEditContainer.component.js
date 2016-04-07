@@ -46,8 +46,8 @@ export class GroupEditContainer extends React.Component {
           submitProgress={this.props.group.UI.submitProgress}
           submit={this.groupFormSubmit.bind(this)}
           defaultValues={{
-            'group-name': this.props.group.name,
-            'group-description': this.props.group.description
+            'group-name': this.props.group.raw.name,
+            'group-description': this.props.group.raw.description
           }}
         />
       </PageLayout>

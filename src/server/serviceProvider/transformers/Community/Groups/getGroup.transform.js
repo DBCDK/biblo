@@ -2,17 +2,12 @@
 
 import * as _ from 'lodash';
 import parseProfile from '../../../parsers/profile.parser';
+import groupParser from '../../../parsers/group.parser';
 
 const GetGroupTransform = {
 
   event() {
     return 'getGroup';
-  },
-
-  parseGroup(group) {
-    group.owner = parseProfile(group.owner, true, 'small');
-    group.image = group.coverImage && '/billede/' + group.coverImage.id + '/small' || null;
-    return group;
   },
 
   requestTransform(event, {id, allMembers}, connection) { // eslint-disable-line no-unused-vars
@@ -49,7 +44,7 @@ const GetGroupTransform = {
     const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
 
     const loggedIn = typeof uid !== 'undefined';
-    const body = this.parseGroup(JSON.parse(response.body));
+    const body = groupParser(JSON.parse(response.body));
 
     if (loggedIn) {
       // is the current user following the group?

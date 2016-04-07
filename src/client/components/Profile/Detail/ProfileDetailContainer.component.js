@@ -11,7 +11,6 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
-import twemoji from 'twemoji';
 
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
@@ -74,7 +73,7 @@ export class ProfileDetailContainer extends React.Component {
                     src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
                   />
                   <div className="user-feed--groups-modal--group-name"
-                       dangerouslySetInnerHTML={{__html: twemoji.parse(group.name)}}/>
+                       dangerouslySetInnerHTML={{__html: group.name}}/>
                 </a>
               {isMyProfile ?
                 <Follow active={group.following}
@@ -115,7 +114,7 @@ export class ProfileDetailContainer extends React.Component {
                 <span dangerouslySetInnerHTML={{__html: title}}/>
                 <span> i </span>
                 <a href={`/grupper/${activity.post.group.id}`}
-                   dangerouslySetInnerHTML={{__html: twemoji.parse(activity.post.group.name)}}/>
+                   dangerouslySetInnerHTML={{__html: activity.post.group.name}}/>
                 <span>:</span>
               </span>
             );
@@ -182,8 +181,11 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}}/> i <a
-                href={`/grupper/${activity.group.id}`}>{activity.group.name}</a>:
+                <span dangerouslySetInnerHTML={{__html: postTitle}}/>
+                <span> i </span>
+                <a href={`/grupper/${activity.group.id}`}
+                   dangerouslySetInnerHTML={{__html: activity.group.name}}/>
+                <span>:</span>
               </span>
             );
           }

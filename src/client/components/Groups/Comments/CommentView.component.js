@@ -94,7 +94,7 @@ class CommentView extends React.Component {
               }
               {
                 image &&
-                <div className='media'><img src={image} alt="image for post"/></div>
+                <div className='media'><a href={image.replace('medium', 'original')} target="_blank" ><img src={image} alt="image for post" /></a></div>
               }
               {
                 video && video.resolutions.length ? getVideoPlayer(this.props.video) : null

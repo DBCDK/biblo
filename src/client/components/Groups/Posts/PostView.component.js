@@ -97,12 +97,12 @@ export default class PostView extends React.Component {
         cancelButtonText={'Fortryd'}
         confirmButtonText={'Slet Indlæg'}
         cancelFunc={() => {
-        this.props.uiActions.closeModalWindow();
-      }}
+          this.props.uiActions.closeModalWindow();
+        }}
         confirmFunc={() => {
-        this.props.groupActions.asyncDeletePost(this.props.id);
-        this.props.uiActions.closeModalWindow();
-      }}
+          this.props.groupActions.asyncDeletePost(this.props.id);
+          this.props.uiActions.closeModalWindow();
+        }}
       >{content}</ConfirmDialog>
     );
     this.props.uiActions.openModalWindow(dialog);
@@ -118,7 +118,6 @@ export default class PostView extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const {
             groupActions,
             content,

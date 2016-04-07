@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import autosize from 'autosize';
+import {isEmpty} from 'lodash';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
@@ -61,24 +62,25 @@ export default class ProfileForm extends React.Component {
     const errorObj = {};
     this.props.errors.forEach((error) => {
       errorObj[error.field] = (
-        <Message type='error'>
-          <span className={error.field}>{error.errorMessage}</span>
+        <Message type='error' >
+          <span className={error.field} >{error.errorMessage}</span>
         </Message>
       );
     });
 
     let disabled = false;
-    let submitArea = <RoundedButtonSubmit buttonText="OK"/>;
+    let submitArea = <RoundedButtonSubmit buttonText="OK" />;
 
     if (this.props.submitState === 'SUBMITTING') {
       disabled = true;
-      submitArea = <ProgressBar completed={this.props.submitProgress} height={'35px'}/>;
+      submitArea =
+        <ProgressBar completed={this.props.submitProgress} height={'35px'} />;
     }
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;
       submitArea = (
-        <ProgressBar completed={this.props.submitProgress} height={'35px'}>
-          <p className="progressbar--message">Behandler</p>
+        <ProgressBar completed={this.props.submitProgress} height={'35px'} >
+          <p className="progressbar--message" >Behandler</p>
         </ProgressBar>
       );
     }
@@ -91,7 +93,7 @@ export default class ProfileForm extends React.Component {
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />
           <RoundedButton clickFunction={() => this.props.unselectLibraryFunction()}
-                         buttonText="Klik her for at vælge et andet bibliotek" compact={true}/>
+                         buttonText="Klik her for at vælge et andet bibliotek" compact={true} />
         </div>
       );
     }
@@ -99,30 +101,29 @@ export default class ProfileForm extends React.Component {
     let searchField = null;
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
       searchField = (
-        <div className="search-area">
+        <div className="search-area" >
           <InputField
             defaultValue={this.props.search}
-              error={errorObj.search}
-              onChangeFunc={this.props.searchAction}
-              type="text"
-              name="search"
-              title="Vælg dit bibliotek"
-              placeholder="Søg efter dit bibliotek her"
-              autocomplete="off"
-              disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
-              required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
-              />
-          <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements}/>
+            error={errorObj.search}
+            onChangeFunc={this.props.searchAction}
+            type="text"
+            name="search"
+            title="Vælg dit bibliotek"
+            placeholder="Søg efter dit bibliotek her"
+            autocomplete="off"
+            disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
+            required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
+          />
+          <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements} />
         </div>
       );
     }
 
-
     return (
-      <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
-        <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')}>
-          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form">
-            <div className={'profile-image-upload'}>
+      <div className={this.props.errors.length > 0 && ' shakeit' || ''} >
+        <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')} >
+          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form" >
+            <div className={'profile-image-upload'} >
               <DroppableImageField
                 disabled={disabled}
                 imageSrc={this.props.profileImageSrc}
@@ -135,7 +136,7 @@ export default class ProfileForm extends React.Component {
 
             {errorObj.general || ''}
 
-            <div className="padded-area">
+            <div className="padded-area" >
               <DisplayNameField
                 defaultValue={this.props.displayName}
                 errors={errorObj}
@@ -144,7 +145,7 @@ export default class ProfileForm extends React.Component {
                 displayNameExists={this.props.displayNameExists}
               />
 
-              <div className="description--form-area">
+              <div className="description--form-area" >
                 <label>
                   <p>
                     <strong>Beskriv dig selv</strong>
@@ -191,7 +192,7 @@ export default class ProfileForm extends React.Component {
               />
 
               <InputField
-                defaultValue={(new Date(this.props.birthday)).toISOString().split('T')[0]} // YYYY-MM-DD
+                defaultValue={!isEmpty(this.props.birthday) ? (new Date(this.props.birthday)).toISOString().split('T')[0] : ''} // YYYY-MM-DD
                 error={errorObj.birthday}
                 onChangeFunc={(e) => this.setState({birthday: e.target.value})}
                 type="date"
@@ -201,17 +202,17 @@ export default class ProfileForm extends React.Component {
                 min={new Date()}
               />
 
-              <div className="library--form-area">
+              <div className="library--form-area" >
                 <h3>Dit bibliotek</h3>
                 {errorObj.library || ''}
 
-                <div className="selected-library-description">
+                <div className="selected-library-description" >
                   {libraryDescription}
                 </div>
 
                 {searchField}
 
-                <div className='hidden'>
+                <div className='hidden' >
                   <input
                     type='hidden'
                     name='libraryId'
@@ -239,7 +240,7 @@ export default class ProfileForm extends React.Component {
                 />
               </div>
 
-              <div className={'profile-form-submit-button'}>
+              <div className={'profile-form-submit-button'} >
                 {submitArea}
               </div>
             </div>

@@ -29,7 +29,9 @@ export default class CookieWarningContainer extends React.Component {
       <ModalWindow onClose={this.onClose.bind(this)} >
         <div className="cookie-warning" >
           <img src="https://media.giphy.com/media/1ngQorBCDcUFy/giphy.gif" alt="" />
-          <span className="cookie-warning--message" >EAT COOKIES OR DIE!</span>
+          <span className="cookie-warning--message" >
+            Biblo bruger cookies til at huske dine indstillinger og til statistik. Læs mere om cookies under "Spørgsmål og svar" nederst på siden.
+          </span>
           <RoundedButton buttonText="OK" clickFunction={this.onClose.bind(this)} />
         </div>
       </ModalWindow>

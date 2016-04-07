@@ -11,6 +11,7 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
+import {getVideoPlayer} from '../General/GroupDisplayUtils';
 
 import Youtube from 'react-youtube';
 
@@ -26,36 +27,10 @@ class CommentView extends React.Component {
     this.state = {
       isEditting: false
     };
-
-    this.getVideoPlayer.bind(this);
   }
 
   toggleEditting() {
     this.setState({isEditting: !this.state.isEditting});
-  }
-
-  getVideoPlayer() {
-    let thumbUrl = null;
-    let sources = [];
-
-    this.props.video.resolutions.forEach((resolution, key) => {
-      if (resolution.size !== 'original_video') {
-        const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
-        if (!thumbUrl) {
-          thumbUrl = `${pureFileName}_thumb_00001.png`;
-        }
-
-        sources.push(
-          <source src={`https://s3-eu-west-1.amazonaws.com/${resolution.video.container}/${resolution.video.name}`} type={`${resolution.video.type}`} key={key} />);
-      }
-    });
-
-    return (
-      <video controls preload="none"
-             poster={thumbUrl ? `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}` : false} >
-        {sources}
-      </video>
-    );
   }
 
   render() {
@@ -122,7 +97,7 @@ class CommentView extends React.Component {
                 <div className='media'><img src={image} alt="image for post"/></div>
               }
               {
-                video && video.resolutions.length ? this.getVideoPlayer() : null
+                video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
               }
               {
                 youtube &&

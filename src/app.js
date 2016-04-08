@@ -254,13 +254,13 @@ module.exports.run = function(worker) {
     }
 
     res.status(500);
-    res.render('error', {errorData: "{\"statusCode\":500}"});
+    res.render('error', {errorData: '{\"statusCode\":500}'});
   });
 
   // Handle 404's
   app.use((req, res) => {
     res.status(404);
-    res.render('error', {errorData: "{\"statusCode\":404}"});
+    res.render('error', {errorData: '{\"statusCode\":404}'});
   });
 
   // Setting logger -- should be placed after routes

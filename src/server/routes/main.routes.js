@@ -64,14 +64,14 @@ MainRoutes.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-MainRoutes.get('/error', (req, res) => {
+MainRoutes.get('/error', (req, res, next) => {
   let errorMsg = 'Der er sket en fejl!';
   if (req.session.passportError) {
     errorMsg = req.session.passportError.message;
   }
 
   req.session.passportError = null;
-  res.send(errorMsg);
+  next(errorMsg);
 });
 
 MainRoutes.get('/billede/:id/:size', (req, res) => {

@@ -235,7 +235,7 @@ module.exports.run = function(worker) {
   PassportStrategies.Unilogin(app, BIBLO_CONFIG.unilogin);
 
   // Setting middleware
-  app.use('*', GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
+  app.use(GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
   app.use(ssrMiddleware);
   app.use(ensureProfileImage);
 
@@ -254,13 +254,13 @@ module.exports.run = function(worker) {
     }
 
     res.status(500);
-    res.render('error', {errorImage: 'https://http.cat/500'});
+    res.render('error', {errorData: "{\"statusCode\":500}"});
   });
 
   // Handle 404's
   app.use((req, res) => {
     res.status(404);
-    res.render('error', {errorImage: 'https://http.cat/404'});
+    res.render('error', {errorData: "{\"statusCode\":404}"});
   });
 
   // Setting logger -- should be placed after routes

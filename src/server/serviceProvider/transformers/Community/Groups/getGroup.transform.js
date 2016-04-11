@@ -15,7 +15,7 @@ const GetGroupTransform = {
     let memberLimit = (typeof allMembers !== 'undefined' && allMembers) ? 1000 : 15;
 
     const groupFilter = {
-      counts: 'posts',
+      counts: ['posts', 'members'],
       include: [
         {
           relation: 'members',

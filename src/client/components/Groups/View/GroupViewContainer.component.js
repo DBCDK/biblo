@@ -58,6 +58,7 @@ export class GroupViewContainer extends React.Component {
   }
 
   render() {
+
     if (this.props.group.error) {
       return (
         <PageLayout>
@@ -112,7 +113,7 @@ export class GroupViewContainer extends React.Component {
               }
             </div>
           </div>
-          <h2 className="group--memberbox-header">{this.props.group.members.length + 1} følger gruppen</h2>
+          <h2 className="group--memberbox-header">{this.props.group.membersCount} følger gruppen</h2>
           <GroupMembersBox
             members={this.props.group.members}
             owner={this.props.group.owner}

@@ -10,6 +10,9 @@ import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
 // Styling
 import './scss/cookie-warning.scss';
 
+// SVGs
+import logo from './biblo_logo_100x30.svg';
+
 export default class CookieWarningContainer extends React.Component {
   constructor() {
     super();
@@ -28,9 +31,14 @@ export default class CookieWarningContainer extends React.Component {
       this.state.displayWarning &&
       <ModalWindow onClose={this.onClose.bind(this)} >
         <div className="cookie-warning" >
-          <img src="https://media.giphy.com/media/1ngQorBCDcUFy/giphy.gif" alt="" />
+          <div className="cookie-warning--svg">
+            <svg><use xlinkHref={logo} /></svg>
+          </div>
+          <span className="cookie-warning--header" >
+            Velkommen til biblo.dk
+          </span>
           <span className="cookie-warning--message" >
-            Biblo bruger cookies til at huske dine indstillinger og til statistik. Læs mere om cookies under "Spørgsmål og svar" nederst på siden.
+            For at gøre siden så let at bruge som muligt gemmer vi det du laver på sitet i noget, der hedder en cookie.
           </span>
           <RoundedButton buttonText="OK" clickFunction={this.onClose.bind(this)} />
         </div>

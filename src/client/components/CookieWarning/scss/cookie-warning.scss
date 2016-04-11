@@ -1,5 +1,5 @@
 .cookie-warning {
-  text-align: center;
+  text-align: left;
 
   img {
     width: 100%;
@@ -12,6 +12,18 @@
   }
 }
 
-.cookie-warning--message {
+.cookie-warning--svg {
+  text-align: center;
+
+  svg {
+    max-width: 100%;
+  }
+}
+
+.cookie-warning--header {
+  display: block;
   font-weight: bold;
+}
+
+.cookie-warning--message {
 }

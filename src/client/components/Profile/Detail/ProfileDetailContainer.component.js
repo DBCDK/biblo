@@ -340,7 +340,7 @@ export class ProfileDetailContainer extends React.Component {
         {
           (this.props.feed.feed.length > 0) ?
             (<ActivityRow title={`${currentUserOwnership} aktivitet på siden`}/>) :
-            (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing.charAt(0).toUpperCase()} har ikke lavet
+            (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing} har ikke lavet
               noget...</ActivityRow>)
         }
 

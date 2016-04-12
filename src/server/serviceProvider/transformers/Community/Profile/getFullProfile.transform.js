@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * Get the user profile + profile image.

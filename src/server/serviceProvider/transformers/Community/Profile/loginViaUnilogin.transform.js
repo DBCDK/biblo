@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * Uses the custom method 'checkIfUserExists' to check whether a user exists.

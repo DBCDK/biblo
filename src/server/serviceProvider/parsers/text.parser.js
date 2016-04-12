@@ -1,5 +1,3 @@
-'use strict';
-
 import AutoLinker from 'autolinker';
 import twemoji from 'twemoji';
 import sanitizeHtml from 'sanitize-html';

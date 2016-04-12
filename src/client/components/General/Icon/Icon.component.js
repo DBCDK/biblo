@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import './icon.scss';
 
@@ -25,3 +23,9 @@ export default function Icon({glyph, width = 16, height = 16, className = 'icon'
   );
 }
 
+Icon.propTypes = {
+  glyph: React.PropTypes.any,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+  className: React.PropTypes.string
+};

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import './VisFlereButton.component.scss';
 import Icon from '../Icon/Icon.component';
@@ -16,3 +14,6 @@ export default function VisFlereButton({onClick}) {
 }
 
 VisFlereButton.displayName = 'VisFlereButton';
+VisFlereButton.propTypes = {
+  onClick: React.PropTypes.func
+};

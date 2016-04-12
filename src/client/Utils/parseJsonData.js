@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: exports function which get jsondata from document
  */

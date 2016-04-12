@@ -1,5 +1,3 @@
-'use strict';
-
 import './click-overlay.scss';
 import ClassNames from 'classnames';
 import React, {PropTypes} from 'react';

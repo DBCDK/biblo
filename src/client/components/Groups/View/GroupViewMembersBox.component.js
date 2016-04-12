@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
@@ -47,5 +45,6 @@ GroupMembersBox.propTypes = {
   onExpand: React.PropTypes.func.isRequired,
   isExpanded: React.PropTypes.bool.isRequired,
   members: React.PropTypes.array.isRequired,
-  owner: React.PropTypes.object.isRequired
+  owner: React.PropTypes.object.isRequired,
+  isLoadingMembers: React.PropTypes.bool
 };

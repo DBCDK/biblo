@@ -1,5 +1,3 @@
-'use strict';
-
 import profileParser from '../../../parsers/profile.parser';
 import commentParser from '../../../parsers/comment.parser';
 import postParser from '../../../parsers/post.parser';

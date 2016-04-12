@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import './searchdropdown.component.scss';
@@ -26,12 +24,12 @@ SearchDropDown.displayName = 'SearchDropDown';
 
 SearchDropDown.propTypes = {
   visible: React.PropTypes.bool,
-  elements: (props, propName) => {
+  elements: (props, propName) => { // eslint-disable-line consistent-return
     let prop = props[propName];
     if (!Array.isArray(prop)) {
       return new Error('Elements must be an array!');
     }
-    prop.forEach((element) => {
+    prop.forEach((element) => { // eslint-disable-line consistent-return
       if (!element.text) {
         return new Error('Each element must contain text!');
       }

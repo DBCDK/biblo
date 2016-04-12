@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * tests the click overlay component

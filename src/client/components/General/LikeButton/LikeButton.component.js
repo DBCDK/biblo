@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import './like-button.scss';
 import Icon from '../Icon/Icon.component.js';
@@ -29,3 +27,10 @@ export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = 
   );
 }
 
+LikeButton.propTypes = {
+  usersWhoLikeThis: React.PropTypes.any,
+  isLikedByCurrentUser: React.PropTypes.bool,
+  active: React.PropTypes.bool,
+  likeFunction: React.PropTypes.func,
+  unlikeFunction: React.PropTypes.func
+};

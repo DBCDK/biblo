@@ -1,5 +1,3 @@
-'use strict';
-
 // Libraries
 import React from 'react';
 import {bindActionCreators} from 'redux';

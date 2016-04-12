@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PageLayout from '../Layout/PageLayout.component.js';
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import * as hyperlinks from '../../Constants/hyperlinks.constants';
 import './_footer.scss';

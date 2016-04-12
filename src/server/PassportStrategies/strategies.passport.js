@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * This file contains the various strategies used by PassportJS in PG and MobilSøg
@@ -27,7 +25,7 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.auth.error
         };
-        logger.warning(`Error when comparing auth's in ticket from UNI-Loing`, {
+        logger.warning('Error when comparing auth\'s in ticket from UNI-Loing', {
           error: error,
           query: req.query,
           ticket: ticket
@@ -39,7 +37,7 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.timestamp.message
         };
-        logger.warning(`Error when validating timestamps in ticket from UNI-Loing`, {
+        logger.warning('Error when validating timestamps in ticket from UNI-Loing', {
           error: error,
           query: req.query,
           ticket: ticket
@@ -66,10 +64,12 @@ export function Unilogin(app, uniloginConfig) {
         })[0];
       }).then((res) => {
         logger.info('User was successfully logged in', {ticket: ticket, user: res});
-        done(null, res.body);
+        return done(null, res.body);
       }).catch((err) => {
-        done(err);
+        return done(err);
       });
+
+      return done();
     }
   ));
 

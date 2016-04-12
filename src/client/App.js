@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Entrypoint for all JS
  * Export a function which renders react component in store context.

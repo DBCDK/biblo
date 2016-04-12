@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Constants to keep track of all the actions in the app.
  * This makes sure name clashes don't occur, so the state remains predictable.

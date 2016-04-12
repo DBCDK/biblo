@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: exports function which clones an object into a new object
  */

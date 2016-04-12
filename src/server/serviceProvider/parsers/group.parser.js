@@ -1,5 +1,3 @@
-'use strict';
-
 import parseProfile from './profile.parser';
 import parseText from './text.parser';
 

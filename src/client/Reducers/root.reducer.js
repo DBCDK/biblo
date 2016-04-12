@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Entrypoint for all reducers
  * Combines the apps reducers to set the store context for all rendered components.

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: This file contains the forms for groups. See https://github.com/caolan/forms for a reference guide.
  */

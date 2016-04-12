@@ -1,5 +1,3 @@
-'use strict';
-
 const GetGroupTransform = {
   event() {
     return 'getGroupId';

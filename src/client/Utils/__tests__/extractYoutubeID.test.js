@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file Testing the extractYoutubeID.js
  */

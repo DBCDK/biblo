@@ -1,5 +1,3 @@
-'use strict';
-
 import groupParser from '../../../parsers/group.parser';
 
 const ListGroupsTransform = {

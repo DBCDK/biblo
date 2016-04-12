@@ -1,5 +1,3 @@
-'use strict';
-
 const FlagCommentTransform = {
   event() {
     return 'flagComment';

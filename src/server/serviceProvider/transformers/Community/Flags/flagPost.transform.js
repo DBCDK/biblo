@@ -1,5 +1,3 @@
-'use strict';
-
 const FlagPostTransform = {
   event() {
     return 'flagPost';

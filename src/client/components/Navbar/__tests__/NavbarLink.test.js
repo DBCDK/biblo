@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * tests the NavbarLink Component

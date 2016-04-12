@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Easter egg, when the konami code is entered (up, up, down, dow, left, right, left, right, b, a), an easter egg appears.
  */

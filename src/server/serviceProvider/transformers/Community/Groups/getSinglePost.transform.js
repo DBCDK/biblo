@@ -1,5 +1,3 @@
-'use strict';
-
 import parsePost from '../../../parsers/post.parser';
 
 const GetPostsTransform = {

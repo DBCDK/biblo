@@ -1,4 +1,3 @@
-'use strict';
 /**
  * @file
  * entry point for the search page

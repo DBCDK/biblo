@@ -1,10 +1,7 @@
-'use strict';
-
 import React from 'react';
 import Icon from '../Icon/Icon.component.js';
 import backArrowSvg from './back-arrow.svg';
 import './_backbutton.component.scss';
-
 
 const BackButton = () => {
   let backFunction = (e) => {

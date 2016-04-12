@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Tests for groups container.
  */

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import TimeToString from '../../../Utils/timeToString';
 
@@ -65,3 +63,11 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
     </div>
   );
 }
+
+ActivityRow.propTypes = {
+  children: React.PropTypes.any,
+  date: React.PropTypes.string,
+  answerFunction: React.PropTypes.func,
+  likes: React.PropTypes.array,
+  title: React.PropTypes.string
+};

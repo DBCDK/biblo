@@ -1,5 +1,3 @@
-'use strict';
-
 import {profileMock, moderatorMock} from './profile.mock';
 
 export const emptyFeedMock = {

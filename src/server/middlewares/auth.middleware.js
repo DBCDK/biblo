@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: This file contains middlewares for authentication and the like.
  */
@@ -70,5 +68,5 @@ export function ensureUserHasProfile(req, res, next) {
 
   // user does not have a profile
   req.session.returnUrl = req.originalUrl;
-  res.redirect('/profil/rediger');
+  return res.redirect('/profil/rediger');
 }

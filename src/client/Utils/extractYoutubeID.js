@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file Extracts the youtube video ID from a given string
  */

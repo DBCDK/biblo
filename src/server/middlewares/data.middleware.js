@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: This file contains middlewares for appending and updating data for endpoints.
  */
@@ -12,7 +10,7 @@
  * @param res
  * @param next
  */
-export function fullProfileOnSession(req, res, next) {
+export function fullProfileOnSession(req, res, next) { // eslint-disable-line consistent-return
   if (!req.isAuthenticated()) {
     res.locals.profile = JSON.stringify({
       profile: {

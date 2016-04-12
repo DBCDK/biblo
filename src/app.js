@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * Configure and start our server
@@ -254,7 +252,7 @@ module.exports.run = function(worker) {
     }
 
     res.status(500);
-    res.render('error', {errorData: '{\"statusCode\":500}'});
+    return res.render('error', {errorData: '{\"statusCode\":500}'});
   });
 
   // Handle 404's

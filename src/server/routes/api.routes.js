@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: HTTP fallback for socketcluster.
  */

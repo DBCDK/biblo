@@ -1,5 +1,3 @@
-'use strict';
-
 import textParser from './text.parser';
 
 /**

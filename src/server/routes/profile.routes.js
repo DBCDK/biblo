@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * Configure profile routes
@@ -52,7 +50,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
     });
   }
   catch (e) {
-    return next(e);
+    next(e);
   }
 });
 

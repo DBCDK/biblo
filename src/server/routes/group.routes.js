@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * Configure group routes
@@ -150,7 +148,7 @@ GroupRoutes.get('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensur
     return res.redirect('/error/403');
   }
 
-  res.render('page', {
+  return res.render('page', {
     css: ['/css/groupedit.css'],
     js: ['/js/groupedit.js'],
     jsonData: [JSON.stringify(data)]

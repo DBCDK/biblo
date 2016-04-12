@@ -1,5 +1,3 @@
-'use strict';
-
 import ClassNames from 'classnames';
 import React, {PropTypes} from 'react';
 import './styling/navbar-toggle.scss';

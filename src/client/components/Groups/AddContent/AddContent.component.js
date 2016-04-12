@@ -1,5 +1,3 @@
-'use strict';
-
 import autosize from 'autosize';
 import React from 'react';
 import Classnames from 'classnames';
@@ -107,7 +105,7 @@ export default class AddContent extends React.Component {
    * @param {Object} input
    * @return {boolean}
    */
-  readInput(input) {
+  readInput(input) { // eslint-disable-line consistent-return
     if (input.target.files && input.target.files[0]) {
       const file = input.target.files[0];
       const type = file.type.split('/')[0];

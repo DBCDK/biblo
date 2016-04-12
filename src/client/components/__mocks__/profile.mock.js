@@ -1,5 +1,3 @@
-'use strict';
-
 export const profileMock = {
   username: 'jona341k',
   displayName: 'Bobby',

@@ -1,5 +1,3 @@
-'use strict';
-
 function callServiceProvider(req, res, next, event, query, timeout) {
   const logger = req.app.get('logger');
 

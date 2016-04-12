@@ -1,5 +1,3 @@
-'use strict';
-
 import parseComment from '../../../parsers/comment.parser';
 
 const GetSingleCommentsTransform = {

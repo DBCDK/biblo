@@ -1,5 +1,3 @@
-'use strict';
-
 const CreateGroupContent = {
   event() {
     return 'createGroupContent';

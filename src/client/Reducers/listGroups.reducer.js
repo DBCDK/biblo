@@ -1,5 +1,3 @@
-'use strict';
-
 import parseJsonData from '../Utils/parseJsonData.js';
 import * as types from '../Constants/action.constants';
 import assignToEmpty from '../Utils/assign';

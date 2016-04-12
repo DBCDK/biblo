@@ -1,5 +1,3 @@
-'use strict';
-
 export default function TimeToString(past) {
   const delta = (Date.now() - Date.parse(past)) /1000;
   const days = Math.floor(delta / (24 * 3600));

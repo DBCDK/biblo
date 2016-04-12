@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import CommentView from './CommentView.component';
 
@@ -22,5 +20,7 @@ CommentList.propTypes = {
   submitFlagFunction: React.PropTypes.func.isRequired,
   uiActions: React.PropTypes.object.isRequired,
   groupActions: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired
+  profile: React.PropTypes.object.isRequired,
+  groupId: React.PropTypes.any,
+  postId: React.PropTypes.any
 };

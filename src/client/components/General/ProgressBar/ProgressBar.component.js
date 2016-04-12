@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 function ProgressBar({completed, color, height, children}) {
@@ -31,7 +29,8 @@ ProgressBar.displayName = 'ProgressBar';
 ProgressBar.propTypes = {
   completed: React.PropTypes.number,
   color: React.PropTypes.string,
-  height: React.PropTypes.string
+  height: React.PropTypes.string,
+  children: React.PropTypes.any
 };
 
 ProgressBar.defaultProps = {

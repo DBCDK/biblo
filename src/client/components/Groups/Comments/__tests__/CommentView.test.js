@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {expect} from 'chai';
 import sd from 'skin-deep';

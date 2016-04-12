@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import GroupViewTile from '../View/GroupViewTile.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';

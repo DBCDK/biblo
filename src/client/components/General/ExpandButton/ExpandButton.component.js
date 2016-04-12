@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Icon from '../Icon/Icon.component.js';
 import plusSvg from '../Icon/svg/functions/plus.svg';
@@ -24,3 +22,9 @@ export default function ExpandButton({text, onClick, isLoading}) { // eslint-dis
     </a>
   );
 }
+
+ExpandButton.propTypes = {
+  text: React.PropTypes.string,
+  onClick: React.PropTypes.func,
+  isLoading: React.PropTypes.bool
+};

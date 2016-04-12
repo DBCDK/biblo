@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
 import NavbarLink from './NavbarLink.component.js';

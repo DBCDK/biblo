@@ -1,5 +1,3 @@
-'use strict';
-
 const FlagGroupTransform = {
   event() {
     return 'flagGroup';

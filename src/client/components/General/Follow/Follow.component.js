@@ -1,5 +1,4 @@
-'use strict';
-
+import React from 'react';
 import ClassNames from 'classnames';
 import Icon from '../Icon/Icon.component.js';
 
@@ -15,6 +14,7 @@ import './follow.scss';
  * @param active
  * @param text
  * @param onClick
+ * @param showLoginLink
  * @returns {XML}
  * @constructor
  */
@@ -34,3 +34,10 @@ export default function Follow({active, text, onClick, showLoginLink}) {
     </a>
   );
 }
+
+Follow.propTypes = {
+  text: React.PropTypes.string,
+  onClick: React.PropTypes.func,
+  active: React.PropTypes.bool,
+  showLoginLink: React.PropTypes.bool
+};

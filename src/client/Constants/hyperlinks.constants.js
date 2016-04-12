@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Constants to keep track of all the hyperlinks in the app.
  * This makes changing URLs a lot easier.

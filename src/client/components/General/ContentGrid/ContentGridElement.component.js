@@ -1,9 +1,6 @@
-'use strict';
-
 import React from 'react';
 
 import './content-grid.scss';
-
 
 function ContentGridElement({title = 'Untitled', text='', url=null, imageUrl=null}) {
 

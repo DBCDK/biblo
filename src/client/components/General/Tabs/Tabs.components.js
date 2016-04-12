@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Tab component
  */
@@ -26,3 +24,8 @@ export default function Tabs({tabs, selected, onClick}) {
 }
 
 Tabs.displayName = 'Tabs';
+Tabs.propTypes = {
+  tabs: React.PropTypes.array.isRequired,
+  selected: React.PropTypes.bool,
+  onClick: React.PropTypes.func
+};

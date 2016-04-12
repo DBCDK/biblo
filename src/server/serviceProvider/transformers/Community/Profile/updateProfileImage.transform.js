@@ -1,5 +1,3 @@
-'use strict';
-
 import {quarantinedMiddleware} from '../middlewares/auth.middlewares';
 
 const UpdateProfileImageTransform = {

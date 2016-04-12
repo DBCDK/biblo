@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * This file contains the various strategies used by PassportJS in PG and MobilSøg
@@ -21,13 +19,13 @@ export function Unilogin(app, uniloginConfig) {
       secret: uniloginConfig.secret,
       uniloginBasePath: uniloginConfig.uniloginBasePath,
       maxTicketAge: 30
-    }, (error, req, ticket, done) => {
+    }, (error, req, ticket, done) => { // eslint-disable-line consistent-return
 
       if (error && error.auth.error) {
         req.session.passportError = {
           message: error.auth.error
         };
-        logger.warning(`Error when comparing auth's in ticket from UNI-Loing`, {
+        logger.warning('Error when comparing auth\'s in ticket from UNI-Loing', {
           error: error,
           query: req.query,
           ticket: ticket
@@ -39,7 +37,7 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.timestamp.message
         };
-        logger.warning(`Error when validating timestamps in ticket from UNI-Loing`, {
+        logger.warning('Error when validating timestamps in ticket from UNI-Loing', {
           error: error,
           query: req.query,
           ticket: ticket
@@ -52,7 +50,7 @@ export function Unilogin(app, uniloginConfig) {
         // Check if user exists
         if (!res.exists) {
           // user doesn't exist, create user
-          logger.info('User was not found, creating profile', {});
+          logger.info('User was not found, creating profile', {ticket: ticket});
           return serviceProvider.trigger('createProfile', ticket.user)[0];
         }
         return {};

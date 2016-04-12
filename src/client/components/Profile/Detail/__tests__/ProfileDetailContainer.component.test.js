@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Tests for profile detail container (also known as public profile).
  */

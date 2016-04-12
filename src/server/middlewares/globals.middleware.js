@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  * Middleware for setting global variables that should accessible in the

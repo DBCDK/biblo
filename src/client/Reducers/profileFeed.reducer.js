@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file: Profile feed reducer
  */

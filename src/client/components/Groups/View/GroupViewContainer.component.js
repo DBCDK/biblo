@@ -1,6 +1,4 @@
 /* eslint-disable react/no-danger */
-'use strict';
-
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -89,7 +87,7 @@ export class GroupViewContainer extends React.Component {
             {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) &&
             <div className="group--actions">
               <TinyButton active={false}
-                          clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`}
+                          clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line no-return-assign
                           icon={<Icon glyph={pencilSvg}/>}/>
             </div>
             }

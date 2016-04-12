@@ -1,5 +1,3 @@
-'use strict';
-
 export function getVideoPlayer(videoProp) {
   let thumbUrl = null;
   let sources = [];

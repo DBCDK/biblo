@@ -1,5 +1,3 @@
-'use strict';
-
 import {SocketCluster} from 'socketcluster';
 import path from 'path';
 

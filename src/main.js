@@ -3,7 +3,6 @@
  * Bootstraps the server and initialized babel, so all JSX and ES6 is transpiled
  *
  */
-'use strict';
 
 var config = require('@dbcdk/biblo-config').biblo; // eslint-disable-line no-process-env
 

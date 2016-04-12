@@ -52,7 +52,7 @@ export function Unilogin(app, uniloginConfig) {
         // Check if user exists
         if (!res.exists) {
           // user doesn't exist, create user
-          logger.info('User was not found, creating profile', {});
+          logger.info('User was not found, creating profile', {ticket: ticket});
           return serviceProvider.trigger('createProfile', ticket.user)[0];
         }
         return {};

@@ -19,7 +19,7 @@ export function Unilogin(app, uniloginConfig) {
       secret: uniloginConfig.secret,
       uniloginBasePath: uniloginConfig.uniloginBasePath,
       maxTicketAge: 30
-    }, (error, req, ticket, done) => {
+    }, (error, req, ticket, done) => { // eslint-disable-line consistent-return
 
       if (error && error.auth.error) {
         req.session.passportError = {
@@ -64,12 +64,10 @@ export function Unilogin(app, uniloginConfig) {
         })[0];
       }).then((res) => {
         logger.info('User was successfully logged in', {ticket: ticket, user: res});
-        return done(null, res.body);
+        done(null, res.body);
       }).catch((err) => {
-        return done(err);
+        done(err);
       });
-
-      return done();
     }
   ));
 

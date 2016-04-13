@@ -72,24 +72,24 @@ MainRoutes.get('/error', (req, res, next) => {
   next(errorMsg);
 });
 
-MainRoutes.get('/billede/:id/:size', (req, res) => {
-  const s3 = req.app.get('s3');
+MainRoutes.get('/billede/:id/:size', async function (req, res) {
+  const amazonConfig = req.app.get('amazonConfig');
   const logger = req.app.get('logger');
   res.setHeader('Cache-Control', 'public, max-age=360000');
-  req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size})
-    .then((result) => {
-      let imageUrl = s3.getSignedUrl('getObject', {
-        Bucket: result[0].body.container,
-        Key: result[0].body.name
-      });
 
-      setTimeout(() => res.redirect(imageUrl), 50);
-      logger.info('got image url', {url: imageUrl});
-    })
-    .catch((err) => {
-      logger.error('An error occurred while getting image!', {error: err});
-      res.send(JSON.stringify({errors: [err]}));
-    });
+  try {
+    let imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
+    let imageUrl = amazonConfig.generateSignedCloudfrontCookie(
+      `https://${amazonConfig.cloudfrontUrls[imageResults[0].body.container]}/${imageResults[0].body.name}`
+    );
+
+    setTimeout(() => res.redirect(imageUrl), 50);
+    logger.info('got image url', {url: imageUrl});
+  }
+  catch (err) {
+    logger.error('An error occurred while getting image!', {error: err.message});
+    res.send(JSON.stringify({errors: [err]}));
+  }
 });
 
 MainRoutes.get('/billede/:id', (req, res) => {

@@ -75,13 +75,15 @@ MainRoutes.get('/error', (req, res, next) => {
 MainRoutes.get('/billede/:id/:size', async function (req, res) {
   const amazonConfig = req.app.get('amazonConfig');
   const logger = req.app.get('logger');
-  res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store');
 
   try {
     let imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
     let imageUrl = amazonConfig.generateSignedCloudfrontCookie(
       `https://${amazonConfig.cloudfrontUrls[imageResults[0].body.container]}/${imageResults[0].body.name}`
     );
+
+    let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970
+    res.setHeader('Cache-Control', `max-age=${expires - 10}, no-cache, no-store`);
 
     setTimeout(() => res.redirect(imageUrl), 50);
     logger.info('got image url', {url: imageUrl});

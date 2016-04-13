@@ -1,0 +1,10 @@
+.rating {
+  display: flex;
+  cursor : pointer;
+  .star-passive {
+    color: black;
+  }
+  .star-active {
+    color: yellow;
+  }
+}

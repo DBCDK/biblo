@@ -70,3 +70,8 @@ export const FLAG_PROFILE = 'FLAG_PROFILE';
 // Like actions
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
+
+
+// ReviewView actions
+export const CREATE_REVIEW = 'CREATE_REVIEW';
+export const UPDATE_REVIEW = 'UPDATE_REVIEW';

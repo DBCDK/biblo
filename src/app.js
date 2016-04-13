@@ -21,6 +21,7 @@ import ProxyAgent from 'proxy-agent';
 import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
 import WorkRoutes from './server/routes/work.routes';
+import ReviewRoutes from './server/routes/work.routes';
 import ProfileRoutes from './server/routes/profile.routes';
 import ContentRoutes from './server/routes/content.routes';
 import ApiRoutes from './server/routes/api.routes';
@@ -241,6 +242,7 @@ module.exports.run = function(worker) {
   app.use('/grupper', ensureUserHasProfile, GroupRoutes);
   app.use('/profil', ProfileRoutes);
   app.use('/vaerk', WorkRoutes);
+  app.use('/anmeldelse', ReviewRoutes);
   app.use('/indhold', ContentRoutes);
   app.use('/api', ApiRoutes);
   app.use('/', MainRoutes);

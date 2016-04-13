@@ -3,10 +3,6 @@ import React from 'react';
 import RoundedButtonSubmit from '../General/RoundedButton/RoundedButton.submit.component';
 import Message from '../General/Message/Message.component.js';
 import Rating from '../General/Rating/Rating.component';
-
-// import Icon from '../General/Icon/Icon.component.js';
-// import ContentAdd from '../Groups/AddContent/AddContent.component';
-
 import './ReviewView.scss';
 
 export default class ReviewView extends React.Component {
@@ -36,7 +32,7 @@ export default class ReviewView extends React.Component {
 
   validate() {
     let errors = [];
-    if (this.state.rating <= 0) {
+    if (typeof this.state.rating === 'undefined' ||this.state.rating <= 0) {
       errors.push(
         {
           field: 'rating',
@@ -44,7 +40,7 @@ export default class ReviewView extends React.Component {
         });
     }
 
-    if (this.state.content === '') {
+    if (typeof this.state.content === 'undefined' | this.state.content === '') {
       errors.push({
         field: 'content',
         errorMessage: 'Du skal skrive en anmeldelse eller uploade en video-anmeldelse'

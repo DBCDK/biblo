@@ -75,7 +75,7 @@ MainRoutes.get('/error', (req, res, next) => {
 MainRoutes.get('/billede/:id/:size', async function (req, res) {
   const amazonConfig = req.app.get('amazonConfig');
   const logger = req.app.get('logger');
-  res.setHeader('Cache-Control', 'public, max-age=360000');
+  res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store');
 
   try {
     let imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});

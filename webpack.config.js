@@ -21,7 +21,8 @@ module.exports = [{
     error: './src/client/components/ErrorPage/index.js',
     groupcreate: './src/client/components/Groups/Create/index.js',
     groupdetail: './src/client/components/Groups/View/index.js',
-    groupedit: './src/client/components/Groups/Edit/index.js'
+    groupedit: './src/client/components/Groups/Edit/index.js',
+    work: './src/client/components/Work/index.js'
   },
   output: {
     path: path.join(__dirname, 'public/js'),

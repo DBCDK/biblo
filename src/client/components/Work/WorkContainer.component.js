@@ -8,7 +8,6 @@ export class WorkContainer extends React.Component {
     const jsonData = document.getElementById('JSONDATA');
     const data = JSON.parse(jsonData.innerHTML);
     const work = data.work;
-    console.log(work);
 
     return (
       <PageLayout>

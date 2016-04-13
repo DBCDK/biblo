@@ -1,4 +1,3 @@
-'use strict';
 
 /**
  * @file Work routes

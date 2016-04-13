@@ -88,7 +88,7 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
   }
   catch (err) {
     logger.error('An error occurred while getting image!', {error: err.message});
-    res.send(JSON.stringify({errors: [err]}));
+    res.redirect('/kunne_ikke_finde_billede.png');
   }
 });
 

@@ -1,6 +1,8 @@
 import React from 'react';
 
 import PageLayout from '../Layout/PageLayout.component.js';
+import {WorkDetail} from './Detail/WorkDetail.component.js';
+import {WorkHeader} from './Header/WorkHeader.component.js';
 
 export class WorkContainer extends React.Component {
   render() {
@@ -11,7 +13,8 @@ export class WorkContainer extends React.Component {
 
     return (
       <PageLayout>
-        <p>WorkContainer {work.id} {work.title}</p>
+        <WorkHeader coverUrl={'https://moreinfo.addi.dk/2.1/more_info_get.php?id=34941100&type=forside_500&key=ff65faa369343c15ac8d'} />
+        <WorkDetail />
       </PageLayout>
     );
   }

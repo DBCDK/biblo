@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 
-.work-header--background-image{
+.work-header--background-image {
   width: 104%;
   height: 210px;
   top: -10px;
@@ -27,8 +27,9 @@
     box-shadow: #999 0px 5px 10px;
     object-fit: cover;
   }
+
   position: relative;
-  top: 40px;
+  top: 20px;
   margin: auto;
   display: inline-block;
 }

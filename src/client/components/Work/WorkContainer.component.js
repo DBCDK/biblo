@@ -9,7 +9,7 @@ export class WorkContainer extends React.Component {
 
     const jsonData = document.getElementById('JSONDATA');
     const data = JSON.parse(jsonData.innerHTML);
-    const work = data.work;
+    const work = data.work; // eslint-disable-line no-unused-vars
 
     return (
       <PageLayout>

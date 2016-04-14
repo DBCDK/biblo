@@ -11,7 +11,7 @@ export class WorkDetail extends React.Component {
     const title = 'Satans Bibel';
     const creator = 'Anton Szandor LaVey';
     const year = 2004;
-    const workType = 'book';
+    const workType = 'book'; // eslint-disable-line no-unused-vars
     const materialTypes = ['e-bog', 'lydbog', 'bog'];
     const materialTypeElements = materialTypes.map((materialType) => (<li>{materialType}</li>));
 

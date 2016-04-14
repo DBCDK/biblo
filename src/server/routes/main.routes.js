@@ -75,7 +75,6 @@ MainRoutes.get('/error', (req, res, next) => {
 MainRoutes.get('/billede/:id/:size', async function (req, res) {
   const amazonConfig = req.app.get('amazonConfig');
   const logger = req.app.get('logger');
-  res.setHeader('Cache-Control', 'public, max-age=360000');
 
   try {
     let imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
@@ -83,12 +82,15 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
       `https://${amazonConfig.cloudfrontUrls[imageResults[0].body.container]}/${imageResults[0].body.name}`
     );
 
+    let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970
+    res.setHeader('Cache-Control', `max-age=${expires - 10}, no-cache, no-store`);
+
     setTimeout(() => res.redirect(imageUrl), 50);
     logger.info('got image url', {url: imageUrl});
   }
   catch (err) {
     logger.error('An error occurred while getting image!', {error: err.message});
-    res.send(JSON.stringify({errors: [err]}));
+    res.redirect('/kunne_ikke_finde_billede.png');
   }
 });
 

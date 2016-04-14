@@ -84,8 +84,8 @@ export function ensureProfileImage(req, res, next) {
       if (
         profile.image &&
         profile.image.url &&
-        profile.image.url.small &&
-        profile.image.url.small.length > 0
+        profile.image.url['small-square'] &&
+        profile.image.url['small-square'].length > 0
       ) {
         image.url = req.session.passport.user.profile.profile.image.url.small;
         image.shouldDisplay = true;

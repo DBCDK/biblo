@@ -7,6 +7,7 @@ import MaterialButton from '../../General/MaterialButton/MaterialButton.componen
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
+import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 
 export class WorkDetail extends React.Component {
   render() {
@@ -40,6 +41,8 @@ export class WorkDetail extends React.Component {
           </div>
 
           <TagList tags={tags}/>
+
+          <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
             <a className='work-detail--order-button'>Lån</a>

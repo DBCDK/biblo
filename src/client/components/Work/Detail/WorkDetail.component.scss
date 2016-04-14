@@ -23,7 +23,7 @@
 }
 
 .work-detail--worktype-icon {
-  position:absolute;
+  position: absolute;
   fill: $melrose;
   top: 5px;
   left: -60px;
@@ -67,8 +67,21 @@
   }
 }
 
-.work-detail--action-buttons {
+.work-detail--show-more-button {
+  @include button($white);
+  font-family: $header-font;
+  text-transform: uppercase;
+  color: $melrose;
 
+  .icon {
+    fill: $melrose;
+    margin-left:0px;
+    margin-right: 5px;
+  }
+}
+
+.work-detail--action-buttons {
+  margin-top:20px;
 }
 
 .work-detail--order-button {

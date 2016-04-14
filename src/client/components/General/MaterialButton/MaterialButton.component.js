@@ -30,4 +30,9 @@ const MaterialButton = ({materialType='book', active=false}) => {
 };
 
 MaterialButton.displayName = 'MaterialButton';
+MaterialButton.propTypes = {
+  active: React.PropTypes.bool.isRequired,
+  materialType: React.PropTypes.string.isRequired
+};
+
 export default MaterialButton;

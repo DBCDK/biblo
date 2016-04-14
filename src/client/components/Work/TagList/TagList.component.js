@@ -1,8 +1,7 @@
 import React from 'react';
 
-import Icon from '../../General/Icon/Icon.component.js'
+import Icon from '../../General/Icon/Icon.component.js';
 import tagSvg from '../../General/Icon/svg/functions/tag.svg';
-
 
 import './TagList.component.scss';
 

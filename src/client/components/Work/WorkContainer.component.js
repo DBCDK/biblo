@@ -2,15 +2,21 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+<<<<<<< HEAD
 import * as reviewActions from '../../Actions/review.actions';
 import PageLayout from '../Layout/PageLayout.component';
 import ReviewView from '../Review/ReviewView.component';
+=======
+import PageLayout from '../Layout/PageLayout.component.js';
+import {WorkDetail} from './Detail/WorkDetail.component.js';
+import {WorkHeader} from './Header/WorkHeader.component.js';
+>>>>>>> 6b31f5fa78f299f1b87a64194315e488903b0e41
 
 export class WorkContainer extends React.Component {
   render() {
     const jsonData = document.getElementById('JSONDATA');
     const data = JSON.parse(jsonData.innerHTML);
-    const work = data.work;
+    const work = data.work; // eslint-disable-line no-unused-vars
 
     let profile = {
       id: 1
@@ -25,6 +31,7 @@ export class WorkContainer extends React.Component {
           worktype="book"
           reviewActions={reviewActions}
         />
+
       </PageLayout>
     );
   }

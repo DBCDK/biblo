@@ -1,0 +1,29 @@
+@import 'tools';
+
+.material-button {
+
+  padding: 1px;
+  margin-left: 9px;
+
+  .icon {
+    fill: $governor-bay;
+    margin-top:5px;
+  }
+
+  display: block;
+  font-size:0.8rem;
+  color: $governor-bay;
+
+  .material-button--inactive {
+  }
+
+  .material-button--active {
+
+  }
+
+
+  .material-button--label {
+    position: relative;
+    top:-5px;
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewViewView from './ReviewView.component.js';
+import ReviewView from './ReviewView.component.js';
 
 export default function ReviewList({reviews = [], profile = {},
    uiActions = null, reviewActions = null, flagActions = null, likeActions = null}) {
@@ -11,9 +11,8 @@ export default function ReviewList({reviews = [], profile = {},
           key={item.id} {...item}
           profile={profile}
           likes={item.likes}
-          groupId={groupId}
           uiActions={uiActions}
-          groupActions={groupActions}
+          reviewActions={reviewActions}
           flagActions={flagActions}
           likeActions={likeActions}
         />))

@@ -12,7 +12,7 @@ import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 export class WorkDetail extends React.Component {
   render() {
 
-    const imageUrl = 'https://moreinfo.addi.dk/2.1/more_info_get.php?id=34941100&type=forside_500&key=ff65faa369343c15ac8d';
+    const imageUrl = 'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg';
     const title = 'Satans Bibel';
     const creator = 'Anton Szandor LaVey';
     const year = 2004;

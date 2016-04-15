@@ -1,0 +1,315 @@
+@import "tools";
+@import "settings";
+
+.post--wrapper {
+  @include clearfix();
+  margin-bottom: 20px;
+  @include max-screen($tablet - 1px) {
+    padding: 0 20px;
+    border-bottom: 5px solid rgba($dark, 0.15);
+  }
+}
+
+video {
+  background-color: #3a3a3a;
+  max-width: 100%;
+}
+
+.post--youtube-container {
+  position: relative;
+  padding-bottom: 50%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.post--youtube-container iframe, .post--youtube-container object, .post--youtube-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.post {
+  position: relative;
+
+  @include min-screen($tablet) {
+    margin-left: 100px;
+    top: 0;
+    background: #eee;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  @include screen($tablet, $desktop) {
+
+    margin-right: 20px;
+  }
+  @include max-screen($tablet - 1px) {
+    padding-bottom: 20px;
+    .post--header {
+      margin-left: 75px;
+      height: 60px;
+      span {
+        padding: 0;
+        display: block;
+      }
+    }
+  }
+
+  p {
+    margin-top: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+  video {
+    background-color: #3a3a3a;
+    max-width: 100%;
+  }
+
+
+  .is-hidden {
+    display: none;
+  }
+
+  .add-content--input {
+    border: none;
+    border-radius: 5px;
+  }
+}
+
+.post::before {
+  @include min-screen($tablet) {
+    top: 15px;
+    bottom: auto;
+    left: -15px;
+    border-width: 16px 16px 16px 0;
+    border-color: transparent #eee;
+    content: "";
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+  }
+}
+
+
+.post--add-comment-button {
+  @include button($melrose);
+}
+
+.post--header {
+  margin-bottom: 20px;
+  .username {
+    @extend %h3-body;
+  }
+  .time {
+    color: $gray;
+    display: inline;
+    padding-left: 10px;
+  }
+  .buttons {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    svg {
+      fill: $gray;
+    }
+    .active svg {
+      fill: $melrose;
+    }
+  }
+}
+
+.post--content-wrapper {
+  margin-bottom: 20px;
+}
+
+.post--profile-image {
+  @include profileImage();
+  float: left;
+  @include min-screen($tablet) {
+    margin-left: 20px;
+  }
+}
+
+.post--load-more-comments {
+  @include clearfix();
+  margin-bottom: 20px;
+  margin-left: 70px;
+  @include max-screen($tablet - 1) {
+    margin-left: 0;
+    text-align: center;
+  }
+  a {
+    margin-right: 20px;
+  }
+}
+
+.post--comment-count {
+  color: $gray;
+}
+
+
+.content-add {
+  margin-bottom: 20px;
+}
+
+.content-add--input {
+  background-color: white;
+  padding: 5px 20px;
+  border: #ccc 1px solid;
+}
+
+.content-add--textarea {
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  min-height: 100px;
+  outline: none;
+  &::placeholder {
+    color: $gray;
+  }
+  &:focus::placeholder {
+    color: $light-gray;
+  }
+}
+
+.content-add--preview-image {
+  position: relative;
+  display: inline-block;
+  background-color: $dark;
+  border: 3px solid white;
+  box-shadow: 1px 1px 1px $gray;
+  img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  a {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+  svg {
+    fill: $light-gray;
+  }
+
+  &:hover {
+    filter: grayscale(80%);
+    img {
+      opacity: 0.5;
+    }
+    a {
+      display: inline-block;
+      &:hover svg{
+        fill: $white;
+      }
+    }
+  }
+}
+
+.content-add--upload-media {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.content-add--actions {
+  margin-top: 10px;
+  .button {
+    float: right;
+    &.submit {
+      @include button($melrose);
+    }
+    &.alert {
+      @include button($carnation);
+      margin-right: 10px;
+    }
+    &.delete {
+      @include button($carnation);
+      margin-right: 10px;
+    }
+  }
+}
+
+.preview-video--name {
+  font-size: 14px;
+}
+
+progress[value] {
+  width: 100%;
+  appearance: none;
+
+  &::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  }
+
+  &::-moz-progress-bar {
+    background-color: #6085c5;
+  }
+
+  &::-webkit-progress-value {
+    background-color: #6085c5;
+    //background-color: #5FC55F;
+  }
+
+  &.done {
+    &::-moz-progress-bar {
+      background-color: #5FC55F;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #5FC55F;
+    }
+  }
+
+  &.error {
+    &::-moz-progress-bar {
+      background-color: #c52f3e;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #c52f3e;
+    }
+  }
+}
+
+.content-add--media {
+  label {
+    @include button($athens-gray, $melrose, false);
+    border: 1px solid #ccc;
+  }
+  svg {
+    padding-right: 10px;
+    position: relative;
+    display: inline-block;
+    top: 2px;
+  }
+}
+
+.content-add--media-label {
+  pointer-events: none;
+  @include max-screen($desktop - 1px) {
+    display: none;
+  }
+}
+
+.content-add--messages {
+  opacity: 0;
+  @include single-transition(opacity, 500ms, null, null);
+  &.fadein {
+    opacity: 1;
+  }
+}
+

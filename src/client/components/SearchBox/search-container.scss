@@ -1,0 +1,24 @@
+
+@import 'tools';
+
+
+.search-container {
+  background-color: $melrose;
+  padding: 20px;
+
+  input[type=search] {
+    padding: 10px;
+    width: 60vw;
+  }
+
+  .search-container--search-button {
+    padding: 10px 20px 10px 20px;
+    background-color: $black;
+    .icon {
+      position:relative;
+      fill: $white;
+      top:5px;
+    }
+  }
+
+}

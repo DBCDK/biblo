@@ -15,10 +15,6 @@ export default function reviewReducer(state = initialState, action = {}) {
         {
           review: action.review
         });
-    case types.UPDATE_REVIEW:
-      return assignToEmpty(state, {
-        review: action.review
-      });
     default:
       return state;
   }

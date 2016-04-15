@@ -9,10 +9,12 @@ export default class Rating extends React.Component {
   }
 
   onChange(i) {
-    this.setState({
-      rating: i
-    });
-    this.props.onChange(i);
+    if (this.props.onChange) {
+      this.setState({
+        rating: i
+      });
+      this.props.onChange(i);
+    }
   }
 
   renderStars() {

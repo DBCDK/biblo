@@ -113,7 +113,6 @@
     "twemoji": "^2.0.5",
     "vhost": "3.0.2",
     "walk": "2.3.9",
-    "wallaby-webpack": "0.0.22",
     "webpack": "^1.12.15",
     "xmldom": "0.1.22",
     "xss-filters": "1.2.6",
@@ -156,6 +155,6 @@
     "selenium-webdriver": "2.53.1",
     "sinon": "^1.17.2",
     "skin-deep": "^0.16.0",
-    "wallaby-webpack": "^0.0.21"
+    "wallaby-webpack": "^0.0.22"
   }
 }

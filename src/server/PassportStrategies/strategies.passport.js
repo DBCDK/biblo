@@ -48,7 +48,7 @@ export function Unilogin(app, uniloginConfig) {
       const serviceProvider = app.get('serviceProvider');
       serviceProvider.trigger('checkProfileName', ticket.user)[0].then((res) => {
         // Check if user exists
-        if (!res.exists) {
+        if (!res.data.exists) {
           // user doesn't exist, create user
           logger.info('User was not found, creating profile', {ticket: ticket});
           return serviceProvider.trigger('createProfile', ticket.user)[0];

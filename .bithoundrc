@@ -43,6 +43,7 @@
     "**/extjs/welcome/**",
     "bower_components/**",
     "**/testlib/**",
+    "static/scripts/webtrends.js",
     "*.config.js"
   ],
   "test": [

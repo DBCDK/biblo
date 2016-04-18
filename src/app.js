@@ -85,9 +85,8 @@ module.exports.run = function(worker) {
   app.use(bodyParser.urlencoded({extended: true}));
 
   // Helmet configuration
-  // TODO: Setup rest of Helmet, in a way that works with the server setup.
   app.use(helmet.frameguard());
-  app.use(helmet.hidePoweredBy({setTo: 'Funkys Venner!'}));
+  app.use(helmet.hidePoweredBy({setTo: 'Konami!'}));
   app.use(helmet.ieNoOpen());
   app.use(helmet.noSniff());
 

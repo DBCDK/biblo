@@ -18,7 +18,7 @@ export class SearchContainer extends React.Component {
   }
 
   render() {
-    const classNames = (this.props.search.isVisible) ? 'search-container' : 'search-container search-container--hidden' ;
+    const classNames = (this.props.search.isVisible) ? 'search-container' : 'search-container search-container--hidden';
 
     return (
       <div className={classNames}>

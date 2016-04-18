@@ -2,7 +2,6 @@
 
 .search-container {
   background-color: $melrose;
-  padding: 20px;
 
   input[type=search] {
     padding: 10px;
@@ -18,8 +17,18 @@
       top:5px;
     }
   }
+
+  transition-property: height padding;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+
+  height:50px;
+  padding: 20px;
+  overflow: hidden;
 }
 
 .search-container--hidden {
-  display:none;
+  height:0px;
+  padding: 0px;
+  overflow: hidden;
 }

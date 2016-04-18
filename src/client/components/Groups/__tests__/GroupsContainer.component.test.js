@@ -10,7 +10,7 @@ import TestUtils from 'react-addons-test-utils';
 import {GroupsContainer} from '../GroupsContainer.component';
 
 describe('GroupsContainer component tests', () => {
-  it('should render Opret button and Nyeste grupper', () => {
+  xit('should render Opret button and Nyeste grupper', () => {
 
     const data = {
       groups: [],

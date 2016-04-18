@@ -70,3 +70,7 @@ export const FLAG_PROFILE = 'FLAG_PROFILE';
 // Like actions
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
+
+// Search actions
+export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';
+

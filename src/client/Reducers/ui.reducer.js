@@ -8,7 +8,7 @@ import * as types from '../Constants/action.constants';
 let initialState = {
   modal: {
     isOpen: false,
-    children: null,
+    children: null
   }
 };
 

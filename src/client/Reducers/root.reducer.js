@@ -5,6 +5,7 @@
 
 import {combineReducers} from 'redux';
 import uiReducer from './ui.reducer';
+import searchReducer from './search.reducer';
 import groupCreateReducer from './groupCreate.reducer';
 import groupEditReducer from './groupEdit.reducer';
 import groupViewReducer from './groupView.reducer';
@@ -15,6 +16,7 @@ import listGroupsReducer from './listGroups.reducer';
 
 const rootReducer = combineReducers({
   uiReducer,
+  searchReducer,
   groupCreateReducer,
   groupViewReducer,
   groupEditReducer,

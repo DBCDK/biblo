@@ -12,6 +12,19 @@ import {WorkHeader} from './Header/WorkHeader.component.js';
 
 export class WorkContainer extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      reviewVisible: false
+    };
+  }
+
+  toggleReview() {
+    this.setState({
+      reviewVisible: !this.state.reviewVisible
+    })
+  }
+
   render() {
     const jsonData = document.getElementById('JSONDATA');
     const data = JSON.parse(jsonData.innerHTML);
@@ -21,16 +34,20 @@ export class WorkContainer extends React.Component {
     return (
       <PageLayout>
         <p>WorkContainer {work.id} {work.title}</p>
-        <WorkHeader coverUrl={'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg'} />
-        <WorkDetail />
-
-        <ReviewView
-          profile={profile}
-          pid={work.id}
-          worktype="book"
-          owner={profile}
-          reviewActions={reviewActions}
-        />
+        <WorkHeader coverUrl={'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg'}/>
+        <WorkDetail toggleReview={this.toggleReview.bind(this)}/>
+        {
+          this.state.reviewVisible &&
+          <ReviewView
+            ref='review'
+            isEditing={true}
+            profile={profile}
+            pid={work.id}
+            worktype="book"
+            owner={profile}
+            reviewActions={reviewActions}
+          />
+        }
 
         <ReviewList
           reviews={data.reviews}

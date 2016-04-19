@@ -39,7 +39,7 @@ export default class ReviewView extends React.Component {
       pid: props.pid,
       image: props.image,
       video: props.video,
-      isEditing: false,
+      isEditing: props.isEditing || false,
       attachment: {
         image: props.image || null,
         video: null
@@ -459,6 +459,7 @@ ReviewView.propTypes = {
   id: React.PropTypes.number,
   reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
+  isEditing: React.PropTypes.bool,
   worktype: React.PropTypes.string,  // term.workType (manifestationsniveau)
   content: React.PropTypes.string,
   rating: React.PropTypes.number,

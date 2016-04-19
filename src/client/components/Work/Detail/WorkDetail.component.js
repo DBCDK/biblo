@@ -4,14 +4,18 @@ import './WorkDetail.component.scss';
 
 import {TagList} from '../TagList/TagList.component.js';
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
+import ReviewButton from '../../Review/ReviewButton.js';
+import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 
-export class WorkDetail extends React.Component {
-  render() {
+import reviewButton from '../../Review/ReviewButton.js';
 
+export class WorkDetail extends React.Component {
+
+  render() {
     const imageUrl = 'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg';
     const title = 'Satans Bibel';
     const creator = 'Anton Szandor LaVey';
@@ -45,8 +49,7 @@ export class WorkDetail extends React.Component {
           <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
-            <a className='work-detail--order-button'>Lån</a>
-            <a className='work-detail--write-button'><Icon glyph={pencilSvg}/>Skriv anmeldelse</a>
+            <ReviewButton clickFunction={this.props.toggleReview.bind(this)} />
           </div>
         </div>
 
@@ -66,5 +69,5 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
-
+  toggleReview: React.PropTypes.func.isRequired
 };

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import * as searchActions from '../../Actions/search.actions';
 
+import SearchContainer from '../SearchBox/SearchContainer.component.js';
 import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
 import NavbarLink from './NavbarLink.component.js';
 import NavbarIconLink from './NavbarIconLink.component.js';
@@ -125,6 +126,7 @@ export default class NavbarContainer extends React.Component {
           </div>
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')}/>
+        <SearchContainer />
       </div>
     );
   }

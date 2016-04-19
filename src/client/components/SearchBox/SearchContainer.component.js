@@ -10,6 +10,8 @@ import searchSvg from '../General/Icon/svg/functions/search.svg';
 import './search-container.scss';
 
 export class SearchContainer extends React.Component {
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,10 +22,18 @@ export class SearchContainer extends React.Component {
 
   }
 
+
   searchInputChanged(e) {
     const query = e.target.value;
     this.setState({query: query});
+
+    // ask for suggestions
+    if (query.length >= 3) {
+      // TODO: create suggestions action
+    }
+
   }
+
 
   submitInput(e) {
     if (e.type === 'click' || e.keyCode === 13) {
@@ -31,8 +41,11 @@ export class SearchContainer extends React.Component {
     }
   }
 
+
   render() {
     const classNames = (this.props.search.isVisible) ? 'search-container' : 'search-container search-container--hidden';
+
+
     return (
       <div className={classNames}>
         <input type='search' placeholder='Søg på bøger, film og spil' onChange={this.searchInputChanged} onKeyDown={this.submitInput} ></input>

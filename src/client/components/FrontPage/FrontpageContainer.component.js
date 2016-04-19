@@ -1,6 +1,5 @@
 import React from 'react';
 import PageLayout from '../Layout/PageLayout.component.js';
-import SearchContainer from '../SearchBox/SearchContainer.component.js';
 
 import parseJsonData from '../../Utils/parseJsonData.js';
 
@@ -19,7 +18,6 @@ export default function FrontpageContainer() {
 
   return (
     <PageLayout>
-      <SearchContainer />
       <ColoredHeader text={welcomeText} title={content.welcome_header} />
       <ContentGrid items={elements} />
     </PageLayout>

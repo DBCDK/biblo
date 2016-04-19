@@ -13,17 +13,32 @@ export class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      query: ''
     };
+    this.searchInputChanged = this.searchInputChanged.bind(this);
+    this.submitInput = this.submitInput.bind(this);
+
+  }
+
+  searchInputChanged(e) {
+    const query = e.target.value;
+    this.setState({query: query});
+  }
+
+  submitInput(e) {
+    if (e.type === 'click' || e.keyCode === 13) {
+      // TODO: create search action
+    }
   }
 
   render() {
     const classNames = (this.props.search.isVisible) ? 'search-container' : 'search-container search-container--hidden';
-
     return (
       <div className={classNames}>
-        <input type='search' placeholder='Søg på bøger, film og spil' ></input>
-        <a className='search-container--search-button' href='#'><Icon glyph={searchSvg} width={24} height={24} /></a>
+        <input type='search' placeholder='Søg på bøger, film og spil' onChange={this.searchInputChanged} onKeyDown={this.submitInput} ></input>
+        <a className='search-container--search-button' href='#' onClick={this.submitInput}>
+          <Icon glyph={searchSvg} width={24} height={24} />
+        </a>
       </div>
     );
   }

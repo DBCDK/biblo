@@ -110,14 +110,14 @@ export default class ReviewView extends React.Component {
   }
 
   onAbort(event) {
-     if (this.abortXHR) {
-       this.abortXHR();
-     }
-     if (this.props.abort) {
+    if (this.abortXHR) {
+      this.abortXHR();
+    }
+    if (this.props.abort) {
       this.props.abort(event);
-     }
-     this.setState({text: '', attachment: {image: null, video: null}});
-     this.abortXHR = null;
+    }
+    this.setState({content: '', attachment: {image: null, video: null}});
+    this.abortXHR = null;
   }
 
   readInput(input) { // eslint-disable-line consistent-return
@@ -340,7 +340,7 @@ export default class ReviewView extends React.Component {
             </span>
           </div>
 
-          <Rating ref="rating" pid={pid} rating={rating} onChange={ (this.state.isEditing ) ? this.onRatingChange.bind(this) : null }/>
+          <Rating ref="rating" pid={pid} rating={rating} onChange={ (this.state.isEditing) ? this.onRatingChange.bind(this) : null }/>
           {errorObj.rating || ''}
           {
             this.state.isEditing &&

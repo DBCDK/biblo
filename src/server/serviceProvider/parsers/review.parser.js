@@ -1,5 +1,4 @@
 import parseProfile from './profile.parser';
-import parseComment from './comment.parser';
 import parseText from './text.parser';
 
 export default function parseReview(review) {

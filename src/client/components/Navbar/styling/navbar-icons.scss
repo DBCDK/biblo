@@ -6,4 +6,5 @@
 .icon--search {
   @include hover-transition((background-color: $turquoise));
   @include icon(42px);
+  fill: $white;
 }

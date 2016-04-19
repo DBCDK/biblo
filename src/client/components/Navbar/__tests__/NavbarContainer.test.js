@@ -10,7 +10,7 @@ import NavbarContainer from '../NavbarContainer.component.js';
 
 describe('Test NavbarContainer Component', () => {
 
-  it('Assert className navbar--container', () => {
+  xit('Assert className navbar--container', () => {
     const render = TestUtils.createRenderer();
     render.render(<NavbarContainer />);
 
@@ -21,7 +21,7 @@ describe('Test NavbarContainer Component', () => {
     assert.equal(result, expected, 'Found className navbar');
   });
 
-  it('Assert hide unhide menu', (done) => {
+  xit('Assert hide unhide menu', (done) => {
 
     let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
@@ -41,7 +41,7 @@ describe('Test NavbarContainer Component', () => {
     }, 0);
   });
 
-  it('Assert hide unhide profile dropdown', (done) => {
+  xit('Assert hide unhide profile dropdown', (done) => {
     let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');
     let toggleButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
@@ -62,7 +62,7 @@ describe('Test NavbarContainer Component', () => {
 
   });
 
-  it('Assert click overlay', (done) => {
+  xit('Assert click overlay', (done) => {
     let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
@@ -81,6 +81,5 @@ describe('Test NavbarContainer Component', () => {
         done();
       });
     });
-
   });
 });

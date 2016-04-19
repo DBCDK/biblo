@@ -1,19 +1,20 @@
 import React from 'react';
 
 import TimeToString from '../../Utils/timeToString.js';
+import ExtractYoutubeID from '../../Utils/extractYoutubeID';
+
 import Message from '../General/Message/Message.component.js';
 import Rating from '../General/Rating/Rating.component';
 import './ReviewView.scss';
 
+import Login from '../General/Login/Login.component.js';
 import LikeButton from '../General/LikeButton/LikeButton.component.js';
 import Icon from '../General/Icon/Icon.component.js';
-import ConfirmDialog from '../General/ConfirmDialog/ConfirmDialog.component.js';
 import TinyButton from '../General/TinyButton/TinyButton.component.js';
-import ExpandButton from '../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 
 import Youtube from 'react-youtube';
-import backSvg from '../General/Icon/svg/functions/back.svg';
+
 import flagSvg from '../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../General/Icon/svg/functions/pencil.svg';
 import videoSvg from '../General/Icon/svg/functions/video.svg';
@@ -23,20 +24,22 @@ import spinner from '../General/Icon/svg/spinners/loading-spin.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
-
 export default class ReviewView extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      owner: props.owner,
       profile: props.profile,
+      owner: props.owner,
       content: props.content,
-      rating: props.content,
+      rating: props.rating,
       worktype: props.worktype,
       reviewownerid: props.reviewownerid,
       id: props.id,
       pid: props.pid,
-      isEditing: props.profile.id === props.owner.id || props.profile.isModerator,
+      image: props.image,
+      video: props.video,
+      isEditing: false,
       attachment: {
         image: props.image || null,
         video: null
@@ -46,13 +49,32 @@ export default class ReviewView extends React.Component {
   }
 
   toggleEditing() {
-    console.log("toggleEditing");
     let isCommentInputVisible = this.state.isCommentInputVisible;
     if (!this.state.isEditing) {
       isCommentInputVisible = false;
     }
     this.setState({isEditing: !this.state.isEditing, isCommentInputVisible: isCommentInputVisible});
     return true;
+  }
+
+
+  submitReviewFlag(flag) { // eslint-disable-line
+    flag.flagger = this.props.profile.id;
+    this.props.flagActions.flagReview(flag);
+  }
+
+  likeReview() {
+    this.props.likeActions.likeReview({
+      reviewId: this.props.id,
+      profileId: this.props.profile.id
+    });
+  }
+
+  unlikeReview() {
+    this.props.likeActions.unlikeReview({
+      reviewId: this.props.id,
+      profileId: this.props.profile.id
+    });
   }
 
   validate() {
@@ -87,15 +109,15 @@ export default class ReviewView extends React.Component {
     });
   }
 
-  onAbort(event) {
-    if (this.abortXHR) {
-      this.abortXHR();
-    }
-    if (this.props.abort) {
-      this.props.abort(event);
-    }
-    this.setState({text: '', attachment: {image: null, video: null}});
-    this.abortXHR = null;
+  onAbort(/* event */) {
+    // if (this.abortXHR) {
+    //   this.abortXHR();
+    // }
+    // if (this.props.abort) {
+    //  this.props.abort(event);
+    // }
+    // this.setState({text: '', attachment: {image: null, video: null}});
+    // this.abortXHR = null;
   }
 
   readInput(input) { // eslint-disable-line consistent-return
@@ -132,7 +154,6 @@ export default class ReviewView extends React.Component {
     this.uploadVideoFile(file);
   }
 
-  //TODO: make sure that OK button is disabled while we upload files
   uploadVideoFile(file) {
     const form = new FormData();
     form.append('video', file);
@@ -182,7 +203,6 @@ export default class ReviewView extends React.Component {
   }
 
   onSubmit(evt) {
-    //avoid form submit
     evt.preventDefault();
 
     if (this.validate()) {
@@ -196,30 +216,27 @@ export default class ReviewView extends React.Component {
         request.onload = (event) => {
           this.setState({isLoading: false});
           if (event.target.status === 200) {
-            console.log("onSubmit response:", event.target.responseText);
             const addContentReponse = JSON.parse(event.target.response);
             if (addContentReponse.errors && addContentReponse.errors.length > 0) {
               this.setState({errorMsg: addContentReponse.errors[0].errorMessage});
             }
             else {
-              //this.props.addContentAction(addContentReponse);
-              if (this.props.abort) {
-                this.props.abort();
-              }
-              else {
-                this.setState({text: '', attachment: {image: null, video: null}});
-              }
+              // if (this.props.abort) {
+              //  this.props.abort();
+              // }
+              // else {
+              //  this.setState({content: '', attachment: {image: null, video: null}});
+              // }
             }
           }
           else {
-            console.log("fejl!", event.target.response);
             this.setState({errorMsg: 'Hmm. Vi kunne desvære ikke oprette din anmeldelse - prøv igen'});
           }
         };
         request.send(formData);
-        return false; //avoid form submit
       }
     }
+    return false;
   }
 
   render() {
@@ -229,6 +246,8 @@ export default class ReviewView extends React.Component {
       content,
       rating,
       owner,
+      image,
+      video,
       profile,
       timeCreated
       } = this.state;
@@ -245,7 +264,7 @@ export default class ReviewView extends React.Component {
     }
 
     const flagFunction = () => {
-      this.props.uiActions.openModalWindow(postFlagModalContent);
+      // this.props.uiActions.openModalWindow(postFlagModalContent);
     };
 
     let flagButton = null;
@@ -258,7 +277,8 @@ export default class ReviewView extends React.Component {
       );
     }
 
-    //AddContentArea:
+
+    // AddContentArea:
     let deleteButton = null;
     if (this.props.delete) {
       deleteButton = (
@@ -276,36 +296,60 @@ export default class ReviewView extends React.Component {
       );
     }
 
-    const uniqueId = `upload-media-${this.props.type}-${this.props.id || this.props.parentId}`;
+    const youtube = ExtractYoutubeID(content);
+    const uniqueId = `upload-media-review-${this.props.id || this.props.parentId}`;
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
+    const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
+    const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
+    };
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unReview : () => {
+    };
+
+
+    const likeButton = (
+      <LikeButton
+        likeFunction={likeFunction}
+        unlikeFunction={unlikeFunction}
+        usersWhoLikeThis={this.props.likes}
+        isLikedByCurrentUser={isLikedByCurrentUser}
+        active={profile.userIsLoggedIn}
+      />
+    );
+
+
     return (
-      <div className='post-wrapper'>
-        <div className='post--profile-image'>
+      <div className='review-wrapper'>
+        <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={owner.image.url.small || null} alt={owner.displayName}/>
+            <img src={owner.image || null} alt={owner.displayName}/>
           </a>
         </div>
 
-        <div className='post'>
-          <div className='post--header'>
+        <div className='review'>
+          <div className='review--header'>
             <a href={`/profil/${owner.id}`}><span className='username'
                                                   dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
             <span className='time'>{this.state.isEditing && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons'>
+              {(profile.id === owner.id || profile.isModerator) &&
+              <TinyButton active={this.state.isEditing} clickFunction={() => this.toggleEditing()}
+                          icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>}/>
+              ||
+              flagButton
+              }
             </span>
           </div>
 
-          <Rating ref="rating" pid={pid} rating={rating}
-                  onChange={this.state.isEditing? this.onRatingChange.bind(this) : null }/>
+          <Rating ref="rating" pid={pid} rating={rating} onChange={this.onRatingChange.bind(this)}/>
           {errorObj.rating || ''}
           {
             this.state.isEditing &&
-              //BEGIN:AddContentArea
-            <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
+            // BEGIN:AddContentArea
+            <div className={Classnames({'review-add': true, shakeit: this.state.errorMsg})}>
               <form method="post" action='/anmeldelse/' ref="contentForm" onSubmit={(e) => this.onSubmit(e)}>
-                <div className='content-add--input'>
-                   <textarea className="content-add--textarea" ref='contentTextarea' name="content"
+                <div className='review-add--input'>
+                   <textarea className="review-add--textarea" ref='contentTextarea' name="content"
                              placeholder='Skriv din anmeldelse her'
                              value={this.state.content}
                              onChange={(e) => this.setState({content: e.target.value})}
@@ -314,11 +358,12 @@ export default class ReviewView extends React.Component {
                   <input type="hidden" name="pid" value={this.state.pid}/>
                   <input type="hidden" name="worktype" value={this.state.worktype}/>
                   <input type="hidden" name="rating" value={this.state.rating}/>
+                  <input type="hidden" name="libraryid" value="1"/>
 
                   {this.state.attachment.image &&
-                  <div className='content-add--preview-image'>
+                  <div className='review-add--preview-image'>
                     <img src={this.state.attachment.image} alt="preview"/>
-                    <a href="#removeImage" className="content-add--remove-media" onClick={(e) => this.clearImage(e)}>
+                    <a href="#removeImage" className="review-add--remove-media" onClick={(e) => this.clearImage(e)}>
                       <Icon glyph={close}/>
                     </a>
                   </div>
@@ -341,12 +386,13 @@ export default class ReviewView extends React.Component {
                              onClose={() => this.setState({errorMsg: null})}>{this.state.errorMsg}</Message>
                   }
                 </div>
-                <div className='content-add--actions'>
+                <div className='review-add--actions'>
                   <button
                     type='submit'
                     className='button submit'
                     id='submit-btn'
-                    disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
+                    disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0
+                     && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
                   >
                     {(this.state.isLoading) && <Icon glyph={spinner}/>}
                     OK
@@ -357,37 +403,48 @@ export default class ReviewView extends React.Component {
                            value="Fortryd"/>
                   }
                   {deleteButton}
-                  <div className='content-add--media'>
+                  <div className='review-add--media'>
                     <label htmlFor={uniqueId}>
                       <input
                         id={uniqueId}
                         accept='image/*,video/*'
                         type="file"
-                        className="content-add--upload-media droppable-media-field--file-input"
+                        className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
                         onChange={(event) => this.readInput(event)}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>
                       <Icon glyph={cameraSvg}/>
-                      <span className="content-add--media-label">Upload</span>
+                      <span className="review-add--media-label">Upload</span>
                     </label>
                   </div>
                 </div>
               </form>
             </div>
-              //END:AddContentArea
+              // END:AddContentArea
             ||
-            <div className={'post--content'}>
-            <textarea
-              classNAme="content-add--preview-image"
-              ref="contentTextArea"
-              name="content"
-              required
-              rows="5"
-              value={content}
-            />
-              {errorObj.content || ''}
+            <div className='review--content-wrapper'>
+              {
+                <p className='review--content' dangerouslySetInnerHTML={{__html: content}}/> // eslint-disable-line
+              }
+              {
+                image &&
+                <div className='review--media'>
+                  <a href={image.replace('medium', 'original')} target="_blank"><img src={image}
+                                                                                     alt="image for review"/></a>
+                </div>
+              }
+              {
+                video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
+              }
+              {
+                youtube &&
+                <div className="review--youtube-container">
+                  <Youtube videoId={youtube[0]}/>
+                </div>
+              }
+              {likeButton}
             </div>
           }
         </div>
@@ -398,19 +455,20 @@ export default class ReviewView extends React.Component {
 
 ReviewView.displayName = 'ReviewView';
 ReviewView.propTypes = {
-  owner: React.PropTypes.object, //for profile image in view
+  owner: React.PropTypes.object, // for profile image in view
   profile: React.PropTypes.object.isRequired, // for editing, flagging, liking
   id: React.PropTypes.number,
+  reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
-  worktype: React.PropTypes.string.isRequired,
+  worktype: React.PropTypes.string,  // term.workType (manifestationsniveau)
   content: React.PropTypes.string,
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,
   timeCreated: React.PropTypes.string,
-  // image: React.PropTypes.String,
-  // video: React.PropTypes.object,
-  // flagActions: React.PropTypes.object,
-  // likes: React.PropTypes.array,
-  // likeActions: React.PropTypes.object,
+  image: React.PropTypes.String,
+  video: React.PropTypes.object,
+  flagActions: React.PropTypes.object,
+  likes: React.PropTypes.array,
+  likeActions: React.PropTypes.object,
   errors: React.PropTypes.array
 };

@@ -1,7 +1,7 @@
 @import "tools";
 @import "settings";
 
-.post--wrapper {
+.review--wrapper {
   @include clearfix();
   margin-bottom: 20px;
   @include max-screen($tablet - 1px) {
@@ -15,7 +15,7 @@ video {
   max-width: 100%;
 }
 
-.post--youtube-container {
+.review--youtube-container {
   position: relative;
   padding-bottom: 50%;
   padding-top: 30px;
@@ -23,7 +23,7 @@ video {
   overflow: hidden;
 }
 
-.post--youtube-container iframe, .post--youtube-container object, .post--youtube-container embed {
+.review--youtube-container iframe, .review--youtube-container object, .review--youtube-container embed {
   position: absolute;
   top: 0;
   left: 0;
@@ -31,7 +31,7 @@ video {
   height: 100%;
 }
 
-.post {
+.review {
   position: relative;
 
   @include min-screen($tablet) {
@@ -47,7 +47,7 @@ video {
   }
   @include max-screen($tablet - 1px) {
     padding-bottom: 20px;
-    .post--header {
+    .review--header {
       margin-left: 75px;
       height: 60px;
       span {
@@ -69,7 +69,6 @@ video {
     max-width: 100%;
   }
 
-
   .is-hidden {
     display: none;
   }
@@ -80,7 +79,7 @@ video {
   }
 }
 
-.post::before {
+.review::before {
   @include min-screen($tablet) {
     top: 15px;
     bottom: auto;
@@ -95,12 +94,11 @@ video {
   }
 }
 
-
-.post--add-comment-button {
+.review--add-comment-button {
   @include button($melrose);
 }
 
-.post--header {
+.review--header {
   margin-bottom: 20px;
   .username {
     @extend %h3-body;
@@ -123,11 +121,11 @@ video {
   }
 }
 
-.post--content-wrapper {
+.review--content-wrapper {
   margin-bottom: 20px;
 }
 
-.post--profile-image {
+.review--profile-image {
   @include profileImage();
   float: left;
   @include min-screen($tablet) {
@@ -135,35 +133,18 @@ video {
   }
 }
 
-.post--load-more-comments {
-  @include clearfix();
-  margin-bottom: 20px;
-  margin-left: 70px;
-  @include max-screen($tablet - 1) {
-    margin-left: 0;
-    text-align: center;
-  }
-  a {
-    margin-right: 20px;
-  }
-}
 
-.post--comment-count {
-  color: $gray;
-}
-
-
-.content-add {
+.review-add {
   margin-bottom: 20px;
 }
 
-.content-add--input {
+.review-add--input {
   background-color: white;
   padding: 5px 20px;
   border: #ccc 1px solid;
 }
 
-.content-add--textarea {
+.review-add--textarea {
   overflow: hidden;
   width: 100%;
   padding: 0;
@@ -179,7 +160,7 @@ video {
   }
 }
 
-.content-add--preview-image {
+.review-add--preview-image {
   position: relative;
   display: inline-block;
   background-color: $dark;
@@ -214,7 +195,7 @@ video {
   }
 }
 
-.content-add--upload-media {
+.review-add--upload-media {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -223,7 +204,7 @@ video {
   z-index: -1;
 }
 
-.content-add--actions {
+.review-add--actions {
   margin-top: 10px;
   .button {
     float: right;
@@ -241,7 +222,7 @@ video {
   }
 }
 
-.preview-video--name {
+.review-video--name {
   font-size: 14px;
 }
 
@@ -285,7 +266,7 @@ progress[value] {
   }
 }
 
-.content-add--media {
+.review-add--media {
   label {
     @include button($athens-gray, $melrose, false);
     border: 1px solid #ccc;
@@ -298,18 +279,17 @@ progress[value] {
   }
 }
 
-.content-add--media-label {
+.review-add--media-label {
   pointer-events: none;
   @include max-screen($desktop - 1px) {
     display: none;
   }
 }
 
-.content-add--messages {
+.review-add--messages {
   opacity: 0;
   @include single-transition(opacity, 500ms, null, null);
   &.fadein {
     opacity: 1;
   }
 }
-

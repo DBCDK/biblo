@@ -1,4 +1,10 @@
 import React from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
+import * as searchActions from '../../Actions/search.actions';
+
+import SearchContainer from '../SearchBox/SearchContainer.component.js';
 import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
 import NavbarLink from './NavbarLink.component.js';
 import NavbarIconLink from './NavbarIconLink.component.js';
@@ -10,6 +16,7 @@ import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyp
 import Icon from '../General/Icon/Icon.component';
 import bibloSvg from './svg/biblo_negative.svg';
 import profileSvg from '../General/Icon/svg/knap-ikoner-small/profile.svg';
+import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 
 import './styling/navbar.scss';
 
@@ -51,12 +58,21 @@ export default class NavbarContainer extends React.Component {
     this.setState({active});
   }
 
+  toggleSearchBox() {
+    this.props.searchActions.toggleSearchBox();
+  }
+
   renderProfile() {
     if (image.shouldDisplay) {
       return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>);
     }
     return (<NavbarIconLink width="35" height="35" className="navbar--profile" url="#" glyph={profileSvg}
                              onClick={() => this.onToggle('profile')}/>);
+  }
+
+  renderSearch() {
+    return (<NavbarIconLink width="35" height="35" className="navbar--profile" url="#" glyph={searchSvg}
+                            onClick={() => this.toggleSearchBox()}/>);
   }
 
   renderProfileLinks() {
@@ -92,6 +108,7 @@ export default class NavbarContainer extends React.Component {
 
           <div className="navbar--icons">
             {this.renderProfile()}
+            {this.renderSearch()}
             <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
           </div>
         </div>
@@ -109,9 +126,33 @@ export default class NavbarContainer extends React.Component {
           </div>
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')}/>
+        <SearchContainer />
       </div>
     );
   }
 }
 
 NavbarContainer.displayName = 'NavbarContainer';
+
+NavbarContainer.propTypes = {
+  searchActions: React.PropTypes.object.isRequired
+};
+
+
+/**
+ * Connect the redux state and actions to container props
+ */
+export default connect(
+  // Map redux state to props
+  (state) => {
+    return {
+      search: state.searchReducer
+    };
+  },
+  // Map actions to props
+  (dispatcher) => {
+    return {
+      searchActions: bindActionCreators(searchActions, dispatcher)
+    };
+  }
+)(NavbarContainer);

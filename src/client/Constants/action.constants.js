@@ -72,6 +72,8 @@ export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
 
 
-// ReviewView actions
+// Review actions
 export const CREATE_REVIEW = 'CREATE_REVIEW';
-export const UPDATE_REVIEW = 'UPDATE_REVIEW';
+
+// Search actions
+export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';

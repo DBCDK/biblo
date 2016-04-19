@@ -1,0 +1,39 @@
+@import 'tools';
+
+.search-container {
+  background-color: $melrose;
+
+  input[type=search] {
+    padding: 10px;
+    @include max-screen($phone - 1px) {
+      width: 70%;
+    }
+    @include min-screen($phone) {
+      width: 80%;
+    }
+  }
+
+  .search-container--search-button {
+    padding: 10px 20px 10px 20px;
+    background-color: $black;
+    .icon {
+      position:relative;
+      fill: $white;
+      top:5px;
+    }
+  }
+
+  transition-property: height padding;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+
+  height:50px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.search-container--hidden {
+  height:0px;
+  padding: 0px;
+  overflow: hidden;
+}

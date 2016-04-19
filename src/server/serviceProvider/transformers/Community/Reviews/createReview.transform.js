@@ -4,24 +4,20 @@ const CreateReviewTransform = {
   },
 
   upsertContent(query, user) {
-    let method="createReview";
-    if (review.id) {
-      method= "updateReview";
-    }
-
-    return this.callServiceClient('community', method, {
+    return this.callServiceClient('community', 'createReview', {
       id: query.id || null,
+      libraryid: query.libraryid,
       pid: query.pid,
       content: query.content,
       worktype: query.worktype,
       rating: query.rating,
-      created: querycreated || Date.now(),
+      created: query.created || Date.now(),
       modified: Date.now(),
       reviewownerid: user.profileId
     }).then((response) => {
 
-      //attach image to review
-      if (response.statusCode === 200 && review.image) {
+      // attach image to review
+      if (response.statusCode === 200 && query.image) {
         const image = query.image;
         query.image = {data: 'Binary Image Data!'};
         return this.callServiceClient('community', 'updateImage', {
@@ -33,7 +29,7 @@ const CreateReviewTransform = {
           return response;
         });
 
-        //vide is attach on community server
+        // video is attached on community server
       }
       return response;
     });
@@ -41,9 +37,7 @@ const CreateReviewTransform = {
 
   requestTransform(event, query, connection) {
     const user = Object.assign({}, connection.request.session.passport.user);
-
-    this.upserConntent(query,  user);
-    return Promise.reject(new Error('user not logged in'));
+    return this.upsertContent(query, user);
   },
 
   responseTransform(response) {

@@ -1,21 +1,25 @@
+import parseReview from '../../../parsers/review.parser';
+
+
 const GetReviewTransform = {
   event() {
-    return 'getReview';
+    return 'getReviews';
   },
 
-  requestTransform(event, query, connection) {
-    const passport = connection.request.session.passport;
-    if (passport) {
-      return this.callServiceClient('community', 'getReview', {
-        id: query.pid
-      });
-    }
-    return Promise.reject(new Error('user not logged in'));
+  requestTransform(event, params) {
+    return this.callServiceClient('community', 'getReviews', params);
   },
 
   responseTransform(response) {
-    return {status: response.statusCode, data: response.body, errors: response.errors || []};
+    if (response.statusCode !== 200) {
+      throw new Error('Call to community service, with method getReviews failed');
+    }
+
+    let reviews = JSON.parse(response.body);
+    reviews = reviews.map(review => parseReview(review)) || [];
+    return {status: response.statusCode, data: reviews, errors: response.errors || []};
   }
+
 };
 
 export default GetReviewTransform;

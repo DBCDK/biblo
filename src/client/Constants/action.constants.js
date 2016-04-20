@@ -79,3 +79,5 @@ export const CREATE_REVIEW = 'CREATE_REVIEW';
 
 // Search actions
 export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';
+export const MATERIAL_SEARCH = 'MATERIAL_SEARCH';
+

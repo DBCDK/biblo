@@ -9,9 +9,8 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const likePostSocketClient = SocketClient('likePost');
 const unlikePostSocketClient = SocketClient('unlikePost');
 
-const likeReviewSocketClient = SocketClient('likeReviewt');
+const likeReviewSocketClient = SocketClient('likeReview');
 const unlikeReviewSocketClient = SocketClient('unlikeReview');
-
 
 export function likePost(like) {
   likePostSocketClient.request({
@@ -36,7 +35,6 @@ export function unlikePost(like) {
     postId: like.postId
   };
 }
-
 
 export function likeReview(like) {
   likeReviewSocketClient.request({

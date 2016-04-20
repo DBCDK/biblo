@@ -19,7 +19,6 @@ export class SearchContainer extends React.Component {
     };
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
-
   }
 
 
@@ -31,24 +30,28 @@ export class SearchContainer extends React.Component {
     if (query.length >= 3) {
       // TODO: create suggestions action
     }
-
   }
-
 
   submitInput(e) {
     if (e.type === 'click' || e.keyCode === 13) {
-      // TODO: create search action
+      searchActions.searchMaterials({
+        query: this.state.query
+      });
     }
   }
 
-
   render() {
-    const classNames = (this.props.search.isVisible) ? 'search-container' : 'search-container search-container--hidden';
-
+    const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
 
     return (
       <div className={classNames}>
-        <input type='search' placeholder='Søg på bøger, film og spil' onChange={this.searchInputChanged} onKeyDown={this.submitInput} ></input>
+        <input
+          type='search'
+          placeholder='Søg på bøger, film og spil'
+          defaultValue={this.props.search.initialQuery}
+          onChange={this.searchInputChanged}
+          onKeyDown={this.submitInput}
+          />
         <a className='search-container--search-button' href='#' onClick={this.submitInput}>
           <Icon glyph={searchSvg} width={24} height={24} />
         </a>

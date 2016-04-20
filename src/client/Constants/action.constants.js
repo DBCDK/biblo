@@ -73,4 +73,5 @@ export const UNLIKE_POST = 'UNLIKE_POST';
 
 // Search actions
 export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';
+export const MATERIAL_SEARCH = 'MATERIAL_SEARCH';
 

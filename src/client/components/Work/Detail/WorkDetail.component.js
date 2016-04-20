@@ -5,13 +5,9 @@ import './WorkDetail.component.scss';
 import {TagList} from '../TagList/TagList.component.js';
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
 import ReviewButton from '../../Review/ReviewButton.js';
-import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
-import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 import plusSvg from '../../General/Icon/svg/functions/plus.svg';
-
-import reviewButton from '../../Review/ReviewButton.js';
 
 export class WorkDetail extends React.Component {
 

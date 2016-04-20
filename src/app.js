@@ -20,6 +20,7 @@ import ProxyAgent from 'proxy-agent';
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
+import SearchRoutes from './server/routes/search.routes';
 import WorkRoutes from './server/routes/work.routes';
 import ProfileRoutes from './server/routes/profile.routes';
 import ContentRoutes from './server/routes/content.routes';
@@ -238,6 +239,7 @@ module.exports.run = function(worker) {
   app.use(ensureProfileImage);
 
   app.use('/grupper', ensureUserHasProfile, GroupRoutes);
+  app.use('/search', SearchRoutes);
   app.use('/profil', ProfileRoutes);
   app.use('/vaerk', WorkRoutes);
   app.use('/indhold', ContentRoutes);

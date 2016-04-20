@@ -57,7 +57,6 @@ GroupList.propTypes = {
   skip: React.PropTypes.number,
   limit: React.PropTypes.number,
   isLoading: React.PropTypes.bool,
-  profileId: React.PropTypes.number,
   followOn: React.PropTypes.bool,
   expand: React.PropTypes.func
 };

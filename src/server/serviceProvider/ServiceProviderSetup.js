@@ -11,6 +11,7 @@ import Borchk from 'dbc-node-borchk';
 import CommunityClient from 'dbc-node-community-client';
 import EntitySuggest from 'dbc-node-entitysuggest';
 import OpenAgency from 'dbc-node-openagency-client';
+import OpenPlatformClient from './clients/openplatform.client.js';
 
 /**
  * Helper function for registering service clients. If cachetime is defined in config, wrap methods with the
@@ -50,6 +51,7 @@ export default function initProvider(config, logger, sockets) {
   // Register all clients
   RegisterClientOnProvider('borchk', Borchk);
   RegisterClientOnProvider('community', CommunityClient);
+  RegisterClientOnProvider('openplatform', OpenPlatformClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);
   RegisterClientOnProvider('openagency', OpenAgency);
 

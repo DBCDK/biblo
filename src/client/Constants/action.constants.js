@@ -66,6 +66,7 @@ export const FLAG_POST = 'FLAG_POST';
 export const FLAG_COMMENT = 'FLAG_COMMENT';
 export const FLAG_GROUP = 'FLAG_GROUP';
 export const FLAG_PROFILE = 'FLAG_PROFILE';
+export const FLAG_REVIEW = 'FLAG_REVIEW';
 
 // Like actions
 export const LIKE_POST = 'LIKE_POST';

@@ -12,6 +12,8 @@ import LikeButton from '../General/LikeButton/LikeButton.component.js';
 import Icon from '../General/Icon/Icon.component.js';
 import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
+import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
+
 
 import Youtube from 'react-youtube';
 
@@ -48,6 +50,11 @@ export default class ReviewView extends React.Component {
       },
       isLoading: false
     };
+
+    this.submitReviewFlag = this.submitReviewFlag.bind(this);
+    this.likeReview = this.likeReview.bind(this);
+    this.unlikeReview = this.unlikeReview.bind(this);
+   // this.deleteReview = this.deleteReview.bind(this);
   }
 
   toggleEditing() {
@@ -58,7 +65,6 @@ export default class ReviewView extends React.Component {
     this.setState({isEditing: !this.state.isEditing, isCommentInputVisible: isCommentInputVisible});
     return true;
   }
-
 
   submitReviewFlag(flag) { // eslint-disable-line
     flag.flagger = this.props.profile.id;
@@ -264,8 +270,17 @@ export default class ReviewView extends React.Component {
       });
     }
 
+    const reviewFlagModalContent = (
+      <CreateFlagDialog
+        submitFunction={this.submitReviewFlag}
+        onClose={this.props.uiActions.closeModalWindow}
+        contentType={'review'}
+        contentId={this.state.id}
+      />
+    );
+
     const flagFunction = () => {
-      // this.props.uiActions.openModalWindow(postFlagModalContent);
+      this.props.uiActions.openModalWindow(reviewFlagModalContent);
     };
 
     let flagButton = null;
@@ -453,10 +468,11 @@ ReviewView.propTypes = {
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,
   timeCreated: React.PropTypes.string,
-  image: React.PropTypes.String,
+  image: React.PropTypes.object,
   video: React.PropTypes.object,
   flagActions: React.PropTypes.object,
   likes: React.PropTypes.array,
   likeActions: React.PropTypes.object,
+  uiActions: React.PropTypes.object.isRequired,
   errors: React.PropTypes.array
 };

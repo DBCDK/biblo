@@ -39,6 +39,8 @@ export default class ReviewView extends React.Component {
       pid: props.pid,
       image: props.image,
       video: props.video,
+      modified: props.modified,
+      created: props.created,
       isEditing: props.isEditing || false,
       attachment: {
         image: props.image || null,
@@ -212,7 +214,6 @@ export default class ReviewView extends React.Component {
         let formData = new FormData(form);
         var request = new XMLHttpRequest();
         request.open('post', '/anmeldelse/');
-
         request.onload = (event) => {
           this.setState({isLoading: false});
           if (event.target.status === 200) {
@@ -249,7 +250,7 @@ export default class ReviewView extends React.Component {
       image,
       video,
       profile,
-      timeCreated
+      created
       } = this.state;
 
     const errorObj = {};
@@ -277,17 +278,7 @@ export default class ReviewView extends React.Component {
       );
     }
 
-
     // AddContentArea:
-    let deleteButton = null;
-    if (this.props.delete) {
-      deleteButton = (
-        <a className="button delete" onClick={() => this.props.delete()}>
-          <span>Slet</span>
-        </a>
-      );
-    }
-
     if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
         <div className='content-add'>
@@ -299,13 +290,11 @@ export default class ReviewView extends React.Component {
     const youtube = ExtractYoutubeID(content);
     const uniqueId = `upload-media-review-${this.props.id || this.props.parentId}`;
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
-
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
     };
     const unlikeFunction = (profile.userIsLoggedIn) ? this.unReview : () => {
     };
-
 
     const likeButton = (
       <LikeButton
@@ -329,7 +318,7 @@ export default class ReviewView extends React.Component {
           <div className='review--header'>
             <a href={`/profil/${owner.id}`}><span className='username'
                                                   dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
-            <span className='time'>{this.state.isEditing && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className='time'>{this.state.isEditing && 'Retter nu' || TimeToString(created)}</span>
             <span className='buttons'>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditing} clickFunction={() => this.toggleEditing()}
@@ -401,7 +390,6 @@ export default class ReviewView extends React.Component {
                     <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
                            value="Fortryd"/>
                   }
-                  {deleteButton}
                   <div className='review-add--media'>
                     <label htmlFor={uniqueId}>
                       <input

@@ -36,7 +36,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
       const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;
       const selectedLibrary = {
         libraryId: agency.agencyId,
-        libraryName: agency.agencyName,
+        libraryName: agency.branchShortName[0].$value,
         libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
       };
       fullProfile.favoriteLibrary = selectedLibrary;

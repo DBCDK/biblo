@@ -6,6 +6,8 @@ import * as reviewActions from '../../Actions/review.actions';
 import PageLayout from '../Layout/PageLayout.component';
 import ReviewView from '../Review/ReviewView.component';
 import ReviewList from '../Review/ReviewList.js';
+import Message from '../General/Message/Message.component.js';
+
 
 import {WorkDetail} from './Detail/WorkDetail.component.js';
 import {WorkHeader} from './Header/WorkHeader.component.js';
@@ -19,21 +21,34 @@ export class WorkContainer extends React.Component {
     };
   }
 
+  getData() {
+    const jsonData = document.getElementById('JSONDATA');
+    return JSON.parse(jsonData.innerHTML);
+  }
+
+  getProfile() {
+    return this.getData().profile;
+  }
+
   toggleReview() {
-    this.setState({
-      reviewVisible: !this.state.reviewVisible
-    })
+    if (!this.getProfile().quarantined) {
+      this.setState({
+        reviewVisible: !this.state.reviewVisible
+      });
+    }
+    else {
+      this.setState({
+        reviewVisible: false,
+        errorMessage: 'Du er i karantæne lige nu'
+      });
+    }
   }
 
   render() {
-    const jsonData = document.getElementById('JSONDATA');
-    const data = JSON.parse(jsonData.innerHTML);
-    const profile = data.profile;
-    const work = data.work; // eslint-disable-line no-unused-vars
-
+    const data = this.getData();
     return (
       <PageLayout>
-        <p>WorkContainer {work.id} {work.title}</p>
+        <p>WorkContainer {data.work.id} {data.work.title}</p>
         <WorkHeader coverUrl={'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg'}/>
         <WorkDetail toggleReview={this.toggleReview.bind(this)}/>
         {
@@ -41,19 +56,25 @@ export class WorkContainer extends React.Component {
           <ReviewView
             ref='review'
             isEditing={true}
-            profile={profile}
-            pid={work.id}
+            profile={data.profile}
+            pid={data.work.id}
             worktype="book"
-            owner={profile}
+            owner={data.profile}
             reviewActions={reviewActions}
           />
+        }
+        {
+          this.state.errorMessage &&
+          <Message type='error'>
+            <span> {this.state.errorMessage} </span>
+          </Message>
         }
 
         <ReviewList
           reviews={data.reviews}
           reviewActions={reviewActions}
           worktype="book"
-          profile={profile}
+          profile={data.profile}
         />
 
       </PageLayout>
@@ -71,7 +92,8 @@ export default connect(
   (state) => {
     return {
       data: state.reviewReducer
-    };
+    }
+      ;
   },
 
   (dispatch) => {

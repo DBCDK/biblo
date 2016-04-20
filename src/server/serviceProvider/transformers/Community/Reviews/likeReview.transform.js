@@ -7,10 +7,9 @@ const LikeReviewTransform = {
   requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
     // check user is logged in
     if (connection.request.session.passport) {
-      // If user is logged in like on post
       const passport = connection.request.session.passport;
       const profileId = query.profileId;
-      const reviewId = query.contentId;
+      const reviewId = query.reviewId;
       const accessToken = passport.user.id;
       return this.callServiceClient('community', 'likeReview', {profileId, reviewId, accessToken});
     }

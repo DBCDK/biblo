@@ -10,7 +10,7 @@ const UnlikeReviewTransform = {
 
       const passport = connection.request.session.passport;
       const profileId = query.profileId;
-      const reviewId = query.contentId;
+      const reviewId = query.reviewId;
       const accessToken = passport.user.id;
       return this.callServiceClient('community', 'unlikeReview', {profileId, reviewId, accessToken});
     }

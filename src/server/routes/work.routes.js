@@ -15,6 +15,7 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
     filter: {
       where: {pid: pid},
       include: [
+        'likes',
         'image',
         'video',
         {

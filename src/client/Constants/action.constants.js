@@ -66,10 +66,16 @@ export const FLAG_POST = 'FLAG_POST';
 export const FLAG_COMMENT = 'FLAG_COMMENT';
 export const FLAG_GROUP = 'FLAG_GROUP';
 export const FLAG_PROFILE = 'FLAG_PROFILE';
+export const FLAG_REVIEW = 'FLAG_REVIEW';
 
 // Like actions
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
+export const LIKE_REVIEW = 'LIKE_REVIEW';
+export const UNLIKE_REVIEW = 'UNLIKE_REVIEW';
+
+// Review actions
+export const CREATE_REVIEW = 'CREATE_REVIEW';
 
 // Search actions
 export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';

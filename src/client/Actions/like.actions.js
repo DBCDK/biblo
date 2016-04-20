@@ -9,6 +9,9 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const likePostSocketClient = SocketClient('likePost');
 const unlikePostSocketClient = SocketClient('unlikePost');
 
+const likeReviewSocketClient = SocketClient('likeReview');
+const unlikeReviewSocketClient = SocketClient('unlikeReview');
+
 export function likePost(like) {
   likePostSocketClient.request({
     profileId: like.profileId,
@@ -32,3 +35,28 @@ export function unlikePost(like) {
     postId: like.postId
   };
 }
+
+export function likeReview(like) {
+  likeReviewSocketClient.request({
+    profileId: like.profileId,
+    reviewId: like.reviewId
+  });
+  return {
+    type: types.LIKE_REVIEW,
+    profileId: like.profileId,
+    reviewId: like.reviewId
+  };
+}
+
+export function unlikeReview(like) {
+  unlikeReviewSocketClient.request({
+    profileId: like.profileId,
+    reviewId: like.reviewId
+  });
+  return {
+    type: types.UNLIKE_REVIEW,
+    profileId: like.profileId,
+    reviewId: like.reviewId
+  };
+}
+

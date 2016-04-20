@@ -22,6 +22,7 @@ import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
 import SearchRoutes from './server/routes/search.routes';
 import WorkRoutes from './server/routes/work.routes';
+import ReviewRoutes from './server/routes/review.routes';
 import ProfileRoutes from './server/routes/profile.routes';
 import ContentRoutes from './server/routes/content.routes';
 import ApiRoutes from './server/routes/api.routes';
@@ -40,8 +41,11 @@ import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
 import {ensureProfileImage} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile} from './server/middlewares/auth.middleware';
 
+
 module.exports.run = function(worker) {
   // Setup
+
+
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
   const server = worker.httpServer;
@@ -55,7 +59,6 @@ module.exports.run = function(worker) {
 
   // Direct requests to app
   server.on('request', app);
-
   // robots.txt handler
   app.get('/robots.txt', (req, res) => {
     if (process.env.SHOW_IN_SEARCH_ENGINES) { // eslint-disable-line no-process-env
@@ -84,7 +87,6 @@ module.exports.run = function(worker) {
   // Setting bodyparser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
-
   // Helmet configuration
   app.use(helmet.frameguard());
   app.use(helmet.hidePoweredBy({setTo: 'Konami!'}));
@@ -238,6 +240,7 @@ module.exports.run = function(worker) {
   app.use(ssrMiddleware);
   app.use(ensureProfileImage);
 
+  app.use('/anmeldelse', ReviewRoutes);
   app.use('/grupper', ensureUserHasProfile, GroupRoutes);
   app.use('/search', SearchRoutes);
   app.use('/profil', ProfileRoutes);

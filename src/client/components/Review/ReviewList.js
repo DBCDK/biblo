@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewView from './ReviewView.component.js';
+import Review from './Review.component.js';
 
 export default function ReviewList({reviews = [], profile = {},
    uiActions = null, reviewActions = null, flagActions = null, likeActions = null}) {
@@ -7,7 +7,7 @@ export default function ReviewList({reviews = [], profile = {},
     <div className='review-list' >
       {
         reviews
-        && reviews.map((item) => (<ReviewView
+        && reviews.map((item) => (<Review
           key={item.id} {...item}
           profile={profile}
           likes={item.likes}

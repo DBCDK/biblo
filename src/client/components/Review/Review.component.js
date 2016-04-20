@@ -5,7 +5,7 @@ import ExtractYoutubeID from '../../Utils/extractYoutubeID';
 
 import Message from '../General/Message/Message.component.js';
 import Rating from '../General/Rating/Rating.component';
-import './ReviewView.scss';
+import './Review.scss';
 
 import Login from '../General/Login/Login.component.js';
 import LikeButton from '../General/LikeButton/LikeButton.component.js';
@@ -26,7 +26,7 @@ import spinner from '../General/Icon/svg/spinners/loading-spin.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
-export default class ReviewView extends React.Component {
+export default class Review extends React.Component {
   constructor(props) {
     super(props);
 
@@ -455,8 +455,8 @@ export default class ReviewView extends React.Component {
   }
 }
 
-ReviewView.displayName = 'ReviewView';
-ReviewView.propTypes = {
+Review.displayName = 'Review';
+Review.propTypes = {
   owner: React.PropTypes.object, // for profile image in view
   profile: React.PropTypes.object.isRequired, // for editing, flagging, liking
   id: React.PropTypes.number,

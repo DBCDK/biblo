@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import PageLayout from '../Layout/PageLayout.component';
-import ReviewView from '../Review/ReviewView.component';
+import Review from '../Review/Review.component';
 import ReviewList from '../Review/ReviewList.js';
 import Message from '../General/Message/Message.component.js';
 import ModalWindow from '../General/ModalWindow/ModalWindow.component.js';
@@ -64,7 +64,7 @@ export class WorkContainer extends React.Component {
         <WorkDetail toggleReview={this.toggleReview.bind(this)}/>
         {
           this.state.reviewVisible &&
-          <ReviewView
+          <Review
             ref='review'
             isEditing={true}
             profile={data.profile}

@@ -308,7 +308,7 @@ export default class Review extends React.Component {
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
     };
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unReview : () => {
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikeReview : () => {
     };
 
     const likeButton = (
@@ -348,7 +348,6 @@ export default class Review extends React.Component {
           {errorObj.rating || ''}
           {
             this.state.isEditing &&
-            // BEGIN:AddContentArea
             <div className={Classnames({'review-add': true, shakeit: this.state.errorMsg})}>
               <form method="post" action='/anmeldelse/' ref="contentForm" onSubmit={(e) => this.onSubmit(e)}>
                 <div className='review-add--input'>
@@ -424,7 +423,6 @@ export default class Review extends React.Component {
                 </div>
               </form>
             </div>
-              // END:AddContentArea
             ||
             <div className='review--content-wrapper'>
               {

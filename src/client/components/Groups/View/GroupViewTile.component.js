@@ -14,7 +14,7 @@ export default class GroupViewTile extends React.Component {
       group = this.props.group;
 
     if (group.coverImage) {
-      url = '/billede/' + group.coverImage.id + '/small-square';
+      url = '/billede/' + group.coverImage.id + '/small';
     }
     else {
       url = '/no_group_image.png';

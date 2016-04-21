@@ -31,7 +31,9 @@ export class WorkContainer extends React.Component {
   }
 
   getProfile() {
-    return this.getData().profile;
+    let profile = this.getData().profile;
+    profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
+    return profile;
   }
 
   toggleReview() {
@@ -50,6 +52,7 @@ export class WorkContainer extends React.Component {
 
   render() {
     const data = this.getData();
+    let profile = this.getProfile();
     return (
       <PageLayout>
          {this.props.ui.modal.isOpen &&
@@ -67,10 +70,10 @@ export class WorkContainer extends React.Component {
           <Review
             ref='review'
             isEditing={true}
-            profile={data.profile}
+            profile={profile}
             pid={data.work.id}
             worktype="book"
-            owner={data.profile}
+            owner={profile}
             reviewActions={this.props.actions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}

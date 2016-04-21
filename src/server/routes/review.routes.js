@@ -104,7 +104,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
     }
 
     req.callServiceProvider('createReview', params).then(function (response) {
-      if (response[0].status === 200) {
+      if (response[0].status === 200 && req.session.videoupload) {
         createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, response.id, logger);
       }
       res.send(response[0]);

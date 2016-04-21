@@ -4,17 +4,49 @@
 
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
+import {includes, filter} from 'lodash';
 
-let initialState = {hest: 1};
+let jsonData = document.getElementById('JSONDATA');
+let initialState = {};
+if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
+  let data = JSON.parse(jsonData.innerHTML);
+  initialState = data;
+}
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
+
   switch (action.type) {
     case types.CREATE_REVIEW:
       return assignToEmpty(state,
         {
           review: action.review
         });
+
+    case types.LIKE_REVIEW:
+      const reviewsCopyLiked = [...state.reviews];
+      reviewsCopyLiked.forEach(review => {
+        if (review.id === action.reviewId) {
+          const isAlreadyLikedByUser = includes(review.likes, action.profileId);
+          if (!isAlreadyLikedByUser) {
+            review.likes.push(action.profileId);
+          }
+        }
+      });
+      return assignToEmpty(state, {posts: reviewsCopyLiked});
+    case types.UNLIKE_REVIEW:
+      const reviewsCopyUnliked = [...state.reviews];
+      reviewsCopyUnliked.forEach(review => {
+        if (review.id === action.reviewId) {
+          const isAlreadyLikedByUser = includes(review.likes, action.profileId);
+          if (isAlreadyLikedByUser) {
+            review.likes = filter(review.likes, (id) => {
+              return (id !== action.profileId);
+            });
+          }
+        }
+      });
+      return assignToEmpty(state, {posts: reviewsCopyUnliked});
     default:
       return state;
   }

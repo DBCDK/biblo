@@ -26,12 +26,13 @@ export class WorkContainer extends React.Component {
   }
 
   getData() {
-    const jsonData = document.getElementById('JSONDATA');
-    return JSON.parse(jsonData.innerHTML);
+    return this.props.reviews;
   }
 
   getProfile() {
-    return this.getData().profile;
+    let profile = this.getData().profile;
+    profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
+    return profile;
   }
 
   toggleReview() {
@@ -51,10 +52,9 @@ export class WorkContainer extends React.Component {
   render() {
     const data = this.getData();
 
-    console.log(data);
-
     const coverUrl = 'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg';
 
+    let profile = this.getProfile();
     return (
       <PageLayout>
          {this.props.ui.modal.isOpen &&
@@ -80,10 +80,10 @@ export class WorkContainer extends React.Component {
           <Review
             ref='review'
             isEditing={true}
-            profile={data.profile}
+            profile={profile}
             pid={data.work.id}
-            worktype="book"
-            owner={data.profile}
+            worktype={this.props.worktype || 'book'}
+            owner={profile}
             reviewActions={this.props.actions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
@@ -119,13 +119,13 @@ WorkContainer.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  data: React.PropTypes.object
+  reviews: React.PropTypes.array
 };
 
 export default connect(
   (state) => {
     return {
-      data: state.reviewReducer,
+      reviews: state.reviewReducer,
       ui: state.uiReducer
     };
   },

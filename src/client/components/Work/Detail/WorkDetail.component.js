@@ -12,23 +12,18 @@ import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 export class WorkDetail extends React.Component {
 
   render() {
-    const imageUrl = 'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg';
-    const title = 'Satans Bibel';
-    const creator = 'Anton Szandor LaVey';
-    const year = 2004;
-    const workType = 'book'; // eslint-disable-line no-unused-vars
+    const coverUrl = this.props.coverUrl;
+    const title = this.props.title;
+    const creator = this.props.creator;
+    const year = this.props.year;
+    const displayType = this.props.displayType; // eslint-disable-line no-unused-vars
     const materialTypes = ['ebook', 'audiobook', 'book'];
 
     const materialTypeElements = materialTypes.map((materialType) => (<li><MaterialButton materialType={materialType} active={true} /></li>));
 
-    const description = 'Om satanismens filosofi med beskrivelse af ritualer og ceremonier.' +
-      ' Satans Bibel er den danske oversættelse af "The Satanic Bible" (Anton LaVey, 1969), ' +
-      'der blev udgivet kort efter oprettelsen af Church of Satan. Bogen skulle fungere som ' +
-      'filosofisk manifest og håndbog i den nye kirkes filosofi. Anton LaVey forklarede senere, ' +
-      'at bogen skulle hurtigt på markedet, og derfor blev den sammensat i hast. Dette skete ' +
-      'blandt andet ved at genbruge meget materiale fra andre forfattere.';
+    const abstract = this.props.abstract;
 
-    const tags = ['Satans Kirke', 'satanisme'];
+    const tags = this.props.tags;
 
     return (
       <div className='work-detail'>
@@ -37,7 +32,7 @@ export class WorkDetail extends React.Component {
           <h2>{title}</h2>
           <span className='work-detail--subheader'>{creator}, {year}</span>
           <div className='work-detail--description'>
-            {description}
+            {abstract}
           </div>
 
           <TagList tags={tags}/>
@@ -51,7 +46,7 @@ export class WorkDetail extends React.Component {
 
         <div className='work-detail--secondary'>
           <div className='work-detail--large-cover'>
-            <img src={imageUrl}/>
+            <img src={coverUrl}/>
           </div>
 
           <ul className='work-detail--material-types'>
@@ -65,5 +60,12 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
-  toggleReview: React.PropTypes.func.isRequired
+  toggleReview: React.PropTypes.func.isRequired,
+  abstract: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string.isRequired,
+  creator: React.PropTypes.string.isRequired,
+  tags: React.PropTypes.array.isRequired,
+  year: React.PropTypes.string.isRequired,
+  displayType: React.PropTypes.string.isRequired,
+  coverUrl: React.PropTypes.string.isRequired
 };

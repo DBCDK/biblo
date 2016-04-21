@@ -25,6 +25,17 @@ function search(endpoint, {q}) {
 }
 
 
+function work(endpoint, params) {
+  const options = {
+    url: `${endpoint}work/`,
+    form: params,
+    headers: {
+      Authorization: 'Bearer qwerty'
+    }
+  };
+  return promiseRequest('get', options);
+}
+
 /**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
@@ -40,6 +51,7 @@ export default function OpenPlatformClient(config = null) {
   }
 
   return {
-    search: search.bind(null, config.endpoint)
+    search: search.bind(null, config.endpoint),
+    work: work.bind(null, config.endpoint)
   };
 }

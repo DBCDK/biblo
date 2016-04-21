@@ -221,13 +221,19 @@ export default class Review extends React.Component {
         var request = new XMLHttpRequest();
         request.open('post', '/anmeldelse/');
         request.onload = (event) => {
-          this.setState({isLoading: false});
           if (event.target.status === 200) {
             const addContentReponse = JSON.parse(event.target.response);
             if (addContentReponse.errors && addContentReponse.errors.length > 0) {
-              this.setState({errorMsg: addContentReponse.errors[0].errorMessage});
+              this.setState({
+                isLoading: false,
+                errorMsg: addContentReponse.errors[0].errorMessage
+              });
             }
             else {
+              this.setState({
+                isLoading: false,
+                isEditing: false
+              });
               // if (this.props.abort) {
               //  this.props.abort();
               // }
@@ -237,7 +243,10 @@ export default class Review extends React.Component {
             }
           }
           else {
-            this.setState({errorMsg: 'Hmm. Vi kunne desvære ikke oprette din anmeldelse - prøv igen'});
+            this.setState({
+              isLoading: false,
+              errorMsg: 'Hmm. Vi kunne desvære ikke oprette din anmeldelse - prøv igen'
+            });
           }
         };
         request.send(formData);

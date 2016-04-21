@@ -37,6 +37,7 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
 
     // get full work object, TODO: filter this if needed
     const work = workResponse[0].data[0];
+    work.id = pid;
 
     res.render('page', {
       css: ['/css/work.css'],

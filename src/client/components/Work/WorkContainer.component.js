@@ -68,7 +68,6 @@ export class WorkContainer extends React.Component {
         <WorkDetail
           toggleReview={this.toggleReview.bind(this)}
           title={data.work.dcTitle[0]}
-          abstract={data.work.abstract[0]}
           displayType={data.work.workType[0]}
           creator={data.work.creator[0]}
           year={data.work.date[0]}

@@ -11,11 +11,11 @@ export default class MaterialSearchResultList extends React.Component {
 
   render() {
     const listElements = this.props.results.map((result, i) => {
-      const randomWidth = Math.random()*100 + 150;
+
       return (
         <li key={i}>
           <div className='material-result-list--cover-image'>
-            <img width={randomWidth} height='300' />
+            <img width='160' height='220' />
           </div>
           <div className='material-result-list--description'>
             {result.dcTitle}

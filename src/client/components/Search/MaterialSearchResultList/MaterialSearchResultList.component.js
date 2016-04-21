@@ -11,15 +11,21 @@ export default class MaterialSearchResultList extends React.Component {
 
   render() {
     const listElements = this.props.results.map((result, i) => {
-      const randomWidth = Math.random()*100 + 150;
+
+      const pid = result.pid[0];
+
+      const workUrl = '/vaerk/' + pid;
+
       return (
         <li key={i}>
-          <div className='material-result-list--cover-image'>
-            <img width={randomWidth} height='300' />
-          </div>
-          <div className='material-result-list--description'>
-            {result.dcTitle}
-          </div>
+          <a href={workUrl}>
+            <div className='material-result-list--cover-image'>
+              <img width='160' height='220' />
+            </div>
+            <div className='material-result-list--description'>
+              {result.dcTitle}
+            </div>
+          </a>
         </li>
       );
     });

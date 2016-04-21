@@ -51,6 +51,9 @@ export class WorkContainer extends React.Component {
 
   render() {
     const data = this.getData();
+
+    const coverUrl = 'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg';
+
     let profile = this.getProfile();
     return (
       <PageLayout>
@@ -61,9 +64,17 @@ export class WorkContainer extends React.Component {
           }
         </ModalWindow>
         }
-        <p>WorkContainer {data.work.id} {data.work.title}</p>
         <WorkHeader coverUrl={'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg'}/>
-        <WorkDetail toggleReview={this.toggleReview.bind(this)}/>
+        <WorkDetail
+          toggleReview={this.toggleReview.bind(this)}
+          title={data.work.dcTitle[0]}
+          abstract={data.work.abstract[0]}
+          displayType={data.work.workType[0]}
+          creator={data.work.creator[0]}
+          year={data.work.date[0]}
+          tags={['emneord1', 'emneord2', 'emneord3']}
+          coverUrl={coverUrl}
+          />
         {
           this.state.reviewVisible &&
           <Review

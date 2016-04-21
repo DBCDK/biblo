@@ -10,7 +10,6 @@ const WorkRoutes = express.Router();
 
 WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let pid = req.params.pid;
-  let title = 'Biblen';
   let reviewParams = {
     filter: {
       where: {pid: pid},
@@ -27,24 +26,30 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
     }
   };
 
+  const reviewsPromise = req.callServiceProvider('getReviews', reviewParams);
+  const workPromise = req.callServiceProvider('work', {pids: [pid]});
+
   const profile = req.session.passport.user.profile.profile;
-  req.callServiceProvider('getReviews', reviewParams).then(function (response) {
+
+  Promise.all([workPromise, reviewsPromise]).then((responses) => {
+    const workResponse = responses[0];
+    const reviewsResponse = responses[1];
+
+    // get full work object, TODO: filter this if needed
+    const work = workResponse[0].data[0];
 
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],
       jsonData: [JSON.stringify({
-        work: {
-          id: pid,
-          title: title
-        },
+        work: work,
         profile: profile,
-        reviews: response[0].data
+        reviews: reviewsResponse[0].data
       })]
     });
-  }, function (response) {
-    console.log('getReviews failed:', response);
+  }, (_) => { // eslint-disable-line no-unused-vars
   });
+
 });
 
 export default WorkRoutes;

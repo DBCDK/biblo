@@ -1,0 +1,12 @@
+@import 'tools';
+
+
+.review-button {
+  @include button();
+  margin-right: 10px;
+  @include max-screen($tablet - 1px) {
+    display: block;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+}

@@ -9,6 +9,7 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const flagPostSocketClient = SocketClient('flagPost');
 const flagGroupSocketClient = SocketClient('flagGroup');
 const flagCommentSocketClient = SocketClient('flagComment');
+const flagReviewSocketClient = SocketClient('flagReview');
 
 
 export function flagPost(flag) {
@@ -32,5 +33,13 @@ export function flagGroup(flag) {
 
   return {
     type: types.FLAG_GROUP
+  };
+}
+
+export function flagReview(flag) {
+  flagReviewSocketClient.request({flag});
+
+  return {
+    type: types.FLAG_REVIEW
   };
 }

@@ -26,8 +26,7 @@ export class WorkContainer extends React.Component {
   }
 
   getData() {
-    const jsonData = document.getElementById('JSONDATA');
-    return JSON.parse(jsonData.innerHTML);
+    return this.props.reviews;
   }
 
   getProfile() {
@@ -72,7 +71,7 @@ export class WorkContainer extends React.Component {
             isEditing={true}
             profile={profile}
             pid={data.work.id}
-            worktype="book"
+            worktype={this.props.worktype || 'book'}
             owner={profile}
             reviewActions={this.props.actions}
             uiActions={this.props.uiActions}
@@ -109,13 +108,13 @@ WorkContainer.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  data: React.PropTypes.object
+  reviews: React.PropTypes.array
 };
 
 export default connect(
   (state) => {
     return {
-      data: state.reviewReducer,
+      reviews: state.reviewReducer,
       ui: state.uiReducer
     };
   },

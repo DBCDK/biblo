@@ -13,8 +13,6 @@ import Icon from '../General/Icon/Icon.component.js';
 import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
-
-
 import Youtube from 'react-youtube';
 
 import flagSvg from '../General/Icon/svg/functions/flag.svg';
@@ -76,6 +74,7 @@ export default class Review extends React.Component {
       reviewId: this.props.id,
       profileId: this.props.profile.id
     });
+
   }
 
   unlikeReview() {
@@ -268,6 +267,7 @@ export default class Review extends React.Component {
       created
       } = this.state;
 
+  //  console.log("reviews:", this.props);
     const errorObj = {};
     if (errors) {
       errors.forEach((error) => {

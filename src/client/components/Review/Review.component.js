@@ -94,7 +94,7 @@ export default class Review extends React.Component {
         });
     }
 
-    if (typeof this.state.content === 'undefined' | this.state.content === '') {
+    if (typeof this.state.content === 'undefined' || this.state.content === '') {
       errors.push({
         field: 'content',
         errorMessage: 'Du skal skrive en anmeldelse eller uploade en video-anmeldelse'
@@ -330,6 +330,7 @@ export default class Review extends React.Component {
       />
     );
 
+    /* eslint-disable react/no-danger */
     return (
       <div className='review-wrapper'>
         <div className='review--profile-image'>
@@ -353,7 +354,7 @@ export default class Review extends React.Component {
             </span>
           </div>
 
-          <Rating ref="rating" pid={pid} rating={rating} onChange={ (this.state.isEditing) ? this.onRatingChange.bind(this) : null }/>
+          <Rating ref="rating" pid={pid} rating={rating} onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null}/>
           {errorObj.rating || ''}
           {
             this.state.isEditing &&
@@ -459,6 +460,7 @@ export default class Review extends React.Component {
         </div>
       </div>
     );
+    /* eslint-enable react/no-danger */
   }
 }
 
@@ -481,5 +483,9 @@ Review.propTypes = {
   likes: React.PropTypes.array,
   likeActions: React.PropTypes.object,
   uiActions: React.PropTypes.object.isRequired,
-  errors: React.PropTypes.array
+  errors: React.PropTypes.array,
+  modified: React.PropTypes.any,
+  created: React.PropTypes.any,
+  abort: React.PropTypes.any,
+  parentId: React.PropTypes.any
 };

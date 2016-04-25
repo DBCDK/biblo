@@ -87,7 +87,6 @@ export class WorkContainer extends React.Component {
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
             likeActions={this.props.likeActions}
-            uiActions={this.props.uiActions}
           />
         }
         {
@@ -118,7 +117,9 @@ WorkContainer.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.array
+  reviews: React.PropTypes.array,
+  ui: React.PropTypes.object,
+  worktype: React.PropTypes.string
 };
 
 export default connect(

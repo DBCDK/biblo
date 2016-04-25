@@ -14,4 +14,7 @@ const ReviewButton = ({clickFunction}) => {
 };
 
 ReviewButton.displayName = 'ReviewButton';
+ReviewButton.propTypes = {
+  clickFunction: React.PropTypes.func
+};
 export default ReviewButton;

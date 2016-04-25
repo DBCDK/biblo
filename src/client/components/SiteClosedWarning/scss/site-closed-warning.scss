@@ -1,0 +1,35 @@
+@import 'tools';
+
+.site-closed-warning {
+  text-align: left;
+  margin-right: 10px;
+  margin-left: 10px;
+
+  .rounded-button {
+    margin-right: 0px;
+    margin-left: 0px;
+    display: block;
+    text-align: center;
+  }
+
+  img {
+    width: 100%;
+    padding-top: 25px;
+  }
+}
+
+.site-closed-warning--svg {
+  text-align: center;
+
+  svg {
+    max-width: 100%;
+  }
+}
+
+.site-closed-warning--header {
+  display: block;
+  font-weight: bold;
+}
+
+.site-closed-warning--message {
+}

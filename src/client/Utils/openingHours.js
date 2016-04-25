@@ -1,4 +1,3 @@
-'use strict';
 
 /**
  * @file Write a short description here.
@@ -9,6 +8,5 @@ export default function isSiteOpen() {
   const opensAtHour = 9;
   const closesAtHour = 21;
   const hour = (new Date()).getHours();
-  const isSiteOpen = hour >= opensAtHour && hour < closesAtHour;
-  return isSiteOpen;
+  return (hour >= opensAtHour && hour < closesAtHour);
 }

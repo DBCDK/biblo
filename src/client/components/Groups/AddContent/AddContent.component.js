@@ -1,7 +1,7 @@
 import autosize from 'autosize';
 import React from 'react';
 import Classnames from 'classnames';
-import isSiteOpen from '../../../Utils/openingHours.js'
+import isSiteOpen from '../../../Utils/openingHours.js';
 
 // Components
 import Login from '../../General/Login/Login.component';

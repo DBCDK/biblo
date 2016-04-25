@@ -97,7 +97,8 @@ export default class Review extends React.Component {
           errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'
         });
     }
-    else if (typeof this.state.content === 'undefined' || this.state.content === '') {
+    else if ((typeof this.state.content === 'undefined' || this.state.content === '') &&
+      (!(this.state.attachment && this.state.attachment.video))) {
       errors.push({
         field: 'content',
         errorMessage: 'Du skal skrive en anmeldelse eller uploade en video-anmeldelse'

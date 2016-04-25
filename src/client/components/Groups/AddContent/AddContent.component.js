@@ -1,6 +1,7 @@
 import autosize from 'autosize';
 import React from 'react';
 import Classnames from 'classnames';
+import isSiteOpen from '../../../Utils/openingHours.js';
 
 // Components
 import Login from '../../General/Login/Login.component';
@@ -31,6 +32,10 @@ export default class AddContent extends React.Component {
       target: `/grupper/content/${props.type}`,
       isLoading: false
     };
+
+    if (!isSiteOpen()) {
+      this.state.errorMsg = ['Du kan kun skrive mellem 09:00 og 21:00'];
+    }
   }
 
   componentDidMount() {
@@ -47,7 +52,11 @@ export default class AddContent extends React.Component {
    */
   onSubmit(e) {
 
-    if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
+    if (!isSiteOpen()) {
+      e.preventDefault();
+      this.setState({errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'});
+    }
+    else if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
     }

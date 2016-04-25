@@ -108,7 +108,6 @@ export default class NavbarContainer extends React.Component {
 
           <div className="navbar--icons">
             {this.renderProfile()}
-            {this.renderSearch()}
             <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
           </div>
         </div>

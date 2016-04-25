@@ -2,6 +2,7 @@ import React from 'react';
 
 import TimeToString from '../../Utils/timeToString.js';
 import ExtractYoutubeID from '../../Utils/extractYoutubeID';
+import isSiteOpen from '../../Utils/openingHours';
 
 import Message from '../General/Message/Message.component.js';
 import Rating from '../General/Rating/Rating.component';
@@ -56,11 +57,7 @@ export default class Review extends React.Component {
   }
 
   toggleEditing() {
-    let isCommentInputVisible = this.state.isCommentInputVisible;
-    if (!this.state.isEditing) {
-      isCommentInputVisible = false;
-    }
-    this.setState({isEditing: !this.state.isEditing, isCommentInputVisible: isCommentInputVisible});
+    this.setState({isEditing: !this.state.isEditing});
     return true;
   }
 
@@ -93,7 +90,14 @@ export default class Review extends React.Component {
         });
     }
 
-    if (typeof this.state.content === 'undefined' || this.state.content === '') {
+    if (!isSiteOpen()) {
+      errors.push(
+        {
+          field: 'content',
+          errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'
+        });
+    }
+    else if (typeof this.state.content === 'undefined' || this.state.content === '') {
       errors.push({
         field: 'content',
         errorMessage: 'Du skal skrive en anmeldelse eller uploade en video-anmeldelse'
@@ -122,7 +126,7 @@ export default class Review extends React.Component {
     if (this.props.abort) {
       this.props.abort(event);
     }
-    this.setState({content: '', attachment: {image: null, video: null}});
+    this.setState({content: '', attachment: {image: null, video: null, errors: []}});
     this.abortXHR = null;
   }
 
@@ -234,12 +238,12 @@ export default class Review extends React.Component {
                 isEditing: false,
                 errors: []
               });
-              // if (this.props.abort) {
-              //  this.props.abort();
-              // }
-              // else {
-              //  this.setState({content: '', attachment: {image: null, video: null}});
-              // }
+              if (this.props.abort) {
+                this.props.abort();
+              }
+              else {
+                this.setState({content: '', attachment: {image: null, video: null}});
+              }
             }
           }
           else {
@@ -407,14 +411,15 @@ export default class Review extends React.Component {
                     type='submit'
                     className='button submit'
                     id='submit-btn'
-                    disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0
+                    disabled={this.state.attachment.video && this.state.attachment.video.file &&
+                      this.state.attachment.video.file.progress > 0
                      && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
                   >
                     {(this.state.isLoading) && <Icon glyph={spinner}/>}
                     OK
                   </button>
                   {
-                    (this.props.abort || (this.state.attachment.video && this.state.attachment.vidoe.file
+                    (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file
                     && this.state.attachment.video.file.progress > 0
                     && this.state.attachment.video.file.progress < 100)) &&
                     <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}

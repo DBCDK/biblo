@@ -15,7 +15,6 @@ export default function ReviewList({reviews = [], profile = {},
           reviewActions={reviewActions}
           flagActions={flagActions}
           likeActions={likeActions}
-          uiActions={uiActions}
         />))
         || 'Der er ikke skrevet nogen anmeldelser'
       }

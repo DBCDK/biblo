@@ -13,7 +13,8 @@ const CreateReviewTransform = {
       rating: query.rating,
       created: query.created || Date.now(),
       modified: Date.now(),
-      reviewownerid: user.profileId
+      reviewownerid: user.profileId,
+      video: query.video
     }).then((response) => {
 
       // attach image to review

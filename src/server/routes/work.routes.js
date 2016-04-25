@@ -15,14 +15,21 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
       where: {pid: pid},
       include: [
         'likes',
-        'image',
-        'video',
+        {
+          relation: 'video',
+          scope: {
+            include: [
+              'resolutions'
+            ]
+          }
+        },
         {
           relation: 'owner',
           scope: {
             include: ['image']
           }
-        }]
+        }
+      ]
     }
   };
 
@@ -38,7 +45,6 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
     // get full work object, TODO: filter this if needed
     const work = workResponse[0].data[0];
     work.id = pid;
-
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],

@@ -224,13 +224,15 @@ export default class Review extends React.Component {
             if (addContentReponse.errors && addContentReponse.errors.length > 0) {
               this.setState({
                 isLoading: false,
-                errorMsg: addContentReponse.errors[0].errorMessage
+                errorMsg: addContentReponse.errors[0].errorMessage,
+                errors: []
               });
             }
             else {
               this.setState({
                 isLoading: false,
-                isEditing: false
+                isEditing: false,
+                errors: []
               });
               // if (this.props.abort) {
               //  this.props.abort();
@@ -461,6 +463,7 @@ export default class Review extends React.Component {
               {likeButton}
             </div>
           }
+          {errorObj.content || ''}
         </div>
       </div>
     );

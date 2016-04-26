@@ -19,7 +19,7 @@ export class WorkDetail extends React.Component {
     const displayType = this.props.displayType; // eslint-disable-line no-unused-vars
     const materialTypes = ['ebook', 'audiobook', 'book'];
 
-    const materialTypeElements = materialTypes.map((materialType) => (<li><MaterialButton materialType={materialType} active={true} /></li>));
+    const materialTypeElements = materialTypes.map((materialType, i) => (<li key={i}><MaterialButton materialType={materialType} active={true} /></li>));
 
     const abstract = this.props.abstract;
 

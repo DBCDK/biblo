@@ -155,6 +155,7 @@ export default class Review extends React.Component {
       const attachment = {image: e.target.result, video: null};
       this.setState({attachment: attachment});
     };
+
     reader.readAsDataURL(file);
   }
 
@@ -261,7 +262,7 @@ export default class Review extends React.Component {
   }
 
   render() {
-    const {
+    let {
       errors,
       pid,
       content,
@@ -274,6 +275,15 @@ export default class Review extends React.Component {
       } = this.state;
 
     const errorObj = {};
+    if (!isSiteOpen()) {
+      errors = [];
+      errors.push(
+        {
+          field: 'content',
+          errorMessage: 'Du kan kun skrive mellem 09:00 og 21:00'
+        });
+    }
+
     if (errors) {
       errors.forEach((error) => {
         errorObj[error.field] = (
@@ -364,7 +374,7 @@ export default class Review extends React.Component {
           {errorObj.rating || ''}
           {
             this.state.isEditing &&
-            <div className={Classnames({'review-add': true, shakeit: this.state.errorMsg})}>
+            <div className={Classnames({'review-add': true, shakeit: errors})}>
               <form method="post" action='/anmeldelse/' ref="contentForm" onSubmit={(e) => this.onSubmit(e)}>
                 <div className='review-add--input'>
                    <textarea className="review-add--textarea" ref='contentTextarea' name="content"
@@ -443,6 +453,7 @@ export default class Review extends React.Component {
                     </label>
                   </div>
                 </div>
+                {errorObj.content || ''}
               </form>
             </div>
             ||
@@ -469,7 +480,6 @@ export default class Review extends React.Component {
               {likeButton}
             </div>
           }
-          {errorObj.content || ''}
         </div>
       </div>
     );

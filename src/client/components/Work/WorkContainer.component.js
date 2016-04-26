@@ -25,12 +25,12 @@ export class WorkContainer extends React.Component {
     };
   }
 
-  getData() {
+  getWorkAndReviews() {
     return this.props.reviews;
   }
 
   getProfile() {
-    let profile = this.getData().profile;
+    let profile = this.getWorkAndReviews().profile;
     profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
     return profile;
   }
@@ -50,9 +50,14 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
-    const data = this.getData();
+    const workAndReviews = this.getWorkAndReviews();
 
-    const coverUrl = 'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg';
+    const work = workAndReviews.work;
+
+    const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
+    const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
+    const creator = (work.creator) ? work.creator[0] : 'Anonym';
+    const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
 
     let profile = this.getProfile();
     return (
@@ -64,15 +69,15 @@ export class WorkContainer extends React.Component {
           }
         </ModalWindow>
         }
-        <WorkHeader coverUrl={'http://ecx.images-amazon.com/images/I/31Bnsm4xG4L._SX300_BO1,204,203,200_.jpg'}/>
+        <WorkHeader coverUrl={coverUrl}/>
         <WorkDetail
           toggleReview={this.toggleReview.bind(this)}
-          title={data.work.dcTitle[0]}
-          displayType={data.work.workType[0]}
-          creator={data.work.creator[0]}
-          abstract={data.work.abstract[0]}
-          year={data.work.date[0]}
-          tags={['emneord1', 'emneord2', 'emneord3']}
+          title={workAndReviews.work.dcTitle[0]}
+          displayType={workAndReviews.work.workType[0]}
+          creator={creator}
+          abstract={abstract}
+          year={workAndReviews.work.date[0]}
+          tags={tags}
           coverUrl={coverUrl}
           />
         {
@@ -81,7 +86,7 @@ export class WorkContainer extends React.Component {
             ref='review'
             isEditing={true}
             profile={profile}
-            pid={data.work.id}
+            pid={workAndReviews.work.id}
             worktype={this.props.worktype || 'book'}
             owner={profile}
             reviewActions={this.props.actions}
@@ -98,9 +103,9 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
-          reviews={data.reviews}
+          reviews={workAndReviews.reviews}
           worktype="book"
-          profile={data.profile}
+          profile={workAndReviews.profile}
           reviewActions={this.props.actions}
           uiActions={this.props.uiActions}
           flagActions={this.props.flagActions}

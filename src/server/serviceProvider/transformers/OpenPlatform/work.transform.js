@@ -11,6 +11,7 @@ const WorkTransform = {
       fields: [
         'coverUrlFull',
         'dcTitle',
+        'subjectDBCF',
         'creator',
         'abstract',
         'workType',

@@ -13,10 +13,10 @@ function promiseRequest(method, req) {
   });
 }
 
-function search(endpoint, {q}) {
+function search(endpoint, params) {
   const options = {
     url: `${endpoint}search/`,
-    form: {q},
+    form: params,
     headers: {
       Authorization: 'Bearer qwerty'
     }

@@ -118,7 +118,7 @@ WorkContainer.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.array,
+  reviews: React.PropTypes.object,
   ui: React.PropTypes.object,
   worktype: React.PropTypes.string
 };

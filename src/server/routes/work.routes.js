@@ -13,6 +13,7 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
   let reviewParams = {
     filter: {
       where: {pid: pid},
+      order: 'created DESC',
       include: [
         'likes',
         'image',

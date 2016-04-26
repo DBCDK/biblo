@@ -70,6 +70,7 @@ export class WorkContainer extends React.Component {
           title={data.work.dcTitle[0]}
           displayType={data.work.workType[0]}
           creator={data.work.creator[0]}
+          abstract={data.work.abstract[0]}
           year={data.work.date[0]}
           tags={['emneord1', 'emneord2', 'emneord3']}
           coverUrl={coverUrl}
@@ -117,7 +118,7 @@ WorkContainer.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.array,
+  reviews: React.PropTypes.object,
   ui: React.PropTypes.object,
   worktype: React.PropTypes.string
 };

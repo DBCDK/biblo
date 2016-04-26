@@ -226,25 +226,24 @@ export default class Review extends React.Component {
         request.open('post', '/anmeldelse/');
         request.onload = (event) => {
           if (event.target.status === 200) {
-            const addContentReponse = JSON.parse(event.target.response);
-            if (addContentReponse.errors && addContentReponse.errors.length > 0) {
+            const addReviewReponse = JSON.parse(event.target.response);
+            let data = addReviewReponse.data;
+            if (addReviewReponse.errors && addReviewReponse.errors.length > 0) {
               this.setState({
                 isLoading: false,
-                errorMsg: addContentReponse.errors[0].errorMessage,
+                errorMsg: addReviewReponse.errors[0].errorMessage,
                 errors: []
               });
             }
             else {
-              this.setState({
-                isLoading: false,
-                isEditing: false,
-                errors: []
-              });
+              data.isLoading = false;
+              data.isEditing = false;
+              data.errors = [];
               if (this.props.abort) {
                 this.props.abort();
               }
               else {
-                this.setState({content: '', attachment: {image: null, video: null}});
+                this.setState(data);
               }
             }
           }

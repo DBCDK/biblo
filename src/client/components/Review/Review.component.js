@@ -2,6 +2,7 @@ import React from 'react';
 
 import TimeToString from '../../Utils/timeToString.js';
 import ExtractYoutubeID from '../../Utils/extractYoutubeID';
+import isSiteOpen from '../../Utils/openingHours';
 
 import Message from '../General/Message/Message.component.js';
 import Rating from '../General/Rating/Rating.component';
@@ -44,7 +45,7 @@ export default class Review extends React.Component {
       isEditing: props.isEditing || false,
       attachment: {
         image: props.image || null,
-        video: null
+        video: props.video || null
       },
       isLoading: false
     };
@@ -52,15 +53,11 @@ export default class Review extends React.Component {
     this.submitReviewFlag = this.submitReviewFlag.bind(this);
     this.likeReview = this.likeReview.bind(this);
     this.unlikeReview = this.unlikeReview.bind(this);
-   // this.deleteReview = this.deleteReview.bind(this);
+    // this.deleteReview = this.deleteReview.bind(this);
   }
 
   toggleEditing() {
-    let isCommentInputVisible = this.state.isCommentInputVisible;
-    if (!this.state.isEditing) {
-      isCommentInputVisible = false;
-    }
-    this.setState({isEditing: !this.state.isEditing, isCommentInputVisible: isCommentInputVisible});
+    this.setState({isEditing: !this.state.isEditing});
     return true;
   }
 
@@ -74,7 +71,6 @@ export default class Review extends React.Component {
       reviewId: this.props.id,
       profileId: this.props.profile.id
     });
-
   }
 
   unlikeReview() {
@@ -94,7 +90,15 @@ export default class Review extends React.Component {
         });
     }
 
-    if (typeof this.state.content === 'undefined' || this.state.content === '') {
+    if (!isSiteOpen()) {
+      errors.push(
+        {
+          field: 'content',
+          errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'
+        });
+    }
+    else if ((typeof this.state.content === 'undefined' || this.state.content === '') &&
+      (!(this.state.attachment && this.state.attachment.video))) {
       errors.push({
         field: 'content',
         errorMessage: 'Du skal skrive en anmeldelse eller uploade en video-anmeldelse'
@@ -123,7 +127,7 @@ export default class Review extends React.Component {
     if (this.props.abort) {
       this.props.abort(event);
     }
-    this.setState({content: '', attachment: {image: null, video: null}});
+    this.setState({content: '', attachment: {image: null, video: null, errors: []}});
     this.abortXHR = null;
   }
 
@@ -225,20 +229,22 @@ export default class Review extends React.Component {
             if (addContentReponse.errors && addContentReponse.errors.length > 0) {
               this.setState({
                 isLoading: false,
-                errorMsg: addContentReponse.errors[0].errorMessage
+                errorMsg: addContentReponse.errors[0].errorMessage,
+                errors: []
               });
             }
             else {
               this.setState({
                 isLoading: false,
-                isEditing: false
+                isEditing: false,
+                errors: []
               });
-              // if (this.props.abort) {
-              //  this.props.abort();
-              // }
-              // else {
-              //  this.setState({content: '', attachment: {image: null, video: null}});
-              // }
+              if (this.props.abort) {
+                this.props.abort();
+              }
+              else {
+                this.setState({content: '', attachment: {image: null, video: null}});
+              }
             }
           }
           else {
@@ -267,7 +273,6 @@ export default class Review extends React.Component {
       created
       } = this.state;
 
-  //  console.log("reviews:", this.props);
     const errorObj = {};
     if (errors) {
       errors.forEach((error) => {
@@ -313,7 +318,7 @@ export default class Review extends React.Component {
 
     const youtube = ExtractYoutubeID(content);
     const uniqueId = `upload-media-review-${this.props.id || this.props.parentId}`;
-    const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
+    const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file && this.state.attachment.video.file.progress === 100 ? 'done' : '';
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
     };
@@ -354,7 +359,8 @@ export default class Review extends React.Component {
             </span>
           </div>
 
-          <Rating ref="rating" pid={pid} rating={rating} onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null}/>
+          <Rating ref="rating" pid={pid} rating={rating}
+                  onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null}/>
           {errorObj.rating || ''}
           {
             this.state.isEditing &&
@@ -381,15 +387,18 @@ export default class Review extends React.Component {
                   </div>
                   }
 
+                  {this.state.attachment.video && this.state.attachment.video.file && this.state.attachment.video.file.name &&
                   <div className='preview-video'>
                     {this.state.attachment.video &&
                     <div>
                       <span className="preview-video--name">{this.state.attachment.video.file.name}</span>
                       <progress className={progressStatusClass} max="100"
-                                value={this.state.attachment.video.file.progress || 0}/>
+                                value={this.state.attachment.video.file.progress}/>
                     </div>
                     }
                   </div>
+                  }
+
                 </div>
                 <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})}>
                   {
@@ -403,14 +412,17 @@ export default class Review extends React.Component {
                     type='submit'
                     className='button submit'
                     id='submit-btn'
-                    disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0
+                    disabled={this.state.attachment.video && this.state.attachment.video.file &&
+                      this.state.attachment.video.file.progress > 0
                      && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
                   >
                     {(this.state.isLoading) && <Icon glyph={spinner}/>}
                     OK
                   </button>
                   {
-                    (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100)) &&
+                    (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file
+                    && this.state.attachment.video.file.progress > 0
+                    && this.state.attachment.video.file.progress < 100)) &&
                     <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
                            value="Fortryd"/>
                   }
@@ -446,7 +458,7 @@ export default class Review extends React.Component {
                 </div>
               }
               {
-                video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
+                video && video.resolutions && video.resolutions.length ? getVideoPlayer(this.props.video) : null
               }
               {
                 youtube &&
@@ -457,6 +469,7 @@ export default class Review extends React.Component {
               {likeButton}
             </div>
           }
+          {errorObj.content || ''}
         </div>
       </div>
     );
@@ -472,7 +485,7 @@ Review.propTypes = {
   reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
   isEditing: React.PropTypes.bool,
-  worktype: React.PropTypes.string,  // term.workType (manifestationsniveau)
+  worktype: React.PropTypes.string,  // term.workType (underværksniveau)
   content: React.PropTypes.string,
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,

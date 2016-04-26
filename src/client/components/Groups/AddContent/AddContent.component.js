@@ -30,11 +30,13 @@ export default class AddContent extends React.Component {
       imageRemoved: false,
       errorMsg: null,
       target: `/grupper/content/${props.type}`,
-      isLoading: false
+      isLoading: false,
+      disableInput: false
     };
 
     if (!isSiteOpen()) {
       this.state.errorMsg = ['Du kan kun skrive mellem 09:00 og 21:00'];
+      this.state.disableInput = true;
     }
   }
 
@@ -219,6 +221,8 @@ export default class AddContent extends React.Component {
 
   render() {
 
+    console.log(this.state.disableInput);
+
     let deleteButton = null;
     if (this.props.delete) {
       deleteButton = (
@@ -253,6 +257,7 @@ export default class AddContent extends React.Component {
           <textarea className="content-add--textarea" ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
+                    disabled={this.state.disableInput}
                     onChange={(e) => this.setState({text: e.target.value})}
           />
             {this.state.attachment.image &&

@@ -221,8 +221,6 @@ export default class AddContent extends React.Component {
 
   render() {
 
-    console.log(this.state.disableInput);
-
     let deleteButton = null;
     if (this.props.delete) {
       deleteButton = (

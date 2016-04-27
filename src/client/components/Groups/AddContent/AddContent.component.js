@@ -288,7 +288,13 @@ export default class AddContent extends React.Component {
               type='submit'
               className='button submit'
               id='submit-btn'
-              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100 || this.state.isLoading || this.state.disableInput}
+              disabled={
+                this.state.attachment.video &&
+                this.state.attachment.video.file.progress > 0 &&
+                this.state.attachment.video.file.progress < 100 ||
+                this.state.isLoading ||
+                this.state.disableInput
+                }
             >
               {(this.state.isLoading) && <Icon glyph={spinner}/>}
               OK

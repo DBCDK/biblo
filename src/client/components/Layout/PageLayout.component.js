@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.component';
+// import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.component';
 import SiteClosedWarningContainer from '../SiteClosedWarning/SiteClosedWarningContainer.component';
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';

@@ -28,7 +28,6 @@ export default class PageLayout extends React.Component {
         <div className="content">
           {this.props.children}
         </div>
-        <CookieWarningContainer />
         <SiteClosedWarningContainer />
         <Footer />
         <Konami />

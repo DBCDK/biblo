@@ -34,7 +34,7 @@ export default class AddContent extends React.Component {
       disableInput: false
     };
 
-    if (!isSiteOpen()) {
+    if (!isSiteOpen() && !this.props.profile.isModerator) {
       this.state.errorMsg = ['Du kan kun skrive mellem 09:00 og 21:00'];
       this.state.disableInput = true;
     }
@@ -54,7 +54,7 @@ export default class AddContent extends React.Component {
    */
   onSubmit(e) {
 
-    if (!isSiteOpen()) {
+    if (!isSiteOpen() && !this.props.profile.isModerator) {
       e.preventDefault();
       this.setState({errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'});
     }
@@ -288,7 +288,7 @@ export default class AddContent extends React.Component {
               type='submit'
               className='button submit'
               id='submit-btn'
-              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
+              disabled={this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100 || this.state.isLoading || this.state.disableInput}
             >
               {(this.state.isLoading) && <Icon glyph={spinner}/>}
               OK
@@ -307,6 +307,7 @@ export default class AddContent extends React.Component {
                   type="file"
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
+                  disabled={this.state.disableInput}
                   onChange={(event) => this.readInput(event)}
                   ref="fileInput"
                 />

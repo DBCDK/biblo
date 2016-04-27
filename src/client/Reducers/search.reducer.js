@@ -5,7 +5,6 @@
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 
-
 let initialState = {
   isSearchBoxVisible: false,
   groupSearchResults: [],
@@ -14,7 +13,6 @@ let initialState = {
   materialSearchResultsPending: true,
   initialQuery: ''
 };
-
 
 let jsonData = document.getElementById('JSONDATA');
 

@@ -11,7 +11,8 @@ let initialState = {
   groupSearchResultsPending: true,
   materialSearchResults: [],
   materialSearchResultsPending: true,
-  initialQuery: ''
+  initialQuery: '',
+  isLoadingResults: false
 };
 
 let jsonData = document.getElementById('JSONDATA');
@@ -36,6 +37,10 @@ export default function searchReducer(state = initialState, action = {}) {
   switch (action.type) {
     case types.TOGGLE_SEARCH_BOX:
       return assignToEmpty(state, {isSearchBoxVisible: !state.isSearchBoxVisible});
+    case types.LOAD_MORE_RESULTS:
+      return assignToEmpty(state, {isLoadingResults: true});
+    case types.LOADED_MORE_RESULTS:
+      return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
     default:
       return state;
   }

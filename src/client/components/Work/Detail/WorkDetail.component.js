@@ -9,6 +9,10 @@ import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
 import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 
+const displayTypeSvgs = {
+  book: bookSvg
+};
+
 export class WorkDetail extends React.Component {
 
   render() {
@@ -28,7 +32,7 @@ export class WorkDetail extends React.Component {
     return (
       <div className='work-detail'>
         <div className='work-detail--main'>
-          <Icon glyph={bookSvg} className='work-detail--worktype-icon' width={36} height={36}/>
+          <Icon glyph={displayTypeSvgs[bookSvg]} className='work-detail--worktype-icon' width={36} height={36}/>
           <h2>{title}</h2>
           <span className='work-detail--subheader'>{creator}, {year}</span>
           <div className='work-detail--description'>

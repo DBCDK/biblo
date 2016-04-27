@@ -12,7 +12,8 @@ const SearchTransform = {
         'dcTitle',
         'pid',
         'coverUrlFull'
-      ]
+      ],
+      limit: 20
     });
   },
 

@@ -5,13 +5,13 @@ const ListGroupsTransform = {
     return 'listGroups';
   },
 
-  requestTransform(event, {skip=0, limit=15}) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {skip=0, limit=15, order='id DESC'}) { // eslint-disable-line no-unused-vars
     return this.callServiceClient('community',
       'listGroups', {
         filter: {
           limit: limit,
           skip: skip,
-          order: 'timeCreated DESC',
+          order,
           counts: 'members',
           include: [{
             relation: 'coverImage'

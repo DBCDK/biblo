@@ -40,27 +40,33 @@ export function changeImage(file, src) {
   };
 }
 
-export function showGroups(response, skip, limit) {
+export function showGroups(response, skip, limit, groupType) {
   return {
     type: types.LIST_GROUPS,
     groups: response,
     skip: skip,
-    limit: limit
+    limit: limit,
+    groupType
   };
 }
 
-export function moreGroupsLoading() {
+export function moreGroupsLoading(type='new') {
   return {
-    type: types.LIST_GROUPS_IS_LOADING
+    type: type === 'new' ? types.NEW_GROUPS_LIST_IS_LOADING : types.POPULAR_GROUPS_IS_LOADING
   };
 }
 
-export function asyncShowGroups(skip, limit) {
+export function asyncShowGroups(type, skip, limit) {
   return function (dispatch) {
-    dispatch(moreGroupsLoading());
-    listGroups.request({skip, limit});
+    dispatch(moreGroupsLoading(type));
+    let listgroup_params = {skip, limit};
+    if (type !== 'new') {
+      listgroup_params.order = 'group_pop DESC';
+    }
+
+    listGroups.request(listgroup_params);
     const event = listGroups.response(response => {
-      dispatch(showGroups(response, skip, limit));
+      dispatch(showGroups(response, skip, limit, type));
       event.off();
     });
   };

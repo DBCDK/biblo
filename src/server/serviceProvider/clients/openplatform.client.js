@@ -13,27 +13,37 @@ function promiseRequest(method, req) {
   });
 }
 
+let callOpenPlatform = function callOpenPlatform(token, method, req) {
+  return promiseRequest(method, Object.assign(
+    {headers: {Authorization: token}},
+    req
+  ));
+};
+
 function search(endpoint, params) {
   const options = {
     url: `${endpoint}search/`,
-    form: params,
-    headers: {
-      Authorization: 'Bearer qwerty'
-    }
+    form: params
   };
-  return promiseRequest('get', options);
+  return callOpenPlatform('get', options);
 }
 
 
 function work(endpoint, params) {
   const options = {
     url: `${endpoint}work/`,
-    form: params,
-    headers: {
-      Authorization: 'Bearer qwerty'
-    }
+    form: params
   };
-  return promiseRequest('get', options);
+  return callOpenPlatform('get', options);
+}
+
+function suggest(endpoint, params) {
+  const options = {
+    url: `${endpoint}suggest/`,
+    form: params
+  };
+
+  return callOpenPlatform('get', options);
 }
 
 /**
@@ -45,13 +55,21 @@ function work(endpoint, params) {
  * the webservice
  */
 export default function OpenPlatformClient(config = null) {
-
-  if (!config || !config.endpoint) {
-    throw new Error('Expected config object but got null or no endpoint provided');
+  if (!config) {
+    throw new Error('Expected config object butl got null!');
   }
+  else if (!config.endpoint) {
+    throw new Error('Expected endpoint in config, but none provided');
+  }
+  else if (!config.token) {
+    throw new Error('Expected token in config, but none provided');
+  }
+
+  callOpenPlatform = callOpenPlatform.bind(null, config.token);
 
   return {
     search: search.bind(null, config.endpoint),
+    suggest: suggest.bind(null, config.endpoint),
     work: work.bind(null, config.endpoint)
   };
 }

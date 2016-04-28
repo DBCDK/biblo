@@ -76,6 +76,8 @@ export const UNLIKE_REVIEW = 'UNLIKE_REVIEW';
 
 // Review actions
 export const CREATE_REVIEW = 'CREATE_REVIEW';
+export const GET_REVIEWS = 'GET_REVIEWS';
+export const GET_REVIEWS_IS_LOADING= 'GET_REVIEWS_IS_LOADING';
 
 // Search actions
 export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';

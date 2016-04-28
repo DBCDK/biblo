@@ -17,12 +17,23 @@ export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
 
   switch (action.type) {
+    case types.GET_REVIEWS:
+      return assignToEmpty(state, {
+        loadingReviews: false,
+        reviews: action.reviews,
+        reviewsLimit: action.limit
+      });
+    case types.GET_REVIEWS_IS_LOADING:
+      return assignToEmpty(state, {
+        loadingReviews: true,
+        reviews: state.reviews,
+        reviewsLimit: state.limit
+      });
     case types.CREATE_REVIEW:
       return assignToEmpty(state,
         {
           review: action.review
         });
-
     case types.LIKE_REVIEW:
       const reviewsCopyLiked = [...state.reviews];
       reviewsCopyLiked.forEach(review => {

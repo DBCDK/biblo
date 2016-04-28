@@ -50,10 +50,10 @@ export default function searchReducer(state = initialState, action = {}) {
 
     case types.LOAD_MORE_RESULTS:
       return assignToEmpty(state, {isLoadingResults: true});
-    
+
     case types.LOADED_MORE_RESULTS:
       return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
-    
+
     default:
       return state;
   }

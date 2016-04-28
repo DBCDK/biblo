@@ -12,10 +12,12 @@ const WorkTransform = {
         'collection',
         'coverUrlFull',
         'dcTitle',
+        'collection',
         'subjectDBCF',
         'creator',
         'abstract',
         'workType',
+        'type',
         'date'
       ]
     });

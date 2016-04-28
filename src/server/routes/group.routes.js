@@ -494,24 +494,20 @@ GroupRoutes.post('/api/uploadmedia', ensureAuthenticated, (req, res) => {
   req.pipe(busboy);
 });
 
-function listGroups(groupData, res) {
-  res.render('page', {
-    css: ['/css/groups.css'],
-    js: ['/js/groups.js'],
-    jsonData: [JSON.stringify({groupData})]
-  });
-}
-
-async function getGroups(params, req, res, update = {}) {
+GroupRoutes.get('/', async function getGroups(req, res, next) {
   try {
-    let response = (await req.callServiceProvider('listGroups', {}))[0];
-    listGroups(Object.assign(response, update), res);
+    const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
+    const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
+
+    res.render('page', {
+      css: ['/css/groups.css'],
+      js: ['/js/groups.js'],
+      jsonData: [JSON.stringify({newGroups, popularGroups})]
+    });
   }
   catch (e) {
-    const logger = req.app.get('logger');
-    logger.error('An error occured while retrieving groups', {error: e});
+    next(e);
   }
-}
-GroupRoutes.get('/', (req, res) => getGroups(req.params, req, res));
+});
 
 export default GroupRoutes;

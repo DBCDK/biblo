@@ -27,8 +27,12 @@ export class GroupsContainer extends React.Component {
         <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
         <div className="lists">
           <RoundedButton buttonText='Opret ny gruppe' href={CREATE_GROUP_LINK}/>
-          <GroupList title="Nyeste grupper" groups={data.groups} limit={data.groupsLimit}
-                     isLoading={data.loadingGroups} expand={actions.asyncShowGroups} actions={actions}/>
+
+          <GroupList title="Populære grupper" groups={data.popularGroups} limit={data.popularLimit}
+                     isLoading={data.popularLoading} expand={actions.asyncShowGroups.bind(null, 'popular')} actions={actions}/>
+
+          <GroupList title="Nyeste grupper" groups={data.newGroups} limit={data.newLimit}
+                     isLoading={data.newLoading} expand={actions.asyncShowGroups.bind(null, 'new')} actions={actions}/>
         </div>
       </PageLayout>
     );

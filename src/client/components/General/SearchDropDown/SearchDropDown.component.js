@@ -4,9 +4,16 @@ import './searchdropdown.component.scss';
 
 export default function SearchDropDown({visible, elements}) {
   elements = elements.map((element) => {
+    element.clickFunc = element.clickFunc || (() => {});
+    element.href = element.href || '#!';
+
     return (
       <li className="searcharea--dropdown--list--item" onClick={element.clickFunc} key={element.text}>
-        {element.text}
+        <div>
+          <a href={element.href} className="search-area--dropdown--link">
+            {element.text}
+          </a>
+        </div>
       </li>
     );
   });
@@ -34,8 +41,8 @@ SearchDropDown.propTypes = {
         return new Error('Each element must contain text!');
       }
 
-      if (!element.clickFunc) {
-        return new Error('Each element must have a changeFunc!');
+      if (!element.clickFunc || !element.href) {
+        return new Error('Each element must have a changeFunc or href!');
       }
     });
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.component';
+// import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.component';
 import SiteClosedWarningContainer from '../SiteClosedWarning/SiteClosedWarningContainer.component';
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';
@@ -28,7 +28,6 @@ export default class PageLayout extends React.Component {
         <div className="content">
           {this.props.children}
         </div>
-        <CookieWarningContainer />
         <SiteClosedWarningContainer />
         <Footer />
         <Konami />

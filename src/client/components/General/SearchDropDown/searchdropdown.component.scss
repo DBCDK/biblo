@@ -1,0 +1,45 @@
+.search-area {
+  width: 100%;
+  position: relative;
+}
+
+.search-area--dropdown--link {
+  color: #3a3a3A;
+}
+
+.search-area--dropdown {
+  position: absolute;
+  background-color: #ffffff;
+  border: #aba6ff solid 1px;
+  left: 0;
+  right: 0;
+
+  .searcharea--dropdown--list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    right: 0;
+
+    .searcharea--dropdown--list--item {
+      padding: 3px 10px;
+      left: 0;
+      right: 0;
+
+      .searcharea--dropdown--list--item--link {
+        left: 0;
+        right: 0;
+      }
+    }
+
+    .searcharea--dropdown--list--item:hover {
+      background-color: #aba6ff;
+      color: white;
+      cursor: pointer;
+
+      div > .search-area--dropdown--link {
+        color: white;
+      }
+    }
+  }
+}

@@ -114,7 +114,7 @@
     "twemoji": "^2.0.5",
     "vhost": "3.0.2",
     "walk": "2.3.9",
-    "webpack": "^1.12.15",
+    "webpack": "^1.13.0",
     "xmldom": "0.1.22",
     "xss-filters": "1.2.6",
     "youtube-link-to-id": "^1.0.1"

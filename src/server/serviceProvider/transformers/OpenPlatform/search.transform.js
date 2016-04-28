@@ -5,14 +5,19 @@ const SearchTransform = {
     return 'search';
   },
 
-  requestTransform(event, {q}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {q, limit}, connection) { // eslint-disable-line no-unused-vars
+
+    limit = (limit)? limit : 20;
+
     return this.callServiceClient('openplatform', 'search', {
       q: q,
       fields: [
         'dcTitle',
         'pid',
+        'workType',
         'coverUrlFull'
-      ]
+      ],
+      limit: limit
     });
   },
 

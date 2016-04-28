@@ -66,8 +66,10 @@ export class WorkContainer extends React.Component {
     const workAndReviews = this.getWorkAndReviews();
     const work = workAndReviews.work;
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
- //   const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
+    const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
     const creator = (work.creator) ? work.creator[0] : 'Anonym';
+    const workType = (work.workType) ? work.workType[0] : 'other';
+    const date = (work.date) ? work.date[0] : '';
     const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
 
     let profile = this.getProfile();
@@ -85,11 +87,14 @@ export class WorkContainer extends React.Component {
           editText={this.getEditText()}
           toggleReview={this.toggleReview.bind(this)}
           title={workAndReviews.work.dcTitle[0]}
-          displayType={workAndReviews.work.workType[0]}
+          displayType={workType}
           creator={creator}
           year={workAndReviews.work.date[0]}
+          abstract={abstract}
+          year={date}
           tags={tags}
           coverUrl={coverUrl}
+          workType={workType}
           />
         {
           this.state.reviewVisible &&

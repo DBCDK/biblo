@@ -9,6 +9,29 @@ import {once} from 'lodash';
 
 const openPlatformSuggest = SocketClient('suggest');
 const openPlatformSuggestListener = once(openPlatformSuggest.response);
+const search = SocketClient('search');
+const searchListener = once(search.response);
+
+export function loadedMoreResults(res) {
+  return {
+    type: types.LOADED_MORE_RESULTS,
+    results: res.data
+  };
+}
+
+export function loadMoreResults() {
+  return {
+    type: types.LOAD_MORE_RESULTS
+  };
+}
+
+export function asyncLoadMoreResults(query, limit) {
+  return (dispatch) => {
+    dispatch(loadMoreResults());
+    searchListener((res) => dispatch(loadedMoreResults(res)));
+    search.request({q: query, limit: limit});
+  };
+}
 
 export function toggleSearchBox() {
   return {

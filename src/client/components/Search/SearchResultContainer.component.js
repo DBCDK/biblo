@@ -6,6 +6,7 @@ import * as searchActions from '../../Actions/search.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 import MaterialSearchResultList from './MaterialSearchResultList/MaterialSearchResultList.component.js';
+import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component.js';
 
 import './SearchResultContainer.scss';
 
@@ -14,6 +15,14 @@ export class SearchResultContainer extends React.Component {
 
   constructor(props) {
     super(props);
+    this.loadMoreResults = this.loadMoreResults.bind(this);
+  }
+
+  loadMoreResults() {
+    this.props.searchActions.asyncLoadMoreResults(
+      this.props.search.initialQuery,
+      this.props.search.materialSearchResults.length + 10
+    );
   }
 
 
@@ -21,6 +30,7 @@ export class SearchResultContainer extends React.Component {
     return (
       <PageLayout>
         <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
+        <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>
       </PageLayout>
     );
   }

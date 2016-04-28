@@ -13,7 +13,8 @@ let initialState = {
   materialSearchResultsPending: true,
   workSuggestions: {},
   workSuggestionsPending: false,
-  initialQuery: ''
+  initialQuery: '',
+  isLoadingResults: false
 };
 
 let jsonData = document.getElementById('JSONDATA');
@@ -47,6 +48,12 @@ export default function searchReducer(state = initialState, action = {}) {
       newState.workSuggestions[action.res.q] = action.res.data;
       return newState;
 
+    case types.LOAD_MORE_RESULTS:
+      return assignToEmpty(state, {isLoadingResults: true});
+    
+    case types.LOADED_MORE_RESULTS:
+      return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
+    
     default:
       return state;
   }

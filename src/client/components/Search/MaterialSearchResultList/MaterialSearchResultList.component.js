@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './MaterialSearchResultList.scss';
-import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component.js';
 
 
 export default class MaterialSearchResultList extends React.Component {
@@ -36,7 +35,6 @@ export default class MaterialSearchResultList extends React.Component {
         <ul className='material-result-list'>
           {listElements}
         </ul>
-        <VisFlereButton />
       </div>
     );
   }

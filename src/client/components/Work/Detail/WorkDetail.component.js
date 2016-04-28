@@ -40,11 +40,10 @@ export class WorkDetail extends React.Component {
           </div>
 
           <TagList tags={tags}/>
-
           <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
-            <ReviewButton clickFunction={this.props.toggleReview.bind(this)} />
+            <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} />
           </div>
         </div>
 
@@ -64,6 +63,7 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
+  editText: React.PropTypes.string.isRequired,
   toggleReview: React.PropTypes.func.isRequired,
   abstract: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,

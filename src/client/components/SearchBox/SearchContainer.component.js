@@ -73,7 +73,9 @@ export class SearchContainer extends React.Component {
           <a className='search-container--search-button' href='#' onClick={this.submitInput}>
             <Icon glyph={searchSvg} width={24} height={24}/>
           </a>
-          {dropDown}
+          <div className="search-dropdown--container">
+            {dropDown}
+          </div>
         </div>
       </div>
     );

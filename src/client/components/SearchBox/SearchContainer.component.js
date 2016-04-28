@@ -62,17 +62,20 @@ export class SearchContainer extends React.Component {
 
     return (
       <div className={classNames}>
-        <div>
-          <input
-            type='search'
-            placeholder='Søg på bøger, film og spil'
-            defaultValue={this.props.search.initialQuery}
-            onChange={this.searchInputChanged}
-            onKeyDown={this.submitInput}
-          />
+        <div className="searchbox--container">
           <a className='search-container--search-button' href='#' onClick={this.submitInput}>
             <Icon glyph={searchSvg} width={24} height={24}/>
           </a>
+          <span className="search-input--container">
+            <input
+              type='search'
+              placeholder='Søg på bøger, film og spil'
+              defaultValue={this.props.search.initialQuery}
+              onChange={this.searchInputChanged}
+              onKeyDown={this.submitInput}
+            />
+          </span>
+          
           <div className="search-dropdown--container">
             {dropDown}
           </div>

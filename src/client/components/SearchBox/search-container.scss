@@ -3,17 +3,19 @@
 .search-container {
   background-color: $melrose;
 
-  input[type=search] {
-    padding: 10px;
-    @include max-screen($phone - 1px) {
-      width: 70%;
-    }
-    @include min-screen($phone) {
-      width: 80%;
+  .search-input--container {
+    display: block;
+    overflow: hidden;
+    padding-right: 1px;
+
+    input {
+      width: 100%;
+      height:49px;
     }
   }
 
   .search-container--search-button {
+    float: right;
     padding: 10px 20px 10px 20px;
     background-color: $black;
     .icon {
@@ -29,11 +31,24 @@
 
   height:50px;
   padding: 20px;
-  overflow: hidden;
 }
 
 .search-container--hidden {
-  height:0px;
-  padding: 0px;
+  height:0;
+  padding: 0;
   overflow: hidden;
+}
+
+.search-dropdown--container {
+  position: relative;
+
+  @include min-screen($desktop) {
+    width: 635px;
+  }
+}
+
+.searchbox--container {
+  @include min-screen($desktop) {
+    width: 700px;
+  }
 }

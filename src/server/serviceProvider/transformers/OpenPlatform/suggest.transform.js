@@ -28,7 +28,6 @@ const SuggestTransform = {
     ).map((suggestion) => {
       if (suggestion.id) {
         suggestion.href = `/vaerk/${encodeURIComponent(suggestion.id)}`;
-        suggestion.str = `${suggestion.str} - ${suggestion.creator}`;
       }
       else {
         suggestion.href = `/search?q=${encodeURIComponent(suggestion.str)}`;

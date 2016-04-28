@@ -10,20 +10,19 @@
 .search-area--dropdown {
   position: absolute;
   background-color: #ffffff;
+  border: #aba6ff solid 1px;
   left: 0;
   right: 0;
 
   .searcharea--dropdown--list {
     list-style-type: none;
     margin: 0;
-    margin-right: 1px;
     padding: 0;
     left: 0;
     right: 0;
 
     .searcharea--dropdown--list--item {
-      border: #d5d4e6 solid 1px;
-      padding: 0 10px;
+      padding: 3px 10px;
       left: 0;
       right: 0;
 
@@ -34,8 +33,13 @@
     }
 
     .searcharea--dropdown--list--item:hover {
-      background-color: #f2f2f2;
+      background-color: #aba6ff;
+      color: white;
       cursor: pointer;
+
+      div > .search-area--dropdown--link {
+        color: white;
+      }
     }
   }
 }

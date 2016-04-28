@@ -7,6 +7,8 @@ import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once} from 'lodash';
 
+const openPlatformSuggest = SocketClient('suggest');
+const openPlatformSuggestListener = once(openPlatformSuggest.response);
 const search = SocketClient('search');
 const searchListener = once(search.response);
 
@@ -45,3 +47,29 @@ export function searchMaterials(query) {
   };
 }
 
+export function suggestionsAreLoading(q) {
+  return {
+    type: types.SUGGESTIONS_ARE_LOADING,
+    q
+  };
+}
+
+export function gotOpenPlatformSuggestions(res) {
+  return {
+    type: types.GOT_OPENPLATFORM_SUGGESTIONS,
+    res
+  };
+}
+
+export function getWorkSuggestions(q) {
+  return (dispatch) => {
+    // set loading
+    dispatch(suggestionsAreLoading(q));
+
+    // create listener
+    openPlatformSuggestListener((res) => dispatch(gotOpenPlatformSuggestions(res)));
+
+    // Dispatch request
+    openPlatformSuggest.request({q});
+  };
+}

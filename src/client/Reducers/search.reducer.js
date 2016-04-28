@@ -11,6 +11,8 @@ let initialState = {
   groupSearchResultsPending: true,
   materialSearchResults: [],
   materialSearchResultsPending: true,
+  workSuggestions: {},
+  workSuggestionsPending: false,
   initialQuery: '',
   isLoadingResults: false
 };
@@ -37,10 +39,21 @@ export default function searchReducer(state = initialState, action = {}) {
   switch (action.type) {
     case types.TOGGLE_SEARCH_BOX:
       return assignToEmpty(state, {isSearchBoxVisible: !state.isSearchBoxVisible});
+
+    case types.SUGGESTIONS_ARE_LOADING:
+      return assignToEmpty(state, {workSuggestionsPending: true});
+
+    case types.GOT_OPENPLATFORM_SUGGESTIONS:
+      let newState = assignToEmpty(state, {});
+      newState.workSuggestions[action.res.q] = action.res.data;
+      return newState;
+
     case types.LOAD_MORE_RESULTS:
       return assignToEmpty(state, {isLoadingResults: true});
+
     case types.LOADED_MORE_RESULTS:
       return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
+
     default:
       return state;
   }

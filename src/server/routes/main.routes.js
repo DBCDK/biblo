@@ -32,7 +32,7 @@ MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
         const frontpageData = JSON.parse(str);
 
         res.render('page', {
-          css: ['/css/frontpage.css'],
+          css: ['/css/frontpage.css', '/css/search.css'],
           js: ['/js/frontpage.js'],
           jsonData: [JSON.stringify({
             frontpageData: frontpageData

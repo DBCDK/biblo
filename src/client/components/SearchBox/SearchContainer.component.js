@@ -5,13 +5,12 @@ import {connect} from 'react-redux';
 import * as searchActions from '../../Actions/search.actions';
 
 import Icon from '../General/Icon/Icon.component.js';
+import SearchDropDown from '../General/SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
 
 import './search-container.scss';
 
 export class SearchContainer extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +27,7 @@ export class SearchContainer extends React.Component {
 
     // ask for suggestions
     if (query.length >= 3) {
-      // TODO: create suggestions action
+      this.props.searchActions.getWorkSuggestions(query);
     }
   }
 
@@ -42,19 +41,40 @@ export class SearchContainer extends React.Component {
 
   render() {
     const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
+    const dropDown = (
+      <SearchDropDown
+        visible={
+          this.state.query.length >= 3 &&
+          this.props.search.workSuggestions[this.state.query] &&
+          this.props.search.workSuggestions[this.state.query].length > 0 || false
+          }
+        elements={(this.props.search.workSuggestions[this.state.query] || []).map((suggestion) => {
+          return {
+            text: suggestion.str,
+            clickFunc: () => {
+              window.location = suggestion.href;
+            },
+            href: suggestion.href
+          };
+        })}
+      />
+    );
 
     return (
       <div className={classNames}>
-        <input
-          type='search'
-          placeholder='Søg på bøger, film og spil'
-          defaultValue={this.props.search.initialQuery}
-          onChange={this.searchInputChanged}
-          onKeyDown={this.submitInput}
+        <div>
+          <input
+            type='search'
+            placeholder='Søg på bøger, film og spil'
+            defaultValue={this.props.search.initialQuery}
+            onChange={this.searchInputChanged}
+            onKeyDown={this.submitInput}
           />
-        <a className='search-container--search-button' href='#' onClick={this.submitInput}>
-          <Icon glyph={searchSvg} width={24} height={24} />
-        </a>
+          <a className='search-container--search-button' href='#' onClick={this.submitInput}>
+            <Icon glyph={searchSvg} width={24} height={24}/>
+          </a>
+          {dropDown}
+        </div>
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import {expect, assert} from 'chai';
+import sinon from 'sinon';
 import AddContent from '../AddContent.component';
 
 describe('Test of AddConent Component', () => {
@@ -10,9 +11,11 @@ describe('Test of AddConent Component', () => {
     hasFilledInProfile: true
   };
 
+
   let defaultComponent = null;
 
   beforeEach(() => {
+
     defaultComponent = TestUtils.renderIntoDocument(
       <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
   });
@@ -210,6 +213,13 @@ describe('Test of AddConent Component', () => {
   });
 
   it('It should submit form on submit event', (done) => {
+
+    var h = window.Date.prototype.getHours;
+    window.Date.prototype.getHours = function() {
+      return 12;
+    };
+
+
     profile.userIsLoggedIn = true;
     profile.id = 1;
 
@@ -243,7 +253,6 @@ describe('Test of AddConent Component', () => {
     const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
     xhrMock.onCreate = (xhr) => {
       setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
-
     };
 
     const component = TestUtils.renderIntoDocument(
@@ -254,11 +263,13 @@ describe('Test of AddConent Component', () => {
     TestUtils.Simulate.submit(form);
     assert(component.state.isLoading);
 
+
     setTimeout(() => {
       assert(!component.state.isLoading);
       assert(addContentActionMock.called);
       assert(addContentActionMock.calledWith(mockContent));
       xhrMock.restore();
+      window.Date.prototype.getHours = h;
       done();
     }, 0);
   });

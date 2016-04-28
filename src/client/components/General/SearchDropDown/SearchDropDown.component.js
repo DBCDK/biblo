@@ -10,7 +10,7 @@ export default function SearchDropDown({visible, elements}) {
     return (
       <li className="searcharea--dropdown--list--item" onClick={element.clickFunc} key={element.text}>
         <div>
-          <a href={element.href}>
+          <a href={element.href} className="search-area--dropdown--link">
             {element.text}
           </a>
         </div>

@@ -16,6 +16,7 @@ const WorkTransform = {
         'creator',
         'abstract',
         'workType',
+        'type',
         'date'
       ]
     });

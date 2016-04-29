@@ -273,31 +273,4 @@ module.exports.run = function(worker) {
   logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
   logger.log('debug', 'APPLICATION: ' + APPLICATION);
   logger.log('debug', 'EMAIL_REDIRECT: ' + EMAIL_REDIRECT);
-
-  /*eslint-disable */
-  if (!PRODUCTION && process.env.ENABLE_HEAP_DUMPS) {
-    var heapdump = require('heapdump');
-    var oneMb = Math.pow(2, 20);
-    var threshold = 10 * oneMb;
-    var last = get();
-    setInterval(check, 1000);
-    function get() {
-      return process.memoryUsage().rss;
-    }
-
-    function check() {
-      var now = get();
-      console.log('Memory: %d MB', Math.floor(now / oneMb));
-      if (now - last < threshold) {
-        return;
-      }
-
-      heapdump.writeSnapshot();
-      console.log('Memory increase from %d MB to %d MB. Wrote dump',
-        Math.floor(last / oneMb),
-        Math.floor(now / oneMb));
-      last = now;
-    }
-  }
-  /*eslint-enable */
 };

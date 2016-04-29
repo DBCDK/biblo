@@ -11,25 +11,20 @@
     display: block;
     text-align: center;
   }
-
-  img {
-    width: 100%;
-    padding-top: 25px;
-  }
 }
 
 .site-closed-warning--svg {
-  text-align: center;
+  //text-align: center;
 
   svg {
-    max-width: 100%;
+    width: 100%;
+    use {
+      height: 100%;
+    }
   }
 }
 
 .site-closed-warning--header {
   display: block;
   font-weight: bold;
-}
-
-.site-closed-warning--message {
 }

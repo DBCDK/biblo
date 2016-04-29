@@ -6,15 +6,16 @@ import express from 'express';
 
 const SearchRoutes = express.Router();
 
-SearchRoutes.get('/', (req, res) => {
+SearchRoutes.get('/', (req, res, next) => {
 
   // get search query from url
-  const query = req.query.q;
+  const query = decodeURIComponent(req.query.q);
 
   // call Open-Platform search endpoint
   req.callServiceProvider('search', {
     q: query
-  }).then((stuff) => {
+  })
+  .then((stuff) => {
     const materialSearchResults = stuff[0].data;
     res.render('page', {
       css: ['/css/search.css'],
@@ -24,8 +25,10 @@ SearchRoutes.get('/', (req, res) => {
         query: query
       })]
     });
+  })
+  .catch((e) => {
+    next(e);
   });
-
 });
 
 export default SearchRoutes;

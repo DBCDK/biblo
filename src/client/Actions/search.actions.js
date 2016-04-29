@@ -41,7 +41,7 @@ export function toggleSearchBox() {
 
 export function searchMaterials(query) {
   // OLD SKOOL redirect
-  window.location = '/search?q="' + query.query + '"';
+  window.location = '/find?q=' + encodeURIComponent(query.query);
   return {
     type: types.MATERIAL_SEARCH
   };
@@ -71,5 +71,24 @@ export function getWorkSuggestions(q) {
 
     // Dispatch request
     openPlatformSuggest.request({q});
+  };
+}
+
+export function selectNextSuggestedElement() {
+  return {
+    type: types.SELECT_NEXT_SUGGESTED_WORK_ELEMENT
+  };
+}
+
+export function selectPreviousSuggestedElement() {
+  return {
+    type: types.SELECT_PREVIOUS_SUGGESTED_WORK_ELEMENT
+  };
+}
+
+export function searchQueryHasChanged(q) {
+  return {
+    type: types.SEARCH_QUERY_HAS_CHANGED,
+    q
   };
 }

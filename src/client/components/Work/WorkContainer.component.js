@@ -88,7 +88,6 @@ export class WorkContainer extends React.Component {
           title={workAndReviews.work.dcTitle[0]}
           displayType={workType}
           creator={creator}
-          year={workAndReviews.work.date[0]}
           abstract={abstract}
           tags={tags}
           coverUrl={coverUrl}

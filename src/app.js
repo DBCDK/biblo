@@ -44,8 +44,6 @@ import {ensureUserHasProfile} from './server/middlewares/auth.middleware';
 
 module.exports.run = function(worker) {
   // Setup
-
-
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
   const server = worker.httpServer;
@@ -144,7 +142,7 @@ module.exports.run = function(worker) {
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
 
   // Setting proxy
   app.enable('trust proxy');
@@ -242,9 +240,9 @@ module.exports.run = function(worker) {
 
   app.use('/anmeldelse', ReviewRoutes);
   app.use('/grupper', ensureUserHasProfile, GroupRoutes);
-  app.use('/search', SearchRoutes);
+  app.use('/find', SearchRoutes);
   app.use('/profil', ProfileRoutes);
-  app.use('/vaerk', WorkRoutes);
+  app.use('/materiale', WorkRoutes);
   app.use('/indhold', ContentRoutes);
   app.use('/api', ApiRoutes);
   app.use('/', MainRoutes);
@@ -275,31 +273,4 @@ module.exports.run = function(worker) {
   logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
   logger.log('debug', 'APPLICATION: ' + APPLICATION);
   logger.log('debug', 'EMAIL_REDIRECT: ' + EMAIL_REDIRECT);
-
-  /*eslint-disable */
-  if (!PRODUCTION && process.env.ENABLE_HEAP_DUMPS) {
-    var heapdump = require('heapdump');
-    var oneMb = Math.pow(2, 20);
-    var threshold = 10 * oneMb;
-    var last = get();
-    setInterval(check, 1000);
-    function get() {
-      return process.memoryUsage().rss;
-    }
-
-    function check() {
-      var now = get();
-      console.log('Memory: %d MB', Math.floor(now / oneMb));
-      if (now - last < threshold) {
-        return;
-      }
-
-      heapdump.writeSnapshot();
-      console.log('Memory increase from %d MB to %d MB. Wrote dump',
-        Math.floor(last / oneMb),
-        Math.floor(now / oneMb));
-      last = now;
-    }
-  }
-  /*eslint-enable */
 };

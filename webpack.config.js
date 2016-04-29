@@ -51,7 +51,7 @@ module.exports = [{
           'css?sourceMap' +
           '!sass?sourceMap' +
           "&includePaths[]=" + path.resolve(__dirname, "./src/client/scss/") +
-          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib") +
+          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-sass-mixins/lib") +
           "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries") +
           '!postcss-loader'
         )

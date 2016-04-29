@@ -10,7 +10,7 @@ import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
 import './scss/site-closed-warning.scss';
 
 // SVGs
-import logo from './pause.svg';
+import logo from './skrivepause.svg';
 
 export default class SiteClosedWarningContainer extends React.Component {
 
@@ -36,14 +36,17 @@ export default class SiteClosedWarningContainer extends React.Component {
             <svg><use xlinkHref={logo} /></svg>
           </div>
           <span className="site-closed-warning--header" >
-            <p>Vi holder pause mellem kl. 21 og 9.</p>
+            <p>Indtil kl. 9 kan du kun læse og se indholdet her på Biblo.</p>
           </span>
           <span className="site-closed-warning--message" >
-            <p>Det betyder, at du kan skrive indlæg og kommentarer på Biblo hver dag mellem kl. 9 og 21.</p>
             <p>
-              Resten af tiden kan du kun læse indlæg og kommentarer. <a href='/indhold/aabningstider' onClick={this.onClose.bind(this)}>
-                Læs mere
-              </a>
+              Fra kl. 9-21 kan du igen skrive indlæg og kommentarer.
+              <br/>
+              Nu er det tid til at læse bøger, se film, høre musik og sove... Vi skrives ved kl. 9
+              <br/>
+              <a href='/indhold/aabningstider' onClick={this.onClose.bind(this)}>
+              Læs mere
+            </a>
             </p>
           </span>
           <RoundedButton buttonText="OK" clickFunction={this.onClose.bind(this)} />

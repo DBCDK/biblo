@@ -27,7 +27,7 @@ const SuggestTransform = {
       JSON.parse(response[0].body).data
     ).map((suggestion) => {
       if (suggestion.id) {
-        suggestion.href = `/vaerk/${encodeURIComponent(suggestion.id)}`;
+        suggestion.href = `/materiale/${encodeURIComponent(suggestion.id)}`;
       }
       else {
         suggestion.href = `/find?q=${encodeURIComponent(`term.creator="${suggestion.str}"`)}`;

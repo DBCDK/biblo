@@ -26,7 +26,7 @@ export default class MaterialSearchResultList extends React.Component {
       const pid = result.pid[0];
       const displayWorkType = (result.workType) ? result.workType[0] : 'other';
       const coverUrl = (result.coverUrlFull) ? 'http:' + result.coverUrlFull[0] : displayWorkTypeCover(displayWorkType);
-      const workUrl = '/vaerk/' + pid;
+      const workUrl = '/materiale/' + pid;
 
       return (
         <li key={i}>

@@ -41,7 +41,7 @@ export function toggleSearchBox() {
 
 export function searchMaterials(query) {
   // OLD SKOOL redirect
-  window.location = '/search?q=' + encodeURIComponent(query.query);
+  window.location = '/find?q=' + encodeURIComponent(query.query);
   return {
     type: types.MATERIAL_SEARCH
   };

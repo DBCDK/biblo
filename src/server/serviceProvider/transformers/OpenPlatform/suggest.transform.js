@@ -27,11 +27,11 @@ const SuggestTransform = {
       JSON.parse(response[0].body).data
     ).map((suggestion) => {
       if (suggestion.id) {
-        suggestion.href = `/vaerk/${encodeURIComponent(suggestion.id)}`;
+        suggestion.href = `/materiale/${encodeURIComponent(suggestion.id)}`;
         suggestion.str = `${suggestion.str} - ${suggestion.creator}`;
       }
       else {
-        suggestion.href = `/search?q=${encodeURIComponent(suggestion.str)}`;
+        suggestion.href = `/find?q=${encodeURIComponent(suggestion.str)}`;
       }
 
       return suggestion;

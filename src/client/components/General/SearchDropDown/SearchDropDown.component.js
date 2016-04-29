@@ -7,8 +7,14 @@ export default function SearchDropDown({visible, elements}) {
     element.clickFunc = element.clickFunc || (() => {});
     element.href = element.href || '#!';
 
+    let itemClasses = 'searcharea--dropdown--list--item';
+
+    if (element.active) {
+      itemClasses += ' searcharea--dropdown--list--item--active';
+    }
+
     return (
-      <li className="searcharea--dropdown--list--item" onClick={element.clickFunc} key={element.text}>
+      <li className={itemClasses} onClick={element.clickFunc} key={element.text}>
         <div>
           <a href={element.href} className="search-area--dropdown--link">
             {element.text}

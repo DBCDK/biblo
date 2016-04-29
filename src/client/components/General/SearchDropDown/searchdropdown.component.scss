@@ -5,6 +5,13 @@
 
 .search-area--dropdown--link {
   color: #3a3a3A;
+  white-space: nowrap;
+  margin-right: 2px;
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
 }
 
 .search-area--dropdown {
@@ -13,6 +20,7 @@
   border: #aba6ff solid 1px;
   left: 0;
   right: 0;
+  z-index: 9;
 
   .searcharea--dropdown--list {
     list-style-type: none;
@@ -22,6 +30,7 @@
     right: 0;
 
     .searcharea--dropdown--list--item {
+      overflow: hidden;
       padding: 3px 10px;
       left: 0;
       right: 0;
@@ -32,7 +41,7 @@
       }
     }
 
-    .searcharea--dropdown--list--item:hover {
+    .searcharea--dropdown--list--item:hover, .searcharea--dropdown--list--item--active {
       background-color: #aba6ff;
       color: white;
       cursor: pointer;

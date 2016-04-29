@@ -28,10 +28,9 @@ const SuggestTransform = {
     ).map((suggestion) => {
       if (suggestion.id) {
         suggestion.href = `/materiale/${encodeURIComponent(suggestion.id)}`;
-        suggestion.str = `${suggestion.str} - ${suggestion.creator}`;
       }
       else {
-        suggestion.href = `/find?q=${encodeURIComponent(suggestion.str)}`;
+        suggestion.href = `/find?q=${encodeURIComponent(`term.creator="${suggestion.str}"`)}`;
       }
 
       return suggestion;

@@ -73,3 +73,22 @@ export function getWorkSuggestions(q) {
     openPlatformSuggest.request({q});
   };
 }
+
+export function selectNextSuggestedElement() {
+  return {
+    type: types.SELECT_NEXT_SUGGESTED_WORK_ELEMENT
+  };
+}
+
+export function selectPreviousSuggestedElement() {
+  return {
+    type: types.SELECT_PREVIOUS_SUGGESTED_WORK_ELEMENT
+  };
+}
+
+export function searchQueryHasChanged(q) {
+  return {
+    type: types.SEARCH_QUERY_HAS_CHANGED,
+    q
+  };
+}

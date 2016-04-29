@@ -13,7 +13,9 @@ let initialState = {
   materialSearchResultsPending: true,
   workSuggestions: {},
   workSuggestionsPending: false,
+  selectedWorkSuggestion: -1,
   initialQuery: '',
+  query: '',
   isLoadingResults: false
 };
 
@@ -23,7 +25,7 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   let data = JSON.parse(jsonData.innerHTML);
   if (data.query) {
     // set initial query that was delivered with the HTTP response
-    initialState.initialQuery = data.query;
+    initialState.initialQuery = initialState.query = data.query;
     initialState.isSearchBoxVisible = true;
   }
 
@@ -53,6 +55,55 @@ export default function searchReducer(state = initialState, action = {}) {
 
     case types.LOADED_MORE_RESULTS:
       return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
+
+    case types.SELECT_NEXT_SUGGESTED_WORK_ELEMENT:
+      if (state.workSuggestions[state.query].length > 0) {
+        // Eslint is wrong about this line.
+        let newState = assignToEmpty(state, {}); // eslint-disable-line no-shadow
+
+        if (newState.selectedWorkSuggestion >= 0) {
+          newState.workSuggestions[newState.query][newState.selectedWorkSuggestion].active = false;
+        }
+
+        if (newState.selectedWorkSuggestion < (newState.workSuggestions[newState.query].length - 1)) {
+          newState.selectedWorkSuggestion += 1;
+        }
+        else {
+          newState.selectedWorkSuggestion = 0;
+        }
+
+        newState.workSuggestions[newState.query][newState.selectedWorkSuggestion].active = true;
+
+        return newState;
+      }
+
+      return state;
+
+    case types.SELECT_PREVIOUS_SUGGESTED_WORK_ELEMENT:
+      if (state.query && state.query.length > 0 && state.workSuggestions[state.query].length > 0) {
+        // This one too.
+        let newState = assignToEmpty(state, {}); // eslint-disable-line no-shadow
+
+        if (newState.selectedWorkSuggestion >= 0) {
+          newState.workSuggestions[newState.query][newState.selectedWorkSuggestion].active = false;
+        }
+
+        if (newState.selectedWorkSuggestion > 0) {
+          newState.selectedWorkSuggestion -= 1;
+        }
+        else {
+          newState.selectedWorkSuggestion = newState.workSuggestions[newState.query].length - 1;
+        }
+
+        newState.workSuggestions[newState.query][newState.selectedWorkSuggestion].active = true;
+
+        return newState;
+      }
+
+      return state;
+
+    case types.SEARCH_QUERY_HAS_CHANGED:
+      return assignToEmpty(state, {query: action.q});
 
     default:
       return state;

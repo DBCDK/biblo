@@ -9,6 +9,9 @@ const SearchTransform = {
 
     limit = (limit)? limit : 20;
 
+    // for now all query are phrase queries TODO: parse as CQL
+    q = '"' + q + '"';
+
     return this.callServiceClient('openplatform', 'search', {
       q: q,
       fields: [

@@ -42,7 +42,7 @@ const SuggestTransform = {
 
     workSuggestions.data = workSuggestions.data.concat(creatorSuggestions.data).map((suggestion) => {
       if (suggestion.id) {
-        suggestion.href = `/vaerk/${encodeURIComponent(suggestion.id)}`;
+        suggestion.href = `/materiale/${encodeURIComponent(suggestion.id)}`;
       }
       else {
         suggestion.href = `/find?q=${encodeURIComponent(`term.creator="${suggestion.str}"`)}`;

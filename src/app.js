@@ -44,8 +44,6 @@ import {ensureUserHasProfile} from './server/middlewares/auth.middleware';
 
 module.exports.run = function(worker) {
   // Setup
-
-
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
   const server = worker.httpServer;
@@ -144,7 +142,7 @@ module.exports.run = function(worker) {
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
 
   // Setting proxy
   app.enable('trust proxy');

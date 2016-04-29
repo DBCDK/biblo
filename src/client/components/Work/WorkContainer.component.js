@@ -116,7 +116,7 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
-          count={workAndReviews.meta.numberOfReviews}
+          count={workAndReviews.reviewsCount}
           limit={workAndReviews.reviewsLimit}
           reviews={workAndReviews.reviews}
           worktype="book"

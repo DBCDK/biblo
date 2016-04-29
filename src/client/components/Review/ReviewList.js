@@ -23,15 +23,17 @@ export default function ReviewList({count, reviews = [], profile = {}, uiActions
   }
 
   let reviewsCountText;
+
   if (count === 1) {
     reviewsCountText = (<div className='reviewsCount'>1 anmeldelse</div>);
   }
   else {
-    reviewsCountText = (<div className='reviewsCount'>{count} anmeldelser</div>);
+    if (count > 1)
+      reviewsCountText = (<div className='reviewsCount'>{count} anmeldelser</div>);
   }
 
   return (
-    <div className='review-list' >
+    <div className='review-list'>
       {reviewsCountText}
       {
         reviews

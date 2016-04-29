@@ -75,7 +75,7 @@ const GetReviewTransform = {
     reviews = reviews.map(review => parseReview(review)) || [];
 
     return {
-      status: response[1].statusCode, meta: {numberOfReviews: reviewsCount.count},
+      status: response[1].statusCode, reviewsCount: reviewsCount.count,
       data: reviews, errors: response[1].errors || []
     };
   }

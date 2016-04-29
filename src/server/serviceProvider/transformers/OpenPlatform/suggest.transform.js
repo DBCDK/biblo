@@ -30,7 +30,7 @@ const SuggestTransform = {
         suggestion.href = `/vaerk/${encodeURIComponent(suggestion.id)}`;
       }
       else {
-        suggestion.href = `/search?q=${encodeURIComponent(suggestion.str)}`;
+        suggestion.href = `/find?q=${encodeURIComponent(`term.creator="${suggestion.str}"`)}`;
       }
 
       return suggestion;

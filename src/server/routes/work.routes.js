@@ -5,7 +5,7 @@ import {fullProfileOnSession} from '../middlewares/data.middleware';
 const WorkRoutes = express.Router();
 
 WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) => {
-  let pid = req.params.pid;
+  let pid = decodeURIComponent(req.params.pid);
   const profile = req.session.passport.user.profile.profile;
   let ownReview = {};
 

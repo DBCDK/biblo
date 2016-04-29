@@ -20,7 +20,8 @@ export default function reviewReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         reviewsLoading: false,
         reviews: action.reviews,
-        reviewsLimit: action.limit
+        reviewsLimit: action.limit,
+        reviewsCount: state.reviewsCount
       });
     case types.GET_REVIEWS_IS_LOADING:
       return assignToEmpty(state, {

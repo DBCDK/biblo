@@ -9,6 +9,7 @@ const WorkTransform = {
     return this.callServiceClient('openplatform', 'work', {
       pids: pids,
       fields: [
+        'collection',
         'coverUrlFull',
         'dcTitle',
         'collection',
@@ -16,6 +17,7 @@ const WorkTransform = {
         'creator',
         'abstract',
         'workType',
+        'type',
         'date'
       ]
     });

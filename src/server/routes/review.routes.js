@@ -11,6 +11,7 @@ import sanitize from 'sanitize-html';
 import Busboy from 'busboy';
 
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
+import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const AMAZON_CONFIG = config.communityservice.amazon;
 const upload = multer({storage: multer.memoryStorage()}).single('image');
@@ -76,6 +77,28 @@ function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commen
     }
   });
 }
+
+ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
+  let id = req.params.id;
+  const profile = req.session.passport.user.profile.profile;
+  req.callServiceProvider('getReviews', {id}).then((reviewResponse) => {
+    let pid = reviewResponse[0].data[0].pid;
+    req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
+      const work = workResponse[0].data[0];
+      res.render('page', {
+        css: ['/css/work.css'],
+        js: ['/js/work.js'],
+        jsonData: [JSON.stringify({
+          ownReviewId: id,
+          work: work,
+          profile: profile,
+          reviews: reviewResponse[0].data
+        })]
+      });
+    });
+  });
+});
+
 
 ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
   upload(req, res, function (err) {

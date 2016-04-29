@@ -32,7 +32,7 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
             ownReviewId: ownReviewId,
             work: work,
             profile: profile,
-            meta: reviewResponse[0].meta,
+            reviewsCount: reviewResponse[0].reviewsCount,
             reviews: reviewResponse[0].data
           })]
         });

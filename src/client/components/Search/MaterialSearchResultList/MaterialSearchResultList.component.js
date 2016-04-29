@@ -5,7 +5,7 @@ import './MaterialSearchResultList.scss';
 
 function displayWorkTypeCover(type) {
   const basePath = '/images/covers/';
-  const types = ['book', 'game', 'music', 'movie'];
+  const types = ['book', 'game', 'music', 'movie', 'audiobook'];
   let fileName = 'other.png';
   if (types.indexOf(type) !== -1) {
     fileName = type + '.png';

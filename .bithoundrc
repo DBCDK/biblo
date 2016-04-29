@@ -43,8 +43,11 @@
     "**/extjs/welcome/**",
     "bower_components/**",
     "**/testlib/**",
-    "static/scripts/webtrends.js",
-    "*.config.js"
+    "**/static/**",
+    "*.config.js",
+    "**/newrelic.js",
+    "**/karma.conf.js",
+    "**/*.webpack.js"
   ],
   "test": [
     "**/test/**",

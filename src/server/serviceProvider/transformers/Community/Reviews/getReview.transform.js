@@ -5,61 +5,79 @@ const GetReviewTransform = {
     return 'getReviews';
   },
 
-  requestTransform(event, {id, collection, skip=0, limit=15}) {
-    let orFilter = [];
-    let params = {
-      filter: {
-        skip: skip,
-        limit: limit,
-        order: 'created DESC',
-        include: [
-          'likes',
-          'image',
-          {
-            relation: 'video',
-            scope: {
-              include: [
-                'resolutions'
-              ]
+  requestTransform(event, {id, collection, skip, limit}, connection) {
+    return new Promise((resolve, reject) => {
+      const user = connection.request.user || {id: ''};
+      const accessToken = user.id;
+      let orFilter = [];
+      let params = {
+        filter: {
+          skip: skip,
+          limit: limit,
+          order: 'created DESC',
+          include: [
+            'likes',
+            'image',
+            {
+              relation: 'video',
+              scope: {
+                include: [
+                  'resolutions'
+                ]
+              }
+            },
+            {
+              relation: 'owner',
+              scope: {
+                include: ['image']
+              }
             }
-          },
-          {
-            relation: 'owner',
-            scope: {
-              include: ['image']
-            }
-          }
-        ]
-      }
-    };
+          ]
+        }
+      };
 
-    if (collection) {
-      collection.forEach((pid) => {
-        orFilter.push({pid: pid});
+      if (collection) {
+        collection.forEach((pid) => {
+          orFilter.push({pid: pid});
+        });
+
+        if (orFilter.length > 0) {
+          params.filter.where = {
+            or: orFilter
+          };
+        }
+      }
+
+      if (id) {
+        params.filter.where = {id: id};
+      }
+
+      Promise.all([
+        this.callServiceClient('community', 'countReviews', {accessToken, where: {or: orFilter}}),
+        this.callServiceClient('community', 'getReviews', params)
+      ])
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((err) => {
+        reject(err);
       });
-
-      if (orFilter.length > 0) {
-        params.filter.where = {
-          or: orFilter
-        };
-      }
-    }
-
-    if (id) {
-      params.filter.where = {id: id};
-    }
-
-    return this.callServiceClient('community', 'getReviews', params);
+    });
   },
 
   responseTransform(response) {
-    if (response.statusCode !== 200) {
+    if (response[1].statusCode !== 200) {
       throw new Error('Call to community service, with method getReviews failed');
     }
 
-    let reviews = JSON.parse(response.body);
+    let reviewsCount = JSON.parse(response[0].body);
+    let reviews = JSON.parse(response[1].body);
     reviews = reviews.map(review => parseReview(review)) || [];
-    return {status: response.statusCode, data: reviews, errors: response.errors || []};
+
+    return {
+      status: response[1].statusCode, meta: {numberOfReviews: reviewsCount.count},
+      data: reviews, errors: response[1].errors || []
+    };
   }
 };
 

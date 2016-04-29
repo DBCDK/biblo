@@ -9,7 +9,6 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
   const profile = req.session.passport.user.profile.profile;
   let ownReview = {};
 
-
   req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
     const work = workResponse[0].data[0];
     let collection = work.collection;
@@ -21,7 +20,9 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
         ownReviewId = ownReview.id;
       }
 
-      req.callServiceProvider('getReviews', {collection}).then((reviewResponse) => {
+      let skip = 0;
+      let limit = 10;
+      req.callServiceProvider('getReviews', {collection, skip, limit}).then((reviewResponse) => {
         work.id = pid;
         res.render('page', {
           css: ['/css/work.css'],
@@ -31,6 +32,7 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
             ownReviewId: ownReviewId,
             work: work,
             profile: profile,
+            meta: reviewResponse[0].meta,
             reviews: reviewResponse[0].data
           })]
         });

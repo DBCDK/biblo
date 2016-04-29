@@ -15,17 +15,16 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
-
   switch (action.type) {
     case types.GET_REVIEWS:
       return assignToEmpty(state, {
-        loadingReviews: false,
+        reviewsLoading: false,
         reviews: action.reviews,
         reviewsLimit: action.limit
       });
     case types.GET_REVIEWS_IS_LOADING:
       return assignToEmpty(state, {
-        loadingReviews: true,
+        reviewsLoading: true,
         reviews: state.reviews,
         reviewsLimit: state.limit
       });
@@ -59,6 +58,9 @@ export default function reviewReducer(state = initialState, action = {}) {
       });
       return assignToEmpty(state, {posts: reviewsCopyUnliked});
     default:
-      return state;
+      return assignToEmpty(state, {
+        reviewsLoading: false,
+        reviewsLimit: 10
+      });
   }
 }

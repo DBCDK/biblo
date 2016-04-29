@@ -69,7 +69,6 @@ export class WorkContainer extends React.Component {
     const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
     const creator = (work.creator) ? work.creator[0] : 'Anonym';
     const workType = (work.workType) ? work.workType[0] : 'other';
-    const date = (work.date) ? work.date[0] : '';
     const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
 
     let profile = this.getProfile();
@@ -91,7 +90,6 @@ export class WorkContainer extends React.Component {
           creator={creator}
           year={workAndReviews.work.date[0]}
           abstract={abstract}
-          year={date}
           tags={tags}
           coverUrl={coverUrl}
           workType={workType}
@@ -119,6 +117,8 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
+          count={workAndReviews.meta.numberOfReviews}
+          limit={workAndReviews.reviewsLimit}
           reviews={workAndReviews.reviews}
           worktype="book"
           profile={workAndReviews.profile}

@@ -3,15 +3,29 @@ const GetOwnReviewTransform = {
     return 'getOwnReview';
   },
 
-  requestTransform(event, {reviewownerid, pid}) {
+  requestTransform(event, {reviewownerid, collection}) {
+
+    let orFilter = [];
+
     let params = {
       filter: {
         where: {
-          pid: pid,
           reviewownerid: reviewownerid
         }
       }
     };
+
+    if (collection) {
+      collection.forEach((pid) => {
+        orFilter.push({pid: pid});
+      });
+
+      if (orFilter.length > 0) {
+        params.filter.where = {
+          or: orFilter
+        };
+      }
+    }
 
     return this.callServiceClient('community', 'getReviews', params);
   },

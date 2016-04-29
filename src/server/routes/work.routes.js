@@ -9,16 +9,18 @@ WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) =>
   const profile = req.session.passport.user.profile.profile;
   let ownReview = {};
 
-  req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pid: pid}).then((reviewCheck) => {
-    ownReview = reviewCheck[0].data[0];
-    let ownReviewId;
-    if (ownReview) {
-      ownReviewId = ownReview.id;
-    }
 
-    req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
-      const work = workResponse[0].data[0];
-      let collection = work.collection;
+  req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
+    const work = workResponse[0].data[0];
+    let collection = work.collection;
+
+    req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, collection: collection}).then((reviewCheck) => {
+      ownReview = reviewCheck[0].data[0];
+      let ownReviewId;
+      if (ownReview) {
+        ownReviewId = ownReview.id;
+      }
+
       req.callServiceProvider('getReviews', {collection}).then((reviewResponse) => {
         work.id = pid;
         res.render('page', {

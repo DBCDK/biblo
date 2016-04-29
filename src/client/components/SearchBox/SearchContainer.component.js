@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -8,22 +9,54 @@ import Icon from '../General/Icon/Icon.component.js';
 import SearchDropDown from '../General/SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
 
+import {hideKeyboard} from '../../Utils/keyboard.utils';
+
 import './search-container.scss';
 
 export class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: ''
+      query: '',
+      qChanged: false,
+      queryFieldIsActive: false
     };
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
   }
 
+  componentDidMount() {
+    const self = this;
+
+    window.addEventListener('scroll', function() {
+      if (self.state.qChanged) {
+        self.setState({qChanged: false});
+        hideKeyboard(ReactDOM.findDOMNode(self.refs.searchFieldReference));
+      }
+    });
+
+    window.addEventListener('keydown', function (e) {
+      if (self.state.queryFieldIsActive || self.state.suggestionMenuItemActive) {
+        e = e || window.event;
+        let charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
+        switch (charCode) {
+          case 40:
+            self.props.searchActions.selectNextSuggestedElement();
+            break;
+          case 38:
+            self.props.searchActions.selectPreviousSuggestedElement();
+            break;
+          default:
+            break;
+        }
+      }
+    });
+  }
 
   searchInputChanged(e) {
     const query = e.target.value;
-    this.setState({query: query});
+    this.setState({query: query, qChanged: true});
+    this.props.searchActions.searchQueryHasChanged(query);
 
     // ask for suggestions
     if (query.length >= 3) {
@@ -32,7 +65,10 @@ export class SearchContainer extends React.Component {
   }
 
   submitInput(e) {
-    if (e.type === 'click' || e.keyCode === 13) {
+    if (e.keyCode === 13 && this.props.search.selectedWorkSuggestion >= 0) {
+      window.location = this.props.search.workSuggestions[this.state.query][this.props.search.selectedWorkSuggestion].href;
+    }
+    else if (e.type === 'click' || e.keyCode === 13) {
       searchActions.searchMaterials({
         query: this.state.query
       });
@@ -54,7 +90,8 @@ export class SearchContainer extends React.Component {
             clickFunc: () => {
               window.location = suggestion.href;
             },
-            href: suggestion.href
+            href: suggestion.href,
+            active: suggestion.active || false
           };
         })}
       />
@@ -73,9 +110,12 @@ export class SearchContainer extends React.Component {
               defaultValue={this.props.search.initialQuery}
               onChange={this.searchInputChanged}
               onKeyDown={this.submitInput}
+              onBlur={() => this.setState({queryFieldIsActive: false})}
+              onFocus={() => this.setState({queryFieldIsActive: true})}
+              ref="searchFieldReference"
             />
           </span>
-          
+
           <div className="search-dropdown--container">
             {dropDown}
           </div>

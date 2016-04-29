@@ -40,7 +40,7 @@
       }
     }
 
-    .searcharea--dropdown--list--item:hover {
+    .searcharea--dropdown--list--item:hover, .searcharea--dropdown--list--item--active {
       background-color: #aba6ff;
       color: white;
       cursor: pointer;

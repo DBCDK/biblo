@@ -242,7 +242,7 @@ module.exports.run = function(worker) {
 
   app.use('/anmeldelse', ReviewRoutes);
   app.use('/grupper', ensureUserHasProfile, GroupRoutes);
-  app.use('/search', SearchRoutes);
+  app.use('/find', SearchRoutes);
   app.use('/profil', ProfileRoutes);
   app.use('/vaerk', WorkRoutes);
   app.use('/indhold', ContentRoutes);

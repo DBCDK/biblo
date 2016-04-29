@@ -53,6 +53,7 @@ export class WorkDetail extends React.Component {
           <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
+            <a className='work-detail--order-button'>Lån</a>
             <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} />
           </div>
         </div>

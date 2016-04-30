@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import * as reviewActions from '../../Actions/review.actions';
+import * as searchActions from '../../Actions/search.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 import RoundedButton from '../General/RoundedButton/RoundedButton.a.component.js';
@@ -22,7 +23,7 @@ export class ReviewContainer extends React.Component {
 
     const text = 'her kan du skrive en anmeldelse ';
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <ColoredHeader text={text} title={'Anmeldelse'}/>
         <div className="reviewArea">
           <RoundedButton buttonText='Skriv en anmeldelse' href="#"/>
@@ -41,6 +42,8 @@ export class ReviewContainer extends React.Component {
 
 ReviewContainer.displayName = 'ReviewContainer';
 ReviewContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object,
   data: React.PropTypes.object
 };
@@ -48,12 +51,14 @@ ReviewContainer.propTypes = {
 export default connect(
   (state) => {
     return {
+      searchState: state.searchReducer,
       data: state.reviewReducer
     };
   },
 
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(reviewActions, dispatch)
     };
   }

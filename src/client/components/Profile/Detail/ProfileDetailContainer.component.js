@@ -23,6 +23,7 @@ import * as flagActions from '../../../Actions/flag.actions';
 import * as likeActions from '../../../Actions/like.actions';
 import * as groupActions from '../../../Actions/group.actions';
 import * as uiActions from '../../../Actions/ui.actions';
+import * as searchActions from '../../../Actions/search.actions';
 
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -319,7 +320,7 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         {modal}
         {profileImage}
         <div className="p-detail--displayname-description-follow">
@@ -352,6 +353,8 @@ export class ProfileDetailContainer extends React.Component {
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
@@ -370,6 +373,7 @@ export default connect(
   // Map redux state to props
   (state) => {
     return {
+      searchState: state.searchReducer,
       profile: state.profileReducer,
       group: state.groupViewReducer,
       feed: state.profileFeedReducer,
@@ -380,6 +384,7 @@ export default connect(
   // Map actions to props
   (dispatcher) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatcher),
       feedActions: bindActionCreators(feedActions, dispatcher),
       flagActions: bindActionCreators(flagActions, dispatcher),
       likeActions: bindActionCreators(likeActions, dispatcher),

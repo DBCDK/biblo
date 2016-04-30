@@ -10,6 +10,7 @@ import PageLayout from '../../Layout/PageLayout.component';
 
 // Actions
 import * as groupActions from '../../../Actions/group.actions';
+import * as searchActions from '../../../Actions/search.actions';
 
 // SASS
 import './_groupcreatecontainer.component.scss';
@@ -42,7 +43,7 @@ export class GroupCreateContainer extends React.Component {
 
     return (
       <div>
-        <PageLayout>
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
           <div className="group-create">
             <BackButton />
             <h1>Opret gruppe</h1>
@@ -62,6 +63,8 @@ export class GroupCreateContainer extends React.Component {
 
 GroupCreateContainer.displayName = 'GroupCreateContainer';
 GroupCreateContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired
 };
@@ -73,6 +76,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      searchState: state.searchReducer,
       group: state.groupCreateReducer
     };
   },
@@ -80,6 +84,7 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(groupActions, dispatch)
     };
   }

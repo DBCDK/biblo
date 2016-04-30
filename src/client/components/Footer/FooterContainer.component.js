@@ -15,7 +15,7 @@ export default class FooterContainer extends React.Component {
             <ul>
               <li>
                 <a className='bibloLogo' href={hyperlinks.DET_SKER_PAGE}>
-                  <Icon icon="profile" width='100' height='30' glyph={bibloSvg}/>
+                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg}/>
                 </a>
               </li>
               <li>

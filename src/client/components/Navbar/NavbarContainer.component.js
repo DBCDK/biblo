@@ -1,8 +1,4 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-
-import * as searchActions from '../../Actions/search.actions';
 
 import SearchContainer from '../SearchBox/SearchContainer.component.js';
 import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
@@ -66,13 +62,17 @@ export default class NavbarContainer extends React.Component {
     if (image.shouldDisplay) {
       return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>);
     }
-    return (<NavbarIconLink width="35" height="35" className="navbar--profile" url="#" glyph={profileSvg}
+    return (<NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={profileSvg}
                              onClick={() => this.onToggle('profile')}/>);
   }
 
   renderSearch() {
-    return (<NavbarIconLink width="35" height="35" className="navbar--profile" url="#" glyph={searchSvg}
-                            onClick={() => this.toggleSearchBox()}/>);
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('debugMode') !== null) {
+      return (<NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={searchSvg}
+                              onClick={() => this.toggleSearchBox()}/>);
+    }
+
+    return '';
   }
 
   renderProfileLinks() {
@@ -100,13 +100,14 @@ export default class NavbarContainer extends React.Component {
             <ul className="inline-list">
               <li>
                 <a className='bibloLogo' href={DET_SKER_PAGE}>
-                  <Icon icon="profile" width='100' height='30' glyph={bibloSvg}/>
+                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg}/>
               </a></li>
               <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
             </ul>
           </div>
 
           <div className="navbar--icons">
+            {this.renderSearch()}
             {this.renderProfile()}
             <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
           </div>
@@ -125,7 +126,7 @@ export default class NavbarContainer extends React.Component {
           </div>
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')}/>
-        <SearchContainer />
+        <SearchContainer search={this.props.searchState} searchActions={this.props.searchActions} />
       </div>
     );
   }
@@ -134,24 +135,6 @@ export default class NavbarContainer extends React.Component {
 NavbarContainer.displayName = 'NavbarContainer';
 
 NavbarContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };
-
-
-/**
- * Connect the redux state and actions to container props
- */
-export default connect(
-  // Map redux state to props
-  (state) => {
-    return {
-      search: state.searchReducer
-    };
-  },
-  // Map actions to props
-  (dispatcher) => {
-    return {
-      searchActions: bindActionCreators(searchActions, dispatcher)
-    };
-  }
-)(NavbarContainer);

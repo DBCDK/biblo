@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import * as groupActions from '../../Actions/group.actions';
+import * as searchActions from '../../Actions/search.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 
@@ -23,7 +24,7 @@ export class GroupsContainer extends React.Component {
       'interesserer dig mest for. Du kan spørge gruppeværterne i alle grupperne om mere information.';
     const {data, actions} = this.props;
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
         <div className="lists">
           <RoundedButton buttonText='Opret ny gruppe' href={CREATE_GROUP_LINK}/>
@@ -41,6 +42,8 @@ export class GroupsContainer extends React.Component {
 
 GroupsContainer.displayName = 'GroupsContainer';
 GroupsContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object,
   data: React.PropTypes.object
 };
@@ -49,6 +52,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      searchState: state.searchReducer,
       data: state.listGroupsReducer
     };
   },
@@ -56,6 +60,7 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(groupActions, dispatch)
     };
   }

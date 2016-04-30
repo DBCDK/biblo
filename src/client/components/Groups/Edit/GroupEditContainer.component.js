@@ -7,6 +7,7 @@ import BackButton from '../../General/BackButton/BackButton.component';
 import GroupForm from '../General/GroupForm.component';
 
 import * as groupActions from '../../../Actions/group.actions';
+import * as searchActions from '../../../Actions/search.actions';
 
 import './groupeditcontainer.component.scss';
 
@@ -33,7 +34,7 @@ export class GroupEditContainer extends React.Component {
 
   render() {
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
         <GroupForm
@@ -55,6 +56,8 @@ export class GroupEditContainer extends React.Component {
 
 GroupEditContainer.displayName = 'GroupEditContainer';
 GroupEditContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired
 };
@@ -66,6 +69,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      searchState: state.searchReducer,
       group: state.groupEditReducer
     };
   },
@@ -73,6 +77,7 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(groupActions, dispatch)
     };
   }

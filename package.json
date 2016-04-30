@@ -149,7 +149,7 @@
     "node-libs-browser": "^1.0.0",
     "parallelshell": "^2.0.0",
     "redux-devtools": "^3.0.2",
-    "redux-mock-store": "0.0.6",
+    "redux-mock-store": "^1.0.2",
     "selenium-webdriver": "2.53.1",
     "sinon": "^1.17.2",
     "skin-deep": "^0.16.0",

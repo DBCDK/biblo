@@ -31,6 +31,16 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
       }))[0].body;
     }
 
+    /* Mock agency object, for debugging on the go :)
+     agency = agency || {
+     agencyId: 'DK-775100',
+     branchShortName: [{$value: 'bob'}],
+     postalAddress: 'bob2',
+     postalCode: 'bob3',
+     city: 'bob4'
+     };
+     */
+
     // fetch library details and attach to favorite library
     if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
       const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;

@@ -14,8 +14,8 @@ export default function NavBarIconLink(props) {
 }
 
 NavBarIconLink.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
   url: PropTypes.string.isRequired,
   glyph: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,

@@ -77,13 +77,6 @@ describe('Test of Post Components', () => {
       expect(addContent.props.type).to.be.equal('comment');
       expect(addContent.props.abort).to.be.a('function');
     });
-
-    xit('it should remove AddComment Component after click on abort button', () => {
-      const addContent = TestUtils.findRenderedComponentWithType(component, AddContent);
-      const input = TestUtils.findRenderedDOMComponentWithClass(addContent, 'alert');
-      TestUtils.Simulate.click(input);
-      expect(component.state.isCommentInputVisible).to.be.equal(false);
-    });
   });
 
   describe('Test YouTube related functionality on the PostView.component', () => {

@@ -24,7 +24,7 @@ export default class PageLayout extends React.Component {
   render() {
     return (
       <div className="container">
-        <NavBar />
+        <NavBar searchState={this.props.searchState} searchActions={this.props.searchActions} />
         <div className="content">
           {this.props.children}
         </div>
@@ -37,5 +37,7 @@ export default class PageLayout extends React.Component {
 }
 
 PageLayout.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired
 };

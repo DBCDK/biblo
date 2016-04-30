@@ -15,6 +15,7 @@ import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
 import * as likeActions from '../../Actions/like.actions.js';
 import * as uiActions from '../../Actions/ui.actions.js';
+import * as searchActions from '../../Actions/search.actions';
 
 export class WorkContainer extends React.Component {
 
@@ -74,7 +75,7 @@ export class WorkContainer extends React.Component {
 
     let profile = this.getProfile();
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
          {this.props.ui.modal.isOpen &&
          <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
@@ -135,6 +136,8 @@ export class WorkContainer extends React.Component {
 
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
@@ -147,6 +150,7 @@ WorkContainer.propTypes = {
 export default connect(
   (state) => {
     return {
+      searchState: state.searchReducer,
       reviews: state.reviewReducer,
       ui: state.uiReducer
     };
@@ -154,6 +158,7 @@ export default connect(
 
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(reviewActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),

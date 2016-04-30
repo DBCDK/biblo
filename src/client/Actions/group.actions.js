@@ -18,17 +18,19 @@ const loadComments = SocketClient('getComments');
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
-    if ('FileReader' in window) {
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        dispatch(changeImage(file, e.target.result));
-      };
+    return new Promise((resolve) => {
+      if ('FileReader' in window) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          resolve(dispatch(changeImage(file, e.target.result)));
+        };
 
-      reader.readAsDataURL(file);
-    }
-    else {
-      dispatch(changeImage(file, '/Billede-kommer-snart.jpg'));
-    }
+        reader.readAsDataURL(file);
+      }
+      else {
+        resolve(dispatch(changeImage(file, '/Billede-kommer-snart.jpg')));
+      }
+    });
   };
 }
 
@@ -99,47 +101,36 @@ export function changeGroupColour(colourEvent) {
 
 export function asyncSubmitGroupCreateForm(imageFile, name, description) {
   return (dispatch) => {
-    dispatch(groupFormIsSubmitting());
+    return new Promise((resolve) => {
+      dispatch(groupFormIsSubmitting());
 
-    let formData = new FormData();
-    formData.append('group-name', name);
-    formData.append('group-description', description);
+      let formData = new FormData();
+      formData.append('group-name', name);
+      formData.append('group-description', description);
 
-    if (imageFile) {
-      formData.append('group_image', imageFile);
-    }
-
-    let request = new XMLHttpRequest();
-    request.open('POST', window.location.href);
-    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    request.onreadystatechange = (e) => {
-      if (
-        e.target.readyState === 4 &&
-        e.target.status !== 404 &&
-        e.target.status !== 500 &&
-        e.target.status !== 403
-      ) {
-        const data = JSON.parse(e.target.response);
-        if (data.redirect) {
-          window.location.href = data.redirect;
-        }
-        dispatch(groupFormHasSubmitted());
-        dispatch(submitGroupCreateForm(imageFile, name, description, data.status, data.errors));
+      if (imageFile) {
+        formData.append('group_image', imageFile);
       }
-      else if (e.target.readyState === 4) {
-        const data = JSON.parse(e.target.response);
-        if (data.redirect) {
-          window.location.href = data.redirect;
+
+      let request = new XMLHttpRequest();
+      request.open('POST', window.location.href);
+      request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      request.onreadystatechange = (e) => {
+        if (e.target.readyState === 4) {
+          const data = JSON.parse(e.target.response);
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          }
+          dispatch(groupFormHasSubmitted());
+          resolve(dispatch(submitGroupCreateForm(imageFile, name, description, data.status, data.errors)));
         }
-        dispatch(groupFormHasSubmitted());
-        dispatch(submitGroupCreateForm(imageFile, name, description, data.status, data.errors));
-      }
-    };
-    request.upload.addEventListener('progress', (e) => dispatch(groupFormUploadProgress(e)));
-    request.upload.addEventListener('load', (e) => dispatch(groupFormUploadCompleted(e)));
-    request.upload.addEventListener('error', (e) => dispatch(groupFormUploadFailed(e)));
-    request.upload.addEventListener('abort', (e) => dispatch(groupFormUploadCanceled(e)));
-    request.send(formData);
+      };
+      request.upload.addEventListener('progress', (e) => dispatch(groupFormUploadProgress(e)));
+      request.upload.addEventListener('load', (e) => dispatch(groupFormUploadCompleted(e)));
+      request.upload.addEventListener('error', (e) => dispatch(groupFormUploadFailed(e)));
+      request.upload.addEventListener('abort', (e) => dispatch(groupFormUploadCanceled(e)));
+      request.send(formData);
+    });
   };
 }
 
@@ -170,20 +161,7 @@ export function asyncSubmitGroupEditForm(imageFile, name, description) {
     request.open('POST', window.location.href);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.onreadystatechange = (e) => {
-      if (
-        e.target.readyState === 4 &&
-        e.target.status !== 404 &&
-        e.target.status !== 500 &&
-        e.target.status !== 403
-      ) {
-        const data = JSON.parse(e.target.response);
-        if (data.redirect) {
-          window.location.href = data.redirect;
-        }
-        dispatch(groupFormHasSubmitted());
-        dispatch(submitGroupEditForm(imageFile, name, description, data.status, data.errors));
-      }
-      else if (e.target.readyState === 4) {
+      if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
         if (data.redirect) {
           window.location.href = data.redirect;

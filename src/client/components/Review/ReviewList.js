@@ -1,7 +1,7 @@
 import React from 'react';
 import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
-import './ReviewList.scss';
+import './ReviewLIst.scss';
 
 export default function ReviewList({count, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,

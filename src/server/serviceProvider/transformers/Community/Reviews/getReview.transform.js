@@ -49,7 +49,8 @@ const GetReviewTransform = {
             ]
           };
         }
-      } else {
+      }
+      else {
         params.filter.where = {id: id};
       }
 

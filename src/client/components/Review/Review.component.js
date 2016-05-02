@@ -14,6 +14,7 @@ import Icon from '../General/Icon/Icon.component.js';
 import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
+import ConfirmDialog from '../General/ConfirmDialog/ConfirmDialog.component.js';
 import Youtube from 'react-youtube';
 
 import flagSvg from '../General/Icon/svg/functions/flag.svg';
@@ -28,6 +29,7 @@ import Classnames from 'classnames';
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
+
 
     this.state = {
       profile: props.profile,
@@ -53,7 +55,7 @@ export default class Review extends React.Component {
     this.submitReviewFlag = this.submitReviewFlag.bind(this);
     this.likeReview = this.likeReview.bind(this);
     this.unlikeReview = this.unlikeReview.bind(this);
-    // this.deleteReview = this.deleteReview.bind(this);
+    this.deleteReview = this.deleteReview.bind(this);
   }
 
   toggleEditing() {
@@ -79,6 +81,30 @@ export default class Review extends React.Component {
       profileId: this.props.profile.id
     });
   }
+
+  deleteReview() {
+    const content = (
+      <div>
+        <p>Er du sikker på, at du vil slette din anmeldelse?</p>
+      </div>
+    );
+
+    const dialog = (
+      <ConfirmDialog
+        cancelButtonText={'Fortryd'}
+        confirmButtonText={'Slet anmeldelse'}
+        cancelFunc={() => {
+          this.props.uiActions.closeModalWindow();
+        }}
+        confirmFunc={() => {
+          this.props.reviewActions.asyncDeleteReview(this.props.id);
+          this.props.uiActions.closeModalWindow();
+        }}
+      >{content}</ConfirmDialog>
+    );
+    this.props.uiActions.openModalWindow(dialog);
+  }
+
 
   validate() {
     let errors = [];
@@ -316,11 +342,19 @@ export default class Review extends React.Component {
       );
     }
 
+    let deleteButton;
+    if (this.props.id) {
+      deleteButton = (<a className="button delete" onClick={() => this.deleteReview()}>
+          <span>Slet</span>
+        </a>
+      );
+    }
+
     // AddContentArea:
     if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
         <div className='content-add'>
-          <Login>Log ind for at skrive et indlæg</Login>
+          <Login>Log ind for at skrive en anmeldelse</Login>
         </div>
       );
     }
@@ -407,7 +441,6 @@ export default class Review extends React.Component {
                     }
                   </div>
                   }
-
                 </div>
                 <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})}>
                   {
@@ -435,6 +468,7 @@ export default class Review extends React.Component {
                     <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
                            value="Fortryd"/>
                   }
+                  {deleteButton}
                   <div className='review-add--media'>
                     <label htmlFor={uniqueId}>
                       <input

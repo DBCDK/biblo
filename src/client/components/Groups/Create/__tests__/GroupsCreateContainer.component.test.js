@@ -13,11 +13,24 @@ import {GroupCreateContainer} from '../GroupCreateContainer.component';
 import groupCreateReducer from '../../../../Reducers/groupCreate.reducer';
 
 describe('Test group create container', () => {
-  xit('Test group create container can render', () => {
+  it('Test group create container can render', () => {
     const noop = () => {};
 
     // just get initial state
     let group = groupCreateReducer(undefined, {}); // eslint-disable-line no-undefined
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
 
     // actions for this test (just use spies)
     let actions = {
@@ -32,6 +45,8 @@ describe('Test group create container', () => {
 
     let component = (
       <GroupCreateContainer
+        searchState={searchState}
+        searchActions={{}}
         group={group}
         actions={actions}
         uiActions={uiActions}

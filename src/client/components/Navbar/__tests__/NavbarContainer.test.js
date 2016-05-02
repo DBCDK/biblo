@@ -10,7 +10,7 @@ import NavbarContainer from '../NavbarContainer.component.js';
 
 describe('Test NavbarContainer Component', () => {
 
-  xit('Assert className navbar--container', () => {
+  it('Assert className navbar--container', () => {
     const render = TestUtils.createRenderer();
     render.render(<NavbarContainer />);
 
@@ -21,9 +21,22 @@ describe('Test NavbarContainer Component', () => {
     assert.equal(result, expected, 'Found className navbar');
   });
 
-  xit('Assert hide unhide menu', (done) => {
+  it('Assert hide unhide menu', (done) => {
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
 
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
 
@@ -41,8 +54,22 @@ describe('Test NavbarContainer Component', () => {
     }, 0);
   });
 
-  xit('Assert hide unhide profile dropdown', (done) => {
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
+  it('Assert hide unhide profile dropdown', (done) => {
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');
     let toggleButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
 
@@ -62,8 +89,22 @@ describe('Test NavbarContainer Component', () => {
 
   });
 
-  xit('Assert click overlay', (done) => {
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer />);
+  it('Assert click overlay', (done) => {
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
     let clickOverlay = TestUtils.findRenderedDOMComponentWithClass(dom, 'click-overlay');

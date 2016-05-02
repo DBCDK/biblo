@@ -1,9 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-
-import * as searchActions from '../../Actions/search.actions';
 
 import Icon from '../General/Icon/Icon.component.js';
 import SearchDropDown from './SearchDropDown/SearchDropDown.component';
@@ -13,7 +9,7 @@ import {hideKeyboard} from '../../Utils/keyboard.utils';
 
 import './search-container.scss';
 
-export class SearchContainer extends React.Component {
+export default class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +65,7 @@ export class SearchContainer extends React.Component {
       window.location = this.props.search.workSuggestions[this.state.query][this.props.search.selectedWorkSuggestion].href;
     }
     else if (e.type === 'click' || e.keyCode === 13) {
-      searchActions.searchMaterials({
+      this.props.searchActions.searchMaterials({
         query: this.state.query
       });
     }
@@ -134,22 +130,3 @@ SearchContainer.propTypes = {
   search: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };
-
-/**
- * Connect the redux state and actions to container props
- */
-export default connect(
-  // Map redux state to props
-  (state) => {
-    return {
-      search: state.searchReducer
-    };
-  },
-
-  // Map actions to props
-  (dispatcher) => {
-    return {
-      searchActions: bindActionCreators(searchActions, dispatcher)
-    };
-  }
-)(SearchContainer);

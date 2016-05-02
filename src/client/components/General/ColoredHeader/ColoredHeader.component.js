@@ -14,7 +14,7 @@ function ColoredHeader({color = null, text = 'Test tekst.', iconGlyph=null, titl
   return (
     <div className="colored-header" style={style}>
       <div className="colored-header--iconcontainer">
-        <Icon className="icon" height='100' width='100' glyph={iconGlyph}/>
+        <Icon className="icon" height={100} width={100} glyph={iconGlyph}/>
       </div>
       <div className="colored-header--description">
         <div className="colored-header--text">

@@ -23,6 +23,7 @@ import * as groupActions from '../../../Actions/group.actions.js';
 import * as flagActions from '../../../Actions/flag.actions.js';
 import * as likeActions from '../../../Actions/like.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
+import * as searchActions from '../../../Actions/search.actions';
 
 // SCSS
 import './scss/groupView.scss';
@@ -59,7 +60,7 @@ export class GroupViewContainer extends React.Component {
 
     if (this.props.group.error) {
       return (
-        <PageLayout>
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
           <div className="error">{this.props.group.error}</div>
         </PageLayout>
       );
@@ -69,7 +70,7 @@ export class GroupViewContainer extends React.Component {
       onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
 
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         {modal}
         <div className='group'>
           <GroupHeader uri={this.props.group.image || ''}/>
@@ -126,6 +127,8 @@ export class GroupViewContainer extends React.Component {
 }
 
 GroupViewContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   id: React.PropTypes.number,
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
@@ -144,6 +147,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      searchState: state.searchReducer,
       profile: state.profileReducer,
       group: state.groupViewReducer,
       ui: state.uiReducer
@@ -153,6 +157,7 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       groupActions: bindActionCreators(groupActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),

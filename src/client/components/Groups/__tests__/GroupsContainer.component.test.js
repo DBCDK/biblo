@@ -10,11 +10,30 @@ import TestUtils from 'react-addons-test-utils';
 import {GroupsContainer} from '../GroupsContainer.component';
 
 describe('GroupsContainer component tests', () => {
-  xit('should render Opret button and Nyeste grupper', () => {
+  it('should render Opret button and Nyeste grupper', () => {
+
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+    const searchActions = {};
 
     const data = {
-      groups: [],
-      groupsLimit: 15
+      newLoading: false,
+      popularLoading: false,
+      popularGroups: [],
+      newGroups: [],
+      newLimit: 15,
+      popularLimit: 15
     };
 
     const actions = {
@@ -22,10 +41,11 @@ describe('GroupsContainer component tests', () => {
       }
     };
 
-    const comp = TestUtils.renderIntoDocument(<GroupsContainer data={data} actions={actions}/>);
+    const comp = TestUtils.renderIntoDocument(
+      <GroupsContainer searchState={searchState} searchActions={searchActions} data={data} actions={actions}/>
+    );
     expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent)
-      .toEqual('Opret ny gruppeNyeste grupper'); // Expect group listing title to be "Nyeste grupper"
+      .toEqual('Opret ny gruppePopulære grupperNyeste grupper');
 
   });
-
 });

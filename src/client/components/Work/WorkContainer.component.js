@@ -15,6 +15,7 @@ import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
 import * as likeActions from '../../Actions/like.actions.js';
 import * as uiActions from '../../Actions/ui.actions.js';
+import * as searchActions from '../../Actions/search.actions';
 
 export class WorkContainer extends React.Component {
 
@@ -69,12 +70,11 @@ export class WorkContainer extends React.Component {
     const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
     const creator = (work.creator) ? work.creator[0] : 'Anonym';
     const workType = (work.workType) ? work.workType[0] : 'other';
-    const date = (work.date) ? work.date[0] : '';
     const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
 
     let profile = this.getProfile();
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
          {this.props.ui.modal.isOpen &&
          <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
@@ -90,7 +90,6 @@ export class WorkContainer extends React.Component {
           displayType={workType}
           creator={creator}
           abstract={abstract}
-          year={date}
           tags={tags}
           coverUrl={coverUrl}
           workType={workType}
@@ -118,6 +117,8 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
+          count={workAndReviews.reviewsCount}
+          limit={workAndReviews.reviewsLimit}
           reviews={workAndReviews.reviews}
           worktype="book"
           profile={workAndReviews.profile}
@@ -135,6 +136,8 @@ export class WorkContainer extends React.Component {
 
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
@@ -147,6 +150,7 @@ WorkContainer.propTypes = {
 export default connect(
   (state) => {
     return {
+      searchState: state.searchReducer,
       reviews: state.reviewReducer,
       ui: state.uiReducer
     };
@@ -154,6 +158,7 @@ export default connect(
 
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(reviewActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),

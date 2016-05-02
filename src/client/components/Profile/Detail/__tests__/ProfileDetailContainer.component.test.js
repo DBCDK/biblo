@@ -16,7 +16,7 @@ import {emptyFeedMock, feedMock, moderatedFeedMock} from '../../../__mocks__/fee
 import {uiMock} from '../../../__mocks__/ui.mock';
 
 describe('Test profile detail container (public profile)', () => {
-  xit('Test profile detail container can render', () => {
+  it('Test profile detail container can render', () => {
     const noop = () => {};
 
     // actions for this test (just use spies)
@@ -30,8 +30,23 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
     let component = (
       <ProfileDetailContainer
+        searchState={searchState}
         feed={emptyFeedMock}
         feedActions={feedActions}
         profile={profileMock}
@@ -49,7 +64,7 @@ describe('Test profile detail container (public profile)', () => {
     expect(firstActivityRow).toContain('har ikke lavet noget...');
   });
 
-  xit('should render activity rows containing posts, and a comment.', () => {
+  it('should render activity rows containing posts, and a comment.', () => {
     const noop = () => {};
 
     // actions for this test (just use spies)
@@ -63,8 +78,23 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
     let component = (
       <ProfileDetailContainer
+        searchState={searchState}
         feed={feedMock}
         feedActions={feedActions}
         profile={profileMock}
@@ -82,7 +112,7 @@ describe('Test profile detail container (public profile)', () => {
     expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].html);
   });
 
-  xit('should render rows containing an edit link when a moderator is viewing', () => {
+  it('should render rows containing an edit link when a moderator is viewing', () => {
     const noop = () => {};
 
     // actions for this test (just use spies)
@@ -96,8 +126,23 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
     let component = (
       <ProfileDetailContainer
+        searchState={searchState}
         feed={moderatedFeedMock}
         feedActions={feedActions}
         profile={moderatorMock}

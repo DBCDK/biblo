@@ -1,10 +1,11 @@
 import React from 'react';
 import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
+import './ReviewList.scss';
 
-
-export default function ReviewList({reviews = [], profile = {},
-   uiActions = null, reviewActions = null, flagActions = null, likeActions = null, expand, delta = 15, skip = 0, limit = 100000, isLoading}) {
+export default function ReviewList({count, reviews = [], profile = {}, uiActions = null,
+  reviewActions = null, flagActions = null,
+  likeActions = null, expand, delta = 15, skip = 0, limit = 100000, isLoading}) {
 
   let hasMore = true;
   if (limit > reviews.length) {
@@ -21,8 +22,17 @@ export default function ReviewList({reviews = [], profile = {},
     );
   }
 
+  let reviewsCountText;
+  if (count === 1) {
+    reviewsCountText = (<div className='reviewsCount'>1 anmeldelse</div>);
+  }
+  if (count > 1) {
+    reviewsCountText = (<div className='reviewsCount'>{count} anmeldelser</div>);
+  }
+
   return (
-    <div className='review-list' >
+    <div className='review-list'>
+      <h2>{reviewsCountText}</h2>
       {
         reviews
         && reviews.map((item) => (<Review
@@ -44,6 +54,7 @@ export default function ReviewList({reviews = [], profile = {},
 }
 
 ReviewList.propTypes = {
+  count: React.PropTypes.number.isRequired,
   reviews: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   reviewActions: React.PropTypes.object.isRequired,

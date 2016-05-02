@@ -7,6 +7,7 @@ import PageLayout from '../../Layout/PageLayout.component';
 
 import * as ProfileActions from '../../../Actions/profile.actions';
 import * as EntitySuggestLibraryActions from '../../../Actions/entitySuggetLibrary.actions';
+import * as searchActions from '../../../Actions/search.actions';
 
 import './profileEditContainer.component.scss';
 
@@ -54,7 +55,7 @@ export default class ProfileEditContainer extends React.Component {
     });
 
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <div className="profile-edit--container">
           <h1 className="profile-edit--title">Redigér Profil</h1>
           <div className="profile-edit--form-component-container-container">
@@ -95,6 +96,8 @@ export default class ProfileEditContainer extends React.Component {
 
 ProfileEditContainer.displayName = 'ProfileEditContainer';
 ProfileEditContainer.propTypes = {
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   profile: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   libraryActions: React.PropTypes.object.isRequired,
@@ -108,6 +111,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      searchState: state.searchReducer,
       profile: state.profileReducer,
       entitySuggest: state.entitySuggestReducer
     };
@@ -116,6 +120,7 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(ProfileActions, dispatch),
       libraryActions: bindActionCreators(EntitySuggestLibraryActions, dispatch)
     };

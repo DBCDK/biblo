@@ -28,7 +28,7 @@ export class SearchResultContainer extends React.Component {
 
   render() {
     return (
-      <PageLayout>
+      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions}>
         <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
         <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>
       </PageLayout>

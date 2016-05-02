@@ -1,7 +1,7 @@
 import React from 'react';
 import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
-import './ReviewLIst.scss';
+import './ReviewList.scss';
 
 export default function ReviewList({count, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,
@@ -32,7 +32,7 @@ export default function ReviewList({count, reviews = [], profile = {}, uiActions
 
   return (
     <div className='review-list'>
-      {reviewsCountText}
+      <h2>{reviewsCountText}</h2>
       {
         reviews
         && reviews.map((item) => (<Review

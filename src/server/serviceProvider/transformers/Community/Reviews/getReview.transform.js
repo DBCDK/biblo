@@ -43,9 +43,14 @@ const GetReviewTransform = {
 
         if (orFilter.length > 0) {
           params.filter.where = {
-            and: [{markedAsDeleted: null}, {or: orFilter}]
+            and: [
+              {markedAsDeleted: null},
+              {or: orFilter}
+            ]
           };
         }
+      } else {
+        params.filter.where = {id: id};
       }
 
       Promise.all([

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import * as searchActions from '../../Actions/search.actions';
 
 import Icon from '../General/Icon/Icon.component.js';
-import SearchDropDown from '../General/SearchDropDown/SearchDropDown.component';
+import SearchDropDown from './SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
 
 import {hideKeyboard} from '../../Utils/keyboard.utils';
@@ -113,12 +113,15 @@ export class SearchContainer extends React.Component {
               onBlur={() => this.setState({queryFieldIsActive: false})}
               onFocus={() => this.setState({queryFieldIsActive: true})}
               ref="searchFieldReference"
-            />
+            >
+              <div className="search-container--dropdown-container">
+                {dropDown}
+              </div>
+
+            </input>
           </span>
 
-          <div className="search-dropdown--container">
-            {dropDown}
-          </div>
+
         </div>
       </div>
     );

@@ -24,6 +24,20 @@
       max-width: 100%;
     }
 
+    .material-result-list--description {
+
+      overflow: hidden;
+
+      .icon--container {
+        position: absolute !important;
+      }
+
+      .material-result-list--title {
+        margin-left: 24px;
+      }
+    }
   }
 
 }
+
+

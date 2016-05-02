@@ -22,7 +22,7 @@ const GetOwnReviewTransform = {
 
       if (orFilter.length > 0) {
         params.filter.where = {
-          or: orFilter
+          and: [{markedAsDeleted: null}, {or: orFilter}]
         };
       }
     }

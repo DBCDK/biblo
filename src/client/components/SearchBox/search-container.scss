@@ -9,8 +9,9 @@
     padding-right: 1px;
 
     input {
+      overflow:hidden;
       width: 100%;
-      height:49px;
+      height:50px;
       padding-left: 10px;
     }
   }
@@ -35,21 +36,17 @@
 }
 
 .search-container--hidden {
-  height:0;
-  padding: 0;
   overflow: hidden;
-}
+  max-height:0px;
+  padding-top:0px;
+  padding-bottom:0px;
 
-.search-dropdown--container {
-  position: relative;
-
-  @include min-screen($desktop) {
-    width: 635px;
+  .search-container--dropdown-container {
+    display: none;
   }
 }
 
-.searchbox--container {
-  @include min-screen($desktop) {
-    width: 700px;
-  }
+
+.search-container--dropdown-container {
+
 }

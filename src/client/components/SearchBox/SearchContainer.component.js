@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Icon from '../General/Icon/Icon.component.js';
-import SearchDropDown from '../General/SearchDropDown/SearchDropDown.component';
+import SearchDropDown from './SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
+import spinnerSvg from '../General/Icon/svg/spinners/loading-spin.svg';
 
 import {hideKeyboard} from '../../Utils/keyboard.utils';
 
@@ -15,7 +16,8 @@ export default class SearchContainer extends React.Component {
     this.state = {
       query: '',
       qChanged: false,
-      queryFieldIsActive: false
+      queryFieldIsActive: false,
+      loading: false
     };
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
@@ -65,6 +67,7 @@ export default class SearchContainer extends React.Component {
       window.location = this.props.search.workSuggestions[this.state.query][this.props.search.selectedWorkSuggestion].href;
     }
     else if (e.type === 'click' || e.keyCode === 13) {
+      this.setState({loading: true});
       this.props.searchActions.searchMaterials({
         query: this.state.query
       });
@@ -72,6 +75,7 @@ export default class SearchContainer extends React.Component {
   }
 
   render() {
+
     const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
     const dropDown = (
       <SearchDropDown
@@ -93,11 +97,13 @@ export default class SearchContainer extends React.Component {
       />
     );
 
+    const searchButtonGlyph = (this.state.loading) ? spinnerSvg : searchSvg;
+
     return (
       <div className={classNames}>
         <div className="searchbox--container">
           <a className='search-container--search-button' href='#' onClick={this.submitInput}>
-            <Icon glyph={searchSvg} width={24} height={24}/>
+            <Icon glyph={searchButtonGlyph} width={24} height={24}/>
           </a>
           <span className="search-input--container">
             <input
@@ -109,12 +115,15 @@ export default class SearchContainer extends React.Component {
               onBlur={() => this.setState({queryFieldIsActive: false})}
               onFocus={() => this.setState({queryFieldIsActive: true})}
               ref="searchFieldReference"
-            />
+            >
+              <div className="search-container--dropdown-container">
+                {dropDown}
+              </div>
+
+            </input>
           </span>
 
-          <div className="search-dropdown--container">
-            {dropDown}
-          </div>
+
         </div>
       </div>
     );

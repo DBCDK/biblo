@@ -9,7 +9,7 @@ import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
 import DisplayNameField from './DisplayNameField.component';
 import InputField from '../../General/InputField/InputField.component';
-import SearchDropDown from './../../General/SearchDropDown/SearchDropDown.component.js';
+import SearchDropDown from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
 import Message from '../../General/Message/Message.component';
 
 import 'nodep-date-input-polyfill-danish';

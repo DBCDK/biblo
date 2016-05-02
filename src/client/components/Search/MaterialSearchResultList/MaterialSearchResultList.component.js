@@ -1,7 +1,23 @@
 import React from 'react';
 
+import Icon from '../../General/Icon/Icon.component.js';
+import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
+import audiobookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
+import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game.svg';
+import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music.svg';
+import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film.svg';
+import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
+
 import './MaterialSearchResultList.scss';
 
+const displayTypeSvgs = {
+  book: bookSvg,
+  audiobook: audiobookSvg,
+  game: gameSvg,
+  music: musicSvg,
+  movie: movieSvg,
+  other: otherSvg
+};
 
 function displayWorkTypeCover(type) {
   const basePath = '/images/covers/';
@@ -24,6 +40,7 @@ export default class MaterialSearchResultList extends React.Component {
     const listElements = this.props.results.map((result, i) => {
 
       const pid = result.pid[0];
+      const displayType = result.workType[0];
       const displayWorkType = (result.workType) ? result.workType[0] : 'other';
       const coverUrl = (result.coverUrlFull) ? 'http:' + result.coverUrlFull[0] : displayWorkTypeCover(displayWorkType);
       const workUrl = '/materiale/' + pid;
@@ -35,7 +52,10 @@ export default class MaterialSearchResultList extends React.Component {
               <img width='160' height='220' src={coverUrl} />
             </div>
             <div className='material-result-list--description'>
-              {result.dcTitle}
+              <Icon glyph={displayTypeSvgs[displayType]} />
+              <div className='material-result-list--title'>
+                {result.dcTitle}
+              </div>
             </div>
           </a>
         </li>

@@ -5,6 +5,7 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 
 const createReviewClient = SocketClient('createReview');
 const getReviewsClient = SocketClient('getReviews');
+const deleteReviewClient = SocketClient('deleteReview');
 
 export function asyncCreateReview(review) {
   return (dispatch) => {
@@ -46,5 +47,19 @@ export function createReview(review) {
   return {
     type: types.CREATE_REVIEW,
     review: review
+  };
+}
+
+export function asyncDeleteReview(reviewId) {
+  return function (dispatch) {
+    dispatch(deleteReview(reviewId));
+    deleteReviewClient.request({id: reviewId});
+  };
+}
+
+export function deleteReview(reviewId) {
+  return {
+    type: types.DELETE_REVIEW,
+    postId: reviewId
   };
 }

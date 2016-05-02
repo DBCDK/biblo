@@ -43,17 +43,13 @@ const GetReviewTransform = {
 
         if (orFilter.length > 0) {
           params.filter.where = {
-            or: orFilter
+            and: [{markedAsDeleted: null}, {or: orFilter}]
           };
         }
       }
 
-      if (id) {
-        params.filter.where = {id: id};
-      }
-
       Promise.all([
-        this.callServiceClient('community', 'countReviews', {accessToken, where: {or: orFilter}}),
+        this.callServiceClient('community', 'countReviews', {accessToken, where: params.filter.where}), // {or: orFilter}}),
         this.callServiceClient('community', 'getReviews', params)
       ])
       .then((response) => {

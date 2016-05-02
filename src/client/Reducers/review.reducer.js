@@ -58,6 +58,12 @@ export default function reviewReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {posts: reviewsCopyUnliked});
+    case types.DELETE_REVIEW:
+      let reviewsAfterDelete = [...state.reviews];
+      reviewsAfterDelete = filter(reviewsAfterDelete, (review)=> {
+        return action.reviewId !== review.id;
+      });
+      return assignToEmpty(state, {reviews: reviewsAfterDelete});
     default:
       return assignToEmpty(state, {
         reviewsLoading: false,

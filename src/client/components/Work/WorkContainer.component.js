@@ -16,6 +16,7 @@ import * as flagActions from '../../Actions/flag.actions.js';
 import * as likeActions from '../../Actions/like.actions.js';
 import * as uiActions from '../../Actions/ui.actions.js';
 import * as searchActions from '../../Actions/search.actions';
+import * as workActions from '../../Actions/work.actions';
 
 export class WorkContainer extends React.Component {
 
@@ -84,6 +85,8 @@ export class WorkContainer extends React.Component {
         }
         <WorkHeader coverUrl={coverUrl}/>
         <WorkDetail
+          collection={work.collection}
+          collectionDetails={work.collectionDetails}
           editText={this.getEditText()}
           toggleReview={this.toggleReview.bind(this)}
           title={workAndReviews.work.dcTitle[0]}
@@ -144,7 +147,8 @@ WorkContainer.propTypes = {
   uiActions: React.PropTypes.object.isRequired,
   reviews: React.PropTypes.object,
   ui: React.PropTypes.object,
-  worktype: React.PropTypes.string
+  worktype: React.PropTypes.string,
+  workActions: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -159,6 +163,7 @@ export default connect(
   (dispatch) => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
+      workActions: bindActionCreators(workActions, dispatch),
       actions: bindActionCreators(reviewActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),

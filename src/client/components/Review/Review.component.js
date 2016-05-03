@@ -350,13 +350,19 @@ export default class Review extends React.Component {
       );
     }
 
-    // AddContentArea:
+
     if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
         <div className='content-add'>
           <Login>Log ind for at skrive en anmeldelse</Login>
         </div>
       );
+    }
+
+
+    let libraryId = '150013-palle';
+    if (this.props.profile.favoriteLibrary && this.props.profile.favoriteLibrary.libraryId) {
+      libraryId = this.props.profile.favoriteLibrary.libraryId;
     }
 
     const youtube = ExtractYoutubeID(content);
@@ -419,7 +425,7 @@ export default class Review extends React.Component {
                   <input type="hidden" name="pid" value={this.state.pid}/>
                   <input type="hidden" name="worktype" value={this.state.worktype}/>
                   <input type="hidden" name="rating" value={this.state.rating}/>
-                  <input type="hidden" name="libraryid" value="1"/>
+                  <input type="hidden" name="libraryid" value={libraryId}/>
 
                   {this.state.attachment.image &&
                   <div className='review-add--preview-image'>

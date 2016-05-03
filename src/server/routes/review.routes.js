@@ -80,8 +80,9 @@ function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commen
 
 ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let id = req.params.id;
+  let limit = 1; // we only expect one here
   const profile = req.session.passport.user.profile.profile;
-  req.callServiceProvider('getReviews', {id}).then((reviewResponse) => {
+  req.callServiceProvider('getReviews', {id, limit}).then((reviewResponse) => {
     let pid = reviewResponse[0].data[0].pid;
     req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
       const work = workResponse[0].data[0];

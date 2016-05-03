@@ -6,10 +6,10 @@ const GetOwnReviewTransform = {
   requestTransform(event, {reviewownerid, collection}) {
 
     let orFilter = [];
-
     let params = {
       filter: {
         where: {
+          markedAsDeleted: null,
           reviewownerid: reviewownerid
         }
       }
@@ -22,7 +22,7 @@ const GetOwnReviewTransform = {
 
       if (orFilter.length > 0) {
         params.filter.where = {
-          and: [{markedAsDeleted: null}, {or: orFilter}]
+          and: [{reviewownerid: reviewownerid}, {markedAsDeleted: null}, {or: orFilter}]
         };
       }
     }

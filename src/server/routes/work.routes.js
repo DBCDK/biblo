@@ -4,6 +4,38 @@ import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const WorkRoutes = express.Router();
 
+WorkRoutes.post('/bestil', ensureAuthenticated, fullProfileOnSession, async function(req, res) {
+  let pid = req.body.mediaType;
+  const profile = req.session.passport.user.profile.profile;
+
+  try {
+    const libId = profile.favoriteLibrary.libraryId;
+    const loanerId = profile.favoriteLibrary.loanerId;
+
+    if (!libId || !loanerId) {
+      throw new Error('Missing borrower info!');
+    }
+
+    let orderReponse = (await req.callServiceProvider('placeOrder', {
+      agencyId: libId,
+      pids: pid,
+      loanerId
+    }))[0];
+
+    if (!orderReponse.orderPlaced || orderReponse.errors && orderReponse.errors.length > 0) {
+      throw new Error('The order could not be placed!');
+    }
+
+    res.json(orderReponse);
+  }
+  catch (err) {
+    res.status(400);
+    res.json({
+      errors: [err.message]
+    });
+  }
+});
+
 WorkRoutes.get('/:pid', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let pid = decodeURIComponent(req.params.pid);
   const profile = req.session.passport.user.profile.profile;

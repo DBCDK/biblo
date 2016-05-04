@@ -6,20 +6,22 @@ const WorkTransform = {
   },
 
   requestTransform(event, {pids}, connection) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('openplatform', 'work', {
-      pids: pids,
+    return this.callServiceClient('openplatform', 'search', {
+      // pids: pids,
+      q: `rec.id=${pids}`,
       fields: [
         'collection',
+        'collectionDetails',
         'coverUrlFull',
         'dcTitle',
-        'collection',
         'subjectDBCF',
         'creator',
         'abstract',
         'workType',
         'type',
         'date'
-      ]
+      ],
+      limit: 10
     });
   },
 

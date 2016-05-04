@@ -96,6 +96,11 @@ export class WorkContainer extends React.Component {
           tags={tags}
           coverUrl={coverUrl}
           workType={workType}
+          orderState={this.props.workState.orderState}
+          orderMaterialAction={this.props.workActions.asyncOrderWork}
+          checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
+          checkOrderPolicyResult={this.props.workState.orderPolicy}
+          checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
           />
         {
           this.state.reviewVisible &&
@@ -148,7 +153,8 @@ WorkContainer.propTypes = {
   reviews: React.PropTypes.object,
   ui: React.PropTypes.object,
   worktype: React.PropTypes.string,
-  workActions: React.PropTypes.object.isRequired
+  workActions: React.PropTypes.object.isRequired,
+  workState: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -156,7 +162,8 @@ export default connect(
     return {
       searchState: state.searchReducer,
       reviews: state.reviewReducer,
-      ui: state.uiReducer
+      ui: state.uiReducer,
+      workState: state.workReducer
     };
   },
 

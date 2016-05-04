@@ -60,6 +60,11 @@ export class WorkDetail extends React.Component {
               collection={this.props.collection}
               workTitle={title}
               coverUrl={coverUrl}
+              orderState={this.props.orderState}
+              orderMaterialAction={this.props.orderMaterialAction}
+              checkOrderPolicyAction={this.props.checkOrderPolicyAction}
+              checkOrderPolicyResult={this.props.checkOrderPolicyResult}
+              checkOrderPolicyDone={this.props.checkOrderPolicyDone}
             />
             <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} />
           </div>
@@ -89,7 +94,16 @@ WorkDetail.propTypes = {
   title: React.PropTypes.string.isRequired,
   creator: React.PropTypes.string.isRequired,
   tags: React.PropTypes.array.isRequired,
-  year: React.PropTypes.string.isRequired,
+  year: React.PropTypes.string,
   displayType: React.PropTypes.string.isRequired,
-  coverUrl: React.PropTypes.string.isRequired
+  coverUrl: React.PropTypes.string.isRequired,
+  orderState: React.PropTypes.number,
+  orderMaterialAction: React.PropTypes.func.isRequired,
+  checkOrderPolicyAction: React.PropTypes.func.isRequired,
+  checkOrderPolicyResult: React.PropTypes.object,
+  checkOrderPolicyDone: React.PropTypes.bool
+};
+
+WorkDetail.defaultProps = {
+  year: ''
 };

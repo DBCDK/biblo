@@ -11,6 +11,16 @@ const CheckOrderPolicyTransform = {
   },
 
   requestTransform(event, request, connection) {
+    if (!request.agencyId) {
+      try {
+        const profile = connection.request.session.passport.user.profile.profile;
+        request.agencyId = profile.favoriteLibrary.libraryId;
+      }
+      catch (err) {
+        throw new Error('Could not find library id in session or request');
+      }
+    }
+
     return this.checkOrderPolicy({
       agencyId: request.agencyId,
       pids: request.pids,

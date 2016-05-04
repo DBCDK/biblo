@@ -5,25 +5,23 @@
     padding: 10px 0;
   }
 
-  .modal-window--collection-item--container > label {
-    vertical-align: baseline;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    display: block;
-  }
-
   .modal-window--collection-item--container > label:hover {
     background-color: #cac8f5;
     color: #FFF;
   }
 
   .modal-window--collection-item--container > label {
+    vertical-align: baseline;
+    padding: 10px;
+    cursor: pointer;
+    display: block;
     border-top: 1px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
-    padding-left: 10px;
-    padding-right: 10px;
     margin: 0;
+    color: #2a23a7;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 10pt;
   }
 
   .modal-window--collection-item--container:first-child > label {

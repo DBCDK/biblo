@@ -4,6 +4,11 @@ const CreateReviewTransform = {
   },
 
   upsertContent(query, user) {
+
+    if (query.imageRemoveId) {
+      this.callServiceClient('community', 'removeImage', {imageId: query.imageRemoveId});
+    }
+
     return this.callServiceClient('community', 'createReview', {
       id: query.id || null,
       libraryid: query.libraryid,
@@ -29,7 +34,6 @@ const CreateReviewTransform = {
         }).then(() => {
           return response;
         });
-
         // video is attached on community server
       }
       return response;

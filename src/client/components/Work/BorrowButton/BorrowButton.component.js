@@ -28,7 +28,7 @@ export default class BorrowButton extends React.Component {
       this.props.orderMaterialAction(this.state.selectedPid);
     }
   }
-  
+
   renderOrderForm(collectionsObject) {
     return (
       <form action={ORDER_POST_URL} method="POST" onSubmit={(e) => this.submitOrderForm(e)}>
@@ -41,7 +41,7 @@ export default class BorrowButton extends React.Component {
                 <span key={collectionItem.pid} className="modal-window--collection-item--container">
                       <input type="radio" name="mediaType" value={collectionItem.pid}
                              id={`${collectionItem.workType}${collectionItem.pid}`}
-                             onChange={(e) => this.setState({selectedPid: e.target.value})} />
+                             onChange={(e) => this.setState({selectedPid: e.target.value})}/>
                       <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>{collectionItem.type}</label>
                     </span>
               );
@@ -49,7 +49,7 @@ export default class BorrowButton extends React.Component {
           }
         </div>
         <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
-        
+
       </form>
     );
   }
@@ -105,7 +105,7 @@ export default class BorrowButton extends React.Component {
           </div>
 
           {modalContent}
-          
+
           <p className="modal-window--message-under-submit-button">
             Du får besked fra dit eget bibliotek, når bogen er klar til dig.
           </p>

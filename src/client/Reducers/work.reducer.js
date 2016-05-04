@@ -30,7 +30,7 @@ export default function workReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         orderState: 1
       });
-    
+
     case types.WORK_HAS_ORDERED:
       let newOrderState = 2;
 

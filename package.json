@@ -106,6 +106,7 @@
     "sass-loader": "3.2.0",
     "sass-mediaqueries": "^1.6.1",
     "socketcluster": "^4.3.5",
+    "superagent": "^1.8.3",
     "susy": "^2.2.11",
     "svg-inline-loader": "^0.4.0",
     "svg-sprite-loader": "0.0.18",

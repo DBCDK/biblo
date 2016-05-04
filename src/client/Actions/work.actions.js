@@ -30,7 +30,7 @@ export function asyncOrderWork(pid) {
       .post('/materiale/bestil')
       .send({mediaType: pid})
       .set('Accept', 'application/json')
-      .end(function(err, res){
+      .end((err, res) => {
         dispatch(orderWork(res.body.orderPlaced, res.body.errors || []));
       });
   };

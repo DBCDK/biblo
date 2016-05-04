@@ -1,5 +1,7 @@
+// Libs
 import React from 'react';
 
+// Components
 import SearchContainer from '../SearchBox/SearchContainer.component.js';
 import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
 import NavbarLink from './NavbarLink.component.js';
@@ -7,13 +9,18 @@ import NavbarIconLink from './NavbarIconLink.component.js';
 import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
+import Icon from '../General/Icon/Icon.component';
+import FeaturePreview from '../General/FeaturePreview/FeaturePreview.component';
+
+// Constants
 import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
-import Icon from '../General/Icon/Icon.component';
+// SVG's
 import bibloSvg from './svg/biblo_negative.svg';
 import profileSvg from '../General/Icon/svg/knap-ikoner-small/profile.svg';
 import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 
+// Styles
 import './styling/navbar.scss';
 
 let image = {
@@ -67,12 +74,12 @@ export default class NavbarContainer extends React.Component {
   }
 
   renderSearch() {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('debugMode') !== null) {
-      return (<NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={searchSvg}
-                              onClick={() => this.toggleSearchBox()}/>);
-    }
-
-    return '';
+    return (
+      <FeaturePreview>
+        <NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={searchSvg}
+                        onClick={() => this.toggleSearchBox()}/>
+      </FeaturePreview>
+    );
   }
 
   renderProfileLinks() {

@@ -13,18 +13,29 @@ export default class ModalWindow extends React.Component {
   }
 
   render() {
+    let title = '';
+
+    if (this.props.title) {
+      title = (<h2>{this.props.title}</h2>);
+    }
+
     return (
       <div className="modal-window--overlay" onClick={this.props.onClose}>
         <div className="modal-window--window" onClick={(e) => {
           e.stopPropagation();
         }}>
-          <div className="modal-window--content">
-            <div className="modal-window--close-button--container">
+          <div className="modal-window--overhead-title">
+            {title}
+          </div>
+          <div className="modal-window--content-container">
+            <div className="modal-window--content">
+              <div className="modal-window--close-button--container">
               <span onClick={this.props.onClose} className="modal-window--close-button">
                 <Icon glyph={closeSvg} />
               </span>
+              </div>
+              {this.props.children}
             </div>
-            {this.props.children}
           </div>
         </div>
       </div>
@@ -34,5 +45,6 @@ export default class ModalWindow extends React.Component {
 
 ModalWindow.propTypes = {
   children: PropTypes.any.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string
 };

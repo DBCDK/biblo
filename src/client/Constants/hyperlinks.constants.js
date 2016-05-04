@@ -23,3 +23,6 @@ export const OM_BIBLIO_PAGE = '/indhold/om-biblo';
 export const SOS = '/indhold/spoergsmaal-og-svar';
 export const SIKKERHED_PAA_BIBLO = '/indhold/sikkerhed-paa-biblo';
 export const CONTACT = '/indhold/kontakt';
+
+// Links for order
+export const ORDER_POST_URL = '/materiale/bestil';

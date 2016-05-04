@@ -5,7 +5,9 @@ import './WorkDetail.component.scss';
 import {TagList} from '../TagList/TagList.component.js';
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
 import ReviewButton from '../../Review/ReviewButton.js';
+import BorrowButton from '../BorrowButton/BorrowButton.component';
 import Icon from '../../General/Icon/Icon.component.js';
+
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
 import audiobookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game.svg';
@@ -53,7 +55,17 @@ export class WorkDetail extends React.Component {
           <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
-            <a className='work-detail--order-button'>Lån</a>
+            <BorrowButton
+              collectionDetails={this.props.collectionDetails}
+              collection={this.props.collection}
+              workTitle={title}
+              coverUrl={coverUrl}
+              orderState={this.props.orderState}
+              orderMaterialAction={this.props.orderMaterialAction}
+              checkOrderPolicyAction={this.props.checkOrderPolicyAction}
+              checkOrderPolicyResult={this.props.checkOrderPolicyResult}
+              checkOrderPolicyDone={this.props.checkOrderPolicyDone}
+            />
             <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} />
           </div>
         </div>
@@ -74,13 +86,24 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
+  collection: React.PropTypes.array.isRequired,
+  collectionDetails: React.PropTypes.array.isRequired,
   editText: React.PropTypes.string.isRequired,
   toggleReview: React.PropTypes.func.isRequired,
   abstract: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   creator: React.PropTypes.string.isRequired,
   tags: React.PropTypes.array.isRequired,
-  year: React.PropTypes.string.isRequired,
+  year: React.PropTypes.string,
   displayType: React.PropTypes.string.isRequired,
-  coverUrl: React.PropTypes.string.isRequired
+  coverUrl: React.PropTypes.string.isRequired,
+  orderState: React.PropTypes.number,
+  orderMaterialAction: React.PropTypes.func.isRequired,
+  checkOrderPolicyAction: React.PropTypes.func.isRequired,
+  checkOrderPolicyResult: React.PropTypes.object,
+  checkOrderPolicyDone: React.PropTypes.bool
+};
+
+WorkDetail.defaultProps = {
+  year: ''
 };

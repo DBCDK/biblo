@@ -12,22 +12,25 @@
 }
 
 .modal-window--window {
-  $padding: 10px;
-  padding: 10px $padding $padding $padding;
   position: fixed;
-  background: white;
   z-index: 201;
-  border-radius: $padding;
   max-height: 80vh;
   width: 90vw;
   left: 3vw;
   top: 5vh;
 
   @include min-screen($tablet + 1) {
-    top: 10vh;
-    left: 30vw;
-    width: 40vw;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 630px;
   }
+}
+
+.modal-window--content-container {
+  border: 2px solid #b6b6b6;
+  background: white;
+  $padding: 10px;
+  padding: 10px $padding $padding $padding;
 }
 
 .modal-window--content {
@@ -41,8 +44,17 @@
 }
 
 .modal-window--close-button--container {
-  top: 10px;
+  top: 50px;
   right: 12px;
   position: absolute;
   cursor: pointer;
+}
+
+.modal-window--overhead-title h2 {
+  color: white !important;
+  text-align: center;
+  bottom: 0;
+  margin-bottom: 10px !important;
+  font-size: 20pt;
+  font-weight: 500;
 }

@@ -9,7 +9,7 @@ export default express.Router().post(['/:event'], (req, res) => {
   const query = req.body[0];
 
   // very long timeout
-  let prom = res.callServiceProvider(event, query);
+  let prom = req.callServiceProvider(event, query);
   prom = Array.isArray(prom) ? prom : [prom];
   Promise.all(prom).then((response) => {
     res.send(JSON.stringify(response));

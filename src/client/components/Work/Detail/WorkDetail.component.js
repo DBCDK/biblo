@@ -14,7 +14,6 @@ import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game.svg'
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
-import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 
 const displayTypeSvgs = {
   book: bookSvg,
@@ -33,7 +32,8 @@ export class WorkDetail extends React.Component {
     const creator = this.props.creator;
     const year = this.props.year;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
-    const materialTypes = ['ebook', 'audiobook', 'book'];
+
+    const materialTypes = [];
 
     const materialTypeElements = materialTypes.map((materialType, i) => (<li key={i}><MaterialButton materialType={materialType} active={true} /></li>));
 
@@ -57,7 +57,6 @@ export class WorkDetail extends React.Component {
           </div>
 
           <TagList tags={tags}/>
-          <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
             <BorrowButton
@@ -91,7 +90,6 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
-  collection: React.PropTypes.array.isRequired,
   collectionDetails: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   editText: React.PropTypes.string.isRequired,
@@ -102,6 +100,7 @@ WorkDetail.propTypes = {
   tags: React.PropTypes.array.isRequired,
   year: React.PropTypes.string,
   displayType: React.PropTypes.string.isRequired,
+  collection: React.PropTypes.array.isRequired,
   coverUrl: React.PropTypes.string.isRequired,
   orderState: React.PropTypes.number,
   orderMaterialAction: React.PropTypes.func.isRequired,

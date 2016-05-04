@@ -10,6 +10,8 @@ const WorkTransform = {
       // pids: pids,
       q: `rec.id=${pids}`,
       fields: [
+        'coverUrlFull',
+        'dcTitle',
         'collection',
         'collectionDetails',
         'coverUrlFull',

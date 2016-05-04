@@ -1,6 +1,7 @@
 import React from 'react';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import {ORDER_POST_URL} from '../../../Constants/hyperlinks.constants';
+import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 
 import './BorrowButton.component.scss';
 
@@ -67,29 +68,40 @@ export default class BorrowButton extends React.Component {
 
     let modalContent = '';
 
+    // Currently ordering work
     if (orderState === 1) {
       modalContent = (
         <p>Bestiller materialet! Vent venligst!</p>
       );
     }
+    // The order has gone through
     else if (orderState === 2) {
       modalContent = (
-        <p>Din bestilling er blevet sendt til dit valgte bibliotek!</p>
+        <div>
+          <p>Din bestilling er blevet sendt til dit valgte bibliotek!</p>
+          <RoundedButton clickFunction={onClose} buttonText="OK" compact={false} />
+          <p className="modal-window--message-under-submit-button">
+            Du får besked fra dit eget bibliotek, når bogen er klar til dig.
+          </p>
+        </div>
       );
     }
-    else if (orderState === 3) {
+    // An error occured during order or
+    // CheckOrderPolicy says you can't borrow this work
+    else if (orderState === 3 || checkOrderPolicyDone && collectionObjectSize <= 0) {
       modalContent = (
-        <p>Der skete en fejl under bestillingen af dette materiale! Prøv igen senere!</p>
+        <div>
+          <p>Du kan desværre ikke låne denne bog.</p>
+          <p>Prøv at spørge på dit eget bibliotek, om de kan hjælpe dig med at låne den på en anden måde.</p>
+          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false} />
+        </div>
       );
     }
-    else if (checkOrderPolicyDone && collectionObjectSize <= 0) {
-      modalContent = (
-        <p>Du kan desværre ikke låne dette materiale til dit valgte bibliotek.</p>
-      );
-    }
+    // Show options filtered to unique types.
     else if (collectionObjectSize > 0) {
       modalContent = this.renderOrderForm(collectionsObject);
     }
+    // CheckOrderPolicy has not returned results yet.
     else {
       modalContent = (
         <p>Vent venligst mens vi checker hvilke udgaver du kan låne.</p>
@@ -105,10 +117,6 @@ export default class BorrowButton extends React.Component {
           </div>
 
           {modalContent}
-
-          <p className="modal-window--message-under-submit-button">
-            Du får besked fra dit eget bibliotek, når bogen er klar til dig.
-          </p>
         </div>
       </ModalWindow>
     );

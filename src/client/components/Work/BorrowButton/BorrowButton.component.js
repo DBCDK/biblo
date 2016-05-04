@@ -1,9 +1,37 @@
 import React from 'react';
-import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import {ORDER_POST_URL} from '../../../Constants/hyperlinks.constants';
+
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import Icon from '../../General/Icon/Icon.component';
+
+import animalpaw from '../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
+import audiobook from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
+import book from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
+import ebook from '../../General/Icon/svg/Materialikon-kvadrat small/ebook_no_border.svg';
+import film from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
+import flag from '../../General/Icon/svg/Materialikon-kvadrat small/flag.svg';
+import game from '../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
+import group from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
+import music from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
+import photo from '../../General/Icon/svg/Materialikon-kvadrat small/photo.svg';
+import smiley from '../../General/Icon/svg/Materialikon-kvadrat small/smiley.svg';
 
 import './BorrowButton.component.scss';
+
+const materialSvgs = {
+  animalpaw,
+  audiobook,
+  book,
+  ebook,
+  film,
+  flag,
+  game,
+  group,
+  music,
+  photo,
+  smiley
+};
 
 export default class BorrowButton extends React.Component {
   constructor() {
@@ -40,17 +68,22 @@ export default class BorrowButton extends React.Component {
               let collectionItem = collectionsObject[collectionItemKey];
               return (
                 <span key={collectionItem.pid} className="modal-window--collection-item--container">
-                      <input type="radio" name="mediaType" value={collectionItem.pid}
-                             id={`${collectionItem.workType}${collectionItem.pid}`}
-                             onChange={(e) => this.setState({selectedPid: e.target.value})}/>
-                      <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>{collectionItem.type}</label>
-                    </span>
+                  <input type="radio" name="mediaType" value={collectionItem.pid}
+                         id={`${collectionItem.workType}${collectionItem.pid}`}
+                         onChange={(e) => this.setState({selectedPid: e.target.value})}/>
+                  <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
+                    <Icon glyph={materialSvgs[collectionItem.workType]} width={25}
+                          height={25}/> {collectionItem.type}
+                  </label>
+                </span>
               );
             })
           }
         </div>
         <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
-
+        <p className="modal-window--message-under-submit-button">
+          Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
+        </p>
       </form>
     );
   }
@@ -78,11 +111,9 @@ export default class BorrowButton extends React.Component {
     else if (orderState === 2) {
       modalContent = (
         <div>
-          <p>Din bestilling er blevet sendt til dit valgte bibliotek!</p>
-          <RoundedButton clickFunction={onClose} buttonText="OK" compact={false} />
-          <p className="modal-window--message-under-submit-button">
-            Du får besked fra dit eget bibliotek, når bogen er klar til dig.
-          </p>
+          <p>Din bestilling er sendt.</p>
+          <p>Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.</p>
+          <RoundedButton clickFunction={onClose} buttonText="PERFEKT" compact={false}/>
         </div>
       );
     }
@@ -93,7 +124,7 @@ export default class BorrowButton extends React.Component {
         <div>
           <p>Du kan desværre ikke låne denne bog.</p>
           <p>Prøv at spørge på dit eget bibliotek, om de kan hjælpe dig med at låne den på en anden måde.</p>
-          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false} />
+          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false}/>
         </div>
       );
     }

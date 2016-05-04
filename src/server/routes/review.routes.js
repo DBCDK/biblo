@@ -116,6 +116,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
       id: req.body.id,
       pid: req.body.pid,
       worktype: req.body.worktype,
+      imageRemoveId: req.body.imageRemoveId,
       content: sanitize(req.body.content, {allowedTags: []}) || ' ',
       rating: req.body.rating,
       image: image,

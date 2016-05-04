@@ -78,6 +78,7 @@ function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commen
   });
 }
 
+
 ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let id = req.params.id;
   let limit = 1; // we only expect one here
@@ -99,7 +100,6 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
     });
   });
 });
-
 
 ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
   upload(req, res, function (err) {

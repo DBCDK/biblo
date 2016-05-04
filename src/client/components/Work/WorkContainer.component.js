@@ -45,23 +45,33 @@ export class WorkContainer extends React.Component {
   }
 
   toggleReview() {
-    if (!this.getProfile().quarantined) {
-      if (this.getWorkAndReviews().ownReviewId) {
-        let reviewId = this.getWorkAndReviews().ownReviewId;
-        window.location = '/anmeldelse/' + reviewId;
+    let profile = this.getProfile();
+    if (profile.userIsLoggedIn) {
+      if (!profile.quarantined) {
+        if (this.getWorkAndReviews().ownReviewId) {
+          let reviewId = this.getWorkAndReviews().ownReviewId;
+          window.location = '/anmeldelse/' + reviewId;
+        }
+        else {
+          this.setState({
+            reviewVisible: !this.state.reviewVisible
+          });
+        }
       }
       else {
         this.setState({
-          reviewVisible: !this.state.reviewVisible
+          reviewVisible: false,
+          errorMessage: 'Du er i karantæne lige nu'
         });
       }
     }
     else {
-      this.setState({
-        reviewVisible: false,
-        errorMessage: 'Du er i karantæne lige nu'
-      });
+      window.location = '/login?destination=' + encodeURIComponent(this.getCurrentLocation());
     }
+  }
+
+  getCurrentLocation() {
+    return window.location.pathname + window.location.search;
   }
 
   render() {
@@ -77,8 +87,8 @@ export class WorkContainer extends React.Component {
     let profile = this.getProfile();
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
-         {this.props.ui.modal.isOpen &&
-         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
+        {this.props.ui.modal.isOpen &&
+        <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
             this.props.ui.modal.children
           }
@@ -88,6 +98,7 @@ export class WorkContainer extends React.Component {
         <WorkDetail
           collection={work.collection}
           collectionDetails={work.collectionDetails}
+          profile={this.getProfile()}
           editText={this.getEditText()}
           toggleReview={this.toggleReview.bind(this)}
           title={workAndReviews.work.dcTitle[0]}
@@ -102,7 +113,7 @@ export class WorkContainer extends React.Component {
           checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
           checkOrderPolicyResult={this.props.workState.orderPolicy}
           checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
-          />
+        />
         {
           this.state.reviewVisible &&
           <Review

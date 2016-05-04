@@ -40,6 +40,11 @@ export class WorkDetail extends React.Component {
     const abstract = this.props.abstract;
 
     const tags = this.props.tags;
+    const profile = this.props.profile;
+
+    let review =(
+        <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />
+    );
 
     return (
       <div className='work-detail'>
@@ -66,7 +71,7 @@ export class WorkDetail extends React.Component {
               checkOrderPolicyResult={this.props.checkOrderPolicyResult}
               checkOrderPolicyDone={this.props.checkOrderPolicyDone}
             />
-            <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} />
+            {review}
           </div>
         </div>
 
@@ -88,6 +93,7 @@ WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
   collection: React.PropTypes.array.isRequired,
   collectionDetails: React.PropTypes.array.isRequired,
+  profile: React.PropTypes.object.isRequired,
   editText: React.PropTypes.string.isRequired,
   toggleReview: React.PropTypes.func.isRequired,
   abstract: React.PropTypes.string.isRequired,

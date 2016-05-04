@@ -23,8 +23,6 @@ import videoSvg from '../General/Icon/svg/functions/video.svg';
 import cameraSvg from '../General/Icon/svg/functions/camera.svg';
 import spinner from '../General/Icon/svg/spinners/loading-spin.svg';
 import close from '../General/Icon/svg/functions/close.svg';
-
-
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
@@ -252,7 +250,6 @@ export default class Review extends React.Component {
 
   onSubmit(evt) {
     evt.preventDefault();
-
     if (this.validate()) {
       if (XMLHttpRequest && FormData) {
         this.setState({isLoading: true});
@@ -309,7 +306,6 @@ export default class Review extends React.Component {
       created
       } = this.state;
 
-
     const errorObj = {};
     if (!isSiteOpen()) {
       errors = [];
@@ -361,14 +357,13 @@ export default class Review extends React.Component {
       );
     }
 
-    if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
+    if (this.state.isEditing &&(!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile)) {
       return (
         <div className='content-add'>
           <Login>Log ind for at skrive en anmeldelse</Login>
         </div>
       );
     }
-
 
     let libraryId = '150013-palle';
     if (this.props.profile.favoriteLibrary && this.props.profile.favoriteLibrary.libraryId) {

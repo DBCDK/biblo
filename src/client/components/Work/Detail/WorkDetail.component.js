@@ -31,7 +31,10 @@ export class WorkDetail extends React.Component {
     const creator = this.props.creator;
     const year = this.props.year;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
-    const materialTypes = ['ebook', 'audiobook', 'book'];
+
+    const collection = this.props.collection;
+
+    const materialTypes = [];
 
     const materialTypeElements = materialTypes.map((materialType, i) => (<li key={i}><MaterialButton materialType={materialType} active={true} /></li>));
 
@@ -50,7 +53,6 @@ export class WorkDetail extends React.Component {
           </div>
 
           <TagList tags={tags}/>
-          <a className='work-detail--show-more-button'><Icon glyph={plusSvg} />Vis mere</a>
 
           <div className='work-detail--action-buttons'>
             <a className='work-detail--order-button'>Lån</a>
@@ -82,5 +84,6 @@ WorkDetail.propTypes = {
   tags: React.PropTypes.array.isRequired,
   year: React.PropTypes.string.isRequired,
   displayType: React.PropTypes.string.isRequired,
+  collection: React.PropTypes.array.isRequired,
   coverUrl: React.PropTypes.string.isRequired
 };

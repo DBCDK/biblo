@@ -22,14 +22,13 @@ import pencilSvg from '../General/Icon/svg/functions/pencil.svg';
 import videoSvg from '../General/Icon/svg/functions/video.svg';
 import cameraSvg from '../General/Icon/svg/functions/camera.svg';
 import spinner from '../General/Icon/svg/spinners/loading-spin.svg';
-
+import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
-
 
     this.state = {
       profile: props.profile,
@@ -47,11 +46,14 @@ export default class Review extends React.Component {
       isEditing: props.isEditing || false,
       attachment: {
         image: props.image || null,
-        video: props.video || null
+        video: null
       },
+      imageId: props.imageId,
+      imageRemoveId: null,
       isLoading: false
     };
 
+    this.clearImage = this.clearImage.bind(this);
     this.submitReviewFlag = this.submitReviewFlag.bind(this);
     this.likeReview = this.likeReview.bind(this);
     this.unlikeReview = this.unlikeReview.bind(this);
@@ -104,7 +106,6 @@ export default class Review extends React.Component {
     );
     this.props.uiActions.openModalWindow(dialog);
   }
-
 
   validate() {
     let errors = [];
@@ -233,16 +234,22 @@ export default class Review extends React.Component {
 
     if (this.refs.fileInput.value) {
       this.refs.fileInput.value = null;
-      this.setState({attachment: attachment});
+      this.setState({
+        attachment: attachment,
+        imageRemoveId: null
+      });
     }
     else {
-      this.setState({attachment: attachment, imageRemoved: true});
+      this.setState({
+        attachment: attachment,
+        imageRemoveId: this.state.imageId
+      });
     }
+    return true;
   }
 
   onSubmit(evt) {
     evt.preventDefault();
-
     if (this.validate()) {
       if (XMLHttpRequest && FormData) {
         this.setState({isLoading: true});
@@ -350,15 +357,13 @@ export default class Review extends React.Component {
       );
     }
 
-
-    if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
+    if (this.state.isEditing &&(!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile)) {
       return (
         <div className='content-add'>
           <Login>Log ind for at skrive en anmeldelse</Login>
         </div>
       );
     }
-
 
     let libraryId = '150013-palle';
     if (this.props.profile.favoriteLibrary && this.props.profile.favoriteLibrary.libraryId) {
@@ -422,6 +427,7 @@ export default class Review extends React.Component {
                              onChange={(e) => this.setState({content: e.target.value})}
                    />
                   <input type="hidden" name="id" value={this.state.id}/>
+                  <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId}/>
                   <input type="hidden" name="pid" value={this.state.pid}/>
                   <input type="hidden" name="worktype" value={this.state.worktype}/>
                   <input type="hidden" name="rating" value={this.state.rating}/>
@@ -549,5 +555,6 @@ Review.propTypes = {
   modified: React.PropTypes.any,
   created: React.PropTypes.any,
   abort: React.PropTypes.any,
-  parentId: React.PropTypes.any
+  parentId: React.PropTypes.any,
+  imageId: React.PropTypes.number
 };

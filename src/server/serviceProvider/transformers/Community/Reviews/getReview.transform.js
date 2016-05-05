@@ -51,7 +51,7 @@ const GetReviewTransform = {
         }
       }
       else {
-        params.filter.where = {id: id};
+        params.filter.where = {markedAsDeleted: null, id: id};
       }
 
       Promise.all([

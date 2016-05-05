@@ -78,6 +78,7 @@ function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commen
   });
 }
 
+
 ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let id = req.params.id;
   let limit = 1; // we only expect one here
@@ -100,7 +101,6 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
   });
 });
 
-
 ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
   upload(req, res, function (err) {
     if (err) {
@@ -116,6 +116,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
       id: req.body.id,
       pid: req.body.pid,
       worktype: req.body.worktype,
+      imageRemoveId: req.body.imageRemoveId,
       content: sanitize(req.body.content, {allowedTags: []}) || ' ',
       rating: req.body.rating,
       image: image,

@@ -5,12 +5,11 @@ import {isEmpty} from 'lodash';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
-import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
 import DisplayNameField from './DisplayNameField.component';
 import InputField from '../../General/InputField/InputField.component';
-import SearchDropDown from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
 import Message from '../../General/Message/Message.component';
+import ProfileLibraryInfo from './ProfileLibraryInfo.component';
 
 import 'nodep-date-input-polyfill-danish';
 import './profileform.component.scss';
@@ -60,68 +59,34 @@ export default class ProfileForm extends React.Component {
     const errorObj = {};
     this.props.errors.forEach((error) => {
       errorObj[error.field] = (
-        <Message type='error' >
-          <span className={error.field} >{error.errorMessage}</span>
+        <Message type='error'>
+          <span className={error.field}>{error.errorMessage}</span>
         </Message>
       );
     });
 
     let disabled = false;
-    let submitArea = <RoundedButtonSubmit buttonText="OK" />;
+    let submitArea = <RoundedButtonSubmit buttonText="OK"/>;
 
     if (this.props.submitState === 'SUBMITTING') {
       disabled = true;
       submitArea =
-        <ProgressBar completed={this.props.submitProgress} height={'35px'} />;
+        <ProgressBar completed={this.props.submitProgress} height={'35px'}/>;
     }
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;
       submitArea = (
-        <ProgressBar completed={this.props.submitProgress} height={'35px'} >
-          <p className="progressbar--message" >Behandler</p>
+        <ProgressBar completed={this.props.submitProgress} height={'35px'}>
+          <p className="progressbar--message">Behandler</p>
         </ProgressBar>
       );
     }
 
-    let libraryDescription = '';
-
-    if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
-      libraryDescription = (
-        <div>
-          {this.props.favoriteLibrary.libraryName} <br />
-          {this.props.favoriteLibrary.libraryAddress} <br />
-          <RoundedButton clickFunction={() => this.props.unselectLibraryFunction()}
-                         buttonText="Klik her for at vælge et andet bibliotek" compact={true} />
-        </div>
-      );
-    }
-
-    let searchField = null;
-    if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
-      searchField = (
-        <div className="search-area" >
-          <InputField
-            defaultValue={this.props.search}
-            error={errorObj.search}
-            onChangeFunc={this.props.searchAction}
-            type="text"
-            name="search"
-            title="Vælg dit bibliotek"
-            placeholder="Søg efter dit bibliotek her"
-            autocomplete="off"
-            disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
-            required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
-          />
-          <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements} />
-        </div>
-      );
-    }
-
     return (
-      <div className={this.props.errors.length > 0 && ' shakeit' || ''} >
-        <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')} >
-          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form" >
-            <div className={'profile-image-upload'} >
+      <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
+        <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')}>
+          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form">
+            <div className={'profile-image-upload'}>
               <DroppableImageField
                 disabled={disabled}
                 imageSrc={this.props.profileImageSrc}
@@ -134,7 +99,7 @@ export default class ProfileForm extends React.Component {
 
             {errorObj.general || ''}
 
-            <div className="padded-area" >
+            <div className="padded-area">
               <DisplayNameField
                 defaultValue={this.props.displayName}
                 errors={errorObj}
@@ -143,7 +108,7 @@ export default class ProfileForm extends React.Component {
                 displayNameExists={this.props.displayNameExists}
               />
 
-              <div className="description--form-area" >
+              <div className="description--form-area">
                 <label>
                   <p>
                     <strong>Beskriv dig selv</strong>
@@ -200,45 +165,19 @@ export default class ProfileForm extends React.Component {
                 min={new Date()}
               />
 
-              <div className="library--form-area" >
-                <h3>Dit bibliotek</h3>
-                {errorObj.library || ''}
 
-                <div className="selected-library-description" >
-                  {libraryDescription}
-                </div>
+              <ProfileLibraryInfo
+                errorObj={errorObj}
+                favoriteLibrary={this.props.favoriteLibrary}
+                unselectLibraryFunction={this.props.unselectLibraryFunction}
+                search={this.props.search}
+                searchAction={this.props.searchAction}
+                searchElements={this.props.searchElements}
+                libraryId={this.state.libraryId}
+                loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
+                pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})} />
 
-                {searchField}
-
-                <div className='hidden' >
-                  <input
-                    type='hidden'
-                    name='libraryId'
-                    value={this.state.libraryId}
-                    ref="libraryId"
-                  />
-                </div>
-
-                <InputField
-                  error={errorObj.loanerId}
-                  onChangeFunc={(e) => this.setState({loanerId: e.target.value})}
-                  type="text"
-                  name="loanerId"
-                  title="Dit lånernummer"
-                  placeholder="Lånernummer"
-                />
-
-                <InputField
-                  error={errorObj.pincode}
-                  onChangeFunc={(e) => this.setState({pincode: e.target.value})}
-                  type="text"
-                  name="pincode"
-                  title="Din pinkode"
-                  placeholder="Pinkode"
-                />
-              </div>
-
-              <div className={'profile-form-submit-button'} >
+              <div className={'profile-form-submit-button'}>
                 {submitArea}
               </div>
             </div>

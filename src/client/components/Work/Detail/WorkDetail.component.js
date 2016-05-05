@@ -69,6 +69,11 @@ export class WorkDetail extends React.Component {
               checkOrderPolicyAction={this.props.checkOrderPolicyAction}
               checkOrderPolicyResult={this.props.checkOrderPolicyResult}
               checkOrderPolicyDone={this.props.checkOrderPolicyDone}
+              saveProfileAction={this.props.saveProfileAction}
+              unselectLibraryFunction={this.props.unselectLibraryFunction}
+              searchForLibraryAction={this.props.searchForLibraryAction}
+              librarySearchResults={this.props.librarySearchResults}
+              profile={this.props.profile}
             />
             {review}
           </div>
@@ -106,7 +111,11 @@ WorkDetail.propTypes = {
   orderMaterialAction: React.PropTypes.func.isRequired,
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
-  checkOrderPolicyDone: React.PropTypes.bool
+  checkOrderPolicyDone: React.PropTypes.bool,
+  unselectLibraryFunction: React.PropTypes.func.isRequired,
+  searchForLibraryAction: React.PropTypes.func.isRequired,
+  saveProfileAction: React.PropTypes.func.isRequired,
+  librarySearchResults: React.PropTypes.array.isRequired
 };
 
 WorkDetail.defaultProps = {

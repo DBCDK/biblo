@@ -75,8 +75,6 @@ if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length >
       initialState.errors.push(error);
     });
   }
-
-
 }
 
 export default function profileReducer(state = initialState, action = {}) {
@@ -144,7 +142,12 @@ export default function profileReducer(state = initialState, action = {}) {
         email: action.email,
         errors: action.errors,
         fullName: action.fullName,
-        phone: action.phone
+        phone: action.phone,
+        favoriteLibrary: assignToEmpty(state.favoriteLibrary, {
+          libraryId: action.libraryId,
+          loanerId: action.loanerId,
+          pincode: action.pincode
+        })
       });
 
     default:

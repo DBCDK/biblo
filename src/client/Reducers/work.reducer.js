@@ -36,6 +36,10 @@ export default function workReducer(state = initialState, action = {}) {
 
       if (action.errors && action.errors.length > 0) {
         newOrderState = 3;
+
+        if (action.errors[0] === 'borrower_not_found') {
+          newOrderState = 4;
+        }
       }
 
       return assignToEmpty(state, {

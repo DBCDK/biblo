@@ -17,6 +17,8 @@ import * as likeActions from '../../Actions/like.actions.js';
 import * as uiActions from '../../Actions/ui.actions.js';
 import * as searchActions from '../../Actions/search.actions';
 import * as workActions from '../../Actions/work.actions';
+import * as EntitySuggestLibraryActions from '../../Actions/entitySuggetLibrary.actions';
+import * as ProfileActions from '../../Actions/profile.actions';
 
 export class WorkContainer extends React.Component {
 
@@ -33,7 +35,9 @@ export class WorkContainer extends React.Component {
 
   getProfile() {
     let profile = this.getWorkAndReviews().profile;
-    profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
+    if (profile) {
+      profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
+    }
     return profile;
   }
 
@@ -74,6 +78,12 @@ export class WorkContainer extends React.Component {
     return window.location.pathname + window.location.search;
   }
 
+  librarySearch(e) {
+    if (e && e.target && e.target.value) {
+      this.props.libraryActions.asyncFindSuggestedLibraryAction(e.target.value);
+    }
+  }
+
   render() {
     const workAndReviews = this.getWorkAndReviews();
     const work = workAndReviews.work;
@@ -85,6 +95,14 @@ export class WorkContainer extends React.Component {
     const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
 
     let profile = this.getProfile();
+
+    let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
+      return {
+        text: [suggestion.navn, suggestion.by].join(' i '),
+        clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
+      };
+    });
+
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         {this.props.ui.modal.isOpen &&
@@ -98,7 +116,6 @@ export class WorkContainer extends React.Component {
         <WorkDetail
           collection={work.collection}
           collectionDetails={work.collectionDetails}
-          profile={this.getProfile()}
           editText={this.getEditText()}
           toggleReview={this.toggleReview.bind(this)}
           title={workAndReviews.work.dcTitle[0]}
@@ -113,7 +130,12 @@ export class WorkContainer extends React.Component {
           checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
           checkOrderPolicyResult={this.props.workState.orderPolicy}
           checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
-        />
+          searchForLibraryAction={this.librarySearch.bind(this)}
+          librarySearchResults={librarySuggestions}
+          profile={this.props.profile}
+          unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
+          saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
+          />
         {
           this.state.reviewVisible &&
           <Review
@@ -166,7 +188,11 @@ WorkContainer.propTypes = {
   ui: React.PropTypes.object,
   worktype: React.PropTypes.string,
   workActions: React.PropTypes.object.isRequired,
-  workState: React.PropTypes.object.isRequired
+  workState: React.PropTypes.object.isRequired,
+  profile: React.PropTypes.object,
+  entitySuggest: React.PropTypes.object.isRequired,
+  libraryActions: React.PropTypes.object.isRequired,
+  profileActions: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -175,7 +201,9 @@ export default connect(
       searchState: state.searchReducer,
       reviews: state.reviewReducer,
       ui: state.uiReducer,
-      workState: state.workReducer
+      workState: state.workReducer,
+      profile: state.profileReducer,
+      entitySuggest: state.entitySuggestReducer
     };
   },
 
@@ -186,7 +214,9 @@ export default connect(
       actions: bindActionCreators(reviewActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),
-      uiActions: bindActionCreators(uiActions, dispatch)
+      uiActions: bindActionCreators(uiActions, dispatch),
+      libraryActions: bindActionCreators(EntitySuggestLibraryActions, dispatch),
+      profileActions: bindActionCreators(ProfileActions, dispatch)
     };
   }
 )(WorkContainer);

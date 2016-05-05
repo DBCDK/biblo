@@ -1,8 +1,38 @@
 import React from 'react';
-import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import {ORDER_POST_URL} from '../../../Constants/hyperlinks.constants';
 
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
+import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import Icon from '../../General/Icon/Icon.component';
+import ProfileLibraryInfo from '../../Profile/Edit/ProfileLibraryInfo.component';
+
+import animalpaw from '../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
+import audiobook from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
+import book from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
+import ebook from '../../General/Icon/svg/Materialikon-kvadrat small/ebook_no_border.svg';
+import film from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
+import flag from '../../General/Icon/svg/Materialikon-kvadrat small/flag.svg';
+import game from '../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
+import group from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
+import music from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
+import photo from '../../General/Icon/svg/Materialikon-kvadrat small/photo.svg';
+import smiley from '../../General/Icon/svg/Materialikon-kvadrat small/smiley.svg';
+
 import './BorrowButton.component.scss';
+
+const materialSvgs = {
+  animalpaw,
+  audiobook,
+  book,
+  ebook,
+  film,
+  flag,
+  game,
+  group,
+  music,
+  photo,
+  smiley
+};
 
 export default class BorrowButton extends React.Component {
   constructor() {
@@ -10,15 +40,29 @@ export default class BorrowButton extends React.Component {
 
     this.state = {
       displayModal: false,
-      selectedPid: false
+      selectedPid: false,
+      loanerId: '',
+      pincode: '',
+      libraryId: '',
+      errorObj: {}
     };
 
     this.submitOrderForm.bind(this);
     this.renderOrderForm.bind(this);
+    this.renderLibrarySelector.bind(this);
+    this.submitLibraryForm.bind(this);
   }
 
   componentDidMount() {
-    this.props.checkOrderPolicyAction(this.props.collection);
+    if (this.props.profile.userIsLoggedIn) {
+      this.props.checkOrderPolicyAction(this.props.collection);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile.favoriteLibrary && this.state.libraryId !== nextProps.profile.favoriteLibrary.libraryId) {
+      this.setState({libraryId: nextProps.profile.favoriteLibrary.libraryId});
+    }
   }
 
   submitOrderForm(e) {
@@ -39,22 +83,70 @@ export default class BorrowButton extends React.Component {
               let collectionItem = collectionsObject[collectionItemKey];
               return (
                 <span key={collectionItem.pid} className="modal-window--collection-item--container">
-                      <input type="radio" name="mediaType" value={collectionItem.pid}
-                             id={`${collectionItem.workType}${collectionItem.pid}`}
-                             onChange={(e) => this.setState({selectedPid: e.target.value})}/>
-                      <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>{collectionItem.type}</label>
-                    </span>
+                  <input type="radio" name="mediaType" value={collectionItem.pid}
+                         id={`${collectionItem.workType}${collectionItem.pid}`}
+                         onChange={(e) => this.setState({selectedPid: e.target.value})}/>
+                  <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
+                    <Icon glyph={materialSvgs[collectionItem.workType]} width={25}
+                          height={25}/> {collectionItem.type}
+                  </label>
+                </span>
               );
             })
           }
         </div>
         <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
-
+        <p className="modal-window--message-under-submit-button">
+          Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
+        </p>
       </form>
     );
   }
 
-  placeOrderModal(collectionDetails, checkOrderPolicyResult, checkOrderPolicyDone, orderState, onClose) {
+  submitLibraryForm(e) {
+    e.preventDefault();
+    // imageFile, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName, options
+    this.props.saveProfileAction(
+      null,
+      this.props.profile.displayName,
+      this.props.profile.email,
+      this.props.profile.phone,
+      this.state.libraryId,
+      this.state.loanerId,
+      this.state.pincode,
+      this.props.profile.description,
+      this.props.profile.birthday,
+      this.props.profile.fullName,
+      {
+        preventRedirect: true,
+        formLocation: '/profil/rediger'
+      }
+    );
+  }
+
+  renderLibrarySelector(profile) {
+    return (
+      <div>
+        <p>Du skal udfylde lånerinformation for at bestille materialer</p>
+        <form onSubmit={this.submitLibraryForm.bind(this)}>
+          <ProfileLibraryInfo
+            errorObj={this.state.errorObj}
+            favoriteLibrary={profile.favoriteLibrary}
+            unselectLibraryFunction={this.props.unselectLibraryFunction}
+            search=""
+            searchAction={this.props.searchForLibraryAction}
+            searchElements={this.props.librarySearchResults}
+            libraryId={this.state.libraryId}
+            loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
+            pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})}
+            requireAll={true} />
+          <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
+        </form>
+      </div>
+    );
+  }
+
+  placeOrderModal(collectionDetails, checkOrderPolicyResult, checkOrderPolicyDone, orderState, profile, onClose) {
     let collectionsObject = {};
 
     collectionDetails.forEach((collectionItem) => {
@@ -67,29 +159,67 @@ export default class BorrowButton extends React.Component {
 
     let modalContent = '';
 
-    if (orderState === 1) {
+    // User isn't logged in
+    if (!profile.userIsLoggedIn) {
+      modalContent = (
+        <div>
+          <p>Du skal logge ind for at låne bøger</p>
+          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
+                         compact={false}/>
+        </div>
+      );
+    }
+    // User is logged in, but doesn't have any borrower info
+    else if (
+      !profile.favoriteLibrary ||
+      (profile.hasOwnProperty('favoriteLibrary') && !(
+        profile.favoriteLibrary.hasOwnProperty('libraryId') &&
+        profile.favoriteLibrary.hasOwnProperty('loanerId') &&
+        profile.favoriteLibrary.hasOwnProperty('pincode')
+      ))
+    ) {
+      modalContent = this.renderLibrarySelector(profile);
+    }
+    // Currently ordering work
+    else if (orderState === 1) {
       modalContent = (
         <p>Bestiller materialet! Vent venligst!</p>
       );
     }
+    // The order has gone through
     else if (orderState === 2) {
       modalContent = (
-        <p>Din bestilling er blevet sendt til dit valgte bibliotek!</p>
+        <div>
+          <p>Din bestilling er sendt.</p>
+          <p>Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.</p>
+          <RoundedButton clickFunction={onClose} buttonText="PERFEKT" compact={false}/>
+        </div>
       );
     }
-    else if (orderState === 3) {
+    // An error occured during order or
+    // CheckOrderPolicy says you can't borrow this work
+    else if (orderState === 3 || checkOrderPolicyDone && collectionObjectSize <= 0) {
       modalContent = (
-        <p>Der skete en fejl under bestillingen af dette materiale! Prøv igen senere!</p>
+        <div>
+          <p>Du kan desværre ikke låne denne bog.</p>
+          <p>Prøv at spørge på dit eget bibliotek, om de kan hjælpe dig med at låne den på en anden måde.</p>
+          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false}/>
+        </div>
       );
     }
-    else if (checkOrderPolicyDone && collectionObjectSize <= 0) {
+    else if (orderState === 4) {
       modalContent = (
-        <p>Du kan desværre ikke låne dette materiale til dit valgte bibliotek.</p>
+        <div>
+          <p>Dine lånerdata er ikke blevet genkendt, gå venligst ind på din profil og ret dem.</p>
+          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false}/>
+        </div>
       );
     }
+    // Show options filtered to unique types.
     else if (collectionObjectSize > 0) {
       modalContent = this.renderOrderForm(collectionsObject);
     }
+    // CheckOrderPolicy has not returned results yet.
     else {
       modalContent = (
         <p>Vent venligst mens vi checker hvilke udgaver du kan låne.</p>
@@ -105,10 +235,6 @@ export default class BorrowButton extends React.Component {
           </div>
 
           {modalContent}
-
-          <p className="modal-window--message-under-submit-button">
-            Du får besked fra dit eget bibliotek, når bogen er klar til dig.
-          </p>
         </div>
       </ModalWindow>
     );
@@ -123,6 +249,7 @@ export default class BorrowButton extends React.Component {
           this.props.checkOrderPolicyResult,
           this.props.checkOrderPolicyDone,
           this.props.orderState,
+          this.props.profile,
           () => this.setState({displayModal: false})
         )}
         <a className='work-detail--order-button' onClick={() => this.setState({displayModal: true})}>Lån</a>
@@ -138,13 +265,21 @@ BorrowButton.propTypes = {
   workTitle: React.PropTypes.string.isRequired,
   orderMaterialAction: React.PropTypes.func.isRequired,
   orderState: React.PropTypes.number,
+  saveProfileAction: React.PropTypes.func.isRequired,
+  unselectLibraryFunction: React.PropTypes.func.isRequired,
+  searchForLibraryAction: React.PropTypes.func.isRequired,
+  librarySearchResults: React.PropTypes.array.isRequired,
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
-  checkOrderPolicyDone: React.PropTypes.bool
+  checkOrderPolicyDone: React.PropTypes.bool,
+  profile: React.PropTypes.object
 };
 
 BorrowButton.defaultProps = {
   orderState: 0,
   checkOrderPolicyResult: {},
-  checkOrderPolicyDone: false
+  checkOrderPolicyDone: false,
+  profile: {
+    userIsLoggedIn: false
+  }
 };

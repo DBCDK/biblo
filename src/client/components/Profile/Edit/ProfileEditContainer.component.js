@@ -54,10 +54,16 @@ export default class ProfileEditContainer extends React.Component {
       };
     });
 
+    let form_title = 'Opret Profil';
+
+    if (this.props.profile.hasFilledInProfile) {
+      form_title = 'Redigér Profil';
+    }
+
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <div className="profile-edit--container">
-          <h1 className="profile-edit--title">Redigér Profil</h1>
+          <h1 className="profile-edit--title">{form_title}</h1>
           <div className="profile-edit--form-component-container-container">
             <div className="before-profile-edit--form-component-container">
               <br />

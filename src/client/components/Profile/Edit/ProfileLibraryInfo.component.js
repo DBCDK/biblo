@@ -4,6 +4,8 @@ import InputField from '../../General/InputField/InputField.component';
 import SearchDropDown from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 
+import './ProfileLibraryInfo.component.scss';
+
 export default function ProfileLibraryInfo({
   errorObj, favoriteLibrary, unselectLibraryFunction, search, searchAction, searchElements, libraryId, loanerIdChangeFunc, pincodeChangeFunc, requireAll
 }) {
@@ -23,7 +25,7 @@ export default function ProfileLibraryInfo({
   let searchField = null;
   if (typeof favoriteLibrary.libraryName === 'undefined') {
     searchField = (
-      <div className="search-area">
+      <div className="search-area library-search-area">
         <InputField
           defaultValue={search}
           error={errorObj.search}

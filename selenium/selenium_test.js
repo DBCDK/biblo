@@ -57,7 +57,7 @@ function runAllTests(driverCaps) {
       driver.wait(webdriver.until.elementIsVisible(driver.findElement({tagName: 'body'})), driverTimeout);
       var body = driver.findElement({tagName: 'body'});
       body.getText().then((text) => {
-        expect(text).toContain('Redigér Profil');
+        expect(text).toContain('Opret Profil');
       });
     });
   });

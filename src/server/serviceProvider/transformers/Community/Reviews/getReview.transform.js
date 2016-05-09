@@ -5,7 +5,7 @@ const GetReviewTransform = {
     return 'getReviews';
   },
 
-  requestTransform(event, {id, collection, skip, limit}, connection) {
+  requestTransform(event, {id, pids, skip, limit}, connection) {
     return new Promise((resolve, reject) => {
       const user = connection.request.user || {id: ''};
       const accessToken = user.id;
@@ -36,8 +36,8 @@ const GetReviewTransform = {
         }
       };
 
-      if (collection) {
-        collection.forEach((pid) => {
+      if (pids) {
+        pids.forEach((pid) => {
           orFilter.push({pid: pid});
         });
 
@@ -55,7 +55,7 @@ const GetReviewTransform = {
       }
 
       Promise.all([
-        this.callServiceClient('community', 'countReviews', {accessToken, where: params.filter.where}), // {or: orFilter}}),
+        this.callServiceClient('community', 'countReviews', {accessToken, where: params.filter.where}),
         this.callServiceClient('community', 'getReviews', params)
       ])
       .then((response) => {

@@ -17,10 +17,11 @@ export function asyncCreateReview(review) {
   };
 }
 
-export function showReviews(response, skip, limit) {
+export function showReviews(response, pids, skip, limit) {
   return {
     type: types.GET_REVIEWS,
     reviews: response,
+    pids: pids,
     skip: skip,
     limit: limit
   };
@@ -32,12 +33,12 @@ export function moreReviewsLoading() {
   };
 }
 
-export function asyncShowReviews(skip, limit) {
+export function asyncShowReviews(pids, skip, limit) {
   return function (dispatch) {
     dispatch(moreReviewsLoading());
-    getReviewsClient.request({skip, limit});
+    getReviewsClient.request({pids, skip, limit});
     const event = getReviewsClient.response(response => {
-      dispatch(showReviews(response, skip, limit));
+      dispatch(showReviews(response, pids, skip, limit));
       event.off();
     });
   };

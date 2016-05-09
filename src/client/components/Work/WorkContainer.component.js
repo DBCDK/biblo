@@ -93,7 +93,6 @@ export class WorkContainer extends React.Component {
     const creator = (work.creator) ? work.creator[0] : 'Anonym';
     const workType = (work.workType) ? work.workType[0] : 'other';
     const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
-
     let profile = this.getProfile();
 
     let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
@@ -159,6 +158,7 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
+          pids={workAndReviews.work.collection}
           count={workAndReviews.reviewsCount}
           limit={workAndReviews.reviewsLimit}
           reviews={workAndReviews.reviews}

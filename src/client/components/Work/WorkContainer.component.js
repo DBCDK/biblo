@@ -93,7 +93,15 @@ export class WorkContainer extends React.Component {
     const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
     const creator = (work.creator) ? work.creator[0] : 'Anonym';
     const workType = (work.workType) ? work.workType[0] : 'other';
-    const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
+    const extent = (work.extent) ? work.extent[0] : '';
+
+    let tags = [];
+    tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;
+    tags = (work.subjectDBCS) ? tags.concat(work.subjectDBCS) : tags;
+    tags = (work.subjectDBCO) ? tags.concat(work.subjectDBCO) : tags;
+
+    const subjectDK5 = (work.subjectDK5) ? work.subjectDK5[0] : '';
+    const subjectDK5Text = (work.subjectDK5Text) ? work.subjectDK5Text[0] : '';
 
     let profile = this.getProfile();
 
@@ -176,10 +184,11 @@ export class WorkContainer extends React.Component {
           materials={work.collectionDetails}
           lix={work.lix}
           languages={work.dcLanguage}
-          dk5={work.subjectDK5[0]}
-          dk5Text={work.subjectDK5Text[0]}
+          dk5={subjectDK5}
+          dk5Text={subjectDK5Text}
           year={work.date}
           tags={tags}
+          extent={extent}
           />
 
       </PageLayout>

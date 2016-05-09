@@ -1,6 +1,31 @@
 import React from 'react';
 
+import Icon from '../../General/Icon/Icon.component.js';
+import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
+import audiobookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
+import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
+import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
+
 import './MoreInfo.component.scss';
+
+function type2iconType(type) {
+
+  let iconType = bookSvg;
+
+  if (type.match('Lydbog')) {
+    iconType = audiobookSvg;
+  }
+  else if (type.match('Bog')) {
+    iconType = bookSvg;
+  }
+  else if (type.match('Film')) {
+    iconType = movieSvg;
+  }
+  else if (type.match('Musik')) {
+    iconType = musicSvg;
+  }
+  return iconType;
+}
 
 export class MoreInfo extends React.Component {
 
@@ -10,7 +35,7 @@ export class MoreInfo extends React.Component {
 
     const yearRow = (this.props.year) ? (<tr><td>Udgivet i</td><td>{this.props.year}</td></tr>) : null;
 
-    const tagElements = (this.props.tags) ? this.props.tags.map((tag) => (<div><a href={'/find?q=term.subject="'+tag+'"'}>{tag}</a></div>)) : null;
+    const tagElements = (this.props.tags) ? this.props.tags.map((tag) => (<div><a href={'/find?q=term.subject="' + tag + '"'}>{tag}</a></div>)) : null;
     const tagsRow = (this.props.tags) ? (<tr><td>Emne</td><td>{tagElements}</td></tr>) : null;
 
     const dk5Row = (this.props.dk5) ? (<tr><td>DK5</td><td>{this.props.dk5}</td></tr>) : null;
@@ -26,6 +51,18 @@ export class MoreInfo extends React.Component {
 
     const lixRow = (this.props.lix) ? (<tr><td>Lix</td><td>{this.props.lix}</td></tr>) : null;
 
+    const extentRow = (this.props.extent) ? (<tr><td>Omfang</td><td>{this.props.extent}</td></tr>) : null;
+
+    let uniqueMaterialTypes = {};
+    this.props.materials.forEach((material) => {
+      uniqueMaterialTypes[material.type] = material;
+    });
+
+    const materialTypeElements = Object.keys(uniqueMaterialTypes).map((type) => (
+      <li className={'more-info--material-type'}>
+        <Icon width={36} height={36} glyph={type2iconType(type)}/><span>{type}</span>
+      </li>)
+    );
 
     return (
       <div className='more-info'>
@@ -40,8 +77,12 @@ export class MoreInfo extends React.Component {
             {languagesRow}
             {audienceRow}
             {lixRow}
+            {extentRow}
           </tbody>
         </table>
+        <ul className='more-info--material-types'>
+          {materialTypeElements}
+        </ul>
       </div>
     );
   }
@@ -57,6 +98,7 @@ MoreInfo.propTypes = {
   languages: React.PropTypes.array,
   audience: React.PropTypes.array,
   lix: React.PropTypes.number,
+  extent: React.PropTypes.string,
   materials: React.PropTypes.array.isRequired
 };
 

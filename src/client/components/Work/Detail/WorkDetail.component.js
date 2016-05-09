@@ -2,7 +2,6 @@ import React from 'react';
 
 import './WorkDetail.component.scss';
 
-import {TagList} from '../TagList/TagList.component.js';
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
 import ReviewButton from '../../Review/ReviewButton.js';
 import BorrowButton from '../BorrowButton/BorrowButton.component';
@@ -39,7 +38,6 @@ export class WorkDetail extends React.Component {
 
     const abstract = this.props.abstract;
 
-    const tags = this.props.tags;
     const profile = this.props.profile;
 
     let review =(
@@ -55,8 +53,6 @@ export class WorkDetail extends React.Component {
           <div className='work-detail--description'>
             {abstract}
           </div>
-
-          <TagList tags={tags}/>
 
           <div className='work-detail--action-buttons'>
             <BorrowButton
@@ -102,7 +98,6 @@ WorkDetail.propTypes = {
   abstract: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   creator: React.PropTypes.string.isRequired,
-  tags: React.PropTypes.array.isRequired,
   year: React.PropTypes.string,
   displayType: React.PropTypes.string.isRequired,
   collection: React.PropTypes.array.isRequired,

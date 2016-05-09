@@ -23,3 +23,19 @@
     display: table-row;
   }
 }
+
+.more-info--material-types {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.more-info--material-type {
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  .icon--container {
+    top: 12px;
+    margin-right: 8px;
+  }
+}
+

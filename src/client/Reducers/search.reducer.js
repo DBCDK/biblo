@@ -39,24 +39,29 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
 export default function searchReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case types.TOGGLE_SEARCH_BOX:
+    case types.TOGGLE_SEARCH_BOX: {
       return assignToEmpty(state, {isSearchBoxVisible: !state.isSearchBoxVisible});
+    }
 
-    case types.SUGGESTIONS_ARE_LOADING:
+    case types.SUGGESTIONS_ARE_LOADING: {
       return assignToEmpty(state, {workSuggestionsPending: true});
+    }
 
-    case types.GOT_OPENPLATFORM_SUGGESTIONS:
+    case types.GOT_OPENPLATFORM_SUGGESTIONS: {
       let newState = assignToEmpty(state, {});
       newState.workSuggestions[action.res.q] = action.res.data;
       return newState;
+    }
 
-    case types.LOAD_MORE_RESULTS:
+    case types.LOAD_MORE_RESULTS: {
       return assignToEmpty(state, {isLoadingResults: true});
+    }
 
-    case types.LOADED_MORE_RESULTS:
+    case types.LOADED_MORE_RESULTS: {
       return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
+    }
 
-    case types.SELECT_NEXT_SUGGESTED_WORK_ELEMENT:
+    case types.SELECT_NEXT_SUGGESTED_WORK_ELEMENT: {
       if (state.workSuggestions[state.query].length > 0) {
         // Eslint is wrong about this line.
         let newState = assignToEmpty(state, {}); // eslint-disable-line no-shadow
@@ -78,8 +83,9 @@ export default function searchReducer(state = initialState, action = {}) {
       }
 
       return state;
+    }
 
-    case types.SELECT_PREVIOUS_SUGGESTED_WORK_ELEMENT:
+    case types.SELECT_PREVIOUS_SUGGESTED_WORK_ELEMENT: {
       if (state.query && state.query.length > 0 && state.workSuggestions[state.query].length > 0) {
         // This one too.
         let newState = assignToEmpty(state, {}); // eslint-disable-line no-shadow
@@ -101,11 +107,14 @@ export default function searchReducer(state = initialState, action = {}) {
       }
 
       return state;
+    }
 
-    case types.SEARCH_QUERY_HAS_CHANGED:
+    case types.SEARCH_QUERY_HAS_CHANGED: {
       return assignToEmpty(state, {query: action.q});
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }

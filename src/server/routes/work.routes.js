@@ -53,7 +53,7 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     let ownReview = {};
     const work = (await req.callServiceProvider('work', {pids: [pid]}))[0].data[0];
 
-    let collection = work.collection;
+    let pids = work.collection;
 
     let ownReviewId;
     let profile = {
@@ -61,7 +61,7 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
       hasFilledInProfile: false
     };
 
-    if (req.session.passport.user) {
+    if (req.isAuthenticated()) {
       profile = req.session.passport.user.profile.profile;
 
       if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryId) {
@@ -69,12 +69,14 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
         profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
           libraryId: agency.agencyId,
           libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName).$value,
-          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
+          pickupAllowed: agency.pickupAllowed === '1',
+          temporarilyClosed: agency.temporarilyClosed === '1'
         });
         res.locals.profile = JSON.stringify({profile: profile, errors: []});
       }
 
-      let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, collection: collection}))[0];
+      let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pids: pids}))[0];
       if (reviewCheck) {
         ownReview = reviewCheck.data[0];
         if (ownReview) {
@@ -85,7 +87,7 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
 
     let skip = 0;
     let limit = 10;
-    const reviewResponse = (await req.callServiceProvider('getReviews', {collection, skip, limit}));
+    const reviewResponse = (await req.callServiceProvider('getReviews', {pids, skip, limit}));
     work.id = pid;
     res.render('page', {
       css: ['/css/work.css'],

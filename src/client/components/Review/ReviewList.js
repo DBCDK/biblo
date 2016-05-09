@@ -5,7 +5,7 @@ import './ReviewList.scss';
 
 export default function ReviewList({count, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,
-  likeActions = null, expand, delta = 15, skip = 0, limit = 100000, isLoading}) {
+  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading}) {
 
   let hasMore = true;
   if (limit > reviews.length) {
@@ -13,12 +13,11 @@ export default function ReviewList({count, reviews = [], profile = {}, uiActions
   }
 
   let expandButton;
-
   if (hasMore && expand) {
     expandButton = (
       <ExpandButton className="group-showmore" text="Vis flere"
                     isLoading={isLoading}
-                    onClick={()=> expand(skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
+                    onClick={()=> expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
     );
   }
 
@@ -65,5 +64,6 @@ ReviewList.propTypes = {
   delta: React.PropTypes.number,
   skip: React.PropTypes.number,
   limit: React.PropTypes.number,
+  pids: React.PropTypes.array,
   isLoading: React.PropTypes.bool
 };

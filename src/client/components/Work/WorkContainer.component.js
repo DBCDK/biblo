@@ -168,6 +168,7 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
+          pids={workAndReviews.work.collection}
           count={workAndReviews.reviewsCount}
           limit={workAndReviews.reviewsLimit}
           reviews={workAndReviews.reviews}

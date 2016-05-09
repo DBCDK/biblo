@@ -7,10 +7,13 @@ const SearchTransform = {
 
   requestTransform(event, {q, limit}, connection) { // eslint-disable-line no-unused-vars
 
-    limit = (limit)? limit : 20;
+    limit = (limit) ? limit : 20;
 
     // for now all query are phrase queries TODO: parse as CQL
-    q = '"' + q + '"';
+    if (q.indexOf('"') === -1) {
+      // wrap fulltext search only query in quotes
+      q = '"' + q + '"';
+    }
 
     return this.callServiceClient('openplatform', 'search', {
       q: q,

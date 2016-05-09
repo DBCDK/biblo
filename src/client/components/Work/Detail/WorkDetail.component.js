@@ -40,6 +40,11 @@ export class WorkDetail extends React.Component {
     const abstract = this.props.abstract;
 
     const tags = this.props.tags;
+    const profile = this.props.profile;
+
+    let review =(
+        <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />
+    );
 
     return (
       <div className='work-detail'>
@@ -64,8 +69,13 @@ export class WorkDetail extends React.Component {
               checkOrderPolicyAction={this.props.checkOrderPolicyAction}
               checkOrderPolicyResult={this.props.checkOrderPolicyResult}
               checkOrderPolicyDone={this.props.checkOrderPolicyDone}
+              saveProfileAction={this.props.saveProfileAction}
+              unselectLibraryFunction={this.props.unselectLibraryFunction}
+              searchForLibraryAction={this.props.searchForLibraryAction}
+              librarySearchResults={this.props.librarySearchResults}
+              profile={this.props.profile}
             />
-            <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} />
+            {review}
           </div>
         </div>
 
@@ -86,6 +96,7 @@ export class WorkDetail extends React.Component {
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
   collectionDetails: React.PropTypes.array.isRequired,
+  profile: React.PropTypes.object.isRequired,
   editText: React.PropTypes.string.isRequired,
   toggleReview: React.PropTypes.func.isRequired,
   abstract: React.PropTypes.string.isRequired,
@@ -100,7 +111,11 @@ WorkDetail.propTypes = {
   orderMaterialAction: React.PropTypes.func.isRequired,
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
-  checkOrderPolicyDone: React.PropTypes.bool
+  checkOrderPolicyDone: React.PropTypes.bool,
+  unselectLibraryFunction: React.PropTypes.func.isRequired,
+  searchForLibraryAction: React.PropTypes.func.isRequired,
+  saveProfileAction: React.PropTypes.func.isRequired,
+  librarySearchResults: React.PropTypes.array.isRequired
 };
 
 WorkDetail.defaultProps = {

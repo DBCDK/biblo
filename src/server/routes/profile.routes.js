@@ -13,6 +13,13 @@ let upload = multer({storage: multer.memoryStorage()});
 
 const ProfileRoutes = express.Router();
 
+function getAgencyShortName(agency) {
+  if (Array.isArray(agency.branchShortName)) {
+    return agency.branchShortName[0].$value;
+  }
+  return agency.branchShortName.$value;
+}
+
 ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res, next) {
   try {
     let p = req.session.passport.user.profile.profile;
@@ -41,12 +48,13 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
      };
      */
 
+
     // fetch library details and attach to favorite library
     if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
       const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;
       const selectedLibrary = {
         libraryId: agency.agencyId,
-        libraryName: agency.branchShortName[0].$value,
+        libraryName: getAgencyShortName(agency), // see github #22
         libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
       };
       fullProfile.favoriteLibrary = selectedLibrary;

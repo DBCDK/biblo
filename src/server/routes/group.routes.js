@@ -143,7 +143,6 @@ GroupRoutes.get('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensur
   data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
 
   const p = req.session.passport.user.profile.profile;
-
   if (data.groupData.groupownerid !== p.id && !p.isModerator) {
     return res.redirect('/error/403');
   }

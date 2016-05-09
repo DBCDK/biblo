@@ -31,7 +31,7 @@ export function checkDisplayNameExists(displayname, exists) {
   };
 }
 
-export function asyncProfileEditSubmit(imageFile, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName) {
+export function asyncProfileEditSubmit(imageFile, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName, options) {
   return function(dispatch) {
     dispatch(profileEditSubmitStateChange('SUBMITTING'));
 
@@ -60,38 +60,14 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
     }
 
     let request = new XMLHttpRequest();
-    request.open('POST', window.location.href);
+    request.open('POST', options && options.formLocation || window.location.href);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.onreadystatechange = (e) => {
       if (
-        e.target.readyState === 4 &&
-        e.target.status !== 404 &&
-        e.target.status !== 500 &&
-        e.target.status !== 403
+        e.target.readyState === 4
       ) {
         const data = JSON.parse(e.target.response);
-        if (data.redirect) {
-          window.location.href = data.redirect;
-        }
-        dispatch(profileEditSubmitStateChange('SUBMITTED'));
-        dispatch(profileEditSubmit(
-          imageFile,
-          displayname,
-          email,
-          phone,
-          libraryId,
-          loanerId,
-          pincode,
-          description,
-          birthday,
-          fullName,
-          data.status,
-          data.errors
-        ));
-      }
-      else if (e.target.readyState === 4) {
-        const data = JSON.parse(e.target.response);
-        if (data.redirect) {
+        if (data.redirect && !(options && options.preventRedirect)) {
           window.location.href = data.redirect;
         }
         dispatch(profileEditSubmitStateChange('SUBMITTED'));

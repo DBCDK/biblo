@@ -139,7 +139,7 @@
     "jsdom-global": "^1.6.2",
     "json-loader": "^0.5.2",
     "karma": "^0.13.9",
-    "karma-cli": "0.1.2",
+    "karma-cli": "1.0.0",
     "karma-coverage": "^0.5.2",
     "karma-jsdom-launcher": "^3.0.0",
     "karma-junit-reporter": "^0.4.1",

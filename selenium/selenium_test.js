@@ -1,6 +1,4 @@
-'use strict';
-
-require("babel-register");
+require('babel-register');
 var glob = require('glob');
 var config = require('./saucelabs.config');
 var webdriver = require('selenium-webdriver');
@@ -23,7 +21,7 @@ function runAllTests(driverCaps) {
         BASE_URL,
         driverTimeout
       });
-    })
+    });
   });
 }
 

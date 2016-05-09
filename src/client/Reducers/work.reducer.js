@@ -14,7 +14,7 @@ const initialState = {
 export default function workReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case types.CHECK_ORDER_POLICY:
+    case types.CHECK_ORDER_POLICY: {
       let newState = {
         responses: state.responses + 1,
         orderPolicy: state.orderPolicy
@@ -25,13 +25,15 @@ export default function workReducer(state = initialState, action = {}) {
       }
 
       return assignToEmpty(state, newState);
+    }
 
-    case types.WORK_IS_ORDERING:
+    case types.WORK_IS_ORDERING: {
       return assignToEmpty(state, {
         orderState: 1
       });
+    }
 
-    case types.WORK_HAS_ORDERED:
+    case types.WORK_HAS_ORDERED: {
       let newOrderState = 2;
 
       if (action.errors && action.errors.length > 0) {
@@ -45,8 +47,10 @@ export default function workReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         orderState: newOrderState
       });
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }

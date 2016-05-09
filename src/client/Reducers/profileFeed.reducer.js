@@ -33,7 +33,7 @@ export default function profileFeedReducer(state = initialState, action = {}) {
 
   Object.freeze(state);
   switch (action.type) {
-    case types.GET_USER_FEED:
+    case types.GET_USER_FEED: {
       let existingKeys = state.feed.map((activity) => {
         return `${activity.type}_${activity.id}`;
       });
@@ -47,8 +47,9 @@ export default function profileFeedReducer(state = initialState, action = {}) {
         count: assignToEmpty(state.count, action.count),
         profile: assignToEmpty(state.profile, action.profile)
       });
+    }
 
-    case types.LIKE_POST:
+    case types.LIKE_POST: {
       const likedFeedCopy = [...state.feed];
 
       likedFeedCopy.forEach((activity) => {
@@ -63,8 +64,9 @@ export default function profileFeedReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         feed: likedFeedCopy
       });
+    }
 
-    case types.UNLIKE_POST:
+    case types.UNLIKE_POST: {
       const unlikedFeedCopy = [...state.feed];
 
       unlikedFeedCopy.forEach((activity) => {
@@ -83,7 +85,9 @@ export default function profileFeedReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         feed: unlikedFeedCopy
       });
-    case types.GROUP_EDIT_POST:
+    }
+
+    case types.GROUP_EDIT_POST: {
       const postFeedCopy = [...state.feed];
       postFeedCopy.forEach((activity) => {
         if (activity.type === 'post' && activity.postcontainergroupid === action.post.groupid && action.post.id === activity.id) {
@@ -92,7 +96,9 @@ export default function profileFeedReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {postFeedCopy});
-    case types.GROUP_EDIT_COMMENT:
+    }
+
+    case types.GROUP_EDIT_COMMENT: {
       const commentFeedCopy = [...state.feed];
       commentFeedCopy.forEach((activity) => {
         if (activity.type === 'comment' && activity.commmentcontainerpostid === action.postid && action.comment.id === activity.id) {
@@ -101,8 +107,10 @@ export default function profileFeedReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {feed: commentFeedCopy});
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }

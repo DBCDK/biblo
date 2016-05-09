@@ -33,7 +33,7 @@ export default function workReducer(state = initialState, action = {}) {
       });
     }
 
-    case types.WORK_HAS_ORDERED:{
+    case types.WORK_HAS_ORDERED: {
       let newOrderState = 2;
 
       if (action.errors && action.errors.length > 0) {

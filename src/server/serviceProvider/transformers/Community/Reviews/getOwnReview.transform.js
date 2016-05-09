@@ -3,8 +3,7 @@ const GetOwnReviewTransform = {
     return 'getOwnReview';
   },
 
-  requestTransform(event, {reviewownerid, collection}) {
-
+  requestTransform(event, {reviewownerid, pids}) {
     let orFilter = [];
     let params = {
       filter: {
@@ -15,8 +14,8 @@ const GetOwnReviewTransform = {
       }
     };
 
-    if (collection) {
-      collection.forEach((pid) => {
+    if (pids) {
+      pids.forEach((pid) => {
         orFilter.push({pid: pid});
       });
 

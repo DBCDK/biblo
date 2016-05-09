@@ -74,24 +74,6 @@ export function asyncShowGroups(type, skip, limit) {
   };
 }
 
-export function asyncShowMoreComments(id, skip, limit) {
-  return function (dispatch) {
-    dispatch(moreCommentsLoading(id));
-    loadComments.request({id, skip, limit});
-    const event = loadComments.response(response => {
-      dispatch(showMoreComments(id, response, skip + limit));
-      event.off();
-    });
-  };
-}
-
-export function moreCommentsLoading(postId) {
-  return {
-    type: types.GROUP_LOADING_MORE_COMMENTS,
-    postId
-  };
-}
-
 export function changeGroupColour(colourEvent) {
   return {
     type: types.CHANGE_GROUP_COLOUR,

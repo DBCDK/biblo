@@ -121,7 +121,7 @@
   },
   "devDependencies": {
     "artillery": "^1.4.0",
-    "babel-eslint": "^4.0.5",
+    "babel-eslint": "^6.0.4",
     "chai": "^3.2.0",
     "chromedriver": "^2.19.0",
     "codeclimate-test-reporter": "^0.3.1",

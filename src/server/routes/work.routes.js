@@ -76,8 +76,7 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
         res.locals.profile = JSON.stringify({profile: profile, errors: []});
       }
 
-      // let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, collection: collection}))[0];
-      let reviewCheck = false;
+      let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, collection: collection}))[0];
       if (reviewCheck) {
         ownReview = reviewCheck.data[0];
         if (ownReview) {
@@ -88,18 +87,18 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
 
     let skip = 0;
     let limit = 10;
-    // const reviewResponse = (await req.callServiceProvider('getReviews', {collection, skip, limit}));
+    const reviewResponse = (await req.callServiceProvider('getReviews', {collection, skip, limit}));
     work.id = pid;
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],
-      // ownReviewId: ownReviewId,
+      ownReviewId: ownReviewId,
       jsonData: [JSON.stringify({
-        // ownReviewId: ownReviewId,
+        ownReviewId: ownReviewId,
         work: work,
         profile: profile,
-        // reviewsCount: reviewResponse[0].reviewsCount,
-        // reviews: reviewResponse[0].data
+        reviewsCount: reviewResponse[0].reviewsCount,
+        reviews: reviewResponse[0].data
       })]
     });
   }

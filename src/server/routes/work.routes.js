@@ -69,7 +69,9 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
         profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
           libraryId: agency.agencyId,
           libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName).$value,
-          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
+          pickupAllowed: agency.pickupAllowed === '1',
+          temporarilyClosed: agency.temporarilyClosed === '1'
         });
         res.locals.profile = JSON.stringify({profile: profile, errors: []});
       }

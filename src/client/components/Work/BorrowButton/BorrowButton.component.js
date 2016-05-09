@@ -124,14 +124,22 @@ export default class BorrowButton extends React.Component {
     );
   }
 
-  renderLibrarySelector(profile) {
+  renderLibrarySelector(profile, libraryIsInvalid) {
+    let message = (<p>Du skal udfylde lånerinformation for at bestille materialer</p>);
+
+    if (libraryIsInvalid) {
+      message = (
+        <p>Det bibliotek du har valgt modtager ikke bestillinger, vælg venligst et nyt bibliotek for at bestille.</p>
+      );
+    }
+
     return (
       <div>
-        <p>Du skal udfylde lånerinformation for at bestille materialer</p>
+        {message}
         <form onSubmit={this.submitLibraryForm.bind(this)}>
           <ProfileLibraryInfo
             errorObj={this.state.errorObj}
-            favoriteLibrary={profile.favoriteLibrary}
+            favoriteLibrary={libraryIsInvalid ? {} : profile.favoriteLibrary}
             unselectLibraryFunction={this.props.unselectLibraryFunction}
             search=""
             searchAction={this.props.searchForLibraryAction}
@@ -179,6 +187,10 @@ export default class BorrowButton extends React.Component {
       ))
     ) {
       modalContent = this.renderLibrarySelector(profile);
+    }
+    // The users library is invalid, we want them to select a new one.
+    else if (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed) {
+      modalContent = this.renderLibrarySelector(profile, true);
     }
     // Currently ordering work
     else if (orderState === 1) {

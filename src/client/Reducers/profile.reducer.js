@@ -81,10 +81,11 @@ export default function profileReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
 
-    case types.GET_USER_PROFILE:
+    case types.GET_USER_PROFILE: {
       return state;
+    }
 
-    case types.SELECT_SUGGESTED_LIBRARY:
+    case types.SELECT_SUGGESTED_LIBRARY: {
       const l = action.library;
       return assignToEmpty(state, {
         favoriteLibrary: {
@@ -93,22 +94,25 @@ export default function profileReducer(state = initialState, action = {}) {
           libraryAddress: [l.adresse, l.by, l.postnr].join(', ')
         }
       });
+    }
 
-    case types.UNSELECT_LIBRARY:
+    case types.UNSELECT_LIBRARY: {
       return assignToEmpty(state, {
         favoriteLibrary: {
           libraryId: initialState.favoriteLibrary.libraryId
         }
       });
+    }
 
-    case types.CHECK_IF_DISPLAYNAME_IS_TAKEN:
+    case types.CHECK_IF_DISPLAYNAME_IS_TAKEN: {
       return (
         action.displayname !== state.displayName ?
           assignToEmpty(state, {displayNameExists: action.exists}) :
           assignToEmpty(state, {displayNameExists: false})
       );
+    }
 
-    case types.CHANGE_PROFILE_IMAGE:
+    case types.CHANGE_PROFILE_IMAGE: {
       return assignToEmpty(state, {
         imageFile: action.imageFile,
         image: assignToEmpty(state.image, {
@@ -119,22 +123,25 @@ export default function profileReducer(state = initialState, action = {}) {
           })
         })
       });
+    }
 
-    case types.PROFILE_EDIT_SUBMIT_STATE_CHANGE:
+    case types.PROFILE_EDIT_SUBMIT_STATE_CHANGE: {
       return assignToEmpty(state, {
         UI: assignToEmpty(state.UI, {
           submitState: action.state
         })
       });
+    }
 
-    case types.PROFILE_EDIT_UPLOAD_PROGRESS:
+    case types.PROFILE_EDIT_UPLOAD_PROGRESS: {
       return assignToEmpty(state, {
         UI: assignToEmpty(state.UI, {
           submitProgress: action.progress
         })
       });
+    }
 
-    case types.PROFILE_EDIT_SUBMIT:
+    case types.PROFILE_EDIT_SUBMIT: {
       return assignToEmpty(state, {
         birthday: action.birthday,
         description: action.description,
@@ -149,8 +156,10 @@ export default function profileReducer(state = initialState, action = {}) {
           pincode: action.pincode
         })
       });
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }

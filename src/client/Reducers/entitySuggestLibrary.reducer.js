@@ -13,14 +13,16 @@ let initialState = {
 export default function profileReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case FIND_LIBRARIES:
+    case FIND_LIBRARIES: {
       let newState = {
         query: action.query
       };
       newState[action.query] = action.elements;
       return assignToEmpty(state, newState);
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }

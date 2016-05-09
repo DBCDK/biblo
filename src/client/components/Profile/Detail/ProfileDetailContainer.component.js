@@ -106,7 +106,7 @@ export class ProfileDetailContainer extends React.Component {
         displayName = 'Du';
       }
       switch (activity.type) {
-        case 'comment':
+        case 'comment': {
           let title = displayName + ' skrev en kommentar';
 
           if (activity.post && activity.post.group && activity.post.group.name) {
@@ -175,8 +175,9 @@ export class ProfileDetailContainer extends React.Component {
               />
             </ActivityRow>
           );
+        }
 
-        case 'post':
+        case 'post': {
           let postTitle = displayName + ' oprettede et indlæg';
 
           if (activity.group && activity.group.name) {
@@ -235,9 +236,11 @@ export class ProfileDetailContainer extends React.Component {
               />
             </ActivityRow>
           );
+        }
 
-        default:
+        default: {
           return '';
+        }
       }
     });
 

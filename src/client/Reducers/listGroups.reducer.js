@@ -6,7 +6,7 @@ import assignToEmpty from '../Utils/assign';
 export default function listGroupsReducer(state, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case types.LIST_GROUPS:
+    case types.LIST_GROUPS: {
       if (action.groupType === 'new') {
         return assignToEmpty(state, {
           newLoading: false,
@@ -20,18 +20,21 @@ export default function listGroupsReducer(state, action = {}) {
         popularGroups: action.groups,
         popularLimit: action.limit
       });
+    }
 
-    case types.NEW_GROUPS_LIST_IS_LOADING:
+    case types.NEW_GROUPS_LIST_IS_LOADING: {
       return assignToEmpty(state, {
         newLoading: true
       });
+    }
 
-    case types.POPULAR_GROUPS_IS_LOADING:
+    case types.POPULAR_GROUPS_IS_LOADING: {
       return assignToEmpty(state, {
         popularLoading: true
       });
+    }
 
-    default:
+    default: {
       let popularGroups = parseJsonData('JSONDATA', 'popularGroups');
       let newGroups = parseJsonData('JSONDATA', 'newGroups');
 
@@ -43,5 +46,6 @@ export default function listGroupsReducer(state, action = {}) {
         newLimit: 15,
         popularLimit: 15
       });
+    }
   }
 }

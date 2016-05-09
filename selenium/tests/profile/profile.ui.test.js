@@ -2,7 +2,7 @@ var expect = require('expect');
 var bibloconfig = require('@dbcdk/biblo-config');
 var crypto = require('crypto');
 
-export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout}) {
+export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout}) { // eslint-disable-line no-unused-vars
   describe('Test profiles', function() {
     var driver;
 

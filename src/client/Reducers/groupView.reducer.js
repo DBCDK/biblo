@@ -25,17 +25,23 @@ export default function groupViewReducer(state = initialState, action = {}) {
   Object.freeze(state);
   let posts;
   switch (action.type) {
-    case types.GET_GROUP:
+    case types.GET_GROUP: {
       return state;
-    case types.DELETE_POST:
+    }
+
+    case types.DELETE_POST: {
       let postsAfterDelete = [...state.posts];
       postsAfterDelete = filter(postsAfterDelete, (post)=> {
         return action.postId !== post.id;
       });
       return assignToEmpty(state, {posts: postsAfterDelete});
-    case types.GROUP_FOLLOW:
+    }
+
+    case types.GROUP_FOLLOW: {
       return assignToEmpty(state, {isFollowing: action.enableFollow});
-    case types.GROUP_MEMBERS_EXPAND:
+    }
+
+    case types.GROUP_MEMBERS_EXPAND: {
       if (action.members !== null) {
         // update members and transition away from loading state
         return assignToEmpty(state, {
@@ -45,11 +51,17 @@ export default function groupViewReducer(state = initialState, action = {}) {
         });
       }
       return assignToEmpty(state, {isMembersExpanded: action.expand});
-    case types.GROUP_MEMBERS_LOADING:
+    }
+
+    case types.GROUP_MEMBERS_LOADING: {
       return assignToEmpty(state, {isLoadingMembers: true});
-    case types.GROUP_ADD_POST:
+    }
+
+    case types.GROUP_ADD_POST: {
       return assignToEmpty(state, {posts: [action.post, ...state.posts]});
-    case types.GROUP_ADD_COMMENT:
+    }
+
+    case types.GROUP_ADD_COMMENT: {
       const postsWithNewComment = state.posts.map(post => {
         if (post.id === action.comment.postid) {
           post.comments = [action.comment, ...post.comments];
@@ -57,10 +69,14 @@ export default function groupViewReducer(state = initialState, action = {}) {
         return post;
       });
       return assignToEmpty(state, {posts: postsWithNewComment});
-    case types.GROUP_EDIT_POST:
+    }
+
+    case types.GROUP_EDIT_POST: {
       posts = state.posts.map(post => (post.id === action.post.id) && action.post || post);
       return assignToEmpty(state, {posts});
-    case types.GROUP_EDIT_COMMENT:
+    }
+
+    case types.GROUP_EDIT_COMMENT: {
       posts = state.posts.map(post => {
         if (post.id === action.comment.postid) {
           post.comments = post.comments.map(comment => (comment.id === action.comment.id) && action.comment || comment);
@@ -68,12 +84,18 @@ export default function groupViewReducer(state = initialState, action = {}) {
         return post;
       });
       return assignToEmpty(state, {posts});
-    case types.GROUP_SHOW_MORE_POSTS:
+    }
+
+    case types.GROUP_SHOW_MORE_POSTS: {
       posts = [...state.posts, ...action.posts];
       return assignToEmpty(state, {posts, numberOfPostsLoaded: action.numberOfPostsLoaded, loadingPosts: false});
-    case types.GROUP_LOADING_MORE_POSTS:
+    }
+
+    case types.GROUP_LOADING_MORE_POSTS: {
       return assignToEmpty(state, {loadingPosts: true});
-    case types.GROUP_SHOW_MORE_COMMENTS:
+    }
+
+    case types.GROUP_SHOW_MORE_COMMENTS: {
       const postsAltered = [...state.posts];
       postsAltered.forEach(post => {
         if (post.id === action.id) {
@@ -83,7 +105,9 @@ export default function groupViewReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {posts: postsAltered});
-    case types.GROUP_LOADING_MORE_COMMENTS:
+    }
+
+    case types.GROUP_LOADING_MORE_COMMENTS: {
       const postsloadingComments = [...state.posts];
       postsloadingComments.forEach(post => {
         if (post.id === action.postId) {
@@ -91,7 +115,9 @@ export default function groupViewReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {posts: postsloadingComments});
-    case types.LIKE_POST:
+    }
+
+    case types.LIKE_POST: {
       const postsCopyLiked = [...state.posts];
 
       postsCopyLiked.forEach(post => {
@@ -104,7 +130,9 @@ export default function groupViewReducer(state = initialState, action = {}) {
       });
 
       return assignToEmpty(state, {posts: postsCopyLiked});
-    case types.UNLIKE_POST:
+    }
+
+    case types.UNLIKE_POST: {
       const postsCopyUnliked = [...state.posts];
 
       postsCopyUnliked.forEach(post => {
@@ -119,7 +147,10 @@ export default function groupViewReducer(state = initialState, action = {}) {
       });
 
       return assignToEmpty(state, {posts: postsCopyUnliked});
-    default:
+    }
+
+    default: {
       return state;
+    }
   }
 }

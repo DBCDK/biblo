@@ -1,0 +1,41 @@
+
+@import 'tools';
+
+.more-info {
+
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 20px;
+  padding-bottom: 50px;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $body-font;
+    text-transform: none;
+    margin: 0px;
+    color: black;
+  }
+}
+
+.more-info--table {
+  td:first-child {
+    color:$gray;
+    min-width: 150px;
+    display: table-row;
+  }
+}
+
+.more-info--material-types {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.more-info--material-type {
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  .icon--container {
+    top: 12px;
+    margin-right: 8px;
+  }
+}
+

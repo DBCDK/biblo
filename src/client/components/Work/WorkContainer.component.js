@@ -10,6 +10,7 @@ import ModalWindow from '../General/ModalWindow/ModalWindow.component.js';
 
 import {WorkDetail} from './Detail/WorkDetail.component.js';
 import {WorkHeader} from './Header/WorkHeader.component.js';
+import {MoreInfo} from './MoreInfo/MoreInfo.component.js';
 
 import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
@@ -92,7 +93,16 @@ export class WorkContainer extends React.Component {
     const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
     const creator = (work.creator) ? work.creator[0] : 'Anonym';
     const workType = (work.workType) ? work.workType[0] : 'other';
-    const tags = (work.subjectDBCF) ? work.subjectDBCF : [];
+    const extent = (work.extent) ? work.extent[0] : '';
+
+    let tags = [];
+    tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;
+    tags = (work.subjectDBCS) ? tags.concat(work.subjectDBCS) : tags;
+    tags = (work.subjectDBCO) ? tags.concat(work.subjectDBCO) : tags;
+
+    const subjectDK5 = (work.subjectDK5) ? work.subjectDK5[0] : '';
+    const subjectDK5Text = (work.subjectDK5Text) ? work.subjectDK5Text[0] : '';
+
     let profile = this.getProfile();
 
     let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
@@ -170,6 +180,17 @@ export class WorkContainer extends React.Component {
           likeActions={this.props.likeActions}
           expand={this.props.actions.asyncShowReviews}
         />
+
+        <MoreInfo
+          materials={work.collectionDetails}
+          lix={work.lix}
+          languages={work.dcLanguage}
+          dk5={subjectDK5}
+          dk5Text={subjectDK5Text}
+          year={work.date}
+          tags={tags}
+          extent={extent}
+          />
 
       </PageLayout>
     );

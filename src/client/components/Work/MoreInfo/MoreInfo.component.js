@@ -4,24 +4,29 @@ import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
 import audiobookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
+import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
+import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
 
 import './MoreInfo.component.scss';
 
-function type2iconType(type) {
+function type2iconType(type, workType) {
 
-  let iconType = bookSvg;
+  let iconType = otherSvg;
 
-  if (type.match('Lydbog')) {
+  if (workType === 'audiobook') {
     iconType = audiobookSvg;
   }
-  else if (type.match('Bog')) {
+  else if (workType === 'book') {
     iconType = bookSvg;
   }
-  else if (type.match('Film')) {
+  else if (workType === 'game') {
+    iconType = gameSvg;
+  }
+  else if (workType === 'movie') {
     iconType = movieSvg;
   }
-  else if (type.match('Musik')) {
+  else if (workType === 'music') {
     iconType = musicSvg;
   }
   return iconType;
@@ -69,13 +74,21 @@ export class MoreInfo extends React.Component {
 
     let uniqueMaterialTypes = {};
     this.props.materials.forEach((material) => {
-      uniqueMaterialTypes[material.type] = material;
+      uniqueMaterialTypes[material.type] = {
+        type: material.type,
+        workType: material.workType
+      };
     });
 
-    const materialTypeElements = Object.keys(uniqueMaterialTypes).map((type) => (
-      <li className={'more-info--material-type'}>
-        <Icon width={36} height={36} glyph={type2iconType(type)}/><span>{type}</span>
-      </li>)
+    const materialTypeElements = Object.keys(uniqueMaterialTypes).map((key) => (
+        <li className={'more-info--material-type'}>
+          <Icon
+            width={36}
+            height={36}
+            glyph={type2iconType(uniqueMaterialTypes[key].type[0], uniqueMaterialTypes[key].workType[0])}/>
+          <span>{uniqueMaterialTypes[key].type[0]}</span>
+        </li>
+      )
     );
 
     return (
@@ -117,7 +130,9 @@ MoreInfo.propTypes = {
   languages: React.PropTypes.array,
   ageRecommended: React.PropTypes.array,
   ageAllowed: React.PropTypes.string,
+  publisher: React.PropTypes.string,
   director: React.PropTypes.string,
+  actors: React.PropTypes.array,
   lix: React.PropTypes.number,
   extent: React.PropTypes.string,
   materials: React.PropTypes.array.isRequired

@@ -89,8 +89,6 @@ export class WorkContainer extends React.Component {
     const workAndReviews = this.getWorkAndReviews();
     const work = workAndReviews.work;
 
-    console.log(work);
-
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
     const creator = (work.creator) ? work.creator[0] : '';
@@ -138,7 +136,7 @@ export class WorkContainer extends React.Component {
           collectionDetails={work.collectionDetails}
           editText={this.getEditText()}
           toggleReview={this.toggleReview.bind(this)}
-          title={workAndReviews.work.dcTitle[0]}
+          title={workAndReviews.work.dcTitleFull[0]}
           displayType={workType}
           creator={creator}
           abstract={abstract}

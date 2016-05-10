@@ -89,9 +89,11 @@ export class WorkContainer extends React.Component {
     const workAndReviews = this.getWorkAndReviews();
     const work = workAndReviews.work;
 
+    console.log(work);
+
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
-    const abstract = (work.abstract) ? work.abstract[0] : 'Ingen beskrivelse';
-    const creator = (work.creator) ? work.creator[0] : 'Anonym';
+    const abstract = (work.abstract) ? work.abstract[0] : '';
+    const creator = (work.creator) ? work.creator[0] : '';
     const workType = (work.workType) ? work.workType[0] : 'other';
     const extent = (work.extent) ? work.extent[0] : '';
 
@@ -99,9 +101,18 @@ export class WorkContainer extends React.Component {
     tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;
     tags = (work.subjectDBCS) ? tags.concat(work.subjectDBCS) : tags;
     tags = (work.subjectDBCO) ? tags.concat(work.subjectDBCO) : tags;
+    tags = (work.subjectDBCM) ? tags.concat(work.subjectDBCM) : tags;
 
     const subjectDK5 = (work.subjectDK5) ? work.subjectDK5[0] : '';
     const subjectDK5Text = (work.subjectDK5Text) ? work.subjectDK5Text[0] : '';
+
+    const director = (work.creatorDrt) ? work.creatorDrt[0] : null;
+    const actors = (work.contributorAct) ? work.contributorAct : null;
+
+    const publisher = (work.publisher) ? work.publisher[0] : null;
+
+    const ageRecommended = (work.audienceAge) ? work.audienceAge : null;
+    const ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
 
     let profile = this.getProfile();
 
@@ -190,6 +201,12 @@ export class WorkContainer extends React.Component {
           year={work.date}
           tags={tags}
           extent={extent}
+          publisher={publisher}
+          director={director}
+          actors={actors}
+          workType={workType}
+          ageRecommended={ageRecommended}
+          ageAllowed={ageAllowed}
           />
 
       </PageLayout>

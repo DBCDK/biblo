@@ -29,7 +29,6 @@ export class WorkDetail extends React.Component {
     const coverUrl = this.props.coverUrl;
     const title = this.props.title;
     const creator = this.props.creator;
-    const year = this.props.year;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
     const materialTypes = [];
@@ -40,7 +39,7 @@ export class WorkDetail extends React.Component {
 
     const profile = this.props.profile;
 
-    let review =(
+    let review = (
         <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />
     );
 
@@ -49,7 +48,7 @@ export class WorkDetail extends React.Component {
         <div className='work-detail--main'>
           <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
           <h2>{title}</h2>
-          <span className='work-detail--subheader'>{creator}, {year}</span>
+          <span className='work-detail--subheader'>{creator}</span>
           <div className='work-detail--description'>
             {abstract}
           </div>
@@ -98,7 +97,6 @@ WorkDetail.propTypes = {
   abstract: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   creator: React.PropTypes.string.isRequired,
-  year: React.PropTypes.string,
   displayType: React.PropTypes.string.isRequired,
   collection: React.PropTypes.array.isRequired,
   coverUrl: React.PropTypes.string.isRequired,

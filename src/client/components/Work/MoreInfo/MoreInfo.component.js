@@ -31,27 +31,41 @@ export class MoreInfo extends React.Component {
 
   render() {
 
+    const workType = this.props.workType;
+
     const seriesRow = (this.props.series) ? (<tr><td>Serie</td><td>{this.props.series}</td></tr>) : null;
 
     const yearRow = (this.props.year) ? (<tr><td>Udgivet i</td><td>{this.props.year}</td></tr>) : null;
 
     const tagElements = (this.props.tags) ? this.props.tags.map((tag) => (<div><a href={'/find?q=term.subject="' + tag + '"'}>{tag}</a></div>)) : null;
-    const tagsRow = (this.props.tags) ? (<tr><td>Emne</td><td>{tagElements}</td></tr>) : null;
+    const tagsRow = (this.props.tags.length > 0) ? (<tr><td>Emne</td><td>{tagElements}</td></tr>) : null;
 
     const dk5Row = (this.props.dk5) ? (<tr><td>DK5</td><td>{this.props.dk5}</td></tr>) : null;
 
     const dk5TextRow = (this.props.dk5Text) ? (<tr><td>Opstilling</td><td>{this.props.dk5Text}</td></tr>) : null;
 
     const languages = this.props.languages || [];
-    const languageElements = this.props.languages.map((language) => (<div>{language}</div>));
-    const languagesRow = (languages) ? (<tr><td>Sprog</td><td>{languageElements}</td></tr>) : null;
+    const languageElements = languages.map((language) => (<div>{language}</div>));
+    const languagesRow = (languages.length > 0) ? (<tr><td>Sprog</td><td>{languageElements}</td></tr>) : null;
 
-    const audienceElements = (this.props.audience) ? this.props.audience.map((aud) => (<div>{aud}</div>)) : null; // eslint-disable-line no-unused-vars
-    const audienceRow = (this.props.audience) ? (<tr><td>{this.props.audience}</td><td>1</td></tr>) : null;
+    const agesRecommended = this.props.ageRecommended || [];
+    const agesRecommendedElements = agesRecommended.map((age) => (<span>{age}</span>));
+    const agesRecommendedRow = (agesRecommended.length > 0) ? (<tr><td>Alder</td><td>{agesRecommendedElements}</td></tr>) : null;
+
+    const ageAllowedRow = (this.props.ageAllowed) ? (<tr><td>Tilladt for</td><td>{this.props.ageAllowed}</td></tr>) : null;
 
     const lixRow = (this.props.lix) ? (<tr><td>Lix</td><td>{this.props.lix}</td></tr>) : null;
 
-    const extentRow = (this.props.extent) ? (<tr><td>Omfang</td><td>{this.props.extent}</td></tr>) : null;
+    const publisherRow = (this.props.publisher && workType === 'game') ? (<tr><td>Udgiver</td><td>{this.props.publisher}</td></tr>) : null;
+
+    const directorRow = (this.props.director) ? (<tr><td>Instruktør</td><td>{this.props.director}</td></tr>) : null;
+
+    const actors = this.props.actors || [];
+    const actorsElements = actors.map((actor) => (<div>{actor}</div>));
+    const actorsRow = (actors.length > 0) ? (<tr><td>Medvirkende</td><td>{actorsElements}</td></tr>) : null;
+
+    const extentRow = (this.props.extent && workType !== 'music') ? (<tr><td>Omfang</td><td>{this.props.extent}</td></tr>) : null;
+
 
     let uniqueMaterialTypes = {};
     this.props.materials.forEach((material) => {
@@ -69,13 +83,17 @@ export class MoreInfo extends React.Component {
         <h2>Mere info</h2>
         <table className='more-info--table'>
           <tbody>
+            {publisherRow}
+            {directorRow}
+            {actorsRow}
             {seriesRow}
-            {yearRow}
             {tagsRow}
+            {yearRow}
             {dk5Row}
             {dk5TextRow}
             {languagesRow}
-            {audienceRow}
+            {ageAllowedRow}
+            {agesRecommendedRow}
             {lixRow}
             {extentRow}
           </tbody>
@@ -90,13 +108,16 @@ export class MoreInfo extends React.Component {
 
 MoreInfo.displayName = 'MoreInfo';
 MoreInfo.propTypes = {
+  workType: React.PropTypes.string.isRequired,
   tags: React.PropTypes.array,
   series: React.PropTypes.string,
   year: React.PropTypes.string,
   dk5: React.PropTypes.string,
   dk5Text: React.PropTypes.string,
   languages: React.PropTypes.array,
-  audience: React.PropTypes.array,
+  ageRecommended: React.PropTypes.array,
+  ageAllowed: React.PropTypes.string,
+  director: React.PropTypes.string,
   lix: React.PropTypes.number,
   extent: React.PropTypes.string,
   materials: React.PropTypes.array.isRequired

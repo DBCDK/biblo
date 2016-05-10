@@ -4,19 +4,24 @@ import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
 import audiobookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
+import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
+import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
 
 import './MoreInfo.component.scss';
 
 function type2iconType(type, workType) {
 
-  let iconType = bookSvg;
+  let iconType = otherSvg;
 
   if (workType === 'audiobook') {
     iconType = audiobookSvg;
   }
   else if (workType === 'book') {
     iconType = bookSvg;
+  }
+  else if (workType === 'game') {
+    iconType = gameSvg;
   }
   else if (workType === 'movie') {
     iconType = movieSvg;

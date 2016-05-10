@@ -136,7 +136,7 @@ export class WorkContainer extends React.Component {
           collectionDetails={work.collectionDetails}
           editText={this.getEditText()}
           toggleReview={this.toggleReview.bind(this)}
-          title={workAndReviews.work.dcTitle[0]}
+          title={workAndReviews.work.dcTitleFull[0]}
           displayType={workType}
           creator={creator}
           abstract={abstract}

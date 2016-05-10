@@ -32,8 +32,12 @@
 .more-info--material-type {
   padding-top: 4px;
   padding-bottom: 4px;
+  color: $governor-bay;
 
   .icon--container {
+    .icon {
+      fill: $governor-bay;
+    }
     top: 12px;
     margin-right: 8px;
   }

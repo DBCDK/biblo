@@ -48,7 +48,7 @@ export class WorkDetail extends React.Component {
         <div className='work-detail--main'>
           <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
           <h2>{title}</h2>
-          <span className='work-detail--subheader'>{creator}</span>
+          <span className='work-detail--subheader'><a href={'/find?q=term.creator="'+creator+'"'}>{creator}</a></span>
           <div className='work-detail--description'>
             {abstract}
           </div>

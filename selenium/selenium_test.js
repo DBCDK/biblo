@@ -13,7 +13,7 @@ driverTimeout = parseInt(driverTimeout, 10);
 
 function runAllTests(driverCaps) {
   glob.sync('**/*.ui.test.js', {cwd: __dirname}).forEach((file) => {
-    let currentTest = require(`${__dirname}/${file}`);
+    var currentTest = require(`${__dirname}/${file}`);
     Object.keys(currentTest).forEach((testName) => {
       currentTest[testName]({
         driverCaps,

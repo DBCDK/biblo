@@ -26,8 +26,6 @@
       }
     }
 
-
-
     .material-result-list--description {
 
       overflow: hidden;
@@ -43,3 +41,8 @@
   }
 }
 
+.material-result-list--empty-result {
+  padding: 50px 10px 50px 10px;
+  min-height: 40vh;
+  text-align: center;
+}

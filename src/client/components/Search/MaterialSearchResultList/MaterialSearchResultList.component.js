@@ -62,11 +62,22 @@ export default class MaterialSearchResultList extends React.Component {
       );
     });
 
+    let result = (
+      <ul className='material-result-list'>
+        {listElements}
+      </ul>
+    );
+    if (listElements.length === 0) {
+      result = (
+        <div className='material-result-list--empty-result'>
+          Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.
+        </div>
+      );
+    }
+
     return (
       <div>
-        <ul className='material-result-list'>
-          {listElements}
-        </ul>
+        {result}
       </div>
     );
   }

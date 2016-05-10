@@ -101,143 +101,143 @@ export class ProfileDetailContainer extends React.Component {
       }
       switch (activity.type) {
         case 'comment':
-        {
-          let title = displayName + ' skrev en kommentar';
+          {
+            let title = displayName + ' skrev en kommentar';
 
-          if (activity.post && activity.post.group && activity.post.group.name) {
-            title = (
-              <span>
-                <span dangerouslySetInnerHTML={{__html: title}} />
-                <span> i </span>
-                <a href={`/grupper/${activity.post.group.id}`}
-                   dangerouslySetInnerHTML={{__html: activity.post.group.name}} />
-                <span>:</span>
-              </span>
+            if (activity.post && activity.post.group && activity.post.group.name) {
+              title = (
+                <span>
+                  <span dangerouslySetInnerHTML={{__html: title}} />
+                  <span> i </span>
+                  <a href={`/grupper/${activity.post.group.id}`}
+                     dangerouslySetInnerHTML={{__html: activity.post.group.name}} />
+                  <span>:</span>
+                </span>
+              );
+            }
+            else {
+              title += ' ';
+            }
+
+            activity = assignToEmpty({
+              imageSrc: '',
+              id: '',
+              timeCreated: Date.now()
+            }, activity);
+
+            activity.post = assignToEmpty({
+              content: '',
+              id: ''
+            }, activity.post);
+
+            activity.post.owner = assignToEmpty({
+              displayName: '',
+              id: ''
+            }, activity.post.owner);
+
+            activity.post.group = assignToEmpty({
+              id: '',
+              name: ''
+            }, activity.post.group);
+
+            return (
+              <ActivityRow
+                likes={0}
+                imageSrc={activity.imageSrc}
+                key={'comment_' + activity.id}
+                title={title}
+              >
+                <PostView
+                  content={activity.post.content}
+                  html={activity.post.html}
+                  timeCreated={activity.timeCreated}
+                  owner={activity.post.owner}
+                  id={activity.post.id}
+                  profile={this.props.profile}
+                  groupId={activity.post.groupid}
+                  likes={activity.post.likes}
+                  comments={[activity]}
+                  commentsCount={0}
+                  numberOfCommentsLoaded={1}
+                  actions={{}}
+                  likeActions={this.props.likeActions}
+                  flagActions={this.props.flagActions}
+                  groupActions={this.props.groupActions}
+                  loadingComments={false}
+                  commentRedirect={`/profil/${activity.owner.id}`}
+                  uiActions={this.props.uiActions}
+                  image={activity.post.image}
+                />
+              </ActivityRow>
             );
           }
-          else {
-            title += ' ';
-          }
-
-          activity = assignToEmpty({
-            imageSrc: '',
-            id: '',
-            timeCreated: Date.now()
-          }, activity);
-
-          activity.post = assignToEmpty({
-            content: '',
-            id: ''
-          }, activity.post);
-
-          activity.post.owner = assignToEmpty({
-            displayName: '',
-            id: ''
-          }, activity.post.owner);
-
-          activity.post.group = assignToEmpty({
-            id: '',
-            name: ''
-          }, activity.post.group);
-
-          return (
-            <ActivityRow
-              likes={0}
-              imageSrc={activity.imageSrc}
-              key={'comment_' + activity.id}
-              title={title}
-            >
-              <PostView
-                content={activity.post.content}
-                html={activity.post.html}
-                timeCreated={activity.timeCreated}
-                owner={activity.post.owner}
-                id={activity.post.id}
-                profile={this.props.profile}
-                groupId={activity.post.groupid}
-                likes={activity.post.likes}
-                comments={[activity]}
-                commentsCount={0}
-                numberOfCommentsLoaded={1}
-                actions={{}}
-                likeActions={this.props.likeActions}
-                flagActions={this.props.flagActions}
-                groupActions={this.props.groupActions}
-                loadingComments={false}
-                commentRedirect={`/profil/${activity.owner.id}`}
-                uiActions={this.props.uiActions}
-                image={activity.post.image}
-              />
-            </ActivityRow>
-          );
-        }
 
         case 'post':
-        {
-          let postTitle = displayName + ' oprettede et indlæg';
+          {
+            let postTitle = displayName + ' oprettede et indlæg';
 
-          if (activity.group && activity.group.name) {
-            postTitle = (
-              <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}} />
-                <span> i </span>
-                <a href={`/grupper/${activity.group.id}`}
-                   dangerouslySetInnerHTML={{__html: activity.group.name}} />
-                <span>:</span>
-              </span>
+            if (activity.group && activity.group.name) {
+              postTitle = (
+                <span>
+                  <span dangerouslySetInnerHTML={{__html: postTitle}} />
+                  <span> i </span>
+                  <a href={`/grupper/${activity.group.id}`}
+                     dangerouslySetInnerHTML={{__html: activity.group.name}} />
+                  <span>:</span>
+                </span>
+              );
+            }
+            else {
+              postTitle += ':';
+            }
+
+            activity = assignToEmpty({
+              imageSrc: '',
+              id: '',
+              content: '',
+              timeCreated: Date.now()
+            }, activity);
+
+            activity.group = assignToEmpty({
+              id: '',
+              name: ''
+            }, activity.group);
+
+            return (
+              <ActivityRow
+                likes={0}
+                imageSrc={activity.imageSrc}
+                key={'post_' + activity.id}
+                title={postTitle}
+              >
+                <PostView
+                  content={activity.content}
+                  likes={activity.likes}
+                  html={activity.html}
+                  timeCreated={activity.timeCreated}
+                  owner={activity.owner}
+                  id={activity.id}
+                  profile={this.props.profile}
+                  groupId={activity.group.id}
+                  comments={[]}
+                  commentsCount={0}
+                  numberOfCommentsLoaded={0}
+                  actions={{}}
+                  flagActions={this.props.flagActions}
+                  likeActions={this.props.likeActions}
+                  groupActions={this.props.groupActions}
+                  loadingComments={false}
+                  uiActions={this.props.uiActions}
+                  image={activity.image}
+                />
+              </ActivityRow>
             );
           }
-          else {
-            postTitle += ':';
-          }
-
-          activity = assignToEmpty({
-            imageSrc: '',
-            id: '',
-            content: '',
-            timeCreated: Date.now()
-          }, activity);
-
-          activity.group = assignToEmpty({
-            id: '',
-            name: ''
-          }, activity.group);
-
-          return (
-            <ActivityRow
-              likes={0}
-              imageSrc={activity.imageSrc}
-              key={'post_' + activity.id}
-              title={postTitle}
-            >
-              <PostView
-                content={activity.content}
-                likes={activity.likes}
-                html={activity.html}
-                timeCreated={activity.timeCreated}
-                owner={activity.owner}
-                id={activity.id}
-                profile={this.props.profile}
-                groupId={activity.group.id}
-                comments={[]}
-                commentsCount={0}
-                numberOfCommentsLoaded={0}
-                actions={{}}
-                flagActions={this.props.flagActions}
-                likeActions={this.props.likeActions}
-                groupActions={this.props.groupActions}
-                loadingComments={false}
-                uiActions={this.props.uiActions}
-                image={activity.image}
-              />
-            </ActivityRow>
-          );
-        }
 
         default:
-        {
-          return '';
-        }
+          {
+            return '';
+          }
       }
     });
   }

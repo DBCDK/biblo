@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file
  */
@@ -14,11 +12,11 @@ export default class Tabs extends React.Component {
 
     this.state = {
       selected: this.props.selected || 0
-    }
+    };
   }
 
   onClick(index) {
-    this.setState({selected: index})
+    this.setState({selected: index});
   }
 
   renderPanes() {

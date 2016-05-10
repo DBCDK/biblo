@@ -1,5 +1,5 @@
 @import 'tools';
-
+/*
 .material-result-list {
 
   list-style: none;
@@ -11,7 +11,6 @@
   @include container();
 
   li {
-
     @include gallery(1 of 5);
     display:inline-block;
     margin-left: 50px;
@@ -37,7 +36,48 @@
       }
     }
   }
-
 }
+*/
 
+.material-result-list {
+  list-style: none;
+
+  @include container();
+
+  padding-top: 20px;
+  padding-left: 5%;
+  padding-right: 5%;
+
+  li {
+    @include gallery(1 of 5);
+    margin-bottom: 20px;
+
+    .material-result-list--cover-image {
+
+      min-height: 250px;
+      position: relative;
+
+      img {
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+      }
+    }
+
+
+
+    .material-result-list--description {
+
+      overflow: hidden;
+
+      .icon--container {
+        position: absolute !important;
+      }
+
+      .material-result-list--title {
+        margin-left: 24px;
+      }
+    }
+  }
+}
 

@@ -49,7 +49,7 @@ export default class MaterialSearchResultList extends React.Component {
         <li key={i}>
           <a href={workUrl}>
             <div className='material-result-list--cover-image'>
-              <img width='160' height='220' src={coverUrl} />
+              <img src={coverUrl} />
             </div>
             <div className='material-result-list--description'>
               <Icon glyph={displayTypeSvgs[displayType]} />

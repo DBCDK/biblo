@@ -89,8 +89,6 @@ export class WorkContainer extends React.Component {
     const workAndReviews = this.getWorkAndReviews();
     const work = workAndReviews.work;
 
-    console.log(work);
-
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
     const creator = (work.creator) ? work.creator[0] : '';

@@ -8,20 +8,20 @@ import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music_no
 
 import './MoreInfo.component.scss';
 
-function type2iconType(type) {
+function type2iconType(type, workType) {
 
   let iconType = bookSvg;
 
-  if (type.match('Lydbog')) {
+  if (workType === 'audiobook') {
     iconType = audiobookSvg;
   }
-  else if (type.match('Bog')) {
+  else if (workType === 'book') {
     iconType = bookSvg;
   }
-  else if (type.match('Film')) {
+  else if (workType === 'movie') {
     iconType = movieSvg;
   }
-  else if (type.match('Musik')) {
+  else if (workType === 'music') {
     iconType = musicSvg;
   }
   return iconType;
@@ -69,13 +69,17 @@ export class MoreInfo extends React.Component {
 
     let uniqueMaterialTypes = {};
     this.props.materials.forEach((material) => {
-      uniqueMaterialTypes[material.type] = material;
+      uniqueMaterialTypes[material.type] = {
+        type:material.type,
+        workType: material.workType
+      };
     });
 
-    const materialTypeElements = Object.keys(uniqueMaterialTypes).map((type) => (
-      <li className={'more-info--material-type'}>
-        <Icon width={36} height={36} glyph={type2iconType(type)}/><span>{type}</span>
-      </li>)
+    const materialTypeElements = Object.keys(uniqueMaterialTypes).map((key) => (
+        <li className={'more-info--material-type'}>
+          <Icon width={36} height={36} glyph={type2iconType(uniqueMaterialTypes[key].type[0], uniqueMaterialTypes[key].workType[0])}/><span>{uniqueMaterialTypes[key].type[0]}</span>
+        </li>
+      )
     );
 
     return (

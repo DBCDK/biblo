@@ -31,6 +31,7 @@ const WorkTransform = {
         'subjectDK5Text',
         'titleSeries',
         'partOf',
+        'isPartOf',
         'hasPartTrack',
         'hasAdaptation',
         'hasOnlineAccess',

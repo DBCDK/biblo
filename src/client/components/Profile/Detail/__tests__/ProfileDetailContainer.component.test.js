@@ -17,7 +17,8 @@ import {uiMock} from '../../../__mocks__/ui.mock';
 
 describe('Test profile detail container (public profile)', () => {
   it('Test profile detail container can render', () => {
-    const noop = () => {};
+    const noop = () => {
+    };
 
     // actions for this test (just use spies)
     let feedActions = {
@@ -65,7 +66,8 @@ describe('Test profile detail container (public profile)', () => {
   });
 
   it('should render activity rows containing posts, and a comment.', () => {
-    const noop = () => {};
+    const noop = () => {
+    };
 
     // actions for this test (just use spies)
     let feedActions = {
@@ -107,13 +109,13 @@ describe('Test profile detail container (public profile)', () => {
 
     let activityRows = $root.find('.activity-row--container > .activity-row');
 
-//    expect(activityRows[0].innerHTML).toContain(`Din aktivitet på siden:`);
-    expect(activityRows[1].innerHTML).toContain(feedMock.feed[0].html);
-    expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].html);
+    expect(activityRows[0].innerHTML).toContain(feedMock.feed[0].html);
+    expect(activityRows[1].outerHTML).toContain(feedMock.feed[1].html);
   });
 
   it('should render rows containing an edit link when a moderator is viewing', () => {
-    const noop = () => {};
+    const noop = () => {
+    };
 
     // actions for this test (just use spies)
     let feedActions = {

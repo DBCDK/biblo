@@ -76,6 +76,9 @@ export default class SearchContainer extends React.Component {
 
   render() {
 
+    let initialQuery = this.props.search.initialQuery;
+
+
     const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
     const dropDown = (
       <SearchDropDown
@@ -109,7 +112,7 @@ export default class SearchContainer extends React.Component {
             <input
               type='search'
               placeholder='Søg på bøger, film og spil'
-              defaultValue={this.props.search.initialQuery}
+              defaultValue={initialQuery}
               onChange={this.searchInputChanged}
               onKeyDown={this.submitInput}
               onBlur={() => this.setState({queryFieldIsActive: false})}

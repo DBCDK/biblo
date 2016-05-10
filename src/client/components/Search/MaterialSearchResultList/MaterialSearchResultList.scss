@@ -1,43 +1,5 @@
 @import 'tools';
-/*
-.material-result-list {
 
-  list-style: none;
-  margin: 0px;
-  padding: 20px;
-  padding-left: 10%;
-  padding-right: 10%;
-  display: inline-block;
-  @include container();
-
-  li {
-    @include gallery(1 of 5);
-    display:inline-block;
-    margin-left: 50px;
-    margin-bottom: 50px;
-    width: 160px;
-    min-height: 220px;
-
-    img {
-      max-height: 100%;
-      max-width: 100%;
-    }
-
-    .material-result-list--description {
-
-      overflow: hidden;
-
-      .icon--container {
-        position: absolute !important;
-      }
-
-      .material-result-list--title {
-        margin-left: 24px;
-      }
-    }
-  }
-}
-*/
 
 .material-result-list {
   list-style: none;

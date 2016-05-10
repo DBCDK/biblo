@@ -158,6 +158,7 @@ const WorkTransform = {
         'contributorPro',
         'abstract',
         'workType',
+        'typeBibDKType',
         'type',
         'date'
       ],

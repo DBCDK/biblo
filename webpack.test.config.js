@@ -60,8 +60,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.NormalModuleReplacementPlugin(/\.(scss|css|svg)$/, path.resolve(__dirname, 'src/client/scss/settings/colors.scss')), // replace all .scss files with one specific (and small) .scss file. We don't care about sass when testing anyways.
-    new webpack.NormalModuleReplacementPlugin(/\.(svg)$/, path.resolve(__dirname, 'src/client/components/General/Icon/svg/functions/apple.svg')), // replace all .svg files with one specific .svg file. We don't care about svg's when testing anyways.
+    new webpack.NormalModuleReplacementPlugin(/\.(scss)$/, path.resolve(__dirname, 'src/client/scss/settings/colors.scss')), // replace all .scss files with one specific (and small) .scss file. We don't care about sass when testing anyways.
     extractCss,
     new webpack.IgnorePlugin(/(ReactContext)/)
   ],

@@ -24,6 +24,9 @@ module.exports = {
     root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')],
     extensions: ['', '.js']
   },
+
+  cache: true,
+
   module: {
     preLoaders: [
       {
@@ -43,13 +46,10 @@ module.exports = {
     ],
     loaders: [
       {
-        test: /\.(scss|css)$/,
+        test: /\.(scss)$/,
         loader: extractTextPlugin.extract(
-          'css?sourceMap!' +
-          'sass?sourceMap' +
-          "&includePaths[]=" + path.resolve(__dirname, "./src/client/scss/") +
-          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-sass-mixins/lib") +
-          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries")
+          'css!' +
+          'sass'
         )
       },
       {
@@ -60,6 +60,7 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.NormalModuleReplacementPlugin(/\.(scss)$/, path.resolve(__dirname, 'src/client/scss/settings/colors.scss')), // replace all .scss files with one specific (and small) .scss file. We don't care about sass when testing anyways.
     extractCss,
     new webpack.IgnorePlugin(/(ReactContext)/)
   ],
@@ -70,5 +71,7 @@ module.exports = {
 
   externals: {
     sinon: 'sinon'
-  }
+  },
+
+  devtool: '#eval'
 };

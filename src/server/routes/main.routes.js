@@ -6,11 +6,11 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
-import {setReferer, redirectBackToOrigin, ensureUserHasProfile} from '../middlewares/auth.middleware.js';
+import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
 
 const MainRoutes = express.Router();
 
-MainRoutes.get('/', ensureUserHasProfile, (req, res) => {
+MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) => {
   const settingsUrl = config.biblo.getConfig({}).provider.services.community.endpoint +
     'api/fileContainers/uxdev-biblo-content-frontpage/download/frontpage_content.json';
 

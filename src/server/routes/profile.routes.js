@@ -6,7 +6,12 @@
 import express from 'express';
 import multer from 'multer';
 
-import {ensureUserHasProfile, ensureAuthenticated, redirectBackToOrigin} from '../middlewares/auth.middleware';
+import {
+  ensureUserHasProfile,
+  ensureAuthenticated,
+  redirectBackToOrigin,
+  ensureUserHasValidLibrary
+} from '../middlewares/auth.middleware';
 import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
@@ -19,6 +24,103 @@ function getAgencyShortName(agency) {
   }
   return agency.branchShortName.$value;
 }
+
+async function checkUserLibraryInfo(req, b, p) {
+  let errors = [];
+  let updatedProfileObject = {};
+
+  if (
+    typeof b.libraryId === 'string' && b.libraryId.length > 0 &&
+    typeof b.loanerId === 'string' && b.loanerId.length > 0 &&
+    typeof b.pincode === 'string' && b.pincode.length > 0
+  ) {
+    const borrChk = (await req.callServiceProvider('borrowerCheck', {
+      loanerID: b.loanerId,
+      pincode: b.pincode,
+      agencyID: b.libraryId
+    }))[0];
+
+    if (borrChk.data === 'ok') {
+      updatedProfileObject.favoriteLibrary = {
+        libraryId: b.libraryId,
+        pincode: b.pincode,
+        loanerId: b.loanerId
+      };
+    }
+    else if (borrChk.data === 'borrower_not_found') {
+      errors.push({
+        field: 'loanerId',
+        errorMessage: 'Forkert lånernummer eller pinkode!'
+      });
+    }
+    else {
+      errors.push({
+        field: 'loanerId',
+        errorMessage: 'Der er sket en fejl! Prøv igen senere!'
+      });
+    }
+  }
+  else if (
+    typeof b.libraryId === 'string' &&
+    b.libraryId.length > 0 ||
+    typeof b.libraryId === 'number' &&
+    b.libraryId > 0
+  ) {
+    if ((p.favoriteLibrary || {}).libraryId !== b.libraryId) {
+      updatedProfileObject.favoriteLibrary = {
+        libraryId: b.libraryId
+      };
+    }
+  }
+  else {
+    errors.push({
+      field: 'libraryId',
+      errorMessage: 'Du skal vælge et bibliotek!'
+    });
+  }
+
+  return {errors, updatedProfileObject};
+}
+
+
+ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, function (req, res) {
+  res.render('page', {
+    css: ['/css/profileeditlibrary.css'],
+    js: ['/js/profileeditlibrary.js']
+  });
+});
+
+ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, async function (req, res, next) {
+  try {
+    let p = req.session.passport.user.profile.profile;
+    const b = req.body;
+
+    const libraryCheck = await checkUserLibraryInfo(req, b, p);
+
+    if (libraryCheck.errors && libraryCheck.errors.length > 0) {
+      return res.render('page', {
+        css: ['/css/profileeditlibrary.css'],
+        js: ['/js/profileeditlibrary.js'],
+        jsonData: [JSON.stringify(libraryCheck)]
+      });
+    }
+
+    const result = (await req.callServiceProvider('updateProfile', libraryCheck.updatedProfileObject))[0];
+    if (result.error && result.error.length > 0) {
+      return res.render('page', {
+        css: ['/css/profileeditlibrary.css'],
+        js: ['/js/profileeditlibrary.js'],
+        jsonData: [JSON.stringify(result)]
+      });
+    }
+
+    req.session.passport.user.profile.profile = Object.assign({}, p, result.data);
+    return res.redirect(req.session.returnUrl || '/');
+  }
+  catch (e) {
+    return next(e);
+  }
+});
 
 ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res, next) {
   try {
@@ -96,12 +198,13 @@ ProfileRoutes.post(
       // fetch library details and attach to favorite library
       if (p && p.favoriteLibrary && p.favoriteLibrary.libraryId) {
         const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
-        const selectedLibrary = {
-          libraryId: agency.agencyId,
-          libraryName: agency.agencyName,
-          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
-        };
-        p.favoriteLibrary = selectedLibrary;
+        if (agency) {
+          p.favoriteLibrary = {
+            libraryId: agency.agencyId,
+            libraryName: getAgencyShortName(agency),
+            libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+          };
+        }
       }
 
       const b = req.body;
@@ -131,55 +234,9 @@ ProfileRoutes.post(
         }
       }
 
-      if (
-        typeof b.libraryId === 'string' && b.libraryId.length > 0 &&
-        typeof b.loanerId === 'string' && b.loanerId.length > 0 &&
-        typeof b.pincode === 'string' && b.pincode.length > 0
-      ) {
-        const borrChk = (await req.callServiceProvider('borrowerCheck', {
-          loanerID: b.loanerId,
-          pincode: b.pincode,
-          agencyID: b.libraryId
-        }))[0];
-
-        if (borrChk.data === 'ok') {
-          updatedProfileObject.favoriteLibrary = {
-            libraryId: b.libraryId,
-            pincode: b.pincode,
-            loanerId: b.loanerId
-          };
-        }
-        else if (borrChk.data === 'borrower_not_found') {
-          errors.push({
-            field: 'loanerId',
-            errorMessage: 'Forkert lånernummer eller pinkode!'
-          });
-        }
-        else {
-          errors.push({
-            field: 'loanerId',
-            errorMessage: 'Der er sket en fejl! Prøv igen senere!'
-          });
-        }
-      }
-      else if (
-        typeof b.libraryId === 'string' &&
-        b.libraryId.length > 0 ||
-        typeof b.libraryId === 'number' &&
-        b.libraryId > 0
-      ) {
-        if ((p.favoriteLibrary || {}).libraryId !== b.libraryId) {
-          updatedProfileObject.favoriteLibrary = {
-            libraryId: b.libraryId
-          };
-        }
-      }
-      else {
-        errors.push({
-          field: 'libraryId',
-          errorMessage: 'Du skal vælge et bibliotek!'
-        });
-      }
+      let libraryCheck = await checkUserLibraryInfo(req, b, p);
+      errors.concat(libraryCheck.errors);
+      updatedProfileObject = Object.assign(updatedProfileObject, libraryCheck.updatedProfileObject);
 
       if (
         typeof b.displayname === 'string' &&
@@ -316,32 +373,36 @@ ProfileRoutes.post(
     }
   });
 
-ProfileRoutes.get(['/:id', '/'], ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureProfileImage, async function (req, res) {
-  let profile,
-    profileId = req.params.id,
-    data = {
-      feed: {},
-      errors: []
-    };
+ProfileRoutes.get(
+  ['/:id', '/'],
+  ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
+  async function (req, res) {
+    let profile,
+      profileId = req.params.id,
+      data = {
+        feed: {},
+        errors: []
+      };
 
-  if (!profileId) {
-    profile = JSON.parse(res.locals.profile);
-    profileId = profile.profile.id;
-  }
+    if (!profileId) {
+      profile = JSON.parse(res.locals.profile);
+      profileId = profile.profile.id;
+    }
 
-  try {
-    data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
-  }
-  catch (e) { // eslint-disable-line no-catch-shadow
-    data.errors = [e];
-  }
+    try {
+      data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
+    }
+    catch (e) { // eslint-disable-line no-catch-shadow
+      data.errors = [e];
+    }
 
-  res.render('page', {
-    css: ['/css/profiledetail.css'],
-    js: ['/js/profiledetail.js'],
-    jsonData: [JSON.stringify(data)]
-  });
-});
+    res.render('page', {
+      css: ['/css/profiledetail.css'],
+      js: ['/js/profiledetail.js'],
+      jsonData: [JSON.stringify(data)]
+    });
+  }
+);
 
 
 export default ProfileRoutes;

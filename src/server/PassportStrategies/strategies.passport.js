@@ -63,6 +63,24 @@ export function Unilogin(app, uniloginConfig) {
           ttl: 0 // use default ttl
         })[0];
       }).then((res) => {
+        // We now check if a users library, to ensure it exists
+        if (res.body.profile && res.body.profile.favoriteLibrary && res.body.profile.favoriteLibrary.libraryId) {
+          return new Promise((resolveTemp1) => {
+            serviceProvider.trigger('pickupAgencyList', {agencyId: res.body.profile.favoriteLibrary.libraryId})[0].then((libraryRes) => {
+              if (libraryRes.error && libraryRes.error === 'no_agencies_found') {
+                res.body.profile.favoriteLibrary.libraryIsInvalid = true;
+              }
+
+              resolveTemp1(res);
+            }).catch((err) => {
+              logger.error('an error occurred when getting pickupAgencListDetails', {error: err.message});
+              resolveTemp1(res);
+            });
+          });
+        }
+
+        return res;
+      }).then((res) => {
         logger.info('User was successfully logged in', {ticket: ticket, user: res});
         done(null, res.body);
       }).catch((err) => {

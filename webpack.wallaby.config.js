@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Config file for webpack
+ * Config file for webpack used by wallaby
  */
 
 var webpack = require('webpack');
@@ -19,25 +19,6 @@ module.exports = {
 
   cache: true,
 
-  module: {
-    preLoaders: [
-      {
-        test: /\.js?$/,
-        loader: 'babel',
-        exclude: /node_modules/,
-        query: {
-          presets: ['react', 'es2015'],
-          plugins: ['transform-runtime', 'transform-async-to-generator']
-        }
-      },
-      {
-        test: /\.js$/,
-        exclude: /(test|node_modules|bower|__tests__)\//,
-        loader: 'isparta'
-      }
-    ]
-  },
-
   plugins: [
     new webpack.NormalModuleReplacementPlugin(/\.(gif|svg|scss|css)$/, 'node-noop'), // replace all .scss files with one specific (and small) .scss file. We don't care about sass when testing anyways.
     new webpack.IgnorePlugin(/(ReactContext)/)
@@ -51,5 +32,5 @@ module.exports = {
     sinon: 'sinon'
   },
 
-  devtool: '#eval'
+  devtool: 'source-map'
 };

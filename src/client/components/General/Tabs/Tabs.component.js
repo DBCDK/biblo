@@ -11,7 +11,7 @@ export default class Tabs extends React.Component {
     super(props);
 
     this.state = {
-      selected: this.props.selected || 0
+      selected: this.props.selected
     };
   }
 
@@ -57,4 +57,8 @@ export default class Tabs extends React.Component {
 Tabs.propTypes = {
   selected: React.PropTypes.number,
   tabs: React.PropTypes.array
+};
+
+Tabs.defaultProps = {
+  selected: 0
 };

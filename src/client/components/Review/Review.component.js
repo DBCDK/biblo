@@ -26,6 +26,8 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
+import {addContent, readInput} from '../../Utils/uploadmedia.js';
+
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
@@ -147,91 +149,10 @@ export default class Review extends React.Component {
     });
   }
 
-  onAbort(event) {
-    if (this.abortXHR) {
-      this.abortXHR();
-    }
-    if (this.props.abort) {
-      this.props.abort(event);
-    }
-    this.setState({content: '', attachment: {image: null, video: null, errors: []}});
-    this.abortXHR = null;
-  }
-
-  readInput(input) { // eslint-disable-line consistent-return
-    if (input.target.files && input.target.files[0]) {
-      const file = input.target.files[0];
-      const type = file.type.split('/')[0];
-      if (type !== 'image' && type !== 'video') {
-        return false;
-      }
-
-      if (type === 'image') {
-        this.handleImage(file);
-      }
-
-      if (type === 'video') {
-        this.handleVideo(file);
-      }
-    }
-  }
-
-  handleImage(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const attachment = {image: e.target.result, video: null};
-      this.setState({attachment: attachment});
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  handleVideo(file) {
-    file.progress = 0;
-    const attachment = {image: null, video: {file: file}};
-    this.setState({attachment: attachment});
-    this.uploadVideoFile(file);
-  }
-
-  uploadVideoFile(file) {
-    const form = new FormData();
-    form.append('video', file);
-
-    const XHR = new XMLHttpRequest();
-    XHR.open('post', '/anmeldelse/api/uploadmedia');
-    XHR.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percentage = (e.loaded / e.total) * 100;
-        let attachment = this.state.attachment;
-        attachment.video.file.progress = percentage;
-        this.setState({attachment: attachment});
-      }
-    };
-
-    XHR.onerror = (e) => {
-      console.error('Some error occurred', e); // eslint-disable-line no-console
-      this.abortXHR = null;
-    };
-
-    XHR.onload = (e) => {
-      this.abortXHR = null;
-      if (e.target.status === 200) {
-        this.refs.fileInput.value = null;
-      }
-      else {
-        console.error('Some error occurred', e.target); // eslint-disable-line no-console
-      }
-    };
-
-    this.abortXHR = () => XHR.abort();
-    XHR.send(form);
-  }
-
   clearImage(e) {
     e.preventDefault();
     let attachment = this.state.attachment;
     attachment.image = null;
-
     if (this.refs.fileInput.value) {
       this.refs.fileInput.value = null;
       this.setState({
@@ -251,44 +172,12 @@ export default class Review extends React.Component {
   onSubmit(evt) {
     evt.preventDefault();
     if (this.validate()) {
-      if (XMLHttpRequest && FormData) {
-        this.setState({isLoading: true});
-        let form = this.refs.contentForm;
-        let formData = new FormData(form);
-        var request = new XMLHttpRequest();
-        request.open('post', '/anmeldelse/');
-        request.onload = (event) => {
-          if (event.target.status === 200) {
-            const addReviewReponse = JSON.parse(event.target.response);
-            let data = addReviewReponse.data;
-            if (addReviewReponse.errors && addReviewReponse.errors.length > 0) {
-              this.setState({
-                isLoading: false,
-                errorMsg: addReviewReponse.errors[0].errorMessage,
-                errors: []
-              });
-            }
-            else {
-              data.isLoading = false;
-              data.isEditing = false;
-              data.errors = [];
-              if (this.props.abort) {
-                this.props.abort();
-              }
-              else {
-                this.setState(data);
-              }
-            }
-          }
-          else {
-            this.setState({
-              isLoading: false,
-              errorMsg: 'Hmm. Vi kunne desvære ikke oprette din anmeldelse - prøv igen'
-            });
-          }
-        };
-        request.send(formData);
-      }
+      this.setState({isLoading: true});
+      addContent(this.refs.contentForm, '/anmeldelse/').then(() => {
+        this.setState({isLoading: false});
+      }).catch((state) => {
+        this.setState(state);
+      });
     }
     return false;
   }
@@ -307,7 +196,7 @@ export default class Review extends React.Component {
       } = this.state;
 
     const errorObj = {};
-    if (!isSiteOpen()) {
+    if (!isSiteOpen() && !profile.isModerator) {
       errors = [];
       errors.push(
         {
@@ -489,7 +378,9 @@ export default class Review extends React.Component {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={(event) => this.readInput(event)}
+                        onChange={(event) => readInput(event).then((state) => {
+                          this.setState(state);
+                        })}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

@@ -17,6 +17,8 @@ import spinner from '../../General/Icon/svg/spinners/loading-spin.svg';
 // Styles
 import './scss/addContent.scss';
 
+import {addContent, readInput} from '../../../Utils/uploadmedia.js';
+
 export default class AddContent extends React.Component {
 
   constructor(props) {
@@ -47,13 +49,7 @@ export default class AddContent extends React.Component {
     }
   }
 
-  /**
-   * Callback for the submit button on 'group-post-form'
-   *
-   * @param {Event} e
-   */
   onSubmit(e) {
-
     if (!isSiteOpen() && !this.props.profile.isModerator) {
       e.preventDefault();
       this.setState({errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'});
@@ -62,40 +58,19 @@ export default class AddContent extends React.Component {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
     }
-    else if (XMLHttpRequest && FormData) {
+    else {
       this.setState({isLoading: true});
       e.preventDefault();
-      var request = new XMLHttpRequest();
-      request.open('POST', this.state.target);
-      request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      request.send(new FormData(e.target));
-      request.onload = (event) => {
-        this.setState({isLoading: false});
-        if (event.target.status === 200) {
-          const addContentReponse = JSON.parse(event.target.response);
-          if (addContentReponse.errors && addContentReponse.errors.length > 0) {
-            this.setState({errorMsg: addContentReponse.errors[0].errorMessage});
-          }
-          else {
-            this.props.addContentAction(addContentReponse);
-            if (this.props.abort) {
-              this.props.abort();
-            }
-            else {
-              this.setState({text: '', attachment: {image: null, video: null}});
-            }
-          }
-        }
-        else {
-          this.setState({errorMsg: 'Hmm. Vi kunne desvære ikke oprette dit indlæg - prøv igen'});
-        }
-      };
+      let form = this.refs['group-post-form'];
+      addContent(form,
+                 this.state.target,
+                 this.onAbort).then((state) => {
+                   this.setState(state);
+                   window.location = this.props.redirectTo;
+                 });
     }
   }
 
-  /**
-   * Callback for the 'Fortryd'-button on the 'group-post-form'
-   */
   onAbort(event) {
     if (this.abortXHR) {
       this.abortXHR();
@@ -104,105 +79,8 @@ export default class AddContent extends React.Component {
     if (this.props.abort) {
       this.props.abort(event);
     }
-
     this.setState({text: '', attachment: {image: null, video: null}});
     this.abortXHR = null;
-  }
-
-  /**
-   * Reads the given input object and handles it depending on the type of input.
-   * Expected is either an image or a video
-   *
-   * @param {Object} input
-   * @return {boolean}
-   */
-  readInput(input) { // eslint-disable-line consistent-return
-    if (input.target.files && input.target.files[0]) {
-      const file = input.target.files[0];
-      const type = file.type.split('/')[0];
-
-      if (type !== 'image' && type !== 'video') {
-        return false;
-      }
-
-      if (type === 'image') {
-        this.handleImage(file);
-      }
-
-      if (type === 'video') {
-        this.handleVideo(file);
-      }
-    }
-  }
-
-  /**
-   * Handles the given file object as an image
-   *
-   * @param {File} file
-   */
-  handleImage(file) {
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const attachment = {image: e.target.result, video: null};
-      this.setState({attachment: attachment});
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  /**
-   * Handles the given file object as a video
-   *
-   * @param {File} file
-   */
-  handleVideo(file) {
-    file.progress = 0;
-    const attachment = {image: null, video: {file: file}};
-    this.setState({attachment: attachment});
-    this.uploadVideoFile(file);
-  }
-
-  /**
-   * Uploads the given video file to the server and submits the
-   * 'group-post-form' when the upload is completed.
-   *
-   * @param {File} file
-   */
-  uploadVideoFile(file) {
-    const form = new FormData();
-    form.append('video', file);
-
-    const XHR = new XMLHttpRequest();
-    XHR.open('post', '/grupper/api/uploadmedia');
-
-    XHR.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percentage = (e.loaded / e.total) * 100;
-        let attachment = this.state.attachment;
-
-        attachment.video.file.progress = percentage;
-        this.setState({attachment: attachment});
-      }
-    };
-
-    XHR.onerror = (e) => {
-      console.error('Some error occurred', e); // eslint-disable-line no-console
-      this.abortXHR = null;
-    };
-
-    XHR.onload = (e) => {
-      this.abortXHR = null;
-      if (e.target.status === 200) {
-        this.refs.fileInput.value = null;
-      }
-      else {
-        console.error('Some error occurred', e.target); // eslint-disable-line no-console
-      }
-    };
-
-    this.abortXHR = () => XHR.abort();
-    XHR.send(form);
   }
 
   clearImage(e) {
@@ -220,7 +98,6 @@ export default class AddContent extends React.Component {
   }
 
   render() {
-
     let deleteButton = null;
     if (this.props.delete) {
       deleteButton = (
@@ -239,7 +116,6 @@ export default class AddContent extends React.Component {
     }
 
     const uniqueId = `upload-media-${this.props.type}-${this.props.id || this.props.parentId}`;
-
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
     return (
@@ -314,7 +190,9 @@ export default class AddContent extends React.Component {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={(event) => this.readInput(event)}
+                  onChange={(event) => readInput(event).then((state) => {
+                    this.setState(state);
+                  })}
                   ref="fileInput"
                 />
                 <Icon glyph={videoSvg}/>

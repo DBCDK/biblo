@@ -1,30 +1,30 @@
 'use strict';
+
+let webpack = require('webpack');
 let wallabyWebpack = require('wallaby-webpack');
-let webpackConfig = require('./webpack.test.config');
+
+let webpackConfig = require('./webpack.wallaby.config');
+
 let babel = require('babel-core');
 let path = require('path');
+let fs = require('fs');
+
+var babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '.babelrc')));
+babelConfig.babel = babel;
 
 module.exports = function(wallaby) {
-  webpackConfig.resolve = {
-    root: [
-      wallaby.projectCacheDir,
-      path.join(wallaby.projectCacheDir, 'src/client/components'),
-      path.join(wallaby.projectCacheDir, 'node_modules')
-    ],
-      extensions: ['', '.js', '.svg']
-  };
-
-  let webpackPostprocessor = wallabyWebpack(webpackConfig);
-
   return {
     files: [
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
       {pattern: 'testlib/phantomPolyfill.js', instrument: false},
       {pattern: 'node_modules/babel-core/browser-polyfill.js', instrument: false}, // seen in this issue: https://github.com/wallabyjs/public/issues/109 -- https://babeljs.io/docs/learn-es2015/#map-set-weak-map-weak-set
+      // {pattern: 'node_modules/react/dist/react.js', instrument: false},
+      // {pattern: 'node_modules/react-dom/dist/react-dom.js', instrument: false},
+      // {pattern: 'node_modules/redux/dist/redux.js', instrument: false},
       {pattern: 'testlib/Blob.js', instrument: false},
-      {pattern: 'src/**/*.scss', instrument: false, load: false},
+      {pattern: 'src/**/*.scss'},
       {pattern: 'src/**/*.js', load: false},
-      {pattern: 'src/**/*.test.js', ignore: true},
+      {pattern: 'src/**/*.test.js', ignore: true, load: false},
       {pattern: 'src/**/*.svg', load: false, instrument: false}
     ],
 
@@ -32,17 +32,18 @@ module.exports = function(wallaby) {
       {pattern: 'src/**/*.test.js', load: false}
     ],
 
-    postprocessor: webpackPostprocessor,
+    postprocessor: wallabyWebpack(webpackConfig),
 
-    bootstrap: function() {
-      // required to trigger tests loading
-      window.__moduleBundler.loadTests();
+    compilers: {
+      '**/*.js': wallaby.compilers.babel(babelConfig)
     },
 
     testFramework: 'mocha',
 
-    compilers: {
-      '**/*.js': wallaby.compilers.babel()
+    setup: function(wallaby) {
+      // required to trigger test loading
+      window.__moduleBundler.loadTests();
+      // See http://wallabyjs.com/docs/config/bootstrap.html
     }
   };
 };

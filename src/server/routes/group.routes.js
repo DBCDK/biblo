@@ -5,16 +5,15 @@
 
 import express from 'express';
 import multer from 'multer';
-import config from '@dbcdk/biblo-config';
 import sanitize from 'sanitize-html';
 import Busboy from 'busboy';
+import {createElasticTranscoderJob} from './../utils/aws.util.js';
 
 import {groupCreateForm} from '../forms/group.forms';
 
 import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 
-const AMAZON_CONFIG = config.communityservice.amazon;
 const upload = multer({storage: multer.memoryStorage()});
 const GroupRoutes = express.Router();
 
@@ -306,57 +305,6 @@ async function fetchGroupData(params, req, res, update = {}) {
 GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
 
 /**
- * Creating ElasticTranscoder jobs at AWS
- *
- * @param {Object} videoData
- * @param {string} postId
- * @param {string} commentId
- * @param {Object} logger
- */
-function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId, logger) {
-  if (postId && typeof postId !== 'string') {
-    postId = postId.toString();
-  }
-
-  if (commentId && typeof commentId !== 'string') {
-    commentId = commentId.toString();
-  }
-  // AWS Docs: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ElasticTranscoder.html#createJob-property
-  const params = {
-    Input: {
-      Key: videoData.videofile
-    },
-    PipelineId: AMAZON_CONFIG.transcoding.pipelineId,
-    Output: {
-      Key: `${videoData.pureFileName}.mp4`,
-      PresetId: AMAZON_CONFIG.transcoding.presetId,
-      ThumbnailPattern: `${videoData.pureFileName}_thumb_{count}`
-    },
-    UserMetadata: {
-      destinationContainer: AMAZON_CONFIG.buckets.videoOutputBucket,
-      mimetype: 'video/mp4' // mimetype af output
-    }
-  };
-
-  if (postId) {
-    params.UserMetadata.postId = postId;
-  }
-
-  if (commentId) {
-    params.UserMetadata.commentId = commentId;
-  }
-
-  ElasticTranscoder.createJob(params, (err) => {
-    if (err) {
-      logger.error('ElasticTranscoder job creation failed', {error: err, params: params});
-    }
-    else {
-      logger.info('ElasticTranscoder job was successfully created', {params: params});
-    }
-  });
-}
-
-/**
  * Add a post to a group
  */
 GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function (req, res) {
@@ -383,10 +331,10 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     // creating video conversion jobs at ElasticTranscoder
     if (req.session.videoupload && response && params) {
       if (params.type === 'post') {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, logger);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, null, logger);
       }
       else {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, logger);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, null, logger);
       }
     }
 

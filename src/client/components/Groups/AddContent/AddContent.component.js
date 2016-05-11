@@ -63,11 +63,10 @@ export default class AddContent extends React.Component {
       e.preventDefault();
       let form = this.refs['group-post-form'];
       addContent(form,
-                 this.state.target,
-                 this.onAbort).then((state) => {
-                   this.setState(state);
-                   window.location = this.props.redirectTo;
-                 });
+                 this.state.target
+                ).then((contentResponse) => {
+                  this.props.addContentAction(contentResponse);
+                });
     }
   }
 

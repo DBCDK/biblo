@@ -173,7 +173,9 @@ export default class Review extends React.Component {
     evt.preventDefault();
     if (this.validate()) {
       this.setState({isLoading: true});
-      addContent(this.refs.contentForm, '/anmeldelse/').then(() => {
+      addContent(this.refs.contentForm,
+           '/anmeldelse/'
+      ).then(() => {
         this.setState({isLoading: false});
       }).catch((state) => {
         this.setState(state);

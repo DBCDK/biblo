@@ -6,14 +6,13 @@
 import express from 'express';
 import multer from 'multer';
 import sanitize from 'sanitize-html';
+import {createElasticTranscoderJob} from './../utils/aws.util.js';
 
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const upload = multer({storage: multer.memoryStorage()}).single('image');
 const ReviewRoutes = express.Router();
-
-import {createElasticTranscoderJob} from './../utils/aws.util.js';
 
 ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let id = req.params.id;
@@ -67,7 +66,8 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
 
     req.callServiceProvider('createReview', params).then(function (response) {
       if (response[0].status === 200 && req.session.videoupload) {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, response.id, logger);
+        createElasticTranscoderJob(ElasticTranscoder,
+            req.session.videoupload, null, null, response.id, logger);
       }
       res.send(response[0]);
     },

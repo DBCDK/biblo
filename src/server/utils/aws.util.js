@@ -8,6 +8,7 @@ const AMAZON_CONFIG = config.communityservice.amazon;
  * @param {Object} videoData
  * @param {string} postId
  * @param {string} commentId
+ * @param {string} reviewId
  * @param {Object} logger
  */
 export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId, reviewId, logger) {
@@ -18,6 +19,11 @@ export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId,
   if (commentId && typeof commentId !== 'string') {
     commentId = commentId.toString();
   }
+
+  if (reviewId && typeof reviewId !== 'string') {
+    reviewId = reviewId.toString();
+  }
+
   // AWS Docs: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ElasticTranscoder.html#createJob-property
   const params = {
     Input: {

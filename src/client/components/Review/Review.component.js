@@ -26,7 +26,7 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
-import {addContent, readInput} from '../../Utils/uploadmedia.js';
+import {readInput} from '../../Utils/uploadmedia.js';
 
 export default class Review extends React.Component {
   constructor(props) {
@@ -173,13 +173,8 @@ export default class Review extends React.Component {
     evt.preventDefault();
     if (this.validate()) {
       this.setState({isLoading: true});
-      addContent(this.refs.contentForm,
-           '/anmeldelse/'
-      ).then(() => {
-        this.setState({isLoading: false});
-      }).catch((state) => {
-        this.setState(state);
-      });
+      this.props.reviewActions.asyncCreateReview(this.refs.contentForm, this.props.pids);
+      this.props.toggleReview();
     }
     return false;
   }
@@ -430,6 +425,7 @@ Review.propTypes = {
   owner: React.PropTypes.object, // for profile image in view
   profile: React.PropTypes.object.isRequired, // for editing, flagging, liking
   id: React.PropTypes.number,
+  pids: React.PropTypes.array,
   reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
   isEditing: React.PropTypes.bool,
@@ -437,6 +433,7 @@ Review.propTypes = {
   content: React.PropTypes.string,
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,
+  addReviewAction: React.PropTypes.func,
   timeCreated: React.PropTypes.string,
   image: React.PropTypes.object,
   video: React.PropTypes.object,
@@ -449,5 +446,6 @@ Review.propTypes = {
   created: React.PropTypes.any,
   abort: React.PropTypes.any,
   parentId: React.PropTypes.any,
-  imageId: React.PropTypes.number
+  imageId: React.PropTypes.number,
+  toggleReview: React.PropTypes.func
 };

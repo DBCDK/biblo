@@ -43,7 +43,7 @@ export class WorkContainer extends React.Component {
   }
 
   getEditText() {
-    if (this.getWorkAndReviews().ownReviewId) {
+    if (this.getWorkAndReviews().ownReviewId && !this.state.reviewVisible) {
       return 'SE DIN ANMELDELSE';
     }
     return 'LAV EN ANMELDELSE';
@@ -88,7 +88,7 @@ export class WorkContainer extends React.Component {
   render() {
     const workAndReviews = this.getWorkAndReviews();
     const work = workAndReviews.work;
-
+    let reviewVisible = this.state.reviewVisible; // || workAndReviews.reviewVisible;
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
     const creator = (work.creator) ? work.creator[0] : '';
@@ -135,6 +135,7 @@ export class WorkContainer extends React.Component {
           collection={work.collection}
           collectionDetails={work.collectionDetails}
           editText={this.getEditText()}
+          reviewVisible={reviewVisible}
           toggleReview={this.toggleReview.bind(this)}
           title={workAndReviews.work.dcTitleFull[0]}
           displayType={workType}
@@ -155,10 +156,11 @@ export class WorkContainer extends React.Component {
           saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
           />
         {
-          this.state.reviewVisible &&
+          reviewVisible &&
           <Review
             ref='review'
             isEditing={true}
+            toggleReview={this.toggleReview.bind(this)}
             profile={profile}
             pid={workAndReviews.work.id}
             worktype={this.props.worktype || 'book'}
@@ -167,6 +169,7 @@ export class WorkContainer extends React.Component {
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
             likeActions={this.props.likeActions}
+            pids={workAndReviews.work.collection}
           />
         }
         {

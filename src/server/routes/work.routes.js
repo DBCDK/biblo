@@ -98,7 +98,8 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
         work: work,
         profile: profile,
         reviewsCount: reviewResponse[0].reviewsCount,
-        reviews: reviewResponse[0].data
+        reviews: reviewResponse[0].data,
+        reviewVisible: false
       })]
     });
   }

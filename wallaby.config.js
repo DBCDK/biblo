@@ -18,9 +18,8 @@ module.exports = function(wallaby) {
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
       {pattern: 'testlib/phantomPolyfill.js', instrument: false},
       {pattern: 'node_modules/babel-core/browser-polyfill.js', instrument: false}, // seen in this issue: https://github.com/wallabyjs/public/issues/109 -- https://babeljs.io/docs/learn-es2015/#map-set-weak-map-weak-set
-      // {pattern: 'node_modules/react/dist/react.js', instrument: false},
-      // {pattern: 'node_modules/react-dom/dist/react-dom.js', instrument: false},
-      // {pattern: 'node_modules/redux/dist/redux.js', instrument: false},
+      {pattern: 'node_modules/react/dist/react.min.js', instrument: false},
+      {pattern: 'node_modules/react-dom/dist/react-dom.min.js', instrument: false},
       {pattern: 'testlib/Blob.js', instrument: false},
       {pattern: 'src/**/*.scss'},
       {pattern: 'src/**/*.js', load: false},

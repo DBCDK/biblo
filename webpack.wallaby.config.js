@@ -29,7 +29,9 @@ module.exports = {
   },
 
   externals: {
-    sinon: 'sinon'
+    sinon: 'sinon',
+    React: 'react',
+    ReactDOM: 'react-dom'
   },
 
   devtool: 'source-map'

@@ -15,7 +15,7 @@ export default class Tabs extends React.Component {
     };
   }
 
-  onClick(index) {
+  onClicked(index) {
     this.setState({selected: index});
   }
 
@@ -23,7 +23,7 @@ export default class Tabs extends React.Component {
     const listItems = this.props.tabs.map((pane, index) => {
       const activeClass = this.state.selected === index ? 'tab active' : 'tab';
       return (
-        <li className={activeClass} key={index} onClick={this.onClick.bind(this, index)}>
+        <li className={activeClass} key={index} onClick={this.onClicked.bind(this, index)}>
           {pane.label}
         </li>
       );

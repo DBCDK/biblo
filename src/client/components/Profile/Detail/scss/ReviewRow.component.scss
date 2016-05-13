@@ -1,0 +1,66 @@
+@import "tools";
+
+.review--container {
+  border-bottom: #e8e8e8 5px solid;
+}
+
+.review--header {
+  padding: 10px;
+  @include min-screen($tablet) {
+    width: 40%;
+    max-width: 300px;
+    display: inline-block;
+  }
+}
+
+.review--material--cover {
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+
+  @include min-screen($tablet) {
+    width: 40%;
+  }
+
+  img {
+    max-height: 100px;
+  }
+}
+
+.review--data {
+  display: inline-block;
+  margin-left: 10px;
+  width: 65%;
+
+  @include min-screen($tablet) {
+    width: 55%;
+  }
+}
+
+.review--data--profilepic {
+  @include profileImage();
+
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px 10px 0;
+}
+
+.review--data--username {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.review--data--material-title {
+  display: block;
+  font-weight: bold;
+}
+
+.review--content {
+  padding: 0 10px 10px 10px;
+  vertical-align: top;
+  @include min-screen($tablet) {
+    width: 52%;
+    display: inline-block;
+    padding-top: 10px;
+  }
+}

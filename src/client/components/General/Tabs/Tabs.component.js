@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import './tabs.component.scss';
+import './scss/tabs.component.scss';
 
 export default class Tabs extends React.Component {
   constructor(props) {
@@ -47,8 +47,8 @@ export default class Tabs extends React.Component {
   render() {
     return (
       <div className="tabs-container" >
-        {this.renderPanes()}
-        {this.renderContent()}
+        {this.props.tabs.length >= 1 && this.renderPanes()}
+        {this.props.tabs.length >= 1 && this.renderContent()}
       </div>
     );
   }
@@ -56,9 +56,10 @@ export default class Tabs extends React.Component {
 
 Tabs.propTypes = {
   selected: React.PropTypes.number,
-  tabs: React.PropTypes.array
+  tabs: React.PropTypes.arrayOf(React.PropTypes.object)
 };
 
 Tabs.defaultProps = {
-  selected: 0
+  selected: 0,
+  tabs: []
 };

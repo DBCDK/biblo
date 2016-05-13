@@ -21,14 +21,18 @@ describe('Test profile detail container (public profile)', () => {
     };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -53,8 +57,10 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
+
 
     let $root = $(component).render();
 
@@ -70,14 +76,18 @@ describe('Test profile detail container (public profile)', () => {
     };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -102,6 +112,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
 
@@ -118,14 +129,18 @@ describe('Test profile detail container (public profile)', () => {
     };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -150,6 +165,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={moderatorMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
 

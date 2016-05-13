@@ -18,6 +18,7 @@ import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import Follow from '../../General/Follow/Follow.component';
 import Tabs from '../../General/Tabs/Tabs.component';
+import ReviewRow from './ReviewRow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
 import * as flagActions from '../../../Actions/flag.actions';
@@ -31,7 +32,7 @@ import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import {PROFILE_EDIT, MODERATOR_PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
-import './ProfileDetailContainer.component.scss';
+import './scss/ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
 
@@ -242,6 +243,14 @@ export class ProfileDetailContainer extends React.Component {
     });
   }
 
+  getReviewsFeed() {
+    return this.props.review.reviews.map((review, index) => {
+      return (
+        <ReviewRow review={review} user={this.props.feed.profile} key={index} />
+      );
+    });
+  }
+
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
@@ -250,6 +259,7 @@ export class ProfileDetailContainer extends React.Component {
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const activityFeed = this.getActivityFeed(isMyProfile);
+    const reviewsFeed = this.getReviewsFeed();
 
     let desc = '';
     let showMore = '';
@@ -303,7 +313,7 @@ export class ProfileDetailContainer extends React.Component {
     // include edit button when user views her own page.
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
-    const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
+    const currentUserAddressing = (isMyProfile) ? 'Du' : userProfile.displayName;
 
     let editButton = null;
     let profileImage = null;
@@ -339,6 +349,17 @@ export class ProfileDetailContainer extends React.Component {
       </div>
     );
 
+    const reviewsPaneContent = (
+      <div>
+        {
+          (reviewsFeed) ? reviewsFeed :
+            (
+              <ActivityRow title={'Her er tomt!'} >{currentUserAddressing} har ikke lavet nogen anmeldelser endnu.</ActivityRow>
+            )
+        }
+      </div>
+    );
+
     const tabs = [
       {
         label: 'Aktivitet',
@@ -346,7 +367,7 @@ export class ProfileDetailContainer extends React.Component {
       },
       {
         label: 'Anmeldelser',
-        content: (<div><h1>Anmeldelser...</h1></div>)
+        content: reviewsPaneContent
       }
     ];
 
@@ -379,16 +400,17 @@ export class ProfileDetailContainer extends React.Component {
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
-  group: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
+  group: React.PropTypes.object.isRequired,
   groupActions: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
+  profile: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
+  review: React.PropTypes.object.isRequired,
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired
 };
 
@@ -403,7 +425,8 @@ export default connect(
       profile: state.profileReducer,
       group: state.groupViewReducer,
       feed: state.profileFeedReducer,
-      ui: state.uiReducer
+      ui: state.uiReducer,
+      review: state.reviewReducer
     };
   },
 

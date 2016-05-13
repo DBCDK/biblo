@@ -23,7 +23,7 @@ let callOpenPlatform = function callOpenPlatform(token, method, req) {
 function search(endpoint, params) {
   const options = {
     url: `${endpoint}search/`,
-    form: params
+    qs: params
   };
   return callOpenPlatform('get', options);
 }
@@ -32,7 +32,7 @@ function search(endpoint, params) {
 function work(endpoint, params) {
   const options = {
     url: `${endpoint}work/`,
-    form: params
+    qs: params
   };
   return callOpenPlatform('get', options);
 }
@@ -40,7 +40,7 @@ function work(endpoint, params) {
 function suggest(endpoint, params) {
   const options = {
     url: `${endpoint}suggest/`,
-    form: params
+    qs: params
   };
 
   return callOpenPlatform('get', options);

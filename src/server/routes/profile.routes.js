@@ -381,7 +381,8 @@ ProfileRoutes.get(
       profileId = req.params.id,
       data = {
         feed: {},
-        errors: []
+        errors: [],
+        reviews: []
       };
 
     if (!profileId) {
@@ -390,6 +391,7 @@ ProfileRoutes.get(
     }
 
     try {
+      data.reviews = (await req.callServiceProvider('getOwnReview', {reviewownerid: profileId, offset: 0}))[0].data;
       data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
     }
     catch (e) { // eslint-disable-line no-catch-shadow

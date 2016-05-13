@@ -2,16 +2,17 @@
  * @file: Profile reducer
  */
 
+import parseJsonData from '../Utils/parseJsonData';
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 import {includes, filter} from 'lodash';
 
-let jsonData = document.getElementById('JSONDATA');
+const json_feed_data = parseJsonData('JSONDATA', 'feed');
+const json_review_data = parseJsonData('JSONDATA', 'reviews');
+
 let initialState = {};
-if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
-  let data = JSON.parse(jsonData.innerHTML);
-  initialState = data;
-}
+initialState.profile = assignToEmpty(initialState.profile, json_feed_data.profile || {}); // might be unnessecary...?
+initialState.reviews = json_review_data || [];
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);

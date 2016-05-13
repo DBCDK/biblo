@@ -6,7 +6,7 @@ import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component
 import heartSvg from '../../General/Icon/svg/functions/heart.svg';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 
-import './ActivityRow.component.scss';
+import './scss/ActivityRow.component.scss';
 
 export default function ActivityRow({children, date, answerFunction, likes, title}) {
   let like, answerButton, activityTitle, childHtml;

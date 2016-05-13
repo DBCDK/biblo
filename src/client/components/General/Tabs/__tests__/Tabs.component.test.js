@@ -2,6 +2,7 @@
  * @file Testing the Tabs component
  */
 
+import React from 'react';
 import sd from 'skin-deep';
 import {assert} from 'chai';
 import Tabs from '../Tabs.component.js';

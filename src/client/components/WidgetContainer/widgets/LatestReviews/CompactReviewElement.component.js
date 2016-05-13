@@ -1,0 +1,84 @@
+/**
+ * @file: Compact review view component. Originally created to display reviews on the front page.
+ */
+
+import {Component, PropTypes} from 'react';
+
+import Icon from '../../../General/Icon/Icon.component';
+
+import animalpaw from '../../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
+import audiobook from '../../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
+import book from '../../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
+import ebook from '../../../General/Icon/svg/Materialikon-kvadrat small/ebook_no_border.svg';
+import film from '../../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
+import flag from '../../../General/Icon/svg/Materialikon-kvadrat small/flag.svg';
+import game from '../../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
+import group from '../../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
+import music from '../../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
+import photo from '../../../General/Icon/svg/Materialikon-kvadrat small/photo.svg';
+import smiley from '../../../General/Icon/svg/Materialikon-kvadrat small/smiley.svg';
+
+import './CompactReviewElement.component.scss';
+
+const materialSvgs = {
+  animalpaw,
+  audiobook,
+  book,
+  literature: book,
+  ebook,
+  film,
+  flag,
+  game,
+  group,
+  music,
+  photo,
+  smiley
+};
+
+export class CompactReviewElement extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  
+  componentDidMount() {
+    this.props.getCoverImageAction(this.props.review.pid);
+  }
+
+  getTextContent(html) {
+    let htmlContent = html.slice(0, 50).trim();
+    if (html.length > 50) {
+      htmlContent += '...';
+    }
+
+    /* eslint-disable react/no-danger */
+    return (
+      <div className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}}></div>
+    );
+    /* eslint-enable react/no-danger */
+  }
+
+  render() {
+    const review = this.props.review;
+    const ownerProfileUrl = `/profil/${review.owner.id}`;
+
+    return (
+      <div className="compact-review--container">
+        <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
+        <a href={ownerProfileUrl}><img src={review.owner.image} /></a>
+        <img src={this.props.coverImages[this.props.review.pid]} />
+        <Icon glyph={materialSvgs[review.worktype]}
+              width={25} height={25}
+              className="icon compact-review-worktype-icon" />
+        {this.getTextContent(review.html)}
+      </div>
+    );
+  }
+}
+
+CompactReviewElement.displayName = 'CompactReviewElement';
+CompactReviewElement.propTypes = {
+  review: PropTypes.object.isRequired,
+  coverImages: PropTypes.object.isRequired,
+  getCoverImageAction: PropTypes.func.isRequired
+};

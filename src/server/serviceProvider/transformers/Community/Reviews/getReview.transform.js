@@ -5,16 +5,16 @@ const GetReviewTransform = {
     return 'getReviews';
   },
 
-  requestTransform(event, {id, pids, skip, limit}, connection) {
+  requestTransform(event, {id, pids, skip, limit, where, order='created DESC'}, connection) {
     return new Promise((resolve, reject) => {
       const user = connection.request.user || {id: ''};
       const accessToken = user.id;
       let orFilter = [];
       let params = {
         filter: {
-          skip: skip,
-          limit: limit,
-          order: 'created DESC',
+          skip,
+          limit,
+          order,
           include: [
             'likes',
             'image',
@@ -36,7 +36,10 @@ const GetReviewTransform = {
         }
       };
 
-      if (pids) {
+      if (where) {
+        params.filter.where = where;
+      }
+      else if (pids) {
         pids.forEach((pid) => {
           orFilter.push({pid: pid});
         });
@@ -79,7 +82,8 @@ const GetReviewTransform = {
     return {
       status: response[1].statusCode,
       reviewsCount: reviewsCount.count,
-      data: reviews, errors: response[1].errors || []
+      data: reviews,
+      errors: response[1].errors || []
     };
   }
 };

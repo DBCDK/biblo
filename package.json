@@ -20,9 +20,7 @@
     "test": "karma start --single-run=true",
     "test:watch": "karma start",
     "tail": "tail -f log.log",
-    "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
-    "test:perf": "artillery run -o ./artillery/report.json ./artillery/loadtest.json && artillery report ./artillery/report.json",
-    "test:perf:remote": "artillery run -o ./artillery/report.json -e production ./artillery/loadtest.json && artillery report ./artillery/report.json"
+    "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'"
   },
   "repository": {
     "type": "git",
@@ -59,7 +57,7 @@
     "busboy": "^0.2.13",
     "classnames": "^2.2.3",
     "compass-sass-mixins": "^0.12.7",
-    "compression": "1.6.1",
+    "compression": "1.6.2",
     "connect-redis": "3.0.2",
     "css-loader": "0.23.1",
     "dbc-node-borchk": "^2.0.1",
@@ -104,7 +102,7 @@
     "sanitize-html": "^1.11.4",
     "sass-loader": "3.2.0",
     "sass-mediaqueries": "^1.6.1",
-    "socketcluster": "^4.3.5",
+    "socketcluster": "^4.6.1",
     "superagent": "^1.8.3",
     "susy": "^2.2.11",
     "svg-inline-loader": "^0.4.0",
@@ -119,7 +117,6 @@
     "youtube-link-to-id": "^1.0.1"
   },
   "devDependencies": {
-    "artillery": "^1.4.0",
     "babel-eslint": "^6.0.4",
     "chai": "^3.2.0",
     "chromedriver": "^2.19.0",
@@ -137,7 +134,7 @@
     "jsdom": "^9.0.0",
     "jsdom-global": "^1.6.2",
     "json-loader": "^0.5.2",
-    "karma": "^0.13.9",
+    "karma": "^0.13.22",
     "karma-cli": "1.0.0",
     "karma-coverage": "^1.0.0",
     "karma-jsdom-launcher": "^3.0.0",

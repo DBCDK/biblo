@@ -21,14 +21,18 @@ describe('Test profile detail container (public profile)', () => {
     };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -53,8 +57,10 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
+
 
     let $root = $(component).render();
 
@@ -70,14 +76,18 @@ describe('Test profile detail container (public profile)', () => {
     };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -102,6 +112,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
 
@@ -118,14 +129,18 @@ describe('Test profile detail container (public profile)', () => {
     };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -150,6 +165,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={moderatorMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
 
@@ -159,5 +175,56 @@ describe('Test profile detail container (public profile)', () => {
 
     expect(postEditButtons.length).toEqual(4); // two posts, and two comments with posts wrapped around.
     expect(commentEditButtons.length).toEqual(2); // two comments.
+  });
+
+  it('should render tabs', () => {
+    const noop = () => {
+    };
+
+    // actions for this test (just use spies)
+    const feedActions = {
+      asyncGetUserFeed: noop,
+      getUserFeed: noop
+    };
+
+    const uiActions = {
+      openModalWindow: noop,
+      closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
+    };
+
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
+    const component = (
+      <ProfileDetailContainer
+        searchState={searchState}
+        feed={feedMock}
+        feedActions={feedActions}
+        profile={profileMock}
+        ui={uiMock}
+        uiActions={uiActions}
+        review={review}
+      />
+    );
+
+    const $root = $(component).render();
+
+    const tabs = $root.find('.p-detail--activity-tabs');
+    expect(tabs[0].innerHTML).toContain('tabs-container');
   });
 });

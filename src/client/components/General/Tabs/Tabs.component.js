@@ -4,18 +4,18 @@
 
 import React from 'react';
 
-import './tabs.component.scss';
+import './scss/tabs.component.scss';
 
 export default class Tabs extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selected: this.props.selected || 0
+      selected: this.props.selected
     };
   }
 
-  onClick(index) {
+  onClicked(index) {
     this.setState({selected: index});
   }
 
@@ -23,7 +23,7 @@ export default class Tabs extends React.Component {
     const listItems = this.props.tabs.map((pane, index) => {
       const activeClass = this.state.selected === index ? 'tab active' : 'tab';
       return (
-        <li className={activeClass} key={index} onClick={this.onClick.bind(this, index)}>
+        <li className={activeClass} key={index} onClick={this.onClicked.bind(this, index)}>
           {pane.label}
         </li>
       );
@@ -47,8 +47,8 @@ export default class Tabs extends React.Component {
   render() {
     return (
       <div className="tabs-container" >
-        {this.renderPanes()}
-        {this.renderContent()}
+        {this.props.tabs.length >= 1 && this.renderPanes()}
+        {this.props.tabs.length >= 1 && this.renderContent()}
       </div>
     );
   }
@@ -56,5 +56,10 @@ export default class Tabs extends React.Component {
 
 Tabs.propTypes = {
   selected: React.PropTypes.number,
-  tabs: React.PropTypes.array
+  tabs: React.PropTypes.arrayOf(React.PropTypes.object)
+};
+
+Tabs.defaultProps = {
+  selected: 0,
+  tabs: []
 };

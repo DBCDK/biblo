@@ -146,6 +146,7 @@
     "mocha": "^2.2.4",
     "mocha-jenkins-reporter": "^0.2.2",
     "node-libs-browser": "^1.0.0",
+    "node-noop": "^1.0.0",
     "parallelshell": "^2.0.0",
     "redux-devtools": "^3.0.2",
     "redux-mock-store": "^1.0.2",

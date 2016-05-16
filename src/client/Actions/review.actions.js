@@ -38,11 +38,10 @@ export function asyncCreateReview(form, pids) {
   let skip=0, limit = 10;
   return function (dispatch) {
     addContent(form, '/anmeldelse/').then(() => {
-      getReviewsClient.request({pids, skip, limit});
-      const event = getReviewsClient.response(response => {
-        dispatch(showReviews(response, pids, skip, limit));
-        event.off();
-      });
+      dispatch(asyncShowReviews(pids, skip, limit));
+    }).catch((response) => {
+      dispatch(createReview(response));
+      event.off();
     });
   };
 }
@@ -54,10 +53,15 @@ export function createReview(review) {
   };
 }
 
-export function asyncDeleteReview(reviewId) {
+export function asyncDeleteReview(reviewId, pids) {
+  let skip=0, limit = 10;
   return function (dispatch) {
     dispatch(deleteReview(reviewId));
     deleteReviewClient.request({id: reviewId});
+    const event = deleteReviewClient.response(() => {
+      dispatch(asyncShowReviews(pids, skip, limit));
+      event.off();
+    });
   };
 }
 

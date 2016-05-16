@@ -4,6 +4,7 @@
 
 import {Component, PropTypes} from 'react';
 
+import Rating from '../../../General/Rating/Rating.component';
 import Icon from '../../../General/Icon/Icon.component';
 
 import animalpaw from '../../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
@@ -40,7 +41,7 @@ export class CompactReviewElement extends Component {
     super(props);
     this.state = {};
   }
-  
+
   componentDidMount() {
     this.props.getCoverImageAction(this.props.review.pid);
   }
@@ -61,16 +62,38 @@ export class CompactReviewElement extends Component {
   render() {
     const review = this.props.review;
     const ownerProfileUrl = `/profil/${review.owner.id}`;
+    const workUrl = `/materiale/${encodeURIComponent(review.pid)}`;
 
     return (
-      <div className="compact-review--container">
-        <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
-        <a href={ownerProfileUrl}><img src={review.owner.image} /></a>
-        <img src={this.props.coverImages[this.props.review.pid]} />
-        <Icon glyph={materialSvgs[review.worktype]}
-              width={25} height={25}
-              className="icon compact-review-worktype-icon" />
-        {this.getTextContent(review.html)}
+      <div className="compact-review--container--container">
+        <div className="compact-review--container">
+          <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
+          <table>
+            <tbody>
+              <tr>
+                <td className="compact-review--artwork--container">
+                  <a href={ownerProfileUrl} className="compact-review--owner-image--container">
+                    <img src={review.owner.image}/>
+                  </a>
+                  <a href={workUrl} className="compact-review--cover-image--container">
+                    <img
+                      className="compact-review--cover-image"
+                      src={this.props.coverImages[this.props.review.pid]}/>
+                  </a>
+                </td>
+                <td className="compact-review--review-content">
+                  <Icon glyph={materialSvgs[review.worktype]}
+                        width={25} height={25}
+                        className="icon compact-review-worktype-icon"/>
+                  <a href={workUrl}>
+                    {this.getTextContent(review.html)}
+                  </a>
+                  <Rating rating={review.rating} starsOnly={false} pid={review.pid} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

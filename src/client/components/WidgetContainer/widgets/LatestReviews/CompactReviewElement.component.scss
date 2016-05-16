@@ -1,6 +1,52 @@
+.compact-review--container--container {
+  display: inline-flex;
+}
+
 .compact-review--container {
+  background-color: #ffffff;
+  max-width: 285px;
+  padding: 0 10px;
+  margin: 10px;
 
   .compact-review-worktype-icon {
     fill: #4740b7;
+    display: inline;
+    padding: 2px;
+    margin: 0 5px;
+    border: 1px solid #e6e6e6;
+  }
+
+  .compact-review-element--text-excerpt {
+    display: inline;
+    font-size: 17pt;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .compact-review--review-content {
+    vertical-align: top;
+  }
+
+  .compact-review--artwork--container {
+    position: relative;
+  }
+
+  .compact-review--cover-image {
+    width: 100px;
+    margin: 0 5px;
+  }
+
+  .compact-review--owner-image--container {
+    img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #fff;
+    }
+
+    position: absolute;
+    top: -10px;
+    left: -10px;
   }
 }

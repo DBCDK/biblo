@@ -5,6 +5,8 @@
 import {Component, PropTypes} from 'react';
 import {CompactReviewElement} from './CompactReviewElement.component';
 
+import './LatestReviews.widget.component.scss';
+
 export class LatestReviewsWidget extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,9 @@ export class LatestReviewsWidget extends Component {
     return (
       <div>
         <h2>{displayTitle}</h2>
-        {reviews}
+        <div className="latest-reviews-widget--reviews-container">
+          {reviews}
+        </div>
       </div>
     );
   }

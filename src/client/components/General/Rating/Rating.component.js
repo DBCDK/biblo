@@ -53,13 +53,15 @@ Rating.displayName = 'Rating.component';
 Rating.propTypes = {
   rating: React.PropTypes.number,
   onChange: React.PropTypes.func,
-  starsOnly: React.PropTypes.bool
+  starsOnly: React.PropTypes.bool,
+  pid: React.PropTypes.string
 };
 
 Rating.defaultProps = {
   clickFunction: () => {},
   onChange: null,
-  starsOnly: false
+  starsOnly: false,
+  pid: ''
 };
 
 export default Rating;

@@ -27,13 +27,18 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
         css: ['/css/work.css'],
         js: ['/js/work.js'],
         jsonData: [JSON.stringify({
-          ownReviewId: id,
           work: work,
           profile: profile,
-          reviews: reviewResponse[0].data
+          workReviews: reviewResponse[0].data,
+          workReviewsMeta: {
+            ownReviewId: id,
+            reviewsTotalCount: reviewResponse[0].reviewsCount, // count number of total reviews of work
+            reviewVisible: false  // is the "create review" area on screen visible?
+          }
         })]
       });
     });
+
   });
 });
 

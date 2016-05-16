@@ -27,7 +27,7 @@ describe('Testing the Tabs component', () => {
         content: 'TestHest'
       }
     ];
-    const tree = sd.shallowRender(<Tabs tabs={tabs}/>);
+    const tree = sd.shallowRender(<Tabs tabs={tabs} />);
 
     assert.equal(tree.subTree('.tabs').props.children.length, tabs.length, 'Found equal number of rendered tabs as given as props');
     assert.isFalse(isEmpty(tree.text()), 'tabs container is not empty');
@@ -41,7 +41,35 @@ describe('Testing the Tabs component', () => {
 
   it('Should override default seleceted when passed as prop', () => {
     const selected = 10;
-    const tree = sd.shallowRender(<Tabs selected={selected}/>);
+    const tree = sd.shallowRender(<Tabs selected={selected} />);
     assert.equal(tree.getMountedInstance().props.selected, selected, `Default selcted is ${selected}`);
+  });
+
+  it('should set state.selected appropriately', () => {
+    const tree = sd.shallowRender(<Tabs />);
+    const instance = tree.getMountedInstance();
+
+    assert.equal(instance.state.selected, 0, 'default selected is 0');
+    instance.onClicked(1);
+    assert.equal(instance.state.selected, 1, 'after invoking onClicked method state.selected is 1');
+  });
+
+  it('should set state.selected appropriately when clicked', () => {
+    const tabs = [
+      {
+        label: 'tab_1',
+        content: 'Tab1Content'
+      },
+      {
+        label: 'tab_2',
+        content: 'Tab3Content'
+      }
+    ];
+    const tree = sd.shallowRender(<Tabs tabs={tabs} />);
+    const instance = tree.getMountedInstance();
+    assert.equal(instance.state.selected, 0, 'default selected is 0');
+
+    tree.everySubTree('.tab')[1].props.onClick(); // click the second tab
+    assert.equal(instance.state.selected, 1, 'after invoking onClicked state.selected is 1');
   });
 });

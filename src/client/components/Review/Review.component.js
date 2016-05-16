@@ -101,7 +101,7 @@ export default class Review extends React.Component {
           this.props.uiActions.closeModalWindow();
         }}
         confirmFunc={() => {
-          this.props.reviewActions.asyncDeleteReview(this.props.id);
+          this.props.reviewActions.asyncDeleteReview(this.props.id, this.props.pids);
           this.props.uiActions.closeModalWindow();
         }}
       >{content}</ConfirmDialog>
@@ -170,8 +170,8 @@ export default class Review extends React.Component {
   }
 
   onSubmit(evt) {
-    evt.preventDefault();
     if (this.validate()) {
+      evt.preventDefault();
       this.setState({isLoading: true});
       this.props.reviewActions.asyncCreateReview(this.refs.contentForm, this.props.pids);
       this.props.toggleReview();
@@ -375,9 +375,9 @@ export default class Review extends React.Component {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={(event) => readInput(event).then((state) => {
+                        onChange={event => readInput(event, (state) => {
                           this.setState(state);
-                        })}
+                        }).then(state => this.setState(state))}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

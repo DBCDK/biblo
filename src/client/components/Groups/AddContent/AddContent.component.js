@@ -189,9 +189,7 @@ export default class AddContent extends React.Component {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={(event) => readInput(event).then((state) => {
-                    this.setState(state);
-                  })}
+                  onChange={event => readInput(event).then(state => this.setState(state))}
                   ref="fileInput"
                 />
                 <Icon glyph={videoSvg}/>

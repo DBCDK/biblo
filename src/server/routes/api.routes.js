@@ -11,7 +11,7 @@ import {ensureAuthenticated} from '../middlewares/auth.middleware';
 /**
  * API endpoint for uploading video to AWS S3
  */
-ApiRoutes.post('/uploadmedia', ensureAuthenticated, (req, res) => {
+ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
 
   const logger = req.app.get('logger');
   const amazonConfig = req.app.get('amazonConfig');

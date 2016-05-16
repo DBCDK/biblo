@@ -1,6 +1,6 @@
 export function addContent(form, target) {
   let formData = new FormData(form);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', target);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -9,11 +9,11 @@ export function addContent(form, target) {
       if (event.target.status === 200) {
         const contentResponse = JSON.parse(event.target.response);
         if (contentResponse.errors && contentResponse.errors.length > 0) {
-          return resolve({errorMsg: contentResponse.errors[0].errorMessage});
+          return reject({errorMsg: contentResponse.errors[0].errorMessage});
         }
         return resolve(contentResponse);
       }
-      return resolve({errorMsg: 'upload fejlede'});
+      return reject({errorMsg: 'upload fejlede'});
     };
   });
 }
@@ -36,13 +36,13 @@ function handleVideo(file, onProgress) {
     const form = new FormData();
     form.append('video', file);
     const XHR = new XMLHttpRequest();
-    XHR.open('POST', '/api/uploadmedia');
+    XHR.open('POST', '/api/uploadvideo');
     XHR.upload.onprogress = (e) => {
       if (e.lengthComputable) {
         const percentage = (e.loaded / e.total) * 100;
         attachment.video.file.progress = percentage;
         if (onProgress) {
-          onProgress(attachment);
+          onProgress({attachment: attachment});
         }
       }
     };

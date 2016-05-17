@@ -275,12 +275,14 @@ export default class Review extends React.Component {
       />
     );
 
+    let ownerimage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
+
     /* eslint-disable react/no-danger */
     return (
       <div className='review-wrapper'>
         <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={owner.image || null} alt={owner.displayName}/>
+            <img src={ownerimage || null} alt={owner.displayName}/>
           </a>
         </div>
 

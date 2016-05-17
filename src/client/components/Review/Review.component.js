@@ -174,7 +174,9 @@ export default class Review extends React.Component {
       evt.preventDefault();
       this.setState({isLoading: true});
       this.props.reviewActions.asyncCreateReview(this.refs.contentForm, this.props.pids);
-      this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
+      if (this.props.toggleReview) {
+        this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
+      }
     }
     return false;
   }
@@ -275,7 +277,13 @@ export default class Review extends React.Component {
       />
     );
 
-    let ownerimage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
+    let ownerimage;
+    if (typeof owner.image === 'object') {
+       ownerimage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
+    }
+    else {
+      ownerimage = owner.image;
+    }
 
     /* eslint-disable react/no-danger */
     return (
@@ -290,7 +298,7 @@ export default class Review extends React.Component {
           <div className='review--header'>
             <a href={`/profil/${owner.id}`}><span className='username'
                                                   dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
-            <span className='time'>{this.state.isEditing && 'Retter nu' || TimeToString(created)}</span>
+            <span className='time'>{this.state.isEditing && 'Skriver nu' || TimeToString(created)}</span>
             <span className='buttons'>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditing} clickFunction={() => this.toggleEditing()}

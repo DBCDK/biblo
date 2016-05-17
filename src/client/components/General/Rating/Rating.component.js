@@ -42,7 +42,7 @@ export default class Rating extends React.Component {
     return (
       <div className='rating' >
         {this.renderStars(rating)}
-        {this.props.starsOnly ? ({rating} / 6) : null}
+        {this.props.starsOnly ? null : `(${rating} / 6)`}
       </div>
     );
   }

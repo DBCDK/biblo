@@ -29,7 +29,7 @@ export default class ReviewRow extends React.Component {
             <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
             <span className="review--data--username" >{user.displayName}</span>
             <span className="review--data--material-title" >Dette er en title - en meget meget meget meget meget ok lang titel</span>
-            <Rating rating={review.rating} />
+            <Rating rating={review.rating} starsOnly={true} />
           </div>
         </div>
 

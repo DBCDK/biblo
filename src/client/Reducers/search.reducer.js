@@ -16,7 +16,16 @@ let initialState = {
   selectedWorkSuggestion: -1,
   initialQuery: '',
   query: '',
-  isLoadingResults: false
+  isLoadingResults: false,
+  filters: {
+    materialFilters: {
+      book: {enabled: false, cqlFilter: 'term.worktype="literature"'},
+      game: {enabled: false, cqlFilter: 'term.worktype="game"'},
+      movie: {enabled: false, cqlFilter: 'term.worktype="movie"'},
+      music: {enabled: false, cqlFilter: 'term.worktype="music"'},
+      audiobook: {enabled: false, cqlFilter: '(term.type="lydbog" and term.worktype="literature")'}
+    }
+  }
 };
 
 let jsonData = document.getElementById('JSONDATA');
@@ -111,6 +120,13 @@ export default function searchReducer(state = initialState, action = {}) {
 
     case types.SEARCH_QUERY_HAS_CHANGED: {
       return assignToEmpty(state, {query: action.q});
+    }
+
+    case types.SEARCH_TOGGLE_MATERIAL_FILTER: {
+      let filtersToggledState = assignToEmpty(state, {});
+      const isEnabled = filtersToggledState.filters.materialFilters[action.materialType].enabled;
+      filtersToggledState.filters.materialFilters[action.materialType].enabled = !isEnabled;
+      return filtersToggledState;
     }
 
     default: {

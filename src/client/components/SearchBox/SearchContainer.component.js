@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// import SearchFilters from './SearchFilters/SearchFilters.component.js';
 import Icon from '../General/Icon/Icon.component.js';
 import SearchDropDown from './SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
@@ -11,6 +12,7 @@ import {hideKeyboard} from '../../Utils/keyboard.utils';
 import './search-container.scss';
 
 export default class SearchContainer extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -69,12 +71,15 @@ export default class SearchContainer extends React.Component {
     else if (e.type === 'click' || e.keyCode === 13) {
       this.setState({loading: true});
       this.props.searchActions.searchMaterials({
-        query: this.state.query
+        query: this.state.query,
+        materialFilters: this.props.search.filters.materialFilters
       });
     }
   }
 
   render() {
+
+    let initialQuery = this.props.search.initialQuery;
 
     const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
     const dropDown = (
@@ -100,30 +105,29 @@ export default class SearchContainer extends React.Component {
     const searchButtonGlyph = (this.state.loading) ? spinnerSvg : searchSvg;
 
     return (
-      <div className={classNames}>
-        <div className="searchbox--container">
-          <a className='search-container--search-button' href='#' onClick={this.submitInput}>
-            <Icon glyph={searchButtonGlyph} width={24} height={24}/>
-          </a>
-          <span className="search-input--container">
-            <input
-              type='search'
-              placeholder='Søg på bøger, film og spil'
-              defaultValue={this.props.search.initialQuery}
-              onChange={this.searchInputChanged}
-              onKeyDown={this.submitInput}
-              onBlur={() => this.setState({queryFieldIsActive: false})}
-              onFocus={() => this.setState({queryFieldIsActive: true})}
-              ref="searchFieldReference"
-            >
-              <div className="search-container--dropdown-container">
-                {dropDown}
-              </div>
-
-            </input>
-          </span>
-
-
+      <div className='search'>
+        <div className={classNames}>
+          <div className="searchbox--container">
+            <a className='search-container--search-button' href='#' onClick={this.submitInput}>
+              <Icon glyph={searchButtonGlyph} width={24} height={24}/>
+            </a>
+            <span className="search-input--container">
+              <input
+                type='search'
+                placeholder='Søg på bøger, film og spil'
+                defaultValue={initialQuery}
+                onChange={this.searchInputChanged}
+                onKeyDown={this.submitInput}
+                onBlur={() => this.setState({queryFieldIsActive: false})}
+                onFocus={() => this.setState({queryFieldIsActive: true})}
+                ref="searchFieldReference"
+              >
+                <div className="search-container--dropdown-container">
+                  {dropDown}
+                </div>
+              </input>
+            </span>
+          </div>
         </div>
       </div>
     );

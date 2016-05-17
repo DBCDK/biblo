@@ -49,6 +49,12 @@ export default class AddContent extends React.Component {
     }
   }
 
+
+  /**
+   * Callback for the submit button on the  'group-post-form'
+   *
+   * @param {Event} e
+   */
   onSubmit(e) {
     if (!isSiteOpen() && !this.props.profile.isModerator) {
       e.preventDefault();
@@ -58,18 +64,29 @@ export default class AddContent extends React.Component {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
     }
-    else {
+    else if (window.FormData) {
       this.setState({isLoading: true});
-      e.preventDefault();
       let form = this.refs['group-post-form'];
+      e.preventDefault();
       addContent(form,
-                 this.state.target
-                ).then((contentResponse) => {
-                  this.props.addContentAction(contentResponse);
-                });
+        this.state.target,
+        state=> this.setState(state)
+      ).then((state) => {
+        if (form.id.value) {
+          state.isLoading = false;
+          this.setState(state);
+        } else {
+          this.setState({isLoading: false, text: '', attachment: {}});
+        }
+        this.props.addContentAction(state);
+      });
     }
   }
 
+
+  /**
+   * Callback for the 'Fortryd'-button on the 'group-post-form'
+   */
   onAbort(event) {
     if (this.abortXHR) {
       this.abortXHR();

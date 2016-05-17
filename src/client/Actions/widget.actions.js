@@ -24,13 +24,13 @@ export function getLatestReviews(sort, limit, reviews) {
 export function asyncGetCoverImage(pid) {
   return dispatch => { // eslint-disable-line no-unused-vars
     getCoverImageSocket.request({pid});
-  }
+  };
 }
 
 export function asyncListenForCoverImages() {
   return dispatch => {
     getCoverImageSocket.response(res => dispatch(gotCoverImage(res)));
-  }
+  };
 }
 
 export function gotCoverImage(coverImageResult) {

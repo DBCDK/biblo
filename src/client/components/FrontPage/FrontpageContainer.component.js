@@ -25,9 +25,9 @@ export default class FrontpageContainer extends React.Component {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <ColoredHeader text={welcomeText} title={content.welcome_header}/>
-        <WidgetContainer 
-          widgetLocationName="FrontPageTop" 
-          widgetActions={this.props.widgetActions} 
+        <WidgetContainer
+          widgetLocationName="FrontPageTop"
+          widgetActions={this.props.widgetActions}
           widgetState={this.props.widgetState} />
         <ContentGrid items={elements}/>
       </PageLayout>

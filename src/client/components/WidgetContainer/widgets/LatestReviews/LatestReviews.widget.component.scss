@@ -1,6 +1,29 @@
+@import "tools";
+
 .latest-reviews-widget--reviews-container {
   background-color: #e2e0f7;
   padding: 20px;
+}
+
+.latest-reviews-widget--reviews-container.closed {
   height: 230px;
   overflow: hidden;
+}
+
+.latest-reviews-widget--widget-title--and--show-more-button--container {
+  a {
+    float: right;
+    cursor: pointer;
+    font-family: $header-font;
+    color: #000000;
+    margin: 20px;
+  }
+
+  h2 {
+    display: inline-block;
+  }
+
+  .icon {
+    fill: #938ee9;
+  }
 }

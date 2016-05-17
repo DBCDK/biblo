@@ -75,7 +75,8 @@ export default class AddContent extends React.Component {
         if (form.id.value) {
           state.isLoading = false;
           this.setState(state);
-        } else {
+        }
+        else {
           this.setState({isLoading: false, text: '', attachment: {}});
         }
         this.props.addContentAction(state);

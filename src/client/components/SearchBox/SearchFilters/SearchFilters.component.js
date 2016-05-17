@@ -46,12 +46,15 @@ export default class SearchFilters extends React.Component {
       return (<li className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36} height={36} glyph={filterIcons[key].svg}/></li>);
     });
 
-
+    /*
     return (
       <ul className='search-filters'>
         {filterElements}
       </ul>
     );
+    */
+    // filters are uncommented for now..
+    return null;
   }
 }
 

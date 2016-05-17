@@ -7,12 +7,11 @@ import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 import {includes, filter} from 'lodash';
 
-const json_feed_data = parseJsonData('JSONDATA', 'feed');
-const json_review_data = parseJsonData('JSONDATA', 'reviews');
+// Setting the user's own reviews
+const userReviewsJson = parseJsonData('JSONDATA', 'userReviews');
 
 let initialState = {};
-initialState.profile = assignToEmpty(initialState.profile, json_feed_data.profile || {}); // might be unnessecary...?
-initialState.reviews = json_review_data || [];
+initialState.userReviews = userReviewsJson || [];
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);

@@ -61,7 +61,7 @@ Rating.defaultProps = {
   clickFunction: () => {
   },
   onChange: null,
-  starsOnly: false // pass true if only stars is wanted. Otherwise a parantheses will be appended to the list of starts i.e. (3 / 6)
+  starsOnly: false, // pass true if only stars is wanted. Otherwise a parantheses will be appended to the list of starts i.e. (3 / 6)
   pid: ''
 };
 

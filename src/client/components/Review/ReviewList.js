@@ -3,7 +3,7 @@ import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
 import './ReviewList.scss';
 
-export default function ReviewList({count, reviews = [], profile = {}, uiActions = null,
+export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,
   likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading}) {
 
@@ -22,11 +22,11 @@ export default function ReviewList({count, reviews = [], profile = {}, uiActions
   }
 
   let reviewsCountText;
-  if (count === 1) {
+  if (totalCount === 1) {
     reviewsCountText = (<div className='reviewsCount'>1 anmeldelse</div>);
   }
-  if (count > 1) {
-    reviewsCountText = (<div className='reviewsCount'>{count} anmeldelser</div>);
+  if (totalCount > 1) {
+    reviewsCountText = (<div className='reviewsCount'>{totalCount} anmeldelser</div>);
   }
 
   return (
@@ -42,6 +42,7 @@ export default function ReviewList({count, reviews = [], profile = {}, uiActions
           reviewActions={reviewActions}
           flagActions={flagActions}
           likeActions={likeActions}
+          pids={pids}
         />))
         || 'Der er ikke skrevet nogen anmeldelser'
       }
@@ -53,7 +54,7 @@ export default function ReviewList({count, reviews = [], profile = {}, uiActions
 }
 
 ReviewList.propTypes = {
-  count: React.PropTypes.number.isRequired,
+  totalCount: React.PropTypes.number,
   reviews: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   reviewActions: React.PropTypes.object.isRequired,

@@ -26,24 +26,20 @@ export class WorkContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviewVisible: false
+      reviewVisible: this.props.workState.workReviewsMeta.reviewVisible || false
     };
   }
 
-  getWorkAndReviews() {
-    return this.props.reviews;
+  getProfile() {
+    return this.props.profile;
   }
 
-  getProfile() {
-    let profile = this.getWorkAndReviews().profile;
-    if (profile) {
-      profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
-    }
-    return profile;
+  getOwnReviewId() {
+    return this.props.workState.workReviewsMeta.ownReviewId;
   }
 
   getEditText() {
-    if (this.getWorkAndReviews().ownReviewId) {
+    if (this.getOwnReviewId() && !this.state.reviewVisible) {
       return 'SE DIN ANMELDELSE';
     }
     return 'LAV EN ANMELDELSE';
@@ -53,8 +49,8 @@ export class WorkContainer extends React.Component {
     let profile = this.getProfile();
     if (profile.userIsLoggedIn) {
       if (!profile.quarantined) {
-        if (this.getWorkAndReviews().ownReviewId) {
-          let reviewId = this.getWorkAndReviews().ownReviewId;
+        if (this.getOwnReviewId()) {
+          let reviewId = this.getOwnReviewId();
           window.location = '/anmeldelse/' + reviewId;
         }
         else {
@@ -86,8 +82,10 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
-    const workAndReviews = this.getWorkAndReviews();
-    const work = workAndReviews.work;
+    const work = this.props.workState.work;                 // the work collection from the service provider
+    const reviews = this.props.workState.workReviews;       // the reviews associated with the work
+    const meta = this.props.workState.workReviewsMeta;      // metadata about the reviews (eg paging info)
+    let reviewVisible = this.state.reviewVisible;           // is the review create area visible or not?
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
@@ -103,16 +101,11 @@ export class WorkContainer extends React.Component {
 
     const subjectDK5 = (work.subjectDK5) ? work.subjectDK5[0] : '';
     const subjectDK5Text = (work.subjectDK5Text) ? work.subjectDK5Text[0] : '';
-
     const director = (work.creatorDrt) ? work.creatorDrt[0] : null;
     const actors = (work.contributorAct) ? work.contributorAct : null;
-
     const publisher = (work.publisher) ? work.publisher[0] : null;
-
     const ageRecommended = (work.audienceAge) ? work.audienceAge : null;
     const ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
-
-    let profile = this.getProfile();
 
     let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
       return {
@@ -135,8 +128,9 @@ export class WorkContainer extends React.Component {
           collection={work.collection}
           collectionDetails={work.collectionDetails}
           editText={this.getEditText()}
+          reviewVisible={reviewVisible}
           toggleReview={this.toggleReview.bind(this)}
-          title={workAndReviews.work.dcTitleFull[0]}
+          title={work.dcTitleFull[0]}
           displayType={workType}
           creator={creator}
           abstract={abstract}
@@ -155,18 +149,20 @@ export class WorkContainer extends React.Component {
           saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
           />
         {
-          this.state.reviewVisible &&
+          reviewVisible &&
           <Review
             ref='review'
             isEditing={true}
-            profile={profile}
-            pid={workAndReviews.work.id}
+            toggleReview={this.toggleReview.bind(this)}
+            profile={this.props.profile}
+            owner={this.props.profile}
+            pid={work.id}
             worktype={this.props.worktype || 'book'}
-            owner={profile}
             reviewActions={this.props.actions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
             likeActions={this.props.likeActions}
+            pids={work.collection}
           />
         }
         {
@@ -177,12 +173,12 @@ export class WorkContainer extends React.Component {
         }
 
         <ReviewList
-          pids={workAndReviews.work.collection}
-          count={workAndReviews.reviewsCount}
-          limit={workAndReviews.reviewsLimit}
-          reviews={workAndReviews.reviews}
+          pids={work.collection}
+          totalCount={meta.reviewsTotalCount}
+          limit={meta.reviewsLimit}
+          reviews={reviews}
           worktype="book"
-          profile={workAndReviews.profile}
+          profile={this.props.profile}
           reviewActions={this.props.actions}
           uiActions={this.props.uiActions}
           flagActions={this.props.flagActions}
@@ -215,12 +211,12 @@ export class WorkContainer extends React.Component {
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
+  reviews: React.PropTypes.object.isRequied,
   searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.object,
   ui: React.PropTypes.object,
   worktype: React.PropTypes.string,
   workActions: React.PropTypes.object.isRequired,

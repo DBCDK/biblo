@@ -52,7 +52,6 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     let pid = decodeURIComponent(req.params.pid);
     let ownReview = {};
     const work = (await req.callServiceProvider('work', {pids: [pid]}))[0].data[0];
-
     let pids = work.collection;
 
     let ownReviewId;
@@ -89,16 +88,19 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     let limit = 10;
     const reviewResponse = (await req.callServiceProvider('getReviews', {pids, skip, limit}));
     work.id = pid;
+
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],
       ownReviewId: ownReviewId,
       jsonData: [JSON.stringify({
-        ownReviewId: ownReviewId,
-        work: work,
-        profile: profile,
-        reviewsCount: reviewResponse[0].reviewsCount,
-        reviews: reviewResponse[0].data
+        work: work,                                          // data about the work identified by the pids
+        workReviews: reviewResponse[0].data,                 // reviews filtered for the specific work
+        workReviewsMeta: {
+          ownReviewId: ownReviewId,                          // review of the work done by the logged in profile
+          reviewsTotalCount: reviewResponse[0].reviewsCount, // count number of total reviews of work
+          reviewVisible: false                               // is the "create review" area on screen visible?
+        }
       })]
     });
   }

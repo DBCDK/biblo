@@ -37,8 +37,13 @@ export function asyncShowReviews(pids, skip, limit) {
 export function asyncCreateReview(form, pids) {
   let skip=0, limit = 10;
   return function (dispatch) {
-    addContent(form, '/anmeldelse/').then(() => {
-      dispatch(asyncShowReviews(pids, skip, limit));
+    addContent(form, '/anmeldelse/').then((response) => {
+      if (pids) {
+        dispatch(asyncShowReviews(pids, skip, limit));
+      }
+      else {
+        dispatch(createReview(response));
+      }
     }).catch((response) => {
       dispatch(createReview(response));
       event.off();
@@ -59,7 +64,12 @@ export function asyncDeleteReview(reviewId, pids) {
     dispatch(deleteReview(reviewId));
     deleteReviewClient.request({id: reviewId});
     const event = deleteReviewClient.response(() => {
-      dispatch(asyncShowReviews(pids, skip, limit));
+      if (pids) {
+        dispatch(asyncShowReviews(pids, skip, limit));
+      }
+      else {
+        dispatch(deleteReview(reviewId)) ;
+      }
       event.off();
     });
   };

@@ -3,19 +3,9 @@
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 
-const createReviewClient = SocketClient('createReview');
 const getReviewsClient = SocketClient('getReviews');
 const deleteReviewClient = SocketClient('deleteReview');
-
-export function asyncCreateReview(review) {
-  return (dispatch) => {
-    createReviewClient.request(review);
-    const event = createReviewClient.response(function () {
-      dispatch(createReview(review));
-      event.off();
-    });
-  };
-}
+import {addContent} from '../Utils/uploadmedia.js';
 
 export function showReviews(response, pids, skip, limit) {
   return {
@@ -44,6 +34,23 @@ export function asyncShowReviews(pids, skip, limit) {
   };
 }
 
+export function asyncCreateReview(form, pids) {
+  let skip=0, limit = 10;
+  return function (dispatch) {
+    addContent(form, '/anmeldelse/').then((response) => {
+      if (pids) {
+        dispatch(asyncShowReviews(pids, skip, limit));
+      }
+      else {
+        dispatch(createReview(response));
+      }
+    }).catch((response) => {
+      dispatch(createReview(response));
+      event.off();
+    });
+  };
+}
+
 export function createReview(review) {
   return {
     type: types.CREATE_REVIEW,
@@ -51,16 +58,26 @@ export function createReview(review) {
   };
 }
 
-export function asyncDeleteReview(reviewId) {
+export function asyncDeleteReview(reviewId, pids) {
+  let skip=0, limit = 10;
   return function (dispatch) {
     dispatch(deleteReview(reviewId));
     deleteReviewClient.request({id: reviewId});
+    const event = deleteReviewClient.response(() => {
+      if (pids) {
+        dispatch(asyncShowReviews(pids, skip, limit));
+      }
+      else {
+        dispatch(deleteReview(reviewId));
+      }
+      event.off();
+    });
   };
 }
 
 export function deleteReview(reviewId) {
   return {
     type: types.DELETE_REVIEW,
-    postId: reviewId
+    reviewId: reviewId
   };
 }

@@ -23,7 +23,7 @@ let callOpenPlatform = function callOpenPlatform(token, method, req) {
 function search(endpoint, params) {
   const options = {
     url: `${endpoint}search/`,
-    form: params
+    qs: params
   };
   return callOpenPlatform('post', options);
 }

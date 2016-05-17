@@ -6,9 +6,9 @@
 
 .review--header {
   padding: 10px;
+
   @include min-screen($tablet) {
     width: 40%;
-    max-width: 300px;
     display: inline-block;
   }
 }
@@ -16,24 +16,20 @@
 .review--material--cover {
   display: inline-block;
   vertical-align: top;
-  width: 30%;
-
-  @include min-screen($tablet) {
-    width: 40%;
-  }
+  width: 25%;
 
   img {
-    max-height: 100px;
+    max-width: 100%;
   }
 }
 
 .review--data {
   display: inline-block;
-  margin-left: 10px;
-  width: 65%;
+  margin-left: 5px;
+  width: 71%;
 
-  @include min-screen($tablet) {
-    width: 55%;
+  @include min-screen($desktop) {
+    margin-left: 10px;
   }
 }
 
@@ -48,6 +44,7 @@
 .review--data--username {
   display: inline-block;
   vertical-align: middle;
+  width: 65%;
 }
 
 .review--data--material-title {
@@ -58,8 +55,8 @@
 .review--content {
   padding: 0 10px 10px 10px;
   vertical-align: top;
+
   @include min-screen($tablet) {
-    width: 52%;
     display: inline-block;
     padding-top: 10px;
   }

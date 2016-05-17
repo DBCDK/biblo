@@ -19,7 +19,7 @@ import music from '../../../General/Icon/svg/Materialikon-kvadrat small/music_no
 import photo from '../../../General/Icon/svg/Materialikon-kvadrat small/photo.svg';
 import smiley from '../../../General/Icon/svg/Materialikon-kvadrat small/smiley.svg';
 
-import './CompactReviewElement.component.scss';
+import './scss/CompactReviewElement.component.scss';
 
 const materialSvgs = {
   animalpaw,

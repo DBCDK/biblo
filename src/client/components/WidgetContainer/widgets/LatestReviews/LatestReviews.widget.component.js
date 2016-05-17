@@ -9,7 +9,7 @@ import Icon from '../../../General/Icon/Icon.component';
 
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
 
-import './LatestReviews.widget.component.scss';
+import './scss/LatestReviews.widget.component.scss';
 
 export class LatestReviewsWidget extends Component {
   constructor(props) {

@@ -10,6 +10,16 @@
   overflow: hidden;
 }
 
+.latest-reviews-widget--reviews-container.closed, .latest-reviews-widget--reviews-container {
+  @include max-screen($tablet) {
+    width: auto;
+    height: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+  }
+}
+
 .latest-reviews-widget--widget-title--and--show-more-button--container {
   a {
     float: right;
@@ -17,6 +27,10 @@
     font-family: $header-font;
     color: #000000;
     margin: 20px;
+
+    @include max-screen($tablet) {
+      display: none;
+    }
   }
 
   h2 {

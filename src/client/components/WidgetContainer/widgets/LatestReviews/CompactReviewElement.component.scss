@@ -48,5 +48,45 @@
     position: absolute;
     top: -10px;
     left: -10px;
+    z-index: 10;
+  }
+
+  .compact-review--container--video-review--rating--container {
+    .rating {
+      display: inline-flex;
+      margin: 4px;
+      vertical-align: top;
+    }
+  }
+
+  .compact-review--video--container {
+    position: relative;
+    width: 180px;
+    height: 98px;
+    display: block;
+    margin-bottom: 5px;
+
+    img {
+      width: 180px;
+      height: 98px;
+      object-fit: cover;
+      background: url('/video_behandler.png') no-repeat center 0;
+      background-size: cover;
+    }
+
+    .after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 180px;
+      height: 98px;
+      color: #FFF;
+      background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
+      background-size: cover;
+    }
+  }
+
+  .compact-video-review--artwork-container {
+    position: relative;
   }
 }

@@ -22,8 +22,12 @@ const GetReviewTransform = {
               relation: 'video',
               scope: {
                 include: [
-                  'resolutions'
-                ]
+                  {
+                    relation: 'resolutions',
+                    scope: {
+                      include: ['video']
+                    }
+                  }]
               }
             },
             {

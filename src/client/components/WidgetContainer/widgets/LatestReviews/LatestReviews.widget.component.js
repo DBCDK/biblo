@@ -49,8 +49,7 @@ export class LatestReviewsWidget extends Component {
           <h2>{displayTitle}</h2>
           <a
             className="latest-reviews-widget--show-more-button"
-            onClick={() => this.setState({isClosed: !this.state.isClosed})}
-            >
+            onClick={() => this.setState({isClosed: !this.state.isClosed})}>
             <Icon glyph={plusSvg} />
             {this.state.isClosed ? ' VIS FLERE' : ' VIS FÆRRE'}
           </a>
@@ -65,9 +64,9 @@ export class LatestReviewsWidget extends Component {
 
 LatestReviewsWidget.displayName = 'LatestReviewsWidget';
 LatestReviewsWidget.propTypes = {
-  widgetLocationName: PropTypes.string.isRequired,
-  widgetState: PropTypes.object.isRequired,
   widgetActions: PropTypes.object.isRequired,
+  widgetData: PropTypes.object.isRequired,
+  widgetLocationName: PropTypes.string.isRequired,
   widgetReducerProp: PropTypes.array.isRequired,
-  widgetData: PropTypes.object.isRequired
+  widgetState: PropTypes.object.isRequired
 };

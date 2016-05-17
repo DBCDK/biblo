@@ -40,6 +40,8 @@ export class CompactReviewElement extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.renderTextReview.bind(this);
+    this.renderVideoReview.bind(this);
   }
 
   componentDidMount() {
@@ -59,41 +61,82 @@ export class CompactReviewElement extends Component {
     /* eslint-enable react/no-danger */
   }
 
+  renderTextReview(review, ownerProfileUrl, workUrl) {
+    return (
+      <div className="compact-review--container">
+        <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
+        <table>
+          <tbody>
+          <tr>
+            <td className="compact-review--artwork--container">
+              <a href={ownerProfileUrl} className="compact-review--owner-image--container">
+                <img src={review.owner.image}/>
+              </a>
+              <a href={workUrl} className="compact-review--cover-image--container">
+                <img
+                  className="compact-review--cover-image"
+                  src={this.props.coverImages[this.props.review.pid]}/>
+              </a>
+            </td>
+            <td className="compact-review--review-content">
+              <Icon glyph={materialSvgs[review.worktype]}
+                    width={25} height={25}
+                    className="icon compact-review-worktype-icon"/>
+              <a href={workUrl}>
+                {this.getTextContent(review.html)}
+              </a>
+              <Rating rating={review.rating} starsOnly={false} pid={review.pid} />
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  renderVideoReview (review, ownerProfileUrl, workUrl) {
+    const resolution = review.video.resolutions.slice(-1)[0];
+    const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
+    const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
+
+    return (
+      <div className="compact-review--container">
+        <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
+        <div className="compact-video-review--artwork-container">
+          <a href={ownerProfileUrl} className="compact-review--owner-image--container">
+            <img src={review.owner.image}/>
+          </a>
+          <a href={workUrl} className="compact-review--video--container">
+            <img src={videoImageSrc} />
+            <span className="after" />
+          </a>
+        </div>
+        <div className="compact-review--container--video-review--rating--container">
+          <Icon glyph={materialSvgs[review.worktype]}
+                width={25} height={25}
+                className="icon compact-review-worktype-icon"/>
+          <Rating rating={review.rating} starsOnly={false} pid={review.pid} />
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const review = this.props.review;
     const ownerProfileUrl = `/profil/${review.owner.id}`;
     const workUrl = `/materiale/${encodeURIComponent(review.pid)}`;
+    let reviewContent;
+
+    if (review.video) {
+      reviewContent = this.renderVideoReview(review, ownerProfileUrl, workUrl);
+    }
+    else {
+      reviewContent = this.renderTextReview(review, ownerProfileUrl, workUrl);
+    }
 
     return (
       <div className="compact-review--container--container">
-        <div className="compact-review--container">
-          <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
-          <table>
-            <tbody>
-              <tr>
-                <td className="compact-review--artwork--container">
-                  <a href={ownerProfileUrl} className="compact-review--owner-image--container">
-                    <img src={review.owner.image}/>
-                  </a>
-                  <a href={workUrl} className="compact-review--cover-image--container">
-                    <img
-                      className="compact-review--cover-image"
-                      src={this.props.coverImages[this.props.review.pid]}/>
-                  </a>
-                </td>
-                <td className="compact-review--review-content">
-                  <Icon glyph={materialSvgs[review.worktype]}
-                        width={25} height={25}
-                        className="icon compact-review-worktype-icon"/>
-                  <a href={workUrl}>
-                    {this.getTextContent(review.html)}
-                  </a>
-                  <Rating rating={review.rating} starsOnly={false} pid={review.pid} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {reviewContent}
       </div>
     );
   }

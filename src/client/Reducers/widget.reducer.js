@@ -13,7 +13,6 @@ let initialState = {
       {
         widgetName: 'LatestReviewsWidget',
         widgetData: {
-          campaignName: '',
           displayTitle: 'Brugerne Siger',
           reviewsToLoad: 15
         }

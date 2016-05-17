@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
@@ -40,9 +39,11 @@ export default class SearchFilters extends React.Component {
     const filters = this.props.search.filters.materialFilters;
 
     const filterElements = Object.keys(filterIcons).map((key) => {
-      const clickFunction = () => {this.props.searchActions.toggleMaterialFilter(key);}
+      const clickFunction = () => {
+        this.props.searchActions.toggleMaterialFilter(key);
+      };
       const activeClass = (filters[key].enabled) ? 'search-filters--button-active' : '';
-      return (<li className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36} height={36} glyph={filterIcons[key].svg}/></li>)
+      return (<li className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36} height={36} glyph={filterIcons[key].svg}/></li>);
     });
 
 

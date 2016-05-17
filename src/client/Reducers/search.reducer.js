@@ -35,10 +35,6 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   if (data.query) {
     // set initial query that was delivered with the HTTP response
     initialState.initialQuery = initialState.query = data.query;
-
-
-
-
     initialState.isSearchBoxVisible = true;
   }
 

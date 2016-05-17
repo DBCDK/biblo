@@ -1,11 +1,10 @@
-
-const materialCql = {
-  book:'term.worktype="literature"',
+/* const materialCql = {
+  book: 'term.worktype="literature"',
   game: 'term.worktype="game"',
   movie: 'term.worktype="movie"',
   music: 'term.worktype="music"',
   audiobook: '(term.type="lydbog" and term.worktype="literature")'
-};
+}; */
 
 
 const SearchTransform = {
@@ -31,7 +30,7 @@ const SearchTransform = {
         'dcTitle',
         'pid',
         'workType'
-        //'coverUrlFull'
+        // 'coverUrlFull'
       ],
       limit: limit
     });

@@ -47,10 +47,6 @@ export function toggleMaterialFilter(materialType) {
 }
 
 export function searchMaterials(query) {
-  console.log('search for', query);
-
-
-
   // OLD SKOOL redirect
   window.location = '/find?q=' + encodeURIComponent(query.query);
   return {

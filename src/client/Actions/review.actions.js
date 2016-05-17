@@ -68,7 +68,7 @@ export function asyncDeleteReview(reviewId, pids) {
         dispatch(asyncShowReviews(pids, skip, limit));
       }
       else {
-        dispatch(deleteReview(reviewId)) ;
+        dispatch(deleteReview(reviewId));
       }
       event.off();
     });

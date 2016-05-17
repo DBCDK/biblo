@@ -12,7 +12,6 @@ const initialState = {
   orderState: 0,
   responses: 0,
   work: parseJsonData('JSONDATA', 'work'),
-  profile: parseJsonData('JSONDATA', 'profile'),
   workReviews: parseJsonData('JSONDATA', 'workReviews'),
   workReviewsMeta: parseJsonData('JSONDATA', 'workReviewsMeta')
 };

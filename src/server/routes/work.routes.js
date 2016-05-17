@@ -94,13 +94,12 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
       js: ['/js/work.js'],
       ownReviewId: ownReviewId,
       jsonData: [JSON.stringify({
-        profile: profile,  // data about the currently logged in user
-        work: work,      // data about the work identified by the pids
-        workReviews: reviewResponse[0].data, // reviews filtered for the specific work
+        work: work,                                          // data about the work identified by the pids
+        workReviews: reviewResponse[0].data,                 // reviews filtered for the specific work
         workReviewsMeta: {
-          ownReviewId: ownReviewId,  // review of the work done by the logged in profile
+          ownReviewId: ownReviewId,                          // review of the work done by the logged in profile
           reviewsTotalCount: reviewResponse[0].reviewsCount, // count number of total reviews of work
-          reviewVisible: false  // is the "create review" area on screen visible?
+          reviewVisible: false                               // is the "create review" area on screen visible?
         }
       })]
     });

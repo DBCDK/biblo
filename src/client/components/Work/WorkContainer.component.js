@@ -83,7 +83,6 @@ export class WorkContainer extends React.Component {
 
   render() {
     const work = this.props.workState.work;                 // the work collection from the service provider
-    const profile = this.props.workState.profile;           // the currently logged in user
     const reviews = this.props.workState.workReviews;       // the reviews associated with the work
     const meta = this.props.workState.workReviewsMeta;      // metadata about the reviews (eg paging info)
     let reviewVisible = this.state.reviewVisible;           // is the review create area visible or not?
@@ -155,10 +154,10 @@ export class WorkContainer extends React.Component {
             ref='review'
             isEditing={true}
             toggleReview={this.toggleReview.bind(this)}
-            profile={profile}
+            profile={this.props.profile}
+            owner={this.props.profile}
             pid={work.id}
             worktype={this.props.worktype || 'book'}
-            owner={profile}
             reviewActions={this.props.actions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
@@ -179,7 +178,7 @@ export class WorkContainer extends React.Component {
           limit={meta.reviewsLimit}
           reviews={reviews}
           worktype="book"
-          profile={profile}
+          profile={this.props.profile}
           reviewActions={this.props.actions}
           uiActions={this.props.uiActions}
           flagActions={this.props.flagActions}

@@ -174,7 +174,7 @@ export default class Review extends React.Component {
       evt.preventDefault();
       this.setState({isLoading: true});
       this.props.reviewActions.asyncCreateReview(this.refs.contentForm, this.props.pids);
-      this.props.toggleReview();
+      this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
     }
     return false;
   }
@@ -262,18 +262,16 @@ export default class Review extends React.Component {
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
     };
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikeReview : () => {
+    const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {
     };
 
-    let ownerImage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
-    
     const likeButton = (
       <LikeButton
         likeFunction={likeFunction}
         unlikeFunction={unlikeFunction}
         usersWhoLikeThis={this.props.likes}
         isLikedByCurrentUser={isLikedByCurrentUser}
-        active={profile.userIsLoggedIn}
+        active={this.props.profile.userIsLoggedIn}
       />
     );
 
@@ -282,7 +280,7 @@ export default class Review extends React.Component {
       <div className='review-wrapper'>
         <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={ownerImage || null} alt={owner.displayName}/>
+            <img src={owner.image || null} alt={owner.displayName}/>
           </a>
         </div>
 

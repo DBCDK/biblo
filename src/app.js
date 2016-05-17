@@ -39,7 +39,7 @@ import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
 import {ensureProfileImage} from './server/middlewares/data.middleware';
-import {ensureUserHasProfile} from './server/middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
 
 module.exports.run = function(worker) {
@@ -199,7 +199,11 @@ module.exports.run = function(worker) {
     cookie: {
       path: '/',
       httpOnly: true,
-      secure: PRODUCTION
+      secure: PRODUCTION,
+
+      // Expire the cookie at end of browser session (same behavior as uni-login).
+      expires: null,
+      maxAge: null
     }
   });
 
@@ -238,12 +242,12 @@ module.exports.run = function(worker) {
   app.use(ssrMiddleware);
   app.use(ensureProfileImage);
 
-  app.use('/anmeldelse', ReviewRoutes);
-  app.use('/grupper', ensureUserHasProfile, GroupRoutes);
-  app.use('/find', SearchRoutes);
+  app.use('/anmeldelse', ReviewRoutes, ensureUserHasValidLibrary);
+  app.use('/grupper', ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);
+  app.use('/find', SearchRoutes, ensureUserHasValidLibrary);
   app.use('/profil', ProfileRoutes);
-  app.use('/materiale', WorkRoutes);
-  app.use('/indhold', ContentRoutes);
+  app.use('/materiale', WorkRoutes, ensureUserHasValidLibrary);
+  app.use('/indhold', ContentRoutes, ensureUserHasValidLibrary);
   app.use('/api', ApiRoutes);
   app.use('/', MainRoutes);
 

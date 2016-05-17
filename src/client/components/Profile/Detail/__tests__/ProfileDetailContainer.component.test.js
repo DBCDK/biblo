@@ -17,17 +17,22 @@ import {uiMock} from '../../../__mocks__/ui.mock';
 
 describe('Test profile detail container (public profile)', () => {
   it('Test profile detail container can render', () => {
-    const noop = () => {};
+    const noop = () => {
+    };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -52,8 +57,10 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
+
 
     let $root = $(component).render();
 
@@ -65,17 +72,22 @@ describe('Test profile detail container (public profile)', () => {
   });
 
   it('should render activity rows containing posts, and a comment.', () => {
-    const noop = () => {};
+    const noop = () => {
+    };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -100,6 +112,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
 
@@ -107,23 +120,27 @@ describe('Test profile detail container (public profile)', () => {
 
     let activityRows = $root.find('.activity-row--container > .activity-row');
 
-//    expect(activityRows[0].innerHTML).toContain(`Din aktivitet på siden:`);
-    expect(activityRows[1].innerHTML).toContain(feedMock.feed[0].html);
-    expect(activityRows[2].innerHTML).toContain(feedMock.feed[1].html);
+    expect(activityRows[0].innerHTML).toContain(feedMock.feed[0].html);
+    expect(activityRows[1].outerHTML).toContain(feedMock.feed[1].html);
   });
 
   it('should render rows containing an edit link when a moderator is viewing', () => {
-    const noop = () => {};
+    const noop = () => {
+    };
 
     // actions for this test (just use spies)
-    let feedActions = {
+    const feedActions = {
       asyncGetUserFeed: noop,
       getUserFeed: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
     };
 
     const searchState = {
@@ -148,6 +165,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={moderatorMock}
         ui={uiMock}
         uiActions={uiActions}
+        review={review}
       />
     );
 
@@ -157,5 +175,56 @@ describe('Test profile detail container (public profile)', () => {
 
     expect(postEditButtons.length).toEqual(4); // two posts, and two comments with posts wrapped around.
     expect(commentEditButtons.length).toEqual(2); // two comments.
+  });
+
+  it('should render tabs', () => {
+    const noop = () => {
+    };
+
+    // actions for this test (just use spies)
+    const feedActions = {
+      asyncGetUserFeed: noop,
+      getUserFeed: noop
+    };
+
+    const uiActions = {
+      openModalWindow: noop,
+      closeModalWindow: noop
+    };
+
+    const review = {
+      reviews: []
+    };
+
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
+    const component = (
+      <ProfileDetailContainer
+        searchState={searchState}
+        feed={feedMock}
+        feedActions={feedActions}
+        profile={profileMock}
+        ui={uiMock}
+        uiActions={uiActions}
+        review={review}
+      />
+    );
+
+    const $root = $(component).render();
+
+    const tabs = $root.find('.p-detail--activity-tabs');
+    expect(tabs[0].innerHTML).toContain('tabs-container');
   });
 });

@@ -26,7 +26,7 @@ SearchRoutes.get('/', (req, res, next) => {
       js: ['/js/search.js'],
       jsonData: [JSON.stringify({
         materialSearchResults: materialSearchResults,
-        query: query
+        query: params.q
       })]
     });
   })

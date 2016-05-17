@@ -40,9 +40,9 @@ export default class Rating extends React.Component {
   render() {
     let {rating = 0} = this.state;
     return (
-      <div className='rating'>
+      <div className='rating' >
         {this.renderStars(rating)}
-        ({rating} / 6)
+        {this.props.starsOnly ? ({rating} / 6) : null}
       </div>
     );
   }
@@ -52,12 +52,14 @@ Rating.displayName = 'Rating.component';
 
 Rating.propTypes = {
   rating: React.PropTypes.number,
-  onChange: React.PropTypes.func.isRequired
+  onChange: React.PropTypes.func,
+  starsOnly: React.PropTypes.bool
 };
 
 Rating.defaultProps = {
-  clickFunction: () => {
-  }
+  clickFunction: () => {},
+  onChange: null,
+  starsOnly: false
 };
 
 export default Rating;

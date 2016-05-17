@@ -14,6 +14,7 @@ module.exports = [{
 
   entry: {
     profileedit: './src/client/components/Profile/Edit/index.js',
+    profileeditlibrary: './src/client/components/Profile/LibraryEdit/index.js',
     profiledetail: './src/client/components/Profile/Detail/index.js',
     frontpage: './src/client/components/FrontPage/index.js',
     article: './src/client/components/Article/index.js',

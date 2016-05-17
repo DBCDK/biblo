@@ -62,11 +62,26 @@ export function ensureUserHasProfile(req, res, next) {
   }
 
   // user has a profile, send them to where they want to go.
-  if (req.user && (req.user.profile.hasFilledInProfile || req.user.profile.profile.hasFilledInProfile)) {
+  if (req.user && ((req.user.profile.profile || req.user.profile).hasFilledInProfile)) {
     return next();
   }
 
   // user does not have a profile
   req.session.returnUrl = req.originalUrl;
   return res.redirect('/profil/rediger');
+}
+
+export function ensureUserHasValidLibrary(req, res, next) {
+  if (req.isUnauthenticated()) {
+    return next();
+  }
+
+  const profile = req.user && (req.user.profile.profile || req.user.profile);
+
+  if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryIsInvalid) {
+    req.session.returnUrl = req.originalUrl;
+    return res.redirect('/profil/rediger/bibliotek');
+  }
+
+  return next();
 }

@@ -31,7 +31,8 @@ module.exports = function(config) {
     singleRun: false,
     webpack: require('./webpack.test.config'),
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
+      quiet: true
     },
     coverageReporter: {
       includeAllSources: true,

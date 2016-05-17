@@ -33,8 +33,10 @@ const GetOwnReviewTransform = {
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method getOwnReview failed');
     }
-    let reviews = JSON.parse(response.body);
+
+    const reviews = JSON.parse(response.body);
     return {status: response.statusCode, data: reviews, errors: response.errors || []};
   }
 };
+
 export default GetOwnReviewTransform;

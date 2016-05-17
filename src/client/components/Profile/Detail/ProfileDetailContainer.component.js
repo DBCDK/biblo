@@ -17,6 +17,8 @@ import PostView from '../../Groups/Posts/PostView.component';
 import Icon from '../../General/Icon/Icon.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import Follow from '../../General/Follow/Follow.component';
+import Tabs from '../../General/Tabs/Tabs.component';
+import ReviewRow from './ReviewRow.component';
 
 import * as feedActions from '../../../Actions/feed.actions';
 import * as flagActions from '../../../Actions/flag.actions';
@@ -30,7 +32,7 @@ import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 import {PROFILE_EDIT, MODERATOR_PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
-import './ProfileDetailContainer.component.scss';
+import './scss/ProfileDetailContainer.component.scss';
 
 export class ProfileDetailContainer extends React.Component {
 
@@ -62,23 +64,23 @@ export class ProfileDetailContainer extends React.Component {
 
   renderModalContent(isMyProfile) {
     return (
-      <div className="groups-modal--container">
+      <div className="groups-modal--container" >
         {this.state.groups.map((group) => {
           return (
-            <span key={`group_${group.id}`} className="user-feed--groups-modal--group">
-                <a href={'/grupper/' + group.id}>
+            <span key={`group_${group.id}`} className="user-feed--groups-modal--group" >
+                <a href={'/grupper/' + group.id} >
                   <img
                     className="user-feed--groups-modal--group-image"
                     src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
                   />
                   <div className="user-feed--groups-modal--group-name"
-                       dangerouslySetInnerHTML={{__html: group.name}}/>
+                       dangerouslySetInnerHTML={{__html: group.name}} ></div>
                 </a>
               {isMyProfile ?
                 <Follow active={group.following}
                         onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
                         showLoginLink={false}
-                        text={group.following && 'Følger' || 'Følg gruppen'}/> : ''}
+                        text={group.following && 'Følger' || 'Følg gruppen'} /> : ''}
                  </span>
           );
         })}
@@ -86,15 +88,8 @@ export class ProfileDetailContainer extends React.Component {
     );
   }
 
-  render() {
-    let userProfile = this.props.feed.profile;
-    userProfile = assignToEmpty(userProfile, {
-      image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
-    });
-
-    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
-
-    let feed = this.props.feed.feed.map((activity) => {
+  getActivityFeed(isMyProfile) {
+    return this.props.feed.feed.map((activity) => {
       activity.owner = assignToEmpty({
         id: '',
         displayName: ''
@@ -106,143 +101,165 @@ export class ProfileDetailContainer extends React.Component {
         displayName = 'Du';
       }
       switch (activity.type) {
-        case 'comment': {
-          let title = displayName + ' skrev en kommentar';
+        case 'comment':
+          {
+            let title = displayName + ' skrev en kommentar';
 
-          if (activity.post && activity.post.group && activity.post.group.name) {
-            title = (
-              <span>
-                <span dangerouslySetInnerHTML={{__html: title}}/>
-                <span> i </span>
-                <a href={`/grupper/${activity.post.group.id}`}
-                   dangerouslySetInnerHTML={{__html: activity.post.group.name}}/>
-                <span>:</span>
-              </span>
+            if (activity.post && activity.post.group && activity.post.group.name) {
+              title = (
+                <span>
+                  <span dangerouslySetInnerHTML={{__html: title}} />
+                  <span> i </span>
+                  <a href={`/grupper/${activity.post.group.id}`}
+                     dangerouslySetInnerHTML={{__html: activity.post.group.name}} />
+                  <span>:</span>
+                </span>
+              );
+            }
+            else {
+              title += ' ';
+            }
+
+            activity = assignToEmpty({
+              imageSrc: '',
+              id: '',
+              timeCreated: Date.now()
+            }, activity);
+
+            activity.post = assignToEmpty({
+              content: '',
+              id: ''
+            }, activity.post);
+
+            activity.post.owner = assignToEmpty({
+              displayName: '',
+              id: ''
+            }, activity.post.owner);
+
+            activity.post.group = assignToEmpty({
+              id: '',
+              name: ''
+            }, activity.post.group);
+
+            return (
+              <ActivityRow
+                likes={0}
+                imageSrc={activity.imageSrc}
+                key={'comment_' + activity.id}
+                title={title}
+              >
+                <PostView
+                  content={activity.post.content}
+                  html={activity.post.html}
+                  timeCreated={activity.timeCreated}
+                  owner={activity.post.owner}
+                  id={activity.post.id}
+                  profile={this.props.profile}
+                  groupId={activity.post.groupid}
+                  likes={activity.post.likes}
+                  comments={[activity]}
+                  commentsCount={0}
+                  numberOfCommentsLoaded={1}
+                  actions={{}}
+                  likeActions={this.props.likeActions}
+                  flagActions={this.props.flagActions}
+                  groupActions={this.props.groupActions}
+                  loadingComments={false}
+                  commentRedirect={`/profil/${activity.owner.id}`}
+                  uiActions={this.props.uiActions}
+                  image={activity.post.image}
+                />
+              </ActivityRow>
             );
           }
-          else {
-            title += ' ';
-          }
 
-          activity = assignToEmpty({
-            imageSrc: '',
-            id: '',
-            timeCreated: Date.now()
-          }, activity);
+        case 'post':
+          {
+            let postTitle = displayName + ' oprettede et indlæg';
 
-          activity.post = assignToEmpty({
-            content: '',
-            id: ''
-          }, activity.post);
+            if (activity.group && activity.group.name) {
+              postTitle = (
+                <span>
+                  <span dangerouslySetInnerHTML={{__html: postTitle}} />
+                  <span> i </span>
+                  <a href={`/grupper/${activity.group.id}`}
+                     dangerouslySetInnerHTML={{__html: activity.group.name}} />
+                  <span>:</span>
+                </span>
+              );
+            }
+            else {
+              postTitle += ':';
+            }
 
-          activity.post.owner = assignToEmpty({
-            displayName: '',
-            id: ''
-          }, activity.post.owner);
+            activity = assignToEmpty({
+              imageSrc: '',
+              id: '',
+              content: '',
+              timeCreated: Date.now()
+            }, activity);
 
-          activity.post.group = assignToEmpty({
-            id: '',
-            name: ''
-          }, activity.post.group);
+            activity.group = assignToEmpty({
+              id: '',
+              name: ''
+            }, activity.group);
 
-          return (
-            <ActivityRow
-              likes={0}
-              imageSrc={activity.imageSrc}
-              key={'comment_' + activity.id}
-              title={title}
-            >
-              <PostView
-                content={activity.post.content}
-                html={activity.post.html}
-                timeCreated={activity.timeCreated}
-                owner={activity.post.owner}
-                id={activity.post.id}
-                profile={this.props.profile}
-                groupId={activity.post.groupid}
-                likes={activity.post.likes}
-                comments={[activity]}
-                commentsCount={0}
-                numberOfCommentsLoaded={1}
-                actions={{}}
-                likeActions={this.props.likeActions}
-                flagActions={this.props.flagActions}
-                groupActions={this.props.groupActions}
-                loadingComments={false}
-                commentRedirect={`/profil/${activity.owner.id}`}
-                uiActions={this.props.uiActions}
-                image={activity.post.image}
-              />
-            </ActivityRow>
-          );
-        }
-
-        case 'post': {
-          let postTitle = displayName + ' oprettede et indlæg';
-
-          if (activity.group && activity.group.name) {
-            postTitle = (
-              <span>
-                <span dangerouslySetInnerHTML={{__html: postTitle}}/>
-                <span> i </span>
-                <a href={`/grupper/${activity.group.id}`}
-                   dangerouslySetInnerHTML={{__html: activity.group.name}}/>
-                <span>:</span>
-              </span>
+            return (
+              <ActivityRow
+                likes={0}
+                imageSrc={activity.imageSrc}
+                key={'post_' + activity.id}
+                title={postTitle}
+              >
+                <PostView
+                  content={activity.content}
+                  likes={activity.likes}
+                  html={activity.html}
+                  timeCreated={activity.timeCreated}
+                  owner={activity.owner}
+                  id={activity.id}
+                  profile={this.props.profile}
+                  groupId={activity.group.id}
+                  comments={[]}
+                  commentsCount={0}
+                  numberOfCommentsLoaded={0}
+                  actions={{}}
+                  flagActions={this.props.flagActions}
+                  likeActions={this.props.likeActions}
+                  groupActions={this.props.groupActions}
+                  loadingComments={false}
+                  uiActions={this.props.uiActions}
+                  image={activity.image}
+                />
+              </ActivityRow>
             );
           }
-          else {
-            postTitle += ':';
+
+        default:
+          {
+            return '';
           }
-
-          activity = assignToEmpty({
-            imageSrc: '',
-            id: '',
-            content: '',
-            timeCreated: Date.now()
-          }, activity);
-
-          activity.group = assignToEmpty({
-            id: '',
-            name: ''
-          }, activity.group);
-
-          return (
-            <ActivityRow
-              likes={0}
-              imageSrc={activity.imageSrc}
-              key={'post_' + activity.id}
-              title={postTitle}
-            >
-              <PostView
-                content={activity.content}
-                likes={activity.likes}
-                html={activity.html}
-                timeCreated={activity.timeCreated}
-                owner={activity.owner}
-                id={activity.id}
-                profile={this.props.profile}
-                groupId={activity.group.id}
-                comments={[]}
-                commentsCount={0}
-                numberOfCommentsLoaded={0}
-                actions={{}}
-                flagActions={this.props.flagActions}
-                likeActions={this.props.likeActions}
-                groupActions={this.props.groupActions}
-                loadingComments={false}
-                uiActions={this.props.uiActions}
-                image={activity.image}
-              />
-            </ActivityRow>
-          );
-        }
-
-        default: {
-          return '';
-        }
       }
     });
+  }
+
+  getReviewsFeed() {
+    return this.props.review.reviews.map((review, index) => {
+      return (
+        <ReviewRow review={review} user={this.props.feed.profile} key={index} />
+      );
+    });
+  }
+
+  render() {
+    let userProfile = this.props.feed.profile;
+    userProfile = assignToEmpty(userProfile, {
+      image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
+    });
+
+    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
+    const activityFeed = this.getActivityFeed(isMyProfile);
+    const reviewsFeed = this.getReviewsFeed();
 
     let desc = '';
     let showMore = '';
@@ -276,7 +293,7 @@ export class ProfileDetailContainer extends React.Component {
     }
     else {
       groupsModalContent = (
-        <div className="user-feed--groups-modal--text">
+        <div className="user-feed--groups-modal--text" >
           <h2>{userProfile.displayName} følger ingen grupper!</h2>
           <p>Det var da lidt kedeligt</p>
         </div>
@@ -287,7 +304,7 @@ export class ProfileDetailContainer extends React.Component {
       (this.props.ui.modal.isOpen) ?
         (<ModalWindow onClose={() => {
           this.props.uiActions.closeModalWindow();
-        }}>
+        }} >
           {this.props.ui.modal.children}
         </ModalWindow>) :
         null
@@ -296,58 +313,85 @@ export class ProfileDetailContainer extends React.Component {
     // include edit button when user views her own page.
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
-    const currentUserAddressing = (isMyProfile) ? 'du' : userProfile.displayName;
-    let owner = userProfile.displayName;
-    owner = owner[0].toUpperCase() + owner.slice(1);
-    const currentUserOwnership = (isMyProfile) ? 'Din' : (owner + 's');
+    const currentUserAddressing = (isMyProfile) ? 'Du' : userProfile.displayName;
 
     let editButton = null;
     let profileImage = null;
     if (isLoggedIn && (isMyProfile || this.props.profile.isModerator)) {
       editButton = (
-        <a href={editLink}>
-          <div className='p-detail--edit-button'><Icon className="icon" glyph={editSvg}
-                                                       width={24} height={24}/></div>
+        <a href={editLink} >
+          <div className='p-detail--edit-button' >
+            <Icon className="icon" glyph={editSvg}
+                  width={24} height={24} /></div>
         </a>);
-      profileImage = (<a href={editLink}>
-        <div className="p-detail--image-container">
-          <img src={userProfile.image} alt={userProfile.displayName}/>
+      profileImage = (<a href={editLink} >
+        <div className="p-detail--image-container" >
+          <img src={userProfile.image} alt={userProfile.displayName} />
         </div>
       </a>);
     }
 
     else {
-      profileImage = (<div className="p-detail--image-container">
-        <img src={userProfile.image} alt={userProfile.displayName}/>
+      profileImage = (<div className="p-detail--image-container" >
+        <img src={userProfile.image} alt={userProfile.displayName} />
       </div>);
     }
 
+    const activityPaneContent = (
+      <div>
+        {
+          (this.props.feed.feed.length > 0) ? activityFeed :
+            (
+              <ActivityRow title={'Her er tomt!'} >{currentUserAddressing} har ikke lavet noget...</ActivityRow>
+            )
+        }
+        {showMore}
+      </div>
+    );
+
+    const reviewsPaneContent = (
+      <div>
+        {
+          (reviewsFeed) ? reviewsFeed :
+            (
+              <ActivityRow title={'Her er tomt!'} >{currentUserAddressing} har ikke lavet nogen anmeldelser endnu.</ActivityRow>
+            )
+        }
+      </div>
+    );
+
+    const tabs = [
+      {
+        label: 'Aktivitet',
+        content: activityPaneContent
+      },
+      {
+        label: 'Anmeldelser',
+        content: reviewsPaneContent
+      }
+    ];
+
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >
         {modal}
         {profileImage}
-        <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
+        <div className="p-detail--displayname-description-follow" >
+          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}} />
           {editButton}
           {desc}
-          <div className="p-detail--groups-flag-buttons--container">
+          <div className="p-detail--groups-flag-buttons--container" >
             <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
               this.props.uiActions.openModalWindow(groupsModalContent);
-            }}>
-              <div className="p-detail--groups-button"><Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
+            }} >
+              <div className="p-detail--groups-button" >
+                <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p>
               </div>
             </a>
           </div>
         </div>
-        {
-          (this.props.feed.feed.length > 0) ?
-            (<ActivityRow title={`${currentUserOwnership} aktivitet på siden`}/>) :
-            (<ActivityRow title={'Her er tomt!'}>{currentUserAddressing} har ikke lavet
-              noget...</ActivityRow>)
-        }
-
-        {feed}
-        {showMore}
+        <div className="p-detail--activity-tabs" >
+          <Tabs tabs={tabs} />
+        </div>
       </PageLayout>
     );
   }
@@ -356,16 +400,17 @@ export class ProfileDetailContainer extends React.Component {
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
-  group: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
+  group: React.PropTypes.object.isRequired,
   groupActions: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
+  profile: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
+  review: React.PropTypes.object.isRequired,
+  searchState: React.PropTypes.object.isRequired,
+  searchActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired
 };
 
@@ -380,7 +425,8 @@ export default connect(
       profile: state.profileReducer,
       group: state.groupViewReducer,
       feed: state.profileFeedReducer,
-      ui: state.uiReducer
+      ui: state.uiReducer,
+      review: state.reviewReducer
     };
   },
 

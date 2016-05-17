@@ -20,6 +20,8 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
     return next();
   }
 
+  let beforeProfile = req.session.passport.user.profile.profile || req.session.passport.user.profile;
+
   req.session.passport.user.profile = {
     profile: {
       username: '',
@@ -44,6 +46,15 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
   req.callServiceProvider('getFullProfile').then((result) => {
     if (result && result[0] && result[0].statusMessage === 'OK') {
       req.session.passport.user.profile = {profile: Object.assign(result[0].body, {userIsLoggedIn: true}), errors: []};
+    }
+
+    if (
+      beforeProfile &&
+      beforeProfile.favoriteLibrary &&
+      beforeProfile.favoriteLibrary.libraryIsInvalid &&
+      beforeProfile.favoriteLibrary.libraryId === req.session.passport.user.profile.profile.favoriteLibrary.libraryId
+    ) {
+      req.session.passport.user.profile.profile.favoriteLibrary.libraryIsInvalid = true;
     }
 
     res.locals.profile = JSON.stringify(req.session.passport.user.profile);

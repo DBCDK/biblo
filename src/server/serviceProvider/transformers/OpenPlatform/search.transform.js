@@ -29,8 +29,8 @@ const SearchTransform = {
       fields: [
         'dcTitle',
         'pid',
-        'workType'
-        // 'coverUrlFull'
+        'workType',
+        'coverUrlFull'
       ],
       limit: limit
     });

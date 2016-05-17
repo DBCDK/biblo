@@ -129,7 +129,6 @@ export default class SearchContainer extends React.Component {
             </span>
           </div>
         </div>
-        <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
       </div>
     );
   }

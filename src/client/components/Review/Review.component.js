@@ -265,6 +265,8 @@ export default class Review extends React.Component {
     const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikeReview : () => {
     };
 
+    let ownerImage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
+    
     const likeButton = (
       <LikeButton
         likeFunction={likeFunction}
@@ -280,7 +282,7 @@ export default class Review extends React.Component {
       <div className='review-wrapper'>
         <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={owner.image || null} alt={owner.displayName}/>
+            <img src={ownerImage || null} alt={owner.displayName}/>
           </a>
         </div>
 

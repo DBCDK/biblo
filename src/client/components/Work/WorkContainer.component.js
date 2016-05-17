@@ -31,11 +31,7 @@ export class WorkContainer extends React.Component {
   }
 
   getProfile() {
-    let profile = this.props.workState.profile;
-    if (profile) {
-      profile.image = profile.image && '/billede/' + profile.image.id + '/medium' || null;
-    }
-    return profile;
+    return this.props.profile;
   }
 
   getOwnReviewId() {
@@ -91,9 +87,6 @@ export class WorkContainer extends React.Component {
     const reviews = this.props.workState.workReviews;       // the reviews associated with the work
     const meta = this.props.workState.workReviewsMeta;      // metadata about the reviews (eg paging info)
     let reviewVisible = this.state.reviewVisible;           // is the review create area visible or not?
-
-    console.log('workState:', this.props.workState);
-    console.log('meta:', meta);
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
@@ -219,12 +212,12 @@ export class WorkContainer extends React.Component {
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
+  reviews: React.PropTypes.object.isRequied,
   searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
- // reviews: React.PropTypes.object,
   ui: React.PropTypes.object,
   worktype: React.PropTypes.string,
   workActions: React.PropTypes.object.isRequired,

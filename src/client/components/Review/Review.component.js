@@ -287,7 +287,7 @@ export default class Review extends React.Component {
 
     /* eslint-disable react/no-danger */
     return (
-      <div className='review-wrapper'>
+      <div className='review--wrapper'>
         <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
             <img src={ownerimage || null} alt={owner.displayName}/>

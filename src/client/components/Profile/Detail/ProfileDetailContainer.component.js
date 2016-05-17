@@ -244,7 +244,7 @@ export class ProfileDetailContainer extends React.Component {
   }
 
   getReviewsFeed() {
-    return this.props.review.reviews.map((review, index) => {
+    return this.props.reviews.userReviews.map((review, index) => {
       return (
         <ReviewRow review={review} user={this.props.feed.profile} key={index} />
       );
@@ -408,7 +408,7 @@ ProfileDetailContainer.propTypes = {
   likeActions: React.PropTypes.object.isRequired,
   profile: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  review: React.PropTypes.object.isRequired,
+  reviews: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired
@@ -426,7 +426,7 @@ export default connect(
       group: state.groupViewReducer,
       feed: state.profileFeedReducer,
       ui: state.uiReducer,
-      review: state.reviewReducer
+      reviews: state.reviewReducer
     };
   },
 

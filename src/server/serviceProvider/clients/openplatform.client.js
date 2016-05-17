@@ -23,18 +23,18 @@ let callOpenPlatform = function callOpenPlatform(token, method, req) {
 function search(endpoint, params) {
   const options = {
     url: `${endpoint}search/`,
-    qs: params
+    form: params
   };
-  return callOpenPlatform('get', options);
+  return callOpenPlatform('post', options);
 }
 
 
 function work(endpoint, params) {
   const options = {
     url: `${endpoint}work/`,
-    qs: params
+    form: params
   };
-  return callOpenPlatform('get', options);
+  return callOpenPlatform('post', options);
 }
 
 function suggest(endpoint, params) {

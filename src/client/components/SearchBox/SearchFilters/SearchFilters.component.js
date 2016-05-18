@@ -32,6 +32,11 @@ export default class SearchFilters extends React.Component {
 
   constructor(props) {
     super(props);
+    this.resetFilters = this.resetFilters.bind(this);
+  }
+
+  resetFilters() {
+    this.props.searchActions.resetMaterialFilters();
   }
 
   render() {
@@ -57,6 +62,7 @@ export default class SearchFilters extends React.Component {
     return (
       <ul className='search-filters'>
         {filterElements}
+        <a className='search-filters--reset-button' href='#' onClick={this.resetFilters}>nulstil</a>
       </ul>
     );
   }

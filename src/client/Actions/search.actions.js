@@ -46,6 +46,12 @@ export function toggleMaterialFilter(materialType) {
   };
 }
 
+export function resetMaterialFilters() {
+  return {
+    type: types.SEARCH_RESET_MATERIAL_FILTERS
+  };
+}
+
 export function searchMaterials(query) {
   // create array of enabled material filter types
   const materialTypes = filter(Object.keys(query.materialFilters), (type) => {

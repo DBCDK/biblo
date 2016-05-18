@@ -147,6 +147,20 @@ export default function searchReducer(state = initialState, action = {}) {
       return filtersToggledState;
     }
 
+    case types.SEARCH_RESET_MATERIAL_FILTERS: {
+      let filtersResetState = assignToEmpty(state, {});
+
+      filtersResetState.filters.materialFilters = {
+        book: {enabled: false},
+        game: {enabled: false},
+        movie: {enabled: false},
+        music: {enabled: false},
+        audiobook: {enabled: false}
+      };
+
+      return filtersResetState;
+    }
+
     default: {
       return state;
     }

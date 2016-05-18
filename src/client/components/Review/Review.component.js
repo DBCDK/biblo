@@ -26,6 +26,8 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
+import {readInput} from '../../Utils/uploadmedia.js';
+
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
@@ -99,7 +101,7 @@ export default class Review extends React.Component {
           this.props.uiActions.closeModalWindow();
         }}
         confirmFunc={() => {
-          this.props.reviewActions.asyncDeleteReview(this.props.id);
+          this.props.reviewActions.asyncDeleteReview(this.props.id, this.props.pids);
           this.props.uiActions.closeModalWindow();
         }}
       >{content}</ConfirmDialog>
@@ -147,91 +149,10 @@ export default class Review extends React.Component {
     });
   }
 
-  onAbort(event) {
-    if (this.abortXHR) {
-      this.abortXHR();
-    }
-    if (this.props.abort) {
-      this.props.abort(event);
-    }
-    this.setState({content: '', attachment: {image: null, video: null, errors: []}});
-    this.abortXHR = null;
-  }
-
-  readInput(input) { // eslint-disable-line consistent-return
-    if (input.target.files && input.target.files[0]) {
-      const file = input.target.files[0];
-      const type = file.type.split('/')[0];
-      if (type !== 'image' && type !== 'video') {
-        return false;
-      }
-
-      if (type === 'image') {
-        this.handleImage(file);
-      }
-
-      if (type === 'video') {
-        this.handleVideo(file);
-      }
-    }
-  }
-
-  handleImage(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const attachment = {image: e.target.result, video: null};
-      this.setState({attachment: attachment});
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  handleVideo(file) {
-    file.progress = 0;
-    const attachment = {image: null, video: {file: file}};
-    this.setState({attachment: attachment});
-    this.uploadVideoFile(file);
-  }
-
-  uploadVideoFile(file) {
-    const form = new FormData();
-    form.append('video', file);
-
-    const XHR = new XMLHttpRequest();
-    XHR.open('post', '/anmeldelse/api/uploadmedia');
-    XHR.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percentage = (e.loaded / e.total) * 100;
-        let attachment = this.state.attachment;
-        attachment.video.file.progress = percentage;
-        this.setState({attachment: attachment});
-      }
-    };
-
-    XHR.onerror = (e) => {
-      console.error('Some error occurred', e); // eslint-disable-line no-console
-      this.abortXHR = null;
-    };
-
-    XHR.onload = (e) => {
-      this.abortXHR = null;
-      if (e.target.status === 200) {
-        this.refs.fileInput.value = null;
-      }
-      else {
-        console.error('Some error occurred', e.target); // eslint-disable-line no-console
-      }
-    };
-
-    this.abortXHR = () => XHR.abort();
-    XHR.send(form);
-  }
-
   clearImage(e) {
     e.preventDefault();
     let attachment = this.state.attachment;
     attachment.image = null;
-
     if (this.refs.fileInput.value) {
       this.refs.fileInput.value = null;
       this.setState({
@@ -249,46 +170,11 @@ export default class Review extends React.Component {
   }
 
   onSubmit(evt) {
-    evt.preventDefault();
     if (this.validate()) {
-      if (XMLHttpRequest && FormData) {
-        this.setState({isLoading: true});
-        let form = this.refs.contentForm;
-        let formData = new FormData(form);
-        var request = new XMLHttpRequest();
-        request.open('post', '/anmeldelse/');
-        request.onload = (event) => {
-          if (event.target.status === 200) {
-            const addReviewReponse = JSON.parse(event.target.response);
-            let data = addReviewReponse.data;
-            if (addReviewReponse.errors && addReviewReponse.errors.length > 0) {
-              this.setState({
-                isLoading: false,
-                errorMsg: addReviewReponse.errors[0].errorMessage,
-                errors: []
-              });
-            }
-            else {
-              data.isLoading = false;
-              data.isEditing = false;
-              data.errors = [];
-              if (this.props.abort) {
-                this.props.abort();
-              }
-              else {
-                this.setState(data);
-              }
-            }
-          }
-          else {
-            this.setState({
-              isLoading: false,
-              errorMsg: 'Hmm. Vi kunne desvære ikke oprette din anmeldelse - prøv igen'
-            });
-          }
-        };
-        request.send(formData);
-      }
+      evt.preventDefault();
+      this.setState({isLoading: true});
+      this.props.reviewActions.asyncCreateReview(this.refs.contentForm, this.props.pids);
+      this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
     }
     return false;
   }
@@ -307,7 +193,7 @@ export default class Review extends React.Component {
       } = this.state;
 
     const errorObj = {};
-    if (!isSiteOpen()) {
+    if (!isSiteOpen() && !profile.isModerator) {
       errors = [];
       errors.push(
         {
@@ -376,7 +262,7 @@ export default class Review extends React.Component {
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
     };
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikeReview : () => {
+    const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {
     };
 
     const likeButton = (
@@ -385,16 +271,18 @@ export default class Review extends React.Component {
         unlikeFunction={unlikeFunction}
         usersWhoLikeThis={this.props.likes}
         isLikedByCurrentUser={isLikedByCurrentUser}
-        active={profile.userIsLoggedIn}
+        active={this.props.profile.userIsLoggedIn}
       />
     );
 
+    let ownerimage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
+
     /* eslint-disable react/no-danger */
     return (
-      <div className='review-wrapper'>
+      <div className='review--wrapper'>
         <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={owner.image || null} alt={owner.displayName}/>
+            <img src={ownerimage || null} alt={owner.displayName}/>
           </a>
         </div>
 
@@ -489,7 +377,9 @@ export default class Review extends React.Component {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={(event) => this.readInput(event)}
+                        onChange={event => readInput(event, (state) => {
+                          this.setState(state);
+                        }).then(state => this.setState(state))}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>
@@ -537,6 +427,7 @@ Review.propTypes = {
   owner: React.PropTypes.object, // for profile image in view
   profile: React.PropTypes.object.isRequired, // for editing, flagging, liking
   id: React.PropTypes.number,
+  pids: React.PropTypes.array,
   reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
   isEditing: React.PropTypes.bool,
@@ -544,6 +435,7 @@ Review.propTypes = {
   content: React.PropTypes.string,
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,
+  addReviewAction: React.PropTypes.func,
   timeCreated: React.PropTypes.string,
   image: React.PropTypes.object,
   video: React.PropTypes.object,
@@ -556,5 +448,6 @@ Review.propTypes = {
   created: React.PropTypes.any,
   abort: React.PropTypes.any,
   parentId: React.PropTypes.any,
-  imageId: React.PropTypes.number
+  imageId: React.PropTypes.number,
+  toggleReview: React.PropTypes.func
 };

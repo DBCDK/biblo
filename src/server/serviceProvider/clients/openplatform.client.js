@@ -25,16 +25,16 @@ function search(endpoint, params) {
     url: `${endpoint}search/`,
     qs: params
   };
-  return callOpenPlatform('get', options);
+  return callOpenPlatform('post', options);
 }
 
 
 function work(endpoint, params) {
   const options = {
     url: `${endpoint}work/`,
-    qs: params
+    form: params
   };
-  return callOpenPlatform('get', options);
+  return callOpenPlatform('post', options);
 }
 
 function suggest(endpoint, params) {

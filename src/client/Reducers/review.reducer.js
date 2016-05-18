@@ -7,18 +7,19 @@ import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 import {includes, filter} from 'lodash';
 
-const json_feed_data = parseJsonData('JSONDATA', 'feed');
-const json_review_data = parseJsonData('JSONDATA', 'reviews');
+// Setting the user's own reviews
+const userReviewsJson = parseJsonData('JSONDATA', 'userReviews');
 
 let initialState = {};
-initialState.profile = assignToEmpty(initialState.profile, json_feed_data.profile || {}); // might be unnessecary...?
-initialState.reviews = json_review_data || [];
+initialState.userReviews = userReviewsJson || [];
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
+
   switch (action.type) {
     case types.GET_REVIEWS: {
       return assignToEmpty(state, {
+        reviewVisible: false,
         reviewsLoading: false,
         reviews: action.reviews.data,
         reviewsLimit: action.limit,
@@ -28,6 +29,7 @@ export default function reviewReducer(state = initialState, action = {}) {
 
     case types.GET_REVIEWS_IS_LOADING: {
       return assignToEmpty(state, {
+        reviewVisible: false,
         reviewsLoading: true,
         reviews: state.reviews.data,
         reviewsLimit: state.limit
@@ -35,10 +37,17 @@ export default function reviewReducer(state = initialState, action = {}) {
     }
 
     case types.CREATE_REVIEW: {
-      return assignToEmpty(state,
-        {
-          review: action.review
-        });
+      return assignToEmpty(state, {
+        reviewVisible: false,
+        reviews: [action.review, ...state.reviews]});
+    }
+
+    case types.DELETE_REVIEW: {
+      let reviewsAfterDelete = [...state.reviews];
+      reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
+        return (review.reviewId !== action.id);
+      });
+      return assignToEmpty(state, {reviews: reviewsAfterDelete});
     }
 
     case types.LIKE_REVIEW: {
@@ -67,14 +76,6 @@ export default function reviewReducer(state = initialState, action = {}) {
         }
       });
       return assignToEmpty(state, {posts: reviewsCopyUnliked});
-    }
-
-    case types.DELETE_REVIEW: {
-      let reviewsAfterDelete = [...state.reviews];
-      reviewsAfterDelete = filter(reviewsAfterDelete, (review)=> {
-        return action.reviewId !== review.id;
-      });
-      return assignToEmpty(state, {reviews: reviewsAfterDelete});
     }
 
     default: {

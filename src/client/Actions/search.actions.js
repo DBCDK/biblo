@@ -39,6 +39,13 @@ export function toggleSearchBox() {
   };
 }
 
+export function toggleMaterialFilter(materialType) {
+  return {
+    type: types.SEARCH_TOGGLE_MATERIAL_FILTER,
+    materialType: materialType
+  };
+}
+
 export function searchMaterials(query) {
   // OLD SKOOL redirect
   window.location = '/find?q=' + encodeURIComponent(query.query);

@@ -43,7 +43,7 @@ export default function reviewReducer(state = initialState, action = {}) {
       });
     }
 
-    case types.DELETE_REVIEW: {
+    case types.DELETE_WORK_REVIEW: {
       let reviewsAfterDelete = [...state.workReviews];
       reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
         return (review.reviewId !== action.id);

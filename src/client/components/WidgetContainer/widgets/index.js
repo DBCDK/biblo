@@ -3,9 +3,11 @@
  */
 
 import {LatestReviewsWidget} from './LatestReviews/LatestReviews.widget.component';
+import {DummyWidget} from './DummyWidget/Dummy.widget.component';
 
 const widgetComponents = {
-  LatestReviewsWidget
+  LatestReviewsWidget,
+  DummyWidget
 };
 
 export default widgetComponents;

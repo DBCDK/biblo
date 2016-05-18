@@ -14,25 +14,22 @@
 import {Component, PropTypes} from 'react';
 import widgetComponents from './widgets';
 
-export default class WidgetContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class WidgetContainer extends Component {
   render() {
-    // Først finder vi alle widgets til denne placering
+    // First, find all widgets we want to render for this widgetcontainer
     let currentWidgetStates = this.props.widgetState.widgetLocations[this.props.widgetLocationName];
     if (currentWidgetStates) {
-      // Vi looper over alle widgets til denne placering (man kan have så mange man lyster)
+      // Loop over the widgets, you can have as many as you'd like
       let widgets = (Array.isArray(currentWidgetStates) ? currentWidgetStates : [currentWidgetStates]).map((currentWidgetState, idx) => {
-        // Vi henter den widget vi gerne vil rendere
+        // Now we get the widget we wish to render.
         const CurrentWidget = widgetComponents[currentWidgetState.widgetName];
+
+        // And we get the relevant state for that widget.
         const widgetReducerProp =
           this.props.widgetState[currentWidgetState.widgetName] ||
           this.props.widgetState[currentWidgetState.widgetName.replace('Widget', '')];
 
-        // Vi renderer vores widget
+        // We now render our widget inside a container
         return (
           <div
             className="generic-widget-container"
@@ -48,7 +45,7 @@ export default class WidgetContainer extends Component {
         );
       });
 
-      // Vi renderer alle widgets til denne placering
+      // Finally we render the array of widgets relevant to this position.
       return (
         <div className={`${this.props.widgetLocationName}--generic-widget-container`}>
           {widgets}
@@ -56,8 +53,8 @@ export default class WidgetContainer extends Component {
       );
     }
 
-    // Der var ingen widgets til denne placering
-    return <span />;
+    // This renders if no widgets were found for this position
+    return <span className={`${this.props.widgetLocationName}--generic-widget-container no-widgets`} />;
   }
 }
 
@@ -67,3 +64,5 @@ WidgetContainer.propTypes = {
   widgetState: PropTypes.object.isRequired,
   widgetActions: PropTypes.object.isRequired
 };
+
+export default WidgetContainer;

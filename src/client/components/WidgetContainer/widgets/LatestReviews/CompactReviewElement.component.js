@@ -2,7 +2,7 @@
  * @file: Compact review view component. Originally created to display reviews on the front page.
  */
 
-import {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import Rating from '../../../General/Rating/Rating.component';
 import Icon from '../../../General/Icon/Icon.component';

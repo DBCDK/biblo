@@ -2,7 +2,7 @@
  * @file: Dummy widget used for tests, and an example of the simplest widget possible
  */
 
-import {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 // A widget is just a normal react component, with a specific subset of props.
 // Generally a widget should get all initial data from the CMS that controls it,

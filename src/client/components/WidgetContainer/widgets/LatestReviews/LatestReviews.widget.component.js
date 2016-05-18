@@ -2,7 +2,7 @@
  * @file: Widget to display a list of the latest reviews.
  */
 
-import {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import {CompactReviewElement} from './CompactReviewElement.component';
 import Icon from '../../../General/Icon/Icon.component';

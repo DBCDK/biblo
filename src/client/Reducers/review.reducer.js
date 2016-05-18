@@ -19,10 +19,11 @@ export default function reviewReducer(state = initialState, action = {}) {
     case types.GET_WORK_REVIEWS: {
       return assignToEmpty(state, {
         workReviews: action.reviews.data,
-        workReviewsMeta: {
+        workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
           workReviewsLoading: false,
-          workReviewsTotalCount: action.workReviewsTotalCount
-        }
+          workReviewsTotalCount: action.workReviewsTotalCount,
+          ownReviewId: action.ownId
+        })
       });
     }
 

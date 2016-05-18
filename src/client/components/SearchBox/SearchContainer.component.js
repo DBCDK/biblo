@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import SearchFilters from './SearchFilters/SearchFilters.component.js';
 import Icon from '../General/Icon/Icon.component.js';
 import SearchDropDown from './SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
@@ -16,7 +15,7 @@ export default class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: '',
+      query: this.props.search.query,
       qChanged: false,
       queryFieldIsActive: false,
       loading: false

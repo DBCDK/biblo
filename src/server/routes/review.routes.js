@@ -77,7 +77,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
         createElasticTranscoderJob(ElasticTranscoder,
             req.session.videoupload, null, null, response.id, logger, amazonConfig);
       }
-     
+
       req.session.videoupload = null;
       res.send(response[0]);
     },

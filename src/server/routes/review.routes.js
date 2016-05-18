@@ -14,10 +14,13 @@ import {fullProfileOnSession} from '../middlewares/data.middleware';
 const upload = multer({storage: multer.memoryStorage()}).single('image');
 const ReviewRoutes = express.Router();
 
+/**
+ * Get information about a single review
+ * (Gets the associated work info as well)
+ */
 ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
   let id = req.params.id;
   let limit = 1; // we only expect one here
-  const profile = req.session.passport.user.profile.profile;
   req.callServiceProvider('getReviews', {id, limit}).then((reviewResponse) => {
     let pid = decodeURIComponent(reviewResponse[0].data[0].pid);
 
@@ -27,21 +30,20 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
         css: ['/css/work.css'],
         js: ['/js/work.js'],
         jsonData: [JSON.stringify({
-          work: work,
-          profile: profile,
+          work: work, // this is the associated work info
           workReviews: reviewResponse[0].data,
           workReviewsMeta: {
-            ownReviewId: id,
-            reviewsTotalCount: reviewResponse[0].reviewsCount, // count number of total reviews of work
-            reviewVisible: false  // is the "create review" area on screen visible?
+            ownReviewId: id
           }
         })]
       });
     });
-
   });
 });
 
+/**
+ * Post a review
+ */
 ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
   upload(req, res, function (err) {
     if (err) {

@@ -4,16 +4,41 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import PageLayout from '../Layout/PageLayout.component.js';
 import parseJsonData from '../../Utils/parseJsonData.js';
+
+import PageLayout from '../Layout/PageLayout.component.js';
+import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
+
 import * as searchActions from '../../Actions/search.actions';
+import * as widgetActions from '../../Actions/widget.actions';
 
 import './article.scss';
 
 const articleData = parseJsonData('JSONDATA', 'articleData');
 
 export class Article extends React.Component {
-  render() {
+  renderBibloAdminContentPage() {
+    return (
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+        <div className="article">
+          <div className='article-main'>
+            <WidgetContainer
+              widgetLocationName="ContentPageLeft"
+              widgetState={this.props.widgetState}
+              widgetActions={this.props.widgetActions} />
+          </div>
+          <div className='article-factbox'>
+            <WidgetContainer
+              widgetLocationName="ContentPageFactBox"
+              widgetState={this.props.widgetState}
+              widgetActions={this.props.widgetActions} />
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  renderAmazonArticle() {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <div className='article'>
@@ -25,6 +50,14 @@ export class Article extends React.Component {
         </div>
       </PageLayout>
     );
+  }
+
+  render() {
+    if (Object.getOwnPropertyNames(articleData).length > 0) {
+      return this.renderAmazonArticle();
+    }
+
+    return this.renderBibloAdminContentPage();
   }
 }
 
@@ -38,14 +71,16 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
-      searchState: state.searchReducer
+      searchState: state.searchReducer,
+      widgetState: state.widgetReducer
     };
   },
 
   // Map group actions to actions props
   (dispatch) => {
     return {
-      searchActions: bindActionCreators(searchActions, dispatch)
+      searchActions: bindActionCreators(searchActions, dispatch),
+      widgetActions: bindActionCreators(widgetActions, dispatch)
     };
   }
 )(Article);

@@ -2,6 +2,8 @@
  * @file: Compact review view component. Originally created to display reviews on the front page.
  */
 
+/* eslint-disable-file react/no-danger */
+
 import React, {Component, PropTypes} from 'react';
 
 import Rating from '../../../General/Rating/Rating.component';
@@ -64,7 +66,7 @@ export class CompactReviewElement extends Component {
   renderTextReview(review, ownerProfileUrl, workUrl) {
     return (
       <div className="compact-review--container">
-        <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
+        <p className="compact-review--review-author">Anmeldelse af: <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a></p>
         <table>
           <tbody>
           <tr>
@@ -101,7 +103,7 @@ export class CompactReviewElement extends Component {
 
     return (
       <div className="compact-review--container">
-        <p>Anmeldelse af: <a href={ownerProfileUrl}>{review.owner.displayName}</a></p>
+        <p>Anmeldelse af: <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a></p>
         <div className="compact-video-review--artwork-container">
           <a href={ownerProfileUrl} className="compact-review--owner-image--container">
             <img src={review.owner.image}/>

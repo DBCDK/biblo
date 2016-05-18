@@ -24,6 +24,10 @@ class WidgetContainer extends Component {
         // Now we get the widget we wish to render.
         const CurrentWidget = widgetComponents[currentWidgetState.widgetName];
 
+        if (!CurrentWidget) {
+          return (<span className="widget--not--found" />);
+        }
+
         // And we get the relevant state for that widget.
         const widgetReducerProp =
           this.props.widgetState[currentWidgetState.widgetName] ||

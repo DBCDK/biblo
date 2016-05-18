@@ -1,7 +1,4 @@
 
-import config from '@dbcdk/biblo-config';
-const AMAZON_CONFIG = config.communityservice.amazon;
-
 /**
  * Creating ElasticTranscoder jobs at AWS
  *
@@ -11,7 +8,8 @@ const AMAZON_CONFIG = config.communityservice.amazon;
  * @param {string} reviewId
  * @param {Object} logger
  */
-export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId, reviewId, logger) {
+export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId,
+                                           reviewId, logger, AMAZON_CONFIG) {
   if (postId && typeof postId !== 'string') {
     postId = postId.toString();
   }

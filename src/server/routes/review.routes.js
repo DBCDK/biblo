@@ -52,6 +52,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
 
     const profile = req.session.passport.user.profile.profile;
     const logger = req.app.get('logger');
+    const amazonConfig = req.app.get('amazonConfig');
     const ElasticTranscoder = req.app.get('ElasticTranscoder');
     const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
 
@@ -74,8 +75,10 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
     req.callServiceProvider('createReview', params).then(function (response) {
       if (response[0].status === 200 && req.session.videoupload) {
         createElasticTranscoderJob(ElasticTranscoder,
-            req.session.videoupload, null, null, response.id, logger);
+            req.session.videoupload, null, null, response.id, logger, amazonConfig);
       }
+     
+      req.session.videoupload = null;
       res.send(response[0]);
     },
     function (response) {

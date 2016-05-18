@@ -325,16 +325,17 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     params.video = req.session.videoupload;
   }
 
+  const amazonConfig = req.app.get('amazonConfig');
   try {
     const response = (await req.callServiceProvider('createGroupContent', params, {request: req}))[0];
 
     // creating video conversion jobs at ElasticTranscoder
     if (req.session.videoupload && response && params) {
       if (params.type === 'post') {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, null, logger);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, null, logger, amazonConfig);
       }
       else {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, null, logger);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, null, logger, amazonConfig);
       }
     }
 

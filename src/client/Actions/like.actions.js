@@ -42,7 +42,7 @@ export function likeReview(like) {
     reviewId: like.reviewId
   });
   return {
-    type: types.LIKE_REVIEW,
+    type: types.LIKE_WORK_REVIEW,
     profileId: like.profileId,
     reviewId: like.reviewId
   };
@@ -54,7 +54,7 @@ export function unlikeReview(like) {
     reviewId: like.reviewId
   });
   return {
-    type: types.UNLIKE_REVIEW,
+    type: types.UNLIKE_WORK_REVIEW,
     profileId: like.profileId,
     reviewId: like.reviewId
   };

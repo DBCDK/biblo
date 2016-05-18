@@ -1,0 +1,43 @@
+@import "tools";
+
+.latest-reviews-widget--reviews-container {
+  background-color: #e2e0f7;
+  padding: 20px;
+}
+
+.latest-reviews-widget--reviews-container.closed {
+  height: 230px;
+  overflow: hidden;
+}
+
+.latest-reviews-widget--reviews-container.closed, .latest-reviews-widget--reviews-container {
+  @include max-screen($tablet) {
+    width: auto;
+    height: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+  }
+}
+
+.latest-reviews-widget--widget-title--and--show-more-button--container {
+  a {
+    float: right;
+    cursor: pointer;
+    font-family: $header-font;
+    color: #000000;
+    margin: 20px;
+
+    @include max-screen($tablet) {
+      display: none;
+    }
+  }
+
+  h2 {
+    display: inline-block;
+  }
+
+  .icon {
+    fill: #938ee9;
+  }
+}

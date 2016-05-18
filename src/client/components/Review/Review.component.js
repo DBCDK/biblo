@@ -101,7 +101,8 @@ export default class Review extends React.Component {
           this.props.uiActions.closeModalWindow();
         }}
         confirmFunc={() => {
-          this.props.reviewActions.asyncDeleteReview(this.props.id, this.props.pids);
+          this.props.reviewActions.asyncDeleteWorkReview(this.props.id, this.props.pids);
+          this.setState({text: '', attachment: {}});
           this.props.uiActions.closeModalWindow();
         }}
       >{content}</ConfirmDialog>
@@ -169,11 +170,20 @@ export default class Review extends React.Component {
     return true;
   }
 
+
+  afterEdit () {
+    this.setState({isEditing: false, isLoading: false});
+  }
+
   onSubmit(evt) {
     if (this.validate()) {
       evt.preventDefault();
       this.setState({isLoading: true});
-      this.props.reviewActions.asyncCreateReview(this.refs.contentForm, this.props.pids);
+      this.props.reviewActions.asyncCreateWorkReview(this.refs.contentForm,
+        this.props.pids,
+        this.afterEdit.bind(this)
+      );
+
       if (this.props.toggleReview) {
         this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
       }
@@ -193,6 +203,7 @@ export default class Review extends React.Component {
       profile,
       created
       } = this.state;
+
 
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
@@ -280,6 +291,8 @@ export default class Review extends React.Component {
     let ownerimage;
     if (typeof owner.image === 'object') {
        ownerimage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
+    if (owner.image.url) {
+      ownerimage = owner.image.url.medium;
     }
     else {
       ownerimage = owner.image;
@@ -443,7 +456,6 @@ Review.propTypes = {
   content: React.PropTypes.string,
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,
-  addReviewAction: React.PropTypes.func,
   timeCreated: React.PropTypes.string,
   image: React.PropTypes.object,
   video: React.PropTypes.object,

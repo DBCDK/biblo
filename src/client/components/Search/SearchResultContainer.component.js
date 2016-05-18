@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import * as searchActions from '../../Actions/search.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
+import SearchFilters from '../SearchBox/SearchFilters/SearchFilters.component.js';
 import MaterialSearchResultList from './MaterialSearchResultList/MaterialSearchResultList.component.js';
 import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component.js';
 
@@ -29,6 +30,7 @@ export class SearchResultContainer extends React.Component {
   render() {
     return (
       <PageLayout searchState={this.props.search} searchActions={this.props.searchActions}>
+        <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
         <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
         <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>
       </PageLayout>

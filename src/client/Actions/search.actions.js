@@ -5,7 +5,7 @@
 
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
-import {once} from 'lodash';
+import {once, filter} from 'lodash';
 
 const openPlatformSuggest = SocketClient('suggest');
 const openPlatformSuggestListener = once(openPlatformSuggest.response);
@@ -46,9 +46,25 @@ export function toggleMaterialFilter(materialType) {
   };
 }
 
+export function resetMaterialFilters() {
+  return {
+    type: types.SEARCH_RESET_MATERIAL_FILTERS
+  };
+}
+
 export function searchMaterials(query) {
+  // create array of enabled material filter types
+  const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
+    return query.materialFilters[type].enabled;
+  });
+
+  let searchUrl =
+    '/find?q=' + encodeURIComponent(query.query) +
+    '&materialer=' + encodeURIComponent(materialTypes.join());
+
+
   // OLD SKOOL redirect
-  window.location = '/find?q=' + encodeURIComponent(query.query);
+  window.location = searchUrl;
   return {
     type: types.MATERIAL_SEARCH
   };

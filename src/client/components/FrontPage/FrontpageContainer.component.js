@@ -5,10 +5,12 @@ import {connect} from 'react-redux';
 import parseJsonData from '../../Utils/parseJsonData.js';
 
 import * as searchActions from '../../Actions/search.actions';
+import * as widgetActions from '../../Actions/widget.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 import ColoredHeader from '../General/ColoredHeader/ColoredHeader.component.js';
 import ContentGrid from '../General/ContentGrid/ContentGrid.component.js';
+import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 
 import './_frontpage.scss';
 
@@ -23,6 +25,10 @@ export default class FrontpageContainer extends React.Component {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
         <ColoredHeader text={welcomeText} title={content.welcome_header}/>
+        <WidgetContainer
+          widgetLocationName="FrontPageTop"
+          widgetActions={this.props.widgetActions}
+          widgetState={this.props.widgetState} />
         <ContentGrid items={elements}/>
       </PageLayout>
     );
@@ -32,13 +38,16 @@ export default class FrontpageContainer extends React.Component {
 FrontpageContainer.displayName = 'ErrorPageContainer';
 FrontpageContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  searchActions: React.PropTypes.object.isRequired,
+  widgetState: React.PropTypes.object.isRequired,
+  widgetActions: React.PropTypes.object.isRequired
 };
 
 export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      widgetState: state.widgetReducer,
       searchState: state.searchReducer
     };
   },
@@ -46,7 +55,8 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
-      searchActions: bindActionCreators(searchActions, dispatch)
+      searchActions: bindActionCreators(searchActions, dispatch),
+      widgetActions: bindActionCreators(widgetActions, dispatch)
     };
   }
 )(FrontpageContainer);

@@ -31,8 +31,8 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
-    const review = {
-      reviews: []
+    const reviews = {
+      userReviews: []
     };
 
     const searchState = {
@@ -57,7 +57,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
-        review={review}
+        reviews={reviews}
       />
     );
 
@@ -86,8 +86,8 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
-    const review = {
-      reviews: []
+    const reviews = {
+      userReviews: []
     };
 
     const searchState = {
@@ -112,7 +112,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
-        review={review}
+        reviews={reviews}
       />
     );
 
@@ -139,8 +139,8 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
-    const review = {
-      reviews: []
+    const reviews = {
+      userReviews: []
     };
 
     const searchState = {
@@ -165,7 +165,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={moderatorMock}
         ui={uiMock}
         uiActions={uiActions}
-        review={review}
+        reviews={reviews}
       />
     );
 
@@ -192,8 +192,8 @@ describe('Test profile detail container (public profile)', () => {
       closeModalWindow: noop
     };
 
-    const review = {
-      reviews: []
+    const reviews = {
+      userReviews: []
     };
 
     const searchState = {
@@ -218,7 +218,7 @@ describe('Test profile detail container (public profile)', () => {
         profile={profileMock}
         ui={uiMock}
         uiActions={uiActions}
-        review={review}
+        reviews={reviews}
       />
     );
 

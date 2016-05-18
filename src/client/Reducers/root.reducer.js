@@ -14,6 +14,7 @@ import profileFeedReducer from './profileFeed.reducer';
 import entitySuggestReducer from './entitySuggestLibrary.reducer';
 import listGroupsReducer from './listGroups.reducer';
 import reviewReducer from './review.reducer';
+import widgetReducer from './widget.reducer';
 import workReducer from './work.reducer';
 
 const rootReducer = combineReducers({
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   entitySuggestReducer,
   listGroupsReducer,
   reviewReducer,
+  widgetReducer,
   workReducer
 });
 

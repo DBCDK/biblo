@@ -2,6 +2,10 @@
 
 .review--container {
   border-bottom: #e8e8e8 5px solid;
+
+  @include min-screen($tablet) {
+    border-bottom-width: 1px;
+  }
 }
 
 .review--header {

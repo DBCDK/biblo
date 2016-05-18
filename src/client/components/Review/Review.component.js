@@ -170,7 +170,6 @@ export default class Review extends React.Component {
     return true;
   }
 
-
   afterEdit () {
     this.setState({isEditing: false, isLoading: false});
   }
@@ -203,7 +202,6 @@ export default class Review extends React.Component {
       profile,
       created
       } = this.state;
-
 
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
@@ -289,8 +287,6 @@ export default class Review extends React.Component {
     );
 
     let ownerimage;
-    if (typeof owner.image === 'object') {
-       ownerimage = owner.image && '/billede/' + owner.image.id + '/medium' || null;
     if (owner.image.url) {
       ownerimage = owner.image.url.medium;
     }

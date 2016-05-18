@@ -72,8 +72,8 @@ export const FLAG_REVIEW = 'FLAG_REVIEW';
 // Like actions
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
-export const LIKE_REVIEW = 'LIKE_REVIEW';
-export const UNLIKE_REVIEW = 'UNLIKE_REVIEW';
+export const LIKE_WORK_REVIEW = 'LIKE_WORK_REVIEW';
+export const UNLIKE_WORK_REVIEW = 'UNLIKE_WORK_REVIEW';
 
 // Review actions
 export const CREATE_WORK_REVIEW = 'CREATE_WORK_REVIEW';

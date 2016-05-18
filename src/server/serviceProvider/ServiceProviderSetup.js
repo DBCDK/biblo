@@ -12,6 +12,7 @@ import CommunityClient from 'dbc-node-community-client';
 import EntitySuggest from 'dbc-node-entitysuggest';
 import OpenAgency from 'dbc-node-openagency-client';
 import OpenPlatformClient from './clients/openplatform.client.js';
+import BibloAdminClient from './clients/bibloadmin.client';
 import OpenOrder from 'dbc-node-openorder-client';
 
 /**
@@ -53,6 +54,7 @@ export default function initProvider(config, logger, sockets) {
   RegisterClientOnProvider('borchk', Borchk);
   RegisterClientOnProvider('community', CommunityClient);
   RegisterClientOnProvider('openplatform', OpenPlatformClient);
+  RegisterClientOnProvider('bibloadmin', BibloAdminClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);
   RegisterClientOnProvider('openagency', OpenAgency);
   RegisterClientOnProvider('openorder', OpenOrder);

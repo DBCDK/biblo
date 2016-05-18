@@ -78,7 +78,7 @@ describe('Test LatestReviews Widget', () => {
     let $root = $(component).render();
 
     const reviewAuthorString = $root.find('.compact-review--container > p').text();
-    expect(reviewAuthorString).toEqual('Anmeldelse af: Jacob');
+    expect(reviewAuthorString).toEqual('Anmeldelse af: ');
 
     const reviewStars = $root.find('.compact-review--container > table').text();
     expect(reviewStars).toEqual('★★★★★★');

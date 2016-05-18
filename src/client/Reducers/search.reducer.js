@@ -3,6 +3,7 @@
  */
 
 import assignToEmpty from '../Utils/assign';
+import parseQueryParams from '../Utils/parseQueryParams';
 import * as types from '../Constants/action.constants';
 
 let initialState = {
@@ -19,22 +20,27 @@ let initialState = {
   isLoadingResults: false,
   filters: {
     materialFilters: {
-      book: {enabled: false, cqlFilter: 'term.worktype="literature"'},
-      game: {enabled: false, cqlFilter: 'term.worktype="game"'},
-      movie: {enabled: false, cqlFilter: 'term.worktype="movie"'},
-      music: {enabled: false, cqlFilter: 'term.worktype="music"'},
-      audiobook: {enabled: false, cqlFilter: '(term.type="lydbog" and term.worktype="literature")'}
-    }
+      book: {enabled: false},
+      game: {enabled: false},
+      movie: {enabled: false},
+      music: {enabled: false},
+      audiobook: {enabled: false}
+    },
+    subjectFilters: [],
+    creatorFilters: []
   }
 };
 
+
+// load JSONDATA payload into initial state
 let jsonData = document.getElementById('JSONDATA');
 
 if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
   let data = JSON.parse(jsonData.innerHTML);
   if (data.query) {
     // set initial query that was delivered with the HTTP response
-    initialState.initialQuery = initialState.query = data.query;
+    initialState.query = data.query;
+    initialState.initialQuery = data.query;
     initialState.isSearchBoxVisible = true;
   }
 
@@ -42,6 +48,18 @@ if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
     initialState.materialSearchResults = data.materialSearchResults;
     initialState.materialSearchResultsPending = false;
   }
+}
+
+// identify enabled search filters by looking at the url
+const urlParams = parseQueryParams(window.location.href);
+if (urlParams.materialer) {
+  const materialFilters = urlParams.materialer.split(',');
+  for (const i in materialFilters) { // eslint-disable-line guard-for-in
+    initialState.filters.materialFilters[materialFilters[i]].enabled = true;
+  }
+}
+if (urlParams.emneord) {
+  initialState.filters.subjectFilters = urlParams.emneord.split(',');
 }
 
 

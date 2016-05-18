@@ -36,14 +36,22 @@ export default class SearchFilters extends React.Component {
 
   render() {
 
+
     const filters = this.props.search.filters.materialFilters;
 
     const filterElements = Object.keys(filterIcons).map((key) => {
       const clickFunction = () => {
         this.props.searchActions.toggleMaterialFilter(key);
+        this.props.searchActions.searchMaterials({
+          query: this.props.search.query,
+          materialFilters: this.props.search.filters.materialFilters
+        });
       };
       const activeClass = (filters[key].enabled) ? 'search-filters--button-active' : '';
-      return (<li className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36} height={36} glyph={filterIcons[key].svg}/></li>);
+      return (<li key={key} className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36}
+                                                                                                              height={36}
+                                                                                                              glyph={filterIcons[key].svg}/>
+      </li>);
     });
 
     return (

@@ -1,5 +1,5 @@
 /**
- * @file: Profile reducer
+ * @file: Work reducer. Innterpret data related to work
  */
 
 import parseJsonData from '../Utils/parseJsonData';

@@ -7,52 +7,58 @@ import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 import {includes, filter} from 'lodash';
 
-// Setting the user's own reviews
-const userReviewsJson = parseJsonData('JSONDATA', 'userReviews');
-
 let initialState = {};
-initialState.userReviews = userReviewsJson || [];
+initialState.userReviews = parseJsonData('JSONDATA', 'userReviews') || [];
+initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];
+initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
 
   switch (action.type) {
-    case types.GET_REVIEWS: {
+    case types.GET_WORK_REVIEWS: {
       return assignToEmpty(state, {
-        reviewVisible: false,
-        reviewsLoading: false,
-        reviews: action.reviews.data,
-        reviewsLimit: action.limit,
-        reviewsCount: state.reviewsCount
+        workReviews: action.reviews.data,
+        workReviewsMeta: {
+          workReviewsLoading: false,
+          workReviewsTotalCount: action.workReviewsTotalCount
+        }
       });
     }
 
-    case types.GET_REVIEWS_IS_LOADING: {
+    case types.GET_WORK_REVIEWS_IS_LOADING: {
       return assignToEmpty(state, {
-        reviewVisible: false,
-        reviewsLoading: true,
-        reviews: state.reviews.data,
-        reviewsLimit: state.limit
+        workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
+          workReviewsLoading: true
+        })
       });
     }
-
-    case types.CREATE_REVIEW: {
+    case types.CREATE_WORK_REVIEW: {
       return assignToEmpty(state, {
-        reviewVisible: false,
-        reviews: [action.review, ...state.reviews]});
+        workReviews: [action.review, ...state.workReviews],
+        workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
+          workReviewsTotalCount: state.workReviewsTotalCount + 1,
+          workReviewsLoading: false
+        })
+      });
     }
 
     case types.DELETE_REVIEW: {
-      let reviewsAfterDelete = [...state.reviews];
+      let reviewsAfterDelete = [...state.workReviews];
       reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
         return (review.reviewId !== action.id);
       });
-      return assignToEmpty(state, {reviews: reviewsAfterDelete});
+      return assignToEmpty(state, {
+        workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
+          workReviewsTotalCount: state.workReviewsTotalCount - 1
+        }),
+        workReviews: reviewsAfterDelete
+      });
     }
 
-    case types.LIKE_REVIEW: {
-      const reviewsCopyLiked = [...state.reviews];
-      reviewsCopyLiked.forEach(review => {
+    case types.LIKE_WORK_REVIEW: {
+      const workReviewsCopyLiked = [...state.workReviews];
+      workReviewsCopyLiked.forEach(review => {
         if (review.id === action.reviewId) {
           const isAlreadyLikedByUser = includes(review.likes, action.profileId);
           if (!isAlreadyLikedByUser) {
@@ -60,11 +66,11 @@ export default function reviewReducer(state = initialState, action = {}) {
           }
         }
       });
-      return assignToEmpty(state, {posts: reviewsCopyLiked});
+      return assignToEmpty(state, {workReviews: workReviewsCopyLiked});
     }
 
-    case types.UNLIKE_REVIEW: {
-      const reviewsCopyUnliked = [...state.reviews];
+    case types.UNLIKE_WORK_REVIEW: {
+      const reviewsCopyUnliked = [...state.workReviews];
       reviewsCopyUnliked.forEach(review => {
         if (review.id === action.reviewId) {
           const isAlreadyLikedByUser = includes(review.likes, action.profileId);
@@ -75,14 +81,11 @@ export default function reviewReducer(state = initialState, action = {}) {
           }
         }
       });
-      return assignToEmpty(state, {posts: reviewsCopyUnliked});
+      return assignToEmpty(state, {workReviews: reviewsCopyUnliked});
     }
 
     default: {
-      return assignToEmpty(state, {
-        reviewsLoading: false,
-        reviewsLimit: 10
-      });
+      return state;
     }
   }
 }

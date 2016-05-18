@@ -1,11 +1,11 @@
-/* const materialCql = {
+
+const type2Cql = {
   book: 'term.worktype="literature"',
   game: 'term.worktype="game"',
   movie: 'term.worktype="movie"',
   music: 'term.worktype="music"',
   audiobook: '(term.type="lydbog" and term.worktype="literature")'
-}; */
-
+};
 
 const SearchTransform = {
 
@@ -14,15 +14,40 @@ const SearchTransform = {
   },
 
   requestTransform(event, {q, forfatter, materialer, emneord, limit}, connection) { // eslint-disable-line no-unused-vars
+
     limit = (limit) ? limit : 20;
 
+    let topLevelCql = [];
+
     // for now all queries are phrase queries
-    if (q.indexOf('"') === -1) {
-      // wrap fulltext search only query in quotes
-      q = '"' + q + '"';
+    if (q) {
+      if (q.indexOf('"') === -1) {
+        // wrap fulltext search only query in quotes
+        q = '"' + q + '"';
+      }
+    }
+    else {
+      q = '"*"';
+    }
+    // add freetext cql part
+    topLevelCql.push(q);
+
+
+    if (materialer) {
+      const materialCql = materialer.split(',').map((type) => '(' + type2Cql[type] + ')').join(' OR ');
+      topLevelCql.push(materialCql);
     }
 
-    const cqlQuery = q;
+    if (forfatter) {
+      topLevelCql.push('term.creator="' + forfatter + '"');
+    }
+
+    if (emneord) {
+      const subjectCql = emneord.split(',').map((type) => '(term.subject="' + type + '")').join(' OR ');
+      topLevelCql.push(subjectCql);
+    }
+
+    const cqlQuery = topLevelCql.map((cql) => '('+cql+')').join(' AND ');
 
     return this.callServiceClient('openplatform', 'search', {
       q: cqlQuery,

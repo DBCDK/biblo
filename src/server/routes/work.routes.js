@@ -62,7 +62,6 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
 
     if (req.isAuthenticated()) {
       profile = req.session.passport.user.profile.profile;
-
       if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryId) {
         const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
         profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
@@ -92,14 +91,12 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],
-      ownReviewId: ownReviewId,
       jsonData: [JSON.stringify({
-        work: work,                                          // data about the work identified by the pids
-        workReviews: reviewResponse[0].data,                 // reviews filtered for the specific work
+        work: work,                                            // data about the work identified by the pids
+        workReviews: reviewResponse[0].data,                   // reviews filtered for the specific work
         workReviewsMeta: {
-          ownReviewId: ownReviewId,                          // review of the work done by the logged in profile
-          reviewsTotalCount: reviewResponse[0].reviewsCount, // count number of total reviews of work
-          reviewVisible: false                               // is the "create review" area on screen visible?
+          ownReviewId: ownReviewId,                              // review of the work done by the logged in profile
+          workReviewsTotalCount: reviewResponse[0].reviewsCount // count number of total reviews of work
         }
       })]
     });

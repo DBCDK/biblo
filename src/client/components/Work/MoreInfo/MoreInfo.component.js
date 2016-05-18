@@ -42,7 +42,7 @@ export class MoreInfo extends React.Component {
 
     const yearRow = (this.props.year) ? (<tr><td>Udgivet i</td><td>{this.props.year}</td></tr>) : null;
 
-    const tagElements = (this.props.tags) ? this.props.tags.map((tag) => (<div><a href={'/find?q=term.subject="' + tag + '"'}>{tag}</a></div>)) : null;
+    const tagElements = (this.props.tags) ? this.props.tags.map((tag) => (<div><a href={'/find?emneord=' + tag}>{tag}</a></div>)) : null;
     const tagsRow = (this.props.tags.length > 0) ? (<tr><td>Emne</td><td>{tagElements}</td></tr>) : null;
 
     const dk5Row = (this.props.dk5) ? (<tr><td>DK5</td><td>{this.props.dk5}</td></tr>) : null;

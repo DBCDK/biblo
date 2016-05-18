@@ -33,7 +33,7 @@ let ContentPageLeft = ContentPageJSONData && ContentPageJSONData.field_content &
   return {
     widgetName,
     widgetData
-  }
+  };
 }) || [];
 
 if (ContentPageJSONData && ContentPageJSONData.title) {

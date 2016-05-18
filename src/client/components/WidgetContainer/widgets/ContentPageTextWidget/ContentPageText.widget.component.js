@@ -2,7 +2,7 @@
  * @file: This file contains a widget for rendering text fields from biblo admin.
  */
 
-/* eslint-disable-file react/no-danger */
+/* eslint-disable react/no-danger */
 
 import React, {Component, PropTypes} from 'react';
 

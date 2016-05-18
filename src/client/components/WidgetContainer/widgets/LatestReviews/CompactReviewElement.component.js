@@ -2,7 +2,7 @@
  * @file: Compact review view component. Originally created to display reviews on the front page.
  */
 
-/* eslint-disable-file react/no-danger */
+/* eslint-disable react/no-danger */
 
 import React, {Component, PropTypes} from 'react';
 
@@ -56,11 +56,9 @@ export class CompactReviewElement extends Component {
       htmlContent += '...';
     }
 
-    /* eslint-disable react/no-danger */
     return (
       <div className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}}></div>
     );
-    /* eslint-enable react/no-danger */
   }
 
   renderTextReview(review, ownerProfileUrl, workUrl) {

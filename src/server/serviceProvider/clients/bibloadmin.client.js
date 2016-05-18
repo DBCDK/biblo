@@ -18,7 +18,8 @@ function promiseRequest(method, req) {
 }
 
 let callBibloAdmin = function callBibloAdmin(user, password, method, req) {
-  return promiseRequest(method, Object.assign({
+  return promiseRequest(method, Object.assign(
+    {
       auth: {
         user,
         password
@@ -26,7 +27,7 @@ let callBibloAdmin = function callBibloAdmin(user, password, method, req) {
     },
     req
   ));
-}
+};
 
 /**
  * Gets content from contentpage in json format.

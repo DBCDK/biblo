@@ -11,7 +11,7 @@
  *
  */
 
-import {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import widgetComponents from './widgets';
 
 class WidgetContainer extends Component {

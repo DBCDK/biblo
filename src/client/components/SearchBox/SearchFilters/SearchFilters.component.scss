@@ -36,8 +36,15 @@
   }
 
 
-  .search-filters--button-reset {
+  .search-filters--reset-button {
     background-color: $white;
+    padding: 10px;
+    vertical-align: top;
+    display: inline-block;
+
+    &:hover {
+      color: $governor-bay;
+    }
   }
 
 }

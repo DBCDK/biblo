@@ -45,7 +45,7 @@ export function asyncShowWorkReviews(pids, skip, limit) {
 export function asyncCreateWorkReview(form, pids, callback) {
   return function (dispatch) {
     let skip=0, limit = 10;
-    addContent(form, '/anmeldelse/').then((response) => {
+    addContent(form, '/anmeldelse/', callback).then((response) => {
       if (callback) {
         callback();
       }

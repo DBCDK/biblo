@@ -7,65 +7,76 @@ const getReviewsClient = SocketClient('getReviews');
 const deleteReviewClient = SocketClient('deleteReview');
 import {addContent} from '../Utils/uploadmedia.js';
 
-export function showReviews(response, pids, skip, limit) {
+export function showWorkReviews(response, pids, skip, limit) {
   return {
-    type: types.GET_REVIEWS,
+    type: types.GET_WORK_REVIEWS,
     reviews: response,
     pids: pids,
     skip: skip,
-    limit: limit
+    limit: limit,
+    workReviewsTotalCount: response.reviewsCount
   };
 }
 
-export function moreReviewsLoading() {
+export function moreWorkReviewsLoading() {
   return {
-    type: types.GET_REVIEWS_IS_LOADING
+    type: types.GET_WORK_REVIEWS_IS_LOADING
   };
 }
 
-export function asyncShowReviews(pids, skip, limit) {
+export function asyncShowWorkReviews(pids, skip, limit) {
   return function (dispatch) {
-    dispatch(moreReviewsLoading());
+    dispatch(moreWorkReviewsLoading());
     getReviewsClient.request({pids, skip, limit});
     const event = getReviewsClient.response(response => {
-      dispatch(showReviews(response, pids, skip, limit));
+      dispatch(showWorkReviews(response, pids, skip, limit));
       event.off();
     });
   };
 }
 
-export function asyncCreateReview(form, pids) {
-  let skip=0, limit = 10;
+/**
+ * Create a WorkReview . dispatches to show to support upsert approach (insert + update)
+ * @param form
+ * @param pids
+ * @param callback
+ * @returns {Function}
+ */
+export function asyncCreateWorkReview(form, pids, callback) {
   return function (dispatch) {
+    let skip=0, limit = 10;
     addContent(form, '/anmeldelse/').then((response) => {
+      if (callback) {
+        callback();
+      }
       if (pids) {
-        dispatch(asyncShowReviews(pids, skip, limit));
+        asyncShowWorkReviews(pids, skip, limit)(dispatch);
       }
       else {
-        dispatch(createReview(response));
+        dispatch(createWorkReview(response));
       }
     }).catch((response) => {
-      dispatch(createReview(response));
+      dispatch(createWorkReview(response));
       event.off();
     });
   };
 }
 
-export function createReview(review) {
+export function createWorkReview(review) {
   return {
-    type: types.CREATE_REVIEW,
+    type: types.CREATE_WORK_REVIEW,
     review: review
   };
 }
 
-export function asyncDeleteReview(reviewId, pids) {
+export function asyncDeleteWorkReview(reviewId, pids) {
   let skip=0, limit = 10;
   return function (dispatch) {
     dispatch(deleteReview(reviewId));
     deleteReviewClient.request({id: reviewId});
     const event = deleteReviewClient.response(() => {
       if (pids) {
-        dispatch(asyncShowReviews(pids, skip, limit));
+        dispatch(asyncShowWorkReviews(pids, skip, limit));
       }
       else {
         dispatch(deleteReview(reviewId));
@@ -77,7 +88,7 @@ export function asyncDeleteReview(reviewId, pids) {
 
 export function deleteReview(reviewId) {
   return {
-    type: types.DELETE_REVIEW,
+    type: types.DELETE_WORK_REVIEW,
     reviewId: reviewId
   };
 }

@@ -31,7 +31,10 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
         js: ['/js/work.js'],
         jsonData: [JSON.stringify({
           work: work, // this is the associated work info
-          review: reviewResponse[0].data[0]  // we only expect a single review here
+          workReviews: reviewResponse[0].data,
+          workReviewsMeta: {
+            ownReviewId: id
+          }
         })]
       });
     });

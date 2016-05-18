@@ -89,4 +89,11 @@
   .compact-video-review--artwork-container {
     position: relative;
   }
+
+  .compact-review--review-author {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

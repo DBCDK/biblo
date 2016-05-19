@@ -9,42 +9,11 @@ import * as types from '../Constants/action.constants';
 /**
  * Create a widgetLocation for contentPageLeft and fill with widgets from json.
  */
-let ContentPageJSONData = parseJsonData('JSONDATA', 'contentPageData');
-let ContentPageLeft = ContentPageJSONData && ContentPageJSONData.field_content && ContentPageJSONData.field_content.map((contentField) => {
-  let widgetName;
-  let widgetData = {};
-
-  if (contentField.text) {
-    widgetName = 'ContentPageTextWidget';
-    widgetData.content = contentField.text;
-  }
-  else if (contentField.image) {
-    widgetName = 'ContentPageImageWidget';
-    widgetData.alt = contentField.image.alt;
-    widgetData.title = contentField.image.title;
-    widgetData.src = contentField.image.original;
-  }
-  else if (contentField.embedded_video) {
-    widgetName = 'ContentPageEmbeddedVideoWidget';
-    widgetData.src = contentField.embedded_video.url;
-    widgetData.type = contentField.embedded_video.type;
-  }
-
-  return {
-    widgetName,
-    widgetData
-  };
-}) || [];
-
-if (ContentPageJSONData && ContentPageJSONData.title) {
-  ContentPageLeft.unshift({widgetName: 'ContentPageTextWidget', widgetData: {content: `<h2>${ContentPageJSONData.title}</h2>`}});
-}
-
 let initialState = {
   LatestReviews: [],
   CoverImages: {},
   widgetLocations: {
-    ContentPageLeft,
+    ContentPageLeft: [],
     ContentPageFactBox: [],
     FrontPageTop: [
       {
@@ -57,6 +26,9 @@ let initialState = {
     ]
   }
 };
+
+let ContentPageJSONData = parseJsonData('JSONDATA', 'contentPageData');
+initialState.widgetLocations = Object.assign(initialState.widgetLocations, ContentPageJSONData.widgetLocations);
 
 export default function widgetReducer(state = initialState, action = {}) {
   Object.freeze(state);

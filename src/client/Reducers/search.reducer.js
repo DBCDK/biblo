@@ -18,6 +18,7 @@ let initialState = {
   initialQuery: '',
   query: '',
   isLoadingResults: false,
+  isSearching: false,
   filters: {
     materialFilters: {
       book: {enabled: false},
@@ -138,6 +139,10 @@ export default function searchReducer(state = initialState, action = {}) {
 
     case types.SEARCH_QUERY_HAS_CHANGED: {
       return assignToEmpty(state, {query: action.q});
+    }
+
+    case types.MATERIAL_SEARCH: {
+      return assignToEmpty(state, {isSearching: true});
     }
 
     case types.SEARCH_TOGGLE_MATERIAL_FILTER: {

@@ -101,7 +101,7 @@ export default class SearchContainer extends React.Component {
       />
     );
 
-    const searchButtonGlyph = (this.state.loading) ? spinnerSvg : searchSvg;
+    const searchButtonGlyph = (this.props.search.isSearching) ? spinnerSvg : searchSvg;
 
     return (
       <div className='search'>

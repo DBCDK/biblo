@@ -58,3 +58,25 @@ ContentRoutes.get('/:id', (req, res) => {
 });
 
 export default ContentRoutes;
+
+export async function wildCardRoute(req, res, next) {
+  try {
+    const contentObject = (await req.callServiceProvider('getContentPage', req.originalUrl))[0].body;
+
+    if (contentObject.message && contentObject.message.indexOf('No route found for') > -1) {
+      throw new Error('Content page was requested but not found!');
+    }
+    else {
+      res.locals.title = contentObject.title;
+
+      res.render('page', {
+        css: ['/css/article.css'],
+        js: ['/js/article.js'],
+        jsonData: [JSON.stringify({contentPageData: contentObject})]
+      });
+    }
+  }
+  catch (err) {
+    next(err);
+  }
+}

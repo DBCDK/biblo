@@ -26,6 +26,7 @@ import ReviewRoutes from './server/routes/review.routes';
 import ProfileRoutes from './server/routes/profile.routes';
 import ContentRoutes from './server/routes/content.routes';
 import ApiRoutes from './server/routes/api.routes';
+import {wildCardRoute} from './server/routes/content.routes';
 
 // Passport Strategies
 import * as PassportStrategies from './server/PassportStrategies/strategies.passport';
@@ -250,6 +251,9 @@ module.exports.run = function(worker) {
   app.use('/indhold', ContentRoutes, ensureUserHasValidLibrary);
   app.use('/api', ApiRoutes);
   app.use('/', MainRoutes);
+
+  // middleware like route to catch all non-caught routes.
+  app.use(wildCardRoute);
 
   // Graceful handling of errors
   app.use((err, req, res, next) => {

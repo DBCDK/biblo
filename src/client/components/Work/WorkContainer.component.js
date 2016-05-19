@@ -26,7 +26,7 @@ export class WorkContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviewVisible: this.props.workState.workReviewsMeta.reviewVisible || false
+      reviewVisible: this.props.reviewState.workReviewsVisible || false
     };
   }
 
@@ -35,7 +35,7 @@ export class WorkContainer extends React.Component {
   }
 
   getOwnReviewId() {
-    return this.props.workState.workReviewsMeta.ownReviewId;
+    return this.props.reviewState.workReviewsMeta.ownReviewId;
   }
 
   getEditText() {
@@ -82,10 +82,12 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
-    const work = this.props.workState.work;                 // the work collection from the service provider
-    const reviews = this.props.workState.workReviews;       // the reviews associated with the work
-    const meta = this.props.workState.workReviewsMeta;      // metadata about the reviews (eg paging info)
-    let reviewVisible = this.state.reviewVisible;           // is the review create area visible or not?
+
+    const work = this.props.workState.work;               // the work collection from the service provider
+    const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
+    const meta = this.props.reviewState.workReviewsMeta;
+
+    let reviewVisible = this.state.reviewVisible;     // is the review create area visible or not?
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
@@ -158,7 +160,7 @@ export class WorkContainer extends React.Component {
             owner={this.props.profile}
             pid={work.id}
             worktype={this.props.worktype || 'book'}
-            reviewActions={this.props.actions}
+            reviewActions={this.props.reviewActions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
             likeActions={this.props.likeActions}
@@ -174,16 +176,16 @@ export class WorkContainer extends React.Component {
 
         <ReviewList
           pids={work.collection}
-          totalCount={meta.reviewsTotalCount}
-          limit={meta.reviewsLimit}
+          totalCount={meta.workReviewsTotalCount}
+          limit={reviews.limit}
           reviews={reviews}
           worktype="book"
           profile={this.props.profile}
-          reviewActions={this.props.actions}
+          reviewActions={this.props.reviewActions}
           uiActions={this.props.uiActions}
           flagActions={this.props.flagActions}
           likeActions={this.props.likeActions}
-          expand={this.props.actions.asyncShowReviews}
+          expand={this.props.reviewActions.asyncShowReviews}
         />
 
         <MoreInfo
@@ -211,9 +213,9 @@ export class WorkContainer extends React.Component {
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.object.isRequied,
+  reviewState: React.PropTypes.object.isRequied,
   searchActions: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object.isRequired,
+  reviewActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
@@ -231,9 +233,9 @@ export default connect(
   (state) => {
     return {
       searchState: state.searchReducer,
-      reviews: state.reviewReducer,
-      ui: state.uiReducer,
+      reviewState: state.reviewReducer,
       workState: state.workReducer,
+      ui: state.uiReducer,
       profile: state.profileReducer,
       entitySuggest: state.entitySuggestReducer
     };
@@ -243,7 +245,7 @@ export default connect(
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       workActions: bindActionCreators(workActions, dispatch),
-      actions: bindActionCreators(reviewActions, dispatch),
+      reviewActions: bindActionCreators(reviewActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),
       uiActions: bindActionCreators(uiActions, dispatch),

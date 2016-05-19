@@ -2,34 +2,22 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import parseJsonData from '../../Utils/parseJsonData.js';
-
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
-import ColoredHeader from '../General/ColoredHeader/ColoredHeader.component.js';
-import ContentGrid from '../General/ContentGrid/ContentGrid.component.js';
 import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 
 import './_frontpage.scss';
 
-const content = parseJsonData('JSONDATA', 'frontpageData');
-
 export default class FrontpageContainer extends React.Component {
   render() {
-    const welcomeText = content.welcome_text;
-
-    const elements = content.elements;
-
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
-        <ColoredHeader text={welcomeText} title={content.welcome_header}/>
         <WidgetContainer
-          widgetLocationName="FrontPageTop"
+          widgetLocationName="FrontPageContent"
           widgetActions={this.props.widgetActions}
           widgetState={this.props.widgetState} />
-        <ContentGrid items={elements}/>
       </PageLayout>
     );
   }

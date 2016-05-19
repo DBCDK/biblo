@@ -44,7 +44,7 @@ class WidgetContainer extends Component {
               widgetState={this.props.widgetState}
               widgetActions={this.props.widgetActions}
               widgetReducerProp={widgetReducerProp}
-              widgetData={currentWidgetState.widgetData}/>
+              widgetConfig={currentWidgetState.widgetConfig}/>
           </div>
         );
       });

@@ -29,14 +29,40 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
         res.status(404);
       }
       else {
-        const frontpageData = JSON.parse(str);
+        let frontPageData = {
+          widgetLocations: {
+            FrontPageContent: []
+          }
+        };
+        const responseData = JSON.parse(str);
+
+        frontPageData.widgetLocations.FrontPageContent.push({
+          widgetName: 'ColoredHeaderWidget',
+          widgetConfig: {
+            text: responseData.welcome_text,
+            title: responseData.welcome_header
+          }
+        });
+
+        frontPageData.widgetLocations.FrontPageContent.push({
+          widgetName: 'LatestReviewsWidget',
+          widgetConfig: {
+            displayTitle: 'Brugerne Siger',
+            reviewsToLoad: 15
+          }
+        });
+
+        frontPageData.widgetLocations.FrontPageContent.push({
+          widgetName: 'ContentGridWidget',
+          widgetConfig: {
+            items: responseData.elements
+          }
+        });
 
         res.render('page', {
           css: ['/css/frontpage.css', '/css/search.css'],
           js: ['/js/frontpage.js'],
-          jsonData: [JSON.stringify({
-            frontpageData: frontpageData
-          })]
+          jsonData: [JSON.stringify(frontPageData)]
         });
       }
 

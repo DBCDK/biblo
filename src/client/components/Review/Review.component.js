@@ -175,13 +175,18 @@ export default class Review extends React.Component {
   }
 
   onSubmit(evt) {
-    if (this.validate()) {
+    if (XMLHttpRequest && FormData) {
       evt.preventDefault();
-      this.setState({isLoading: true});
-      this.props.reviewActions.asyncCreateWorkReview(this.refs.contentForm,
-        this.props.pids,
-        this.afterEdit.bind(this)
-      );
+    }
+
+    if (this.validate()) {
+      if (XMLHttpRequest && FormData) {
+        this.setState({isLoading: true});
+        this.props.reviewActions.asyncCreateWorkReview(this.refs.contentForm,
+          this.props.pids,
+          this.afterEdit.bind(this)
+        );
+      }
 
       if (this.props.toggleReview) {
         this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)

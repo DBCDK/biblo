@@ -26,9 +26,9 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
-import {readInput} from '../../Utils/uploadmedia.js';
+import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
-export default class Review extends React.Component {
+export default class Review extends UploadMedia {
   constructor(props) {
     super(props);
 
@@ -150,6 +150,7 @@ export default class Review extends React.Component {
     });
   }
 
+  // this function is specific for reviews
   clearImage(e) {
     e.preventDefault();
     let attachment = this.state.attachment;
@@ -182,10 +183,13 @@ export default class Review extends React.Component {
     if (this.validate()) {
       if (XMLHttpRequest && FormData) {
         this.setState({isLoading: true});
-        this.props.reviewActions.asyncCreateWorkReview(this.refs.contentForm,
-          this.props.pids,
-          this.afterEdit.bind(this)
-        );
+        this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
+           // we created / edited a review . Restart paging  . We pass along our newly created id here for ownReviewId
+          this.props.reviewActions.asyncShowWorkReviews(this.props.pids, 0, 10, response.data.id);
+          this.afterEdit();
+        }).catch((response) => {
+          this.setState(response);
+        });
       }
 
       if (this.props.toggleReview) {
@@ -399,9 +403,7 @@ export default class Review extends React.Component {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={event => readInput(event, (state) => {
-                          this.setState(state);
-                        }).then(state => this.setState(state))}
+                        onChange={event => this.readInput(event, (state) => this.setState(state)).then(state => this.setState(state))}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

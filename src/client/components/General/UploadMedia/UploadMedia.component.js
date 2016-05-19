@@ -3,17 +3,21 @@ import React from 'react';
 /**
  * Base class for media uploads
  *
- * extend this from your component that needs to upload media files
- * The contribution from this is that you can abort large uploads
+ * extend this from your component that needs to upload media files and offer the ability to cancel them
  *
+ * use onAbort to cancel uploads
  */
 export default class UploadMedia extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
 
   /**
    * addContent. Perform a XHR based upload  that can be aborted. use onAbort for this.
    *
    * @param form Form containing the data to be uploaded
-   * @param target The REST endpoint to talk to . We expect the endpoint "image" and "video" so far.
+   * @param target The REST endpoint to talk to . We expect the endpoint handles "image" and "video" so far.
    *
    * @returns {Promise}
    */
@@ -45,7 +49,7 @@ export default class UploadMedia extends React.Component {
    * @returns {Promise}  returns a promise with attachment state
    */
   readInput(event, onProgress) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (event.target.files && event.target.files[0]) {
         const file = event.target.files[0];
         const type = file.type.split('/')[0];
@@ -57,7 +61,7 @@ export default class UploadMedia extends React.Component {
           resolve(this.handleVideo(file, onProgress));
         }
         else {
-          resolve({errorMsg: 'filtype ikke understøttet'});
+          reject({errorMsg: 'filtype ikke understøttet'});
         }
       }
     });
@@ -125,7 +129,9 @@ export default class UploadMedia extends React.Component {
     }
 
     this.setState({text: '', attachment: {image: null, video: null}});
-    this.xhr.abort();
+    if (this.xhr) {
+      this.xhr.abort();
+    }
   }
 
   /**

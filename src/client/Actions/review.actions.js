@@ -5,7 +5,6 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 
 const getReviewsClient = SocketClient('getReviews');
 const deleteReviewClient = SocketClient('deleteReview');
-import {addContent} from '../Utils/uploadmedia.js';
 
 export function showWorkReviews(response, pids, skip, limit, ownId) {
   return {
@@ -31,33 +30,6 @@ export function asyncShowWorkReviews(pids, skip, limit, ownId) {
     getReviewsClient.request({pids, skip, limit});
     const event = getReviewsClient.response(response => {
       dispatch(showWorkReviews(response, pids, skip, limit, ownId));
-      event.off();
-    });
-  };
-}
-
-/**
- * Create a WorkReview . dispatches to show to support upsert approach (insert + update)
- * @param form
- * @param pids
- * @param callback
- * @returns {Function}
- */
-export function asyncCreateWorkReview(form, pids, callback) {
-  return function (dispatch) {
-    let skip=0, limit = 10;
-    addContent(form, '/anmeldelse/').then((response) => {
-      if (callback) {
-        callback();
-      }
-      if (pids) {
-        asyncShowWorkReviews(pids, skip, limit, response.data.id)(dispatch);
-      }
-      else {
-        dispatch(createWorkReview(response));
-      }
-    }).catch((response) => {
-      dispatch(createWorkReview(response));
       event.off();
     });
   };

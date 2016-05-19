@@ -24,7 +24,7 @@ DummyWidget.propTypes = {
   widgetActions: PropTypes.object.isRequired,
 
   // This is an object containing data as passed from the CMS.
-  widgetData: PropTypes.object.isRequired,
+  widgetConfig: PropTypes.object.isRequired,
 
   // This is a string, with the name of the widget location (for example: FrontPageTop)
   // This is how we specify where a specific widget goes.

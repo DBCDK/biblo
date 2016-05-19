@@ -9,12 +9,12 @@ import React, {Component, PropTypes} from 'react';
 export class ContentPageTextWidget extends Component {
   render() {
     return (
-      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: this.props.widgetData.content}} />
+      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: this.props.widgetConfig.content}} />
     );
   }
 }
 
 ContentPageTextWidget.displayName = 'ContentPageTextWidget';
 ContentPageTextWidget.propTypes = {
-  widgetData: PropTypes.object.isRequired
+  widgetConfig: PropTypes.object.isRequired
 };

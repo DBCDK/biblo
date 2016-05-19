@@ -20,7 +20,7 @@ describe('Test ContentPages Widgets', () => {
 
     widgetState.widgetLocations[widgetLocationName] = {
       widgetName: 'ContentPageTextWidget',
-      widgetData: {
+      widgetConfig: {
         content: '<h2>Bob er sej!</h2>'
       }
     };
@@ -47,7 +47,7 @@ describe('Test ContentPages Widgets', () => {
 
     widgetState.widgetLocations[widgetLocationName] = {
       widgetName: 'ContentPageImageWidget',
-      widgetData: {
+      widgetConfig: {
         src: 'bob',
         alt: 'bob2',
         title: 'bob3'
@@ -76,7 +76,7 @@ describe('Test ContentPages Widgets', () => {
 
     widgetState.widgetLocations[widgetLocationName] = {
       widgetName: 'ContentPageEmbeddedVideoWidget',
-      widgetData: {type: 'YouTube', src: 'https://www.youtube.com/embed/qZ3fiOctBkE'}
+      widgetConfig: {type: 'YouTube', src: 'https://www.youtube.com/embed/qZ3fiOctBkE'}
     };
 
     let component = (

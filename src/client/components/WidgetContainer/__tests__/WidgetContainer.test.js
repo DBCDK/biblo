@@ -39,7 +39,7 @@ describe('Test generic WidgetContainer', () => {
     };
     const widgetActions = {};
 
-    widgetState.widgetLocations[widgetLocationName] = {widgetName: 'DummyWidget', widgetData: {}};
+    widgetState.widgetLocations[widgetLocationName] = {widgetName: 'DummyWidget', widgetConfig: {}};
 
     let component = (
       <WidgetContainer

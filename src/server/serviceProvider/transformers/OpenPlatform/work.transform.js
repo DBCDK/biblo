@@ -4,10 +4,10 @@ const WorkTransform = {
     return 'work';
   },
 
-  requestTransform(event, {pids}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {pids, fields = null}, connection) { // eslint-disable-line no-unused-vars
     return this.callServiceClient('openplatform', 'work', {
       pids: pids,
-      fields: [
+      fields: fields || [
         'dcTitle',
         'dcTitleFull',
         'publisher',
@@ -48,7 +48,9 @@ const WorkTransform = {
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-    return JSON.parse(response.body);
+    let body = JSON.parse(response.body);
+    body.requestedPids = query.pids;
+    return body;
   }
 };
 

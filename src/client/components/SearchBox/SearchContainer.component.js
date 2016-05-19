@@ -121,10 +121,10 @@ export default class SearchContainer extends React.Component {
                 onFocus={() => this.setState({queryFieldIsActive: true})}
                 ref="searchFieldReference"
               >
+              </input>
                 <div className="search-container--dropdown-container">
                   {dropDown}
                 </div>
-              </input>
             </span>
           </div>
         </div>

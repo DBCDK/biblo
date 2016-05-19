@@ -68,7 +68,7 @@ const getContentPageTransform = {
       });
     }
 
-    return {body: {widgetLocations: {ContentPageLeft}}, statusCode: 200, statusMessage: 'OK'};
+    return {body: {widgetLocations: {ContentPageLeft}, title: contentResponse.title}, statusCode: 200, statusMessage: 'OK'};
   }
 };
 

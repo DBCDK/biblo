@@ -6,11 +6,11 @@ import React, {Component, PropTypes} from 'react';
 
 export class ContentPageImageWidget extends Component {
   render() {
-    const widgetData = this.props.widgetData;
+    const widgetConfig = this.props.widgetConfig;
 
     return (
       <span className="content-page--image-widget">
-        <img src={widgetData.src} alt={widgetData.alt} title={widgetData.title} />
+        <img src={widgetConfig.src} alt={widgetConfig.alt} title={widgetConfig.title} />
       </span>
     );
   }
@@ -19,7 +19,7 @@ export class ContentPageImageWidget extends Component {
 ContentPageImageWidget.displayName = 'ContentPageImageWidget';
 ContentPageImageWidget.propTypes = {
   widgetActions: PropTypes.object.isRequired,
-  widgetData: PropTypes.object.isRequired,
+  widgetConfig: PropTypes.object.isRequired,
   widgetLocationName: PropTypes.string.isRequired,
   widgetState: PropTypes.object.isRequired
 };

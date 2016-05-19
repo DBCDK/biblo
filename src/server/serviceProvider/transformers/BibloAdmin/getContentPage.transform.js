@@ -34,27 +34,27 @@ const getContentPageTransform = {
         contentResponse.field_content : [contentResponse.field_content]).map(contentField => {
 
           let widgetName;
-          let widgetData = {};
+          let widgetConfig = {};
 
           if (contentField.text) {
             widgetName = 'ContentPageTextWidget';
-            widgetData.content = contentField.text;
+            widgetConfig.content = contentField.text;
           }
           else if (contentField.image) {
             widgetName = 'ContentPageImageWidget';
-            widgetData.alt = contentField.image.alt;
-            widgetData.title = contentField.image.title;
-            widgetData.src = contentField.image.original;
+            widgetConfig.alt = contentField.image.alt;
+            widgetConfig.title = contentField.image.title;
+            widgetConfig.src = contentField.image.original;
           }
           else if (contentField.embedded_video) {
             widgetName = 'ContentPageEmbeddedVideoWidget';
-            widgetData.src = contentField.embedded_video.url;
-            widgetData.type = contentField.embedded_video.type;
+            widgetConfig.src = contentField.embedded_video.url;
+            widgetConfig.type = contentField.embedded_video.type;
           }
 
           return {
             widgetName,
-            widgetData
+            widgetConfig
           };
         }) || [];
     }
@@ -62,7 +62,7 @@ const getContentPageTransform = {
     if (contentResponse.title) {
       ContentPageLeft.unshift({
         widgetName: 'ContentPageTextWidget',
-        widgetData: {
+        widgetConfig: {
           content: `<h2>${contentResponse.title}</h2>`
         }
       });

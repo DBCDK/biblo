@@ -27,7 +27,7 @@ describe('Test LatestReviews Widget', () => {
 
     widgetState.widgetLocations[widgetLocationName] = {
       widgetName: 'LatestReviewsWidget',
-      widgetData: {
+      widgetConfig: {
         displayTitle: 'LatestReviews displayTitle Test!',
         reviewsToLoad: 15
       }
@@ -62,7 +62,7 @@ describe('Test LatestReviews Widget', () => {
 
     widgetState.widgetLocations[widgetLocationName] = {
       widgetName: 'LatestReviewsWidget',
-      widgetData: {
+      widgetConfig: {
         displayTitle: 'Brugerne Siger!',
         reviewsToLoad: 1
       }

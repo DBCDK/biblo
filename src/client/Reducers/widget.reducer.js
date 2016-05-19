@@ -18,7 +18,7 @@ let initialState = {
     FrontPageTop: [
       {
         widgetName: 'LatestReviewsWidget',
-        widgetData: {
+        widgetConfig: {
           displayTitle: 'Brugerne Siger',
           reviewsToLoad: 15
         }

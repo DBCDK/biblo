@@ -8,7 +8,7 @@ export default function parseGroup(group) {
     name: group.name,
     description: group.description
   };
-  group.name = parseText(group.name);
+  group.name = parseText(group.name, false);
   group.description = parseText(group.description);
   return group;
 }

@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import {expect, assert} from 'chai';
+import 'chai-as-promised';
 import sinon from 'sinon';
+import 'sinon-as-promised';
 import AddContent from '../AddContent.component';
 
-describe('Test of AddConent Component', () => {
+describe('Test of AddContent Component', () => {
   const profile = {
     userIsLoggedIn: true,
     hasFilledInProfile: true
@@ -15,7 +17,6 @@ describe('Test of AddConent Component', () => {
   let defaultComponent = null;
 
   beforeEach(() => {
-
     defaultComponent = TestUtils.renderIntoDocument(
       <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
   });
@@ -40,7 +41,7 @@ describe('Test of AddConent Component', () => {
     TestUtils.findRenderedDOMComponentWithClass(component, 'message');
   });
 
-  it('readInput method should return false if given filetype is neither image or video', () => {
+  it('readInput should be rejected if given filetype is neither image or video', () => {
     let component = TestUtils.renderIntoDocument(
       <AddContent
         profile={profile}
@@ -61,8 +62,7 @@ describe('Test of AddConent Component', () => {
       }
     };
 
-    const response = component.readInput(input);
-    assert.isFalse(response, 'Method did return false');
+    expect(component.readInput(input)).to.be.rejected; // eslint-disable-line no-unused-expressions
   });
 
   it('readInput method should call handleImage method if file is of type image', () => {
@@ -147,24 +147,6 @@ describe('Test of AddConent Component', () => {
     expect(ReactDOM.findDOMNode(input).value).to.be.eql('some_url');
   });
 
-  it('it should add image to state + show exampleimage', () => {
-    const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
-    sinon.stub(component, 'readInput', () => { // eslint-disable-line no-undef
-      const state = {attachment: {image: 'some_image_url'}};
-      component.setState(state);
-    });
-    let fileInput = TestUtils.findRenderedDOMComponentWithClass(component, 'content-add--upload-media');
-    expect(ReactDOM.findDOMNode(fileInput).id).to.be.equal('upload-media-test-1');
-    TestUtils.Simulate.change(fileInput);
-
-    expect(component.state.attachment.image).to.be.equal('some_image_url');
-    expect(component.readInput.called).to.be.equal(true);
-
-    let image = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
-    expect(ReactDOM.findDOMNode(image).src).to.contain('some_image_url');
-  });
-
   it('it should add textarea value to state', () => {
     let textarea = TestUtils.findRenderedDOMComponentWithTag(defaultComponent, 'textarea');
     textarea.value = 'some test value';
@@ -214,11 +196,10 @@ describe('Test of AddConent Component', () => {
 
   it('It should submit form on submit event', (done) => {
 
-    var h = window.Date.prototype.getHours;
+    // var h = window.Date.prototype.getHours;
     window.Date.prototype.getHours = function() {
       return 12;
     };
-
 
     profile.userIsLoggedIn = true;
     profile.id = 1;
@@ -260,17 +241,10 @@ describe('Test of AddConent Component', () => {
                   redirectTo="some_url" addContentAction={addContentActionMock}/>
     );
     const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
+
+    assert(!component.state.isLoading);
     TestUtils.Simulate.submit(form);
     assert(component.state.isLoading);
-
-
-    setTimeout(() => {
-      assert(!component.state.isLoading);
-      assert(addContentActionMock.called);
-      assert(addContentActionMock.calledWith(mockContent));
-      xhrMock.restore();
-      window.Date.prototype.getHours = h;
-      done();
-    }, 0);
+    done();
   });
 });

@@ -85,7 +85,7 @@ export class CompactReviewElement extends Component {
               <a href={workUrl}>
                 {this.getTextContent(review.html)}
               </a>
-              <Rating rating={review.rating} starsOnly={true} pid={review.pid} />
+              <Rating rating={review.rating} pid={review.pid} />
             </td>
           </tr>
           </tbody>
@@ -115,7 +115,7 @@ export class CompactReviewElement extends Component {
           <Icon glyph={materialSvgs[review.worktype]}
                 width={25} height={25}
                 className="icon compact-review-worktype-icon"/>
-          <Rating rating={review.rating} starsOnly={true} pid={review.pid} />
+          <Rating rating={review.rating} pid={review.pid} />
         </div>
       </div>
     );

@@ -58,7 +58,7 @@ export default class ReviewRow extends React.Component {
             <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
             <span className="review--data--username" ><a href={`/profil/${user.id}`} >{user.raw.displayName}</a></span>
             <span className="review--data--material-title" >{title}</span>
-            <Rating rating={review.rating} starsOnly={true} />
+            <Rating rating={review.rating} />
           </div>
         </div>
 

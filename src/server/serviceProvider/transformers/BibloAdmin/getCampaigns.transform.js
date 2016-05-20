@@ -11,11 +11,9 @@ const getContentPageTransform = {
   },
 
   /**
-   *
-   * @param event
    * @returns {Promise}
    */
-  requestTransform(event) {
+  requestTransform() {
     return this.callServiceClient('bibloadmin', 'getCampaigns');
   },
 

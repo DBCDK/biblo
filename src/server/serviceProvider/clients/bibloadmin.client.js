@@ -42,7 +42,7 @@ function getContentPage(endpoint, {slug}) {
   return callBibloAdmin('get', options);
 }
 
-function getCampaigns(endpoint) {
+function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
   const mockCampaignData = [{
     id: 1,
     campaignName: 'Sommerbogen 2016',

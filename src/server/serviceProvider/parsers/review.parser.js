@@ -5,7 +5,7 @@ export default function parseReview(review, campaigns = []) {
   campaigns.forEach(campaign => {
     const reviewCreatedEpoch = (new Date(review.created)).getTime();
     const campaignStartEpoch = (new Date(campaign.startDate)).getTime();
-    const campaignEndEpoch   = (new Date(campaign.endDate)).getTime();
+    const campaignEndEpoch = (new Date(campaign.endDate)).getTime();
 
     if (
       reviewCreatedEpoch - campaignStartEpoch > 0 && // Review was created after the campaign started.

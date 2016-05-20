@@ -32,11 +32,11 @@ export default class UploadMedia extends React.Component {
         if (event.target.status === 200) {
           const contentResponse = JSON.parse(event.target.response);
           if (contentResponse.errors && contentResponse.errors.length > 0) {
-            return reject({errorMsg: contentResponse.errors[0].errorMessage});
+            return reject(contentResponse.errors[0].errorMessage);
           }
           return resolve(contentResponse);
         }
-        return reject({errorMsg: 'Upload fejlede'});
+        return reject('Upload fejlede');
       };
     });
   }
@@ -46,7 +46,7 @@ export default class UploadMedia extends React.Component {
    *
    * @param event
    * @param onProgress   callback to update screen during progress
-   * @returns {Promise}  returns a promise with attachment state
+   * @returns {Promise}  returns a promise with attachment if success or a error mesage if rejected
    */
   readInput(event, onProgress) {
     return new Promise((resolve, reject) => {
@@ -61,7 +61,7 @@ export default class UploadMedia extends React.Component {
           resolve(this.handleVideo(file, onProgress));
         }
         else {
-          reject({errorMsg: 'filtype ikke understøttet'});
+          reject('filtype ikke understøttet');
         }
       }
     });
@@ -70,13 +70,14 @@ export default class UploadMedia extends React.Component {
   /**
    * Handle image uploads
    * @param file the file to be uploaded
+   * @returns {Promise}  returns a promise with attachment if success or a error mesage if rejected
    */
   handleImage(file) {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const attachment = {image: e.target.result, video: null};
-        return resolve({attachment: attachment});
+        return resolve(attachment);
       };
       reader.readAsDataURL(file);
     });
@@ -100,21 +101,21 @@ export default class UploadMedia extends React.Component {
           const percentage = (e.loaded / e.total) * 100;
           attachment.video.file.progress = percentage;
           if (onProgress) {
-            onProgress({attachment: attachment});
+            onProgress(attachment);
           }
         }
       };
 
       this.xhr.onerror = () => {
-        return reject({attachment: attachment});
+        return reject('upload af video fejlede - prøv igen');
       };
 
       this.xhr.onload = (e) => {
         if (e.target.status === 200) {
           attachment.video.file.progress = 100;
-          return resolve({attachment: attachment});
+          return resolve(attachment);
         }
-        return reject({attachment: attachment});
+        return reject('Upload fejlede - prøv igen');
       };
       this.xhr.send(form);
     });

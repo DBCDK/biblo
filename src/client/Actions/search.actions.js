@@ -25,11 +25,20 @@ export function loadMoreResults() {
   };
 }
 
-export function asyncLoadMoreResults(query, limit) {
+export function asyncLoadMoreResults(query) {
   return (dispatch) => {
     dispatch(loadMoreResults());
     searchListener((res) => dispatch(loadedMoreResults(res)));
-    search.request({q: query, limit: limit});
+
+    const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
+      return query.materialFilters[type].enabled;
+    });
+
+    search.request({
+      q: query.query,
+      materialer: materialTypes.join(),
+      limit: query.limit
+    });
   };
 }
 

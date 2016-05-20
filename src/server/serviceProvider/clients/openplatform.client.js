@@ -28,7 +28,12 @@ function search(endpoint, params) {
   return callOpenPlatform('post', options);
 }
 
-
+/**
+ * Requesting data from endpoint based on params
+ *
+ * @param {String} endpoint
+ * @param {Object} params
+ */
 function work(endpoint, params) {
   const options = {
     url: `${endpoint}work/`,

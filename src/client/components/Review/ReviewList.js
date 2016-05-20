@@ -1,3 +1,6 @@
+/**
+ * @file: Create a simple list of reviews. Initially written for the review list for the work page.
+ */
 import React from 'react';
 import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';

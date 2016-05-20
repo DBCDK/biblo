@@ -15,17 +15,12 @@ let initialState = {
   widgetLocations: {
     ContentPageLeft: [],
     ContentPageFactBox: [],
-    FrontPageTop: [
-      {
-        widgetName: 'LatestReviewsWidget',
-        widgetData: {
-          displayTitle: 'Brugerne Siger',
-          reviewsToLoad: 15
-        }
-      }
-    ]
+    FrontPageContent: []
   }
 };
+
+let FrontPageWidgetLocations = parseJsonData('JSONDATA', 'widgetLocations');
+initialState.widgetLocations = Object.assign(initialState.widgetLocations, FrontPageWidgetLocations);
 
 let ContentPageJSONData = parseJsonData('JSONDATA', 'contentPageData');
 initialState.widgetLocations = Object.assign(initialState.widgetLocations, ContentPageJSONData.widgetLocations);

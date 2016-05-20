@@ -7,6 +7,7 @@ const GetOwnReviewTransform = {
     let orFilter = [];
     let params = {
       filter: {
+        order: 'created DESC',
         where: {
           markedAsDeleted: null,
           reviewownerid: reviewownerid

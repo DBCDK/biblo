@@ -1,3 +1,6 @@
+/**
+ * @file Handle reviews of works. Uploads media like in the groups.
+ */
 import React from 'react';
 
 import TimeToString from '../../Utils/timeToString.js';
@@ -26,9 +29,9 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 
-import {readInput} from '../../Utils/uploadmedia.js';
+import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
-export default class Review extends React.Component {
+export default class Review extends UploadMedia {
   constructor(props) {
     super(props);
 
@@ -62,16 +65,28 @@ export default class Review extends React.Component {
     this.deleteReview = this.deleteReview.bind(this);
   }
 
+  /**
+   * enable/disable editing
+   *
+   * @returns {boolean}
+   */
   toggleEditing() {
     this.setState({isEditing: !this.state.isEditing});
     return true;
   }
 
+  /**
+   * flag a review
+   * @param flag the profile submitting the flag
+   */
   submitReviewFlag(flag) { // eslint-disable-line
     flag.flagger = this.props.profile.id;
     this.props.flagActions.flagReview(flag);
   }
 
+  /**
+   * like a review
+   */
   likeReview() {
     this.props.likeActions.likeReview({
       reviewId: this.props.id,
@@ -79,6 +94,9 @@ export default class Review extends React.Component {
     });
   }
 
+  /**
+   * unlike a review
+   */
   unlikeReview() {
     this.props.likeActions.unlikeReview({
       reviewId: this.props.id,
@@ -86,6 +104,9 @@ export default class Review extends React.Component {
     });
   }
 
+  /**
+   * open a modal window that allows the user to delete a review
+   */
   deleteReview() {
     const content = (
       <div>
@@ -110,6 +131,10 @@ export default class Review extends React.Component {
     this.props.uiActions.openModalWindow(dialog);
   }
 
+  /**
+   * Check if a reviews is s valid
+   * @returns {boolean}
+   */
   validate() {
     let errors = [];
     if (typeof this.state.rating === 'undefined' || this.state.rating <= 0) {
@@ -144,12 +169,22 @@ export default class Review extends React.Component {
     return false;
   }
 
+  /**
+   * handle rating changes
+   * @param val
+   */
   onRatingChange(val) {
     this.setState({
       rating: val
     });
   }
 
+  /**
+   * clear image for the review
+   * note: this is overridden her since it is handled differently than in groups
+   * @param e
+   * @returns {boolean}
+   */
   clearImage(e) {
     e.preventDefault();
     let attachment = this.state.attachment;
@@ -170,19 +205,32 @@ export default class Review extends React.Component {
     return true;
   }
 
-
   afterEdit () {
     this.setState({isEditing: false, isLoading: false});
   }
 
+  /**
+   * submit the review. use XHR if available via UploadMedia
+   *
+   * @param evt
+   * @returns {boolean}
+   */
   onSubmit(evt) {
-    if (this.validate()) {
+    if (XMLHttpRequest && FormData) {
       evt.preventDefault();
-      this.setState({isLoading: true});
-      this.props.reviewActions.asyncCreateWorkReview(this.refs.contentForm,
-        this.props.pids,
-        this.afterEdit.bind(this)
-      );
+    }
+
+    if (this.validate()) {
+      if (XMLHttpRequest && FormData) {
+        this.setState({isLoading: true});
+        this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
+           // we created / edited a review . Restart paging  . We pass along our newly created id here for ownReviewId
+          this.props.reviewActions.asyncShowWorkReviews(this.props.pids, 0, 10, response.data.id);
+          this.afterEdit();
+        }).catch((response) => {
+          this.setState(response);
+        });
+      }
 
       if (this.props.toggleReview) {
         this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
@@ -203,7 +251,6 @@ export default class Review extends React.Component {
       profile,
       created
       } = this.state;
-
 
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
@@ -309,7 +356,7 @@ export default class Review extends React.Component {
           <div className='review--header'>
             <a href={`/profil/${owner.id}`}><span className='username'
                                                   dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
-            <span className='time'>{this.state.isEditing && 'Retter nu' || TimeToString(created)}</span>
+            <span className='time'>{this.state.isEditing && 'Skriver nu' || TimeToString(created)}</span>
             <span className='buttons'>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditing} clickFunction={() => this.toggleEditing()}
@@ -396,9 +443,7 @@ export default class Review extends React.Component {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={event => readInput(event, (state) => {
-                          this.setState(state);
-                        }).then(state => this.setState(state))}
+                        onChange={event => this.readInput(event, (state) => this.setState(state)).then(state=>this.setState(state))}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

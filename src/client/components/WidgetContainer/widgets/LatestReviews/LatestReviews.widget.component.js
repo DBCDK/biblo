@@ -20,12 +20,12 @@ export class LatestReviewsWidget extends Component {
   }
 
   componentDidMount() {
-    this.props.widgetActions.asyncGetLatestReviews('id DESC', this.props.widgetData.reviewsToLoad || 15);
+    this.props.widgetActions.asyncGetLatestReviews('id DESC', this.props.widgetConfig.reviewsToLoad || 15);
     this.props.widgetActions.asyncListenForCoverImages();
   }
 
   render() {
-    let {displayTitle} = this.props.widgetData;
+    let {displayTitle} = this.props.widgetConfig;
     let reviews = this.props.widgetReducerProp;
     let classNames = 'latest-reviews-widget--reviews-container';
 
@@ -65,7 +65,7 @@ export class LatestReviewsWidget extends Component {
 LatestReviewsWidget.displayName = 'LatestReviewsWidget';
 LatestReviewsWidget.propTypes = {
   widgetActions: PropTypes.object.isRequired,
-  widgetData: PropTypes.object.isRequired,
+  widgetConfig: PropTypes.object.isRequired,
   widgetLocationName: PropTypes.string.isRequired,
   widgetReducerProp: PropTypes.array.isRequired,
   widgetState: PropTypes.object.isRequired

@@ -5,12 +5,14 @@
 import parseJsonData from '../Utils/parseJsonData';
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
-import {includes, filter} from 'lodash';
+import {includes, filter, isArray} from 'lodash';
 
-let initialState = {};
-initialState.userReviews = parseJsonData('JSONDATA', 'userReviews') || [];
-initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];
-initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];
+const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
+
+const initialState = {};
+initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
+initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];  // reviews related to a work (known as collecton in the service provider)
+initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];  // metadata about workReviews (ownReviewIdd and totalCount)
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
@@ -19,10 +21,11 @@ export default function reviewReducer(state = initialState, action = {}) {
     case types.GET_WORK_REVIEWS: {
       return assignToEmpty(state, {
         workReviews: action.reviews.data,
-        workReviewsMeta: {
+        workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
           workReviewsLoading: false,
-          workReviewsTotalCount: action.workReviewsTotalCount
-        }
+          workReviewsTotalCount: action.workReviewsTotalCount,
+          ownReviewId: action.ownId
+        })
       });
     }
 
@@ -43,7 +46,7 @@ export default function reviewReducer(state = initialState, action = {}) {
       });
     }
 
-    case types.DELETE_REVIEW: {
+    case types.DELETE_WORK_REVIEW: {
       let reviewsAfterDelete = [...state.workReviews];
       reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
         return (review.reviewId !== action.id);

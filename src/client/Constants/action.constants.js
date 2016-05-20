@@ -72,8 +72,8 @@ export const FLAG_REVIEW = 'FLAG_REVIEW';
 // Like actions
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
-export const LIKE_REVIEW = 'LIKE_REVIEW';
-export const UNLIKE_REVIEW = 'UNLIKE_REVIEW';
+export const LIKE_WORK_REVIEW = 'LIKE_WORK_REVIEW';
+export const UNLIKE_WORK_REVIEW = 'UNLIKE_WORK_REVIEW';
 
 // Review actions
 export const CREATE_WORK_REVIEW = 'CREATE_WORK_REVIEW';
@@ -98,6 +98,7 @@ export const SEARCH_RESET_MATERIAL_FILTERS = 'SEARCH_RESET_MATERIAL_FILTERS';
 export const CHECK_ORDER_POLICY = 'CHECK_ORDER_POLICY';
 export const WORK_IS_ORDERING = 'WORK_IS_ORDERING';
 export const WORK_HAS_ORDERED = 'WORK_HAS_ORDERED';
+export const GET_WORK_METADATA_FOR_PERSONAL_REVIEWS = 'GET_WORK_METADATA_FOR_PERSONAL_REVIEWS'; // action used to retreive works associated with one ore more pids
 
 // Widget actions
 export const GET_LATEST_REVIEWS_FOR_WIDGET = 'GET_LATEST_REVIEWS_FOR_WIDGET';

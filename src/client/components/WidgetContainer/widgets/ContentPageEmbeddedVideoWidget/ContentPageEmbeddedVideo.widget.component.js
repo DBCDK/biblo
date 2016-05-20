@@ -10,8 +10,8 @@ export class ContentPageEmbeddedVideoWidget extends Component {
   render() {
     let video = '';
 
-    if (this.props.widgetData.type === 'YouTube') {
-      const youtubeId = ExtractYoutubeID(this.props.widgetData.src)[0];
+    if (this.props.widgetConfig.type === 'YouTube') {
+      const youtubeId = ExtractYoutubeID(this.props.widgetConfig.src)[0];
       video = (<Youtube videoId={youtubeId} />);
     }
 
@@ -25,5 +25,5 @@ export class ContentPageEmbeddedVideoWidget extends Component {
 
 ContentPageEmbeddedVideoWidget.displayName = 'ContentPageEmbeddedVideoWidget';
 ContentPageEmbeddedVideoWidget.propTypes = {
-  widgetData: PropTypes.object.isRequired
+  widgetConfig: PropTypes.object.isRequired
 };

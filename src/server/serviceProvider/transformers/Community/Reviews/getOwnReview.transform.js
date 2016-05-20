@@ -1,3 +1,5 @@
+import parseReview from '../../../parsers/review.parser';
+
 const GetOwnReviewTransform = {
   event() {
     return 'getOwnReview';
@@ -27,15 +29,20 @@ const GetOwnReviewTransform = {
       }
     }
 
-    return this.callServiceClient('community', 'getReviews', params);
+    return Promise.all([
+      this.callServiceClient('community', 'getReviews', params),
+      this.callServiceClient('bibloadmin', 'getCampaigns')
+    ]);
   },
 
   responseTransform(response) {
-    if (response.statusCode !== 200) {
+    if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getOwnReview failed');
     }
 
-    const reviews = JSON.parse(response.body);
+    const campaigns = response[1];
+    const reviews = (JSON.parse(response[0].body) || []).map(review => parseReview(review, campaigns));
+
     return {status: response.statusCode, data: reviews, errors: response.errors || []};
   }
 };

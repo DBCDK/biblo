@@ -1,3 +1,6 @@
+/**
+ * @file Handle reviews of works. Uploads media like in the groups.
+ */
 import React from 'react';
 
 import TimeToString from '../../Utils/timeToString.js';
@@ -62,16 +65,28 @@ export default class Review extends UploadMedia {
     this.deleteReview = this.deleteReview.bind(this);
   }
 
+  /**
+   * enable/disable editing
+   *
+   * @returns {boolean}
+   */
   toggleEditing() {
     this.setState({isEditing: !this.state.isEditing});
     return true;
   }
 
+  /**
+   * flag a review
+   * @param flag the profile submitting the flag
+   */
   submitReviewFlag(flag) { // eslint-disable-line
     flag.flagger = this.props.profile.id;
     this.props.flagActions.flagReview(flag);
   }
 
+  /**
+   * like a review
+   */
   likeReview() {
     this.props.likeActions.likeReview({
       reviewId: this.props.id,
@@ -79,6 +94,9 @@ export default class Review extends UploadMedia {
     });
   }
 
+  /**
+   * unlike a review
+   */
   unlikeReview() {
     this.props.likeActions.unlikeReview({
       reviewId: this.props.id,
@@ -86,6 +104,9 @@ export default class Review extends UploadMedia {
     });
   }
 
+  /**
+   * open a modal window that allows the user to delete a review
+   */
   deleteReview() {
     const content = (
       <div>
@@ -110,6 +131,10 @@ export default class Review extends UploadMedia {
     this.props.uiActions.openModalWindow(dialog);
   }
 
+  /**
+   * Check if a reviews is s valid
+   * @returns {boolean}
+   */
   validate() {
     let errors = [];
     if (typeof this.state.rating === 'undefined' || this.state.rating <= 0) {
@@ -144,13 +169,22 @@ export default class Review extends UploadMedia {
     return false;
   }
 
+  /**
+   * handle rating changes
+   * @param val
+   */
   onRatingChange(val) {
     this.setState({
       rating: val
     });
   }
 
-  // this function is specific for reviews
+  /**
+   * clear image for the review
+   * note: this is overridden her since it is handled differently than in groups
+   * @param e
+   * @returns {boolean}
+   */
   clearImage(e) {
     e.preventDefault();
     let attachment = this.state.attachment;
@@ -175,6 +209,12 @@ export default class Review extends UploadMedia {
     this.setState({isEditing: false, isLoading: false});
   }
 
+  /**
+   * submit the review. use XHR if available via UploadMedia
+   *
+   * @param evt
+   * @returns {boolean}
+   */
   onSubmit(evt) {
     if (XMLHttpRequest && FormData) {
       evt.preventDefault();
@@ -403,7 +443,7 @@ export default class Review extends UploadMedia {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={event => this.readInput(event, (state) => this.setState(state)).then(state => this.setState(state))}
+                        onChange={event => this.readInput(event, (state) => this.setState(state))}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

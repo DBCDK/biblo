@@ -19,7 +19,9 @@ import './scss/addContent.scss';
 
 import UploadMedia from '../../General/UploadMedia/UploadMedia.component.js';
 
-
+/**
+ * add group content . uses XHR if available.
+ */
 export default class AddContent extends UploadMedia {
 
   constructor(props) {

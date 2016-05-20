@@ -11,8 +11,8 @@ const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
 
 const initialState = {};
 initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
-initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];
-initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];
+initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];  // reviews related to a work (known as collecton in the service provider)
+initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];  // metadata about workReviews (ownReviewIdd and totalCount)
 
 export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);

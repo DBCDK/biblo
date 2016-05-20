@@ -83,6 +83,7 @@ export class WorkContainer extends React.Component {
 
   render() {
 
+
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
@@ -165,7 +166,7 @@ export class WorkContainer extends React.Component {
             flagActions={this.props.flagActions}
             likeActions={this.props.likeActions}
             pids={work.collection}
-          />
+            />
         }
         {
           this.state.errorMessage &&
@@ -186,7 +187,7 @@ export class WorkContainer extends React.Component {
           flagActions={this.props.flagActions}
           likeActions={this.props.likeActions}
           expand={this.props.reviewActions.asyncShowReviews}
-        />
+          />
 
         <MoreInfo
           materials={work.collectionDetails}

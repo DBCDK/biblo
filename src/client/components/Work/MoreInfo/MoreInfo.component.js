@@ -2,7 +2,7 @@ import React from 'react';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
-import audiobookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
+import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/materialikon-uden-kvadrat-lydbog.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';

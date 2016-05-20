@@ -20,10 +20,11 @@ export class SearchResultContainer extends React.Component {
   }
 
   loadMoreResults() {
-    this.props.searchActions.asyncLoadMoreResults(
-      this.props.search.initialQuery,
-      this.props.search.materialSearchResults.length + 10
-    );
+    this.props.searchActions.asyncLoadMoreResults({
+      query: this.props.search.initialQuery,
+      materialFilters: this.props.search.filters.materialFilters,
+      limit: this.props.search.materialSearchResults.length + 10
+    });
   }
 
 

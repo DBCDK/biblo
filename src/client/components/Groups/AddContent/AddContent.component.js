@@ -182,10 +182,7 @@ export default class AddContent extends UploadMedia {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={(event) => me.readInput(event, (state) => {
-                    me.setState(state);
-                  }).then((state) => me.setState(state))
-                  }
+                  onChange={(event) => me.readInput(event, (state) => me.setState(state)).then(state=> me.setState(state))}
                   ref="fileInput"
                 />
                 <Icon glyph={videoSvg}/>

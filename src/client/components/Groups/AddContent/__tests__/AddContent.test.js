@@ -147,31 +147,6 @@ describe('Test of AddContent Component', () => {
     expect(ReactDOM.findDOMNode(input).value).to.be.eql('some_url');
   });
 
- /* disabled for now. Timing issue due to uploadmedia-refactor. TODO: rewrite test to support promise
-  it('it should add image to state + show exampleimage', () => {
-    const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
-    sinon.stub(component, 'readInput', () => { // eslint-disable-line no-undef
-      const state = {attachment: {image: 'some_image_url'}};
-      component.setState(state);
-    });
-
-   // sinon.stub().resolves('foo')().then(function (value) {
-   //   assert.equal(value, 'foo')
-   // })
-
-    let fileInput = TestUtils.findRenderedDOMComponentWithClass(component, 'content-add--upload-media');
-    expect(ReactDOM.findDOMNode(fileInput).id).to.be.equal('upload-media-test-1');
-    TestUtils.Simulate.change(fileInput);
-
-    expect(component.state.attachment.image).to.be.equal('some_image_url');
-    expect(component.readInput.called).to.be.equal(true);
-
-    let image = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
-    expect(ReactDOM.findDOMNode(image).src).to.contain('some_image_url');
-
-  });*/
-
   it('it should add textarea value to state', () => {
     let textarea = TestUtils.findRenderedDOMComponentWithTag(defaultComponent, 'textarea');
     textarea.value = 'some test value';
@@ -271,16 +246,5 @@ describe('Test of AddContent Component', () => {
     TestUtils.Simulate.submit(form);
     assert(component.state.isLoading);
     done();
-
-    // setTimeout(() => {
-    //   console.log("test componennt state2:", component.state );
-    //   assert(!component.state.isLoading);
-    //   assert(addContentActionMock.called);
-    //   assert(addContentActionMock.calledWith(mockContent));
-    //   xhrMock.restore();
-    //   window.Date.prototype.getHours = h;
-    //   done();
-    // }, 0);
-
   });
 });

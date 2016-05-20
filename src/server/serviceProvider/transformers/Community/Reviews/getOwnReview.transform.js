@@ -1,3 +1,5 @@
+import parseReview from '../../../parsers/review.parser';
+
 const GetOwnReviewTransform = {
   event() {
     return 'getOwnReview';
@@ -38,7 +40,9 @@ const GetOwnReviewTransform = {
       throw new Error('Call to community service, with method getOwnReview failed');
     }
 
-    const reviews = JSON.parse(response[0].body);
+    const campaigns = response[1];
+    const reviews = (JSON.parse(response[0].body) || []).map(review => parseReview(review, campaigns));
+
     return {status: response.statusCode, data: reviews, errors: response.errors || []};
   }
 };

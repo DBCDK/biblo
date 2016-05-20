@@ -17,7 +17,12 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
   };
 
   p.description = textParser(profile.description || '');
-  p.displayName = textParser(profile.displayName || 'Anonym');
+
+  if (p.description.length > 0) {
+    p.description = '“' + p.description + '”';
+  }
+
+  p.displayName = textParser(profile.displayName || 'Anonym', false);
   p.id = profile.id || 0;
   p.groups = profile.groups || [];
 

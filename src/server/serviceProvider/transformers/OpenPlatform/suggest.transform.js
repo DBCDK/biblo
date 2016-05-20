@@ -41,6 +41,7 @@ const SuggestTransform = {
     creatorSuggestions.data = creatorSuggestions.data.slice(0, creatorTake);
 
     workSuggestions.data = workSuggestions.data.concat(creatorSuggestions.data).map((suggestion) => {
+      suggestion.str = suggestion.str.replace('Ꜳ', 'Aa').replace('ꜳ', 'aa');
       if (suggestion.id) {
         suggestion.href = `/materiale/${encodeURIComponent(suggestion.id)}`;
       }

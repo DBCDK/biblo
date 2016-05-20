@@ -2,6 +2,6 @@
  * @file
  */
 import {renderComponent} from '../../App';
-import ReviewContainer from './ReviewContainer';
+import WorkReviewContainer from './WorkReviewContainer';
 
-renderComponent(ReviewContainer, 'content');
+renderComponent(WorkReviewContainer, 'content');

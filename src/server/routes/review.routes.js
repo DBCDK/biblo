@@ -27,8 +27,8 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
     req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
       const work = workResponse[0].data[0];
       res.render('page', {
-        css: ['/css/work.css'],
-        js: ['/js/work.js'],
+        css: ['/css/review.css'],
+        js: ['/js/review.js'],
         jsonData: [JSON.stringify({
           work: work, // this is the associated work info
           workReviews: reviewResponse[0].data,

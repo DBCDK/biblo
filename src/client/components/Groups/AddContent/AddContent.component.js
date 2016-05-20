@@ -108,8 +108,6 @@ export default class AddContent extends UploadMedia {
 
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
-    let me = this;
-
     return (
       <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
         <form method="POST" action={this.state.target} encType="multipart/form-data"
@@ -182,7 +180,10 @@ export default class AddContent extends UploadMedia {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={(event) => me.readInput(event, (state) => me.setState(state)).then(state=> me.setState(state))}
+                  onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
+                            .then(attachment=>this.setState({attachment: attachment}))
+                            .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
+                            }
                   ref="fileInput"
                 />
                 <Icon glyph={videoSvg}/>

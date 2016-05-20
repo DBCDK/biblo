@@ -443,7 +443,7 @@ export default class Review extends UploadMedia {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={event => this.readInput(event, (state) => this.setState(state)).then(()=>this.setState(state))}
+                        onChange={event => this.readInput(event, (state) => this.setState(state)).then(state=>this.setState(state))}
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

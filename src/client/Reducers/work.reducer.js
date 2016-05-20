@@ -1,5 +1,5 @@
 /**
- * @file: Work reducer. Innterpret data related to work
+ * @file: Work reducer. Handels data related to work
  */
 
 import parseJsonData from '../Utils/parseJsonData';
@@ -10,12 +10,42 @@ const initialState = {
   orderPolicy: {},
   orderState: 0,
   responses: 0,
-  work: parseJsonData('JSONDATA', 'work')
+  work: parseJsonData('JSONDATA', 'work'),
+  workMetadataOrderedByPid: {} // used to contain metadata related to one specific pid, displayed in the reviews on the /profile page. All data will be keyed by pid
 };
 
+/**
+ * Work Reducer
+ * @param state
+ * @param {{response: {}, data: []}} action
+ * @return {{orderPolicy: {}, orderState: number, responses: number, work: {}, workReviews: {}, workReviewsMeta: {}, workMetadataOrderedByPid: {}}}
+ */
 export default function workReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
+
+    case types.GET_WORK_METADATA_FOR_PERSONAL_REVIEWS: {
+      let newState = assignToEmpty(state, {});
+
+      // we only want to start parsing data if we got a 200 from the server
+      if (action.response.statusCode === 200) {
+        const data = action.response.data;
+
+        // itereate through the returned data and key by the pid
+        data.forEach((item) => {
+          const pid = item.pid[0];
+          newState.workMetadataOrderedByPid[pid] = {
+            dcTitle: item.dcTitle ? item.dcTitle[0] : null,
+            dcTitleFull: item.dcTitleFull ? item.dcTitleFull[0] : null,
+            coverUrl: item.coverUrlFull ? item.coverUrlFull[0] : null,
+            workType: item.workType ? item.workType[0] : null
+          };
+        });
+      }
+
+      return newState;
+    }
+
     case types.CHECK_ORDER_POLICY: {
       let newState = {
         responses: state.responses + 1,

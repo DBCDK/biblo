@@ -35,6 +35,14 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const workActions = {
+      asyncGetWorks: noop
+    };
+
+    const works = {
+      workMetadataOrderedByPid: {}
+    };
+
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -58,6 +66,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        workActions={workActions}
+        works={works}
       />
     );
 
@@ -90,6 +100,14 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const workActions = {
+      asyncGetWorks: noop
+    };
+
+    const works = {
+      workMetadataOrderedByPid: {}
+    };
+
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -113,6 +131,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        workActions={workActions}
+        works={works}
       />
     );
 
@@ -143,6 +163,14 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const workActions = {
+      asyncGetWorks: noop
+    };
+
+    const works = {
+      workMetadataOrderedByPid: {}
+    };
+
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -166,6 +194,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        workActions={workActions}
+        works={works}
       />
     );
 
@@ -196,6 +226,14 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const workActions = {
+      asyncGetWorks: noop
+    };
+
+    const works = {
+      workMetadataOrderedByPid: {}
+    };
+
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -219,6 +257,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        workActions={workActions}
+        works={works}
       />
     );
 

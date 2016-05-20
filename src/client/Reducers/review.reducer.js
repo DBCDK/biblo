@@ -5,10 +5,12 @@
 import parseJsonData from '../Utils/parseJsonData';
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
-import {includes, filter} from 'lodash';
+import {includes, filter, isArray} from 'lodash';
 
-let initialState = {};
-initialState.userReviews = parseJsonData('JSONDATA', 'userReviews') || [];
+const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
+
+const initialState = {};
+initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
 initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];
 initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];
 

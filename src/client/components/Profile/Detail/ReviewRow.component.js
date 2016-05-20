@@ -15,7 +15,36 @@ export default class ReviewRow extends React.Component {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return (this.props.metadata !== nextProps.metadata);
+  }
+
+  getTitle() {
+    let title = 'Henter data';
+    if (this.props.metadata.dcTitle) {
+      title = this.props.metadata.dcTitle;
+    }
+    else if (this.props.metadata.dcFullTitle) {
+      title = this.props.metadata.dcFullTitle;
+    }
+
+    return title;
+  }
+
+  getCoverUrl() {
+    let coverUrl = '/images/covers/other.png';
+    if (this.props.metadata.coverUrl) {
+      coverUrl = this.props.metadata.coverUrl;
+    }
+    else if (this.props.metadata.workType) {
+      coverUrl = `/images/covers/${this.props.metadata.workType}.png`;
+    }
+    return coverUrl;
+  }
+
   render() {
+    const coverUrl = this.getCoverUrl();
+    const title = this.getTitle();
     const review = this.props.review;
     const user = this.props.user;
 
@@ -23,12 +52,12 @@ export default class ReviewRow extends React.Component {
       <div className="review--container" >
         <div className="review--header" >
           <div className="review--material--cover" >
-            <img src={user.image.small} alt={user.displayName} />
+            <img src={coverUrl} alt={title} />
           </div>
           <div className="review--data" >
             <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
             <span className="review--data--username" ><a href={`/profil/${user.id}`} >{user.raw.displayName}</a></span>
-            <span className="review--data--material-title" >Dette er en title - en meget meget meget meget meget ok lang titel</span>
+            <span className="review--data--material-title" >{title}</span>
             <Rating rating={review.rating} starsOnly={true} />
           </div>
         </div>
@@ -43,5 +72,10 @@ export default class ReviewRow extends React.Component {
 
 ReviewRow.propTypes = {
   review: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object.isRequired
+  user: React.PropTypes.object.isRequired,
+  metadata: React.PropTypes.object.isRequired
+};
+
+ReviewRow.defaultProps = {
+  metadata: {}
 };

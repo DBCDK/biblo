@@ -75,13 +75,14 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
     req.callServiceProvider('createReview', params).then(function (response) {
       if (response[0].status === 200 && req.session.videoupload) {
         createElasticTranscoderJob(ElasticTranscoder,
-            req.session.videoupload, null, null, response.id, logger, amazonConfig);
+            req.session.videoupload, null, null, response[0].data.id, logger, amazonConfig);
       }
 
       req.session.videoupload = null;
       res.send(response[0]);
     },
     function (response) {
+      req.session.videoupload = null;
       res.send(response);
     });
   });

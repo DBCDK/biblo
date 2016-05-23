@@ -225,7 +225,7 @@ export default class Review extends UploadMedia {
         this.setState({isLoading: true});
         this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
            // we created / edited a review . Restart paging  . We pass along our newly created id here for ownReviewId
-          this.props.reviewActions.asyncShowWorkReviews(this.props.pids, 0, 10, response.data.id);
+          this.props.reviewActions.asyncShowWorkReviews(response.data.id, this.props.pids, 0, 10, response.data.id);
           this.afterEdit();
         }).catch((errorMsg) => {
           this.setState({errorMsg: errorMsg});

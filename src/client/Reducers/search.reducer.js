@@ -11,6 +11,7 @@ let initialState = {
   groupSearchResults: [],
   groupSearchResultsPending: true,
   materialSearchResults: [],
+  materialSearchOffset: 0,
   materialSearchResultsPending: true,
   workSuggestions: {},
   workSuggestionsPending: false,
@@ -86,7 +87,11 @@ export default function searchReducer(state = initialState, action = {}) {
     }
 
     case types.LOADED_MORE_RESULTS: {
-      return assignToEmpty(state, {materialSearchResults: action.results, isLoadingResults: false});
+      return assignToEmpty(state, {
+        materialSearchResults: state.materialSearchResults.concat(action.results),
+        isLoadingResults: false,
+        materialSearchOffset: state.materialSearchOffset + 20
+      });
     }
 
     case types.SELECT_NEXT_SUGGESTED_WORK_ELEMENT: {

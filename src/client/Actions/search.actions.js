@@ -37,6 +37,7 @@ export function asyncLoadMoreResults(query) {
     search.request({
       q: query.query,
       materialer: materialTypes.join(),
+      emneord: query.subjects.join(),
       offset: query.offset
     });
   };
@@ -69,7 +70,7 @@ export function searchMaterials(query) {
 
   let searchUrl =
     '/find?q=' + encodeURIComponent(query.query) +
-    '&emneord' + encodeURIComponent(query.subjects.join()) +
+    '&emneord=' + encodeURIComponent(query.subjects.join()) +
     '&materialer=' + encodeURIComponent(materialTypes.join());
 
   // OLD SKOOL redirect

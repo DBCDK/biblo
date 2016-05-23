@@ -72,7 +72,7 @@ export default class SearchContainer extends React.Component {
       this.props.searchActions.searchMaterials({
         query: this.state.query,
         materialFilters: this.props.search.filters.materialFilters,
-        subjects: []
+        subjects: this.props.search.filters.subjectFilters
       });
     }
   }

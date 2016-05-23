@@ -20,6 +20,12 @@ export default class ReviewRow extends React.Component {
     return (this.props.metadata !== nextProps.metadata);
   }
 
+  onClick() {
+    if (window) {
+      window.location = `/anmeldelse/${this.props.review.id}`;
+    }
+  }
+
   getTitle() {
     let title = 'Henter data';
     if (this.props.metadata.dcTitle) {
@@ -62,17 +68,17 @@ export default class ReviewRow extends React.Component {
           <div className="review--data" >
             <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
             <span className="review--data--username" ><a href={`/profil/${user.id}`} >{user.raw.displayName}</a></span>
-            <span className="review--data--material-title" >{title}</span>
+            <span className="review--data--material-title" ><a href={`/materiale/${review.pid}`} >{title}</a></span>
             <div className="ratings" >
               <Rating rating={review.rating} />
             </div>
           </div>
         </div>
 
-        <div className="review--content" >
-          <span className="review--content--content" >{content}</span>
+        <div className="review--content--container" >
+          <div className="review--content" >{content}</div>
         </div>
-        <SimpleButton text={'Se hele anmeldelsen'} />
+        <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
       </div>
     );
   }

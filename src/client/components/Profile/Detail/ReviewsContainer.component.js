@@ -2,9 +2,12 @@
  * @file Container component that  containes a list of reviews
  */
 
+// Libraries
 import React from 'react';
 
+// Components
 import ReviewRow from './ReviewRow.component';
+import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 
 export default class ReviewsContainer extends React.Component {
   constructor(props) {
@@ -67,12 +70,25 @@ export default class ReviewsContainer extends React.Component {
     }
   }
 
+  onClick(e) {
+    e.preventDefault();
+    const newLimit = this.state.limit + 10;
+    this.setState({limit: newLimit});
+  }
+
   render() {
     const reviewsList = this.renderReviewRows();
 
     return (
       <div className="reviews-container-component" >
-        {reviewsList.splice(0, this.state.limit)}
+        <div className="reviews-container-component--reviews" >
+          {reviewsList.splice(0, this.state.limit)}
+        </div>
+        {(this.props.reviews.length > this.state.limit && reviewsList.length) &&
+        <div className="reviews-container-component--loadmore" >
+          <VisFlereButton onClick={this.onClick.bind(this)} />
+        </div>
+        }
       </div>
     );
   }

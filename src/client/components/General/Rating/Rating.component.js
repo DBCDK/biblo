@@ -42,7 +42,6 @@ export default class Rating extends React.Component {
     return (
       <div className='rating' >
         {this.renderStars(rating)}
-        {this.props.starsOnly ? null : `(${rating} / 6)`}
       </div>
     );
   }
@@ -53,7 +52,6 @@ Rating.displayName = 'Rating.component';
 Rating.propTypes = {
   rating: React.PropTypes.number,
   onChange: React.PropTypes.func,
-  starsOnly: React.PropTypes.bool,
   pid: React.PropTypes.string
 };
 
@@ -61,7 +59,6 @@ Rating.defaultProps = {
   clickFunction: () => {
   },
   onChange: null,
-  starsOnly: false, // pass true if only stars is wanted. Otherwise a parantheses will be appended to the list of starts i.e. (3 / 6)
   pid: ''
 };
 

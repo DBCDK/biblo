@@ -227,8 +227,8 @@ export default class Review extends UploadMedia {
            // we created / edited a review . Restart paging  . We pass along our newly created id here for ownReviewId
           this.props.reviewActions.asyncShowWorkReviews(this.props.pids, 0, 10, response.data.id);
           this.afterEdit();
-        }).catch((response) => {
-          this.setState(response);
+        }).catch((errorMsg) => {
+          this.setState({errorMsg: errorMsg});
         });
       }
 
@@ -443,7 +443,10 @@ export default class Review extends UploadMedia {
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"
-                        onChange={event => this.readInput(event, (state) => this.setState(state)).then(state=>this.setState(state))}
+                        onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
+                            .then(attachment=>this.setState({attachment: attachment}))
+                            .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
+                            }
                         ref="fileInput"
                       />
                       <Icon glyph={videoSvg}/>

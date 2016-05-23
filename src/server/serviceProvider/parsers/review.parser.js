@@ -1,11 +1,26 @@
 import parseProfile from './profile.parser';
 import parseText from './text.parser';
 
-export default function parseReview(review) {
+export default function parseReview(review, campaigns = []) {
+  campaigns.forEach(campaign => {
+    const reviewCreatedEpoch = (new Date(review.created)).getTime();
+    const campaignStartEpoch = (new Date(campaign.startDate)).getTime();
+    const campaignEndEpoch = (new Date(campaign.endDate)).getTime();
+
+    if (
+      reviewCreatedEpoch - campaignStartEpoch > 0 && // Review was created after the campaign started.
+      campaignEndEpoch - reviewCreatedEpoch > 0 && // Review was created before the campaign ended.
+      campaign.workTypes.indexOf(review.worktype) > -1 // Review is of the correct work type.
+    ) {
+      review.campaign = campaign;
+    }
+  });
+
   review.owner = parseProfile(review.owner, true, 'small');
   review.imageId = review.image && review.image.id; // we currently only allow one image at a time
   review.image = review.image && '/billede/' + review.image.id + '/medium' || null;
   review.likes = review.likes && review.likes.map(like => like.profileId || []);
   review.html = parseText(review.content);
+
   return review;
 }

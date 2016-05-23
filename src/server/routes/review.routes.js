@@ -27,8 +27,8 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
     req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
       const work = workResponse[0].data[0];
       res.render('page', {
-        css: ['/css/work.css'],
-        js: ['/js/work.js'],
+        css: ['/css/review.css'],
+        js: ['/js/review.js'],
         jsonData: [JSON.stringify({
           work: work, // this is the associated work info
           workReviews: reviewResponse[0].data,
@@ -75,13 +75,14 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
     req.callServiceProvider('createReview', params).then(function (response) {
       if (response[0].status === 200 && req.session.videoupload) {
         createElasticTranscoderJob(ElasticTranscoder,
-            req.session.videoupload, null, null, response.id, logger, amazonConfig);
+            req.session.videoupload, null, null, response[0].data.id, logger, amazonConfig);
       }
 
       req.session.videoupload = null;
       res.send(response[0]);
     },
     function (response) {
+      req.session.videoupload = null;
       res.send(response);
     });
   });

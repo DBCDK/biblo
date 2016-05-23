@@ -63,7 +63,8 @@ const GetReviewTransform = {
 
       Promise.all([
         this.callServiceClient('community', 'countReviews', {accessToken, where: params.filter.where}),
-        this.callServiceClient('community', 'getReviews', params)
+        this.callServiceClient('community', 'getReviews', params),
+        this.callServiceClient('bibloadmin', 'getCampaigns')
       ])
       .then((response) => {
         resolve(response);
@@ -81,7 +82,8 @@ const GetReviewTransform = {
 
     let reviewsCount = JSON.parse(response[0].body);
     let reviews = JSON.parse(response[1].body);
-    reviews = reviews.map(review => parseReview(review)) || [];
+    const campaigns = response[2];
+    reviews = reviews.map(review => parseReview(review, campaigns)) || [];
 
     return {
       status: response[1].statusCode,

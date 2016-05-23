@@ -6,6 +6,7 @@ import React from 'react';
 
 // Components
 import Rating from '../../General/Rating/Rating.component';
+import SimpleButton from '../../General/SimpleButton/SimpleButton.component';
 
 // SASS
 import './scss/ReviewRow.component.scss';
@@ -46,6 +47,10 @@ export default class ReviewRow extends React.Component {
     const coverUrl = this.getCoverUrl();
     const title = this.getTitle();
     const review = this.props.review;
+    let content = review.content ? review.content : '';
+    if (content.length > 200) {
+      content = content.slice(0, 200) + '...';
+    }
     const user = this.props.user;
 
     return (
@@ -58,13 +63,16 @@ export default class ReviewRow extends React.Component {
             <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
             <span className="review--data--username" ><a href={`/profil/${user.id}`} >{user.raw.displayName}</a></span>
             <span className="review--data--material-title" >{title}</span>
-            <Rating rating={review.rating} starsOnly={true} />
+            <div className="ratings" >
+              <Rating rating={review.rating} />
+            </div>
           </div>
         </div>
 
         <div className="review--content" >
-          <span className="review--content--content" >{review.content}</span>
+          <span className="review--content--content" >{content}</span>
         </div>
+        <SimpleButton text={'Se hele anmeldelsen'} />
       </div>
     );
   }

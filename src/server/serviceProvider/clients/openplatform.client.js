@@ -61,7 +61,7 @@ function suggest(endpoint, params) {
  */
 export default function OpenPlatformClient(config = null) {
   if (!config) {
-    throw new Error('Expected config object butl got null!');
+    throw new Error('Expected config object but got null!');
   }
   else if (!config.endpoint) {
     throw new Error('Expected endpoint in config, but none provided');

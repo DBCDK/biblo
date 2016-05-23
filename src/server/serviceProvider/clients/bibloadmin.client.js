@@ -42,6 +42,23 @@ function getContentPage(endpoint, {slug}) {
   return callBibloAdmin('get', options);
 }
 
+function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
+  const mockCampaignData = [{
+    id: 1,
+    campaignName: 'Sommerbogen 2016',
+    workTypes: ['book', 'literature'],
+    startDate: '2016-01-16T15:06:53.044Z',
+    endDate: '2016-06-16T15:06:53.044Z',
+    logos: {
+      small: 'http://placekitten.com/200/200',
+      medium: 'http://placekitten.com/512/512',
+      large: 'http://placekitten.com/1024/1024'
+    }
+  }];
+
+  return Promise.resolve(mockCampaignData);
+}
+
 /**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
@@ -67,7 +84,8 @@ export default function BibloAdminClient(config = null) {
   callBibloAdmin = callBibloAdmin.bind(null, config.user, config.password);
 
   return {
-    getContentPage: getContentPage.bind(null, config.endpoint)
+    getContentPage: getContentPage.bind(null, config.endpoint),
+    getCampaigns: getCampaigns.bind(null, config.endpoint)
   };
 }
 

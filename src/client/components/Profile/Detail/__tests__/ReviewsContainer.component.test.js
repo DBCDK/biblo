@@ -22,7 +22,7 @@ describe('Testing the ReviewContainer component', () => {
   };
 
   it('Should render empty div container', () => {
-    const expectedHTML = '<div class="reviews-container-component"></div>';
+    const expectedHTML = '<div class="reviews-container-component"><div class="reviews-container-component--reviews"></div></div>';
     const tree = sd.shallowRender(
       <ReviewsContainer
         reviews={emptyReviews}
@@ -81,6 +81,6 @@ describe('Testing the ReviewContainer component', () => {
     const rendered = tree.getRenderOutput();
 
     assert.equal(rendered.props.className, 'reviews-container-component');
-    assert.equal(rendered.props.children.length, instance.state.limit, 'Number of children equals the components state.limit');
+    assert.equal(rendered.props.children[0].props.children.length, instance.state.limit, 'Number of children equals the components state.limit');
   });
 });

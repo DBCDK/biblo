@@ -36,7 +36,7 @@ describe('Testing the Tabs component', () => {
 
   it('Default selection should be 0', () => {
     const tree = sd.shallowRender(<Tabs />);
-    assert.equal(tree.getMountedInstance().props.selected, 0, 'Default selcted is 0');
+    assert.equal(tree.getMountedInstance().state.selected, 0, 'Default selcted is 0 when props.selected is undefined');
   });
 
   it('Should override default seleceted when passed as prop', () => {
@@ -62,14 +62,14 @@ describe('Testing the Tabs component', () => {
       },
       {
         label: 'tab_2',
-        content: 'Tab3Content'
+        content: 'Tab2Content'
       }
     ];
     const tree = sd.shallowRender(<Tabs tabs={tabs} />);
     const instance = tree.getMountedInstance();
     assert.equal(instance.state.selected, 0, 'default selected is 0');
 
-    tree.everySubTree('.tab')[1].props.onClick(); // click the second tab
+    tree.everySubTree('.tab')[1].props.children.props.onClick(); // click the second tab
     assert.equal(instance.state.selected, 1, 'after invoking onClicked state.selected is 1');
   });
 });

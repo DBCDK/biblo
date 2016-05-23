@@ -15,6 +15,7 @@ const CreateGroupContent = {
       content: query.content || '',
       timeCreated: query.timeCreated || (new Date()).toUTCString(),
       parentId: query.parentId,
+      attachedReviewId: query.attachedReviewId,
       id: query.id || null,
       uid: user.profileId,
       ownerid: query.ownerid || user.profileId,

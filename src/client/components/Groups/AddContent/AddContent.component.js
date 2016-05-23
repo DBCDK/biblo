@@ -7,6 +7,8 @@ import isSiteOpen from '../../../Utils/openingHours.js';
 import Login from '../../General/Login/Login.component';
 import Icon from '../../General/Icon/Icon.component';
 import Message from '../../General/Message/Message.component';
+import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
@@ -36,13 +38,17 @@ export default class AddContent extends UploadMedia {
       errorMsg: null,
       target: `/grupper/content/${props.type}`,
       isLoading: false,
-      disableInput: false
+      disableInput: false,
+      showAddReviews: false,
+      selectedReview: ''
     };
 
     if (!isSiteOpen() && !this.props.profile.isModerator) {
       this.state.errorMsg = ['Du kan kun skrive mellem 09:00 og 21:00'];
       this.state.disableInput = true;
     }
+
+    this.renderAddReviewModal.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +92,25 @@ export default class AddContent extends UploadMedia {
     }
   }
 
+  renderAddReviewModal() {
+    const reviewRows = this.props.profile.reviews.map((review) => {
+      return (
+        <span key={review.id}>
+          {review.content}
+          <input type="radio" value={review.id} name="reviewAttachment" onChange={() => this.setState({selectedReview: review.id})} />
+        </span>
+      );
+    });
+
+    return (
+      <ModalWindow onClose={() => this.setState({showAddReviews: false})} title="Indsæt Anmeldelse">
+        {reviewRows}
+        <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})} />
+        <RoundedButton buttonText="Luk" clickFunction={() => this.setState({showAddReviews: false, selectedReview: ''})} />
+      </ModalWindow>
+    );
+  }
+
   render() {
     let deleteButton = null;
     if (this.props.delete) {
@@ -110,6 +135,8 @@ export default class AddContent extends UploadMedia {
 
     return (
       <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
+        {this.state.showAddReviews && this.renderAddReviewModal()}
+
         <form method="POST" action={this.state.target} encType="multipart/form-data"
               id="content_form_component" ref="group-post-form"
               onSubmit={e => this.onSubmit(e)}>
@@ -118,6 +145,7 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
             <input type="hidden" name="parentId" value={this.props.parentId}/>
+            <input type="hidden" name="attachedReview" value={this.state.selectedReview} />
           <textarea className="content-add--textarea" ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
@@ -190,6 +218,12 @@ export default class AddContent extends UploadMedia {
                 <Icon glyph={cameraSvg}/>
                 <span className="content-add--media-label">Upload</span>
               </label>
+
+              <RoundedButton
+                buttonText="Anmeldelse"
+                className=" insert-review-button"
+                clickFunction={() => this.setState({showAddReviews: true})}
+              />
             </div>
           </div>
         </form>

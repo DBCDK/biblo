@@ -280,10 +280,16 @@ async function fetchGroupData(params, req, res, update = {}) {
       postsPromise = req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 5});
     }
 
+    let profile = req.session.passport.user.profile;
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
-      postsPromise
+      postsPromise,
+      req.callServiceProvider('getOwnReview', {reviewownerid: profile.profile.id})
     ]));
+
+    profile.profile.reviews = response[2][0].data || [];
+    req.session.passport.user.profile = profile;
+    res.locals.profile = JSON.stringify(profile);
 
     const group = response[0][0];
 
@@ -317,7 +323,8 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     type: req.params.type,
     image,
     id: req.body.id,
-    imageRemoved: req.body.imageRemoved === 'true' || false
+    imageRemoved: req.body.imageRemoved === 'true' || false,
+    attachedReviewId: req.body.attachedReview
   };
 
   if (req.session.videoupload) {

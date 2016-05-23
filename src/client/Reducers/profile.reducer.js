@@ -35,6 +35,7 @@ let initialState = {
   displayNameExists: false,
   imageFile: null,
   isModerator: false,
+  reviews: [],
   UI: {
     submitState: '',
     submitProgress: 0

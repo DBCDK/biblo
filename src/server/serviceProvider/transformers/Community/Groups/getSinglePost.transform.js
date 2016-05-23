@@ -12,6 +12,7 @@ const GetPostsTransform = {
       where: {id, markedAsDeleted: null},
       include: [
         'image',
+        'review',
         {owner: ['image']},
         'likes',
         {

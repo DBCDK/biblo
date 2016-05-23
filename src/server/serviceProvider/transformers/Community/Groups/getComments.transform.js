@@ -16,6 +16,7 @@ const GetCommentsTransform = {
       order: 'timeCreated DESC',
       include: [
         'image',
+        'review',
         {owner: ['image']},
         {
           relation: 'video',

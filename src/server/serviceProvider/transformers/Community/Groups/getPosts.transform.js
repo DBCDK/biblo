@@ -13,6 +13,7 @@ const GetPostsTransform = {
       order: 'timeCreated DESC',
       include: [
         'image',
+        'review',
         {owner: ['image']},
         {
           relation: 'video',
@@ -51,6 +52,7 @@ const GetPostsTransform = {
           owner: ['image']
         },
         'likes',
+        'review',
         {
           relation: 'video',
           scope: {

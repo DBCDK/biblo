@@ -58,7 +58,8 @@ const SearchTransform = {
         'coverUrlFull'
       ],
       limit: 20,
-      offset: offset
+      offset: offset,
+      sort: 'rank_frequency'
     });
   },
 

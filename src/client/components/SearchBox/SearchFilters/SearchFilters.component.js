@@ -37,6 +37,11 @@ export default class SearchFilters extends React.Component {
 
   resetFilters() {
     this.props.searchActions.resetMaterialFilters();
+    this.props.searchActions.searchMaterials({
+      query: this.props.search.query,
+      materialFilters: this.props.search.filters.materialFilters,
+      subjects: []
+    });
   }
 
   render() {
@@ -48,7 +53,8 @@ export default class SearchFilters extends React.Component {
         this.props.searchActions.toggleMaterialFilter(key);
         this.props.searchActions.searchMaterials({
           query: this.props.search.query,
-          materialFilters: this.props.search.filters.materialFilters
+          materialFilters: this.props.search.filters.materialFilters,
+          subjects: []
         });
       };
       const activeClass = (filters[key].enabled) ? 'search-filters--button-active' : '';

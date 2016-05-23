@@ -6,7 +6,7 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const getReviewsClient = SocketClient('getReviews');
 const deleteReviewClient = SocketClient('deleteReview');
 
-export function showWorkReviews(response, pids, skip, limit, ownId) {
+export function showWorkReviews(response, id, pids, skip, limit, ownId) {
   return {
     type: types.GET_WORK_REVIEWS,
     reviews: response,
@@ -14,6 +14,7 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
     skip: skip,
     limit: limit,
     workReviewsTotalCount: response.reviewsCount,
+    id: id,
     ownId: ownId
   };
 }
@@ -24,12 +25,12 @@ export function moreWorkReviewsLoading() {
   };
 }
 
-export function asyncShowWorkReviews(pids, skip, limit, ownId) {
+export function asyncShowWorkReviews(id, pids, skip, limit, ownId) {
   return function (dispatch) {
     dispatch(moreWorkReviewsLoading());
-    getReviewsClient.request({pids, skip, limit});
+    getReviewsClient.request({id, pids, skip, limit});
     const event = getReviewsClient.response(response => {
-      dispatch(showWorkReviews(response, pids, skip, limit, ownId));
+      dispatch(showWorkReviews(response, id, pids, skip, limit, ownId));
       event.off();
     });
   };

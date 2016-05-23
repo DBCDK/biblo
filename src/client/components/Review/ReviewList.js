@@ -8,7 +8,7 @@ import './ReviewList.scss';
 
 export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,
-  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading}) {
+  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview}) {
 
   let hasMore = true;
   if (limit > reviews.length) {
@@ -46,6 +46,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
           flagActions={flagActions}
           likeActions={likeActions}
           pids={pids}
+          ownReview={ownReview}
         />))
         || 'Der er ikke skrevet nogen anmeldelser'
       }
@@ -64,10 +65,15 @@ ReviewList.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  expand: React.PropTypes.func.isRequired,
+  expand: React.PropTypes.func,
   delta: React.PropTypes.number,
   skip: React.PropTypes.number,
   limit: React.PropTypes.number,
   pids: React.PropTypes.array,
-  isLoading: React.PropTypes.bool
+  isLoading: React.PropTypes.bool,
+  ownReview: React.PropTypes.bool
+};
+
+ReviewList.defaultProps = {
+  ownReview: false
 };

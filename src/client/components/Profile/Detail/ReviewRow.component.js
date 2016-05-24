@@ -29,7 +29,7 @@ export default class ReviewRow extends React.Component {
   }
 
   onClick() {
-    if (window) {
+    if (typeof window !== 'undefined') {
       window.location = `/anmeldelse/${this.props.review.id}`;
     }
   }
@@ -142,8 +142,4 @@ ReviewRow.propTypes = {
   likeActions: React.PropTypes.object.isRequired,
   review: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired
-};
-
-ReviewRow.defaultProps = {
-  metadata: {}
 };

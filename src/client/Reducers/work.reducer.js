@@ -1,5 +1,5 @@
 /**
- * @file: Work reducer. Handels data related to work
+ * @file: Work reducer. Handles data related to work
  */
 
 import parseJsonData from '../Utils/parseJsonData';

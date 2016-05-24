@@ -18,13 +18,26 @@ const ReviewRoutes = express.Router();
  * Get information about a single review
  * (Gets the associated work info as well)
  */
-ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) => {
+ReviewRoutes.get('/:id', fullProfileOnSession, (req, res) => {
   let id = req.params.id;
   let limit = 1; // we only expect one here
+
   req.callServiceProvider('getReviews', {id, limit}).then((reviewResponse) => {
     let pid = decodeURIComponent(reviewResponse[0].data[0].pid);
 
-    req.callServiceProvider('work', {pids: [pid]}).then((workResponse) => {
+    req.callServiceProvider('work', {pids: [pid]}).then(async function (workResponse) {
+      let ownReviewId;
+      if (req.isAuthenticated()) {
+        let profile = req.session.passport.user.profile.profile;
+        let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pids: [pid]}));
+        if (reviewCheck) {
+          let ownReview = reviewCheck[0].data[0];
+          if (ownReview) {
+            ownReviewId = ownReview.id;
+          }
+        }
+      }
+
       const work = workResponse[0].data[0];
       res.render('page', {
         css: ['/css/review.css'],
@@ -33,7 +46,7 @@ ReviewRoutes.get('/:id', ensureAuthenticated, fullProfileOnSession, (req, res) =
           work: work, // this is the associated work info
           workReviews: reviewResponse[0].data,
           workReviewsMeta: {
-            ownReviewId: id
+            ownReviewId: ownReviewId
           }
         })]
       });

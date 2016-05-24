@@ -88,6 +88,7 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     const reviewResponse = (await req.callServiceProvider('getReviews', {pids, skip, limit}));
     work.id = pid;
 
+
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],
@@ -95,6 +96,8 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
         work: work,                                            // data about the work identified by the pids
         workReviews: reviewResponse[0].data,                   // reviews filtered for the specific work
         workReviewsMeta: {
+          skip: skip,
+          limit: limit,
           ownReviewId: ownReviewId,                              // review of the work done by the logged in profile
           workReviewsTotalCount: reviewResponse[0].reviewsCount // count number of total reviews of work
         }

@@ -7,3 +7,21 @@
     color: black;
   }
 }
+
+.reviews--showmore-container {
+  a {
+    float: right;
+    cursor: pointer;
+    font-family: $header-font;
+    color: #000000;
+    margin: 20px;
+  }
+
+  h2 {
+    display: inline-block;
+  }
+
+  .icon {
+    fill: #938ee9;
+  }
+}

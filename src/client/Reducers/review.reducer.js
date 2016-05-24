@@ -23,8 +23,9 @@ export default function reviewReducer(state = initialState, action = {}) {
         workReviews: action.reviews.data,
         workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
           workReviewsLoading: false,
+          limit: action.limit,
           workReviewsTotalCount: action.workReviewsTotalCount,
-          ownReviewId: action.ownId
+          ownReviewId: action.ownId || state.workReviewsMeta.ownReviewId
         })
       });
     }

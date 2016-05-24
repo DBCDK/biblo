@@ -29,7 +29,7 @@ export default class ReviewRow extends React.Component {
   }
 
   onClick() {
-    if (window) {
+    if (typeof window !== 'undefined') {
       window.location = `/anmeldelse/${this.props.review.id}`;
     }
   }

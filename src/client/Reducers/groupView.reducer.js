@@ -159,7 +159,9 @@ export default function groupViewReducer(state = initialState, action = {}) {
           title: workData.dcTitleFull[0]
         };
 
-        workData.collection.forEach((pid) => newState.works[pid] = newState.works[pid] ? newState.works[pid] : workObject);
+        workData.collection.forEach((pid) => {
+          newState.works[pid] = newState.works[pid] ? newState.works[pid] : workObject;
+        });
       });
 
       return newState;

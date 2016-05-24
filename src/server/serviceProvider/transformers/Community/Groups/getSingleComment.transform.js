@@ -50,7 +50,7 @@ const GetSingleCommentsTransform = {
       ]
     };
 
-    return Promise.all([ 
+    return Promise.all([
       this.callServiceClient('community', 'getComments', {id, filter: commentFilter}),
       this.callServiceClient('bibloadmin', 'getCampaigns')
     ]);

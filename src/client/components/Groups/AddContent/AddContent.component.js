@@ -99,7 +99,7 @@ export default class AddContent extends UploadMedia {
       let authorCreator = '';
 
       if (work && work.title && work.creator) {
-        authorCreator =  (
+        authorCreator = (
           <p><strong>{work.title}</strong> - {work.creator}</p>
         );
       }

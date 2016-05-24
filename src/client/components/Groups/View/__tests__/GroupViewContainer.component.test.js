@@ -77,8 +77,10 @@ describe('Test GroupView Component', () => {
       redirectTo: '/grupper/1',
       profile,
       addContentAction: noop,
+      works: {},
       parentId: 1,
-      type: 'post'
+      type: 'post',
+      coverImages: {}
     });
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '0 brugere skriver');
 

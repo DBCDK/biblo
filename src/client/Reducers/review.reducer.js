@@ -25,7 +25,7 @@ export default function reviewReducer(state = initialState, action = {}) {
           workReviewsLoading: false,
           limit: action.limit,
           workReviewsTotalCount: action.workReviewsTotalCount,
-          ownReviewId: action.ownId
+          ownReviewId: action.ownId || state.workReviewsMeta.ownReviewId
         })
       });
     }

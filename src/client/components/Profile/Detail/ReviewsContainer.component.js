@@ -50,7 +50,7 @@ export default class ReviewsContainer extends React.Component {
           review={review}
           user={this.props.user}
           key={index}
-          metadata={this.props.worksMetadata[review.pid]}
+          metadata={this.props.worksMetadata[review.pid] || {}}
           likeActions={this.props.likeActions}
         />
       );

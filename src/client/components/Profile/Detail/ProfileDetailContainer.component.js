@@ -248,10 +248,11 @@ export class ProfileDetailContainer extends React.Component {
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const activityFeed = this.getActivityFeed(isMyProfile);
+
     const reviewsFeed = (
       <ReviewsContainer
         reviews={this.props.reviews.userReviews}
-        user={this.props.feed.profile}
+        activeUser={this.props.profile}
         getWorksAction={this.props.workActions.asyncGetWorks}
         worksMetadata={this.props.works.workMetadataOrderedByPid}
         likeActions={this.props.likeActions}

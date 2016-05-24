@@ -47,8 +47,8 @@ export default class ReviewsContainer extends React.Component {
 
       return (
         <ReviewRow
+          activeUser={this.props.activeUser}
           review={review}
-          user={this.props.user}
           key={index}
           metadata={this.props.worksMetadata[review.pid] || {}}
           likeActions={this.props.likeActions}
@@ -97,9 +97,9 @@ export default class ReviewsContainer extends React.Component {
 
 ReviewsContainer.displayName = 'ReviewsContainer';
 ReviewsContainer.propTypes = {
+  activeUser: React.PropTypes.object.isRequired,
   getWorksAction: React.PropTypes.func.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   reviews: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired,
   worksMetadata: React.PropTypes.object.isRequired
 };

@@ -59,7 +59,7 @@ export default class ReviewRow extends React.Component {
 
   likeReview() {
     const like = {
-      profileId: this.props.user.id,
+      profileId: this.props.activeUser.id,
       reviewId: this.props.review.id
     };
 
@@ -73,7 +73,7 @@ export default class ReviewRow extends React.Component {
 
   unlikeReview() {
     const like = {
-      profileId: this.props.user.id,
+      profileId: this.props.activeUser.id,
       reviewId: this.props.review.id
     };
 
@@ -86,6 +86,7 @@ export default class ReviewRow extends React.Component {
   }
 
   render() {
+    const activeUser = this.props.activeUser;
     const coverUrl = this.getCoverUrl();
     const title = this.getTitle();
     const review = this.props.review;
@@ -95,9 +96,8 @@ export default class ReviewRow extends React.Component {
     if (content.length > 200) {
       content = content.slice(0, 200) + '...';
     }
-    const user = this.props.user;
 
-    const isLikedByCurrentUser = likes.includes(user.id);
+    const isLikedByActiveUser = likes.includes(activeUser.id);
 
     return (
       <div className="review--container" >
@@ -106,8 +106,6 @@ export default class ReviewRow extends React.Component {
             <img src={coverUrl} alt={title} />
           </div>
           <div className="review--data" >
-            <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
-            <span className="review--data--username" ><a href={`/profil/${user.id}`} >{user.raw.displayName}</a></span>
             <span className="review--data--material-title" ><a href={`/materiale/${review.pid}`} >{title}</a></span>
             <div className="ratings" >
               <Rating rating={review.rating} />
@@ -121,7 +119,7 @@ export default class ReviewRow extends React.Component {
             <div className="review--content--actions--likebutton" >
               <LikeButton
                 active={true}
-                isLikedByCurrentUser={isLikedByCurrentUser}
+                isLikedByCurrentUser={isLikedByActiveUser}
                 likeFunction={this.likeReview.bind(this)}
                 unlikeFunction={this.unlikeReview.bind(this)}
                 usersWhoLikeThis={likes}
@@ -138,8 +136,8 @@ export default class ReviewRow extends React.Component {
 ReviewRow.displayName = 'ReviewRow';
 
 ReviewRow.propTypes = {
+  activeUser: React.PropTypes.object.isRequired,
   metadata: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
-  review: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object.isRequired
+  review: React.PropTypes.object.isRequired
 };

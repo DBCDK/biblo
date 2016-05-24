@@ -12,7 +12,27 @@ const GetPostsTransform = {
       where: {id, markedAsDeleted: null},
       include: [
         'image',
-        'review',
+        {
+          relation: 'review',
+          scope: {
+            include: [
+              'image',
+              {
+                relation: 'video',
+                scope: {
+                  include: [
+                    {
+                      relation: 'resolutions',
+                      scope: {
+                        include: ['video']
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
         {owner: ['image']},
         'likes',
         {
@@ -30,16 +50,19 @@ const GetPostsTransform = {
       ]
     };
 
-    return this.callServiceClient('community', 'getPosts', {filter: Object.assign(postFilter, filter)});
+    return Promise.all([
+      this.callServiceClient('community', 'getPosts', {filter: Object.assign(postFilter, filter)}),
+      this.callServiceClient('bibloadmin', 'getCampaigns')
+    ]);
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-    if (response.statusCode !== 200) {
+    if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getPosts failed');
     }
 
-    const posts = JSON.parse(response.body);
-    return posts && parsePost(posts[0]) || null;
+    const posts = JSON.parse(response[0].body);
+    return posts && parsePost(posts[0], response[1]) || null;
   }
 };
 

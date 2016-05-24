@@ -14,6 +14,7 @@ import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.j
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
+import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
 import Youtube from 'react-youtube';
 
@@ -115,6 +116,17 @@ export default class PostView extends React.Component {
     this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
   }
 
+  renderReview(review) {
+    return (
+      <FeaturePreview>
+        <div>
+          <img src={`/images/covers/${review.worktype}.png`} />
+          <span dangerouslySetInnerHTML={{__html: review.html}} />
+        </div>
+      </FeaturePreview>
+    );
+  }
+
   render() {
     const {
             groupActions,
@@ -205,6 +217,7 @@ export default class PostView extends React.Component {
               {
                 <p className='post--content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
+              {this.props.review && this.renderReview(this.props.review)}
               {
                 image &&
                 <div className='post--media' >
@@ -273,5 +286,6 @@ PostView.propTypes = {
   uiActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   numberOfCommentsLoaded: React.PropTypes.number,
+  review: React.PropTypes.object,
   video: React.PropTypes.object
 };

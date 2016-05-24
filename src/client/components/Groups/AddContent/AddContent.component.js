@@ -9,6 +9,7 @@ import Icon from '../../General/Icon/Icon.component';
 import Message from '../../General/Message/Message.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
+import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
@@ -96,6 +97,7 @@ export default class AddContent extends UploadMedia {
     const reviewRows = this.props.profile.reviews.map((review) => {
       return (
         <span key={review.id}>
+          <img src={`/images/covers/${review.worktype}.png`} />
           {review.content}
           <input type="radio" value={review.id} name="reviewAttachment" onChange={() => this.setState({selectedReview: review.id})} />
         </span>
@@ -219,11 +221,13 @@ export default class AddContent extends UploadMedia {
                 <span className="content-add--media-label">Upload</span>
               </label>
 
-              <RoundedButton
-                buttonText="Anmeldelse"
-                className=" insert-review-button"
-                clickFunction={() => this.setState({showAddReviews: true})}
-              />
+              <FeaturePreview>
+                <RoundedButton
+                  buttonText="Anmeldelse"
+                  className=" insert-review-button"
+                  clickFunction={() => this.setState({showAddReviews: true})}
+                />
+              </FeaturePreview>
             </div>
           </div>
         </form>

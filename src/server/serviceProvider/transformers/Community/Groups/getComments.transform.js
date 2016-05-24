@@ -16,7 +16,27 @@ const GetCommentsTransform = {
       order: 'timeCreated DESC',
       include: [
         'image',
-        'review',
+        {
+          relation: 'review',
+          scope: {
+            include: [
+              'image',
+              {
+                relation: 'video',
+                scope: {
+                  include: [
+                    {
+                      relation: 'resolutions',
+                      scope: {
+                        include: ['video']
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
         {owner: ['image']},
         {
           relation: 'video',
@@ -33,15 +53,18 @@ const GetCommentsTransform = {
       ]
     };
 
-    return this.callServiceClient('community', 'getComments', {id, filter: commentFilter});
+    return Promise.all([
+      this.callServiceClient('community', 'getComments', {id, filter: commentFilter}),
+      this.callServiceClient('bibloadmin', 'getCampaigns')
+    ]);
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-    if (response.statusCode !== 200) {
+    if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getComments failed');
     }
 
-    const comments = JSON.parse(response.body).map(comment => parseComment(comment));
+    const comments = JSON.parse(response[0].body).map(comment => parseComment(comment, response[1]));
     return comments;
   }
 };

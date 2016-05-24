@@ -143,7 +143,3 @@ ReviewRow.propTypes = {
   review: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired
 };
-
-ReviewRow.defaultProps = {
-  metadata: {}
-};

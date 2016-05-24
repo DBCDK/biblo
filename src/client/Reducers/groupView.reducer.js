@@ -15,7 +15,8 @@ const defaultState = {
   isLoadingMembers: false,
   image: '/no_group_image.png',
   isMembersExpanded: false,
-  posts: []
+  posts: [],
+  works: {}
 };
 
 const groupData = parseJsonData('JSONDATA', 'groupData');
@@ -147,6 +148,21 @@ export default function groupViewReducer(state = initialState, action = {}) {
       });
 
       return assignToEmpty(state, {posts: postsCopyUnliked});
+    }
+
+    case types.LOAD_METADATA_FOR_REVIEW_FROM_PID: {
+      let newState = assignToEmpty(state, {});
+
+      action.work.data.forEach((workData) => {
+        const workObject = {
+          creator: workData.creator[0],
+          title: workData.dcTitleFull[0]
+        };
+
+        workData.collection.forEach((pid) => newState.works[pid] = newState.works[pid] ? newState.works[pid] : workObject);
+      });
+
+      return newState;
     }
 
     default: {

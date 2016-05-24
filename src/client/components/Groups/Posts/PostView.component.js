@@ -41,6 +41,13 @@ export default class PostView extends React.Component {
     this.submitCommentFlag = this.submitCommentFlag.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.review && this.props.review.pid) {
+      this.props.getCoverImage(this.props.review.pid, this.props.review.worktype);
+      this.props.groupActions.asyncLoadMetadataForReview(this.props.review.pid);
+    }
+  }
+
   toggleCommentInput(event) {
     if (event) {
       event.preventDefault();
@@ -116,12 +123,17 @@ export default class PostView extends React.Component {
     this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
   }
 
-  renderReview(review) {
+  renderReview(review, coverImages, works) {
+    const work = works[review.pid] || {};
+
     return (
       <FeaturePreview>
         <div>
-          <img src={`/images/covers/${review.worktype}.png`} />
-          <span dangerouslySetInnerHTML={{__html: review.html}} />
+          <img src={coverImages.pids[review.pid]} />
+          <p><strong>{work.title}</strong> - {work.creator}</p>
+          <div>
+            <span dangerouslySetInnerHTML={{__html: review.html}} />
+          </div>
         </div>
       </FeaturePreview>
     );
@@ -217,7 +229,7 @@ export default class PostView extends React.Component {
               {
                 <p className='post--content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
-              {this.props.review && this.renderReview(this.props.review)}
+              {this.props.review && this.renderReview(this.props.review, this.props.coverImages, this.props.works)}
               {
                 image &&
                 <div className='post--media' >
@@ -287,5 +299,8 @@ PostView.propTypes = {
   likeActions: React.PropTypes.object.isRequired,
   numberOfCommentsLoaded: React.PropTypes.number,
   review: React.PropTypes.object,
+  works: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
+  getCoverImage: React.PropTypes.func.isRequired,
   video: React.PropTypes.object
 };

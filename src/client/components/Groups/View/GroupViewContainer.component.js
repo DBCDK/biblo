@@ -24,6 +24,7 @@ import * as flagActions from '../../../Actions/flag.actions.js';
 import * as likeActions from '../../../Actions/like.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
 import * as searchActions from '../../../Actions/search.actions';
+import * as coverImageActions from '../../../Actions/coverImage.actions';
 
 // SCSS
 import './scss/groupView.scss';
@@ -38,6 +39,10 @@ export class GroupViewContainer extends React.Component {
 
     this.toggleFollow = this.toggleFollow.bind(this);
     this.toggleMembersExpanded = this.toggleMembersExpanded.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.coverImageActions.asyncListenForCoverImages();
   }
 
   toggleFollow() {
@@ -102,7 +107,9 @@ export class GroupViewContainer extends React.Component {
               <h2
                 className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} flagActions={this.props.flagActions} likeActions={this.props.likeActions}/>
+                        coverImages={this.props.coverImages} getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} works={this.props.group.works}
+                        flagActions={this.props.flagActions} likeActions={this.props.likeActions} />
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <div className="expand-wrapper">
                 <ExpandButton isLoading={this.props.group.loadingPosts}
@@ -137,6 +144,8 @@ GroupViewContainer.propTypes = {
   flagActions: React.PropTypes.object,
   likeActions: React.PropTypes.object,
   uiActions: React.PropTypes.object,
+  coverImageActions: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object
 };
 
@@ -150,6 +159,7 @@ export default connect(
       searchState: state.searchReducer,
       profile: state.profileReducer,
       group: state.groupViewReducer,
+      coverImages: state.coverImageReducer,
       ui: state.uiReducer
     };
   },
@@ -161,6 +171,7 @@ export default connect(
       groupActions: bindActionCreators(groupActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),
+      coverImageActions: bindActionCreators(coverImageActions, dispatch),
       uiActions: bindActionCreators(uiActions, dispatch)
     };
   }

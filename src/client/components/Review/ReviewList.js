@@ -10,15 +10,15 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
   reviewActions = null, flagActions = null,
   likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview}) {
 
-  let hasMore = true;
-  if (limit > reviews.length) {
-    hasMore = false;
+  let hasMore = false;
+  if (totalCount > reviews.length) {
+    hasMore = true;
   }
 
   let expandButton;
   if (hasMore && expand) {
     expandButton = (
-      <ExpandButton className="group-showmore" text="Vis flere"
+      <ExpandButton className="reviews-showmore" text="VIS FLERE"
                     isLoading={isLoading}
                     onClick={()=> expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
     );
@@ -51,7 +51,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
         || 'Der er ikke skrevet nogen anmeldelser'
       }
 
-      <div className="reviews--showmore">
+      <div className="reviews--showmore-container">
         {expandButton}
       </div>
     </div>);

@@ -167,3 +167,15 @@ progress[value] {
 .insert-review-button:hover {
   padding: 6px;
 }
+
+.attach-review-modal--review-content {
+  max-height: 40px;
+  line-height: 20px;
+  display: inline-block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 100%;
+}

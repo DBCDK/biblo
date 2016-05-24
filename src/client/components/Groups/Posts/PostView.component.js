@@ -222,8 +222,8 @@ export default class PostView extends React.Component {
           {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id}
-                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} />
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id} works={this.props.works}
+                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} coverImages={this.props.coverImages} />
             ||
             <div className='post--content-wrapper' >
               {
@@ -249,7 +249,7 @@ export default class PostView extends React.Component {
           }
           <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
                        submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
-                       groupActions={this.props.groupActions} />
+                       groupActions={this.props.groupActions} works={this.props.works} coverImages={this.props.coverImages} />
           {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments" >
             <ExpandButton isLoading={loadingComments}
@@ -263,7 +263,7 @@ export default class PostView extends React.Component {
           {
             this.state.isCommentInputVisible &&
             <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
-                        type="comment"
+                        type="comment" works={this.props.works} coverImages={this.props.coverImages}
                         abort={() => this.toggleCommentInput()}
                         addContentAction={groupActions.addComment}
                         autofocus={true}

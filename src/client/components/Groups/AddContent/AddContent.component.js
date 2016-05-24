@@ -95,11 +95,29 @@ export default class AddContent extends UploadMedia {
 
   renderAddReviewModal() {
     const reviewRows = this.props.profile.reviews.map((review) => {
+      const work = this.props.works[review.pid];
+      let authorCreator = '';
+
+      if (work && work.title && work.creator) {
+        authorCreator =  (
+          <p><strong>{work.title}</strong> - {work.creator}</p>
+        );
+      }
+
       return (
         <span key={review.id}>
-          <img src={`/images/covers/${review.worktype}.png`} />
-          {review.content}
           <input type="radio" value={review.id} name="reviewAttachment" onChange={() => this.setState({selectedReview: review.id})} />
+          <div>
+            <img src={this.props.coverImages.pids[review.pid]} />
+            <span>
+              {authorCreator}
+            </span>
+          </div>
+          <div>
+            <span className="attach-review-modal--review-content">
+              {review.content}
+            </span>
+          </div>
         </span>
       );
     });
@@ -247,5 +265,13 @@ AddContent.propTypes = {
   type: React.PropTypes.string.isRequired,
   text: React.PropTypes.string,
   image: React.PropTypes.string,
-  id: React.PropTypes.number
+  id: React.PropTypes.number,
+  works: React.PropTypes.object,
+  coverImages: React.PropTypes.object
+};
+AddContent.defaultProps = {
+  works: {},
+  coverImages: {
+    pids: {}
+  }
 };

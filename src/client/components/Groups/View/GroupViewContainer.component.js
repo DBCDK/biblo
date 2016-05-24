@@ -43,6 +43,13 @@ export class GroupViewContainer extends React.Component {
 
   componentDidMount() {
     this.props.coverImageActions.asyncListenForCoverImages();
+
+    if (this.props.profile && this.props.profile.reviews) {
+      this.props.profile.reviews.forEach((review) => {
+        this.props.coverImageActions.asyncGetCoverImage(review.pid, review.worktype);
+        this.props.groupActions.asyncLoadMetadataForReview(review.pid);
+      });
+    }
   }
 
   toggleFollow() {
@@ -100,8 +107,8 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
               <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
-                       addContentAction={this.props.groupActions.addPost}
-                       parentId={this.props.group.id} type="post"/>
+                       addContentAction={this.props.groupActions.addPost} works={this.props.group.works}
+                       parentId={this.props.group.id} type="post" coverImages={this.props.coverImages} />
             </div>
             <div className='group--post-view'>
               <h2

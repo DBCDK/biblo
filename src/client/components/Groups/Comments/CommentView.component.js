@@ -96,7 +96,7 @@ class CommentView extends React.Component {
             this.state.isEditting &&
             <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment"
                         abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}
-                        addContentAction={groupActions.editComment} />
+                        addContentAction={groupActions.editComment} coverImages={this.props.coverImages} works={this.props.works} />
             ||
             <div className="comment--content" >
               {
@@ -140,6 +140,8 @@ CommentView.propTypes = {
   timestamp: React.PropTypes.string,
   groupActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
+  works: React.PropTypes.object.isRequired,
   review: React.PropTypes.object,
   video: React.PropTypes.object
 };

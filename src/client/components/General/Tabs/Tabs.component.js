@@ -11,7 +11,7 @@ export default class Tabs extends React.Component {
     super(props);
 
     this.state = {
-      selected: this.props.selected
+      selected: this.props.selected || 0
     };
   }
 
@@ -19,18 +19,33 @@ export default class Tabs extends React.Component {
     this.setState({selected: index});
   }
 
+  componentWillMount() {
+    // if a hashs (#something) is found and the parent component doesn't define
+    // a default selection, the tab with a label matching the hash will be
+    // selected
+    if (window && window.location.hash.length && !this.props.selected) {
+      const hash = window.location.hash;
+      this.props.tabs.forEach((tab, index) => {
+        const label = `#${tab.label}`;
+        if (label === hash) {
+          this.setState({selected: index});
+        }
+      });
+    }
+  }
+
   renderPanes() {
     const listItems = this.props.tabs.map((pane, index) => {
       const activeClass = this.state.selected === index ? 'tab active' : 'tab';
       return (
-        <li className={activeClass} key={index} onClick={this.onClicked.bind(this, index)}>
-          {pane.label}
+        <li className={activeClass} key={index} >
+          <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)} >{pane.label}</a>
         </li>
       );
     });
 
     return (
-      <ul className="tabs">
+      <ul className="tabs" >
         {listItems}
       </ul>
     );
@@ -38,7 +53,7 @@ export default class Tabs extends React.Component {
 
   renderContent() {
     return (
-      <div className="tabs--content">
+      <div className="tabs--content" >
         {this.props.tabs[this.state.selected].content}
       </div>
     );
@@ -60,6 +75,5 @@ Tabs.propTypes = {
 };
 
 Tabs.defaultProps = {
-  selected: 0,
   tabs: []
 };

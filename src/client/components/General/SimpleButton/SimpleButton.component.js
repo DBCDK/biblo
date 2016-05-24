@@ -4,9 +4,13 @@ import React from 'react';
 import './SimpleButton.component.scss';
 
 export default class SimpleButton extends React.Component {
+  onClick() {
+    this.props.onClick();
+  }
+
   render() {
     return (
-      <div className="simple-button">{this.props.text || 'this.props.text'}</div>
+      <div className="simple-button" onClick={this.onClick.bind(this)} >{this.props.text || 'this.props.text'}</div>
     );
   }
 }
@@ -15,5 +19,9 @@ SimpleButton.displayName = 'SimpleButton';
 
 SimpleButton.propTypes = {
   text: React.PropTypes.string,
-  callback: React.PropTypes.func
+  onClick: React.PropTypes.func
+};
+
+SimpleButton.defaultProps = {
+  onClick: () => {}
 };

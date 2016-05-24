@@ -2,6 +2,7 @@
 
 .review--container {
   border-bottom: #e8e8e8 5px solid;
+  padding: 10px;
 
   @include min-screen($tablet) {
     border-bottom-width: 1px;
@@ -9,12 +10,13 @@
 
   .simple-button {
     width: 190px;
-    margin: 10px auto;
+    margin-top: -45px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
 .review--header {
-  padding: 10px 0 10px 10px;
   position: relative;
 
   @include min-screen($tablet) {
@@ -69,15 +71,17 @@
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 30px;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
-.review--content {
-  padding: 0 10px 10px 10px;
+.review--content--container {
   vertical-align: top;
-
   @include min-screen($tablet) {
     display: inline-block;
-    padding: 10px 10px 10px 0;
     width: 50%;
   }
 }

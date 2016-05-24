@@ -23,7 +23,8 @@ export class SearchResultContainer extends React.Component {
     this.props.searchActions.asyncLoadMoreResults({
       query: this.props.search.initialQuery,
       materialFilters: this.props.search.filters.materialFilters,
-      limit: this.props.search.materialSearchResults.length + 10
+      subjects: this.props.search.filters.subjectFilters,
+      offset: this.props.search.materialSearchOffset + 20
     });
   }
 

@@ -24,6 +24,17 @@ export function moreWorkReviewsLoading() {
   };
 }
 
+export function asyncShowReview(id) {
+  return function (dispatch) {
+    dispatch(moreWorkReviewsLoading());
+    getReviewsClient.request({id});
+    const event = getReviewsClient.response(response => {
+      dispatch(showWorkReviews(response, null, 0, 1, id));
+      event.off();
+    });
+  };
+}
+
 export function asyncShowWorkReviews(pids, skip, limit, ownId) {
   return function (dispatch) {
     dispatch(moreWorkReviewsLoading());

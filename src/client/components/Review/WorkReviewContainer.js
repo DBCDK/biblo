@@ -50,7 +50,8 @@ export class WorkReviewContainer extends React.Component {
     let profile = this.getProfile();
     if (!profile.quarantined) {
       if (this.getOwnReviewId()) {
-        window.location = '/materiale/' + this.props.workState.work.collection;
+        // assume that first item in collection is identifier
+        window.location = '/materiale/' + this.props.workState.work.collection[0];
       }
       else {
         this.setState({
@@ -142,7 +143,7 @@ export class WorkReviewContainer extends React.Component {
         }
         <ReviewList
           pids={work.collection}
-          limit={reviews.limit}
+          limit={1}
           reviews={reviews}
           worktype="book"
           profile={this.props.profile}
@@ -151,6 +152,7 @@ export class WorkReviewContainer extends React.Component {
           flagActions={this.props.flagActions}
           likeActions={this.props.likeActions}
           expand={this.props.reviewActions.asyncShowReviews}
+          ownReview={true}
         />
       </PageLayout>
     );

@@ -13,9 +13,10 @@ const SearchTransform = {
     return 'search';
   },
 
-  requestTransform(event, {q, forfatter, materialer, emneord, limit}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {q, forfatter, materialer, emneord, offset, rankSort}, connection) { // eslint-disable-line no-unused-vars
 
-    limit = (limit) ? limit : 20;
+    offset = (offset) ? offset : 0;
+    rankSort = (rankSort) ? rankSort : 'rank_frequency';
 
     let topLevelCql = [];
 
@@ -57,7 +58,9 @@ const SearchTransform = {
         'workType',
         'coverUrlFull'
       ],
-      limit: limit
+      limit: 20,
+      offset: offset,
+      sort: rankSort
     });
   },
 

@@ -37,7 +37,8 @@ export function asyncLoadMoreResults(query) {
     search.request({
       q: query.query,
       materialer: materialTypes.join(),
-      limit: query.limit
+      emneord: query.subjects.join(),
+      offset: query.offset
     });
   };
 }
@@ -69,8 +70,8 @@ export function searchMaterials(query) {
 
   let searchUrl =
     '/find?q=' + encodeURIComponent(query.query) +
+    '&emneord=' + encodeURIComponent(query.subjects.join()) +
     '&materialer=' + encodeURIComponent(materialTypes.join());
-
 
   // OLD SKOOL redirect
   window.location = searchUrl;

@@ -254,6 +254,7 @@ export class ProfileDetailContainer extends React.Component {
         user={this.props.feed.profile}
         getWorksAction={this.props.workActions.asyncGetWorks}
         worksMetadata={this.props.works.workMetadataOrderedByPid}
+        likeActions={this.props.likeActions}
       />
     );
 

@@ -7,6 +7,7 @@ import React from 'react';
 // Components
 import Rating from '../../General/Rating/Rating.component';
 import SimpleButton from '../../General/SimpleButton/SimpleButton.component';
+import LikeButton from '../../General/LikeButton/LikeButton.component';
 
 // SASS
 import './scss/ReviewRow.component.scss';
@@ -49,15 +50,37 @@ export default class ReviewRow extends React.Component {
     return coverUrl;
   }
 
+  likeReview() {
+    const like = {
+      profileId: this.props.user.id,
+      reviewId: this.props.review.id
+    };
+
+    this.props.likeActions.likeReview(like);
+  }
+
+  unlikeReview() {
+    const like = {
+      profileId: this.props.user.id,
+      reviewId: this.props.review.id
+    };
+
+    this.props.likeActions.unlikeReview(like);
+  }
+
   render() {
     const coverUrl = this.getCoverUrl();
     const title = this.getTitle();
     const review = this.props.review;
+    const likes = review.likes;
+
     let content = review.content ? review.content : '';
     if (content.length > 200) {
       content = content.slice(0, 200) + '...';
     }
     const user = this.props.user;
+
+    const isLikedByCurrentUser = likes.includes(user.id);
 
     return (
       <div className="review--container" >
@@ -77,17 +100,29 @@ export default class ReviewRow extends React.Component {
 
         <div className="review--content--container" >
           <div className="review--content" >{content}</div>
+          <div className="review--content--actions" >
+            <div className="review--content--actions--likebutton" >
+              <LikeButton
+                active={true}
+                isLikedByCurrentUser={isLikedByCurrentUser}
+                likeFunction={this.likeReview.bind(this)}
+                unlikeFunction={this.unlikeReview.bind(this)}
+                usersWhoLikeThis={likes}
+              />
+            </div>
+            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
+          </div>
         </div>
-        <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
       </div>
     );
   }
 }
 
 ReviewRow.propTypes = {
+  metadata: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
   review: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object.isRequired,
-  metadata: React.PropTypes.object.isRequired
+  user: React.PropTypes.object.isRequired
 };
 
 ReviewRow.defaultProps = {

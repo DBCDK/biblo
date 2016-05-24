@@ -15,10 +15,17 @@ import './scss/ReviewRow.component.scss';
 export default class ReviewRow extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      likes: this.props.review.likes || []
+    };
   }
 
-  shouldComponentUpdate(nextProps) {
-    return (this.props.metadata !== nextProps.metadata);
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.metadata !== nextProps.metadata ||
+      this.state.likes.toString() !== nextState.likes.toString()
+    );
   }
 
   onClick() {
@@ -57,6 +64,11 @@ export default class ReviewRow extends React.Component {
     };
 
     this.props.likeActions.likeReview(like);
+
+    const likes = this.state.likes.slice(); // treating state as immutable to make shouldComponentUpdate work proberly
+    likes.push(like.profileId);
+
+    this.setState({likes: likes});
   }
 
   unlikeReview() {
@@ -66,13 +78,18 @@ export default class ReviewRow extends React.Component {
     };
 
     this.props.likeActions.unlikeReview(like);
+    const likes = this.state.likes.filter((id) => {
+      return (id !== like.profileId);
+    });
+
+    this.setState({likes: likes});
   }
 
   render() {
     const coverUrl = this.getCoverUrl();
     const title = this.getTitle();
     const review = this.props.review;
-    const likes = review.likes;
+    const likes = this.state.likes;
 
     let content = review.content ? review.content : '';
     if (content.length > 200) {
@@ -117,6 +134,8 @@ export default class ReviewRow extends React.Component {
     );
   }
 }
+
+ReviewRow.displayName = 'ReviewRow';
 
 ReviewRow.propTypes = {
   metadata: React.PropTypes.object.isRequired,

@@ -142,7 +142,7 @@ export class ProfileDetailContainer extends React.Component {
 
           return (
             <ActivityRow
-              likes={0}
+              likes={[]}
               imageSrc={activity.imageSrc}
               key={'comment_' + activity.id}
               title={title}
@@ -204,7 +204,7 @@ export class ProfileDetailContainer extends React.Component {
 
           return (
             <ActivityRow
-              likes={0}
+              likes={[]}
               imageSrc={activity.imageSrc}
               key={'post_' + activity.id}
               title={postTitle}

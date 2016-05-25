@@ -82,9 +82,6 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
- 
-    console.log("work state:", this.state);
-    console.log("work props:", this.props);
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;

@@ -44,6 +44,7 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
           }
         });
 
+        /*
         frontPageData.widgetLocations.FrontPageContent.push({
           widgetName: 'LatestReviewsWidget',
           widgetConfig: {
@@ -51,6 +52,7 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
             reviewsToLoad: 15
           }
         });
+        */
 
         frontPageData.widgetLocations.FrontPageContent.push({
           widgetName: 'ContentGridWidget',

@@ -15,6 +15,7 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
+import ReviewRow from '../../Profile/Detail/ReviewRow.component';
 
 import Youtube from 'react-youtube';
 
@@ -123,17 +124,17 @@ export default class PostView extends React.Component {
     this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
   }
 
-  renderReview(review, coverImages, works) {
+  renderReview(review, coverImages, works, profile, likeActions) {
     const work = works[review.pid] || {};
 
     return (
       <FeaturePreview>
-        <div>
-          <img src={coverImages.pids[review.pid]} />
-          <p><strong>{work.title}</strong> - {work.creator}</p>
-          <div>
-            <span dangerouslySetInnerHTML={{__html: review.html}} />
-          </div>
+        <div className="attached-review--container">
+          <ReviewRow
+            activeUser={profile}
+            metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
+            likeActions={likeActions}
+            review={review} />
         </div>
       </FeaturePreview>
     );
@@ -229,7 +230,7 @@ export default class PostView extends React.Component {
               {
                 <p className='post--content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
-              {this.props.review && this.renderReview(this.props.review, this.props.coverImages, this.props.works)}
+              {this.props.review && this.renderReview(this.props.review, this.props.coverImages, this.props.works, this.props.profile, this.props.likeActions)}
               {
                 image &&
                 <div className='post--media' >

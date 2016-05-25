@@ -50,9 +50,9 @@ function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
     startDate: '2016-01-16T15:06:53.044Z',
     endDate: '2016-06-16T15:06:53.044Z',
     logos: {
-      small: 'http://placekitten.com/200/200',
-      medium: 'http://placekitten.com/512/512',
-      large: 'http://placekitten.com/1024/1024'
+      small: 'static/sommerbogen-logo.png',
+      medium: 'static/sommerbogen-logo.png',
+      large: 'static/sommerbogen-logo.png'
     }
   }];
 

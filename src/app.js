@@ -24,6 +24,7 @@ import SearchRoutes from './server/routes/search.routes';
 import WorkRoutes from './server/routes/work.routes';
 import ReviewRoutes from './server/routes/review.routes';
 import ProfileRoutes from './server/routes/profile.routes';
+import CampaignRoutes from './server/routes/campaign.routes';
 import ContentRoutes from './server/routes/content.routes';
 import ApiRoutes from './server/routes/api.routes';
 import {wildCardRoute} from './server/routes/content.routes';
@@ -247,6 +248,7 @@ module.exports.run = function(worker) {
   app.use('/grupper', ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);
   app.use('/find', SearchRoutes, ensureUserHasValidLibrary);
   app.use('/profil', ProfileRoutes);
+  app.use('/kampagne', CampaignRoutes);
   app.use('/materiale', WorkRoutes, ensureUserHasValidLibrary);
   app.use('/indhold', ContentRoutes, ensureUserHasValidLibrary);
   app.use('/api', ApiRoutes);

@@ -22,6 +22,8 @@ import * as workActions from '../../Actions/work.actions';
 import * as EntitySuggestLibraryActions from '../../Actions/entitySuggetLibrary.actions';
 import * as ProfileActions from '../../Actions/profile.actions';
 
+import './WorkReviewContainer.scss';
+
 export class WorkReviewContainer extends React.Component {
 
   constructor(props) {
@@ -108,6 +110,7 @@ export class WorkReviewContainer extends React.Component {
           }
         </ModalWindow>
         }
+        <div className='work'>
         <WorkHeader coverUrl={coverUrl}/>
         <WorkDetail
           collection={work.collection}
@@ -141,6 +144,7 @@ export class WorkReviewContainer extends React.Component {
             <span> {this.state.errorMessage} </span>
           </Message>
         }
+        <div className='work--reviewlist'>
         <ReviewList
           pids={work.collection}
           limit={1}
@@ -154,6 +158,8 @@ export class WorkReviewContainer extends React.Component {
           expand={this.props.reviewActions.asyncShowReviews}
           ownReview={true}
         />
+          </div>
+          </div>
       </PageLayout>
     );
   }

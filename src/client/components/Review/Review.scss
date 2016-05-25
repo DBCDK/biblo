@@ -110,8 +110,12 @@ video {
   }
   .logo {
     position: absolute;
-    height: 20px;
+    height: 25px;
     margin-top: 0px;
+    @include max-screen($desktop) {
+      top: 15px;
+      right: 30px;
+    }
     @include min-screen($desktop) {
       padding-left: 10px;
       height: 30px;
@@ -121,7 +125,7 @@ video {
   .buttons {
     position: absolute;
     top: 20px;
-    right: 15px;
+    right: 10px;
     svg {
       fill: $gray;
     }

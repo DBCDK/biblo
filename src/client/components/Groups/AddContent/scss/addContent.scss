@@ -185,10 +185,21 @@ progress[value] {
   }
 }
 
+.attach-review-modal--review-row--container {
+  border-bottom: 2px solid #eee;
+  margin-bottom: 10px;
+}
+
 .attach-review-modal--review--content-container {
+  vertical-align: top;
+
   @include min-screen($tablet) {
     width: 330px;
   }
+}
+
+.attach-review-modal--review--title-and-creator {
+  vertical-align: top;
 }
 
 .attach-review-modal--buttons-container {
@@ -204,7 +215,28 @@ progress[value] {
 
 .attach-review-modal--review--cover-image {
   img {
-    width: 80px;
+    width: 60px;
   }
+}
+
+.attach-review-modal--radio-btn-input {
+  display: none;
+}
+
+.attach-review-modal--radio-btn-input:checked + span:before {
+  background-color: #1c14a1;
+  box-shadow: 0 0 0 3px #1c14a1;
+}
+
+.attach-review-modal--radio-btn-input + span:before {
+  content: " ";
+  border: 2px solid #FFF;
+  box-shadow: 0 0 0 3px #868686;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
 }
 /* END attach review modal window styles */

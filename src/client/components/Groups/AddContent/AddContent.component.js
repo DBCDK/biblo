@@ -34,15 +34,15 @@ export default class AddContent extends UploadMedia {
       text: props.text || '',
       attachment: {
         image: props.image || null,
-        video: null
+        video: null,
+        review: null
       },
       imageRemoved: false,
       errorMsg: null,
       target: `/grupper/content/${props.type}`,
       isLoading: false,
       disableInput: false,
-      showAddReviews: false,
-      selectedReview: ''
+      showAddReviews: false
     };
 
     if (!isSiteOpen() && !this.props.profile.isModerator) {
@@ -95,26 +95,39 @@ export default class AddContent extends UploadMedia {
   }
 
   renderAddReviewModal() {
-    const reviewRows = this.props.profile.reviews.data.map((review) => {
+    const reviewRows = this.props.profile.reviews.data.map((review, idx) => {
       const work = this.props.works[review.pid];
       let authorCreator = '';
 
       if (work && work.title && work.creator) {
         authorCreator = (
-          <p><strong>{work.title}</strong> - {work.creator}</p>
+          <span>
+            <div>
+              <strong>{work.title}</strong>
+            </div>
+            <div>
+              {work.creator}
+            </div>
+          </span>
         );
       }
 
       return (
-        <div key={review.id}>
-          <table>
-            <tbody>
+        <div key={`${review.id}`} className="attach-review-modal--review-row--container">
+          <label htmlFor={`review-attachment--${review.id}`}>
+            <table>
+              <tbody>
               <tr>
                 <td className="attach-review-modal--review--radio-btn">
-                  <input type="radio" value={review.id} name="reviewAttachment" onChange={() => this.setState({selectedReview: review.id})} />
+                  <input
+                    type="radio" value={review.id} name="reviewAttachment" id={`review-attachment--${review.id}`}
+                    onChange={() => this.setState({attachment: {review}})}
+                    className="attach-review-modal--radio-btn-input"
+                  />
+                  <span className="attach-review-modal--displayed-radio-btn"> </span>
                 </td>
                 <td className="attach-review-modal--review--cover-image">
-                  <img src={this.props.coverImages.pids[review.pid]} />
+                  <img src={this.props.coverImages.pids[review.pid]}/>
                 </td>
                 <td className="attach-review-modal--review--title-and-creator">
                   {authorCreator}
@@ -123,9 +136,9 @@ export default class AddContent extends UploadMedia {
                   <span className="attach-review-modal--review-content">{review.content}</span>
                 </td>
               </tr>
-            </tbody>
-          </table>
-          <hr />
+              </tbody>
+            </table>
+          </label>
         </div>
       );
     });
@@ -142,8 +155,9 @@ export default class AddContent extends UploadMedia {
           />
         </div>}
         <div className="attach-review-modal--buttons-container">
-          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})} />
-          <RoundedButton buttonText="Luk" clickFunction={() => this.setState({showAddReviews: false, selectedReview: ''})} />
+          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})}/>
+          <RoundedButton buttonText="Luk"
+                         clickFunction={() => this.setState({showAddReviews: false, attachment: {review: null}})}/>
         </div>
       </ModalWindow>
     );
@@ -183,7 +197,7 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
             <input type="hidden" name="parentId" value={this.props.parentId}/>
-            <input type="hidden" name="attachedReview" value={this.state.selectedReview} />
+            <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id}/>
           <textarea className="content-add--textarea" ref='contentTextarea' name="content"
                     placeholder='Gi den gas & hold god tone ;-)'
                     value={this.state.text}
@@ -208,6 +222,12 @@ export default class AddContent extends UploadMedia {
               </div>
               }
             </div>
+
+            {this.state.attachment.review &&
+            <div>
+              <p>bob</p>
+            </div>
+            }
           </div>
           <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})}>
             {
@@ -246,9 +266,9 @@ export default class AddContent extends UploadMedia {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
-                            .then(attachment=>this.setState({attachment: attachment}))
-                            .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
+                  onChange={event => this.readInput(event, attachment => this.setState({attachment: attachment}))
+                            .then(attachment => this.setState({attachment: attachment}))
+                            .catch(errorMsg => this.setState({errorMsg: errorMsg}))
                             }
                   ref="fileInput"
                 />
@@ -289,7 +309,8 @@ AddContent.propTypes = {
   coverImages: React.PropTypes.object
 };
 AddContent.defaultProps = {
-  getMoreWorks: () => {},
+  getMoreWorks: () => {
+  },
   works: {},
   coverImages: {
     pids: {}

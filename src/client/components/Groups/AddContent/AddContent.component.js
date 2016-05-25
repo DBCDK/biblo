@@ -155,9 +155,9 @@ export default class AddContent extends UploadMedia {
           />
         </div>}
         <div className="attach-review-modal--buttons-container">
-          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})}/>
           <RoundedButton buttonText="Luk"
                          clickFunction={() => this.setState({showAddReviews: false, attachment: {review: null}})}/>
+          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})}/>
         </div>
       </ModalWindow>
     );
@@ -224,10 +224,22 @@ export default class AddContent extends UploadMedia {
             </div>
 
             {this.state.attachment.review &&
-            <div>
-              <p>bob</p>
-            </div>
-            }
+            <div className="preview-review">
+              <div className="preview-review--cover-image--container">
+                <img src={this.props.coverImages.pids[this.state.attachment.review.pid]}/>
+              </div>
+              <div className="preview-review--title--container">
+                <p>
+                  <strong>{this.props.works[this.state.attachment.review.pid].title}</strong>
+                </p>
+              </div>
+              <div className="preview-review--remove-btn">
+                <a href="#removeReview" className="content-add--remove-media"
+                   onClick={() => this.setState({attachment: {}})}>
+                  <Icon glyph={close}/>
+                </a>
+              </div>
+            </div>}
           </div>
           <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})}>
             {

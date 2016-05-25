@@ -168,6 +168,34 @@ progress[value] {
   padding: 6px;
 }
 
+.preview-review {
+  div {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
+  .preview-review--remove-btn {
+    vertical-align: top;
+  }
+
+  padding: 5px;
+  border: 1px solid #c6c6c6;
+  box-shadow: 1px 1px 1px #868686;
+  display: inline-block;
+}
+
+.preview-review--cover-image--container {
+  img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
+}
+
+.preview-review--title--container {
+  margin-left: 5px;
+}
+
 /* BEGIN attach review modal window styles */
 .attach-review-modal--review-content {
   max-height: 60px;

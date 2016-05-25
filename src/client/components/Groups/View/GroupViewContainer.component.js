@@ -2,7 +2,6 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import async from 'async';
 
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';

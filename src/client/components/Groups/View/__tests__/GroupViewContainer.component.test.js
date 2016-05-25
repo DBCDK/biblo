@@ -56,6 +56,10 @@ describe('Test GroupView Component', () => {
     asyncListenForCoverImages: noop
   };
 
+  let profileActions = {
+    asyncGetUserReviews: noop
+  };
+
   it('Group View Component is being rendered', () => {
     const tree = sd.shallowRender(
       <GroupViewContainer
@@ -63,6 +67,7 @@ describe('Test GroupView Component', () => {
         profile={profile}
         groupActions={groupActions}
         uiActions={uiActions}
+        profileActions={profileActions}
         ui={ui}
         coverImageActions={coverImageActions}
         coverImages={{}}
@@ -76,6 +81,7 @@ describe('Test GroupView Component', () => {
     assert.deepEqual(tree.subTree('AddContent').getRenderOutput().props, {
       redirectTo: '/grupper/1',
       profile,
+      getMoreWorks: noop,
       addContentAction: noop,
       works: {},
       parentId: 1,
@@ -114,6 +120,7 @@ describe('Test GroupView Component', () => {
         profile={profile}
         groupActions={actions}
         uiActions={uiActions}
+        profileActions={profileActions}
         ui={ui}
         coverImageActions={coverImageActions}
         coverImages={{}}

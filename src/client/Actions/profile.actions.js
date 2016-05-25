@@ -187,7 +187,7 @@ export function asyncGetUserReviews(reviewownerid, skip, limit=10) {
         asyncLoadMetadataForReview(review.pid)(dispatch);
       });
 
-      dispatch(getUserReviews(reviews))
+      dispatch(getUserReviews(reviews));
     });
 
     getReviewsSocket.request({where: {reviewownerid}, skip, limit});
@@ -201,7 +201,7 @@ export function asyncGetUserReviews(reviewownerid, skip, limit=10) {
 export function getUserReviewsPending() {
   return {
     type: types.GET_USER_REVIEWS_PENDING
-  }
+  };
 }
 
 /**

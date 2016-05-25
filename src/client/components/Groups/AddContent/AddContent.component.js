@@ -95,7 +95,7 @@ export default class AddContent extends UploadMedia {
   }
 
   renderAddReviewModal() {
-    const reviewRows = this.props.profile.reviews.data.map((review, idx) => {
+    const reviewRows = this.props.profile.reviews.data.map((review) => {
       const work = this.props.works[review.pid];
       let authorCreator = '';
 

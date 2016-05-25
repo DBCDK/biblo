@@ -7,6 +7,11 @@ import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once} from 'lodash';
 
+import {asyncLoadMetadataForReview} from './group.actions';
+import {asyncGetCoverImage} from './coverImage.actions';
+
+const getReviewsSocket = SocketClient('getReviews');
+
 const checkIfDisplayNameIsTaken = SocketClient('checkIfDisplayNameIsTaken');
 const checkIfDisplayNameIsTakenListener = once(checkIfDisplayNameIsTaken.response);
 
@@ -163,5 +168,50 @@ export function profileEditSubmitStateChange(state) {
   return {
     type: types.PROFILE_EDIT_SUBMIT_STATE_CHANGE,
     state
+  };
+}
+
+/**
+ * Get a persons reviews (used mostly in the pagination).
+ * @param {Number} reviewownerid
+ * @param {Number} skip
+ * @param {Number} limit
+ * @returns {function()}
+ */
+export function asyncGetUserReviews(reviewownerid, skip, limit=10) {
+  return dispatch => {
+    dispatch(getUserReviewsPending());
+    getReviewsSocket.responseOnce((reviews) => {
+      reviews.data.forEach((review) => {
+        asyncGetCoverImage(review.pid, review.worktype)(dispatch);
+        asyncLoadMetadataForReview(review.pid)(dispatch);
+      });
+
+      dispatch(getUserReviews(reviews))
+    });
+
+    getReviewsSocket.request({where: {reviewownerid}, skip, limit});
+  };
+}
+
+/**
+ * Signals that reviews are pending
+ * @returns {{type}}
+ */
+export function getUserReviewsPending() {
+  return {
+    type: types.GET_USER_REVIEWS_PENDING
+  }
+}
+
+/**
+ *
+ * @param {Object} reviews
+ * @returns {{type, reviews: {Object}}}
+ */
+export function getUserReviews(reviews) {
+  return {
+    type: types.GET_USER_REVIEWS,
+    reviews
   };
 }

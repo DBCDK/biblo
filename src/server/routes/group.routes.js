@@ -284,11 +284,10 @@ async function fetchGroupData(params, req, res, update = {}) {
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
       postsPromise,
-      req.callServiceProvider('getOwnReview', {reviewownerid: profile.profile.id})
+      req.callServiceProvider('getReviews', {where: {reviewownerid: profile.profile.id}, limit: 10})
     ]));
 
-    profile.profile.reviews = response[2][0].data || [];
-    req.session.passport.user.profile = profile;
+    profile.profile.reviews = response[2][0] || {data: [], reviewsCount: 0};
     res.locals.profile = JSON.stringify(profile);
 
     const group = response[0][0];

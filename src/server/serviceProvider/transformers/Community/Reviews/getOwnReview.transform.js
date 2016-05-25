@@ -5,7 +5,7 @@ const GetOwnReviewTransform = {
     return 'getOwnReview';
   },
 
-  requestTransform(event, {reviewownerid, pids}) {
+  requestTransform(event, {reviewownerid, pids, limit = 0, offset = 0}) {
     let orFilter = [];
     let params = {
       filter: {
@@ -32,6 +32,14 @@ const GetOwnReviewTransform = {
         }
       }
     };
+
+    if (limit) {
+      params.filter.limit = limit;
+    }
+
+    if (offset) {
+      params.filter.offset = offset;
+    }
 
     if (pids) {
       pids.forEach((pid) => {

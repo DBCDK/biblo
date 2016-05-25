@@ -2,6 +2,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import async from 'async';
 
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
@@ -19,6 +20,7 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 // ACTIONS
+import * as profileActions from '../../../Actions/profile.actions';
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as flagActions from '../../../Actions/flag.actions.js';
 import * as likeActions from '../../../Actions/like.actions.js';
@@ -44,8 +46,8 @@ export class GroupViewContainer extends React.Component {
   componentDidMount() {
     this.props.coverImageActions.asyncListenForCoverImages();
 
-    if (this.props.profile && this.props.profile.reviews) {
-      this.props.profile.reviews.forEach((review) => {
+    if (this.props.profile && this.props.profile.reviews && this.props.profile.reviews.data) {
+      this.props.profile.reviews.data.forEach((review) => {
         this.props.coverImageActions.asyncGetCoverImage(review.pid, review.worktype);
         this.props.groupActions.asyncLoadMetadataForReview(review.pid);
       });
@@ -106,7 +108,7 @@ export class GroupViewContainer extends React.Component {
             }
             <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
-              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
+              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile} getMoreWorks={this.props.profileActions.asyncGetUserReviews}
                        addContentAction={this.props.groupActions.addPost} works={this.props.group.works}
                        parentId={this.props.group.id} type="post" coverImages={this.props.coverImages} />
             </div>
@@ -116,7 +118,7 @@ export class GroupViewContainer extends React.Component {
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
                         coverImages={this.props.coverImages} getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
                         groupActions={this.props.groupActions} uiActions={this.props.uiActions} works={this.props.group.works}
-                        flagActions={this.props.flagActions} likeActions={this.props.likeActions} />
+                        flagActions={this.props.flagActions} likeActions={this.props.likeActions} getMoreWorks={this.props.profileActions.asyncGetUserReviews} />
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <div className="expand-wrapper">
                 <ExpandButton isLoading={this.props.group.loadingPosts}
@@ -147,6 +149,7 @@ GroupViewContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
+  profileActions: React.PropTypes.object,
   groupActions: React.PropTypes.object,
   flagActions: React.PropTypes.object,
   likeActions: React.PropTypes.object,
@@ -174,6 +177,7 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      profileActions: bindActionCreators(profileActions, dispatch),
       searchActions: bindActionCreators(searchActions, dispatch),
       groupActions: bindActionCreators(groupActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),

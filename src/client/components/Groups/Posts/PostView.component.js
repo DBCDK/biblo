@@ -221,7 +221,7 @@ export default class PostView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
+            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post" getMoreWorks={this.props.getMoreWorks}
                         abort={() => this.toggleEditting()} text={content} image={image} id={id} works={this.props.works}
                         delete={() => this.deletePost()} addContentAction={groupActions.editPost} coverImages={this.props.coverImages} />
             ||
@@ -247,7 +247,7 @@ export default class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
+          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} getMoreWorks={this.props.getMoreWorks}
                        submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
                        groupActions={this.props.groupActions} works={this.props.works} coverImages={this.props.coverImages} />
           {commentsCount > numberOfCommentsLoaded &&
@@ -264,7 +264,7 @@ export default class PostView extends React.Component {
             this.state.isCommentInputVisible &&
             <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
                         type="comment" works={this.props.works} coverImages={this.props.coverImages}
-                        abort={() => this.toggleCommentInput()}
+                        abort={() => this.toggleCommentInput()} getMoreWorks={this.props.getMoreWorks}
                         addContentAction={groupActions.addComment}
                         autofocus={true}
             />
@@ -302,5 +302,6 @@ PostView.propTypes = {
   works: React.PropTypes.object.isRequired,
   coverImages: React.PropTypes.object.isRequired,
   getCoverImage: React.PropTypes.func.isRequired,
+  getMoreWorks: React.PropTypes.func,
   video: React.PropTypes.object
 };

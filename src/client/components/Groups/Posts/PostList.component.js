@@ -4,7 +4,7 @@ import PostView from './PostView.component.js';
 
 export default function PostList({
   posts = [], profile = {}, groupId= null, uiActions = null, groupActions = null,
-  flagActions = null, likeActions = null, works, coverImages, getCoverImage
+  flagActions = null, likeActions = null, works, coverImages, getCoverImage, getMoreWorks
 }) {
   return (
     <div className='post-list' >
@@ -22,6 +22,7 @@ export default function PostList({
           works={works}
           coverImages={coverImages}
           getCoverImage={getCoverImage}
+          getMoreWorks={getMoreWorks}
           />))
         || 'Der er ikke skrevet nogen indlæg i gruppen endnu'
       }
@@ -37,6 +38,7 @@ PostList.propTypes = {
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
   works: React.PropTypes.object.isRequired,
+  getMoreWorks: React.PropTypes.func,
   coverImages: React.PropTypes.object.isRequired,
   getCoverImage: React.PropTypes.func.isRequired
 };

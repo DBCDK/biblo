@@ -8,6 +8,7 @@ import Login from '../../General/Login/Login.component';
 import Icon from '../../General/Icon/Icon.component';
 import Message from '../../General/Message/Message.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
@@ -94,7 +95,7 @@ export default class AddContent extends UploadMedia {
   }
 
   renderAddReviewModal() {
-    const reviewRows = this.props.profile.reviews.map((review) => {
+    const reviewRows = this.props.profile.reviews.data.map((review) => {
       const work = this.props.works[review.pid];
       let authorCreator = '';
 
@@ -105,28 +106,45 @@ export default class AddContent extends UploadMedia {
       }
 
       return (
-        <span key={review.id}>
-          <input type="radio" value={review.id} name="reviewAttachment" onChange={() => this.setState({selectedReview: review.id})} />
-          <div>
-            <img src={this.props.coverImages.pids[review.pid]} />
-            <span>
-              {authorCreator}
-            </span>
-          </div>
-          <div>
-            <span className="attach-review-modal--review-content">
-              {review.content}
-            </span>
-          </div>
-        </span>
+        <div key={review.id}>
+          <table>
+            <tbody>
+              <tr>
+                <td className="attach-review-modal--review--radio-btn">
+                  <input type="radio" value={review.id} name="reviewAttachment" onChange={() => this.setState({selectedReview: review.id})} />
+                </td>
+                <td className="attach-review-modal--review--cover-image">
+                  <img src={this.props.coverImages.pids[review.pid]} />
+                </td>
+                <td className="attach-review-modal--review--title-and-creator">
+                  {authorCreator}
+                </td>
+                <td className="attach-review-modal--review--content-container">
+                  <span className="attach-review-modal--review-content">{review.content}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+        </div>
       );
     });
 
     return (
       <ModalWindow onClose={() => this.setState({showAddReviews: false})} title="Indsæt Anmeldelse">
-        {reviewRows}
-        <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})} />
-        <RoundedButton buttonText="Luk" clickFunction={() => this.setState({showAddReviews: false, selectedReview: ''})} />
+        <div className="attach-review-modal--reviews-container">
+          {reviewRows}
+        </div>
+        <div>
+          <VisFlereButton
+            onClick={() => this.props.getMoreWorks(this.props.profile.id, this.props.profile.reviews.data.length)}
+            isLoading={this.props.profile.reviews.isLoading}
+          />
+        </div>
+        <div className="attach-review-modal--buttons-container">
+          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})} />
+          <RoundedButton buttonText="Luk" clickFunction={() => this.setState({showAddReviews: false, selectedReview: ''})} />
+        </div>
       </ModalWindow>
     );
   }
@@ -266,10 +284,12 @@ AddContent.propTypes = {
   text: React.PropTypes.string,
   image: React.PropTypes.string,
   id: React.PropTypes.number,
+  getMoreWorks: React.PropTypes.func.isRequired,
   works: React.PropTypes.object,
   coverImages: React.PropTypes.object
 };
 AddContent.defaultProps = {
+  getMoreWorks: () => {},
   works: {},
   coverImages: {
     pids: {}

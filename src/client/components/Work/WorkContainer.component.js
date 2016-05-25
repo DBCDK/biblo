@@ -82,6 +82,9 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
+ 
+    console.log("work state:", this.state);
+    console.log("work props:", this.props);
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
@@ -158,7 +161,7 @@ export class WorkContainer extends React.Component {
             profile={this.props.profile}
             owner={this.props.profile}
             pid={work.id}
-            worktype={this.props.worktype || 'book'}
+            worktype={workType}
             reviewActions={this.props.reviewActions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
@@ -178,7 +181,7 @@ export class WorkContainer extends React.Component {
           totalCount={meta.workReviewsTotalCount}
           limit={meta.limit}
           reviews={reviews}
-          worktype="book"
+          worktype={workType}
           profile={this.props.profile}
           reviewActions={this.props.reviewActions}
           uiActions={this.props.uiActions}

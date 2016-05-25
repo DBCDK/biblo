@@ -158,7 +158,7 @@ export class WorkContainer extends React.Component {
             profile={this.props.profile}
             owner={this.props.profile}
             pid={work.id}
-            worktype={this.props.worktype || 'book'}
+            worktype={workType}
             reviewActions={this.props.reviewActions}
             uiActions={this.props.uiActions}
             flagActions={this.props.flagActions}
@@ -178,7 +178,7 @@ export class WorkContainer extends React.Component {
           totalCount={meta.workReviewsTotalCount}
           limit={meta.limit}
           reviews={reviews}
-          worktype="book"
+          worktype={workType}
           profile={this.props.profile}
           reviewActions={this.props.reviewActions}
           uiActions={this.props.uiActions}

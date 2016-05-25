@@ -362,10 +362,6 @@ export class ProfileDetailContainer extends React.Component {
       {
         label: 'Aktivitet',
         content: activityPaneContent
-      },
-      {
-        label: 'Anmeldelser',
-        content: reviewsPaneContent
       }
     ];
 
@@ -387,6 +383,11 @@ export class ProfileDetailContainer extends React.Component {
         </a>
       );
     });
+
+    // hiding reviews tab behind feature flag -- 561
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('561') !== null) {
+      tabs.push({label: 'Anmeldelser', content: reviewsPaneContent});
+    }
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >

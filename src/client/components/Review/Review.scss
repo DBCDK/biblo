@@ -15,6 +15,7 @@ video {
   max-width: 100%;
 }
 
+
 .review--youtube-container {
   position: relative;
   padding-bottom: 50%;
@@ -42,7 +43,6 @@ video {
     border-radius: 5px;
   }
   @include screen($tablet, $desktop) {
-
     margin-right: 20px;
   }
   @include max-screen($tablet - 1px) {
@@ -108,6 +108,12 @@ video {
     display: inline;
     padding-left: 10px;
   }
+  .logo {
+    position: absolute;
+    padding-left: 10px;
+    height: 40px;
+    margin-top: -10px;
+  }
   .buttons {
     position: absolute;
     top: 20px;
@@ -132,7 +138,6 @@ video {
     margin-left: 20px;
   }
 }
-
 
 .review-add {
   margin-bottom: 20px;

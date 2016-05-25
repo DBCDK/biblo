@@ -114,7 +114,7 @@ describe('Testing the ReviewRow component', () => {
 
   // Testing the unlikeReview method
   it('Should update call likeActions.unlikeReview and update state', () => {
-    const _review = {id: 1};
+    const _review = {id: 1, rating: 5};
     const _activeUser = {id: 1};
     const _likeActions = {
       unlikeReview: () => {
@@ -135,12 +135,32 @@ describe('Testing the ReviewRow component', () => {
 
   // Testing the rendered output of the ReviewRow.component
   it('Should render a proper ReviewRow component', () => {
-    const tree = sd.shallowRender(<ReviewRow review={review} metadata={metadata} activeUser={activeUser} likeActions={likeActions} />);
+    const _review = {
+      content: 'review-test-content'
+    };
+    const tree = sd.shallowRender(
+      <ReviewRow
+        review={_review}
+        metadata={metadata}
+        activeUser={activeUser}
+        likeActions={likeActions}
+      />);
+
     const renderedContainer = tree.getRenderOutput();
 
     assert.equal(renderedContainer.type, 'div');
     assert.equal(renderedContainer.props.className, 'review--container');
 
-    tree.dive(['SimpleButton']);
+    // Assert that the review.content is present in the ree
+    const content = tree.dive(['.review--content']).text();
+    assert.equal(content, _review.content);
+
+    // Assert that the Rating component is present in tree (found by its displayName property)
+    const RatingsFunc = () => tree.dive(['Rating.component']);
+    assert.doesNotThrow(RatingsFunc, 'Rating component was found in tree');
+
+    // Assert that the SimpleButton component is present in tree
+    const SimpleButtonFunc = () => tree.dive(['SimpleButton']);
+    assert.doesNotThrow(SimpleButtonFunc, 'SimpleButton component was found in tree');
   });
 });

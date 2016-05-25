@@ -257,6 +257,11 @@ export default class Review extends UploadMedia {
       created
       } = this.state;
 
+    let logo;
+    if (this.props.campaign && this.props.campaign.logos) {
+      logo = this.props.campaign.logos.small;
+    }
+
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
       errors = [];
@@ -362,6 +367,10 @@ export default class Review extends UploadMedia {
             <a href={`/profil/${owner.id}`}><span className='username'
                                                   dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
             <span className='time'>{this.state.isEditing && 'Skriver nu' || TimeToString(created)}</span>
+
+            {logo &&
+            <img className='logo' src={logo}/>
+            }
             <span className='buttons'>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditing} clickFunction={() => this.toggleEditing()}
@@ -502,6 +511,7 @@ Review.propTypes = {
   pids: React.PropTypes.array,
   reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
+  logo: React.PropTypes.string,
   isEditing: React.PropTypes.bool,
   worktype: React.PropTypes.string,  // term.workType (underværksniveau)
   content: React.PropTypes.string,

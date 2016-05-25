@@ -180,7 +180,7 @@ progress[value] {
   -webkit-box-orient: vertical;
   width: 100%;
 
-  @include max-screen($phone) {
+  @include max-screen($tablet) {
     display: none;
   }
 }
@@ -196,7 +196,7 @@ progress[value] {
     width: 40%;
     text-align: center;
 
-    @include max-screen($phone) {
+    @include max-screen($tablet) {
       width: 85%;
     }
   }

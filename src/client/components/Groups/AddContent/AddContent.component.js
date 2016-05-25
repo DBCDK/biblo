@@ -133,14 +133,14 @@ export default class AddContent extends UploadMedia {
     return (
       <ModalWindow onClose={() => this.setState({showAddReviews: false})} title="Indsæt Anmeldelse">
         <div className="attach-review-modal--reviews-container">
-          {reviewRows}
+          {reviewRows.length > 0 ? reviewRows : 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!'}
         </div>
-        <div>
+        {this.props.profile.reviews.data.length < this.props.profile.reviews.reviewsCount && <div>
           <VisFlereButton
             onClick={() => this.props.getMoreWorks(this.props.profile.id, this.props.profile.reviews.data.length)}
             isLoading={this.props.profile.reviews.isLoading}
           />
-        </div>
+        </div>}
         <div className="attach-review-modal--buttons-container">
           <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})} />
           <RoundedButton buttonText="Luk" clickFunction={() => this.setState({showAddReviews: false, selectedReview: ''})} />

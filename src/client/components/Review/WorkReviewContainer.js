@@ -81,7 +81,10 @@ export class WorkReviewContainer extends React.Component {
     const workType = (work.workType) ? work.workType[0] : 'other';
     // const extent = (work.extent) ? work.extent[0] : '';
 
-    let isOwnReview = (meta.ownReviewId === reviews[0].id);
+    let isOwnReview;
+    if (reviews.length > 0) {
+      isOwnReview = (meta.ownReviewId === reviews[0].id);
+    }
 
     let tags = [];
     tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;

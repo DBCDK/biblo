@@ -13,6 +13,7 @@ import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game.svg'
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
+import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 const displayTypeSvgs = {
   book: bookSvg,
@@ -23,6 +24,9 @@ const displayTypeSvgs = {
   other: otherSvg
 };
 
+/**
+ * Display details and related buttons to a work
+ */
 export class WorkDetail extends React.Component {
 
   render() {
@@ -38,10 +42,15 @@ export class WorkDetail extends React.Component {
     const abstract = this.props.abstract;
 
     const profile = this.props.profile;
+    let reviewButton;
 
-    let review = (
-        <ReviewButton editText={this.props.editText} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />
-    );
+    // sd-566: tweak login requirements and button glyph when in full review view
+    if (this.props.fullReview) {
+      reviewButton = (<ReviewButton editText={this.props.editText} loginRequired={false} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />);
+    }
+    else {
+      reviewButton = (<ReviewButton editText={this.props.editText} glyph={pencilSvg} loginRequired={true} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />);
+    }
 
     return (
       <div className='work-detail'>
@@ -54,30 +63,36 @@ export class WorkDetail extends React.Component {
           </div>
 
           <div className='work-detail--action-buttons'>
-            <BorrowButton
-              collectionDetails={this.props.collectionDetails}
-              collection={this.props.collection}
-              workTitle={title}
-              coverUrl={coverUrl}
-              orderState={this.props.orderState}
-              orderMaterialAction={this.props.orderMaterialAction}
-              checkOrderPolicyAction={this.props.checkOrderPolicyAction}
-              checkOrderPolicyResult={this.props.checkOrderPolicyResult}
-              checkOrderPolicyDone={this.props.checkOrderPolicyDone}
-              saveProfileAction={this.props.saveProfileAction}
-              unselectLibraryFunction={this.props.unselectLibraryFunction}
-              searchForLibraryAction={this.props.searchForLibraryAction}
-              librarySearchResults={this.props.librarySearchResults}
-              profile={this.props.profile}
-            />
-            {review}
+            {
+             //  sd-566: Do not show borrow button when displaying own review in expanded mode (the user allready borrowed this)
+             !this.props.ownReview && <BorrowButton
+                collectionDetails={this.props.collectionDetails}
+                collection={this.props.collection}
+                workTitle={title}
+                coverUrl={coverUrl}
+                orderState={this.props.orderState}
+                orderMaterialAction={this.props.orderMaterialAction}
+                checkOrderPolicyAction={this.props.checkOrderPolicyAction}
+                checkOrderPolicyResult={this.props.checkOrderPolicyResult}
+                checkOrderPolicyDone={this.props.checkOrderPolicyDone}
+                saveProfileAction={this.props.saveProfileAction}
+                unselectLibraryFunction={this.props.unselectLibraryFunction}
+                searchForLibraryAction={this.props.searchForLibraryAction}
+                librarySearchResults={this.props.librarySearchResults}
+                profile={this.props.profile}
+              />
+            }
+            {reviewButton}
           </div>
         </div>
 
         <div className='work-detail--secondary'>
-          <div className='work-detail--large-cover'>
-            <img src={coverUrl}/>
-          </div>
+          {
+            // sd-566: Do not show coverurls when displaying full reviews
+            !this.props.fullReview && <div className='work-detail--large-cover'>
+              <img src={coverUrl}/>
+            </div>
+          }
 
           <ul className='work-detail--material-types'>
             {materialTypeElements}
@@ -108,9 +123,13 @@ WorkDetail.propTypes = {
   unselectLibraryFunction: React.PropTypes.func.isRequired,
   searchForLibraryAction: React.PropTypes.func.isRequired,
   saveProfileAction: React.PropTypes.func.isRequired,
-  librarySearchResults: React.PropTypes.array.isRequired
+  librarySearchResults: React.PropTypes.array.isRequired,
+  fullReview: React.PropTypes.bool, // are we expanding the current review? (e.g. only one at the screen) sd-566
+  ownReview: React.PropTypes.bool   // is this the users own review sd-566
 };
 
 WorkDetail.defaultProps = {
-  year: ''
+  year: '',
+  ownReview: false,
+  fullReview: false
 };

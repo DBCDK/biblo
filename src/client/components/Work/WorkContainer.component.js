@@ -82,8 +82,6 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
-
-
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
@@ -178,7 +176,7 @@ export class WorkContainer extends React.Component {
         <ReviewList
           pids={work.collection}
           totalCount={meta.workReviewsTotalCount}
-          limit={reviews.limit}
+          limit={meta.limit}
           reviews={reviews}
           worktype="book"
           profile={this.props.profile}
@@ -186,7 +184,7 @@ export class WorkContainer extends React.Component {
           uiActions={this.props.uiActions}
           flagActions={this.props.flagActions}
           likeActions={this.props.likeActions}
-          expand={this.props.reviewActions.asyncShowReviews}
+          expand={this.props.reviewActions.asyncShowWorkReviews}
           />
 
         <MoreInfo

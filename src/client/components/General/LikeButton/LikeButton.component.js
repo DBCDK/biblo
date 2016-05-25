@@ -1,13 +1,12 @@
+/**
+ * @file
+ * Creates a binary 'Like' button
+ */
 import React from 'react';
 import './like-button.scss';
 import Icon from '../Icon/Icon.component.js';
 import heartSvg from '../Icon/svg/functions/heart.svg';
 import heartFullSvg from '../Icon/svg/functions/heart-full.svg';
-
-
-/**
- * Creates a binary 'Like' button
- */
 
 export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}, active=false}) {
 

@@ -10,6 +10,22 @@ const GetOwnReviewTransform = {
     let params = {
       filter: {
         order: 'created DESC',
+        include: [
+          'likes',
+          'image',
+          {
+            relation: 'video',
+            scope: {
+              include: [
+                {
+                  relation: 'resolutions',
+                  scope: {
+                    include: ['video']
+                  }
+                }]
+            }
+          }
+        ],
         where: {
           markedAsDeleted: null,
           reviewownerid: reviewownerid

@@ -69,5 +69,8 @@ ActivityRow.propTypes = {
   date: React.PropTypes.string,
   answerFunction: React.PropTypes.func,
   likes: React.PropTypes.array,
-  title: React.PropTypes.string
+  title: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ])
 };

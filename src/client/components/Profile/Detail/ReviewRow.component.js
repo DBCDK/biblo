@@ -85,12 +85,33 @@ export default class ReviewRow extends React.Component {
     this.setState({likes: likes});
   }
 
+  /**
+   * Returns a rendered video link
+   * @param video {Object}
+   * @param pid {string}
+   * @return {XML}
+   */
+  getVideoContainer(video, pid) {
+    const resolution = video.resolutions.slice(-1)[0];
+    const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
+    const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
+
+    return (
+      <div className="review--content--videoplayer">
+        <a href={`/materiale/${pid}`} className="compact-review--video--container" >
+          <img src={videoImageSrc} />
+        </a>
+      </div>
+    );
+  }
+
   render() {
     const activeUser = this.props.activeUser;
     const coverUrl = this.getCoverUrl();
     const title = this.getTitle();
     const review = this.props.review;
     const likes = this.state.likes;
+    const video = review.video ? this.getVideoContainer(review.video, review.pid) : null;
 
     let content = review.content ? review.content : '';
     if (content.length > 200) {
@@ -114,8 +135,11 @@ export default class ReviewRow extends React.Component {
         </div>
 
         <div className="review--content--container" >
-          <div className="review--content" >{content}</div>
+          <div className="review--content" >
+            {video ? video : content}
+          </div>
           <div className="review--content--actions" >
+            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
             <div className="review--content--actions--likebutton" >
               <LikeButton
                 active={true}
@@ -125,7 +149,6 @@ export default class ReviewRow extends React.Component {
                 usersWhoLikeThis={likes}
               />
             </div>
-            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
           </div>
         </div>
       </div>

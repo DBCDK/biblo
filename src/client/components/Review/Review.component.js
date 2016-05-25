@@ -224,8 +224,13 @@ export default class Review extends UploadMedia {
       if (XMLHttpRequest && FormData) {
         this.setState({isLoading: true});
         this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
-           // we created / edited a review . Restart paging  . We pass along our newly created id here for ownReviewId
-          this.props.reviewActions.asyncShowWorkReviews(response.data.id, this.props.pids, 0, 10, response.data.id);
+          if (this.props.ownReview) { // only show one review
+            this.props.reviewActions.asyncShowReview(response.data.id);
+          }
+          else {
+            // we created / edited a review . Restart paging . pass ownReviewId
+            this.props.reviewActions.asyncShowWorkReviews(this.props.pids, 0, 10, response.data.id);
+          }
           this.afterEdit();
         }).catch((errorMsg) => {
           this.setState({errorMsg: errorMsg});
@@ -515,5 +520,7 @@ Review.propTypes = {
   abort: React.PropTypes.any,
   parentId: React.PropTypes.any,
   imageId: React.PropTypes.number,
-  toggleReview: React.PropTypes.func
+  toggleReview: React.PropTypes.func,
+  ownReview: React.PropTypes.bool
 };
+

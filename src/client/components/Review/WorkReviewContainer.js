@@ -49,14 +49,7 @@ export class WorkReviewContainer extends React.Component {
   toggleReview() {
     let profile = this.getProfile();
     if (!profile.quarantined) {
-      if (this.getOwnReviewId()) {
-        window.location = '/materiale/' + this.props.workState.work.collection;
-      }
-      else {
-        this.setState({
-          reviewVisible: !this.state.reviewVisible
-        });
-      }
+      window.location = '/materiale/' + this.props.workState.work.collection[0];
     }
     else {
       this.setState({
@@ -80,12 +73,18 @@ export class WorkReviewContainer extends React.Component {
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
+    let meta = this.props.reviewState.workReviewsMeta;    // meta information about reviews (check for users own review)
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
     const creator = (work.creator) ? work.creator[0] : '';
     const workType = (work.workType) ? work.workType[0] : 'other';
     // const extent = (work.extent) ? work.extent[0] : '';
+
+    let isOwnReview;
+    if (reviews.length > 0) {
+      isOwnReview = (meta.ownReviewId === reviews[0].id);
+    }
 
     let tags = [];
     tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;
@@ -133,6 +132,8 @@ export class WorkReviewContainer extends React.Component {
           profile={this.props.profile}
           unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
           saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
+          fullReview={true}
+          ownReview={isOwnReview}
           />
         {
           this.state.errorMessage &&
@@ -142,7 +143,7 @@ export class WorkReviewContainer extends React.Component {
         }
         <ReviewList
           pids={work.collection}
-          limit={reviews.limit}
+          limit={1}
           reviews={reviews}
           worktype="book"
           profile={this.props.profile}
@@ -151,6 +152,7 @@ export class WorkReviewContainer extends React.Component {
           flagActions={this.props.flagActions}
           likeActions={this.props.likeActions}
           expand={this.props.reviewActions.asyncShowReviews}
+          ownReview={true}
         />
       </PageLayout>
     );

@@ -142,7 +142,7 @@ export class ProfileDetailContainer extends React.Component {
 
           return (
             <ActivityRow
-              likes={0}
+              likes={[]}
               imageSrc={activity.imageSrc}
               key={'comment_' + activity.id}
               title={title}
@@ -204,7 +204,7 @@ export class ProfileDetailContainer extends React.Component {
 
           return (
             <ActivityRow
-              likes={0}
+              likes={[]}
               imageSrc={activity.imageSrc}
               key={'post_' + activity.id}
               title={postTitle}
@@ -248,12 +248,14 @@ export class ProfileDetailContainer extends React.Component {
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const activityFeed = this.getActivityFeed(isMyProfile);
+
     const reviewsFeed = (
       <ReviewsContainer
         reviews={this.props.reviews.userReviews}
-        user={this.props.feed.profile}
+        activeUser={this.props.profile}
         getWorksAction={this.props.workActions.asyncGetWorks}
         worksMetadata={this.props.works.workMetadataOrderedByPid}
+        likeActions={this.props.likeActions}
       />
     );
 

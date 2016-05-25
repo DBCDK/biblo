@@ -7,6 +7,7 @@ import React from 'react';
 // Components
 import Rating from '../../General/Rating/Rating.component';
 import SimpleButton from '../../General/SimpleButton/SimpleButton.component';
+import LikeButton from '../../General/LikeButton/LikeButton.component';
 
 // SASS
 import './scss/ReviewRow.component.scss';
@@ -14,14 +15,21 @@ import './scss/ReviewRow.component.scss';
 export default class ReviewRow extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      likes: this.props.review.likes || []
+    };
   }
 
-  shouldComponentUpdate(nextProps) {
-    return (this.props.metadata !== nextProps.metadata);
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.metadata !== nextProps.metadata ||
+      this.state.likes.toString() !== nextState.likes.toString()
+    );
   }
 
   onClick() {
-    if (window) {
+    if (typeof window !== 'undefined') {
       window.location = `/anmeldelse/${this.props.review.id}`;
     }
   }
@@ -49,15 +57,47 @@ export default class ReviewRow extends React.Component {
     return coverUrl;
   }
 
+  likeReview() {
+    const like = {
+      profileId: this.props.activeUser.id,
+      reviewId: this.props.review.id
+    };
+
+    this.props.likeActions.likeReview(like);
+
+    const likes = this.state.likes.slice(); // treating state as immutable to make shouldComponentUpdate work proberly
+    likes.push(like.profileId);
+
+    this.setState({likes: likes});
+  }
+
+  unlikeReview() {
+    const like = {
+      profileId: this.props.activeUser.id,
+      reviewId: this.props.review.id
+    };
+
+    this.props.likeActions.unlikeReview(like);
+    const likes = this.state.likes.filter((id) => {
+      return (id !== like.profileId);
+    });
+
+    this.setState({likes: likes});
+  }
+
   render() {
+    const activeUser = this.props.activeUser;
     const coverUrl = this.getCoverUrl();
     const title = this.getTitle();
     const review = this.props.review;
+    const likes = this.state.likes;
+
     let content = review.content ? review.content : '';
     if (content.length > 200) {
       content = content.slice(0, 200) + '...';
     }
-    const user = this.props.user;
+
+    const isLikedByActiveUser = likes.includes(activeUser.id);
 
     return (
       <div className="review--container" >
@@ -66,8 +106,6 @@ export default class ReviewRow extends React.Component {
             <img src={coverUrl} alt={title} />
           </div>
           <div className="review--data" >
-            <img className="review--data--profilepic" src={user.image.small} alt={user.displayName} />
-            <span className="review--data--username" ><a href={`/profil/${user.id}`} >{user.raw.displayName}</a></span>
             <span className="review--data--material-title" ><a href={`/materiale/${review.pid}`} >{title}</a></span>
             <div className="ratings" >
               <Rating rating={review.rating} />
@@ -77,19 +115,29 @@ export default class ReviewRow extends React.Component {
 
         <div className="review--content--container" >
           <div className="review--content" >{content}</div>
+          <div className="review--content--actions" >
+            <div className="review--content--actions--likebutton" >
+              <LikeButton
+                active={true}
+                isLikedByCurrentUser={isLikedByActiveUser}
+                likeFunction={this.likeReview.bind(this)}
+                unlikeFunction={this.unlikeReview.bind(this)}
+                usersWhoLikeThis={likes}
+              />
+            </div>
+            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
+          </div>
         </div>
-        <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
       </div>
     );
   }
 }
 
-ReviewRow.propTypes = {
-  review: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object.isRequired,
-  metadata: React.PropTypes.object.isRequired
-};
+ReviewRow.displayName = 'ReviewRow';
 
-ReviewRow.defaultProps = {
-  metadata: {}
+ReviewRow.propTypes = {
+  activeUser: React.PropTypes.object.isRequired,
+  metadata: React.PropTypes.object.isRequired,
+  likeActions: React.PropTypes.object.isRequired,
+  review: React.PropTypes.object.isRequired
 };

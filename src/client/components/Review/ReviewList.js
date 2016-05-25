@@ -8,17 +8,17 @@ import './ReviewList.scss';
 
 export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,
-  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading}) {
+  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview}) {
 
-  let hasMore = true;
-  if (limit > reviews.length) {
-    hasMore = false;
+  let hasMore = false;
+  if (totalCount > reviews.length) {
+    hasMore = true;
   }
 
   let expandButton;
   if (hasMore && expand) {
     expandButton = (
-      <ExpandButton className="group-showmore" text="Vis flere"
+      <ExpandButton className="reviews-showmore" text="VIS FLERE"
                     isLoading={isLoading}
                     onClick={()=> expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
     );
@@ -46,11 +46,12 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
           flagActions={flagActions}
           likeActions={likeActions}
           pids={pids}
+          ownReview={ownReview}
         />))
         || 'Der er ikke skrevet nogen anmeldelser'
       }
 
-      <div className="reviews--showmore">
+      <div className="reviews--showmore-container">
         {expandButton}
       </div>
     </div>);
@@ -64,10 +65,15 @@ ReviewList.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  expand: React.PropTypes.func.isRequired,
+  expand: React.PropTypes.func,
   delta: React.PropTypes.number,
   skip: React.PropTypes.number,
   limit: React.PropTypes.number,
   pids: React.PropTypes.array,
-  isLoading: React.PropTypes.bool
+  isLoading: React.PropTypes.bool,
+  ownReview: React.PropTypes.bool
+};
+
+ReviewList.defaultProps = {
+  ownReview: false
 };

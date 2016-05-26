@@ -67,6 +67,7 @@
   overflow: hidden;
   position: absolute;
   z-index: -1;
+  display: inline-block;
 }
 
 .content-add--actions {
@@ -75,6 +76,11 @@
     float: right;
     &.submit {
       @include button($melrose);
+
+      @include max-screen($tablet) {
+        margin: 10px 0;
+        width: 100%;
+      }
     }
     &.alert {
       @include button($carnation);
@@ -83,6 +89,7 @@
     &.delete {
       @include button($carnation);
       margin-right: 10px;
+      float: none;
     }
   }
 }
@@ -287,9 +294,5 @@ progress[value] {
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
-}
-
-.rounded-button.close-button {
-  background-color: red;
 }
 /* END attach review modal window styles */

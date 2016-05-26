@@ -261,19 +261,21 @@ export default class PostView extends React.Component {
               </span>
           </div>
           }
-          {
-            this.state.isCommentInputVisible &&
-            <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
-                        type="comment" works={this.props.works} coverImages={this.props.coverImages}
-                        abort={() => this.toggleCommentInput()} getMoreWorks={this.props.getMoreWorks}
-                        addContentAction={groupActions.addComment}
-                        autofocus={true}
-            />
-            ||
-            <a className="post--add-comment-button" href="#add-comment"
-               onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
-          }
-          {likeButton}
+          {!this.state.isEditting && <span>
+            {
+              this.state.isCommentInputVisible &&
+              <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
+                          type="comment" works={this.props.works} coverImages={this.props.coverImages}
+                          abort={() => this.toggleCommentInput()} getMoreWorks={this.props.getMoreWorks}
+                          addContentAction={groupActions.addComment}
+                          autofocus={true}
+              />
+              ||
+              <a className="post--add-comment-button" href="#add-comment"
+                 onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
+            }
+            {likeButton}
+          </span>}
         </div>
       </div>
     );

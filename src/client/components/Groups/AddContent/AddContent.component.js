@@ -247,22 +247,6 @@ export default class AddContent extends UploadMedia {
             }
           </div>
           <div className='content-add--actions'>
-            <button
-              type='submit'
-              className='button submit'
-              id='submit-btn'
-              disabled={
-                this.state.attachment.video &&
-                this.state.attachment.video.file.progress > 0 &&
-                this.state.attachment.video.file.progress < 100 ||
-                this.state.isLoading ||
-                this.state.disableInput
-                }
-            >
-              {(this.state.isLoading) && <Icon glyph={spinner}/>}
-              OK
-            </button>
-            {deleteButton}
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
                 <input
@@ -289,7 +273,25 @@ export default class AddContent extends UploadMedia {
                   <span className="attach-review-button--text"> Anmeldelse </span>
                 </a>
               </FeaturePreview>
+
+              {deleteButton}
             </div>
+
+            <button
+              type='submit'
+              className='button submit'
+              id='submit-btn'
+              disabled={
+                this.state.attachment.video &&
+                this.state.attachment.video.file.progress > 0 &&
+                this.state.attachment.video.file.progress < 100 ||
+                this.state.isLoading ||
+                this.state.disableInput
+                }
+            >
+              {(this.state.isLoading) && <Icon glyph={spinner}/>}
+              OK
+            </button>
           </div>
         </form>
       </div>);

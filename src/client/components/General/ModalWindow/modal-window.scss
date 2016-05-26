@@ -14,7 +14,7 @@
 .modal-window--window {
   position: fixed;
   z-index: 201;
-  max-height: 80vh;
+  max-height: 75vh;
   width: 90vw;
   left: 3vw;
   top: 5vh;
@@ -35,7 +35,7 @@
 
 .modal-window--content {
   background-color: white;
-  max-height: 80vh;
+  max-height: 75vh;
   overflow-y: auto;
   display: inline-block;
 }

@@ -235,7 +235,7 @@ ProfileRoutes.post(
       }
 
       let libraryCheck = await checkUserLibraryInfo(req, b, p);
-      errors.concat(libraryCheck.errors);
+      errors = errors.concat(libraryCheck.errors);
       updatedProfileObject = Object.assign(updatedProfileObject, libraryCheck.updatedProfileObject);
 
       if (

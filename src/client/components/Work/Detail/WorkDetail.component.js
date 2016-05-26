@@ -1,5 +1,8 @@
-import React from 'react';
+/**
+ * @file Display details and related buttons to a work
+ */
 
+import React from 'react';
 import './WorkDetail.component.scss';
 
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
@@ -24,9 +27,6 @@ const displayTypeSvgs = {
   other: otherSvg
 };
 
-/**
- * Display details and related buttons to a work
- */
 export class WorkDetail extends React.Component {
 
   render() {
@@ -129,7 +129,6 @@ WorkDetail.propTypes = {
 };
 
 WorkDetail.defaultProps = {
-  year: '',
   ownReview: false,
   fullReview: false
 };

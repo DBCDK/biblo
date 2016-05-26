@@ -51,7 +51,9 @@ export class WorkReviewContainer extends React.Component {
   toggleReview() {
     let profile = this.getProfile();
     if (!profile.quarantined) {
-      window.location = '/materiale/' + this.props.workState.work.collection[0];
+      if (window) {
+        window.location = '/materiale/' + this.props.workState.work.collection[0];
+      }
     }
     else {
       this.setState({
@@ -75,7 +77,7 @@ export class WorkReviewContainer extends React.Component {
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
-    let meta = this.props.reviewState.workReviewsMeta;    // meta information about reviews (check for users own review)
+    const meta = this.props.reviewState.workReviewsMeta;  // meta information about reviews (check for users own review)
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
@@ -111,55 +113,55 @@ export class WorkReviewContainer extends React.Component {
         </ModalWindow>
         }
         <div className='work'>
-        <WorkHeader coverUrl={coverUrl}/>
-        <WorkDetail
-          collection={work.collection}
-          collectionDetails={work.collectionDetails}
-          editText={this.getEditText()}
-          reviewVisible={reviewVisible}
-          toggleReview={this.toggleReview.bind(this)}
-          title={work.dcTitleFull[0]}
-          displayType={workType}
-          creator={creator}
-          abstract={abstract}
-          tags={tags}
-          coverUrl={coverUrl}
-          workType={workType}
-          orderState={this.props.workState.orderState}
-          orderMaterialAction={this.props.workActions.asyncOrderWork}
-          checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
-          checkOrderPolicyResult={this.props.workState.orderPolicy}
-          checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
-          searchForLibraryAction={this.librarySearch.bind(this)}
-          librarySearchResults={librarySuggestions}
-          profile={this.props.profile}
-          unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
-          saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
-          fullReview={true}
-          ownReview={isOwnReview}
+          <WorkHeader coverUrl={coverUrl}/>
+          <WorkDetail
+            collection={work.collection}
+            collectionDetails={work.collectionDetails}
+            editText={this.getEditText()}
+            reviewVisible={reviewVisible}
+            toggleReview={this.toggleReview.bind(this)}
+            title={work.dcTitleFull[0]}
+            displayType={workType}
+            creator={creator}
+            abstract={abstract}
+            tags={tags}
+            coverUrl={coverUrl}
+            workType={workType}
+            orderState={this.props.workState.orderState}
+            orderMaterialAction={this.props.workActions.asyncOrderWork}
+            checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
+            checkOrderPolicyResult={this.props.workState.orderPolicy}
+            checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
+            searchForLibraryAction={this.librarySearch.bind(this)}
+            librarySearchResults={librarySuggestions}
+            profile={this.props.profile}
+            unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
+            saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
+            fullReview={true}
+            ownReview={isOwnReview}
           />
-        {
-          this.state.errorMessage &&
-          <Message type='error'>
-            <span> {this.state.errorMessage} </span>
-          </Message>
-        }
-        <div className='work--reviewlist'>
-        <ReviewList
-          pids={work.collection}
-          limit={1}
-          reviews={reviews}
-          worktype="book"
-          profile={this.props.profile}
-          reviewActions={this.props.reviewActions}
-          uiActions={this.props.uiActions}
-          flagActions={this.props.flagActions}
-          likeActions={this.props.likeActions}
-          expand={this.props.reviewActions.asyncShowReviews}
-          ownReview={true}
-        />
+          {
+            this.state.errorMessage &&
+            <Message type='error'>
+              <span> {this.state.errorMessage} </span>
+            </Message>
+          }
+          <div className='work--reviewlist'>
+            <ReviewList
+              pids={work.collection}
+              limit={1}
+              reviews={reviews}
+              worktype="book"
+              profile={this.props.profile}
+              reviewActions={this.props.reviewActions}
+              uiActions={this.props.uiActions}
+              flagActions={this.props.flagActions}
+              likeActions={this.props.likeActions}
+              expand={this.props.reviewActions.asyncShowReviews}
+              ownReview={true}
+            />
           </div>
-          </div>
+        </div>
       </PageLayout>
     );
   }

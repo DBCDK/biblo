@@ -12,7 +12,7 @@
 .content-add--textarea {
   overflow: hidden;
   width: 100%;
-  padding: 0px;
+  padding: 0;
   box-sizing: border-box;
   border: none;
   min-height: 100px;
@@ -231,13 +231,14 @@ progress[value] {
 }
 
 .attach-review-modal--buttons-container {
-  .rounded-button {
-    width: 40%;
-    text-align: center;
+  width: 100%;
 
-    @include max-screen($tablet) {
-      width: 85%;
-    }
+  .rounded-button {
+    text-align: center;
+    left: 0;
+    right: 0;
+    width: auto;
+    display: block;
   }
 }
 
@@ -266,5 +267,9 @@ progress[value] {
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
+}
+
+.rounded-button.close-button {
+  background-color: red;
 }
 /* END attach review modal window styles */

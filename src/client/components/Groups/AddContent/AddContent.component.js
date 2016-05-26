@@ -145,7 +145,7 @@ export default class AddContent extends UploadMedia {
     });
 
     return (
-      <ModalWindow onClose={() => this.setState({showAddReviews: false})} title="Indsæt Anmeldelse">
+      <ModalWindow onClose={() => this.setState({showAddReviews: false, attachment: {}})} title="Indsæt Anmeldelse">
         <div className="attach-review-modal--reviews-container">
           {reviewRows.length > 0 ? reviewRows : 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!'}
         </div>
@@ -156,8 +156,6 @@ export default class AddContent extends UploadMedia {
           />
         </div>}
         <div className="attach-review-modal--buttons-container">
-          <RoundedButton buttonText="Luk"
-                         clickFunction={() => this.setState({showAddReviews: false, attachment: {review: null}})}/>
           <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})}/>
         </div>
       </ModalWindow>
@@ -290,7 +288,7 @@ export default class AddContent extends UploadMedia {
                 <span className="content-add--media-label">Upload</span>
               </label>
 
-              <FeaturePreview>
+              <FeaturePreview previewKey="sd-557">
                 <RoundedButton
                   buttonText="Anmeldelse"
                   className=" insert-review-button"

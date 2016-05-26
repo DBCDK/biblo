@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
+
 import {expect, assert} from 'chai';
+import $ from 'teaspoon';
+
 import 'chai-as-promised';
 import sinon from 'sinon';
 import 'sinon-as-promised';
+
 import AddContent from '../AddContent.component';
 
 describe('Test of AddContent Component', () => {
@@ -247,5 +251,69 @@ describe('Test of AddContent Component', () => {
     TestUtils.Simulate.submit(form);
     assert(component.state.isLoading);
     done();
+  });
+
+  it('Should render modal when button is clicked, no review data', () => {
+    window.localStorage.setItem('sd-557', 'on');
+
+    profile.userIsLoggedIn = true;
+    profile.id = 1;
+    profile.reviews = {data: []};
+
+    const owner = {
+      id: 1
+    };
+    
+    let component = (
+      <AddContent owner={owner} profile={profile} parentId={1} />
+    );
+    
+    let $root = $(component).render();
+    $root.find('.insert-review-button').trigger('click');
+
+    const reviewsText = $root.find('.attach-review-modal--reviews-container').text();
+    assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.')
+  });
+
+  it('Should render reviews in modal when data is available', () => {
+    window.localStorage.setItem('sd-557', 'on');
+
+    profile.userIsLoggedIn = true;
+    profile.id = 1;
+    profile.reviews = {
+      data: [{
+        pid: 'testpid',
+        content: 'bob er sej!',
+        id: 1234,
+        worktype: 'book'
+      }],
+      reviewsCount: 1
+    };
+
+    const works = {
+      testpid: {
+        title: 'bob',
+        creator: 'kop'
+      }
+    };
+
+    const owner = {
+      id: 1
+    };
+
+    let component = (
+      <AddContent owner={owner} profile={profile} parentId={1} works={works} />
+    );
+
+    let $root = $(component).render();
+    $root.find('.insert-review-button').trigger('click');
+
+    const radioInputValue = $root.find('.attach-review-modal--radio-btn-input').props().value
+    assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');
+
+    $root.find('.attach-review-modal--radio-btn-input').trigger('change');
+    $root.find('.attach-review-modal--buttons-container > a').trigger('click');
+
+    assert.isTrue(!!$root.state().attachment.review);
   });
 });

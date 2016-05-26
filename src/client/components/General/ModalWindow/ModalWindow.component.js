@@ -28,12 +28,14 @@ export default class ModalWindow extends React.Component {
             {title}
           </div>
           <div className="modal-window--content-container">
-            <div className="modal-window--content">
+            <div>
               <div className="modal-window--close-button--container">
-              <span onClick={this.props.onClose} className="modal-window--close-button">
-                <Icon glyph={closeSvg} />
-              </span>
+                <span onClick={this.props.onClose} className="modal-window--close-button">
+                  <Icon glyph={closeSvg} />
+                </span>
               </div>
+            </div>
+            <div className="modal-window--content">
               {this.props.children}
             </div>
           </div>

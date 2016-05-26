@@ -254,8 +254,6 @@ describe('Test of AddContent Component', () => {
   });
 
   it('Should render modal when button is clicked, no review data', () => {
-    window.localStorage.setItem('sd-557', 'on');
-
     profile.userIsLoggedIn = true;
     profile.id = 1;
     profile.reviews = {data: []};
@@ -269,15 +267,14 @@ describe('Test of AddContent Component', () => {
     );
 
     let $root = $(component).render();
-    $root.find('.insert-review-button').trigger('click');
+    // Can't click the button due to FeaturePreview so emulate click by setting state
+    $root.state('showAddReviews', true);
 
     const reviewsText = $root.find('.attach-review-modal--reviews-container').text();
     assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.');
   });
 
   it('Should render reviews in modal when data is available', () => {
-    window.localStorage.setItem('sd-557', 'on');
-
     profile.userIsLoggedIn = true;
     profile.id = 1;
     profile.reviews = {
@@ -306,7 +303,8 @@ describe('Test of AddContent Component', () => {
     );
 
     let $root = $(component).render();
-    $root.find('.insert-review-button').trigger('click');
+    // Can't click the button due to FeaturePreview so emulate click by setting state
+    $root.state('showAddReviews', true);
 
     const radioInputValue = $root.find('.attach-review-modal--radio-btn-input').props().value;
     assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');

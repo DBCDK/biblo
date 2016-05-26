@@ -15,7 +15,7 @@ const CheckOrderPolicyTransform = {
         request.agencyId = profile.favoriteLibrary.libraryId;
       }
       catch (err) {
-        throw new Error('Could not find library id in session or request');
+        throw new Error('Could not find library id in session or request or user is not logged in');
       }
     }
 

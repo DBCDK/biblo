@@ -159,15 +159,6 @@ progress[value] {
   }
 }
 
-.insert-review-button {
-  margin: 0 5px;
-  padding: 8px;
-}
-
-.insert-review-button:hover {
-  padding: 6px;
-}
-
 .preview-review {
   div {
     display: inline-flex;
@@ -196,6 +187,31 @@ progress[value] {
   margin-left: 5px;
 }
 
+.insert-review-button {
+  @include hover-transition((background: #eeeeee), 200ms, false);
+
+  background-color: #eeeeee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 30px;
+  margin: 0 10px;
+  cursor: pointer;
+
+  img {
+    vertical-align: middle;
+  }
+
+  .attach-review-button--text {
+    @include max-screen($tablet) {
+      display: none;
+    }
+  }
+}
+
+.insert-review-button:hover {
+  border-color: $melrose;
+}
+
 /* BEGIN attach review modal window styles */
 .attach-review-modal--review-content {
   max-height: 60px;
@@ -214,6 +230,10 @@ progress[value] {
 }
 
 .attach-review-modal--review-row--container {
+  tr {
+    cursor: pointer;
+  }
+
   border-bottom: 2px solid #eee;
   margin-bottom: 10px;
 }

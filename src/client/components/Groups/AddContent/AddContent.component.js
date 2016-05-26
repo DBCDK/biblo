@@ -222,7 +222,7 @@ export default class AddContent extends UploadMedia {
               }
             </div>
 
-            {this.state.attachment.review &&
+            {this.state.attachment.review && this.state.attachment.review !== 'removed' &&
             <div className="preview-review">
               <div className="preview-review--cover-image--container">
                 <img src={this.props.coverImages.pids[this.state.attachment.review.pid]}/>
@@ -262,11 +262,6 @@ export default class AddContent extends UploadMedia {
               {(this.state.isLoading) && <Icon glyph={spinner}/>}
               OK
             </button>
-            {
-              (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file.progress > 0 && this.state.attachment.video.file.progress < 100)) &&
-              <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
-                     value="Fortryd"/>
-            }
             {deleteButton}
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
@@ -289,11 +284,10 @@ export default class AddContent extends UploadMedia {
               </label>
 
               <FeaturePreview previewKey="sd-557">
-                <RoundedButton
-                  buttonText="Anmeldelse"
-                  className=" insert-review-button"
-                  clickFunction={() => this.setState({showAddReviews: true})}
-                />
+                <a className="insert-review-button" onClick={() => this.setState({showAddReviews: true})}>
+                  <img src="/attach_review.png" />
+                  <span className="attach-review-button--text"> Anmeldelse </span>
+                </a>
               </FeaturePreview>
             </div>
           </div>

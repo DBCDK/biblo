@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import autosize from 'autosize';
 import {isEmpty} from 'lodash';
+import dateformat from '../../../Utils/dateInputPolyfill/dateformat';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
@@ -11,7 +12,7 @@ import InputField from '../../General/InputField/InputField.component';
 import Message from '../../General/Message/Message.component';
 import ProfileLibraryInfo from './ProfileLibraryInfo.component';
 
-import 'nodep-date-input-polyfill-danish';
+import '../../../Utils/dateInputPolyfill/date-input-polyfill';
 import './profileform.component.scss';
 
 export default class ProfileForm extends React.Component {
@@ -76,11 +77,13 @@ export default class ProfileForm extends React.Component {
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;
       submitArea = (
-        <ProgressBar completed={this.props.submitProgress} height={'35px'}>
-          <p className="progressbar--message">Behandler</p>
+        <ProgressBar completed={this.props.submitProgress} height={'35px'} >
+          <p className="progressbar--message" >Behandler</p>
         </ProgressBar>
       );
     }
+
+    const birthday = !isEmpty(this.props.birthday) ? dateformat(new Date(this.props.birthday).toISOString(), 'yyyy-mm-dd') : '';
 
     return (
       <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
@@ -155,14 +158,14 @@ export default class ProfileForm extends React.Component {
               />
 
               <InputField
-                defaultValue={!isEmpty(this.props.birthday) ? (new Date(this.props.birthday)).toISOString().split('T')[0] : ''} // YYYY-MM-DD
+                defaultValue={birthday}
                 error={errorObj.birthday}
                 onChangeFunc={(e) => this.setState({birthday: e.target.value})}
                 type="date"
                 name="birthday"
                 title="Din fødselsdag"
                 placeholder="Din fødselsdag"
-                min={new Date()}
+                format="dd/mm/yyyy"
               />
 
 

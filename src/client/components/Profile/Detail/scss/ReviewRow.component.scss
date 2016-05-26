@@ -94,10 +94,10 @@
 }
 
 .review--content {
-  margin-bottom: 20px;
+  margin: 10px 0;
 
-  @include min-screen($tablet) {
-    margin-bottom: 50px;
+  @include min-screen($tablet){
+    margin: 0;
   }
 }
 
@@ -106,8 +106,12 @@
   display: inline-block;
 
   img {
-    max-height: 130px;
     max-width: 100%;
+
+    @include min-screen($tablet) {
+      max-height: 130px;
+      max-width: 100%;
+    }
   }
 }
 
@@ -124,6 +128,7 @@
     position: absolute;
     bottom: 0;
     text-align: left;
+    width: 140%;
   }
 
   a {

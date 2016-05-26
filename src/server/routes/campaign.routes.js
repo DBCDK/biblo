@@ -28,7 +28,7 @@ const CampaignRoutes = express.Router();
 CampaignRoutes.get(
   '/laesebevis/:id',
   ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
-  async function(req, res) {
+  async function(req, res, next) {
 
     const profile = req.session.passport.user.profile.profile;
 
@@ -209,7 +209,7 @@ CampaignRoutes.get(
       doc.end();
     }
     catch (e) {
-      res.send('Der er sket en fejl');
+      next(e);
     }
   }
 );

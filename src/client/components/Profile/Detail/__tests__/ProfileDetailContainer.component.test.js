@@ -35,6 +35,13 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const coverImageActions = {
+      asyncListenForCoverImages: noop,
+      asyncGetCoverImage: noop
+    };
+
+    const coverImages = {};
+
     const workActions = {
       asyncGetWorks: noop
     };
@@ -66,6 +73,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        coverImageActions={coverImageActions}
+        coverImages={coverImages}
         workActions={workActions}
         works={works}
       />
@@ -100,6 +109,13 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const coverImageActions = {
+      asyncListenForCoverImages: noop,
+      asyncGetCoverImage: noop
+    };
+
+    const coverImages = {};
+
     const workActions = {
       asyncGetWorks: noop
     };
@@ -131,6 +147,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        coverImageActions={coverImageActions}
+        coverImages={coverImages}
         workActions={workActions}
         works={works}
       />
@@ -163,6 +181,13 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const coverImageActions = {
+      asyncListenForCoverImages: noop,
+      asyncGetCoverImage: noop
+    };
+
+    const coverImages = {};
+
     const workActions = {
       asyncGetWorks: noop
     };
@@ -194,6 +219,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        coverImageActions={coverImageActions}
+        coverImages={coverImages}
         workActions={workActions}
         works={works}
       />
@@ -226,6 +253,13 @@ describe('Test profile detail container (public profile)', () => {
       userReviews: []
     };
 
+    const coverImageActions = {
+      asyncListenForCoverImages: noop,
+      asyncGetCoverImage: noop
+    };
+
+    const coverImages = {};
+
     const workActions = {
       asyncGetWorks: noop
     };
@@ -257,6 +291,8 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        coverImageActions={coverImageActions}
+        coverImages={coverImages}
         workActions={workActions}
         works={works}
       />

@@ -209,7 +209,7 @@ CampaignRoutes.get(
       doc.end();
     }
     catch (e) {
-      res.send('Der er sket en fejl');
+      next(e);
     }
   }
 );

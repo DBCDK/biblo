@@ -10,6 +10,7 @@ import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
+import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
 import Youtube from 'react-youtube';
 
@@ -31,8 +32,19 @@ class CommentView extends React.Component {
     this.setState({isEditting: !this.state.isEditting});
   }
 
+  renderReview(review) {
+    return (
+      <FeaturePreview>
+        <div key={`comment_review_${review.id}`}>
+          <img src={`/images/covers/${review.worktype}.png`} />
+          <span dangerouslySetInnerHTML={{__html: review.html}} />
+        </div>
+      </FeaturePreview>
+    );
+  }
+
   render() {
-    const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions, video} = this.props;
+    const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions, review, video} = this.props;
 
     const commentFlagModalContent = (
       <CreateFlagDialog
@@ -82,14 +94,15 @@ class CommentView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment"
+            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment" getMoreWorks={this.props.getMoreWorks}
                         abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}
-                        addContentAction={groupActions.editComment} />
+                        addContentAction={groupActions.editComment} coverImages={this.props.coverImages} works={this.props.works} />
             ||
             <div className="comment--content" >
               {
                 <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
+              {review && this.renderReview(review)}
               {
                 image &&
                 <div className='media' >
@@ -127,5 +140,9 @@ CommentView.propTypes = {
   timestamp: React.PropTypes.string,
   groupActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
+  works: React.PropTypes.object.isRequired,
+  getMoreWorks: React.PropTypes.func,
+  review: React.PropTypes.object,
   video: React.PropTypes.object
 };

@@ -14,6 +14,8 @@ import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.j
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
+import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
+import ReviewRow from '../../Profile/Detail/ReviewRow.component';
 
 import Youtube from 'react-youtube';
 
@@ -38,6 +40,13 @@ export default class PostView extends React.Component {
     this.unlikePost = this.unlikePost.bind(this);
     this.deletePost = this.deletePost.bind(this);
     this.submitCommentFlag = this.submitCommentFlag.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.review && this.props.review.pid) {
+      this.props.getCoverImage(this.props.review.pid, this.props.review.worktype);
+      this.props.groupActions.asyncLoadMetadataForReview(this.props.review.pid);
+    }
   }
 
   toggleCommentInput(event) {
@@ -113,6 +122,22 @@ export default class PostView extends React.Component {
       isCommentInputVisible = false;
     }
     this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
+  }
+
+  renderReview(review, coverImages, works, profile, likeActions) {
+    const work = works[review.pid] || {};
+
+    return (
+      <FeaturePreview>
+        <div className="attached-review--container">
+          <ReviewRow
+            activeUser={profile}
+            metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
+            likeActions={likeActions}
+            review={review} />
+        </div>
+      </FeaturePreview>
+    );
   }
 
   render() {
@@ -197,14 +222,15 @@ export default class PostView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post"
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id}
-                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} />
+            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post" getMoreWorks={this.props.getMoreWorks}
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id} works={this.props.works}
+                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} coverImages={this.props.coverImages} />
             ||
             <div className='post--content-wrapper' >
               {
                 <p className='post--content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
+              {this.props.review && this.renderReview(this.props.review, this.props.coverImages, this.props.works, this.props.profile, this.props.likeActions)}
               {
                 image &&
                 <div className='post--media' >
@@ -222,9 +248,9 @@ export default class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id}
+          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} getMoreWorks={this.props.getMoreWorks}
                        submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
-                       groupActions={this.props.groupActions} />
+                       groupActions={this.props.groupActions} works={this.props.works} coverImages={this.props.coverImages} />
           {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments" >
             <ExpandButton isLoading={loadingComments}
@@ -238,8 +264,8 @@ export default class PostView extends React.Component {
           {
             this.state.isCommentInputVisible &&
             <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
-                        type="comment"
-                        abort={() => this.toggleCommentInput()}
+                        type="comment" works={this.props.works} coverImages={this.props.coverImages}
+                        abort={() => this.toggleCommentInput()} getMoreWorks={this.props.getMoreWorks}
                         addContentAction={groupActions.addComment}
                         autofocus={true}
             />
@@ -273,5 +299,10 @@ PostView.propTypes = {
   uiActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   numberOfCommentsLoaded: React.PropTypes.number,
+  review: React.PropTypes.object,
+  works: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
+  getCoverImage: React.PropTypes.func.isRequired,
+  getMoreWorks: React.PropTypes.func,
   video: React.PropTypes.object
 };

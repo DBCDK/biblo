@@ -2,8 +2,11 @@
 @import 'tools';
 
 .more-info {
+  padding-left: 30px;
+  @include min-screen($desktop) {
+    padding-left: 60px;
+  }
 
-  padding-left: 100px;
   padding-right: 100px;
   padding-top: 20px;
   padding-bottom: 50px;
@@ -17,6 +20,9 @@
 }
 
 .more-info--table {
+  @include min-screen($desktop) {
+    padding-top: 30px;
+  }
   td:first-child {
     color:$gray;
     min-width: 150px;

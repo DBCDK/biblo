@@ -21,6 +21,8 @@ import * as workActions from '../../Actions/work.actions';
 import * as EntitySuggestLibraryActions from '../../Actions/entitySuggetLibrary.actions';
 import * as ProfileActions from '../../Actions/profile.actions';
 
+import './WorkContainer.scss';
+
 export class WorkContainer extends React.Component {
 
   constructor(props) {
@@ -124,86 +126,91 @@ export class WorkContainer extends React.Component {
           }
         </ModalWindow>
         }
-        <WorkHeader coverUrl={coverUrl}/>
-        <WorkDetail
-          collection={work.collection}
-          collectionDetails={work.collectionDetails}
-          editText={this.getEditText()}
-          reviewVisible={reviewVisible}
-          toggleReview={this.toggleReview.bind(this)}
-          title={work.dcTitleFull[0]}
-          displayType={workType}
-          creator={creator}
-          abstract={abstract}
-          tags={tags}
-          coverUrl={coverUrl}
-          workType={workType}
-          orderState={this.props.workState.orderState}
-          orderMaterialAction={this.props.workActions.asyncOrderWork}
-          checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
-          checkOrderPolicyResult={this.props.workState.orderPolicy}
-          checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
-          searchForLibraryAction={this.librarySearch.bind(this)}
-          librarySearchResults={librarySuggestions}
-          profile={this.props.profile}
-          unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
-          saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
-          />
-        {
-          reviewVisible &&
-          <Review
-            ref='review'
-            isEditing={true}
+        <div className='work'>
+          <WorkHeader coverUrl={coverUrl}/>
+          <WorkDetail
+            collection={work.collection}
+            collectionDetails={work.collectionDetails}
+            editText={this.getEditText()}
+            reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
+            title={work.dcTitleFull[0]}
+            displayType={workType}
+            creator={creator}
+            abstract={abstract}
+            tags={tags}
+            coverUrl={coverUrl}
+            workType={workType}
+            orderState={this.props.workState.orderState}
+            orderMaterialAction={this.props.workActions.asyncOrderWork}
+            checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
+            checkOrderPolicyResult={this.props.workState.orderPolicy}
+            checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
+            searchForLibraryAction={this.librarySearch.bind(this)}
+            librarySearchResults={librarySuggestions}
             profile={this.props.profile}
-            owner={this.props.profile}
-            pid={work.id}
-            worktype={workType}
-            reviewActions={this.props.reviewActions}
-            uiActions={this.props.uiActions}
-            flagActions={this.props.flagActions}
-            likeActions={this.props.likeActions}
-            pids={work.collection}
+            unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
+            saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
+          />
+          {
+            reviewVisible &&
+            <Review
+              ref='review'
+              isEditing={true}
+              toggleReview={this.toggleReview.bind(this)}
+              profile={this.props.profile}
+              owner={this.props.profile}
+              pid={work.id}
+              worktype={workType}
+              reviewActions={this.props.reviewActions}
+              uiActions={this.props.uiActions}
+              flagActions={this.props.flagActions}
+              likeActions={this.props.likeActions}
+              pids={work.collection}
             />
-        }
-        {
-          this.state.errorMessage &&
-          <Message type='error'>
-            <span> {this.state.errorMessage} </span>
-          </Message>
-        }
+          }
+          {
+            this.state.errorMessage &&
+            <Message type='error'>
+              <span> {this.state.errorMessage} </span>
+            </Message>
+          }
 
-        <ReviewList
-          pids={work.collection}
-          totalCount={meta.workReviewsTotalCount}
-          limit={meta.limit}
-          reviews={reviews}
-          worktype={workType}
-          profile={this.props.profile}
-          reviewActions={this.props.reviewActions}
-          uiActions={this.props.uiActions}
-          flagActions={this.props.flagActions}
-          likeActions={this.props.likeActions}
-          expand={this.props.reviewActions.asyncShowWorkReviews}
-          />
+          <div className='work--reviewlist'>
+            <ReviewList
+              pids={work.collection}
+              totalCount={meta.workReviewsTotalCount}
+              limit={meta.limit}
+              reviews={reviews}
+              worktype={workType}
+              profile={this.props.profile}
+              reviewActions={this.props.reviewActions}
+              uiActions={this.props.uiActions}
+              flagActions={this.props.flagActions}
+              likeActions={this.props.likeActions}
+              expand={this.props.reviewActions.asyncShowWorkReviews}
+            />
+          </div>
 
-        <MoreInfo
-          materials={work.collectionDetails}
-          lix={work.lix}
-          languages={work.dcLanguage}
-          dk5={subjectDK5}
-          dk5Text={subjectDK5Text}
-          year={work.date}
-          tags={tags}
-          extent={extent}
-          publisher={publisher}
-          director={director}
-          actors={actors}
-          workType={workType}
-          ageRecommended={ageRecommended}
-          ageAllowed={ageAllowed}
-          />
-
+          <div className="work--moreinfo">
+            <MoreInfo
+              materials={work.collectionDetails}
+              lix={work.lix}
+              languages={work.dcLanguage}
+              dk5={subjectDK5}
+              dk5Text={subjectDK5Text}
+              year={work.date}
+              tags={tags}
+              extent={extent}
+              publisher={publisher}
+              director={director}
+              actors={actors}
+              workType={workType}
+              ageRecommended={ageRecommended}
+              ageAllowed={ageAllowed}
+            />
+          </div>
+        </div>
       </PageLayout>
     );
   }

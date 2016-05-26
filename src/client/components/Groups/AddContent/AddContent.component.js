@@ -80,7 +80,7 @@ export default class AddContent extends UploadMedia {
       let form = this.refs['group-post-form'];
       this.addContent(form, e.target.action).then((response) => {
         if (form.id.value === '') { // UploadComponent does upserts. checks on id null  . clear state to prepare for new
-          this.setState({id: null, isLoading: false, text: '', attachment: {image: null, video: null}});
+          this.setState({id: null, isLoading: false, text: '', attachment: {image: null, video: null, review: null}});
         }
         this.props.addContentAction(response);
         if (this.props.abort) {
@@ -97,11 +97,13 @@ export default class AddContent extends UploadMedia {
   renderAddReviewModal() {
     const reviewRows = this.props.profile.reviews.data.map((review) => {
       const work = this.props.works[review.pid];
-      let authorCreator = '';
 
-      if (work && work.title && work.creator) {
-        authorCreator = (
-          <span>
+      if (!work || !work.title || !work.creator) {
+        return <span className="could-not-find-work" />;
+      }
+
+      let authorCreator = (
+        <span>
             <div>
               <strong>{work.title}</strong>
             </div>
@@ -109,8 +111,7 @@ export default class AddContent extends UploadMedia {
               {work.creator}
             </div>
           </span>
-        );
-      }
+      );
 
       return (
         <div key={`${review.id}`} className="attach-review-modal--review-row--container">
@@ -235,7 +236,7 @@ export default class AddContent extends UploadMedia {
               </div>
               <div className="preview-review--remove-btn">
                 <a href="#removeReview" className="content-add--remove-media"
-                   onClick={() => this.setState({attachment: {}})}>
+                   onClick={() => this.setState({attachment: {review: 'removed'}})}>
                   <Icon glyph={close}/>
                 </a>
               </div>

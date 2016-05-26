@@ -154,9 +154,13 @@ export default function groupViewReducer(state = initialState, action = {}) {
       let newState = assignToEmpty(state, {});
 
       action.work.data.forEach((workData) => {
+        if (!workData || !workData.creator || !workData.dcTitleFull) {
+          return;
+        }
+
         const workObject = {
-          creator: workData.creator[0],
-          title: workData.dcTitleFull[0]
+          creator: Array.isArray(workData.creator) ? workData.creator[0] : workData.creator,
+          title: Array.isArray(workData.dcTitleFull) ? workData.dcTitleFull[0] : workData.dcTitleFull
         };
 
         workData.collection.forEach((pid) => {

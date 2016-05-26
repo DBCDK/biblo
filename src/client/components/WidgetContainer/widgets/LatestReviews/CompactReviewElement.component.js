@@ -124,7 +124,7 @@ export class CompactReviewElement extends Component {
   render() {
     const review = this.props.review;
     const ownerProfileUrl = `/profil/${review.owner.id}`;
-    const workUrl = `/materiale/${encodeURIComponent(review.pid)}`;
+    const workUrl = `/anmeldelse/${encodeURIComponent(review.id)}`;
     let reviewContent;
 
     if (review.video) {

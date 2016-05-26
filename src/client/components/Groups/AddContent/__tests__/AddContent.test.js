@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
+
 import {expect, assert} from 'chai';
+import $ from 'teaspoon';
+
 import 'chai-as-promised';
 import sinon from 'sinon';
 import 'sinon-as-promised';
+
 import AddContent from '../AddContent.component';
 
 describe('Test of AddContent Component', () => {
@@ -129,12 +133,13 @@ describe('Test of AddContent Component', () => {
     const method = ReactDOM.findDOMNode(form).method.toUpperCase();
     expect(method).to.equal('POST');
     let inputContent = TestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
-    expect(inputContent.length).to.be.eql(5);
+    expect(inputContent.length).to.be.eql(6);
     expect(ReactDOM.findDOMNode(inputContent[0]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[1]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[2]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[3]).type).to.be.eql('hidden');
-    expect(ReactDOM.findDOMNode(inputContent[4]).type).to.be.eql('file');
+    expect(ReactDOM.findDOMNode(inputContent[4]).type).to.be.eql('hidden');
+    expect(ReactDOM.findDOMNode(inputContent[5]).type).to.be.eql('file');
     let submit = TestUtils.findRenderedDOMComponentWithTag(component, 'button');
     expect(submit.type).to.be.eql('submit');
   });
@@ -152,16 +157,6 @@ describe('Test of AddContent Component', () => {
     textarea.value = 'some test value';
     TestUtils.Simulate.change(textarea);
     expect(defaultComponent.state.text).to.be.equal(textarea.value);
-  });
-
-  it('it should call abort action', () => {
-    const abort = sinon.spy(); // eslint-disable-line no-undef
-    const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort}/>);
-    let input = TestUtils.findRenderedDOMComponentWithClass(component, 'alert');
-    expect(ReactDOM.findDOMNode(input).value).to.be.eql('Fortryd');
-    TestUtils.Simulate.click(input);
-    expect(abort.called).to.be.equal(true);
   });
 
   it('it should be hidden if user not logged in', () => {
@@ -246,5 +241,67 @@ describe('Test of AddContent Component', () => {
     TestUtils.Simulate.submit(form);
     assert(component.state.isLoading);
     done();
+  });
+
+  it('Should render modal when button is clicked, no review data', () => {
+    profile.userIsLoggedIn = true;
+    profile.id = 1;
+    profile.reviews = {data: []};
+
+    const owner = {
+      id: 1
+    };
+
+    let component = (
+      <AddContent owner={owner} profile={profile} parentId={1} />
+    );
+
+    let $root = $(component).render();
+    // Can't click the button due to FeaturePreview so emulate click by setting state
+    $root.state('showAddReviews', true);
+
+    const reviewsText = $root.find('.attach-review-modal--reviews-container').text();
+    assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.');
+  });
+
+  it('Should render reviews in modal when data is available', () => {
+    profile.userIsLoggedIn = true;
+    profile.id = 1;
+    profile.reviews = {
+      data: [{
+        pid: 'testpid',
+        content: 'bob er sej!',
+        id: 1234,
+        worktype: 'book'
+      }],
+      reviewsCount: 1
+    };
+
+    const works = {
+      testpid: {
+        title: 'bob',
+        creator: 'kop'
+      }
+    };
+
+    const owner = {
+      id: 1
+    };
+
+    let component = (
+      <AddContent owner={owner} profile={profile} parentId={1} works={works} />
+    );
+
+    let $root = $(component).render();
+    // Can't click the button due to FeaturePreview so emulate click by setting state
+    $root.state('showAddReviews', true);
+
+    const radioInputValue = $root.find('.attach-review-modal--radio-btn-input').props().value;
+    assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');
+
+    $root.find('.attach-review-modal--radio-btn-input').trigger('change');
+    $root.find('.attach-review-modal--buttons-container > a').trigger('click');
+
+    assert.isTrue(!!$root.state().attachment.review);
   });
 });

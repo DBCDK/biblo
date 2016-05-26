@@ -16,6 +16,7 @@ import listGroupsReducer from './listGroups.reducer';
 import reviewReducer from './review.reducer';
 import widgetReducer from './widget.reducer';
 import workReducer from './work.reducer';
+import coverImageReducer from './coverImages.reducer';
 
 const rootReducer = combineReducers({
   uiReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   listGroupsReducer,
   reviewReducer,
   widgetReducer,
+  coverImageReducer,
   workReducer
 });
 

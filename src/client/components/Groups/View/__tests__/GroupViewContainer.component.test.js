@@ -51,8 +51,28 @@ describe('Test GroupView Component', () => {
     closeModalWindow: noop
   };
 
+  let coverImageActions = {
+    asyncGetCoverImage: noop,
+    asyncListenForCoverImages: noop
+  };
+
+  let profileActions = {
+    asyncGetUserReviews: noop
+  };
+
   it('Group View Component is being rendered', () => {
-    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={groupActions} uiActions={uiActions} ui={ui} />);
+    const tree = sd.shallowRender(
+      <GroupViewContainer
+        group={group}
+        profile={profile}
+        groupActions={groupActions}
+        uiActions={uiActions}
+        profileActions={profileActions}
+        ui={ui}
+        coverImageActions={coverImageActions}
+        coverImages={{}}
+      />
+    );
     assert.equal(`<p class="group--description">${group.description}</p>`, tree.subTree('.group--description').toString());
     assert.equal(`<h2 class="group--title">${group.name}</h2>`, tree.subTree('.group--title').toString());
 
@@ -61,9 +81,12 @@ describe('Test GroupView Component', () => {
     assert.deepEqual(tree.subTree('AddContent').getRenderOutput().props, {
       redirectTo: '/grupper/1',
       profile,
+      getMoreWorks: noop,
       addContentAction: noop,
+      works: {},
       parentId: 1,
-      type: 'post'
+      type: 'post',
+      coverImages: {}
     });
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '0 brugere skriver');
 
@@ -91,7 +114,18 @@ describe('Test GroupView Component', () => {
     group.postsCount = 1;
     const actions = {};
 
-    const tree = sd.shallowRender(<GroupViewContainer group={group} profile={profile} groupActions={actions} uiActions={uiActions} ui={ui} />);
+    const tree = sd.shallowRender(
+      <GroupViewContainer
+        group={group}
+        profile={profile}
+        groupActions={actions}
+        uiActions={uiActions}
+        profileActions={profileActions}
+        ui={ui}
+        coverImageActions={coverImageActions}
+        coverImages={{}}
+      />
+    );
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '1 bruger skriver');
   });
 });

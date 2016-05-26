@@ -15,6 +15,7 @@ const getGroupListener = once(getGroup.response);
 const loadPosts = SocketClient('getPosts');
 const markPostAsDeleted = SocketClient('deletePost');
 const loadComments = SocketClient('getComments');
+const loadMetadataForReviewAttachedToPostOrCommentSocket = SocketClient('work');
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
@@ -352,5 +353,29 @@ export function deletePost(postId) {
   return {
     type: types.DELETE_POST,
     postId: postId
+  };
+}
+
+export function asyncLoadMetadataForReview(pid) {
+  return dispatch => {
+    loadMetadataForReviewAttachedToPostOrCommentSocket.responseOnce((res) => dispatch(loadMetadataForReview(res)));
+    loadMetadataForReviewAttachedToPostOrCommentSocket.request({
+      pids: [pid],
+      fields: [
+        'dcTitleFull',
+        'collection',
+        'creator',
+        'dcCreator',
+        'contributorAct',
+        'contributor'
+      ]
+    });
+  };
+}
+
+export function loadMetadataForReview(work) {
+  return {
+    type: types.LOAD_METADATA_FOR_REVIEW_FROM_PID,
+    work
   };
 }

@@ -74,16 +74,14 @@
 
 .groups-modal--container {
   @include clearfix;
+  text-align: center;
 }
 
 .user-feed--groups-modal--group-image {
   object-fit: cover;
-  width: 30vw;
-  height: 30vw;
-  @include min-screen($tablet + 1) {
-    width: 10vw;
-    height: 10vw;
-  }
+  width: 190px;
+  height: 190px;
+  max-width: 190px;
 }
 
 
@@ -99,12 +97,10 @@
 
 .user-feed--groups-modal--group {
   padding-top: 10px;
-  @include max-screen($tablet) {
-    @include gallery(6 of 12);
-  }
-  @include min-screen($tablet + 1) {
-    @include gallery(4 of 12);
-  }
+  display: inline-block;
+  width: 190px;
+  margin: 5px;
+
   .follow {
     padding: 8px 20px;
   }

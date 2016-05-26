@@ -46,7 +46,7 @@ export default function ProfileLibraryInfo({
   return (
     <div className="library--form-area" >
       <h3>Dit bibliotek</h3>
-      {errorObj.library || ''}
+      {errorObj.library || errorObj.libraryId || ''}
 
       <div className="selected-library-description" >
         {libraryDescription}
@@ -75,7 +75,7 @@ export default function ProfileLibraryInfo({
       <InputField
         error={errorObj.pincode}
         onChangeFunc={pincodeChangeFunc}
-        type="text"
+        type="password"
         name="pincode"
         title="Din pinkode"
         placeholder="Pinkode"

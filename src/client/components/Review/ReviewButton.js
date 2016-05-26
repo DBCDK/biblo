@@ -1,3 +1,6 @@
+/**
+ *  @file handle actions and flow state related to reviews
+ */
 import React from 'react';
 import Icon from '../General/Icon/Icon.component.js';
 import Login from '../General/Login/Login.component.js';

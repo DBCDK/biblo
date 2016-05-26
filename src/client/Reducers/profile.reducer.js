@@ -35,6 +35,7 @@ let initialState = {
   displayNameExists: false,
   imageFile: null,
   isModerator: false,
+  reviews: {},
   UI: {
     submitState: '',
     submitProgress: 0
@@ -154,6 +155,24 @@ export default function profileReducer(state = initialState, action = {}) {
           libraryId: action.libraryId,
           loanerId: action.loanerId,
           pincode: action.pincode
+        })
+      });
+    }
+
+    case types.GET_USER_REVIEWS: {
+      return assignToEmpty(state, {
+        reviews: assignToEmpty(state.reviews, {
+          pending: false,
+          data: state.reviews.data.concat(action.reviews.data),
+          errors: state.reviews.errors.concat(action.reviews.errors)
+        })
+      });
+    }
+
+    case types.GET_USER_REVIEWS_PENDING: {
+      return assignToEmpty(state, {
+        reviews: assignToEmpty(state.reviews, {
+          pending: true
         })
       });
     }

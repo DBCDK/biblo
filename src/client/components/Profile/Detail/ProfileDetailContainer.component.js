@@ -27,6 +27,7 @@ import * as groupActions from '../../../Actions/group.actions';
 import * as uiActions from '../../../Actions/ui.actions';
 import * as searchActions from '../../../Actions/search.actions';
 import * as workActions from '../../../Actions/work.actions';
+import * as coverImageActions from '../../../Actions/coverImage.actions';
 
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -49,6 +50,10 @@ export class ProfileDetailContainer extends React.Component {
     this.state = {
       groups: props.feed.profile.groups
     };
+  }
+
+  componentDidMount() {
+    this.props.coverImageActions.asyncListenForCoverImages();
   }
 
   toggleFollow(group, profileId, isMyProfile) {
@@ -167,6 +172,9 @@ export class ProfileDetailContainer extends React.Component {
                 commentRedirect={`/profil/${activity.owner.id}`}
                 uiActions={this.props.uiActions}
                 image={activity.post.image}
+                works={this.props.works}
+                coverImages={this.props.coverImages}
+                getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
               />
             </ActivityRow>
           );
@@ -228,6 +236,9 @@ export class ProfileDetailContainer extends React.Component {
                 loadingComments={false}
                 uiActions={this.props.uiActions}
                 image={activity.image}
+                works={this.props.works}
+                coverImages={this.props.coverImages}
+                getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
               />
             </ActivityRow>
           );
@@ -368,7 +379,9 @@ export class ProfileDetailContainer extends React.Component {
     let campaigns = {};
     for (let i in this.props.reviews.userReviews) { // eslint-disable-line guard-for-in
       const review = this.props.reviews.userReviews[i];
-      campaigns[review.campaign.id] = review.campaign;
+      if (review.campaign) {
+        campaigns[review.campaign.id] = review.campaign;
+      }
     }
 
 
@@ -431,6 +444,8 @@ ProfileDetailContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
+  coverImageActions: React.PropTypes.object.isRequired,
   works: React.PropTypes.object.isRequired,
   workActions: React.PropTypes.object.isRequired
 };
@@ -448,6 +463,7 @@ export default connect(
       feed: state.profileFeedReducer,
       ui: state.uiReducer,
       reviews: state.reviewReducer,
+      coverImages: state.coverImageReducer,
       works: state.workReducer
     };
   },
@@ -461,6 +477,7 @@ export default connect(
       likeActions: bindActionCreators(likeActions, dispatcher),
       groupActions: bindActionCreators(groupActions, dispatcher),
       uiActions: bindActionCreators(uiActions, dispatcher),
+      coverImageActions: bindActionCreators(coverImageActions, dispatcher),
       workActions: bindActionCreators(workActions, dispatcher)
     };
   }

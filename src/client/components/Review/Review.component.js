@@ -14,6 +14,7 @@ import './Review.scss';
 import Login from '../General/Login/Login.component.js';
 import LikeButton from '../General/LikeButton/LikeButton.component.js';
 import Icon from '../General/Icon/Icon.component.js';
+import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
 import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
@@ -292,18 +293,27 @@ export default class Review extends UploadMedia {
     );
 
     const flagFunction = () => {
-      this.props.uiActions.openModalWindow(reviewFlagModalContent);
+      if (profile.userIsLoggedIn) {
+        this.props.uiActions.openModalWindow(reviewFlagModalContent);
+      }
+      else {
+        let dialog = (
+          <div>
+            <p>Du skal logge ind for at skrive til moderator</p>
+            <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
+                         compact={false}/>
+          </div>
+        );
+        this.props.uiActions.openModalWindow(dialog);
+      }
     };
 
-    let flagButton = null;
-    if (profile.userIsLoggedIn) {
-      flagButton = (
-        <TinyButton
-          clickFunction={flagFunction}
-          icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
-        />
-      );
-    }
+    let flagButton = (
+      <TinyButton
+        clickFunction={flagFunction}
+        icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
+      />
+    );
 
     let deleteButton;
     if (this.props.id) {
@@ -331,6 +341,14 @@ export default class Review extends UploadMedia {
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file && this.state.attachment.video.file.progress === 100 ? 'done' : '';
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
+      let dialog = (
+        <div>
+          <p>Du skal logge ind for at like</p>
+          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
+                         compact={false}/>
+        </div>
+      );
+      this.props.uiActions.openModalWindow(dialog);
     };
     const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {
     };

@@ -115,7 +115,7 @@
 }
 
 .work-detail--order-button {
-  @include button($lima);
+  @include button($lima, white, false, #73f175);
   margin-right: 10px;
   @include max-screen($tablet - 1px) {
     display: block;

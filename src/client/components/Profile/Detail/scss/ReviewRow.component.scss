@@ -3,6 +3,7 @@
 .review--container {
   border-bottom: #e8e8e8 5px solid;
   padding: 10px;
+  position: relative;
 
   @include min-screen($tablet) {
     height: 180px;
@@ -11,7 +12,6 @@
 }
 
 .review--header {
-  //background-color: #00A000;
   position: relative;
 
   @include min-screen($tablet) {
@@ -48,7 +48,7 @@
 .review--data {
   display: inline-block;
   margin-left: 15px;
-  width: 60%;
+  width: 43%;
 
   @include min-screen($desktop) {
     margin-left: 10px;
@@ -82,7 +82,6 @@
 }
 
 .review--content--container {
-  //background-color: #60b0e9;
   vertical-align: top;
   position: relative;
   display: inline-block;
@@ -95,10 +94,10 @@
 }
 
 .review--content {
-  margin-bottom: 20px;
+  margin: 10px 0;
 
-  @include min-screen($tablet) {
-    margin-bottom: 50px;
+  @include min-screen($tablet){
+    margin: 0;
   }
 }
 
@@ -107,19 +106,29 @@
   display: inline-block;
 
   img {
-    max-height: 130px;
     max-width: 100%;
+
+    @include min-screen($tablet) {
+      max-height: 130px;
+      max-width: 100%;
+    }
   }
 }
 
+.review--content--campaign {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
 .review--content--actions {
-  //background-color: #62edc6;
   text-align: center;
 
   @include min-screen($tablet) {
     position: absolute;
     bottom: 0;
     text-align: left;
+    width: 140%;
   }
 
   a {
@@ -133,7 +142,7 @@
 }
 
 .review--content--actions--likebutton {
-  margin-bottom: 10px;
+  margin-top: 10px;
 
   @include min-screen($tablet) {
     margin-left: 20px;

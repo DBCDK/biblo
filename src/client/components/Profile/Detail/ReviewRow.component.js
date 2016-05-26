@@ -8,6 +8,7 @@ import React from 'react';
 import Rating from '../../General/Rating/Rating.component';
 import SimpleButton from '../../General/SimpleButton/SimpleButton.component';
 import LikeButton from '../../General/LikeButton/LikeButton.component';
+import Icon from '../../General/Icon/Icon.component';
 
 // SASS
 import './scss/ReviewRow.component.scss';
@@ -150,6 +151,9 @@ export default class ReviewRow extends React.Component {
               />
             </div>
           </div>
+        </div>
+        <div className="review--content--campaign" >
+          <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42} />
         </div>
       </div>
     );

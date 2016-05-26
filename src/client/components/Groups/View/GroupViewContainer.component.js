@@ -19,11 +19,13 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 // ACTIONS
+import * as profileActions from '../../../Actions/profile.actions';
 import * as groupActions from '../../../Actions/group.actions.js';
 import * as flagActions from '../../../Actions/flag.actions.js';
 import * as likeActions from '../../../Actions/like.actions.js';
 import * as uiActions from '../../../Actions/ui.actions.js';
 import * as searchActions from '../../../Actions/search.actions';
+import * as coverImageActions from '../../../Actions/coverImage.actions';
 
 // SCSS
 import './scss/groupView.scss';
@@ -38,6 +40,17 @@ export class GroupViewContainer extends React.Component {
 
     this.toggleFollow = this.toggleFollow.bind(this);
     this.toggleMembersExpanded = this.toggleMembersExpanded.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.coverImageActions.asyncListenForCoverImages();
+
+    if (this.props.profile && this.props.profile.reviews && this.props.profile.reviews.data) {
+      this.props.profile.reviews.data.forEach((review) => {
+        this.props.coverImageActions.asyncGetCoverImage(review.pid, review.worktype);
+        this.props.groupActions.asyncLoadMetadataForReview(review.pid);
+      });
+    }
   }
 
   toggleFollow() {
@@ -94,15 +107,17 @@ export class GroupViewContainer extends React.Component {
             }
             <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
-              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
-                       addContentAction={this.props.groupActions.addPost}
-                       parentId={this.props.group.id} type="post"/>
+              <PostAdd redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile} getMoreWorks={this.props.profileActions.asyncGetUserReviews}
+                       addContentAction={this.props.groupActions.addPost} works={this.props.group.works}
+                       parentId={this.props.group.id} type="post" coverImages={this.props.coverImages} />
             </div>
             <div className='group--post-view'>
               <h2
                 className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
-                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} flagActions={this.props.flagActions} likeActions={this.props.likeActions}/>
+                        coverImages={this.props.coverImages} getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
+                        groupActions={this.props.groupActions} uiActions={this.props.uiActions} works={this.props.group.works}
+                        flagActions={this.props.flagActions} likeActions={this.props.likeActions} getMoreWorks={this.props.profileActions.asyncGetUserReviews} />
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
               <div className="expand-wrapper">
                 <ExpandButton isLoading={this.props.group.loadingPosts}
@@ -133,10 +148,13 @@ GroupViewContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   error: React.PropTypes.string,
+  profileActions: React.PropTypes.object,
   groupActions: React.PropTypes.object,
   flagActions: React.PropTypes.object,
   likeActions: React.PropTypes.object,
   uiActions: React.PropTypes.object,
+  coverImageActions: React.PropTypes.object.isRequired,
+  coverImages: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object
 };
 
@@ -150,6 +168,7 @@ export default connect(
       searchState: state.searchReducer,
       profile: state.profileReducer,
       group: state.groupViewReducer,
+      coverImages: state.coverImageReducer,
       ui: state.uiReducer
     };
   },
@@ -157,10 +176,12 @@ export default connect(
   // Map group actions to actions props
   (dispatch) => {
     return {
+      profileActions: bindActionCreators(profileActions, dispatch),
       searchActions: bindActionCreators(searchActions, dispatch),
       groupActions: bindActionCreators(groupActions, dispatch),
       flagActions: bindActionCreators(flagActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),
+      coverImageActions: bindActionCreators(coverImageActions, dispatch),
       uiActions: bindActionCreators(uiActions, dispatch)
     };
   }

@@ -3,8 +3,8 @@
 
 .modal-window--overlay {
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background-color:rgba(0,0,0, 0.5);
   z-index: 200;
   width: 100vw;
@@ -14,7 +14,7 @@
 .modal-window--window {
   position: fixed;
   z-index: 201;
-  max-height: 80vh;
+  max-height: 75vh;
   width: 90vw;
   left: 3vw;
   top: 5vh;
@@ -35,18 +35,18 @@
 
 .modal-window--content {
   background-color: white;
-  max-height: 80vh;
+  max-height: 75vh;
   overflow-y: auto;
+  display: inline-block;
+  width: 100%;
 }
 
 .modal-window--close-button {
   float: right;
+  margin-bottom: 10px;
 }
 
 .modal-window--close-button--container {
-  top: 50px;
-  right: 12px;
-  position: absolute;
   cursor: pointer;
 }
 

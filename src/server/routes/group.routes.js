@@ -280,10 +280,25 @@ async function fetchGroupData(params, req, res, update = {}) {
       postsPromise = req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 5});
     }
 
+    let reviewsPromise;
+    let profile = {profile: {}};
+
+    if (req.isAuthenticated()) {
+      profile = req.session.passport.user.profile;
+      reviewsPromise = req.callServiceProvider('getReviews', {where: {reviewownerid: profile.profile.id}, limit: 5});
+    }
+    else {
+      reviewsPromise = Promise.resolve([{data: [], errors: [], reviewsCount: 0}]);
+    }
+
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
-      postsPromise
+      postsPromise,
+      reviewsPromise
     ]));
+
+    profile.profile.reviews = response[2][0] || {data: [], reviewsCount: 0};
+    res.locals.profile = JSON.stringify(profile);
 
     const group = response[0][0];
 
@@ -293,7 +308,7 @@ async function fetchGroupData(params, req, res, update = {}) {
   }
   catch (e) {
     const logger = req.app.get('logger');
-    logger.error('An error occured while fetching groupdata', {error: e, params: params, session: req.session});
+    logger.error('An error occured while fetching groupdata', {error: e.message || e, params: params, session: req.session});
     res.redirect('/error');
   }
 }
@@ -317,7 +332,8 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), 
     type: req.params.type,
     image,
     id: req.body.id,
-    imageRemoved: req.body.imageRemoved === 'true' || false
+    imageRemoved: req.body.imageRemoved === 'true' || false,
+    attachedReviewId: req.body.attachedReview === 'removed' ? null : req.body.attachedReview // this nulls the value in the db if "removed" is set.
   };
 
   if (req.session.videoupload) {

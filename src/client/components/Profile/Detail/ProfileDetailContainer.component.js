@@ -368,7 +368,9 @@ export class ProfileDetailContainer extends React.Component {
     let campaigns = {};
     for (let i in this.props.reviews.userReviews) { // eslint-disable-line guard-for-in
       const review = this.props.reviews.userReviews[i];
-      campaigns[review.campaign.id] = review.campaign;
+      if (review.campaign) {
+        campaigns[review.campaign.id] = review.campaign;
+      }
     }
 
 

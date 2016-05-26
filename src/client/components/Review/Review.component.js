@@ -341,6 +341,14 @@ export default class Review extends UploadMedia {
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file && this.state.attachment.video.file.progress === 100 ? 'done' : '';
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
+      let dialog = (
+        <div>
+          <p>Du skal logge ind for at like</p>
+          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
+                         compact={false}/>
+        </div>
+      );
+      this.props.uiActions.openModalWindow(dialog);
     };
     const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {
     };

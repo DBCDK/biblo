@@ -86,6 +86,7 @@
     "passport": "0.3.2",
     "passport-unilogin": "^1.0.0",
     "path": "^0.12.7",
+    "pdfkit": "^0.7.2",
     "pmx": "^0.6.1",
     "postcss-loader": "^0.9.1",
     "proxy-agent": "^2.0.0",

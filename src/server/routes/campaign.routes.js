@@ -28,7 +28,7 @@ const CampaignRoutes = express.Router();
 CampaignRoutes.get(
   '/laesebevis/:id',
   ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
-  async function(req, res) {
+  async function(req, res, next) {
 
     const profile = req.session.passport.user.profile.profile;
 
@@ -37,14 +37,27 @@ CampaignRoutes.get(
     const campaignId = Number(req.params.id);
 
     try {
+
       const ownReviews = (await req.callServiceProvider('getOwnReview', {reviewownerid: profileId, offset: 0, order: 'created ASC'}))[0].data;
       const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
 
       const ownReviewsInCampaign = filter(ownReviews, (review) => {
         return review.campaign.id === campaignId;
       });
+
       const workPids = ownReviewsInCampaign.map((review) => review.pid);
-      const reviewedWorks = (await req.callServiceProvider('work', {pids: workPids, fields: ['pid', 'dcTitle', 'dcTitleFull', 'creator']}))[0].data;
+
+
+      // we need to fetch works in bathces of 20 ( enforced by openplatform API )
+      let reviewedWorks = [];
+      if (workPids.length > 0) {
+        const batchCount = Math.ceil(workPids.length / 20);
+        for (let i=0; i < batchCount; i++) {
+          const workBatch = (await req.callServiceProvider('work', {pids: workPids.slice(i*20, (i+1)*20), fields: ['pid', 'dcTitle', 'dcTitleFull', 'creator']}))[0].data;
+          reviewedWorks = reviewedWorks.concat(workBatch);
+        }
+      }
+
       const campaigns = (await req.callServiceProvider('getCampaigns', {}))[0].body;
 
       // get the campaign that matches campaignId
@@ -93,7 +106,7 @@ CampaignRoutes.get(
       doc.image('static/bort.png', 0, 0, {width: 650});
 
       // big campaign logo
-      doc.image(frontpageData.campaignLogo, 200, 20, {width: 200});
+      doc.image('static' + frontpageData.campaignLogo, 200, 20, {width: 200});
 
 
       doc.fontSize(50).moveDown().moveDown().text('LÆSEBEVIS', {align: 'center'});
@@ -133,7 +146,7 @@ CampaignRoutes.get(
       // right-side form fields
       doc.fontSize(fontSize).text('Alder', 305, 550);
       doc.moveTo(350, 550+fontSize).lineTo(350 + 170, 550+fontSize).dash(1, {space: 2}).stroke();
-      doc.fontSize(fontSize).text(frontpageData.age, 350+3, 550); // TODO: calculate age
+      doc.fontSize(fontSize).text(frontpageData.age, 350+3, 550);
 
       doc.fontSize(fontSize).text('Skole', 305, 575);
       doc.moveTo(350, 575+fontSize).lineTo(350 + 170, 575+fontSize).dash(1, {space: 2}).stroke();
@@ -165,15 +178,16 @@ CampaignRoutes.get(
 
         // write review
         const review = reviewsWithWorkData[i];
+
         doc.moveDown(2);
         doc.fontSize(12);
         doc.lineGap(6);
-        doc.image(review.campaignLogo, 500, doc.y + 30, {width: 30});
+        doc.image('static' + review.campaignLogo, 500, doc.y, {width: 30});
         doc.text(review.dcTitle);
         doc.text((typeof review.creator === 'undefined') ? '' : review.creator);
         const date = new Date(Date.parse(review.created));
         doc.text(pad(date.getDay(), 2) + '-' + pad(date.getMonth(), 2) + '-' + date.getFullYear().toString()).moveDown();
-        doc.text(review.content);
+        doc.text(review.content.replace(/(\r\n|\n|\r)/gm, '\n'));
         doc.moveDown().moveDown();
         doc.moveTo(0, doc.y).lineTo(700, doc.y).dash(1, {space: 2}).stroke();
       }
@@ -195,7 +209,7 @@ CampaignRoutes.get(
       doc.end();
     }
     catch (e) {
-      res.send('Der er sket en fejl');
+      next(e);
     }
   }
 );

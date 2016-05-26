@@ -50,9 +50,10 @@ function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
     startDate: '2016-01-16T15:06:53.044Z',
     endDate: '2016-06-16T15:06:53.044Z',
     logos: {
-      small: 'static/sommerbogen-logo.png',
-      medium: 'static/sommerbogen-logo.png',
-      large: 'static/sommerbogen-logo.png'
+      svg: '/sommerbogen-logo.svg',
+      small: '/sommerbogen-logo.png',
+      medium: '/sommerbogen-logo.png',
+      large: '/sommerbogen-logo.png'
     }
   }];
 

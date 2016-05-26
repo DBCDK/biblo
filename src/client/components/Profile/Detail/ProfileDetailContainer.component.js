@@ -362,12 +362,34 @@ export class ProfileDetailContainer extends React.Component {
       {
         label: 'Aktivitet',
         content: activityPaneContent
-      },
-      {
-        label: 'Anmeldelser',
-        content: reviewsPaneContent
       }
     ];
+
+    let campaigns = {};
+    for (let i in this.props.reviews.userReviews) { // eslint-disable-line guard-for-in
+      const review = this.props.reviews.userReviews[i];
+      if (review.campaign) {
+        campaigns[review.campaign.id] = review.campaign;
+      }
+    }
+
+
+    const campaignDiplomaButtons = Object.keys(campaigns).map((id) => {
+      const campaign = campaigns[id];
+      const downloadUrl = '/kampagne/laesebevis/' + campaign.id;
+      return (
+        <a href={downloadUrl} key={id} className='p-detail--groups-button--container' >
+          <div className="p-detail--groups-button" >
+            <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42} /><p>Læsebevis</p>
+          </div>
+        </a>
+      );
+    });
+
+    // hiding reviews tab behind feature flag -- 561
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('561') !== null) {
+      tabs.push({label: 'Anmeldelser', content: reviewsPaneContent});
+    }
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >
@@ -385,6 +407,7 @@ export class ProfileDetailContainer extends React.Component {
                 <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p>
               </div>
             </a>
+            {campaignDiplomaButtons}
           </div>
         </div>
         <div className="p-detail--activity-tabs" >

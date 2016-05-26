@@ -75,7 +75,7 @@ export default function ProfileLibraryInfo({
       <InputField
         error={errorObj.pincode}
         onChangeFunc={pincodeChangeFunc}
-        type="text"
+        type="password"
         name="pincode"
         title="Din pinkode"
         placeholder="Pinkode"

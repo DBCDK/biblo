@@ -46,7 +46,7 @@ export default function ProfileLibraryInfo({
   return (
     <div className="library--form-area" >
       <h3>Dit bibliotek</h3>
-      {errorObj.library || ''}
+      {errorObj.library || errorObj.libraryId || ''}
 
       <div className="selected-library-description" >
         {libraryDescription}

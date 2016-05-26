@@ -159,16 +159,6 @@ describe('Test of AddContent Component', () => {
     expect(defaultComponent.state.text).to.be.equal(textarea.value);
   });
 
-  it('it should call abort action', () => {
-    const abort = sinon.spy(); // eslint-disable-line no-undef
-    const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url" abort={abort}/>);
-    let input = TestUtils.findRenderedDOMComponentWithClass(component, 'alert');
-    expect(ReactDOM.findDOMNode(input).value).to.be.eql('Fortryd');
-    TestUtils.Simulate.click(input);
-    expect(abort.called).to.be.equal(true);
-  });
-
   it('it should be hidden if user not logged in', () => {
     profile.userIsLoggedIn = false;
     const component = TestUtils.renderIntoDocument(

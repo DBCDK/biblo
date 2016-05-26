@@ -44,16 +44,6 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
           }
         });
 
-        /*
-        frontPageData.widgetLocations.FrontPageContent.push({
-          widgetName: 'LatestReviewsWidget',
-          widgetConfig: {
-            displayTitle: 'Brugerne Siger',
-            reviewsToLoad: 15
-          }
-        });
-        */
-
         frontPageData.widgetLocations.FrontPageContent.push({
           widgetName: 'ContentGridWidget',
           widgetConfig: {

@@ -263,16 +263,16 @@ describe('Test of AddContent Component', () => {
     const owner = {
       id: 1
     };
-    
+
     let component = (
       <AddContent owner={owner} profile={profile} parentId={1} />
     );
-    
+
     let $root = $(component).render();
     $root.find('.insert-review-button').trigger('click');
 
     const reviewsText = $root.find('.attach-review-modal--reviews-container').text();
-    assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.')
+    assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.');
   });
 
   it('Should render reviews in modal when data is available', () => {
@@ -308,7 +308,7 @@ describe('Test of AddContent Component', () => {
     let $root = $(component).render();
     $root.find('.insert-review-button').trigger('click');
 
-    const radioInputValue = $root.find('.attach-review-modal--radio-btn-input').props().value
+    const radioInputValue = $root.find('.attach-review-modal--radio-btn-input').props().value;
     assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');
 
     $root.find('.attach-review-modal--radio-btn-input').trigger('change');

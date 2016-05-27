@@ -21,6 +21,8 @@ var dateFormat = (function() {
   var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
   var timezoneClip = /[^-+\dA-Z]/g;
 
+  var weirdDateFormatRegex = /([0-9][0-9])-([0-9][0-9])-([0-9][0-9][0-9][0-9])/;
+
   // Regexes and supporting functions are cached through closure
   return function(date, mask, utc, gmt) {
 
@@ -31,6 +33,14 @@ var dateFormat = (function() {
     }
 
     date = date || new Date;
+
+    if (typeof date === 'string' && weirdDateFormatRegex.test(date)) {
+      let weirdDate = weirdDateFormatRegex.exec(date);
+      let day = weirdDate[1];
+      let month = weirdDate[2];
+      let yr = weirdDate[3];
+      date = `${yr}-${month}-${day}`;
+    }
 
     if (!(date instanceof Date)) {
       date = new Date(date);

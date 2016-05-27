@@ -62,7 +62,7 @@ export class FullWidthBannerWidget extends Component {
     };
 
     return (
-      <a href={linkUrl}>
+      <a href={linkUrl} className="full-width-banner--href">
         <div className="full-width-banner--image" style={styleObj}>
           <div className="full-width-banner--image--text--container">
             <h2>{title}</h2>

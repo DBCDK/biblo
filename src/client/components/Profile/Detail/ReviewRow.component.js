@@ -88,6 +88,7 @@ export default class ReviewRow extends React.Component {
 
   /**
    * Returns a rendered video link
+   *
    * @param video {Object}
    * @param pid {string}
    * @return {XML}
@@ -98,7 +99,7 @@ export default class ReviewRow extends React.Component {
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
     return (
-      <div className="review--content--videoplayer">
+      <div className="review--content--videoplayer" >
         <a href={`/materiale/${pid}`} className="compact-review--video--container" >
           <img src={videoImageSrc} />
         </a>
@@ -116,7 +117,7 @@ export default class ReviewRow extends React.Component {
 
     let content = review.content ? review.content : '';
     if (content.length > 200) {
-      content = content.slice(0, 200) + '...';
+      content = content.slice(0, 197) + '...';
     }
 
     const isLikedByActiveUser = likes.includes(activeUser.id);
@@ -152,9 +153,11 @@ export default class ReviewRow extends React.Component {
             </div>
           </div>
         </div>
+        {review.campaign && review.campaign.logos &&
         <div className="review--content--campaign" >
-          <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42} />
+          <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42} />
         </div>
+        }
       </div>
     );
   }

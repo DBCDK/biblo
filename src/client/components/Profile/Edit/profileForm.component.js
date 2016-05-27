@@ -36,18 +36,21 @@ export default class ProfileForm extends React.Component {
     autosize(this.refs.description);
 
     let elem = ReactDOM.findDOMNode(this.refs['profile-form']);
-    elem.onsubmit = (e) => this.props.submit(
-      e,
-      this.state.displayName,
-      this.state.email,
-      this.state.phone,
-      this.state.libraryId,
-      this.state.loanerId,
-      this.state.pincode,
-      this.state.description,
-      this.state.birthday,
-      this.state.fullName
-    );
+    elem.onsubmit = (e) => {
+      const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
+      this.props.submit(
+        e,
+        this.state.displayName,
+        this.state.email,
+        this.state.phone,
+        this.state.libraryId,
+        this.state.loanerId,
+        this.state.pincode,
+        this.state.description,
+        birthday,
+        this.state.fullName
+      )
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,13 +80,13 @@ export default class ProfileForm extends React.Component {
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;
       submitArea = (
-        <ProgressBar completed={this.props.submitProgress} height={'35px'} >
-          <p className="progressbar--message" >Behandler</p>
+        <ProgressBar completed={this.props.submitProgress} height={'35px'}>
+          <p className="progressbar--message">Behandler</p>
         </ProgressBar>
       );
     }
 
-    const birthday = !isEmpty(this.props.birthday) ? dateformat(new Date(this.props.birthday).toISOString(), 'yyyy-mm-dd') : '';
+    const birthday = !isEmpty(this.props.birthday) ? dateformat(this.props.birthday, 'yyyy-mm-dd') : '';
 
     return (
       <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
@@ -166,6 +169,7 @@ export default class ProfileForm extends React.Component {
                 title="Din fødselsdag"
                 placeholder="Din fødselsdag"
                 format="dd/mm/yyyy"
+                data-date-format="dd/mm/yyyy"
               />
 
 

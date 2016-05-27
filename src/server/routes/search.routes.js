@@ -21,6 +21,7 @@ SearchRoutes.get('/', (req, res, next) => {
   req.callServiceProvider('search', params)
   .then((stuff) => {
     const materialSearchResults = stuff[0].data;
+    res.locals.title = `${params.q} - Søgning - Biblo.dk`;
     res.render('page', {
       css: ['/css/search.css'],
       js: ['/js/search.js'],

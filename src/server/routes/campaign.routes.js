@@ -48,7 +48,7 @@ function fetchImageBuffer(url) {
         reject(new Error('could not fetch image'));
       }
       else {
-        resolve(new Buffer(buffer));
+        resolve(buffer);
       }
     });
   });

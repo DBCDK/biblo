@@ -2,7 +2,7 @@ import React from 'react';
 
 import './inputfield.component.scss';
 
-export default function InputField({defaultValue, error, onChangeFunc, name, title, placeholder, type, required, disabled, autocomplete = true}) {
+export default function InputField({defaultValue, error, onChangeFunc, name, title, placeholder, type, required, disabled, autocomplete = true, dateFormat = null}) {
   return (
     <div className={name + '--form-area inputfield'}>
       <label>
@@ -19,6 +19,8 @@ export default function InputField({defaultValue, error, onChangeFunc, name, tit
           onBlur={onChangeFunc}
           disabled={disabled}
           autoComplete={autocomplete}
+          lang="da"
+          data-date-format={dateFormat}
         />
         {error}
       </label>
@@ -37,7 +39,8 @@ InputField.propTypes = {
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
-  autocomplete: React.PropTypes.string
+  autocomplete: React.PropTypes.string,
+  dateFormat: React.PropTypes.string
 };
 
 InputField.defaultProps = {

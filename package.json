@@ -80,7 +80,6 @@
     "newrelic": "^1.26.2",
     "node-sass": "^3.6.0",
     "nodemon": "^1.9.0",
-    "nodep-date-input-polyfill-danish": "^2.4.4",
     "normalize.css": "^4.0.0",
     "object-assign": "^4.0.1",
     "passport": "0.3.2",

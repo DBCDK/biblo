@@ -57,6 +57,9 @@ function fetchImageBuffer(url) {
 
 async function createPDFDocument(frontpageData, reviewsWithWorkData) {
 
+  console.log(frontpageData); // eslint-disable-line no-console
+  console.log(reviewsWithWorkData); // eslint-disable-line no-console
+
   // load all image resources
   let imgBort = (await fetchImageBuffer(frontpageData.bortImage));
   let imgBibloAbides = (await fetchImageBuffer(frontpageData.bibloAbidesImage));
@@ -235,7 +238,6 @@ CampaignRoutes.get(
         branchShortName: library.branchShortName[0].$value,
         campaignReviewCount: ownReviewsInCampaign.length
       };
-
 
       const pdfDoc = (await createPDFDocument(frontpageData, reviewsWithWorkData));
 

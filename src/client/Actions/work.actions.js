@@ -43,9 +43,11 @@ export function asyncCheckOrderPolicy(pids) {
   return (dispatch) => {
     checkOrderPolicySocket.response((pid) => dispatch(checkOrderPolicy(pid)));
 
-    pids.forEach((pid) => {
-      checkOrderPolicySocket.request({pids: pid});
-    });
+    if (pids) {
+      pids.forEach((pid) => {
+        checkOrderPolicySocket.request({pids: pid});
+      });
+    }
   };
 }
 

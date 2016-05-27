@@ -52,9 +52,13 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     let pid = decodeURIComponent(req.params.pid);
     let ownReview = {};
     const work = (await req.callServiceProvider('work', {pids: [pid]}))[0].data[0];
-    let pids = work.collection;
 
     let ownReviewId;
+    let pids = work.collection;
+    if (typeof pids === 'undefined') {
+      pids = [pid];
+    }
+
     let profile = {
       userIsLoggedIn: false,
       hasFilledInProfile: false
@@ -87,7 +91,6 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function (req, res, next) {
     let limit = 10;
     const reviewResponse = (await req.callServiceProvider('getReviews', {pids, skip, limit}));
     work.id = pid;
-
 
     res.render('page', {
       css: ['/css/work.css'],

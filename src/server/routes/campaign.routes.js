@@ -222,6 +222,8 @@ CampaignRoutes.get(
         return Object.assign(pick(review, 'content', 'rating', 'created'), pid2work[review.pid], {campaignLogo: campaign.logos.small});
       });
 
+      const age = (profile.birthday === null) ? '' : computeAge(new Date(Date.parse(profile.birthday)));
+
       const frontpageData = {
         campaignName: campaign.campaignName,
         campaignLogo: 'http://' + req.headers.host + '/' + campaign.logos.medium,
@@ -233,7 +235,7 @@ CampaignRoutes.get(
         username: profile.displayName,
         fullName: profile.fullName,
         email: profile.email,
-        age: computeAge(new Date(Date.parse(profile.birthday))),
+        age: age,
         phone: profile.phone,
         branchShortName: library.branchShortName[0].$value,
         campaignReviewCount: ownReviewsInCampaign.length

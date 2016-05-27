@@ -9,10 +9,12 @@ import {ContentGridWidget} from './ContentGridWidget/ContentGrid.widget.componen
 import {ContentPageTextWidget} from './ContentPageTextWidget/ContentPageText.widget.component';
 import {ContentPageImageWidget} from './ContentPageImageWidget/ContentPageImage.widget.component';
 import {ContentPageEmbeddedVideoWidget} from './ContentPageEmbeddedVideoWidget/ContentPageEmbeddedVideo.widget.component';
+import {FullWidthBannerWidget} from './FullWidthBannerWidget/FullWidthBanner.widget.component';
 
 const widgetComponents = {
   LatestReviewsWidget,
   DummyWidget,
+  FullWidthBannerWidget,
   ColoredHeaderWidget,
   ContentGridWidget,
   ContentPageTextWidget,

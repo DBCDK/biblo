@@ -49,7 +49,7 @@ export default class ProfileForm extends React.Component {
         this.state.description,
         birthday,
         this.state.fullName
-      )
+      );
     };
   }
 

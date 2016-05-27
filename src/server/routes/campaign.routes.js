@@ -253,6 +253,8 @@ CampaignRoutes.get(
 
       const pdfDoc = (await createPDFDocument(frontpageData, reviewsWithWorkData));
 
+      res.locals.title = 'Læsebevis - Biblo.dk';
+
       // pipe result as pdf
       res.setHeader('Content-Type', 'application/pdf');
       pdfDoc.pipe(res);

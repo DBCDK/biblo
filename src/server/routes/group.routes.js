@@ -416,6 +416,8 @@ GroupRoutes.get('/', async function getGroups(req, res, next) {
     const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
     const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
 
+    res.locals.title = 'Grupper - Biblo.dk';
+
     res.render('page', {
       css: ['/css/groups.css'],
       js: ['/js/groups.js'],

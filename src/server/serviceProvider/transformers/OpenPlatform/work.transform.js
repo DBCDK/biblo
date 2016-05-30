@@ -42,7 +42,8 @@ const WorkTransform = {
         'abstract',
         'workType',
         'type',
-        'date'
+        'date',
+        'hasOnlineAccess'
       ]
     });
   },

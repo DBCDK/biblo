@@ -87,8 +87,7 @@ export class WorkContainer extends React.Component {
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
-
-    let reviewVisible = this.state.reviewVisible;     // is the review create area visible or not?
+    let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
@@ -109,6 +108,7 @@ export class WorkContainer extends React.Component {
     const publisher = (work.publisher) ? work.publisher[0] : null;
     const ageRecommended = (work.audienceAge) ? work.audienceAge : null;
     const ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
+    const hasOnlineAccess = (work.hasOnlineAccess) ? work.hasOnlineAccess[0] : null;
 
     let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
       return {
@@ -151,6 +151,7 @@ export class WorkContainer extends React.Component {
             profile={this.props.profile}
             unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
+            hasOnlineAccess={hasOnlineAccess}
           />
           {
             reviewVisible &&

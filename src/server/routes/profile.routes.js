@@ -84,6 +84,7 @@ async function checkUserLibraryInfo(req, b, p) {
 
 
 ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, function (req, res) {
+  res.locals.title = 'Rediger bibliotek - Biblo.dk';
   res.render('page', {
     css: ['/css/profileeditlibrary.css'],
     js: ['/js/profileeditlibrary.js']
@@ -123,6 +124,7 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSessi
 });
 
 ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res, next) {
+  res.locals.title = 'Rediger profil - Biblo.dk';
   try {
     let p = req.session.passport.user.profile.profile;
 
@@ -397,6 +399,8 @@ ProfileRoutes.get(
     catch (e) { // eslint-disable-line no-catch-shadow
       data.errors = [e];
     }
+
+    res.locals.title = data.feed && data.feed.profile && data.feed.profile.raw ? `${data.feed.profile.raw.displayName} - Biblo.dk` : 'Biblo.dk';
 
     res.render('page', {
       css: ['/css/profiledetail.css'],

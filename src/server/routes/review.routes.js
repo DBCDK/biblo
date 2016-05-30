@@ -39,6 +39,7 @@ ReviewRoutes.get('/:id', fullProfileOnSession, (req, res) => {
       }
 
       const work = workResponse[0].data[0];
+      res.locals.title = `Anmeldelse af ${work.dcTitle[0]} - Biblo.dk`;
       res.render('page', {
         css: ['/css/review.css'],
         js: ['/js/review.js'],

@@ -39,10 +39,34 @@ export function getWorks(response) {
   };
 }
 
+/**
+ * Get online access urls for pids
+ * (only do this for pids actually getting ordered)
+ *
+ * note: hasOnlineAccess is currently not on collectionDetails on the /work endpoint
+ * @param pids
+ */
+export function asyncGetWorkOnlineAccess(pids) {
+  return (dispatch) => {
+    getWorksSocket.response((response) => dispatch(getWorkOnlineAccess(response)));
+
+    getWorksSocket.response = () => {
+    };
+
+    getWorksSocket.request({pids: pids, fields: ['pid', 'hasOnlineAccess']});
+  };
+}
+
+export function getWorkOnlineAccess (response) {
+  return {
+    type: types.GET_WORK_ONLINEACCESS,
+    response
+  };
+}
+
 export function asyncCheckOrderPolicy(pids) {
   return (dispatch) => {
     checkOrderPolicySocket.response((pid) => dispatch(checkOrderPolicy(pid)));
-
     if (pids) {
       pids.forEach((pid) => {
         checkOrderPolicySocket.request({pids: pid});

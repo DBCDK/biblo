@@ -45,6 +45,18 @@ export default function workReducer(state = initialState, action = {}) {
 
       return newState;
     }
+    case types.GET_WORK_ONLINEACCESS: { // the /work endpoint returns hasOnlineAcces pr pid . We run this after check accessType "online"
+      let newState = assignToEmpty(state, {});
+      newState.work.collectionDetails.forEach((item) => {
+        if (item.pid[0] === action.response.data[0].pid[0]) {
+          if (action.response.data[0].hasOnlineAccess) {
+            item.hasOnlineAccess = action.response.data[0].hasOnlineAccess; // get actual url
+          }
+        }
+      });
+
+      return state;
+    }
 
     case types.CHECK_ORDER_POLICY: {
       let newState = {

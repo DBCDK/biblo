@@ -108,7 +108,6 @@ export class WorkContainer extends React.Component {
     const publisher = (work.publisher) ? work.publisher[0] : null;
     const ageRecommended = (work.audienceAge) ? work.audienceAge : null;
     const ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
-    const hasOnlineAccess = (work.hasOnlineAccess) ? work.hasOnlineAccess[0] : null;
 
     let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
       return {
@@ -151,7 +150,7 @@ export class WorkContainer extends React.Component {
             profile={this.props.profile}
             unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
-            hasOnlineAccess={hasOnlineAccess}
+            getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
           />
           {
             reviewVisible &&

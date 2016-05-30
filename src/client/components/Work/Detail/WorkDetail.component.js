@@ -80,7 +80,7 @@ export class WorkDetail extends React.Component {
                 searchForLibraryAction={this.props.searchForLibraryAction}
                 librarySearchResults={this.props.librarySearchResults}
                 profile={this.props.profile}
-                hasOnlineAccess={this.props.hasOnlineAccess}
+                getWorkOnlineAccessAction={this.props.getWorkOnlineAccessAction}
               />
             }
             {reviewButton}
@@ -127,7 +127,7 @@ WorkDetail.propTypes = {
   librarySearchResults: React.PropTypes.array.isRequired,
   fullReview: React.PropTypes.bool, // are we expanding the current review? (e.g. only one at the screen) sd-566
   ownReview: React.PropTypes.bool,   // is this the users own review sd-566
-  hasOnlineAccess: React.PropTypes.string // sd-554 : First hasOnlineAccess url if it exists
+  getWorkOnlineAccessAction: React.PropTypes.func.isRequired // sd-554 : First hasOnlineAccess url if it exists
 };
 
 WorkDetail.defaultProps = {

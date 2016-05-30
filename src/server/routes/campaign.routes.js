@@ -5,6 +5,7 @@
 
 import express from 'express';
 import request from 'request';
+import path from 'path';
 import {pick, find, filter} from 'lodash';
 import PDFDocument from 'pdfkit';
 
@@ -15,6 +16,7 @@ import {
   redirectBackToOrigin,
   ensureUserHasValidLibrary
 } from '../middlewares/auth.middleware';
+
 import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
 function pad(n, width, z) {
@@ -41,7 +43,7 @@ function computeAge(birthday) {
  * Returns a promise with the requested image in a buffer
  * @param url of the image resource
  */
-function fetchImageBuffer(url) {
+function fetchImageBuffer(url) { // eslint-disable-line no-unused-vars
   return new Promise((resolve, reject) => {
     request.defaults({encoding: null})(url, function (err, response, buffer) {
       if (err) {
@@ -57,16 +59,13 @@ function fetchImageBuffer(url) {
 
 async function createPDFDocument(frontpageData, reviewsWithWorkData) {
 
-  console.log(frontpageData); // eslint-disable-line no-console
-  console.log(reviewsWithWorkData); // eslint-disable-line no-console
-
   // load all image resources
-  let imgBort = (await fetchImageBuffer(frontpageData.bortImage));
-  let imgBibloAbides = (await fetchImageBuffer(frontpageData.bibloAbidesImage));
-  let imgBibloPortrait = (await fetchImageBuffer(frontpageData.bibloPortraitImage));
-  let imgBibloBerzerk = (await fetchImageBuffer(frontpageData.bibloBerzerkImage));
-  let imgCampaignLogo = (await fetchImageBuffer(frontpageData.campaignLogo));
-  let imgCampaignLogoSmall = (await fetchImageBuffer(frontpageData.campaignLogoSmall));
+  // let imgBort = (await fetchImageBuffer(frontpageData.bortImage));
+  // let imgBibloAbides = (await fetchImageBuffer(frontpageData.bibloAbidesImage));
+  // let imgBibloPortrait = (await fetchImageBuffer(frontpageData.bibloPortraitImage));
+  // let imgBibloBerzerk = (await fetchImageBuffer(frontpageData.bibloBerzerkImage));
+  // let imgCampaignLogo = (await fetchImageBuffer(frontpageData.campaignLogo));
+  // let imgCampaignLogoSmall = (await fetchImageBuffer(frontpageData.campaignLogoSmall));
 
   // write pdf
   let doc = new PDFDocument({
@@ -75,10 +74,10 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   });
 
   // top decor
-  doc.image(imgBort, 0, 0, {width: 650});
+  doc.image(frontpageData.bortImage, 0, 0, {width: 650});
 
   // big campaign logo
-  doc.image(imgCampaignLogo, 200, 20, {width: 200});
+  doc.image(frontpageData.campaignLogo, 200, 20, {width: 200});
 
 
   doc.fontSize(50).moveDown().moveDown().text('LÆSEBEVIS', {align: 'center'});
@@ -90,7 +89,7 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   doc.fontSize(15).moveDown().moveDown().text('har læst og anmeldt ' + frontpageData.campaignReviewCount + ' bøger til ' + frontpageData.campaignName, {align: 'center'});
 
   // insert "godkendt af biblo" sticker
-  doc.image(imgBibloAbides, 490, 440, {width: 100});
+  doc.image(frontpageData.bibloAbidesImage, 490, 440, {width: 100});
 
 
   // horizontal ruler
@@ -131,10 +130,10 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   doc.fontSize(fontSize).text(frontpageData.branchShortName, 350 + 3, 625);
 
   // bottom decor
-  doc.image(imgBort, 0, 700, {width: 650});
+  doc.image(frontpageData.bortImage, 0, 700, {width: 650});
 
   // footer Biblo sticker
-  doc.image(imgBibloPortrait, 305, 725, {width: 30});
+  doc.image(frontpageData.bibloPortraitImage, 305, 725, {width: 30});
 
   // force new page
   doc.addPage();
@@ -150,7 +149,7 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
     doc.moveDown(2);
     doc.fontSize(12);
     doc.lineGap(6);
-    doc.image(imgCampaignLogoSmall, 500, doc.y, {width: 30});
+    doc.image(frontpageData.campaignLogoSmall, 500, doc.y, {width: 30});
     doc.text(review.dcTitle);
     doc.text((typeof review.creator === 'undefined') ? '' : review.creator);
     const date = new Date(Date.parse(review.created));
@@ -167,7 +166,7 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
     // page header
     doc.text('Anmeldelser af ' + frontpageData.username + ' fra ' + frontpageData.branchShortName, 5, 5);
     // page footer
-    doc.image(imgBibloBerzerk, 500, 750, {width: 100});
+    doc.image(frontpageData.bibloBerzerkImage, 500, 750, {width: 100});
   }
 
   doc.flushPages();
@@ -231,17 +230,15 @@ CampaignRoutes.get(
       const reviewsWithWorkData = ownReviews.map((review) => {
         return Object.assign(pick(review, 'content', 'rating', 'created'), pid2work[review.pid], {campaignLogo: campaign.logos.small});
       });
-
       const age = (profile.birthday === null) ? '' : computeAge(new Date(Date.parse(profile.birthday)));
-
       const frontpageData = {
         campaignName: campaign.campaignName,
-        campaignLogo: 'http://localhost:' + req.app.get('port') + '/' + campaign.logos.medium,
-        campaignLogoSmall: 'http://localhost:' + req.app.get('port') + '/' + campaign.logos.small,
-        bibloBerzerkImage: 'http://localhost:' + req.app.get('port') + '/images/biblo_logo_læs-løspå-biblo.png',
-        bibloPortraitImage: 'http://localhost:' + req.app.get('port') + '/images/biblo_logo_portrait.png',
-        bibloAbidesImage: 'http://localhost:' + req.app.get('port') + '/images/biblo_logo_godkendt-af.png',
-        bortImage: 'http://localhost:' + req.app.get('port') + '/bort.png',
+        campaignLogo: path.resolve(__dirname + '/../../../static/' + campaign.logos.medium),
+        campaignLogoSmall: path.resolve(__dirname + '/../../../static/' + campaign.logos.small),
+        bibloBerzerkImage: path.resolve(__dirname + '/../../../static/images/biblo_logo_læs-løspå-biblo.png'),
+        bibloPortraitImage: path.resolve(__dirname + '/../../../static/images/biblo_logo_portrait.png'),
+        bibloAbidesImage: path.resolve(__dirname + '/../../../static/images/biblo_logo_godkendt-af.png'),
+        bortImage: path.resolve(__dirname + '/../../../static/bort.png'),
         username: profile.displayName,
         fullName: profile.fullName,
         email: profile.email,

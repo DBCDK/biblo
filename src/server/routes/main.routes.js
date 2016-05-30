@@ -68,6 +68,7 @@ MainRoutes.get('/logout', function(req, res) {
 });
 
 MainRoutes.get('/error', (req, res, next) => {
+  res.locals.title = 'Fejl - Biblo.dk';
   let errorMsg = 'Der er sket en fejl!';
   if (req.session.passportError) {
     errorMsg = req.session.passportError.message;

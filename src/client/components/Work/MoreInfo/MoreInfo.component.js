@@ -73,12 +73,14 @@ export class MoreInfo extends React.Component {
 
 
     let uniqueMaterialTypes = {};
-    this.props.materials.forEach((material) => {
-      uniqueMaterialTypes[material.type] = {
-        type: material.type,
-        workType: material.workType
-      };
-    });
+    if (this.props.materials) {
+      this.props.materials.forEach((material) => {
+        uniqueMaterialTypes[material.type] = {
+          type: material.type,
+          workType: material.workType
+        };
+      });
+    }
 
     const materialTypeElements = Object.keys(uniqueMaterialTypes).map((key) => (
         <li className={'more-info--material-type'}>

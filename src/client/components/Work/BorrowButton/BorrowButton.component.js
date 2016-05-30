@@ -67,10 +67,21 @@ export default class BorrowButton extends React.Component {
 
   submitOrderForm(e) {
     e.preventDefault();
+    if (this.props.hasOnlineAccess) {
+      if (window) {
+        window.location = this.props.hasOnlineAccess;
+      }
+    }
 
     if (this.state.selectedPid) {
       this.props.orderMaterialAction(this.state.selectedPid);
     }
+  }
+
+  onChange (e) {
+    this.setState({
+      selectedPid: e.target.value
+    });
   }
 
   renderOrderForm(collectionsObject) {
@@ -85,7 +96,7 @@ export default class BorrowButton extends React.Component {
                 <span key={collectionItem.pid} className="modal-window--collection-item--container">
                   <input type="radio" name="mediaType" value={collectionItem.pid}
                          id={`${collectionItem.workType}${collectionItem.pid}`}
-                         onChange={(e) => this.setState({selectedPid: e.target.value})}/>
+                         onChange={this.onChange.bind(this)}/>
                   <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
                     <Icon glyph={materialSvgs[collectionItem.workType]} width={25}
                           height={25}/> {collectionItem.type}
@@ -164,7 +175,6 @@ export default class BorrowButton extends React.Component {
     });
 
     const collectionObjectSize = Object.keys(collectionsObject).length;
-
     let modalContent = '';
 
     // User isn't logged in
@@ -284,7 +294,8 @@ BorrowButton.propTypes = {
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
   checkOrderPolicyDone: React.PropTypes.bool,
-  profile: React.PropTypes.object
+  profile: React.PropTypes.object,
+  hasOnlineAccess: React.PropTypes.string
 };
 
 BorrowButton.defaultProps = {

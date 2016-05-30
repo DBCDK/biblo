@@ -23,7 +23,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserH
     data: JSON.stringify(data).replace('\'', '\\\'')
   };
 
-  res.local.title = 'Opret gruppe - Biblo.dk';
+  res.locals.title = 'Opret gruppe - Biblo.dk';
 
   res.render('page', {
     css: ['/css/groupcreate.css'],

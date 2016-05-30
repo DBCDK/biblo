@@ -36,28 +36,7 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
         };
         const responseData = JSON.parse(str);
 
-        if (responseData.welcome_text && responseData.welcome_header) {
-          frontPageData.widgetLocations.FrontPageContent.push({
-            widgetName: 'ColoredHeaderWidget',
-            widgetConfig: {
-              text: responseData.welcome_text,
-              title: responseData.welcome_header
-            }
-          });
-        }
-
-        if (responseData.elements) {
-          frontPageData.widgetLocations.FrontPageContent.push({
-            widgetName: 'ContentGridWidget',
-            widgetConfig: {
-              items: responseData.elements
-            }
-          });
-        }
-
-        if (responseData.additional) {
-          frontPageData.widgetLocations.FrontPageContent = frontPageData.widgetLocations.FrontPageContent.concat(responseData.additional);
-        }
+        Object.assign(frontPageData.widgetLocations, responseData);
 
         res.render('page', {
           css: ['/css/frontpage.css', '/css/search.css'],
@@ -89,6 +68,7 @@ MainRoutes.get('/logout', function(req, res) {
 });
 
 MainRoutes.get('/error', (req, res, next) => {
+  res.locals.title = 'Fejl - Biblo.dk';
   let errorMsg = 'Der er sket en fejl!';
   if (req.session.passportError) {
     errorMsg = req.session.passportError.message;

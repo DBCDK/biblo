@@ -42,6 +42,7 @@ ContentRoutes.get('/:id', (req, res) => {
       }
       else {
         const articleData = JSON.parse(str);
+        res.locals.title = `${articleData.title} - Biblo.dk`;
         res.render('page', {
           css: ['/css/article.css'],
           js: ['/js/article.js'],
@@ -67,7 +68,7 @@ export async function wildCardRoute(req, res, next) {
       throw new Error('Content page was requested but not found!');
     }
     else {
-      res.locals.title = contentObject.title;
+      res.locals.title = `${contentObject.title} - Biblo.dk`;
 
       res.render('page', {
         css: ['/css/article.css'],

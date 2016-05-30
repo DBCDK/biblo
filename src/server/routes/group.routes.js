@@ -23,6 +23,8 @@ GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserH
     data: JSON.stringify(data).replace('\'', '\\\'')
   };
 
+  res.local.title = 'Opret gruppe - Biblo.dk';
+
   res.render('page', {
     css: ['/css/groupcreate.css'],
     js: ['/js/groupcreate.js'],
@@ -243,6 +245,7 @@ GroupRoutes.post('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensu
  * @param res
  */
 function showGroup(groupData, res) {
+  res.locals.title = `${groupData.name} - Biblo.dk`;
   res.render('page', {
     css: ['/css/groupdetail.css'],
     js: ['/js/groupdetail.js'],
@@ -309,6 +312,7 @@ async function fetchGroupData(params, req, res, update = {}) {
   catch (e) {
     const logger = req.app.get('logger');
     logger.error('An error occured while fetching groupdata', {error: e.message || e, params: params, session: req.session});
+    res.locals.title = 'Fejl - Biblo.dk';
     res.redirect('/error');
   }
 }
@@ -411,6 +415,8 @@ GroupRoutes.get('/', async function getGroups(req, res, next) {
   try {
     const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
     const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
+
+    res.locals.title = 'Grupper - Biblo.dk';
 
     res.render('page', {
       css: ['/css/groups.css'],

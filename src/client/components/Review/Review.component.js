@@ -36,6 +36,15 @@ export default class Review extends UploadMedia {
   constructor(props) {
     super(props);
 
+    // make sure that we have pids to sort reviews on. ( the /work endpoint can return without work.collection / pids )
+    let pids;
+    if (props.pids && props.length === 0) {
+      pids = props.pids;
+    }
+    else {
+      pids = [props.pid];
+    }
+
     this.state = {
       profile: props.profile,
       owner: props.owner,
@@ -45,6 +54,7 @@ export default class Review extends UploadMedia {
       reviewownerid: props.reviewownerid,
       id: props.id,
       pid: props.pid,
+      pids: pids, // NOTE: work.collection from /work can be empty from collection search
       image: props.image,
       video: props.video,
       modified: props.modified,
@@ -123,7 +133,7 @@ export default class Review extends UploadMedia {
           this.props.uiActions.closeModalWindow();
         }}
         confirmFunc={() => {
-          this.props.reviewActions.asyncDeleteWorkReview(this.props.id, this.props.pids);
+          this.props.reviewActions.asyncDeleteWorkReview(this.props.id, this.state.pids);
           this.setState({text: '', attachment: {}});
           this.props.uiActions.closeModalWindow();
         }}
@@ -229,8 +239,8 @@ export default class Review extends UploadMedia {
             this.props.reviewActions.asyncShowReview(response.data.id);
           }
           else {
-            // we created / edited a review . Restart paging . pass ownReviewId
-            this.props.reviewActions.asyncShowWorkReviews(this.props.pids, 0, 10, response.data.id);
+            // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
+            this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
           }
           this.afterEdit();
         }).catch((errorMsg) => {
@@ -523,15 +533,15 @@ export default class Review extends UploadMedia {
 
 Review.displayName = 'Review';
 Review.propTypes = {
-  owner: React.PropTypes.object, // for profile image in view
-  profile: React.PropTypes.object.isRequired, // for editing, flagging, liking
+  owner: React.PropTypes.object,                        // for profile image in view
+  profile: React.PropTypes.object.isRequired,           // for editing, flagging, liking
   id: React.PropTypes.number,
-  pids: React.PropTypes.array,
-  reviewownerid: React.PropTypes.number,
   pid: React.PropTypes.string.isRequired,
+  pids: React.PropTypes.array,                          // from openplatform work endpoint (optional)
+  reviewownerid: React.PropTypes.number,
   logo: React.PropTypes.string,
   isEditing: React.PropTypes.bool,
-  worktype: React.PropTypes.string,  // term.workType (underværksniveau)
+  worktype: React.PropTypes.string,                     // term.workType (underværksniveau)
   content: React.PropTypes.string,
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,

@@ -369,6 +369,8 @@ export class ProfileDetailContainer extends React.Component {
       </div>
     );
 
+    const messagesPaneContent = (<div>Messages Content....</div>);
+
     const tabs = [
       {
         label: 'Aktivitet',
@@ -400,6 +402,10 @@ export class ProfileDetailContainer extends React.Component {
     // hiding reviews tab behind feature flag -- 561
     if (typeof localStorage !== 'undefined' && localStorage.getItem('561') !== null) {
       tabs.push({label: 'Anmeldelser', content: reviewsPaneContent});
+    }
+
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('567') !== null) {
+      tabs.push({label: 'Beskeder', content: messagesPaneContent});
     }
 
     return (

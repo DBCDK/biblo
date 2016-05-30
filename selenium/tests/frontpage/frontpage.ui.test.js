@@ -21,7 +21,7 @@ export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout})
       var header = body.findElement({tagName: 'h2'});
 
       header.getText().then((text) => {
-        assert.equal(text, 'VELKOMMEN TIL BIBLO');
+        assert.equal(text, 'VELKOMMEN TIL BIBLO.DK');
         done();
       });
     });

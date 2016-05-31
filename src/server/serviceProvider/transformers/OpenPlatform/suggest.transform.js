@@ -5,7 +5,7 @@ const SuggestTransform = {
     return 'suggest';
   },
 
-  requestTransform(event, {q}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {q}) {
     return Promise.all([
       this.callServiceClient('openplatform', 'suggest', {
         q: q,
@@ -15,19 +15,20 @@ const SuggestTransform = {
       this.callServiceClient('openplatform', 'suggest', {
         q: q,
         type: 'title',
-        limit: 6
+        limit: 6,
+        fields: ['term', 'pid']
       })
     ]);
   },
 
-  responseTransform(response, q, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response, {q}) {
     let workSuggestions = JSON.parse(response[1].body);
     let creatorSuggestions = JSON.parse(response[0].body);
 
     let creatorTake = 3;
     let workTake = 3;
 
-    workSuggestions.q = q.q;
+    workSuggestions.q = q;
 
     if (workSuggestions.data.length < 3) {
       creatorTake = 6 - workSuggestions.data.length;
@@ -42,8 +43,8 @@ const SuggestTransform = {
 
     workSuggestions.data = workSuggestions.data.concat(creatorSuggestions.data).map((suggestion) => {
       suggestion.str = suggestion.term.replace('Ꜳ', 'Aa').replace('ꜳ', 'aa');
-      if (suggestion.id) {
-        suggestion.href = `/materiale/${encodeURIComponent(suggestion.id)}`;
+      if (suggestion.pid) {
+        suggestion.href = `/materiale/${encodeURIComponent(suggestion.pid)}`;
       }
       else {
         suggestion.href = `/find?q=${encodeURIComponent(`term.creator="${suggestion.str}"`)}`;

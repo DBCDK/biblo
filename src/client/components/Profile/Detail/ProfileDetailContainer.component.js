@@ -404,6 +404,7 @@ export class ProfileDetailContainer extends React.Component {
       tabs.push({label: 'Anmeldelser', content: reviewsPaneContent});
     }
 
+    // hiding reviews tab behind feature flag -- 567
     if (typeof localStorage !== 'undefined' && localStorage.getItem('567') !== null) {
       tabs.push({label: 'Beskeder', content: messagesPaneContent});
     }

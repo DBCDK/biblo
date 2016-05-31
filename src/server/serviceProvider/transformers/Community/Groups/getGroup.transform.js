@@ -9,16 +9,13 @@ const GetGroupTransform = {
   },
 
   requestTransform(event, {id, allMembers}, connection) { // eslint-disable-line no-unused-vars
-
-    let memberLimit = (typeof allMembers !== 'undefined' && allMembers) ? 1000 : 15;
-
     const groupFilter = {
       counts: ['posts', 'members'],
       include: [
         {
           relation: 'members',
           scope: {
-            limit: memberLimit,
+            order: 'id DESC',
             include: ['image']
           }
         },

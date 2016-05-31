@@ -4,12 +4,12 @@ const LeaveGroupTransform = {
     return 'leaveGroup';
   },
 
-  requestTransform(event, {groupId, profileId}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {groupId, profileId}) {
     return this.callServiceClient('community', 'leaveGroup', {groupId, uid: profileId});
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-    if (response.statusCode === 200) {
+  responseTransform(response) {
+    if (response.statusCode === 200 || response.statusCode === 204) {
       return {};
     }
     return {error: 'Gruppen kan ikke findes'};

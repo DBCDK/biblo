@@ -4,11 +4,11 @@ const JoinGroupTransform = {
     return 'joinGroup';
   },
 
-  requestTransform(event, {groupId, profileId}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {groupId, profileId}) {
     return this.callServiceClient('community', 'joinGroup', {groupId, uid: profileId});
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response) {
     if (response.statusCode === 200) {
       return {};
     }

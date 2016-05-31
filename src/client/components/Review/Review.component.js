@@ -481,7 +481,7 @@ export default class Review extends UploadMedia {
                     <label htmlFor={uniqueId}>
                       <input
                         id={uniqueId}
-                        accept='image/*,video/*'
+                        accept='image/*,video/*,video/mp4'
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
                         name="image"

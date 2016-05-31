@@ -76,8 +76,6 @@ describe('Test NavbarContainer Component', () => {
     assert.isFalse(toggleButton.classList.contains('is-active'), 'menu is not active');
     done();
 
-    console.log(menuButton);
-
     TestUtils.Simulate.click(menuButton);
     setTimeout(() => {
       assert.isTrue(toggleButton.classList.contains('is-active'), 'menu is active');

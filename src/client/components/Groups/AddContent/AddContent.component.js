@@ -251,7 +251,7 @@ export default class AddContent extends UploadMedia {
               <label htmlFor={uniqueId}>
                 <input
                   id={uniqueId}
-                  accept='image/*,video/*'
+                  accept='image/*,video/*,video/mp4'
                   type="file"
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"

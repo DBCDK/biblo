@@ -8,8 +8,10 @@ const GetGroupTransform = {
     return 'getGroup';
   },
 
-  requestTransform(event, {id, allMembers}, connection) { // eslint-disable-line no-unused-vars
-    const groupFilter = {
+  requestTransform(event, {id, allMembers, membersLimit = 15}, connection) {
+    const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
+    let promises = [];
+    let groupFilter = {
       counts: ['posts', 'members'],
       include: [
         {
@@ -31,24 +33,25 @@ const GetGroupTransform = {
       ]
     };
 
-    return this.callServiceClient('community', 'getGroup', {id, filter: groupFilter});
+    if (!allMembers) {
+      groupFilter.include[0].scope.limit = membersLimit;
+    }
+
+    promises.push(this.callServiceClient('community', 'getGroup', {id, filter: groupFilter}));
+
+    if (uid) {
+      promises.push(this.callServiceClient('community', 'checkForMemberInGroup', {groupId: id, profileId: uid}));
+    }
+
+    return Promise.all(promises);
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-
-    const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
-
-    const loggedIn = typeof uid !== 'undefined';
-    const body = groupParser(JSON.parse(response.body));
-
-    if (loggedIn) {
-      // is the current user following the group?
-      body.isFollowing = _.filter(body.members, (member) => uid === member.id).length !== 0;
-      // get some members who aren't owners
-      body.members = (_.filter(body.members, (member) => member.id !== body.owner.id)).map((member) => {
-        return parseProfile(member, true, 'small');
-      });
-    }
+  responseTransform(response, query, connection) {
+    let body = groupParser(JSON.parse(response[0].body));
+    body.isFollowing = response[1] && response[1].statusCode && response[1].statusCode !== 404 || false;
+    body.members = (_.filter(body.members, (member) => member.id !== body.owner.id)).map((member) => {
+      return parseProfile(member, true, 'small');
+    });
 
     return body;
   }

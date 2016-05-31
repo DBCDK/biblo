@@ -53,7 +53,7 @@ export class FullWidthBannerWidget extends Component {
     if (this.state.width <= 600) {
       imageUrl = mobileImageUrl;
     }
-    else if (this.state.width > 600 && this.state.width <= 800) {
+    else if (this.state.width <= 800) {
       imageUrl = tabletImageUrl;
     }
 

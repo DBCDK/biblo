@@ -16,6 +16,7 @@ import RedisStore from 'connect-redis';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
+import Queue from 'bull';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
@@ -43,8 +44,11 @@ import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
 import {ensureProfileImage} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
+// Queue processors
+import {processUserMessage} from './server/queues/UserMessages.queue';
+import {processUserStatusCheck} from './server/queues/CheckUserStatus.queue';
 
-module.exports.run = function(worker) {
+module.exports.run = function (worker) {
   // Setup
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
@@ -54,6 +58,7 @@ module.exports.run = function(worker) {
   const PRODUCTION = ENV === 'production';
   const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'biblo'; // eslint-disable-line no-process-env
   const APPLICATION = 'biblo';
+  const KAFKA_TOPIC = process.env.KAFKA_TOPIC || 'local'; // eslint-disable-line no-process-env
   const logger = new Logger({app_name: APP_NAME});
   const expressLoggers = logger.getExpressLoggers();
 
@@ -87,6 +92,7 @@ module.exports.run = function(worker) {
   // Setting bodyparser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
+
   // Helmet configuration
   app.use(helmet.frameguard());
   app.use(helmet.hidePoweredBy({setTo: 'Konami!'}));
@@ -132,6 +138,48 @@ module.exports.run = function(worker) {
     });
   }
 
+  // Initialize DynamoDB
+  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_messages`; // eslint-disable-line no-process-env
+  let dynamodb = new AWS.DynamoDB();
+  let docClient = new AWS.DynamoDB.DocumentClient();
+
+  // List tables in dynamo db
+  dynamodb.listTables({}, (err, data) => {
+    if (!err && data) {
+      // check for our table name
+      if ((data.TableNames || []).indexOf(tableName) === -1) {
+        const tableDef = {
+          TableName: tableName,
+          KeySchema: [
+            {AttributeName: 'messageEpoch', KeyType: 'HASH'},  // Partition key
+            {AttributeName: 'messageType', KeyType: 'RANGE'}  // Sort key
+          ],
+          AttributeDefinitions: [
+            {AttributeName: 'messageEpoch', AttributeType: 'S'},
+            {AttributeName: 'messageType', AttributeType: 'S'}
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 10,
+            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 10
+          }
+        };
+
+        // if it doesn't exist -> create it.
+        dynamodb.createTable(tableDef, (createTableErr, createTableData) => {
+          if (!createTableErr && createTableData) {
+            logger.info('Created dynamo table!', createTableData);
+          }
+          else {
+            logger.error('Cannot create dynamo table, messages will be disabled!');
+          }
+        });
+      }
+    }
+    else {
+      logger.error('Cannot connect to dynamo, messages will be disabled!');
+    }
+  });
+
   // Configure app variables
   app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker));
   app.set('logger', logger);
@@ -141,6 +189,8 @@ module.exports.run = function(worker) {
   app.set('amazonConfig', amazonConfig);
   app.set('s3', new AWS.S3());
   app.set('ElasticTranscoder', new AWS.ElasticTranscoder());
+  app.set('dynamoTable', tableName);
+  app.set('dynamoDocClient', docClient);
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));
@@ -179,6 +229,24 @@ module.exports.run = function(worker) {
       break;
   }
 
+  // Configure message queue
+  const userMessageQueue = Queue('user messages', redisConfig.port, redisConfig.host);
+  userMessageQueue.process((job, done) => {
+    job.app = app;
+    return processUserMessage(job, done);
+  });
+
+  // Configure user status queue
+  const userStatusCheckQueue = Queue('user status check', redisConfig.port, redisConfig.host);
+  userStatusCheckQueue.process((job, done) => {
+    job.app = app;
+    return processUserStatusCheck(job, done);
+  });
+
+  // Set queues to app
+  app.set('userMessageQueue', userMessageQueue);
+  app.set('userStatusCheckQueue', userStatusCheckQueue);
+
   const redisStore = RedisStore(expressSession);
 
   const redisInstance = new redisStore({
@@ -187,7 +255,7 @@ module.exports.run = function(worker) {
     prefix: APP_NAME + '_session_'
   });
 
-  redisInstance.client.on('error', function() {
+  redisInstance.client.on('error', function () {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
   });
 

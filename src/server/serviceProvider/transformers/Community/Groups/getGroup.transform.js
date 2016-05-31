@@ -50,7 +50,7 @@ const GetGroupTransform = {
     return Promise.all(promises);
   },
 
-  responseTransform(response, query, connection) {
+  responseTransform(response) {
     let body = groupParser(JSON.parse(response[0].body));
     body.isFollowing = response[1] && response[1].statusCode && response[1].statusCode !== 404 || false; // If the status code is 404, the user is not following the group
     body.members = (_.filter(body.members, (member) => member.id !== body.owner.id)).map((member) => {

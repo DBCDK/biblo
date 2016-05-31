@@ -153,7 +153,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
     case types.LOAD_METADATA_FOR_REVIEW_FROM_PID: {
       let newState = assignToEmpty(state, {});
 
-      action.work.data.forEach((workData) => {
+      (action.work.data || []).forEach((workData) => {
         if (!workData || !workData.creator || !workData.dcTitleFull) {
           return;
         }

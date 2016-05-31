@@ -38,7 +38,7 @@ export default class Review extends UploadMedia {
 
     // make sure that we have pids to sort reviews on. ( the /work endpoint can return without work.collection / pids )
     let pids;
-    if (props.pids && props.length === 0) {
+    if (props.pids && props.length !== 0) {
       pids = props.pids;
     }
     else {

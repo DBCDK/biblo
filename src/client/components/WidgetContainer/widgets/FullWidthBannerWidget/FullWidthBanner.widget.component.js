@@ -50,10 +50,10 @@ export class FullWidthBannerWidget extends Component {
     let {title, description, desktopImageUrl, tabletImageUrl, mobileImageUrl, linkUrl} = Object.assign(defaultConfig, this.props.widgetConfig);
     let imageUrl = desktopImageUrl;
 
-    if (this.state.width <= 320) {
+    if (this.state.width <= 600) {
       imageUrl = mobileImageUrl;
     }
-    else if (this.state.width > 320 && this.state.width <= 600) {
+    else if (this.state.width > 600 && this.state.width <= 800) {
       imageUrl = tabletImageUrl;
     }
 

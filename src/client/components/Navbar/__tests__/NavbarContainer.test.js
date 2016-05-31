@@ -69,12 +69,14 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
-    let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} searchActions={{toggleSearchBox: () => {}}} />);
+    let menuButton = TestUtils.scryRenderedDOMComponentsWithClass(dom, 'navbar--profile')[0];
     let toggleButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
 
     assert.isFalse(toggleButton.classList.contains('is-active'), 'menu is not active');
     done();
+
+    console.log(menuButton);
 
     TestUtils.Simulate.click(menuButton);
     setTimeout(() => {

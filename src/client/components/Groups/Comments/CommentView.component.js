@@ -34,12 +34,10 @@ class CommentView extends React.Component {
 
   renderReview(review) {
     return (
-      <FeaturePreview>
-        <div key={`comment_review_${review.id}`}>
-          <img src={`/images/covers/${review.worktype}.png`} />
-          <span dangerouslySetInnerHTML={{__html: review.html}} />
-        </div>
-      </FeaturePreview>
+      <div key={`comment_review_${review.id}`}>
+        <img src={`/images/covers/${review.worktype}.png`} />
+        <span dangerouslySetInnerHTML={{__html: review.html}} />
+      </div>
     );
   }
 

@@ -128,15 +128,13 @@ export default class PostView extends React.Component {
     const work = works[review.pid] || {};
 
     return (
-      <FeaturePreview>
-        <div className="attached-review--container">
-          <ReviewRow
-            activeUser={profile}
-            metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
-            likeActions={likeActions}
-            review={review} />
-        </div>
-      </FeaturePreview>
+      <div className="attached-review--container">
+        <ReviewRow
+          activeUser={profile}
+          metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
+          likeActions={likeActions}
+          review={review} />
+      </div>
     );
   }
 

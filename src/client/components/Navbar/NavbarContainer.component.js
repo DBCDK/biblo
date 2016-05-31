@@ -75,10 +75,8 @@ export default class NavbarContainer extends React.Component {
 
   renderSearch() {
     return (
-      <FeaturePreview>
-        <NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={searchSvg}
-                        onClick={() => this.toggleSearchBox()}/>
-      </FeaturePreview>
+      <NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={searchSvg}
+                      onClick={() => this.toggleSearchBox()}/>
     );
   }
 

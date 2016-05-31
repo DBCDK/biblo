@@ -11,8 +11,9 @@ import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasVal
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) => {
+  const frontPageBucket = process.env.FRONT_PAGE_BUCKET || 'uxdev-biblo-content-frontpage'; // eslint-disable-line no-process-env
   const settingsUrl = config.biblo.getConfig({}).provider.services.community.endpoint +
-    'api/fileContainers/uxdev-biblo-content-frontpage/download/frontpage_content.json';
+    `api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
 
   // fetch page settings from AWS
   http.get(settingsUrl, (getRes) => {

@@ -70,7 +70,7 @@ export default class BorrowButton extends React.Component {
     e.preventDefault();
     if (this.state.onlineUrl) {
       if (window) {
-        window.location = this.state.onlineUrl; // redirect to online access
+        window.open(this.state.onlineUrl, '_blank'); //redirect to online access 
       }
     }
     else if (this.state.selectedPid) {

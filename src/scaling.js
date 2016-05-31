@@ -8,5 +8,6 @@ new SocketCluster({ // eslint-disable-line no-new
   appName: process.env.NEW_RELIC_APP_NAME || 'biblo', // eslint-disable-line no-process-env
   initController: path.join(__dirname, 'init.js'),
   workerController: path.join(__dirname, 'app.js'),
+  wsEngine: 'uws',
   rebootWorkerOnCrash: process.env.AUTO_REBOOT || true // eslint-disable-line no-process-env
 });

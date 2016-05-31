@@ -139,6 +139,8 @@ progress[value] {
 }
 
 .content-add--media {
+  display: inline-block;
+
   label {
     @include button($athens-gray, $melrose, false);
     border: 1px solid #ccc;

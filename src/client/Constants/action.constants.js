@@ -102,6 +102,7 @@ export const CHECK_ORDER_POLICY = 'CHECK_ORDER_POLICY';
 export const WORK_IS_ORDERING = 'WORK_IS_ORDERING';
 export const WORK_HAS_ORDERED = 'WORK_HAS_ORDERED';
 export const GET_WORK_METADATA_FOR_PERSONAL_REVIEWS = 'GET_WORK_METADATA_FOR_PERSONAL_REVIEWS'; // action used to retreive works associated with one ore more pids
+export const GET_WORK_ONLINEACCESS = 'GET_WORK_ONLINEACCESS';
 
 // Widget actions
 export const GET_LATEST_REVIEWS_FOR_WIDGET = 'GET_LATEST_REVIEWS_FOR_WIDGET';

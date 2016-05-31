@@ -44,6 +44,7 @@ export default class BorrowButton extends React.Component {
       loanerId: '',
       pincode: '',
       libraryId: '',
+      hasOnlineAcces: false,
       errorObj: {}
     };
 
@@ -67,10 +68,26 @@ export default class BorrowButton extends React.Component {
 
   submitOrderForm(e) {
     e.preventDefault();
-
-    if (this.state.selectedPid) {
+    if (this.state.onlineUrl) {
+      if (window) {
+        window.open(this.state.onlineUrl, '_blank'); // redirect to online access
+      }
+    }
+    else if (this.state.selectedPid) {
       this.props.orderMaterialAction(this.state.selectedPid);
     }
+  }
+
+  onChange (collectionItem, e) {
+    let onlineUrl;
+    if (collectionItem.accessType[0] === 'online') {
+      onlineUrl = collectionItem.hasOnlineAccess[0];
+    }
+
+    this.setState({
+      selectedPid: e.target.value,
+      onlineUrl: onlineUrl // url for the online resource. undefined if none . Note that this is pr pid.
+    });
   }
 
   renderOrderForm(collectionsObject) {
@@ -85,7 +102,7 @@ export default class BorrowButton extends React.Component {
                 <span key={collectionItem.pid} className="modal-window--collection-item--container">
                   <input type="radio" name="mediaType" value={collectionItem.pid}
                          id={`${collectionItem.workType}${collectionItem.pid}`}
-                         onChange={(e) => this.setState({selectedPid: e.target.value})}/>
+                         onChange={this.onChange.bind(this, collectionItem)}/>
                   <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
                     <Icon glyph={materialSvgs[collectionItem.workType]} width={25}
                           height={25}/> {collectionItem.type}
@@ -156,15 +173,19 @@ export default class BorrowButton extends React.Component {
 
   placeOrderModal(collectionDetails, checkOrderPolicyResult, checkOrderPolicyDone, orderState, profile, onClose) {
     let collectionsObject = {};
-
     collectionDetails.forEach((collectionItem) => {
+
+      // get actual url if accessType is online
+      if (collectionItem.accessType[0] === 'online') {
+        this.props.getWorkOnlineAccessAction([collectionItem.pid[0]]);
+      }
+
       if (checkOrderPolicyResult[collectionItem.pid[0]] && !collectionsObject[collectionItem.type]) {
         collectionsObject[collectionItem.type] = collectionItem;
       }
     });
 
     const collectionObjectSize = Object.keys(collectionsObject).length;
-
     let modalContent = '';
 
     // User isn't logged in
@@ -284,7 +305,8 @@ BorrowButton.propTypes = {
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
   checkOrderPolicyDone: React.PropTypes.bool,
-  profile: React.PropTypes.object
+  profile: React.PropTypes.object,
+  getWorkOnlineAccessAction: React.PropTypes.func.isRequired
 };
 
 BorrowButton.defaultProps = {

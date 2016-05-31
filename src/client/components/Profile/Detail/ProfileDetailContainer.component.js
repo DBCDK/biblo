@@ -106,7 +106,7 @@ export class ProfileDetailContainer extends React.Component {
         displayName = 'Du';
       }
       switch (activity.type) {
-        case 'comment': {
+        case 'comment':
           let title = displayName + ' skrev en kommentar';
 
           if (activity.post && activity.post.group && activity.post.group.name) {
@@ -178,9 +178,8 @@ export class ProfileDetailContainer extends React.Component {
               />
             </ActivityRow>
           );
-        }
 
-        case 'post': {
+        case 'post':
           let postTitle = displayName + ' oprettede et indlæg';
 
           if (activity.group && activity.group.name) {
@@ -242,11 +241,9 @@ export class ProfileDetailContainer extends React.Component {
               />
             </ActivityRow>
           );
-        }
 
-        default: {
+        default:
           return '';
-        }
       }
     });
   }
@@ -274,7 +271,11 @@ export class ProfileDetailContainer extends React.Component {
     let showMore = '';
 
     if (userProfile.description && userProfile.description.length > 0) {
-      desc = <p><span dangerouslySetInnerHTML={{__html: userProfile.description}} /></p>;
+      desc = (
+        <p>
+          <span dangerouslySetInnerHTML={{__html: userProfile.description}} />
+        </p>
+      );
     }
 
     if (
@@ -384,21 +385,29 @@ export class ProfileDetailContainer extends React.Component {
       }
     }
 
-
-    const campaignDiplomaButtons = Object.keys(campaigns).map((id) => {
-      const campaign = campaigns[id];
-      const downloadUrl = '/kampagne/laesebevis/' + campaign.id;
-      return (
-        <a href={downloadUrl} key={id} className='p-detail--groups-button--container' >
-          <div className="p-detail--groups-button" >
-            <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42} /><p>Læsebevis</p>
-          </div>
-        </a>
-      );
-    });
+    let campaignDiplomaButtons = null;
+    if (isMyProfile) {
+      campaignDiplomaButtons = Object.keys(campaigns).map((id, key) => {
+        const campaign = campaigns[id];
+        const downloadUrl = '/kampagne/laesebevis/' + campaign.id;
+        return (
+          <span className="p-detail--campaign-diploma" key={key} >
+            <a href={downloadUrl} key={id} className='p-detail--groups-button--container' >
+              <div className="p-detail--groups-button" >
+                <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42} />
+                <p>Læsebevis</p>
+              </div>
+            </a>
+          </span>
+        );
+      });
+    }
 
     // hiding reviews tab behind feature flag -- 561
-    tabs.push({label: 'Anmeldelser', content: reviewsPaneContent});
+    tabs.push({
+      label: 'Anmeldelser',
+      content: reviewsPaneContent
+    });
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >
@@ -409,13 +418,15 @@ export class ProfileDetailContainer extends React.Component {
           {editButton}
           {desc}
           <div className="p-detail--groups-flag-buttons--container" >
-            <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
-              this.props.uiActions.openModalWindow(groupsModalContent);
-            }} >
-              <div className="p-detail--groups-button" >
-                <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p>
-              </div>
-            </a>
+            <span>
+                <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
+                  this.props.uiActions.openModalWindow(groupsModalContent);
+                }} >
+                  <div className="p-detail--groups-button" >
+                    <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p>
+                  </div>
+                </a>
+              </span>
             {campaignDiplomaButtons}
           </div>
         </div>

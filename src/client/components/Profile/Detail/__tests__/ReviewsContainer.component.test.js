@@ -17,6 +17,7 @@ import {reviewsMockJSON as reviewsMock} from './reviews.mock';
 describe('Testing the ReviewContainer component', () => {
   const emptyReviews = [];
   const emptyWorksMetadata = {};
+  const emptyObject = {};
   const user = {};
   const noop = () => {
   };
@@ -27,6 +28,8 @@ describe('Testing the ReviewContainer component', () => {
       <ReviewsContainer
         reviews={emptyReviews}
         user={user}
+        activeUser={user}
+        likeActions={emptyObject}
         getWorksAction={noop}
         worksMetadata={emptyWorksMetadata}
       />
@@ -47,6 +50,8 @@ describe('Testing the ReviewContainer component', () => {
       <ReviewsContainer
         reviews={reviewsMock}
         user={user}
+        activeUser={user}
+        likeActions={emptyObject}
         getWorksAction={getWorksAction}
         worksMetadata={emptyWorksMetadata}
       />
@@ -72,6 +77,8 @@ describe('Testing the ReviewContainer component', () => {
       <ReviewsContainer
         reviews={reviewsMock}
         user={user}
+        activeUser={user}
+        likeActions={emptyObject}
         getWorksAction={noop}
         worksMetadata={emptyWorksMetadata}
       />

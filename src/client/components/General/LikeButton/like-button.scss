@@ -7,6 +7,10 @@
   cursor: pointer;
   margin-left: 20px;
 
+  @include max-screen(600px) {
+    margin-left: 10px;
+  }
+
   p {
     position: relative;
     top: -3px;

@@ -10,7 +10,6 @@ import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
-import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
 import Youtube from 'react-youtube';
 

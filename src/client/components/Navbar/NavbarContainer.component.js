@@ -10,7 +10,6 @@ import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
-import FeaturePreview from '../General/FeaturePreview/FeaturePreview.component';
 
 // Constants
 import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';

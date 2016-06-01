@@ -255,9 +255,9 @@ export default class AddContent extends UploadMedia {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={event => this.readInput(event, attachment => this.setState({attachment: attachment}))
-                            .then(attachment => this.setState({attachment: attachment}))
-                            .catch(errorMsg => this.setState({errorMsg: errorMsg}))
+                  onChange={event => this.readInput(event, attachment => this.setState({isLoading: true, attachment: attachment}))
+                            .then(attachment => this.setState({isLoading: false, attachment: attachment}))
+                            .catch(errorMsg => this.setState({isLoading: false, errorMsg: errorMsg}))
                             }
                   ref="fileInput"
                 />

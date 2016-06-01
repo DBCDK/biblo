@@ -256,7 +256,7 @@ CampaignRoutes.get(
         userId: profile.id,
         age: age,
         phone: profile.phone,
-        branchShortName: library.branchShortName[0].$value,
+        branchShortName: (Array.isArray(library.branchShortName) ? library.branchShortName[0] : library.branchShortName).$value,
         campaignReviewCount: ownReviewsInCampaign.length
       };
 

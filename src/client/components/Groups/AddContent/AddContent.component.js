@@ -10,7 +10,6 @@ import Message from '../../General/Message/Message.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
-import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
@@ -267,12 +266,10 @@ export default class AddContent extends UploadMedia {
                 <span className="content-add--media-label">Upload</span>
               </label>
 
-              <FeaturePreview previewKey="sd-557">
-                <a className="insert-review-button" onClick={() => this.setState({showAddReviews: true})}>
-                  <img src="/attach_review.png" />
-                  <span className="attach-review-button--text"> Anmeldelse </span>
-                </a>
-              </FeaturePreview>
+              <a className="insert-review-button" onClick={() => this.setState({showAddReviews: true})}>
+                <img src="/attach_review.png" />
+                <span className="attach-review-button--text"> Anmeldelse </span>
+              </a>
 
               {deleteButton}
             </div>

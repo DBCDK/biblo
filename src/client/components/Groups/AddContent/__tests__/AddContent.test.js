@@ -182,11 +182,11 @@ describe('Test of AddContent Component', () => {
     expect(form.length).to.be.eql(1);
     let textarea = TestUtils.findRenderedDOMComponentWithTag(component, 'textarea');
     expect(textarea.value).to.be.equal('text to test');
-    let image = TestUtils.findRenderedDOMComponentWithTag(component, 'img');
-    expect(image.src).to.be.contain('some_url');
+    let image = TestUtils.scryRenderedDOMComponentsWithTag(component, 'img');
+    expect(image[0].src).to.be.contain('some_url');
     let removeImage = TestUtils.findRenderedDOMComponentWithClass(component, 'content-add--remove-media');
     TestUtils.Simulate.click(removeImage);
-    expect(() => TestUtils.findRenderedDOMComponentWithTag(component, 'img')).to.throw(Error);
+    expect(TestUtils.scryRenderedDOMComponentsWithTag(component, 'img').length).to.eql(1);
   });
 
   it('It should submit form on submit event', (done) => {

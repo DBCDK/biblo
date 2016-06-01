@@ -14,7 +14,6 @@ import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.j
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
-import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 import ReviewRow from '../../Profile/Detail/ReviewRow.component';
 
 import Youtube from 'react-youtube';
@@ -128,15 +127,13 @@ export default class PostView extends React.Component {
     const work = works[review.pid] || {};
 
     return (
-      <FeaturePreview>
-        <div className="attached-review--container">
-          <ReviewRow
-            activeUser={profile}
-            metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
-            likeActions={likeActions}
-            review={review} />
-        </div>
-      </FeaturePreview>
+      <div className="attached-review--container">
+        <ReviewRow
+          activeUser={profile}
+          metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
+          likeActions={likeActions}
+          review={review} />
+      </div>
     );
   }
 

@@ -10,7 +10,6 @@ import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
-import FeaturePreview from '../../General/FeaturePreview/FeaturePreview.component';
 
 import Youtube from 'react-youtube';
 
@@ -34,12 +33,10 @@ class CommentView extends React.Component {
 
   renderReview(review) {
     return (
-      <FeaturePreview>
-        <div key={`comment_review_${review.id}`}>
-          <img src={`/images/covers/${review.worktype}.png`} />
-          <span dangerouslySetInnerHTML={{__html: review.html}} />
-        </div>
-      </FeaturePreview>
+      <div key={`comment_review_${review.id}`}>
+        <img src={`/images/covers/${review.worktype}.png`} />
+        <span dangerouslySetInnerHTML={{__html: review.html}} />
+      </div>
     );
   }
 

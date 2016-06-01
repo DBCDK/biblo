@@ -13,7 +13,7 @@ const GetUserStatusTransform = {
     return this.callServiceClient('openuserstatus', 'getUserStatus', params);
   },
 
-  responseTransform(response, query, connection) {
+  responseTransform(response) {
     let data = {
       result: {
         orders: []

@@ -3,7 +3,7 @@
  */
 
 export function processUserStatusCheck(job, done) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => { // eslint-disable-line consistent-return
     const app = job.app;
     const serviceProvider = app.get('serviceProvider');
     const userMessageAdd = app.get('userMessageAdd');

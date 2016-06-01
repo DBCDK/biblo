@@ -370,6 +370,8 @@ export class ProfileDetailContainer extends React.Component {
       </div>
     );
 
+    const messagesPaneContent = (<div>Messages Content....</div>);
+
     const tabs = [
       {
         label: 'Aktivitet',
@@ -408,6 +410,11 @@ export class ProfileDetailContainer extends React.Component {
       label: 'Anmeldelser',
       content: reviewsPaneContent
     });
+
+    // hiding reviews tab behind feature flag -- 567
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('567') !== null) {
+      tabs.push({label: 'Beskeder', content: messagesPaneContent});
+    }
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >

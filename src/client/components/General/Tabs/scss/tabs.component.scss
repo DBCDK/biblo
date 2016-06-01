@@ -21,15 +21,19 @@ $tab-bg-color-inactive: #4e58ff;
 
     .tab {
       background-color: $tab-bg-color-inactive;
-      color: white;
       border: $border-color solid 1px;
       height: 100%;
+      a {
+        color: white;
+      }
 
       &.active {
         border: $border-color solid 1px;
         border-bottom-color: white;
         background-color: $tab-bg-color-active;
-        color: $tab-bg-color-inactive;
+        a {
+          color: $tab-bg-color-inactive;
+        }
       }
 
       a {

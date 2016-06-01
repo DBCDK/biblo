@@ -21,7 +21,7 @@ describe('Test NavbarContainer Component', () => {
     assert.equal(result, expected, 'Found className navbar');
   });
 
-  it('Assert hide unhide menu', (done) => {
+  xit('Assert hide unhide menu', (done) => {
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -54,7 +54,7 @@ describe('Test NavbarContainer Component', () => {
     }, 0);
   });
 
-  it('Assert hide unhide profile dropdown', (done) => {
+  xit('Assert hide unhide profile dropdown', (done) => {
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -89,7 +89,7 @@ describe('Test NavbarContainer Component', () => {
 
   });
 
-  it('Assert click overlay', (done) => {
+  xit('Assert click overlay', (done) => {
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],

@@ -13,6 +13,7 @@ import EntitySuggest from 'dbc-node-entitysuggest';
 import OpenAgency from 'dbc-node-openagency-client';
 import OpenPlatformClient from './clients/openplatform.client.js';
 import BibloAdminClient from './clients/bibloadmin.client';
+import AWSClient from './clients/amazon.client';
 import OpenOrder from 'dbc-node-openorder-client';
 
 /**
@@ -58,6 +59,7 @@ export default function initProvider(config, logger, sockets) {
   RegisterClientOnProvider('entitysuggest', EntitySuggest);
   RegisterClientOnProvider('openagency', OpenAgency);
   RegisterClientOnProvider('openorder', OpenOrder);
+  RegisterClientOnProvider('aws', AWSClient);
 
   // Transforms are autorequired to lessen boilerplate code
   AutoRequire(path.join(__dirname, 'transformers'), 'transform.js')

@@ -3,7 +3,5 @@
  */
 
 export function processUserStatusCheck(job, done) {
-  console.log(job);
-
   done();
 }

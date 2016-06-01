@@ -100,6 +100,10 @@ export function ensureProfileImage(req, res, next) {
       ) {
         image.url = req.session.passport.user.profile.profile.image.url.small;
         image.shouldDisplay = true;
+
+        if (profile.userMessages && profile.userMessages.unreadMessages) {
+          image.unreadMessages = profile.userMessages.unreadMessages;
+        }
       }
 
       res.locals.profileImage = JSON.stringify(image);

@@ -151,16 +151,16 @@ module.exports.run = function (worker) {
         const tableDef = {
           TableName: tableName,
           KeySchema: [
-            {AttributeName: 'messageEpoch', KeyType: 'HASH'},  // Partition key
+            {AttributeName: 'userId', KeyType: 'HASH'},  // Partition key
             {AttributeName: 'messageType', KeyType: 'RANGE'}  // Sort key
           ],
           AttributeDefinitions: [
-            {AttributeName: 'messageEpoch', AttributeType: 'S'},
+            {AttributeName: 'userId', AttributeType: 'S'},
             {AttributeName: 'messageType', AttributeType: 'S'}
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 10,
-            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 10
+            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 10, // eslint-disable-line no-process-env
+            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 10 // eslint-disable-line no-process-env
           }
         };
 
@@ -236,6 +236,16 @@ module.exports.run = function (worker) {
     return processUserMessage(job, done);
   });
 
+  /**
+   * Helper method to remember the required
+   * @param {Number|String} userId
+   * @param {String} messageType
+   * @param {PlainObject} message
+   */
+  function userMessageAdd(userId, messageType, message) {
+    return userMessageQueue.add({userId, messageType, message});
+  }
+
   // Configure user status queue
   const userStatusCheckQueue = Queue('user status check', redisConfig.port, redisConfig.host);
   userStatusCheckQueue.process((job, done) => {
@@ -244,6 +254,7 @@ module.exports.run = function (worker) {
   });
 
   // Set queues to app
+  app.set('userMessageAdd', userMessageAdd);
   app.set('userMessageQueue', userMessageQueue);
   app.set('userStatusCheckQueue', userStatusCheckQueue);
 

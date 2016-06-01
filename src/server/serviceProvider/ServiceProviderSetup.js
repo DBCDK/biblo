@@ -15,6 +15,7 @@ import OpenPlatformClient from './clients/openplatform.client.js';
 import BibloAdminClient from './clients/bibloadmin.client';
 import AWSClient from './clients/amazon.client';
 import OpenOrder from 'dbc-node-openorder-client';
+import OpenUserStatus from 'dbc-node-openuserstatus-client';
 
 /**
  * Helper function for registering service clients. If cachetime is defined in config, wrap methods with the
@@ -59,6 +60,7 @@ export default function initProvider(config, logger, sockets) {
   RegisterClientOnProvider('entitysuggest', EntitySuggest);
   RegisterClientOnProvider('openagency', OpenAgency);
   RegisterClientOnProvider('openorder', OpenOrder);
+  RegisterClientOnProvider('openuserstatus', OpenUserStatus);
   RegisterClientOnProvider('aws', AWSClient);
 
   // Transforms are autorequired to lessen boilerplate code

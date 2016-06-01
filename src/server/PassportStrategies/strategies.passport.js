@@ -63,6 +63,9 @@ export function Unilogin(app, uniloginConfig) {
           ttl: 0 // use default ttl
         })[0];
       }).then((res) => {
+        // Now that we have a user, and they're logged in, we can check user status
+        app.get('userStatusCheckQueue').add({favoriteLibrary: res.body.profile.favoriteLibrary, userId: res.body.profile.id});
+
         // We now check if a users library, to ensure it exists
         if (res.body.profile && res.body.profile.favoriteLibrary && res.body.profile.favoriteLibrary.libraryId) {
           return new Promise((resolveTemp1) => {

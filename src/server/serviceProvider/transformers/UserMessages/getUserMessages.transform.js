@@ -7,7 +7,7 @@ import {userMessageParser} from '../../parsers/userMessage.parser';
 
 const GetUserMessageTransform = {
   event() {
-    return 'getUserMessage';
+    return 'getUserMessages';
   },
 
   requestTransform(event, userId, connection) {

@@ -49,6 +49,6 @@ describe('Test FullWidthBanner Widget', () => {
     expect(FullWidthBannerWidgetHref).toEqual('https://this.is.a.dummy.link');
 
     const FullWidthBannerWidgetBackgroundImage = $root.find('.full-width-banner--image').props().style.backgroundImage;
-    expect(FullWidthBannerWidgetBackgroundImage).toEqual('url(https://this.is.a.dumme.link/dummy.tablet.png)');
+    expect(FullWidthBannerWidgetBackgroundImage).toEqual('url(https://this.is.a.dumme.link/dummy.desktop.png)');
   });
 });

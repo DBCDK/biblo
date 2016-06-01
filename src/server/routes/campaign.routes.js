@@ -8,7 +8,8 @@ import request from 'request';
 import path from 'path';
 import {pick, find, filter} from 'lodash';
 import PDFDocument from 'pdfkit';
-
+import twemoji from 'twemoji';
+import Logger from 'dbc-node-logger';
 
 import {
   ensureUserHasProfile,
@@ -19,6 +20,8 @@ import {
 
 import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
+const logger = new Logger();
+
 function pad(n, width, z) {
   z = z || '0';
   n += '';
@@ -27,7 +30,12 @@ function pad(n, width, z) {
 
 const CampaignRoutes = express.Router();
 
-
+/**
+ * Computes age
+ *
+ * @param {Date} birthday
+ * @return {number}
+ */
 function computeAge(birthday) {
   const now = new Date(Date.now());
   const isPastBirthday = birthday.getMonth() + '' + birthday.getDay() < now.getMonth() + '' + now.getDay();
@@ -38,14 +46,13 @@ function computeAge(birthday) {
   return age;
 }
 
-
 /**
  * Returns a promise with the requested image in a buffer
  * @param url of the image resource
  */
 function fetchImageBuffer(url) { // eslint-disable-line no-unused-vars
   return new Promise((resolve, reject) => {
-    request.defaults({encoding: null})(url, function (err, response, buffer) {
+    request.defaults({encoding: null})(url, function(err, response, buffer) {
       if (err) {
         reject(new Error('could not fetch image'));
       }
@@ -56,22 +63,27 @@ function fetchImageBuffer(url) { // eslint-disable-line no-unused-vars
   });
 }
 
-
+/**
+ * Generates a PDF læsebevies and displays it to the user in the browser
+ * ¨
+ * @param {object} frontpageData
+ * @param {array} reviewsWithWorkData
+ *
+ * @return {Promise}
+ */
 async function createPDFDocument(frontpageData, reviewsWithWorkData) {
 
-  // load all image resources
-  // let imgBort = (await fetchImageBuffer(frontpageData.bortImage));
-  // let imgBibloAbides = (await fetchImageBuffer(frontpageData.bibloAbidesImage));
-  // let imgBibloPortrait = (await fetchImageBuffer(frontpageData.bibloPortraitImage));
-  // let imgBibloBerzerk = (await fetchImageBuffer(frontpageData.bibloBerzerkImage));
-  // let imgCampaignLogo = (await fetchImageBuffer(frontpageData.campaignLogo));
-  // let imgCampaignLogoSmall = (await fetchImageBuffer(frontpageData.campaignLogoSmall));
-
-  // write pdf
+  // Allocate PDF
   let doc = new PDFDocument({
     bufferPages: true,
-    info: {Title: frontpageData.username + '\'s Læsebevis for ' + frontpageData.campaignName}
+    info: {Title: frontpageData.displayName + '\'s Læsebevis for ' + frontpageData.campaignName}
   });
+
+  // replace any emojis with whitespace in displayName
+  if (twemoji.test(frontpageData.displayName)) {
+    logger.notice('While generating a læsebevis one or more emojis was found in a users diplayName', {frontpageData: frontpageData});
+    frontpageData.displayName = twemoji.replace(frontpageData.displayName, '');
+  }
 
   // top decor
   doc.image(frontpageData.bortImage, 0, 0, {width: 650});
@@ -79,11 +91,10 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   // big campaign logo
   doc.image(frontpageData.campaignLogo, 200, 20, {width: 200});
 
-
   doc.fontSize(50).moveDown().moveDown().text('LÆSEBEVIS', {align: 'center'});
   doc.fontSize(15).moveDown().text('Biblo erklærer hermed at', {align: 'center'});
 
-  doc.fontSize(30).moveDown().text(frontpageData.username, {align: 'center'});
+  doc.fontSize(30).moveDown().text(frontpageData.displayName, {align: 'center'});
   doc.moveTo(200, 340).lineTo(420, 340).dash(1, {space: 2}).stroke();
 
   doc.fontSize(15).moveDown().moveDown().text('har læst og anmeldt ' + frontpageData.campaignReviewCount + ' bøger til ' + frontpageData.campaignName, {align: 'center'});
@@ -91,10 +102,8 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   // insert "godkendt af biblo" sticker
   doc.image(frontpageData.bibloAbidesImage, 490, 440, {width: 100});
 
-
   // horizontal ruler
   doc.moveTo(10, 500).lineTo(600, 500).dash(1, {space: 2}).stroke();
-
 
   const fontSize = 10;
   // left-side form fields
@@ -112,7 +121,6 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
 
   doc.fontSize(fontSize).text('By', 65, 625);
   doc.moveTo(100, 625 + fontSize).lineTo(270, 625 + fontSize).dash(1, {space: 2}).stroke();
-
 
   // right-side form fields
   doc.fontSize(fontSize).text('Alder', 305, 550);
@@ -146,6 +154,12 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
     // write review
     const review = reviewsWithWorkData[i];
 
+    // replace any emojis with whitespace
+    if (twemoji.test(review.content)) {
+      logger.notice('While generating a læsebevis one or more emojis was found in a review', {review: review});
+      review.content = twemoji.replace(review.content, '');
+    }
+
     doc.moveDown(2);
     doc.fontSize(12);
     doc.lineGap(6);
@@ -164,7 +178,7 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   for (let i = 1; i < pageRange.count; i++) {
     doc.switchToPage(i);
     // page header
-    doc.text('Anmeldelser af ' + frontpageData.username + ' fra ' + frontpageData.branchShortName, 5, 5);
+    doc.text('Anmeldelser af ' + frontpageData.displayName + ' fra ' + frontpageData.branchShortName, 5, 5);
     // page footer
     doc.image(frontpageData.bibloBerzerkImage, 500, 750, {width: 100});
   }
@@ -173,25 +187,23 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
   return new Promise((resolve) => resolve(doc));
 }
 
-
+// /laesebevis endpoint
 CampaignRoutes.get(
   '/laesebevis/:id',
   ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
-  async function (req, res, next) {
+  async function(req, res, next) {
 
     const profile = req.session.passport.user.profile.profile;
-
     const profileId = profile.id;
-
     const campaignId = Number(req.params.id);
 
     try {
-
       const ownReviews = (await req.callServiceProvider('getOwnReview', {
         reviewownerid: profileId,
         offset: 0,
         order: 'created ASC'
       }))[0].data;
+
       const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
 
       const ownReviewsInCampaign = filter(ownReviews, (review) => {
@@ -199,7 +211,6 @@ CampaignRoutes.get(
       });
 
       const workPids = ownReviewsInCampaign.map((review) => review.pid);
-
 
       // we need to fetch works in bathces of 20 ( enforced by openplatform API )
       let reviewedWorks = [];
@@ -221,15 +232,15 @@ CampaignRoutes.get(
         return c.id === campaignId;
       });
 
-
       let pid2work = {};
       for (const i in reviewedWorks) { // eslint-disable-line guard-for-in
         pid2work[reviewedWorks[i].pid] = reviewedWorks[i];
       }
 
       const reviewsWithWorkData = ownReviews.map((review) => {
-        return Object.assign(pick(review, 'content', 'rating', 'created'), pid2work[review.pid], {campaignLogo: campaign.logos.small});
+        return Object.assign(pick(review, 'content', 'rating', 'created', 'id', 'reviewownerid'), pid2work[review.pid], {campaignLogo: campaign.logos.small});
       });
+
       const age = (profile.birthday === null) ? '' : computeAge(new Date(Date.parse(profile.birthday)));
       const frontpageData = {
         campaignName: campaign.campaignName,
@@ -239,9 +250,10 @@ CampaignRoutes.get(
         bibloPortraitImage: path.resolve(__dirname + '/../../../static/images/biblo_logo_portrait.png'),
         bibloAbidesImage: path.resolve(__dirname + '/../../../static/images/biblo_logo_godkendt-af.png'),
         bortImage: path.resolve(__dirname + '/../../../static/bort.png'),
-        username: profile.displayName,
+        displayName: profile.displayName,
         fullName: profile.fullName,
         email: profile.email,
+        userId: profile.id,
         age: age,
         phone: profile.phone,
         branchShortName: library.branchShortName[0].$value,
@@ -259,10 +271,13 @@ CampaignRoutes.get(
 
     }
     catch (e) {
+      logger.error('An error occured while generating or delivering a læsebevis', {
+        error: e,
+        profile: profile
+      });
       next(e);
     }
   }
 );
-
 
 export default CampaignRoutes;

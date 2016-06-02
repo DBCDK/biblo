@@ -54,8 +54,10 @@ export class LatestReviewsWidget extends Component {
             {this.state.isClosed ? ' VIS FLERE' : ' VIS FÆRRE'}
           </a>
         </div>
-        <div className={classNames}>
-          {reviews}
+        <div>
+          <div className={classNames}>
+            {reviews}
+          </div>
         </div>
       </div>
     );

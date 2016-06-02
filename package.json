@@ -64,7 +64,7 @@
     "dbc-node-entitysuggest": "^2.0.2",
     "dbc-node-logger": "^1.4.6",
     "dbc-node-openagency-client": "^2.0.4",
-    "dbc-node-openorder-client": "^2.0.3",
+    "dbc-node-openorder-client": "^3.0.1",
     "dbc-node-serviceprovider": "^3.0.7",
     "dbc-node-serviceprovider-socketclient": "^2.1.2",
     "express": "4.13.4",

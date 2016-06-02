@@ -26,16 +26,16 @@ const CheckOrderPolicyTransform = {
     });
   },
 
-  responseTransform(response) {
+  responseTransform(response, {pids}) {
     let data = {};
     data.orderPossible = false;
-    data.pids = response.pids;
+    data.pids = pids;
     data.errors = [];
 
-    if (!response.hasOwnProperty('checkOrderPolicyResponse') || !response.checkOrderPolicyResponse.hasOwnProperty('orderPossible')) {
+    if (!(response.hasOwnProperty('checkOrderPolicyResponse') && response.checkOrderPolicyResponse.hasOwnProperty('orderPossible'))) {
       data.errors.push('could not determine order policy');
     }
-    else if (response.checkOrderPolicyResponse.orderPossible[0] === 'true') {
+    else if (response.checkOrderPolicyResponse.orderPossible.$ === 'true') {
       data.orderPossible = true;
     }
     else {

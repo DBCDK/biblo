@@ -48,10 +48,22 @@ WorkRoutes.post('/bestil', ensureAuthenticated, fullProfileOnSession, async func
 });
 
 WorkRoutes.get('/:pid', fullProfileOnSession, async function(req, res, next) {
+  const logger = res.app.get('logger');
   try {
     let pid = decodeURIComponent(req.params.pid);
     let ownReview = {};
-    const work = (await req.callServiceProvider('work', {pids: [pid]}))[0].data[0];
+    const workResult = (await req.callServiceProvider('work', {pids: [pid]}))[0];
+    if (workResult.error) {
+      logger.error('An error occured while communicating with OpenPlatform', {
+        endpoint: 'work',
+        error: workResult.error,
+        response: workResult
+      });
+
+      next(workResult.error);
+    }
+
+    const work = workResult.data[0];
 
     let ownReviewId;
     let pids = work.collection;
@@ -75,10 +87,16 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function(req, res, next) {
           pickupAllowed: agency.pickupAllowed === '1',
           temporarilyClosed: agency.temporarilyClosed === '1'
         });
-        res.locals.profile = JSON.stringify({profile: profile, errors: []});
+        res.locals.profile = JSON.stringify({
+          profile: profile,
+          errors: []
+        });
       }
 
-      let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pids: pids}))[0];
+      let reviewCheck = (await req.callServiceProvider('getOwnReview', {
+        reviewownerid: profile.id,
+        pids: pids
+      }))[0];
       if (reviewCheck) {
         ownReview = reviewCheck.data[0];
         if (ownReview) {
@@ -89,7 +107,11 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function(req, res, next) {
 
     let skip = 0;
     let limit = 10;
-    const reviewResponse = (await req.callServiceProvider('getReviews', {pids, skip, limit}));
+    const reviewResponse = (await req.callServiceProvider('getReviews', {
+      pids,
+      skip,
+      limit
+    }));
     work.id = pid;
 
     // setting page title

@@ -6,25 +6,82 @@
 
   @include container();
 
-  padding-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
 
   li {
-    @include gallery(1 of 5);
-    margin-bottom: 20px;
-
-    .material-result-list--cover-image {
-
-      min-height: 250px;
-      position: relative;
-
-      img {
-        position: absolute;
-        bottom: 10px;
-        width: 100%;
+    @include min-screen($desktop) {
+      @include gallery(1 of 5);
+      margin-bottom: gutter(20);
+      padding-bottom: 20px;
+      .material-result-list--cover-image {
+        min-height: 250px;
+        position: relative;
+        height: 16vw;
+        img {
+          position: absolute;
+          bottom: 10px;
+          width: 100%;
+          object-fit: cover;
+          box-shadow: #666 0px 2px 12px;
+        }
       }
     }
+
+    @include max-screen($desktop - 1) {
+      @include gallery(1 of 4);
+      margin-bottom: gutter(15);
+      padding-bottom: 15px;
+      .material-result-list--cover-image {
+        min-height: 250px;
+        position: relative;
+        height: 19vw;
+        img {
+          position: absolute;
+          bottom: 10px;
+          width: 100%;
+          object-fit: cover;
+          box-shadow: #666 0px 2px 12px;
+        }
+      }
+    }
+
+    @include max-screen($tablet - 1) {
+      @include gallery(1 of 3);
+      margin-bottom: gutter(15);
+      padding-bottom: 15px;
+      .material-result-list--cover-image {
+        min-height: 250px;
+        position: relative;
+        height: 29vw;
+        img {
+          position: absolute;
+          bottom: 10px;
+          width: 100%;
+          object-fit: cover;
+          box-shadow: #666 0px 2px 12px;
+        }
+      }
+    }
+
+    @include max-screen($phone) {
+      @include gallery(1 of 2);
+      margin-bottom: gutter(10);
+      padding-bottom: 10px;
+      .material-result-list--cover-image {
+        min-height: 250px;
+        position: relative;
+        height: 40vw;
+        img {
+          position: absolute;
+          bottom: 10px;
+          width: 100%;
+          object-fit: cover;
+          box-shadow: #666 0px 2px 12px;
+        }
+      }
+    }
+
 
     .material-result-list--description {
 

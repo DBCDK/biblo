@@ -372,7 +372,7 @@ export class ProfileDetailContainer extends React.Component {
 
     const tabs = [
       {
-        label: 'Aktivitet',
+        label: 'AKTIVITET',
         content: activityPaneContent
       }
     ];
@@ -405,7 +405,7 @@ export class ProfileDetailContainer extends React.Component {
 
     // hiding reviews tab behind feature flag -- 561
     tabs.push({
-      label: 'Anmeldelser',
+      label: 'ANMELDELSER',
       content: reviewsPaneContent
     });
 

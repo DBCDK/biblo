@@ -1,6 +1,8 @@
+@import "settings";
+
 $border-color: #c9c9c9;
 $tab-bg-color-active: #ffffff;
-$tab-bg-color-inactive: #4e58ff;
+$tab-bg-color-inactive: #4740b7;
 
 .tabs-container {
   width: 100%;
@@ -16,13 +18,17 @@ $tab-bg-color-inactive: #4e58ff;
       cursor: pointer;
       display: inline-block;
       padding: 10px 0;
-      margin: 0 10px;
+      margin: 0 2px;
     }
 
     .tab {
+      font-family: $header-font;
+      font-size: 16px;
+      letter-spacing: 1px;
       background-color: $tab-bg-color-inactive;
       border: $border-color solid 1px;
       height: 100%;
+
       a {
         color: white;
       }
@@ -32,12 +38,12 @@ $tab-bg-color-inactive: #4e58ff;
         border-bottom-color: white;
         background-color: $tab-bg-color-active;
         a {
-          color: $tab-bg-color-inactive;
+          color: black;
         }
       }
 
       a {
-        padding: 10px;
+        padding: 10px 20px;
       }
     }
 

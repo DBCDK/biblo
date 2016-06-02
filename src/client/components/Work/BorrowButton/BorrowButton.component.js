@@ -260,7 +260,7 @@ export default class BorrowButton extends React.Component {
     }
 
     return (
-      <ModalWindow onClose={onClose} title="Lån">
+      <ModalWindow onClose={onClose} title="LÅN">
         <div className="modal-window--borrow-container">
           <div className="modal-window--work-details">
             <img src={this.props.coverUrl}/>

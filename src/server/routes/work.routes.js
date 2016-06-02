@@ -55,14 +55,25 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function(req, res, next) {
     const workResult = (await req.callServiceProvider('work', {pids: [pid]}))[0];
     if (workResult.error) {
       logger.error('An error occured while communicating with OpenPlatform', {
-        endpoint: 'work',
+        endpoint: '/work',
         error: workResult.error,
-        response: workResult
+        response: workResult,
+        url: req.url
       });
 
       next(workResult.error);
     }
 
+    if (!workResult.data) {
+      logger.error('No data present in response', {
+        endpoint: '/work',
+        response: workResult,
+        url: req.url
+      });
+
+      next(workResult.error);
+    }
+    
     const work = workResult.data[0];
 
     let ownReviewId;

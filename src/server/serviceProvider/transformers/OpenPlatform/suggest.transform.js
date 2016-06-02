@@ -24,6 +24,7 @@ const SuggestTransform = {
   responseTransform(response, {q}) {
     let workSuggestions = JSON.parse(response[1].body);
     let creatorSuggestions = JSON.parse(response[0].body);
+    creatorSuggestions.data = [];
 
     let creatorTake = 3;
     let workTake = 3;
@@ -34,6 +35,7 @@ const SuggestTransform = {
       creatorTake = 6 - workSuggestions.data.length;
     }
 
+
     if (creatorSuggestions.data.length < 3) {
       workTake = 6 - creatorSuggestions.data.length;
     }
@@ -43,12 +45,7 @@ const SuggestTransform = {
 
     workSuggestions.data = workSuggestions.data.concat(creatorSuggestions.data).map((suggestion) => {
       suggestion.str = suggestion.term.replace('Ꜳ', 'Aa').replace('ꜳ', 'aa');
-      if (suggestion.pid) {
-        suggestion.href = `/materiale/${encodeURIComponent(suggestion.pid)}`;
-      }
-      else {
-        suggestion.href = `/find?q=${encodeURIComponent(`term.creator="${suggestion.str}"`)}`;
-      }
+      suggestion.href = `/find?q=${encodeURIComponent(`${suggestion.str}`)}`;
 
       return suggestion;
     });

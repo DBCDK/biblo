@@ -12,11 +12,13 @@
 
 .latest-reviews-widget--reviews-container.closed, .latest-reviews-widget--reviews-container {
   @include max-screen($tablet) {
-    width: auto;
-    height: auto;
+    /*width: auto;*/
     overflow-x: scroll;
     overflow-y: hidden;
-    display: flex;
+    display: block;
+    width: 89%;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
   }
 }
 

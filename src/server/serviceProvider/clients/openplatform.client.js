@@ -1,4 +1,5 @@
 import request from 'request';
+let token = 'Bearer bobby'; // invalid by default, this value gets overwritten by config, but is useful for debugging.
 
 function promiseRequest(method, req) {
   return new Promise((resolve, reject) => {
@@ -13,11 +14,44 @@ function promiseRequest(method, req) {
   });
 }
 
-let callOpenPlatform = function callOpenPlatform(token, method, req) {
+let callOpenPlatform = function callOpenPlatform(config, method, req) {
+  // First try a normal call with the token we have
   return promiseRequest(method, Object.assign(
     {headers: {Authorization: token}},
     req
-  ));
+  )).then((resp) => {
+    // Check if call was successful
+    if (resp.statusCode === 401 && resp.statusMessage === 'Unauthorized') {
+      // It was not, request new token
+      return promiseRequest('post', {
+        url: `${config.smaug}oauth/token`,
+        form: {
+          grant_type: 'password',
+          username: '@',
+          password: '@'
+        },
+        auth: {
+          user: config.clientId,
+          pass: config.clientSecret
+        }
+      }).then((smaugResp) => {
+        const smaugBody = JSON.parse(smaugResp.body);
+        if (!smaugBody.access_token) {
+          throw new Error('Error in response from smaug, is you clientId/clientSecret set correctly?');
+        }
+
+        token = `Bearer ${smaugBody.access_token}`;
+
+        // Try call again with new token.
+        return promiseRequest(method, Object.assign(
+          {headers: {Authorization: token}},
+          req
+        ));
+      });
+    }
+
+    return resp;
+  });
 };
 
 function search(endpoint, params) {
@@ -69,8 +103,18 @@ export default function OpenPlatformClient(config = null) {
   else if (!config.token) {
     throw new Error('Expected token in config, but none provided');
   }
+  else if (!config.smaug) {
+    throw new Error('Expected smaug url in config, but none provided');
+  }
+  else if (!config.clientId) {
+    throw new Error('Expected clientId in config, but none provided');
+  }
+  else if (!config.clientSecret) {
+    throw new Error('Expected clientSecret in config, but none provided');
+  }
 
-  callOpenPlatform = callOpenPlatform.bind(null, config.token);
+  token = config.token;
+  callOpenPlatform = callOpenPlatform.bind(null, config);
 
   return {
     search: search.bind(null, config.endpoint),

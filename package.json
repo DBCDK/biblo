@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress --colors -p",
     "build:dev": "webpack --progress --colors -d",
-    "dev": "parallelshell \"npm run start:watch -s\" \"npm run serve -s\"",
+    "dev": "STANDARD_CACHE_TIME=1 parallelshell \"npm run start:watch -s\" \"npm run serve -s\"",
     "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:dev": "COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:localproxy": "NODE_TLS_REJECT_UNAUTHORIZED=0 NEW_RELIC_PROXY_URL=http://localhost:8888 http_proxy=http://localhost:8888 COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",

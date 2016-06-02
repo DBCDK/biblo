@@ -112,10 +112,21 @@ export default class BorrowButton extends React.Component {
             })
           }
         </div>
-        <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
-        <p className="modal-window--message-under-submit-button">
-          Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
-        </p>
+        {this.state.onlineUrl &&
+          <span>
+          <RoundedButton className='onlinelink' href={this.state.onlineUrl} target='_blank' buttonText="HENT ONLINE"/>
+          <p className="modal-window--message-under-submit-button">
+             Du viderestilles til en anden hjemmeside i et nyt vindue.
+           </p>
+          </span>
+         ||
+        <span>
+          <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
+           <p className="modal-window--message-under-submit-button">
+             Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
+           </p>
+         </span>
+        }
       </form>
     );
   }

@@ -47,8 +47,8 @@ function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
     id: 1,
     campaignName: 'Sommerbogen 2016',
     workTypes: ['book', 'literature'],
-    startDate: '2016-01-16T15:06:53.044Z',
-    endDate: '2016-06-16T15:06:53.044Z',
+    startDate: '2016-06-09T20:00:00.044Z',
+    endDate: '2016-08-21T04:00:00.044Z',
     logos: {
       svg: '/sommerbogen-logo.svg',
       small: '/sommerbogen-logo.png',

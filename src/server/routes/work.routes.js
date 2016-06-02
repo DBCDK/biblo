@@ -73,7 +73,7 @@ WorkRoutes.get('/:pid', fullProfileOnSession, async function(req, res, next) {
 
       next(workResult.error);
     }
-    
+
     const work = workResult.data[0];
 
     let ownReviewId;

@@ -266,7 +266,7 @@ export default class AddContent extends UploadMedia {
                 <span className="content-add--media-label">Upload</span>
               </label>
 
-              <a className="insert-review-button" onClick={() => this.setState({showAddReviews: true})}>
+              <a className="insert-review-button" onClick={this.state.disableInput ? () => {} : () => this.setState({showAddReviews: true})}>
                 <img src="/attach_review.png" />
                 <span className="attach-review-button--text"> Anmeldelse </span>
               </a>

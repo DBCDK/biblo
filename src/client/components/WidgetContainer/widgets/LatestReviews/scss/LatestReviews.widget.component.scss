@@ -2,27 +2,37 @@
 
 .latest-reviews-widget--reviews-container {
   background-color: #e2e0f7;
-  padding: 30px;
-  @include container();
+  padding: 20px;
 }
 
 .latest-reviews-widget--reviews-container.closed {
-  height: 250px;
+  height: 230px;
   overflow: hidden;
-  @include container();
+}
+
+.latest-reviews-widget--reviews-container.closed, .latest-reviews-widget--reviews-container {
+  @include max-screen($tablet) {
+    /*width: auto;*/
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: block;
+    width: 89%;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
 }
 
 .latest-reviews-widget--widget-title--and--show-more-button--container {
   a {
-    margin: 10px;
-    display: block;
-    @include min-screen($tablet) {
-      float: right;
-      margin: 20px;
-    }
+    float: right;
     cursor: pointer;
     font-family: $header-font;
     color: #000000;
+    margin: 20px;
+
+    @include max-screen($tablet) {
+      display: none;
+    }
   }
 
   h2 {

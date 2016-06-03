@@ -1,29 +1,50 @@
+@import 'tools';
+
 .compact-review--container--container {
-  display: inline-flex;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  @include min-screen($tablet) {
+    @include gallery(1 of 2);
+  }
+  @include min-screen($desktop) {
+    @include gallery(1 of 3);
+  }
 }
 
 .compact-review--container {
   background-color: #ffffff;
-  max-width: 285px;
   padding: 0 10px;
-  margin: 10px;
-  display: inline;
-  word-break:break-all;
+  height: 185px;
   white-space: normal;
+  padding-bottom: 30px;
+  position: relative;
+  word-break:break-all;
+  margin: 10px;
+
+  .rating {
+    font-size: 14px;
+    position: absolute;
+    bottom: 14px;
+    left: 128px;
+  }
 
   .compact-review-worktype-icon {
     fill: #4740b7;
     display: inline;
     padding: 2px;
     margin: 0 5px;
-    border: 1px solid #e6e6e6;
+    border: 1px solid #e6e6eds
   }
 
   .compact-review-element--text-excerpt {
     display: inline;
-    font-size: 17pt;
-    font-weight: 600;
+    font-size: 12pt;
+    font-weight: 600px;
     color: #000;
+  }
+
+  .compact-review-element--text-excerpt:before, .compact-review-element--text-excerpt:after {
+    content: '"';
   }
 
   .compact-review--review-content {
@@ -36,16 +57,15 @@
 
   .compact-review--cover-image {
     width: 100px;
-    margin: 0 5px;
+    margin: 0 8px;
   }
 
   .compact-review--owner-image--container {
     img {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       object-fit: cover;
       border-radius: 50%;
-      border: 3px solid #fff;
     }
 
     position: absolute;
@@ -54,24 +74,15 @@
     z-index: 10;
   }
 
-  .compact-review--container--video-review--rating--container {
-    .rating {
-      display: inline-flex;
-      margin: 4px;
-      vertical-align: top;
-    }
-  }
-
   .compact-review--video--container {
     position: relative;
-    width: 180px;
-    height: 98px;
+    width: 172px;
     display: block;
     margin-bottom: 5px;
+    margin-left: 10px;
 
     img {
-      width: 180px;
-      height: 98px;
+      width: 172px;
       object-fit: cover;
       background: url('/video_behandler.png') no-repeat center 0;
       background-size: cover;
@@ -81,8 +92,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 180px;
-      height: 98px;
+      width: 172px;
       color: #FFF;
       background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
       background-size: cover;
@@ -94,7 +104,7 @@
   }
 
   .compact-review--review-author {
-    width: 100%;
+    font-size: 15pt;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

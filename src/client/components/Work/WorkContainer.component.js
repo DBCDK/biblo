@@ -152,31 +152,31 @@ export class WorkContainer extends React.Component {
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
             getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
           />
-          {
-            reviewVisible &&
-            <Review
-              ref='review'
-              isEditing={true}
-              toggleReview={this.toggleReview.bind(this)}
-              profile={this.props.profile}
-              owner={this.props.profile}
-              pid={work.id}
-              worktype={workType}
-              reviewActions={this.props.reviewActions}
-              uiActions={this.props.uiActions}
-              flagActions={this.props.flagActions}
-              likeActions={this.props.likeActions}
-              pids={work.collection}
-            />
-          }
-          {
-            this.state.errorMessage &&
-            <Message type='error'>
-              <span> {this.state.errorMessage} </span>
-            </Message>
-          }
 
           <div className='work--reviewlist'>
+            {
+              reviewVisible &&
+              <Review
+                ref='review'
+                isEditing={true}
+                toggleReview={this.toggleReview.bind(this)}
+                profile={this.props.profile}
+                owner={this.props.profile}
+                pid={work.id}
+                worktype={workType}
+                reviewActions={this.props.reviewActions}
+                uiActions={this.props.uiActions}
+                flagActions={this.props.flagActions}
+                likeActions={this.props.likeActions}
+                pids={work.collection}
+              />
+            }
+            {
+              this.state.errorMessage &&
+              <Message type='error'>
+                <span> {this.state.errorMessage} </span>
+              </Message>
+            }
             <ReviewList
               pids={work.collection}
               totalCount={meta.workReviewsTotalCount}

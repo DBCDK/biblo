@@ -29,6 +29,21 @@ ReviewRoutes.get('/:id', fullProfileOnSession, (req, res) => {
       let ownReviewId;
       if (req.isAuthenticated()) {
         let profile = req.session.passport.user.profile.profile;
+        if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryId) {
+          const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
+          profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
+            libraryId: agency.agencyId,
+            libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName).$value,
+            libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
+            pickupAllowed: agency.pickupAllowed === '1',
+            temporarilyClosed: agency.temporarilyClosed === '1'
+          });
+          res.locals.profile = JSON.stringify({
+            profile: profile,
+            errors: []
+          });
+        }
+
         let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pids: [pid]}));
         if (reviewCheck) {
           let ownReview = reviewCheck[0].data[0];

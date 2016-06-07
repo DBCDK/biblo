@@ -1,20 +1,20 @@
-@import 'settings';
 @import 'tools';
 @import 'navbar-icons';
 
 .navbar {
+  @include span(24);
   position: relative;
 }
 
 .navbar--container {
-  @include clearfix();
   vertical-align: middle;
+  height: 80px;
+  background-color: $black;
+
   @include max-screen($tablet) {
     padding: 0px 20px 0px 20px;
   }
-  height: 80px;
 
-  background-color: $black;
   @include min-screen($tablet + 1) {
     position: relative;
     z-index: 102;
@@ -23,7 +23,7 @@
 }
 
 .navbar--menu {
-  @include span(6);
+  @include span(10);
   .bibloLogo {
     display: block;
   }
@@ -54,7 +54,7 @@
 }
 
 .navbar--icons {
-  @include span(6 last);
+  @include span(10 last);
   padding-top: 20px;
   text-align: right;
   a {

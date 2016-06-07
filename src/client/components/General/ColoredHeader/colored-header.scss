@@ -6,7 +6,7 @@
   padding-bottom: 20px;
 
   .colored-header--iconcontainer {
-    @include span(3);
+    @include span(4);
     @include max-screen($tablet) {
       display: none;
     }
@@ -19,7 +19,12 @@
     }
   }
   .colored-header--description {
-    @include span(9 last);
+    @include span(20 last);
+
+    @include min-screen($tablet){
+      @include span(19);
+    }
+
     color: $white;
     align-content: center;
     font-size: 14px;

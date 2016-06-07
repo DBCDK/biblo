@@ -28,13 +28,17 @@ export class SearchResultContainer extends React.Component {
     });
   }
 
-
   render() {
+    let visFlereButton;
+    if (this.props.search.materialSearchResults.length > 19) { // limit: 20 (we currently do not collect the total number of results)
+      visFlereButton = <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>;
+    }
+
     return (
       <PageLayout searchState={this.props.search} searchActions={this.props.searchActions}>
         <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
         <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
-        <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>
+        {visFlereButton}
       </PageLayout>
     );
   }

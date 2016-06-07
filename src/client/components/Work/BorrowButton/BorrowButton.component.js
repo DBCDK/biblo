@@ -203,7 +203,7 @@ export default class BorrowButton extends React.Component {
     if (!profile.userIsLoggedIn) {
       modalContent = (
         <div>
-          <p>Du skal logge ind for at låne bøger</p>
+          <p>Du skal logge ind for at låne</p>
           <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
                          compact={false}/>
         </div>

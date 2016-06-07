@@ -40,6 +40,10 @@
     white-space: nowrap;
     overflow: hidden;
     margin-bottom: 10px;
+
+    .twemoji {
+      width: 1em;
+    }
   }
 
   .compact-review--artwork--container {
@@ -128,16 +132,26 @@
     }
   }
 
+  .compact-video-review--container {
+    position: relative;
+
+    .compact-review--owner-image--container {
+      top: 25px;
+      left: 25px;
+    }
+  }
+
   .compact-review--video--container {
     position: relative;
-    width: 180px;
-    height: 98px;
+    @include span(6 of 7);
+    margin-left: gutter(2);
+    height: 110px;
     display: block;
     margin-bottom: 5px;
 
     img {
-      width: 180px;
-      height: 98px;
+      width: 200px;
+      height: 110px;
       object-fit: cover;
       background: url('/video_behandler.png') no-repeat center 0;
       background-size: cover;
@@ -147,8 +161,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 180px;
-      height: 98px;
+      width: 200px;
+      height: 110px;
       color: #FFF;
       background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
       background-size: cover;
@@ -158,4 +172,8 @@
   .compact-video-review--artwork-container {
     position: relative;
   }
+}
+
+.compact-review--video-review-content--rating {
+  @include span(5 of 7 last);
 }

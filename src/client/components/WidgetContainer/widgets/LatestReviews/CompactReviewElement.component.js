@@ -104,10 +104,12 @@ export class CompactReviewElement extends Component {
 
     return (
       <div className="compact-review--container" >
-        <p>Anmeldelse af:
+        <div className="compact-review--review-author" >
+          Anmeldelse af:&nbsp;
           <a href={ownerProfileUrl} ><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a>
-        </p>
-        <div className="compact-video-review--artwork-container" >
+        </div>
+
+        <div className="compact-video-review--container" >
           <a href={ownerProfileUrl} className="compact-review--owner-image--container" >
             <img src={review.owner.image} />
           </a>
@@ -115,12 +117,9 @@ export class CompactReviewElement extends Component {
             <img src={videoImageSrc} />
             <span className="after" />
           </a>
-        </div>
-        <div className="compact-review--container--video-review--rating--container" >
-          <Icon glyph={materialSvgs[review.worktype]}
-                width={25} height={25}
-                className="icon compact-review-worktype-icon" />
-          <Rating rating={review.rating} pid={review.pid} />
+          <div className="compact-review--video-review-content--rating" >
+            <Rating rating={review.rating} pid={review.pid} />
+          </div>
         </div>
       </div>
     );
@@ -133,7 +132,7 @@ export class CompactReviewElement extends Component {
     let reviewContent;
 
     if (review.video) {
-      // reviewContent = this.renderVideoReview(review, ownerProfileUrl, workUrl);
+      reviewContent = this.renderVideoReview(review, ownerProfileUrl, workUrl);
     }
     else {
       reviewContent = this.renderTextReview(review, ownerProfileUrl, workUrl);

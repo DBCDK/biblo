@@ -1,5 +1,9 @@
 @import 'tools';
 
 .container {
- @include container;
+  @include container;
+}
+
+.content {
+  @include span(24);
 }

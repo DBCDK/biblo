@@ -1,8 +1,7 @@
-@import "tools";
-@import "settings";
+@import 'tools';
 
 .footer--container {
-  width: 100%;
+  @include span(24);
   background-color: #000;
   position: relative;
 }
@@ -31,7 +30,6 @@
   @include min-screen($tablet +1) {
     @include span(6 of 12);
   }
-
 }
 
 .footer--right-coloumn {

@@ -5,6 +5,13 @@
 
 html, body {
   -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
   @extend %body;
 }
 

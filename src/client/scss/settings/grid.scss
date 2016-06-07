@@ -1,15 +1,21 @@
-$gutter: 0.25;
 $margin: 40px;
 
-// Suzy configuration
+/**
+* Suzy configuration
+* @see http://susydocs.oddbird.net/en/latest/settings/#global-defaults
+*/
 $susy: (
   container: 1024px,
-  columns: 12,  // The number of columns in your grid
-  gutters: 1/4, // The size of a gutter in relation to a single column
+  columns: 24,  // The number of columns in your grid
+  gutters: .25, // The size of a gutter in relation to a single column
+  math: fluid,
   debug: (
     image: hide,
-    color: blue,
-    output: overlay,
+    color: #c6ccff,
+    output: background,
     toggle: top right,
   ),
 );
+
+/* Makes border-box properties */
+@include border-box-sizing;

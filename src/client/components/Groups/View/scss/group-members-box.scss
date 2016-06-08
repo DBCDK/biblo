@@ -3,7 +3,7 @@
 .group--sidebar {
 
   @include min-screen($desktop) {
-    @include span(4 last);
+    @include span(8 last);
   }
 
   background-color: $light-grayish-cyan;

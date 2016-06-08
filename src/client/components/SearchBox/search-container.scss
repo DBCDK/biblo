@@ -2,6 +2,11 @@
 
 .search-container {
   background-color: $melrose;
+  transition-property: height padding;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  height: 90px;
+  padding: 20px;
 
   .search-input--container {
     display: block;
@@ -9,9 +14,9 @@
     padding-right: 1px;
 
     input {
-      overflow:hidden;
       width: 100%;
-      height:50px;
+      overflow:hidden;
+      height: 50px;
       padding-left: 10px;
     }
   }
@@ -26,13 +31,6 @@
       top:5px;
     }
   }
-
-  transition-property: height padding;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-
-  height:50px;
-  padding: 20px;
 }
 
 .search-container--hidden {

@@ -8,11 +8,11 @@
 .work--reviewlist {
   position: relative;
   @include min-screen($desktop) {
-    @include span(8);
+    @include span(16);
   }
 }
 
 .work--moreinfo {
-  @include span(4 last);
+  @include span(8 last);
   float: left
 }

@@ -20,6 +20,8 @@
   position: relative;
 
   @include min-screen($tablet) {
+    display: table;
+    width: 80%;
     margin-left: 80px;
     top: 0;
     background: white;

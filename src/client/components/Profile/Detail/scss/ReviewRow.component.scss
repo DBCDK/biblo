@@ -15,7 +15,7 @@
   position: relative;
 
   @include min-screen($tablet) {
-    height: inherit;
+    height: 100%;
     width: 45%;
     display: inline-block;
     margin-right: 10px;
@@ -88,7 +88,7 @@
   width: 100%;
 
   @include min-screen($tablet) {
-    height: inherit;
+    height: 100%;
     width: 40%;
   }
 }

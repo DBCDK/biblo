@@ -17,7 +17,7 @@
   cursor: pointer;
   svg {
     fill: $color;
-    padding-right: 10px;
+    margin-right: 10px;
     @include max-screen($tablet - 1px) {
       padding-right: 5px;
     }

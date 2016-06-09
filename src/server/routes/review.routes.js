@@ -138,7 +138,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
       content: sanitize(req.body.content, {allowedTags: []}) || ' ',
       rating: req.body.rating,
       image: image,
-      reviewownerid: profile.id,
+      reviewownerid: req.body.reviewownerid || profile.id,
       libraryid: profile.favoriteLibrary.libraryId
     };
 

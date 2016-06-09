@@ -423,6 +423,7 @@ export default class Review extends UploadMedia {
                              onChange={(e) => this.setState({content: e.target.value})}
                    />
                   <input type="hidden" name="id" value={this.state.id}/>
+                  <input type="hidden" name="reviewownerid" value={this.state.reviewownerid}/>
                   <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId}/>
                   <input type="hidden" name="pid" value={this.state.pid}/>
                   <input type="hidden" name="worktype" value={this.state.worktype}/>

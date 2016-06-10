@@ -1,6 +1,18 @@
 // note : this mock data is captured with duplicate entries for "Værk". (Known issue)
 //        data was originally captured with opensearch 3.0  . coverurls have been altered
 
+export const lessThan20SearchResults = [{
+  dcTitle: ['Hjemmesidebogen'],
+  pid: ['870970-basis:23628481'],
+  workType: ['book'],
+  coverUrlFull: ['http://placekitten.com/100/300']
+}, {
+  dcTitle: ['Web-design for alle'],
+  pid: ['870970-basis:22295284'],
+  workType: ['book']
+}
+];
+
 export const harrySearchResults = [
   {
     dcTitle: ['Harry Potter og Fønixordenen'],

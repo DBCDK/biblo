@@ -190,7 +190,7 @@ export function asyncGetUserReviews(reviewownerid, skip, limit=10) {
       dispatch(getUserReviews(reviews));
     });
 
-    getReviewsSocket.request({where: {reviewownerid}, skip, limit});
+    getReviewsSocket.request({where: {reviewownerid, markedAsDeleted: null}, skip, limit});
   };
 }
 

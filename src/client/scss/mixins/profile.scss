@@ -1,4 +1,5 @@
 @mixin profileImage($size: 50px) {
+  box-sizing: content-box;
   width: $size;
   height: $size;
   border-radius: 50%;

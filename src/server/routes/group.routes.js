@@ -288,7 +288,7 @@ async function fetchGroupData(params, req, res, update = {}) {
 
     if (req.isAuthenticated()) {
       profile = req.session.passport.user.profile;
-      reviewsPromise = req.callServiceProvider('getOwnReview', {reviewownerid: profile.profile.id, offset:0, order: 'created ASC', markedAsDeleted: null});
+      reviewsPromise = req.callServiceProvider('getOwnReview', {reviewownerid: profile.profile.id, offset: 0, order: 'created ASC', markedAsDeleted: null});
     }
     else {
       reviewsPromise = Promise.resolve([{data: [], errors: [], reviewsCount: 0}]);

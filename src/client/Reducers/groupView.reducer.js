@@ -154,7 +154,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
       let newState = assignToEmpty(state, {});
 
       (action.work.data || []).forEach((workData) => {
-        if (!workData || !workData.creator || !workData.dcTitleFull) {
+        if (!workData || !workData.dcTitleFull) {
           return;
         }
 

@@ -91,7 +91,14 @@ export class WorkContainer extends React.Component {
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
-    const creator = (work.creator) ? work.creator[0] : '';
+    let creator;
+    if (work.creatorAut) {
+      creator = (work.creatorAut) ? work.creatorAut[0] : '';
+    }
+    else {
+      creator = (work.creator) ? work.creator[0] : '';
+    }
+
     const workType = (work.workType) ? work.workType[0] : 'other';
     const extent = (work.extent) ? work.extent[0] : '';
 

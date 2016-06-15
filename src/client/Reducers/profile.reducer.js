@@ -36,6 +36,10 @@ let initialState = {
   imageFile: null,
   isModerator: false,
   reviews: {},
+  userMessages: {
+    messages: [],
+    unreadMessages: 0
+  },
   UI: {
     submitState: '',
     submitProgress: 0
@@ -175,6 +179,14 @@ export default function profileReducer(state = initialState, action = {}) {
           pending: true
         })
       });
+    }
+
+    case types.MARK_USER_MESSAGE_AS_READ: {
+      let newState = assignToEmpty(state, {});
+      if (newState.userMessages && newState.userMessages.unreadMessages) {
+        newState.userMessages.unreadMessages -= 1;
+      }
+      return newState;
     }
 
     default: {

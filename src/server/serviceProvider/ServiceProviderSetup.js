@@ -54,7 +54,7 @@ export default function initProvider(config, logger, sockets) {
 
   // Register all clients
   RegisterClientOnProvider('borchk', Borchk);
-  RegisterClientOnProvider('community', CommunityClient);
+  RegisterClientOnProvider('community', CommunityClient.bind(null, logger));
   RegisterClientOnProvider('openplatform', OpenPlatformClient);
   RegisterClientOnProvider('bibloadmin', BibloAdminClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);

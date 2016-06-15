@@ -1,5 +1,4 @@
-@import "tools";
-@import "settings";
+@import 'tools';
 
 .group--caption {
   text-align: left;
@@ -12,7 +11,7 @@
     padding-right: 20px;
   }
   @include min-screen($desktop) {
-    @include span(8);
+    @include span(16);
   }
 
   .expand-wrapper {

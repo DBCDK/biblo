@@ -1,5 +1,4 @@
-@import "tools";
-@import "settings";
+@import 'tools';
 
 .review--wrapper {
   @include clearfix();
@@ -158,7 +157,6 @@ video {
 }
 
 .review-add--textarea {
-  overflow: hidden;
   width: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -285,7 +283,7 @@ progress[value] {
     border: 1px solid #ccc;
   }
   svg {
-    padding-right: 10px;
+    margin-right: 10px;
     position: relative;
     display: inline-block;
     top: 2px;

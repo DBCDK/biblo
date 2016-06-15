@@ -112,10 +112,21 @@ export default class BorrowButton extends React.Component {
             })
           }
         </div>
-        <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
-        <p className="modal-window--message-under-submit-button">
-          Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
-        </p>
+        {this.state.onlineUrl &&
+          <span>
+          <RoundedButton className='onlinelink' href={this.state.onlineUrl} target='_blank' buttonText="HENT ONLINE"/>
+          <p className="modal-window--message-under-submit-button">
+             Du viderestilles til en anden hjemmeside i et nyt vindue.
+           </p>
+          </span>
+         ||
+        <span>
+          <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
+           <p className="modal-window--message-under-submit-button">
+             Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
+           </p>
+         </span>
+        }
       </form>
     );
   }
@@ -192,7 +203,7 @@ export default class BorrowButton extends React.Component {
     if (!profile.userIsLoggedIn) {
       modalContent = (
         <div>
-          <p>Du skal logge ind for at låne bøger</p>
+          <p>Du skal logge ind for at låne</p>
           <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
                          compact={false}/>
         </div>
@@ -260,7 +271,7 @@ export default class BorrowButton extends React.Component {
     }
 
     return (
-      <ModalWindow onClose={onClose} title="Lån">
+      <ModalWindow onClose={onClose} title="LÅN">
         <div className="modal-window--borrow-container">
           <div className="modal-window--work-details">
             <img src={this.props.coverUrl}/>

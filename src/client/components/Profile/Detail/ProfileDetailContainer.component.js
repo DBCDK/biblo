@@ -4,12 +4,13 @@
  * @file: Dette er den offentlige profil.
  */
 
+// Libs
 import React from 'react';
-
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
 
+// Components
 import PageLayout from '../../Layout/PageLayout.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ActivityRow from './ActivityRow.component';
@@ -19,7 +20,10 @@ import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import Follow from '../../General/Follow/Follow.component';
 import Tabs from '../../General/Tabs/Tabs.component';
 import ReviewsContainer from './ReviewsContainer.component';
+import MessagesContainer from '../Messages/MessagesContainer.component';
 
+// Actions
+import * as agencyActions from '../../../Actions/agency.actions';
 import * as feedActions from '../../../Actions/feed.actions';
 import * as flagActions from '../../../Actions/flag.actions';
 import * as likeActions from '../../../Actions/like.actions';
@@ -28,7 +32,9 @@ import * as uiActions from '../../../Actions/ui.actions';
 import * as searchActions from '../../../Actions/search.actions';
 import * as workActions from '../../../Actions/work.actions';
 import * as coverImageActions from '../../../Actions/coverImage.actions';
+import * as profileActions from '../../../Actions/profile.actions';
 
+// SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
 
@@ -248,6 +254,16 @@ export class ProfileDetailContainer extends React.Component {
     });
   }
 
+  getModal() {
+    return (
+      this.props.ui.modal.isOpen ? (
+        <ModalWindow onClose={() => {
+          this.props.uiActions.closeModalWindow();
+        }} >
+          {this.props.ui.modal.children} </ModalWindow>) : null
+    );
+  }
+
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
@@ -255,6 +271,8 @@ export class ProfileDetailContainer extends React.Component {
     });
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
+    const isLoggedIn = this.props.profile.userIsLoggedIn;
+
     const activityFeed = this.getActivityFeed(isMyProfile);
 
     const reviewsFeed = (
@@ -310,18 +328,9 @@ export class ProfileDetailContainer extends React.Component {
       );
     }
 
-    const modal = (
-      (this.props.ui.modal.isOpen) ?
-        (<ModalWindow onClose={() => {
-          this.props.uiActions.closeModalWindow();
-        }} >
-          {this.props.ui.modal.children}
-        </ModalWindow>) :
-        null
-    );
+    const modal = this.getModal();
 
     // include edit button when user views her own page.
-    const isLoggedIn = this.props.profile.userIsLoggedIn;
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
     const currentUserAddressing = (isMyProfile) ? 'Du' : userProfile.displayName;
 
@@ -370,14 +379,32 @@ export class ProfileDetailContainer extends React.Component {
       </div>
     );
 
-    const messagesPaneContent = (<div>Messages Content....</div>);
-
     const tabs = [
       {
-        label: 'Aktivitet',
+        label: 'AKTIVITET',
         content: activityPaneContent
+      },
+      {
+        label: 'ANMELDELSER',
+        content: reviewsPaneContent
       }
     ];
+
+    // messages should only be displayed if user is looking at own profile
+    if (isMyProfile) {
+      const messagesPaneContent = (
+        <MessagesContainer
+          agencies={this.props.agencies}
+          agencyActions={this.props.agencyActions}
+          messages={this.props.profile.userMessages.messages}
+        />
+      );
+
+      tabs.unshift({
+        label: 'BESKEDER',
+        content: messagesPaneContent
+      });
+    }
 
     let campaigns = {};
     for (let i in this.props.reviews.userReviews) { // eslint-disable-line guard-for-in
@@ -405,17 +432,6 @@ export class ProfileDetailContainer extends React.Component {
       });
     }
 
-    // hiding reviews tab behind feature flag -- 561
-    tabs.push({
-      label: 'Anmeldelser',
-      content: reviewsPaneContent
-    });
-
-    // hiding reviews tab behind feature flag -- 567
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('567') !== null) {
-      tabs.push({label: 'Beskeder', content: messagesPaneContent});
-    }
-
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >
         {modal}
@@ -438,7 +454,7 @@ export class ProfileDetailContainer extends React.Component {
           </div>
         </div>
         <div className="p-detail--activity-tabs" >
-          <Tabs tabs={tabs} />
+          <Tabs tabs={tabs} selected={this.props.selectedTab} />
         </div>
       </PageLayout>
     );
@@ -448,6 +464,8 @@ export class ProfileDetailContainer extends React.Component {
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
+  agencies: React.PropTypes.object.isRequired,
+  agencyActions: React.PropTypes.object.isRequired,
   feed: React.PropTypes.object.isRequired,
   feedActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,
@@ -455,8 +473,10 @@ ProfileDetailContainer.propTypes = {
   groupActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   profile: React.PropTypes.object.isRequired,
+  profileActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
   reviews: React.PropTypes.object.isRequired,
+  selectedTab: React.PropTypes.number,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired,
@@ -466,6 +486,10 @@ ProfileDetailContainer.propTypes = {
   workActions: React.PropTypes.object.isRequired
 };
 
+ProfileDetailContainer.defaultProps = {
+  selectedTab: 0
+};
+
 /**
  * Connect the redux state and actions to container props
  */
@@ -473,6 +497,7 @@ export default connect(
   // Map redux state to props
   (state) => {
     return {
+      agencies: state.agencyReducer,
       searchState: state.searchReducer,
       profile: state.profileReducer,
       group: state.groupViewReducer,
@@ -487,6 +512,7 @@ export default connect(
   // Map actions to props
   (dispatcher) => {
     return {
+      agencyActions: bindActionCreators(agencyActions, dispatcher),
       searchActions: bindActionCreators(searchActions, dispatcher),
       feedActions: bindActionCreators(feedActions, dispatcher),
       flagActions: bindActionCreators(flagActions, dispatcher),
@@ -494,6 +520,7 @@ export default connect(
       groupActions: bindActionCreators(groupActions, dispatcher),
       uiActions: bindActionCreators(uiActions, dispatcher),
       coverImageActions: bindActionCreators(coverImageActions, dispatcher),
+      profileActions: bindActionCreators(profileActions, dispatcher),
       workActions: bindActionCreators(workActions, dispatcher)
     };
   }

@@ -1,0 +1,82 @@
+@import 'tools';
+
+.message-row--container {
+  @include span(24);
+  border-bottom: 1px solid #e7e7ef;
+  padding: 10px 0;
+  height: 130px;
+
+  @include min-screen($desktop) {
+    height: 160px;
+  }
+
+  &.unread {
+    background-color: #f6f6f6;
+  }
+}
+
+.message-row--status-container {
+  @include span(1 of 24);
+  height: 100%;
+
+  .message-row--status {
+    font-size: 3em;
+    color: $carnation;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+
+.message-row--image-container {
+  @include span(2 of 24);
+  text-align: center;
+
+  img {
+    max-height: 95%;
+    max-width: 95%;
+  }
+}
+
+.message-row--data-container {
+  @include span(20 of 24 last);
+}
+
+.message-row--message-type {
+  display: inline-block;
+
+  &.ready {
+    color: $turquoise;
+  }
+
+  .icon--container {
+    margin-right: 5px;
+  }
+
+  svg {
+    fill: currentColor;
+  }
+}
+
+.message-row--age {
+  display: inline-block;
+  font-size: 0.778em; //14px
+  color: #7e7e7e;
+  margin-left: 10px;
+}
+
+.message-data--headline {
+  font-weight: bold;
+  font-size: 	1.111em;
+  color: $black;
+  margin-top: 5px;
+}
+
+.message-data--message-content {
+  font-size: 1em;
+  color: $dark;
+}

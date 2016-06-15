@@ -47,7 +47,8 @@ export default class ProfileEditContainer extends React.Component {
 
   render() {
 
-    let searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
+    // sd-578 : Increase suggestion length to 20.  (There are a lot of libraries in Copenhagen)
+    let searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 20).map((suggestion) => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)

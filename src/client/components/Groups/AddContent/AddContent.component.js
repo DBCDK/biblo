@@ -95,11 +95,10 @@ export default class AddContent extends UploadMedia {
 
   renderAddReviewModal() {
     const reviewRows = this.props.profile.reviews.data.map((review) => {
-      const work = this.props.works[review.pid];
-
-      if (!work || !work.title || !work.creator) {
-        return <span className="could-not-find-work" />;
-      }
+      let work = this.props.works[review.pid];
+      work = work || {title: '', creator: ''};
+      work.title = work.title ||'';
+      work.creator = work.creator ||'';
 
       let authorCreator = (
         <span>
@@ -183,6 +182,11 @@ export default class AddContent extends UploadMedia {
 
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
+    let work = {title: '', creator: ''};
+    if (this.state.attachment && this.state.attachment.review) {
+      work = this.props.works[this.state.attachment.review.pid] || work;
+    }
+
     return (
       <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
         {this.state.showAddReviews && this.renderAddReviewModal()}
@@ -228,7 +232,7 @@ export default class AddContent extends UploadMedia {
               </div>
               <div className="preview-review--title--container">
                 <p>
-                  <strong>{this.props.works[this.state.attachment.review.pid].title}</strong>
+                  <strong>{work.title}</strong>
                 </p>
               </div>
               <div className="preview-review--remove-btn">
@@ -266,7 +270,7 @@ export default class AddContent extends UploadMedia {
                 <span className="content-add--media-label">Upload</span>
               </label>
 
-              <a className="insert-review-button" onClick={() => this.setState({showAddReviews: true})}>
+              <a className="insert-review-button" onClick={this.state.disableInput ? () => {} : () => this.setState({showAddReviews: true})}>
                 <img src="/attach_review.png" />
                 <span className="attach-review-button--text"> Anmeldelse </span>
               </a>

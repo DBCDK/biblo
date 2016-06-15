@@ -57,8 +57,25 @@ const GetGroupTransform = {
       return parseProfile(member, true, 'small');
     });
 
+
+    body.members = this.shuffle(body.members); // github #43
     return body;
+  },
+
+  shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
   }
+
 };
 
 export default GetGroupTransform;

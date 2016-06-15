@@ -91,7 +91,14 @@ export class WorkContainer extends React.Component {
 
     const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
     const abstract = (work.abstract) ? work.abstract[0] : '';
-    const creator = (work.creator) ? work.creator[0] : '';
+    let creator;
+    if (work.creatorAut) {
+      creator = (work.creatorAut) ? work.creatorAut[0] : '';
+    }
+    else {
+      creator = (work.creator) ? work.creator[0] : '';
+    }
+
     const workType = (work.workType) ? work.workType[0] : 'other';
     const extent = (work.extent) ? work.extent[0] : '';
 
@@ -152,31 +159,31 @@ export class WorkContainer extends React.Component {
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
             getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
           />
-          {
-            reviewVisible &&
-            <Review
-              ref='review'
-              isEditing={true}
-              toggleReview={this.toggleReview.bind(this)}
-              profile={this.props.profile}
-              owner={this.props.profile}
-              pid={work.id}
-              worktype={workType}
-              reviewActions={this.props.reviewActions}
-              uiActions={this.props.uiActions}
-              flagActions={this.props.flagActions}
-              likeActions={this.props.likeActions}
-              pids={work.collection}
-            />
-          }
-          {
-            this.state.errorMessage &&
-            <Message type='error'>
-              <span> {this.state.errorMessage} </span>
-            </Message>
-          }
 
           <div className='work--reviewlist'>
+            {
+              reviewVisible &&
+              <Review
+                ref='review'
+                isEditing={true}
+                toggleReview={this.toggleReview.bind(this)}
+                profile={this.props.profile}
+                owner={this.props.profile}
+                pid={work.id}
+                worktype={workType}
+                reviewActions={this.props.reviewActions}
+                uiActions={this.props.uiActions}
+                flagActions={this.props.flagActions}
+                likeActions={this.props.likeActions}
+                pids={work.collection}
+              />
+            }
+            {
+              this.state.errorMessage &&
+              <Message type='error'>
+                <span> {this.state.errorMessage} </span>
+              </Message>
+            }
             <ReviewList
               pids={work.collection}
               totalCount={meta.workReviewsTotalCount}

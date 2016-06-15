@@ -3,16 +3,23 @@
  */
 /* eslint-disable no-use-before-define */
 
+// Types
 import * as types from '../Constants/action.constants';
+
+// Libraries
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once} from 'lodash';
 
+// Actions
 import {asyncLoadMetadataForReview} from './group.actions';
 import {asyncGetCoverImage} from './coverImage.actions';
 
+// Sockets
+const setUserMessageReadSocket = SocketClient('setUserMessageRead');
 const getReviewsSocket = SocketClient('getReviews');
-
 const checkIfDisplayNameIsTaken = SocketClient('checkIfDisplayNameIsTaken');
+
+// Listeners
 const checkIfDisplayNameIsTakenListener = once(checkIfDisplayNameIsTaken.response);
 
 export function getProfile() {
@@ -190,7 +197,7 @@ export function asyncGetUserReviews(reviewownerid, skip, limit=10) {
       dispatch(getUserReviews(reviews));
     });
 
-    getReviewsSocket.request({where: {reviewownerid}, skip, limit});
+    getReviewsSocket.request({where: {reviewownerid, markedAsDeleted: null}, skip, limit});
   };
 }
 
@@ -213,5 +220,31 @@ export function getUserReviews(reviews) {
   return {
     type: types.GET_USER_REVIEWS,
     reviews
+  };
+}
+
+/**
+ *
+ * @param {String} messageType - Type of message (for example "type-orderIsReady").
+ * @param {Number} createdEpoch - Epoch of when the message was created (Find this is the message object).
+ * @returns {function()} - Dispatches the result once it arrives.
+ */
+export function asyncMarkUserMessageAsRead({messageType, createdEpoch}) {
+  return (dispatch) => {
+    setUserMessageReadSocket.responseOnce((resp) => dispatch(markUserMessageAsRead(resp.message)));
+    setUserMessageReadSocket.request({messageType, createdEpoch});
+  };
+}
+
+/**
+ * Used internally to pass a response to a reducer.
+ * @param messageType
+ * @param createdEpoch
+ */
+export function markUserMessageAsRead({messageType, createdEpoch}) {
+  return {
+    type: types.MARK_USER_MESSAGE_AS_READ,
+    messageType,
+    createdEpoch
   };
 }

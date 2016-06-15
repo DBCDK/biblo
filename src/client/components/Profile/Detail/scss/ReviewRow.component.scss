@@ -15,7 +15,7 @@
   position: relative;
 
   @include min-screen($tablet) {
-    height: inherit;
+    height: 100%;
     width: 45%;
     display: inline-block;
     margin-right: 10px;
@@ -74,7 +74,7 @@
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 40px;
-
+ 
   a {
     text-decoration: none;
     color: inherit;
@@ -88,13 +88,16 @@
   width: 100%;
 
   @include min-screen($tablet) {
-    height: inherit;
+    height: 100%;
     width: 40%;
   }
 }
 
 .review--content {
   margin: 10px 0;
+  overflow: hidden;
+  max-height: 100px;
+  text-overflow: ellipsis;
 
   @include min-screen($tablet){
     margin: 0;

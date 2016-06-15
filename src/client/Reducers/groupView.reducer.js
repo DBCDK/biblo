@@ -154,7 +154,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
       let newState = assignToEmpty(state, {});
 
       (action.work.data || []).forEach((workData) => {
-        if (!workData || !workData.creator || !workData.dcTitleFull) {
+        if (!workData || !workData.dcTitleFull) {
           return;
         }
 
@@ -169,6 +169,35 @@ export default function groupViewReducer(state = initialState, action = {}) {
       });
 
       return newState;
+    }
+
+    case types.GOT_UPDATED_GROUP_DATA: {
+      let newState = assignToEmpty(state);
+      const postIds = newState.posts.map(post => post.id);
+
+      if (action.post) {
+        if (postIds.indexOf(action.post.id) >= 0) {
+          newState.posts = newState.posts.map((post) => post.id === action.post.id ? action.post : post);
+        }
+        else {
+          newState.posts.unshift(action.post);
+        }
+      }
+
+      if (action.comment) {
+        const postIndex = postIds.indexOf(action.comment.postid);
+        if (postIndex >= 0) {
+          let commentIds = (newState.posts[postIndex].comments || []).map(comment => comment.id);
+          if (commentIds.indexOf(action.comment.id) >= 0) {
+            newState.posts[postIndex].comments = (newState.posts[postIndex].comments || []).map(comment => comment.id === action.comment.id ? action.comment : comment);
+          }
+          else {
+            newState.posts[postIndex].comments.unshift(action.comment);
+          }
+        }
+      }
+
+      return assignToEmpty(state);
     }
 
     default: {

@@ -18,41 +18,101 @@ const ReviewRoutes = express.Router();
  * Get information about a single review
  * (Gets the associated work info as well)
  */
-ReviewRoutes.get('/:id', fullProfileOnSession, (req, res) => {
-  let id = req.params.id;
-  let limit = 1; // we only expect one here
+ReviewRoutes.get('/:id', fullProfileOnSession, async function(req, res, next) {
+  let id = decodeURIComponent(req.params.id);
+  let limit = 1;
 
-  req.callServiceProvider('getReviews', {id, limit}).then((reviewResponse) => {
-    let pid = decodeURIComponent(reviewResponse[0].data[0].pid);
+  const logger = res.app.get('logger');
+  try {
 
-    req.callServiceProvider('work', {pids: [pid]}).then(async function (workResponse) {
-      let ownReviewId;
-      if (req.isAuthenticated()) {
-        let profile = req.session.passport.user.profile.profile;
-        let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pids: [pid]}));
-        if (reviewCheck) {
-          let ownReview = reviewCheck[0].data[0];
-          if (ownReview) {
-            ownReviewId = ownReview.id;
-          }
-        }
+    let reviewResult = (await req.callServiceProvider('getReviews', {id, limit}))[0];
+    if (reviewResult.error) {
+      logger.error('An error occured while communicating with CommunityService', {
+        endpoint: '/review',
+        error: reviewResult.error,
+        response: reviewResult,
+        url: req.url
+      });
+
+      next(reviewResult.error);
+    }
+
+    if (!reviewResult.data) {
+      logger.error('No data present in response', {
+        endpoint: '/review',
+        response: reviewResult,
+        url: req.url
+      });
+      next(reviewResult.error);
+    }
+
+    let pid = decodeURIComponent(reviewResult.data[0].pid);
+
+    let workResult = (await req.callServiceProvider('work', {pids: [pid]}))[0];
+    if (workResult.error) {
+      logger.error('An error occured while commuunicating with OpenPlatform', {
+        endpoint: '/work',
+        response: workResult,
+        url: req.url
+      });
+      next(workResult.error);
+    }
+
+    if (!workResult.data) {
+      logger.error('No data present in response', {
+        endpoint: '/work',
+        response: workResult,
+        url: req.url
+      });
+      next(workResult.error);
+    }
+
+    let ownReviewId;
+    if (req.isAuthenticated()) {
+      let profile = req.session.passport.user.profile.profile;
+      if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryId) {
+        const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
+        profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
+          libraryId: agency.agencyId,
+          libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName).$value,
+          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
+          pickupAllowed: agency.pickupAllowed === '1',
+          temporarilyClosed: agency.temporarilyClosed === '1'
+        });
+        res.locals.profile = JSON.stringify({
+          profile: profile,
+          errors: []
+        });
       }
 
-      const work = workResponse[0].data[0];
-      res.locals.title = `Anmeldelse af ${work.dcTitle[0]} - Biblo.dk`;
-      res.render('page', {
-        css: ['/css/review.css'],
-        js: ['/js/review.js'],
-        jsonData: [JSON.stringify({
-          work: work, // this is the associated work info
-          workReviews: reviewResponse[0].data,
-          workReviewsMeta: {
-            ownReviewId: ownReviewId
-          }
-        })]
-      });
+      let reviewCheck = (await req.callServiceProvider('getOwnReview', {reviewownerid: profile.id, pids: [pid]}))[0];
+      if (reviewCheck) {
+        let ownReview = reviewCheck.data[0];
+        if (ownReview) {
+          ownReviewId = ownReview.id;
+        }
+      }
+    }
+
+    const work = workResult.data[0];
+
+    let title = work.dcTitle && Array.isArray(work.dcTitle) ? `${work.dcTitle[0]} - Biblo.dk` : 'Biblo.dk';
+    res.locals.title = `Anmeldelse af ${title} - Biblo.dk`;
+    res.render('page', {
+      css: ['/css/review.css'],
+      js: ['/js/review.js'],
+      jsonData: [JSON.stringify({
+        work: work, // this is the associated work info
+        workReviews: reviewResult.data,
+        workReviewsMeta: {
+          ownReviewId: ownReviewId
+        }
+      })]
     });
-  });
+  }
+  catch (err) {
+    next(err);
+  }
 });
 
 /**
@@ -78,7 +138,7 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
       content: sanitize(req.body.content, {allowedTags: []}) || ' ',
       rating: req.body.rating,
       image: image,
-      reviewownerid: profile.id,
+      reviewownerid: req.body.reviewownerid || profile.id,
       libraryid: profile.favoriteLibrary.libraryId
     };
 

@@ -47,6 +47,16 @@ import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewa
 // Queue processors
 import {processUserMessage} from './server/queues/UserMessages.queue';
 import {processUserStatusCheck} from './server/queues/CheckUserStatus.queue';
+import {processCheckForNewQuarantines} from './server/queues/checkForNewQuarantines.queue';
+import {notifyUsersRelevantToComment} from './server/queues/notifyUsersRelevantToAComment.queue';
+
+// Change handlers
+import {
+  quarantinesChangeStreamHandler,
+  commentWasAddedUserMessageChangeStreamHandler,
+  postWasAddedEmitToClientsChangeStreamHandler,
+  commentWasAddedEmitToClientsChangeStreamHandler
+} from './server/serviceProvider/handlers/ChangeStream.handlers';
 
 module.exports.run = function (worker) {
   // Setup
@@ -139,9 +149,9 @@ module.exports.run = function (worker) {
   }
 
   // Initialize DynamoDB
-  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_messages`; // eslint-disable-line no-process-env
-  let dynamodb = new AWS.DynamoDB();
-  let docClient = new AWS.DynamoDB.DocumentClient();
+  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`; // eslint-disable-line no-process-env
+  const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+  const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   // List tables in dynamo db
   dynamodb.listTables({}, (err, data) => {
@@ -151,16 +161,40 @@ module.exports.run = function (worker) {
         const tableDef = {
           TableName: tableName,
           KeySchema: [
-            {AttributeName: 'userId', KeyType: 'HASH'},  // Partition key
-            {AttributeName: 'messageType', KeyType: 'RANGE'}  // Sort key
+            {AttributeName: 'messageType', KeyType: 'HASH'},  // Partition key
+            {AttributeName: 'createdEpoch', KeyType: 'RANGE'}  // Sort key
           ],
           AttributeDefinitions: [
-            {AttributeName: 'userId', AttributeType: 'S'},
-            {AttributeName: 'messageType', AttributeType: 'S'}
+            {AttributeName: 'messageType', AttributeType: 'S'},
+            {AttributeName: 'createdEpoch', AttributeType: 'N'},
+            {AttributeName: 'message', AttributeType: 'S'},
+            {AttributeName: 'userId', AttributeType: 'S'}
+          ],
+          GlobalSecondaryIndexes: [
+            {
+              IndexName: 'uderId-message-index',
+              KeySchema: [
+                {
+                  AttributeName: 'userId',
+                  KeyType: 'HASH'
+                },
+                {
+                  AttributeName: 'message',
+                  KeyType: 'RANGE'
+                }
+              ],
+              Projection: {
+                ProjectionType: 'ALL'
+              },
+              ProvisionedThroughput: {
+                ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 5, // eslint-disable-line no-process-env
+                WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 5 // eslint-disable-line no-process-env
+              }
+            }
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 10, // eslint-disable-line no-process-env
-            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 10 // eslint-disable-line no-process-env
+            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 5, // eslint-disable-line no-process-env
+            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 5 // eslint-disable-line no-process-env
           }
         };
 
@@ -180,8 +214,11 @@ module.exports.run = function (worker) {
     }
   });
 
+  // Configure service provider
+  const sp = ServiceProviderSetup(BIBLO_CONFIG, logger, worker);
+
   // Configure app variables
-  app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker));
+  app.set('serviceProvider', sp);
   app.set('logger', logger);
   app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);
@@ -253,10 +290,26 @@ module.exports.run = function (worker) {
     return processUserStatusCheck(job, done);
   });
 
+  // Configure user status queue
+  const checkForNewQuarantinesQueue = Queue('quarantine check', redisConfig.port, redisConfig.host);
+  checkForNewQuarantinesQueue.process((job, done) => {
+    job.app = app;
+    return processCheckForNewQuarantines(job, done);
+  });
+
+  // Configure addedCommentQueue
+  const addedCommentQueue = Queue('addedCommentQueue', redisConfig.port, redisConfig.host);
+  addedCommentQueue.process((job, done) => {
+    job.app = app;
+    return notifyUsersRelevantToComment(job, done);
+  });
+
   // Set queues to app
   app.set('userMessageAdd', userMessageAdd);
   app.set('userMessageQueue', userMessageQueue);
   app.set('userStatusCheckQueue', userStatusCheckQueue);
+  app.set('checkForNewQuarantinesQueue', checkForNewQuarantinesQueue);
+  app.set('addedCommentQueue', addedCommentQueue);
 
   const redisStore = RedisStore(expressSession);
 
@@ -338,8 +391,8 @@ module.exports.run = function (worker) {
 
   // Graceful handling of errors
   app.use((err, req, res, next) => {
-    logger.log('error', 'An error occurred! Got following: ' + err);
-    console.error('error', 'An error occurred! Got following: ' + err.stack); // eslint-disable-line no-console
+    logger.log('error', 'An error occurred! Got following: ' + err, {url: req.url, session: req.session});
+    console.error('error', 'An error occurred! Got following: ' + err.stack, {url: req.url, session: req.session}); // eslint-disable-line no-console
     if (res.headersSent) {
       return next(err);
     }
@@ -356,6 +409,14 @@ module.exports.run = function (worker) {
 
   // Setting logger -- should be placed after routes
   app.use(expressLoggers.errorLogger);
+
+  // Setup listeners for change streams
+  sp.trigger('listenForNewQuarantines', [quarantinesChangeStreamHandler.bind(null, app)]);
+  sp.trigger('listenForNewPosts', [postWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)]);
+  sp.trigger('listenForNewComments', [
+    commentWasAddedUserMessageChangeStreamHandler.bind(null, app),
+    commentWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)
+  ]);
 
   logger.log('debug', '>> Worker PID: ' + process.pid);
   logger.log('debug', 'Server listening on port ' + app.get('port'));

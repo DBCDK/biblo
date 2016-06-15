@@ -1,5 +1,4 @@
 @import 'tools';
-@import 'settings';
 
 .content-add {
   margin-bottom: 20px;
@@ -146,7 +145,7 @@ progress[value] {
     border: 1px solid #ccc;
   }
   svg {
-    padding-right: 10px;
+    margin-right: 10px;
     position: relative;
     display: inline-block;
     top: 2px;

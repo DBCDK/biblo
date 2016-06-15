@@ -56,66 +56,70 @@ export class CompactReviewElement extends Component {
       htmlContent += '...';
     }
 
+    htmlContent = '“' + htmlContent + '”';
+
     return (
-      <div className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}}></div>
+      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}} ></span>
     );
   }
 
   renderTextReview(review, ownerProfileUrl, workUrl) {
+    const coverUrl = this.props.coverImages[this.props.review.pid] || '/images//covers/other.png';
+
     return (
-      <div className="compact-review--container">
-        <p className="compact-review--review-author">Anmeldelse af: <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a></p>
-        <table>
-          <tbody>
-          <tr>
-            <td className="compact-review--artwork--container">
-              <a href={ownerProfileUrl} className="compact-review--owner-image--container">
-                <img src={review.owner.image}/>
-              </a>
-              <a href={workUrl} className="compact-review--cover-image--container">
-                <img
-                  className="compact-review--cover-image"
-                  src={this.props.coverImages[this.props.review.pid]}/>
-              </a>
-            </td>
-            <td className="compact-review--review-content">
-              <Icon glyph={materialSvgs[review.worktype]}
-                    width={25} height={25}
-                    className="icon compact-review-worktype-icon"/>
-              <a href={workUrl}>
-                {this.getTextContent(review.html)}
-              </a>
-              <Rating rating={review.rating} pid={review.pid} />
-            </td>
-          </tr>
-          </tbody>
-        </table>
+      <div className="compact-review--container" >
+        <div className="compact-review--review-author" >
+          Anmeldelse af:&nbsp;
+          <a href={ownerProfileUrl} ><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a>
+        </div>
+
+        <div className="compact-review--artwork--container" >
+          <a href={ownerProfileUrl} className="compact-review--owner-image--container" >
+            <img src={review.owner.image} />
+          </a>
+          <a href={workUrl} className="compact-review--cover-image--container" >
+            <img
+              className="compact-review--cover-image"
+              src={coverUrl} />
+          </a>
+        </div>
+
+        <div className="compact-review--review-content" >
+          <div className="compact-review--review-content--content" >
+            <Icon glyph={materialSvgs[review.worktype]} width={25} height={25} className="icon compact-review-worktype-icon" />
+            <a href={workUrl} >{this.getTextContent(review.html)}</a>
+          </div>
+          <div className="compact-review--review-content--rating" >
+            <Rating rating={review.rating} pid={review.pid} />
+          </div>
+        </div>
       </div>
     );
   }
 
-  renderVideoReview (review, ownerProfileUrl, workUrl) {
+  renderVideoReview(review, ownerProfileUrl, workUrl) {
     const resolution = review.video.resolutions.slice(-1)[0];
     const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
     return (
-      <div className="compact-review--container">
-        <p>Anmeldelse af: <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a></p>
-        <div className="compact-video-review--artwork-container">
-          <a href={ownerProfileUrl} className="compact-review--owner-image--container">
-            <img src={review.owner.image}/>
+      <div className="compact-review--container" >
+        <div className="compact-review--review-author" >
+          Anmeldelse af:&nbsp;
+          <a href={ownerProfileUrl} ><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a>
+        </div>
+
+        <div className="compact-video-review--container" >
+          <a href={ownerProfileUrl} className="compact-review--owner-image--container" >
+            <img src={review.owner.image} />
           </a>
-          <a href={workUrl} className="compact-review--video--container">
+          <a href={workUrl} className="compact-review--video--container" >
             <img src={videoImageSrc} />
             <span className="after" />
           </a>
-        </div>
-        <div className="compact-review--container--video-review--rating--container">
-          <Icon glyph={materialSvgs[review.worktype]}
-                width={25} height={25}
-                className="icon compact-review-worktype-icon"/>
-          <Rating rating={review.rating} pid={review.pid} />
+          <div className="compact-review--video-review-content--rating" >
+            <Rating rating={review.rating} pid={review.pid} />
+          </div>
         </div>
       </div>
     );
@@ -135,7 +139,7 @@ export class CompactReviewElement extends Component {
     }
 
     return (
-      <div className="compact-review--container--container">
+      <div className="compact-review--container--container" >
         {reviewContent}
       </div>
     );

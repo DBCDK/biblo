@@ -1,22 +1,20 @@
-@import "tools";
+@import 'tools';
 
 .latest-reviews-widget--reviews-container {
+  @include span(24);
   background-color: #e2e0f7;
-  padding: 20px;
-}
+  margin-bottom: 40px;
+  -webkit-overflow-scrolling: touch;
 
-.latest-reviews-widget--reviews-container.closed {
-  height: 230px;
-  overflow: hidden;
-}
+  &.closed {
+    height: 240px;
+    overflow: hidden;
 
-.latest-reviews-widget--reviews-container.closed, .latest-reviews-widget--reviews-container {
-  @include max-screen($tablet) {
-    width: auto;
-    height: auto;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    display: flex;
+    @include max-screen($tablet) {
+      overflow-x: scroll;
+      display: block;
+      white-space: nowrap;
+    }
   }
 }
 
@@ -35,6 +33,7 @@
 
   h2 {
     display: inline-block;
+    margin-left: 10px;
   }
 
   .icon {

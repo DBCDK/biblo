@@ -33,7 +33,7 @@ export default function workReducer(state = initialState, action = {}) {
 
         // itereate through the returned data and key by the pid
         data.forEach((item) => {
-          const pid = item.pid[0];
+          const pid = item.pid && Array.isArray(item.pid) && item.pid[0] || '';
           newState.workMetadataOrderedByPid[pid] = {
             dcTitle: item.dcTitle ? item.dcTitle[0] : null,
             dcTitleFull: item.dcTitleFull ? item.dcTitleFull[0] : null,

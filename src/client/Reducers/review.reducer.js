@@ -50,11 +50,19 @@ export default function reviewReducer(state = initialState, action = {}) {
     case types.DELETE_WORK_REVIEW: {
       let reviewsAfterDelete = [...state.workReviews];
       reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
-        return (review.reviewId !== action.id);
+        return (review.reviewId !== action.reviewId);
       });
+
+      // note: we can get here as an admin deleting another users review
+      let ownReviewId;
+      if (action.reviewId !== state.workReviewsMeta.ownReviewId) {
+        ownReviewId = state.workReviewsMeta.ownReviewId;
+      }
+
       return assignToEmpty(state, {
         workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
-          workReviewsTotalCount: state.workReviewsTotalCount - 1
+          workReviewsTotalCount: state.workReviewsTotalCount - 1,
+          ownReviewId: ownReviewId
         }),
         workReviews: reviewsAfterDelete
       });

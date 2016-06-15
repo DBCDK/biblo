@@ -4,25 +4,47 @@
 
 /**
  * This function parses user messages.
+ * During parsing it is ensured that only accepted messages are sent to client.
+ * Accepted messages are filtered using the acceptedMessageTypes array.
+ *
  * @param {Array} items
  * @returns {{unreadMessages: number, messages: Array}}
  */
 export function userMessageParser(items = [], limit = 15) {
-  let userMessages = {unreadMessages: 0, messages: []};
+  let userMessages = {
+    unreadMessages: 0,
+    messages: []
+  };
 
   if (limit) {
     items = items.slice(0, limit);
   }
 
-  items.forEach((item) => {
-    item.Messages.forEach((message) => {
-      message.type = item.messageType;
-      userMessages.messages.push(message);
+  items.forEach((message) => {
+    message.type = message.messageType;
 
-      if (!message.read) {
-        userMessages.unreadMessages += 1;
-      }
-    });
+    try {
+      message = Object.assign(message, JSON.parse(message.message));
+      delete message.message;
+    }
+    catch (err) {
+      message.errors = ['Could not parse message'];
+    }
+
+    const accecptedMessageTypes = [
+      'type-orderExpiresSoon',
+      'type-orderIsReady'
+    ];
+
+    if (!accecptedMessageTypes.includes(message.messageType)) {
+      return;
+    }
+
+    userMessages.messages.push(message);
+
+    if (!message.read) {
+      userMessages.unreadMessages += 1;
+    }
   });
 
   return userMessages;

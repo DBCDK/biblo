@@ -1,5 +1,4 @@
-@import "tools";
-@import "settings";
+@import 'tools';
 
 .profile-edit--container {
   @include clearfix;
@@ -14,13 +13,13 @@
 
 .before-profile-edit--form-component-container, .after-profile-edit--form-component-container {
   @include min-screen($tablet) {
-    @include span(3);
+    @include span(6);
   }
 }
 
 .profile-edit--form-component-container {
   @include min-screen($tablet) {
-    @include span(6);
+    @include span(12);
   }
 
   border: #bebebe solid;

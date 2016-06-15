@@ -45,11 +45,12 @@ export default class MessageRow extends React.Component {
         }
 
         return (
-          <span className={orderExpiresSoonClass}>
+          <span className={orderExpiresSoonClass} >
             <Icon icon="profile" width={15} height={15} glyph={glyph} />
             {text}
           </span>
         );
+
       case 'type-orderIsReady':
         const orderReadyClass = this.state.message.ready ? 'ready' : '';
 
@@ -70,7 +71,9 @@ export default class MessageRow extends React.Component {
         const diff = moment(this.state.message.dateDue).diff();
         const dateString = moment(this.state.message.dateDue).fromNow();
         const string = diff < 0 ? 'Skulle være afleveret for' : 'Skal afleveres om senest';
+
         return (<span>{string} {dateString}</span>);
+
       case 'type-orderIsReady':
         const agency = this.props.agencies[this.state.message.pickupAgency];
         let branchName = 'Ukendt bibliotek';
@@ -78,14 +81,29 @@ export default class MessageRow extends React.Component {
           branchName = agency.branchName.$value;
         }
         const pickUpDateString = moment(this.state.message.pickupExpires).format('LL');
+
         return (
           <div>
             <div>Ligger klar til dig på {branchName}</div>
             <div>Husk at hente den senest {pickUpDateString}</div>
           </div>
         );
+
       default:
         return this.props.message.type;
+    }
+  }
+
+  getMessageImage() {
+    const imageBasePath = '/images/messages';
+
+    switch (this.state.message.type) {
+      case 'type-orderExpiresSoon':
+        return `${imageBasePath}/default-afleveres.png`;
+      case 'type-orderIsReady':
+        return `${imageBasePath}/default-afhentes.png`;
+      default:
+        return `${imageBasePath}/other.png`;
     }
   }
 
@@ -103,7 +121,7 @@ export default class MessageRow extends React.Component {
           </div>
         </div>
         <div className="message-row--image-container" >
-          <img src="/images/covers/other.png" alt="Cover Image" />
+          <img src={this.getMessageImage()} alt="Cover Image" />
         </div>
         <div className="message-row--data-container" >
           <div className="message-row--message-type" >{this.getMessageType()}</div>

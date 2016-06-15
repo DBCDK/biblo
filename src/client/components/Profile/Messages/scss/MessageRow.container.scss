@@ -1,4 +1,5 @@
 @import 'tools';
+@import 'mixins/transition';
 
 .message-row--container {
   @include span(24);
@@ -12,6 +13,16 @@
 
   &.unread {
     background-color: #f6f6f6;
+  }
+
+  &.read {
+    background-color: inherit;
+    @include transition(background-color .3s ease);
+
+    .message-row--status {
+      opacity: 0;
+      @include transition(opacity .3s ease);
+    }
   }
 }
 
@@ -75,7 +86,7 @@
 
 .message-data--headline {
   font-weight: bold;
-  font-size: 	1.111em;
+  font-size: 1.111em;
   color: $black;
   margin-top: 5px;
 }

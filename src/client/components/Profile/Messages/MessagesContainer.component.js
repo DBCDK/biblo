@@ -22,18 +22,20 @@ export default class MessagesContainer extends React.Component {
   getMessages() {
     const messages = this.sortMessages();
 
+    const renderedMessages = messages.map((msg, index) => {
+      return (
+        <MessageRow
+          agencies={this.props.agencies}
+          agencyActions={this.props.agencyActions}
+          message={msg}
+          key={index}
+        />
+      );
+    });
+
     return (
       <div className="p-detail--messages-container" >
-        {messages.map((msg, index) => {
-          return (
-            <MessageRow
-              agencies={this.props.agencies}
-              agencyActions={this.props.agencyActions}
-              message={msg}
-              key={index}
-            />
-          );
-        })}
+        {renderedMessages.length ? renderedMessages : 'Du har ingen beskeder'}
       </div>
     );
   }

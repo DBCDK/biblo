@@ -361,7 +361,7 @@ export class ProfileDetailContainer extends React.Component {
         {
           (this.props.feed.feed.length > 0) ? activityFeed :
             (
-              <ActivityRow title={'Her er tomt!'} >{currentUserAddressing} har ikke lavet noget...</ActivityRow>
+              <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`} />
             )
         }
         {showMore}
@@ -371,9 +371,9 @@ export class ProfileDetailContainer extends React.Component {
     const reviewsPaneContent = (
       <div>
         {
-          (reviewsFeed) ? reviewsFeed :
+          (reviewsFeed.length) ? reviewsFeed :
             (
-              <ActivityRow title={'Her er tomt!'} >{currentUserAddressing} har ikke lavet nogen anmeldelser endnu.</ActivityRow>
+              <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`} />
             )
         }
       </div>
@@ -381,12 +381,12 @@ export class ProfileDetailContainer extends React.Component {
 
     const tabs = [
       {
-        label: 'AKTIVITET',
-        content: activityPaneContent
-      },
-      {
         label: 'ANMELDELSER',
         content: reviewsPaneContent
+      },
+      {
+        label: 'AKTIVITET',
+        content: activityPaneContent
       }
     ];
 
@@ -400,7 +400,7 @@ export class ProfileDetailContainer extends React.Component {
         />
       );
 
-      tabs.unshift({
+      tabs.push({
         label: 'BESKEDER',
         content: messagesPaneContent
       });

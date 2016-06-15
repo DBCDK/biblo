@@ -16,6 +16,8 @@ const loadPosts = SocketClient('getPosts');
 const markPostAsDeleted = SocketClient('deletePost');
 const loadComments = SocketClient('getComments');
 const loadMetadataForReviewAttachedToPostOrCommentSocket = SocketClient('work');
+const getSinglePosts = SocketClient('getSinglePosts');
+const getSingleComment = SocketClient('getSingleComment');
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
@@ -377,5 +379,37 @@ export function loadMetadataForReview(work) {
   return {
     type: types.LOAD_METADATA_FOR_REVIEW_FROM_PID,
     work
+  };
+}
+
+export function asyncListenToGroupForNewContent(groupId) {
+  return dispatch => {
+    // Listen for the full comment objects
+    getSingleComment.response(commentResponse => {
+      dispatch(groupContentWasUpdated({comment: commentResponse}));
+    });
+
+    // Listen for the full post objects
+    getSinglePosts.response(postResponse => {
+      dispatch(groupContentWasUpdated({post: postResponse}));
+    });
+
+    getGroup.subscribe(`new_group_content-${groupId}`, data => {
+      let gData = data && data.data && data.data.data;
+      if (gData.commentownerid && gData.id) {
+        getSingleComment.request({id: gData.id});
+      }
+      else if (gData.postownerid && gData.id) {
+        getSinglePosts.request({id: gData.id});
+      }
+    });
+  };
+}
+
+export function groupContentWasUpdated({comment, post}) {
+  return {
+    type: types.GOT_UPDATED_GROUP_DATA,
+    comment,
+    post
   };
 }

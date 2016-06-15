@@ -15,7 +15,7 @@ import {ProfileDetailContainer} from '../ProfileDetailContainer.component';
 
 // import mocks
 import {profileMock, moderatorMock} from '../../../__mocks__/profile.mock';
-import {emptyFeedMock, feedMock, moderatedFeedMock} from '../../../__mocks__/feed.mock';
+import {feedMock, moderatedFeedMock} from '../../../__mocks__/feed.mock';
 import {uiMock} from '../../../__mocks__/ui.mock';
 import {reviewsMock} from '../../../__mocks__/reviews.mock';
 
@@ -73,37 +73,6 @@ describe('Test profile detail container (public profile)', () => {
     isLoadingResults: false
   };
 
-  it('Test profile detail container can render', () => {
-    const component = (
-      <ProfileDetailContainer
-        searchState={searchState}
-        feed={emptyFeedMock}
-        feedActions={feedActions}
-        flagActions={flagActions}
-        group={group}
-        groupActions={groupActions}
-        likeActions={likeActions}
-        profile={profileMock}
-        ui={uiMock}
-        uiActions={uiActions}
-        reviews={reviews}
-        searchActions={searchActions}
-        coverImageActions={coverImageActions}
-        coverImages={coverImages}
-        workActions={workActions}
-        works={works}
-      />
-    );
-
-    const $root = $(component).render();
-
-    const emptyHeader = $root.find('.activity-row--title').text();
-    expect(emptyHeader).toContain('Her er tomt!');
-
-    const firstActivityRow = $root.find('.activity-row').first().dom().innerHTML;
-    expect(firstActivityRow).toContain('har ikke lavet noget...');
-  });
-
   it('should render activity rows containing posts, and a comment.', () => {
     const component = (
       <ProfileDetailContainer
@@ -118,6 +87,7 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        selectedTab={1}
         searchActions={searchActions}
         coverImageActions={coverImageActions}
         coverImages={coverImages}
@@ -148,6 +118,7 @@ describe('Test profile detail container (public profile)', () => {
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
+        selectedTab={1}
         searchActions={searchActions}
         coverImageActions={coverImageActions}
         coverImages={coverImages}

@@ -49,8 +49,12 @@
 .message-row--message-type {
   display: inline-block;
 
-  &.ready {
+  .ready {
     color: $turquoise;
+  }
+
+  .late {
+    color: $carnation;
   }
 
   .icon--container {

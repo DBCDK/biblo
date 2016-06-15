@@ -2,8 +2,11 @@ import React from 'react';
 import moment from 'moment';
 
 import Icon from '../../General/Icon/Icon.component';
+
+// SVG
 import klarSVG from '../../General/Icon/svg/functions/klar-til-afhentning.svg';
 import backSVG from '../../General/Icon/svg/functions/back.svg';
+import forSentSVG from '../../General/Icon/svg/functions/for-sent.svg';
 
 import './scss/MessageRow.container.scss';
 
@@ -21,27 +24,37 @@ export default class MessageRow extends React.Component {
       this.props.agencyActions.asyncGetLibraryDetailsAction({agencyId: this.state.message.pickupAgency});
     }
   }
-/*
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-*/
+
+  /*
+   shouldComponentUpdate(nextProps, nextState) {
+   return true;
+   }
+   */
+
   getMessageType() {
     switch (this.props.message.type) {
-      case 'Fine':
-        return 'Dummebøde';
-      case 'Reservation Charge':
-        return 'Reservation Charge';
       case 'type-orderExpiresSoon':
+        let glyph = backSVG;
+        let text = 'Afleveres snart';
+        let orderExpiresSoonClass = '';
+
+        if (moment(this.state.message.dateDue).diff() < 0) {
+          glyph = forSentSVG;
+          text = 'Afleveret for sent';
+          orderExpiresSoonClass = 'late';
+        }
+
         return (
-          <span>
-            <Icon icon="profile" width={15} height={15} glyph={backSVG} />
-            Afleveres snart
+          <span className={orderExpiresSoonClass}>
+            <Icon icon="profile" width={15} height={15} glyph={glyph} />
+            {text}
           </span>
         );
       case 'type-orderIsReady':
+        const orderReadyClass = this.state.message.ready ? 'ready' : '';
+
         return (
-          <span>
+          <span className={orderReadyClass} >
             <Icon icon="profile" width={15} height={15} glyph={klarSVG} />
             Klar til afhentning
           </span>
@@ -53,10 +66,6 @@ export default class MessageRow extends React.Component {
 
   getMessageContent() {
     switch (this.state.message.type) {
-      case 'Fine':
-        return 'Dummebøde';
-      case 'Reservation Charge':
-        return 'Reservation Charge';
       case 'type-orderExpiresSoon':
         const diff = moment(this.state.message.dateDue).diff();
         const dateString = moment(this.state.message.dateDue).fromNow();
@@ -84,7 +93,6 @@ export default class MessageRow extends React.Component {
     moment.locale('da');
 
     const containerClass = !this.state.message.read ? 'message-row--container unread' : 'message-row--container';
-    const messageTypeClass = this.state.message.ready ? 'message-row--message-type ready' : 'message-row--message-type';
     const statusIndicator = !this.state.message.read ? '·' : '';
 
     return (
@@ -98,7 +106,7 @@ export default class MessageRow extends React.Component {
           <img src="/images/covers/other.png" alt="Cover Image" />
         </div>
         <div className="message-row--data-container" >
-          <div className={messageTypeClass} >{this.getMessageType()}</div>
+          <div className="message-row--message-type" >{this.getMessageType()}</div>
           <div className="message-row--age" >{moment.utc(this.state.message.createdEpoch).fromNow()}</div>
 
           <div className="message-data--headline" >{this.state.message.title}</div>

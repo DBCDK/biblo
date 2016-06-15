@@ -2,6 +2,9 @@
  * @file
  * Get the user profile + profile image.
  */
+
+import {userMessageParser} from '../../../parsers/userMessage.parser';
+
 const getFullProfileTransform = {
 
   /**
@@ -34,7 +37,8 @@ const getFullProfileTransform = {
           }
         }
       ),
-      this.callServiceClient('community', 'checkIfProfileIsQuarantined', uid)
+      this.callServiceClient('community', 'checkIfProfileIsQuarantined', uid),
+      this.callServiceClient('aws', 'getUserMessages', uid)
     ]);
   },
 
@@ -67,6 +71,7 @@ const getFullProfileTransform = {
     }).length > 0);
 
     body.quarantined = JSON.parse(response[1].body).quarantined;
+    body.userMessages = userMessageParser(response[2] && response[2].Items || []);
 
     return {body: body, statusCode: response[0].statusCode, statusMessage: response[0].statusMessage};
   }

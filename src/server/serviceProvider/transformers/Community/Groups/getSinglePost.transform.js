@@ -36,6 +36,47 @@ const GetPostsTransform = {
         {owner: ['image']},
         'likes',
         {
+          relation: 'comments',
+          scope: {
+            include: [
+              'image',
+              {
+                relation: 'video',
+                scope: {
+                  include: [
+                    {
+                      relation: 'resolutions',
+                      scope: {
+                        include: ['video']
+                      }
+                    }]
+                }
+              },
+              {
+                relation: 'review',
+                scope: {
+                  include: [
+                    'image',
+                    {
+                      relation: 'video',
+                      scope: {
+                        include: [
+                          {
+                            relation: 'resolutions',
+                            scope: {
+                              include: ['video']
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           relation: 'video',
           scope: {
             include: [

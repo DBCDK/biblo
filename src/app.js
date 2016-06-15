@@ -16,6 +16,7 @@ import RedisStore from 'connect-redis';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
+import Queue from 'bull';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
@@ -43,8 +44,21 @@ import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
 import {ensureProfileImage} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
+// Queue processors
+import {processUserMessage} from './server/queues/UserMessages.queue';
+import {processUserStatusCheck} from './server/queues/CheckUserStatus.queue';
+import {processCheckForNewQuarantines} from './server/queues/checkForNewQuarantines.queue';
+import {notifyUsersRelevantToComment} from './server/queues/notifyUsersRelevantToAComment.queue';
 
-module.exports.run = function(worker) {
+// Change handlers
+import {
+  quarantinesChangeStreamHandler,
+  commentWasAddedUserMessageChangeStreamHandler,
+  postWasAddedEmitToClientsChangeStreamHandler,
+  commentWasAddedEmitToClientsChangeStreamHandler
+} from './server/serviceProvider/handlers/ChangeStream.handlers';
+
+module.exports.run = function (worker) {
   // Setup
   const BIBLO_CONFIG = config.biblo.getConfig({});
   const app = express();
@@ -54,6 +68,7 @@ module.exports.run = function(worker) {
   const PRODUCTION = ENV === 'production';
   const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'biblo'; // eslint-disable-line no-process-env
   const APPLICATION = 'biblo';
+  const KAFKA_TOPIC = process.env.KAFKA_TOPIC || 'local'; // eslint-disable-line no-process-env
   const logger = new Logger({app_name: APP_NAME});
   const expressLoggers = logger.getExpressLoggers();
 
@@ -87,6 +102,7 @@ module.exports.run = function(worker) {
   // Setting bodyparser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
+
   // Helmet configuration
   app.use(helmet.frameguard());
   app.use(helmet.hidePoweredBy({setTo: 'Konami!'}));
@@ -132,8 +148,77 @@ module.exports.run = function(worker) {
     });
   }
 
+  // Initialize DynamoDB
+  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`; // eslint-disable-line no-process-env
+  const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+  const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
+
+  // List tables in dynamo db
+  dynamodb.listTables({}, (err, data) => {
+    if (!err && data) {
+      // check for our table name
+      if ((data.TableNames || []).indexOf(tableName) === -1) {
+        const tableDef = {
+          TableName: tableName,
+          KeySchema: [
+            {AttributeName: 'messageType', KeyType: 'HASH'},  // Partition key
+            {AttributeName: 'createdEpoch', KeyType: 'RANGE'}  // Sort key
+          ],
+          AttributeDefinitions: [
+            {AttributeName: 'messageType', AttributeType: 'S'},
+            {AttributeName: 'createdEpoch', AttributeType: 'N'},
+            {AttributeName: 'message', AttributeType: 'S'},
+            {AttributeName: 'userId', AttributeType: 'S'}
+          ],
+          GlobalSecondaryIndexes: [
+            {
+              IndexName: 'uderId-message-index',
+              KeySchema: [
+                {
+                  AttributeName: 'userId',
+                  KeyType: 'HASH'
+                },
+                {
+                  AttributeName: 'message',
+                  KeyType: 'RANGE'
+                }
+              ],
+              Projection: {
+                ProjectionType: 'ALL'
+              },
+              ProvisionedThroughput: {
+                ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 5, // eslint-disable-line no-process-env
+                WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 5 // eslint-disable-line no-process-env
+              }
+            }
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 5, // eslint-disable-line no-process-env
+            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 5 // eslint-disable-line no-process-env
+          }
+        };
+
+        // if it doesn't exist -> create it.
+        dynamodb.createTable(tableDef, (createTableErr, createTableData) => {
+          if (!createTableErr && createTableData) {
+            logger.info('Created dynamo table!', createTableData);
+          }
+          else {
+            logger.error('Cannot create dynamo table, messages will be disabled!');
+          }
+        });
+      }
+    }
+    else {
+      logger.error('Cannot connect to dynamo, messages will be disabled!');
+    }
+  });
+
+  // Configure service provider
+  const sp = ServiceProviderSetup(BIBLO_CONFIG, logger, worker);
+
   // Configure app variables
-  app.set('serviceProvider', ServiceProviderSetup(BIBLO_CONFIG, logger, worker));
+  app.set('serviceProvider', sp);
   app.set('logger', logger);
   app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);
@@ -141,6 +226,8 @@ module.exports.run = function(worker) {
   app.set('amazonConfig', amazonConfig);
   app.set('s3', new AWS.S3());
   app.set('ElasticTranscoder', new AWS.ElasticTranscoder());
+  app.set('dynamoTable', tableName);
+  app.set('dynamoDocClient', docClient);
 
   // Configure templating
   app.set('views', path.join(__dirname, 'server/templates'));
@@ -179,6 +266,51 @@ module.exports.run = function(worker) {
       break;
   }
 
+  // Configure message queue
+  const userMessageQueue = Queue('user messages', redisConfig.port, redisConfig.host);
+  userMessageQueue.process((job, done) => {
+    job.app = app;
+    return processUserMessage(job, done);
+  });
+
+  /**
+   * Helper method to remember the required
+   * @param {Number|String} userId
+   * @param {String} messageType
+   * @param {PlainObject} message
+   */
+  function userMessageAdd(userId, messageType, message) {
+    return userMessageQueue.add({userId, messageType, message});
+  }
+
+  // Configure user status queue
+  const userStatusCheckQueue = Queue('user status check', redisConfig.port, redisConfig.host);
+  userStatusCheckQueue.process((job, done) => {
+    job.app = app;
+    return processUserStatusCheck(job, done);
+  });
+
+  // Configure user status queue
+  const checkForNewQuarantinesQueue = Queue('quarantine check', redisConfig.port, redisConfig.host);
+  checkForNewQuarantinesQueue.process((job, done) => {
+    job.app = app;
+    return processCheckForNewQuarantines(job, done);
+  });
+
+  // Configure addedCommentQueue
+  const addedCommentQueue = Queue('addedCommentQueue', redisConfig.port, redisConfig.host);
+  addedCommentQueue.process((job, done) => {
+    job.app = app;
+    return notifyUsersRelevantToComment(job, done);
+  });
+
+  // Set queues to app
+  app.set('userMessageAdd', userMessageAdd);
+  app.set('userMessageQueue', userMessageQueue);
+  app.set('userStatusCheckQueue', userStatusCheckQueue);
+  app.set('checkForNewQuarantinesQueue', checkForNewQuarantinesQueue);
+  app.set('addedCommentQueue', addedCommentQueue);
+
   const redisStore = RedisStore(expressSession);
 
   const redisInstance = new redisStore({
@@ -187,7 +319,7 @@ module.exports.run = function(worker) {
     prefix: APP_NAME + '_session_'
   });
 
-  redisInstance.client.on('error', function() {
+  redisInstance.client.on('error', function () {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
   });
 
@@ -277,6 +409,14 @@ module.exports.run = function(worker) {
 
   // Setting logger -- should be placed after routes
   app.use(expressLoggers.errorLogger);
+
+  // Setup listeners for change streams
+  sp.trigger('listenForNewQuarantines', [quarantinesChangeStreamHandler.bind(null, app)]);
+  sp.trigger('listenForNewPosts', [postWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)]);
+  sp.trigger('listenForNewComments', [
+    commentWasAddedUserMessageChangeStreamHandler.bind(null, app),
+    commentWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)
+  ]);
 
   logger.log('debug', '>> Worker PID: ' + process.pid);
   logger.log('debug', 'Server listening on port ' + app.get('port'));

@@ -83,6 +83,19 @@ Defines the bucket we use to get the layout for the front page.
 
   The default value is `uxdev-biblo-content-frontpage`
 
+- __DYNAMO_TABLE_NAME__
+Overwrites the default generated table name. The default makes is unique-ish.
+
+- __DYNAMO_READ_CAP__
+Overwrites the default provisioned read capacity, this needs to be set on a new table name, or the change won't affect the system.
+
+  The default value is `10`
+
+- __DYNAMO_WRITE_CAP__
+Overwrites the default provisioned write capacity, this needs to be set on a new table name, or the change won't affect the system.
+
+  The default value is `10`
+
 ## New Relic
 As New Relic is used by DBC A/S this application requires New Relic to be configured.
 If you want to run the application but can't provide a New Relic configuration you can start the application with `NEW_RELIC_NO_CONFIG_FILE=true` which will throw an error but wont crash your application.

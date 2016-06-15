@@ -66,7 +66,7 @@ export default class NavbarContainer extends React.Component {
 
   renderProfile() {
     if (image.shouldDisplay) {
-      return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')}/>);
+      return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')} notifications={image.unreadMessages} />);
     }
     return (<NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={profileSvg}
                              onClick={() => this.onToggle('profile')}/>);

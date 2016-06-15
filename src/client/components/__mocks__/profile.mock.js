@@ -21,6 +21,10 @@ export const profileMock = {
     commentImageCollection: null,
     url: {small: '/billede/43/small', medium: '/billede/43/medium', large: '/billede/43/large'}
   },
+  userMessages: {
+    unreadMessages: 0,
+    messages: []
+  },
   submitState: '',
   submitProgress: 0,
   errors: [],
@@ -51,6 +55,10 @@ export const moderatorMock = {
     postImageCollection: null,
     commentImageCollection: null,
     url: {small: '/billede/42/small', medium: '/billede/42/medium', large: '/billede/42/large'}
+  },
+  userMessages: {
+    unreadMessages: 0,
+    messages: []
   },
   submitState: '',
   submitProgress: 0,

@@ -4,6 +4,7 @@
  */
 
 import {combineReducers} from 'redux';
+import agencyReducer from './agency.reducer';
 import uiReducer from './ui.reducer';
 import searchReducer from './search.reducer';
 import groupCreateReducer from './groupCreate.reducer';
@@ -19,6 +20,7 @@ import workReducer from './work.reducer';
 import coverImageReducer from './coverImages.reducer';
 
 const rootReducer = combineReducers({
+  agencyReducer,
   uiReducer,
   searchReducer,
   groupCreateReducer,

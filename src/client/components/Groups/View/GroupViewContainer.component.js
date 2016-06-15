@@ -44,6 +44,7 @@ export class GroupViewContainer extends React.Component {
 
   componentDidMount() {
     this.props.coverImageActions.asyncListenForCoverImages();
+    this.props.groupActions.asyncListenToGroupForNewContent(this.props.group.id);
 
     if (this.props.profile && this.props.profile.reviews && this.props.profile.reviews.data) {
       this.props.profile.reviews.data.forEach((review) => {

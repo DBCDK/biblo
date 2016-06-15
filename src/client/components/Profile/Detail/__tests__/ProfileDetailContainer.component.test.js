@@ -15,7 +15,7 @@ import {ProfileDetailContainer} from '../ProfileDetailContainer.component';
 
 // import mocks
 import {profileMock, moderatorMock} from '../../../__mocks__/profile.mock';
-import {emptyFeedMock, feedMock, moderatedFeedMock} from '../../../__mocks__/feed.mock';
+import {feedMock, moderatedFeedMock} from '../../../__mocks__/feed.mock';
 import {uiMock} from '../../../__mocks__/ui.mock';
 import {reviewsMock} from '../../../__mocks__/reviews.mock';
 

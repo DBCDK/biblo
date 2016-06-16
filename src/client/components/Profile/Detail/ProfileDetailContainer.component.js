@@ -332,7 +332,7 @@ export class ProfileDetailContainer extends React.Component {
 
     // include edit button when user views her own page.
     const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
-    const currentUserAddressing = (isMyProfile) ? 'Du' : userProfile.displayName;
+    const currentUserAddressing = (isMyProfile) ? 'dig' : userProfile.displayName;
 
     let editButton = null;
     let profileImage = null;
@@ -371,7 +371,7 @@ export class ProfileDetailContainer extends React.Component {
     const reviewsPaneContent = (
       <div>
         {
-          (reviewsFeed.length) ? reviewsFeed :
+          (reviewsFeed && this.props.reviews.userReviews.length) ? reviewsFeed :
             (
               <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`} />
             )

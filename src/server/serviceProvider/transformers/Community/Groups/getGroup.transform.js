@@ -12,7 +12,7 @@ const GetGroupTransform = {
     return 'getGroup';
   },
 
-  requestTransform(event, {id, allMembers, membersLimit = 15}, connection) {
+  requestTransform(event, {id}, connection) {
     const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
     let promises = [];
     let groupFilter = {
@@ -37,10 +37,6 @@ const GetGroupTransform = {
       ]
     };
 
-    if (!allMembers) {
-      groupFilter.include[0].scope.limit = membersLimit;
-    }
-
     promises.push(this.callServiceClient('community', 'getGroup', {id, filter: groupFilter}));
 
     if (uid) {
@@ -57,25 +53,8 @@ const GetGroupTransform = {
       return parseProfile(member, true, 'small');
     });
 
-
-    body.members = this.shuffle(body.members); // github #43
     return body;
-  },
-
-  shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-    return array;
   }
-
 };
 
 export default GetGroupTransform;

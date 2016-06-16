@@ -34,7 +34,7 @@ export class GroupEditContainer extends React.Component {
 
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
         <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
         <GroupForm
@@ -69,6 +69,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      profileState: state.profileReducer,
       searchState: state.searchReducer,
       group: state.groupEditReducer
     };

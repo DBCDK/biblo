@@ -24,7 +24,7 @@ export class GroupsContainer extends React.Component {
       'interesserer dig mest for. Du kan spørge gruppeværterne i alle grupperne om mere information.';
     const {data, actions} = this.props;
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
         <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
         <div className="lists">
           <RoundedButton buttonText='Opret ny gruppe' href={CREATE_GROUP_LINK}/>
@@ -52,6 +52,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      profileState: state.profileReducer,
       searchState: state.searchReducer,
       data: state.listGroupsReducer
     };

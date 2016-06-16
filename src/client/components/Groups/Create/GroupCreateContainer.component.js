@@ -43,7 +43,7 @@ export class GroupCreateContainer extends React.Component {
 
     return (
       <div>
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
           <div className="group-create">
             <BackButton />
             <h1>Opret gruppe</h1>
@@ -76,6 +76,7 @@ export default connect(
   // Map redux state to group prop
   (state) => {
     return {
+      profileState: state.profileReducer,
       searchState: state.searchReducer,
       group: state.groupCreateReducer
     };

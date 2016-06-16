@@ -17,6 +17,9 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
         userIsLoggedIn: false
       }
     });
+
+
+
     return next();
   }
 
@@ -74,7 +77,9 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
  */
 export function ensureProfileImage(req, res, next) {
   let image = {
-    shouldDisplay: false
+    shouldDisplay: false,
+    url: '',
+    unreadMessages: 0
   };
 
   if (req.isAuthenticated()) {
@@ -114,6 +119,7 @@ export function ensureProfileImage(req, res, next) {
     });
   }
   else {
+    req.initialState = Object.assign({}, req.initialState, {});
     res.locals.profileImage = JSON.stringify(image);
     next();
   }

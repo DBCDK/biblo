@@ -19,13 +19,9 @@ export class FullWidthBannerWidget extends Component {
   constructor() {
     super();
 
+    // We wait with setting the correct size until we've gotten the SSR benefits.
     let windowWidth = 700;
     let windowHeight = 700;
-
-    if (typeof window !== 'undefined') {
-      windowWidth = document.documentElement.clientWidth;
-      windowHeight = document.documentElement.clientHeight;
-    }
 
     this.state = {
       width: windowWidth,
@@ -36,6 +32,7 @@ export class FullWidthBannerWidget extends Component {
   componentDidMount() {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', debounce(this.windowDidResize.bind(this), 50));
+      this.windowDidResize();
     }
   }
 

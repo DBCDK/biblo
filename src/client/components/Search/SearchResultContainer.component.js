@@ -35,7 +35,7 @@ export class SearchResultContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState}>
         <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
         <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
         {visFlereButton}
@@ -58,6 +58,7 @@ export default connect(
   // Map redux state to props
   (state) => {
     return {
+      profileState: state.profileReducer,
       search: state.searchReducer
     };
   },

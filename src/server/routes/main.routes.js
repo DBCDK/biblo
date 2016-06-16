@@ -6,7 +6,12 @@ import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
 import http from 'http';
+import {renderToString} from 'react-dom/server';
+
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
+import {wrapComponentInProvider} from '../../client/App';
+
+import FrontpageContainer from '../../client/components/FrontPage/FrontpageContainer.component';
 
 const MainRoutes = express.Router();
 
@@ -16,10 +21,10 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
     `api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
 
   // fetch page settings from AWS
-  http.get(settingsUrl, (getRes) => {
+  http.get(settingsUrl, getRes => {
     let str = '';
 
-    getRes.on('data', (chunk) => {
+    getRes.on('data', chunk => {
       str += chunk;
     });
 
@@ -30,26 +35,28 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
         res.status(404);
       }
       else {
-        let frontPageData = {
+        let profileReducer = req.session.passport ? req.session.passport.user.profile.profile : {};
+        let widgetReducer = {
           widgetLocations: {
             FrontPageContent: []
-          }
+          },
+          LatestReviews: [],
+          CoverImages: {}
         };
+
         const responseData = JSON.parse(str);
+        Object.assign(widgetReducer.widgetLocations, responseData);
 
-        Object.assign(frontPageData.widgetLocations, responseData);
-
+        const wrapped = wrapComponentInProvider(FrontpageContainer, {widgetReducer, profileReducer});
         res.render('page', {
+          content: renderToString(wrapped.component),
+          state: JSON.stringify(wrapped.state),
           css: ['/css/frontpage.css', '/css/search.css'],
-          js: ['/js/frontpage.js'],
-          jsonData: [JSON.stringify(frontPageData)]
+          js: ['/js/frontpage.js']
         });
       }
-
     });
-
   }).end();
-
 });
 
 MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',

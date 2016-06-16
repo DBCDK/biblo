@@ -433,7 +433,7 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
         {modal}
         {profileImage}
         <div className="p-detail--displayname-description-follow" >

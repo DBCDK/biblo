@@ -30,7 +30,7 @@ export class SearchResultContainer extends React.Component {
 
   render() {
     let visFlereButton;
-    if (this.props.search.materialSearchResults.length > 19) { // limit: 20 (we currently do not collect the total number of results)
+    if (this.props.search.materialSearchResults.length >= (this.props.search.materialSearchOffset + 20)) { // limit: 20 (we currently do not collect the total number of results)
       visFlereButton = <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>;
     }
 

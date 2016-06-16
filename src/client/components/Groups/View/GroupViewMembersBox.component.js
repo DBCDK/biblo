@@ -2,10 +2,25 @@ import React from 'react';
 import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
 
+
+function shuffle (array) {
+  let currentIndex = array.length, temporaryValue, randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
 export default function GroupMembersBox({members, owner, onExpand, isExpanded, isLoadingMembers}) {
 
   // this is necessary to avoid modifying Redux state
-  let membersCopy = members.slice();
+  let membersCopy = shuffle(members.slice()); // github #43 . shuffle members randomly
 
   // mark owner and add to members
   owner.isOwner = true;

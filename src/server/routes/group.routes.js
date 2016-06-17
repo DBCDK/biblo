@@ -11,7 +11,6 @@ import {createElasticTranscoderJob} from './../utils/aws.util.js';
 import {groupCreateForm} from '../forms/group.forms';
 
 import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
-import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const upload = multer({storage: multer.memoryStorage()});
 const GroupRoutes = express.Router();

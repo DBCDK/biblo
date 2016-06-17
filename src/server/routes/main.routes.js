@@ -2,6 +2,8 @@
  * @file
  * Configure main routes
  */
+
+// Libraries
 import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
@@ -11,6 +13,7 @@ import {renderToString} from 'react-dom/server';
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
 import {wrapComponentInProvider} from '../../client/App';
 
+// React components
 import FrontpageContainer from '../../client/components/FrontPage/FrontpageContainer.component';
 
 const MainRoutes = express.Router();

@@ -18,8 +18,6 @@ import {
   ensureUserHasValidLibrary
 } from '../middlewares/auth.middleware';
 
-import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
-
 const logger = new Logger();
 
 function pad(n, width, z) {
@@ -190,7 +188,7 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
 // /laesebevis endpoint
 CampaignRoutes.get(
   '/laesebevis/:id',
-  ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
+  ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary,
   async function(req, res, next) {
 
     const profile = req.session.passport.user.profile.profile;

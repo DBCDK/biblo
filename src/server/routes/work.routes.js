@@ -1,6 +1,5 @@
 import express from 'express';
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
-import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const WorkRoutes = express.Router();
 

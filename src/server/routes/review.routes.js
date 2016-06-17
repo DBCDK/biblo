@@ -9,7 +9,6 @@ import sanitize from 'sanitize-html';
 import {createElasticTranscoderJob} from './../utils/aws.util.js';
 
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
-import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const upload = multer({storage: multer.memoryStorage()}).single('image');
 const ReviewRoutes = express.Router();

@@ -145,7 +145,8 @@ export function reduxStateMiddleware(req, res, next) {
   req.writeToReduxStateTree = (prop, value) => {
     let newState = {};
     newState[prop] = Object.assign({}, req.initialReduxState[prop], value);
-    return req.initialReduxState = Object.assign({}, req.initialReduxState, newState);
+    req.initialReduxState = Object.assign({}, req.initialReduxState, newState);
+    return req.initialReduxState;
   };
 
   next();

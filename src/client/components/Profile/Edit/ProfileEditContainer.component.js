@@ -62,7 +62,7 @@ export default class ProfileEditContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
         <div className="profile-edit--container">
           <h1 className="profile-edit--title">{form_title}</h1>
           <div className="profile-edit--form-component-container-container">

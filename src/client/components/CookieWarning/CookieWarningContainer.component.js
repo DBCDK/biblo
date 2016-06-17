@@ -14,9 +14,16 @@ import logo from './biblo_logo_100x30.svg';
 export default class CookieWarningContainer extends React.Component {
   constructor() {
     super();
+
+    // Assume they've already seen the warning
     this.state = {
-      displayWarning: !Cookies.get('reddi-fe-cookie')
+      displayWarning: false
     };
+
+    // Correct once we have access to the cookie
+    if (typeof window !== 'undefined') {
+      this.state.displayWarning = !Cookies.get('reddi-fe-cookie');
+    }
   }
 
   onClose() {

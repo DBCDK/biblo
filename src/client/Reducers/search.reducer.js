@@ -34,34 +34,36 @@ let initialState = {
 };
 
 
-// load JSONDATA payload into initial state
-let jsonData = document.getElementById('JSONDATA');
+if (typeof window !== 'undefined') {
+  // load JSONDATA payload into initial state
+  let jsonData = document.getElementById('JSONDATA');
 
-if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
-  let data = JSON.parse(jsonData.innerHTML);
-  if (data.query) {
-    // set initial query that was delivered with the HTTP response
-    initialState.query = data.query;
-    initialState.initialQuery = data.query;
-    initialState.isSearchBoxVisible = true;
-  }
+  if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
+    let data = JSON.parse(jsonData.innerHTML);
+    if (data.query) {
+      // set initial query that was delivered with the HTTP response
+      initialState.query = data.query;
+      initialState.initialQuery = data.query;
+      initialState.isSearchBoxVisible = true;
+    }
 
-  if (data.materialSearchResults) {
-    initialState.materialSearchResults = data.materialSearchResults;
-    initialState.materialSearchResultsPending = false;
+    if (data.materialSearchResults) {
+      initialState.materialSearchResults = data.materialSearchResults;
+      initialState.materialSearchResultsPending = false;
+    }
   }
-}
 
 // identify enabled search filters by looking at the url
-const urlParams = parseQueryParams(window.location.href);
-if (urlParams.materialer) {
-  const materialFilters = urlParams.materialer.split(',');
-  for (const i in materialFilters) { // eslint-disable-line guard-for-in
-    initialState.filters.materialFilters[materialFilters[i]].enabled = true;
+  const urlParams = parseQueryParams(window.location.href);
+  if (urlParams.materialer) {
+    const materialFilters = urlParams.materialer.split(',');
+    for (const i in materialFilters) { // eslint-disable-line guard-for-in
+      initialState.filters.materialFilters[materialFilters[i]].enabled = true;
+    }
   }
-}
-if (urlParams.emneord) {
-  initialState.filters.subjectFilters = urlParams.emneord.split(',');
+  if (urlParams.emneord) {
+    initialState.filters.subjectFilters = urlParams.emneord.split(',');
+  }
 }
 
 

@@ -7,11 +7,11 @@ import Footer from '../Footer/FooterContainer.component.js';
 import Konami from '../General/Konami/Konami.component';
 import {PropTypes} from 'react';
 
-import FastClick from 'fastclick';
-
-window.addEventListener('load', () => {
-  FastClick.attach(document.body);
-});
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', () => {
+    window.FastClick.attach(document.body);
+  });
+}
 
 import './page-layout.scss';
 
@@ -24,7 +24,7 @@ export default class PageLayout extends React.Component {
   render() {
     return (
       <div className="container">
-        <NavBar searchState={this.props.searchState} searchActions={this.props.searchActions} />
+        <NavBar searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} />
         <div className="content">
           {this.props.children}
         </div>
@@ -38,6 +38,7 @@ export default class PageLayout extends React.Component {
 
 PageLayout.propTypes = {
   children: PropTypes.any.isRequired,
+  profileState: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired
 };

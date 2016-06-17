@@ -23,7 +23,7 @@ export class ReviewContainer extends React.Component {
 
     const text = 'her kan du skrive en anmeldelse ';
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
         <ColoredHeader text={text} title={'Anmeldelse'}/>
         <div className="reviewArea">
           <RoundedButton buttonText='Skriv en anmeldelse' href="#"/>
@@ -42,6 +42,7 @@ export class ReviewContainer extends React.Component {
 
 ReviewContainer.displayName = 'ReviewContainer';
 ReviewContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object,
@@ -51,6 +52,7 @@ ReviewContainer.propTypes = {
 export default connect(
   (state) => {
     return {
+      profileState: state.profileReducer,
       searchState: state.searchReducer,
       data: state.reviewReducer
     };

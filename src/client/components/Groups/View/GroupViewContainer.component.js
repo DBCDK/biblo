@@ -84,7 +84,7 @@ export class GroupViewContainer extends React.Component {
       onClose={() => {this.props.uiActions.closeModalWindow()}}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
         {modal}
         <div className='group'>
           <GroupHeader uri={this.props.group.image || ''}/>

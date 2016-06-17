@@ -20,7 +20,7 @@ class WidgetContainer extends Component {
     let currentWidgetStates = this.props.widgetState.widgetLocations[this.props.widgetLocationName];
     if (currentWidgetStates) {
       // Loop over the widgets, you can have as many as you'd like
-      let widgets = (Array.isArray(currentWidgetStates) ? currentWidgetStates : [currentWidgetStates]).map((currentWidgetState, idx) => {
+      const widgets = (Array.isArray(currentWidgetStates) ? currentWidgetStates : [currentWidgetStates]).map((currentWidgetState, idx) => {
         // Now we get the widget we wish to render.
         const CurrentWidget = widgetComponents[currentWidgetState.widgetName];
 

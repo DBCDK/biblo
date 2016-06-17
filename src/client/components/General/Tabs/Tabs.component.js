@@ -4,6 +4,8 @@
 
 import React from 'react';
 
+import Icon from '../../General/Icon/Icon.component';
+
 import './scss/tabs.component.scss';
 
 export default class Tabs extends React.Component {
@@ -34,12 +36,17 @@ export default class Tabs extends React.Component {
     }
   }
 
+  getIcon(icon) {
+    return <Icon glyph={icon} />;
+  }
+
   renderPanes() {
     const listItems = this.props.tabs.map((pane, index) => {
       const activeClass = this.state.selected === index ? 'tab active' : 'tab';
+      const icon = pane.icon ? this.getIcon(pane.icon) : null;
       return (
         <li className={activeClass} key={index} >
-          <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)} >{pane.label}</a>
+          <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)} >{icon}<span className="tab--label">{pane.label}</span></a>
         </li>
       );
     });

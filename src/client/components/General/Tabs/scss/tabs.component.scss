@@ -7,6 +7,7 @@ $tab-bg-color-inactive: #4740b7;
 .tabs-container {
   width: 100%;
   display: block;
+  margin-top: 20px;
 
   ul.tabs {
     list-style-type: none;
@@ -29,24 +30,61 @@ $tab-bg-color-inactive: #4740b7;
       border: $border-color solid 1px;
       height: 100%;
 
+      .icon--container {
+        vertical-align: middle;
+      }
+
+      .icon {
+        margin-right: 0;
+
+        @include min-screen($tablet){
+          margin-right: 10px;
+        }
+
+      }
+
       a {
         color: white;
+      }
+
+      svg {
+        fill: currentColor;
+        height: 25px;
+        width: 25px;
+
+        @include min-screen($tablet){
+          height: 16px;
+          width: 16px;
+        }
       }
 
       &.active {
         border: $border-color solid 1px;
         border-bottom-color: white;
         background-color: $tab-bg-color-active;
+
         a {
           color: black;
         }
       }
 
       a {
-        padding: 10px 20px;
+        padding: 10px 30px;
+
+        @include min-screen($tablet){
+          padding: 10px 20px;
+        }
       }
     }
 
+  }
+}
+
+.tab--label {
+  display: none;
+
+  @include min-screen($tablet){
+    display: inline-block;
   }
 }
 

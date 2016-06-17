@@ -2,6 +2,8 @@
  * @file
  * Configure main routes
  */
+
+// Libraries
 import config from '@dbcdk/biblo-config';
 import express from 'express';
 import passport from 'passport';
@@ -11,6 +13,7 @@ import {renderToString} from 'react-dom/server';
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
 import {wrapComponentInProvider} from '../../client/App';
 
+// React components
 import FrontpageContainer from '../../client/components/FrontPage/FrontpageContainer.component';
 
 const MainRoutes = express.Router();
@@ -35,19 +38,14 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
         res.status(404);
       }
       else {
-        let profileReducer = req.session.passport ? req.session.passport.user.profile.profile : {};
-        let widgetReducer = {
-          widgetLocations: {
-            FrontPageContent: []
-          },
-          LatestReviews: [],
-          CoverImages: {}
-        };
-
+        // Parse response from S3
         const responseData = JSON.parse(str);
-        Object.assign(widgetReducer.widgetLocations, responseData);
 
-        const wrapped = wrapComponentInProvider(FrontpageContainer, {widgetReducer, profileReducer});
+        // Write it into the state tree
+        req.writeToReduxStateTree('widgetReducer', {widgetLocations: responseData});
+
+        // Render the component with the new state.
+        const wrapped = wrapComponentInProvider(FrontpageContainer, req.initialReduxState);
         res.render('page', {
           content: renderToString(wrapped.component),
           state: JSON.stringify(wrapped.state),
@@ -97,7 +95,7 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
     );
 
     let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970
-    res.setHeader('Cache-Control', `max-age=${expires - 10}, no-cache, no-store`);
+    res.setHeader('Cache-Control', `max-age=${Number(expires[1]) - 10}`);
 
     setTimeout(() => res.redirect(imageUrl), 50);
     logger.info('got image url', {url: imageUrl});

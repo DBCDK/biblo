@@ -12,7 +12,6 @@ import {
   redirectBackToOrigin,
   ensureUserHasValidLibrary
 } from '../middlewares/auth.middleware';
-import {fullProfileOnSession, ensureProfileImage} from '../middlewares/data.middleware';
 
 let upload = multer({storage: multer.memoryStorage()});
 
@@ -83,7 +82,7 @@ async function checkUserLibraryInfo(req, b, p) {
 }
 
 
-ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, function (req, res) {
+ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function (req, res) {
   res.locals.title = 'Rediger bibliotek - Biblo.dk';
   res.render('page', {
     css: ['/css/profileeditlibrary.css'],
@@ -91,7 +90,7 @@ ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSessio
   });
 });
 
-ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, async function (req, res, next) {
+ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function (req, res, next) {
   try {
     let p = req.session.passport.user.profile.profile;
     const b = req.body;
@@ -123,7 +122,7 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSessi
   }
 });
 
-ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res, next) {
+ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, async function (req, res, next) {
   res.locals.title = 'Rediger profil - Biblo.dk';
   try {
     let p = req.session.passport.user.profile.profile;
@@ -176,9 +175,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
   }
 });
 
-ProfileRoutes.post(
-  ['/rediger', '/rediger/moderator/:id'],
-  ensureAuthenticated, fullProfileOnSession, ensureProfileImage, upload.single('profile_image'),
+ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, upload.single('profile_image'),
   async function editProfilePost(req, res, next) {
     try {
       let p = req.session.passport.user.profile.profile;
@@ -377,7 +374,7 @@ ProfileRoutes.post(
 
 ProfileRoutes.get(
   ['/:id', '/'],
-  ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
+  ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary,
   async function (req, res) {
     let profile,
       profileId = req.params.id,

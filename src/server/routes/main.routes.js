@@ -92,7 +92,7 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
     );
 
     let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970
-    res.setHeader('Cache-Control', `max-age=${expires - 10}, no-cache, no-store`);
+    res.setHeader('Cache-Control', `max-age=${Number(expires[1]) - 10}`);
 
     setTimeout(() => res.redirect(imageUrl), 50);
     logger.info('got image url', {url: imageUrl});

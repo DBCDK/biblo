@@ -135,10 +135,16 @@ export function ensureProfileImage(req, res, next) {
  * @param {Function} next
  */
 export function reduxStateMiddleware(req, res, next) {
-  req.initialReduxState = Object.assign(
-    createStore(rootReducer).getState(), // Get initial state from root reducer
-    {profileReducer: req.session.passport ? req.session.passport.user.profile.profile : {}} // Overwrite profile state with actual profile.
-  );
+  let init = createStore(rootReducer).getState();
+  if (req.session.passport && req.session.passport.user && req.session.passport.user.profile && req.session.passport.user.profile.profile) {
+    req.initialReduxState = Object.assign(
+      init, // Get initial state from root reducer
+      {profileReducer: req.session.passport ? req.session.passport.user.profile.profile : {}} // Overwrite profile state with actual profile.
+    );
+  }
+  else {
+    req.initialReduxState = init;
+  }
 
   /**
    * Helper function, overwrites a prop in the statetree

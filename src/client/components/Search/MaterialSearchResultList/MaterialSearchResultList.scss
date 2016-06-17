@@ -21,7 +21,8 @@
         img {
           position: absolute;
           bottom: 10px;
-          width: 100%;
+          max-width: 100%;
+          max-height: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
@@ -39,7 +40,8 @@
         img {
           position: absolute;
           bottom: 10px;
-          width: 100%;
+          max-width: 100%;
+          max-height: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
@@ -57,7 +59,8 @@
         img {
           position: absolute;
           bottom: 10px;
-          width: 100%;
+          max-width: 100%;
+          max-height: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
@@ -75,7 +78,8 @@
         img {
           position: absolute;
           bottom: 10px;
-          width: 100%;
+          max-width: 100%;
+          max-height: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }

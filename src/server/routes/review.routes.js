@@ -18,7 +18,7 @@ const ReviewRoutes = express.Router();
  * Get information about a single review
  * (Gets the associated work info as well)
  */
-ReviewRoutes.get('/:id', fullProfileOnSession, async function(req, res, next) {
+ReviewRoutes.get('/:id', async function(req, res, next) {
   let id = decodeURIComponent(req.params.id);
   let limit = 1;
 

@@ -35,19 +35,14 @@ MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) 
         res.status(404);
       }
       else {
-        let profileReducer = req.session.passport ? req.session.passport.user.profile.profile : {};
-        let widgetReducer = {
-          widgetLocations: {
-            FrontPageContent: []
-          },
-          LatestReviews: [],
-          CoverImages: {}
-        };
-
+        // Parse response from S3
         const responseData = JSON.parse(str);
-        Object.assign(widgetReducer.widgetLocations, responseData);
 
-        const wrapped = wrapComponentInProvider(FrontpageContainer, {widgetReducer, profileReducer});
+        // Write it into the state tree
+        req.writeToReduxStateTree('widgetReducer', {widgetLocations: responseData});
+
+        // Render the component with the new state.
+        const wrapped = wrapComponentInProvider(FrontpageContainer, req.initialReduxState);
         res.render('page', {
           content: renderToString(wrapped.component),
           state: JSON.stringify(wrapped.state),

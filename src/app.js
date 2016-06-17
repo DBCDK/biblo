@@ -41,7 +41,7 @@ import expressSession from 'express-session';
 import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
-import {ensureProfileImage, reduxStateMiddleware} from './server/middlewares/data.middleware';
+import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
 // Queue processors
@@ -108,9 +108,6 @@ module.exports.run = function (worker) {
   app.use(helmet.hidePoweredBy({setTo: 'Konami!'}));
   app.use(helmet.ieNoOpen());
   app.use(helmet.noSniff());
-
-  // Redux state on req
-  app.use(reduxStateMiddleware);
 
   // Port config
   app.set('port', process.env.PORT || 8080); // eslint-disable-line no-process-env
@@ -377,7 +374,9 @@ module.exports.run = function (worker) {
   // Setting middleware
   app.use(GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
   app.use(ssrMiddleware);
+  app.use(fullProfileOnSession);
   app.use(ensureProfileImage);
+  app.use(reduxStateMiddleware);
 
   app.use('/anmeldelse', ReviewRoutes, ensureUserHasValidLibrary);
   app.use('/grupper', ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);

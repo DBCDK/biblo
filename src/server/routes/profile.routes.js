@@ -83,7 +83,7 @@ async function checkUserLibraryInfo(req, b, p) {
 }
 
 
-ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, ensureProfileImage, function (req, res) {
+ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, ensureProfileImage, function (req, res) {
   res.locals.title = 'Rediger bibliotek - Biblo.dk';
   res.render('page', {
     css: ['/css/profileeditlibrary.css'],
@@ -91,7 +91,7 @@ ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSessio
   });
 });
 
-ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSession, async function (req, res, next) {
+ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function (req, res, next) {
   try {
     let p = req.session.passport.user.profile.profile;
     const b = req.body;
@@ -123,7 +123,7 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, fullProfileOnSessi
   }
 });
 
-ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, fullProfileOnSession, ensureProfileImage, async function (req, res, next) {
+ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, ensureProfileImage, async function (req, res, next) {
   res.locals.title = 'Rediger profil - Biblo.dk';
   try {
     let p = req.session.passport.user.profile.profile;
@@ -178,7 +178,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, f
 
 ProfileRoutes.post(
   ['/rediger', '/rediger/moderator/:id'],
-  ensureAuthenticated, fullProfileOnSession, ensureProfileImage, upload.single('profile_image'),
+  ensureAuthenticated, ensureProfileImage, upload.single('profile_image'),
   async function editProfilePost(req, res, next) {
     try {
       let p = req.session.passport.user.profile.profile;
@@ -377,7 +377,7 @@ ProfileRoutes.post(
 
 ProfileRoutes.get(
   ['/:id', '/'],
-  ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
+  ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
   async function (req, res) {
     let profile,
       profileId = req.params.id,

@@ -190,7 +190,7 @@ async function createPDFDocument(frontpageData, reviewsWithWorkData) {
 // /laesebevis endpoint
 CampaignRoutes.get(
   '/laesebevis/:id',
-  ensureAuthenticated, redirectBackToOrigin, fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
+  ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary, ensureProfileImage,
   async function(req, res, next) {
 
     const profile = req.session.passport.user.profile.profile;

@@ -2,7 +2,10 @@
  * @file: This file contains middlewares for appending and updating data for endpoints.
  */
 
+import {renderToString} from 'react-dom/server';
 import {createStore} from 'redux';
+
+import {wrapComponentInProvider} from '../../client/App';
 import rootReducer from '../../client/Reducers/root.reducer';
 
 /**
@@ -147,6 +150,16 @@ export function reduxStateMiddleware(req, res, next) {
     newState[prop] = Object.assign({}, req.initialReduxState[prop], value);
     req.initialReduxState = Object.assign({}, req.initialReduxState, newState);
     return req.initialReduxState;
+  };
+
+  next();
+}
+
+export function renderComponent(req, res, next) {
+  req.renderComponent = (Component, stateKeyName = 'state', contentKeyName = 'content') => {
+    const wrapper = wrapComponentInProvider(Component, req.initialReduxState);
+    res.locals[stateKeyName] = JSON.stringify(wrapper.state);
+    res.locals[contentKeyName] = renderToString(wrapper.component);
   };
 
   next();

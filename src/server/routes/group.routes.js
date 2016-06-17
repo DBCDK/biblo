@@ -15,6 +15,9 @@ import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.mid
 const upload = multer({storage: multer.memoryStorage()});
 const GroupRoutes = express.Router();
 
+// React components
+import GroupContainer from '../../client/components/Groups/GroupsContainer.component';
+
 GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, (req, res) => {
   let data = {};
   let windowData = {
@@ -415,12 +418,15 @@ GroupRoutes.get('/', async function getGroups(req, res, next) {
     const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
     const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
 
+    // Set groups to state and render the component
+    req.writeToReduxStateTree('listGroupsReducer', {newGroups, popularGroups});
+    req.renderComponent(GroupContainer);
+
     res.locals.title = 'Grupper - Biblo.dk';
 
     res.render('page', {
       css: ['/css/groups.css'],
-      js: ['/js/groups.js'],
-      jsonData: [JSON.stringify({newGroups, popularGroups})]
+      js: ['/js/groups.js']
     });
   }
   catch (e) {

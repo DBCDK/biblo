@@ -1,13 +1,12 @@
 import React from 'react';
 
 import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.component';
-// import SiteClosedWarningContainer from '../SiteClosedWarning/SiteClosedWarningContainer.component';
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';
 import Konami from '../General/Konami/Konami.component';
 import {PropTypes} from 'react';
 
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && window.FastClick) {
   window.addEventListener('load', () => {
     window.FastClick.attach(document.body);
   });

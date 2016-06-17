@@ -33,6 +33,7 @@ export class ErrorPageContainer extends React.Component {
 
 ErrorPageContainer.displayName = 'ErrorPageContainer';
 ErrorPageContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };

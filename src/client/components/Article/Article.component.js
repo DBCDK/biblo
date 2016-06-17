@@ -63,6 +63,7 @@ export class Article extends React.Component {
 
 Article.displayName = 'Article';
 Article.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   widgetState: React.PropTypes.object.isRequired,
   widgetActions: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,

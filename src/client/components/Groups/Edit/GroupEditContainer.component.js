@@ -56,6 +56,7 @@ export class GroupEditContainer extends React.Component {
 
 GroupEditContainer.displayName = 'GroupEditContainer';
 GroupEditContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,

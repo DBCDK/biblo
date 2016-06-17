@@ -47,6 +47,7 @@ export class SearchResultContainer extends React.Component {
 SearchResultContainer.displayName = 'SearchResultContainer';
 
 SearchResultContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   search: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };

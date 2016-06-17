@@ -12,7 +12,7 @@ require('babel-register')();
 require('ignore-styles').default(['.scss', '.css', '.svg'], (module, filename) => {
   const base = path.basename(filename);
   if (base.indexOf('.svg') > 0) {
-    module.exports = '#' + crypto.createHash('md5').update(filename).digest("hex");
+    module.exports = '#' + crypto.createHash('md5').update(filename).digest('hex');
   }
 });
 

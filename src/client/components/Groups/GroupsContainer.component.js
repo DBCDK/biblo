@@ -42,6 +42,7 @@ export class GroupsContainer extends React.Component {
 
 GroupsContainer.displayName = 'GroupsContainer';
 GroupsContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object,

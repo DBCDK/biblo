@@ -2,6 +2,9 @@
  * @file: This file contains middlewares for appending and updating data for endpoints.
  */
 
+import {createStore} from 'redux';
+import rootReducer from '../../client/Reducers/root.reducer';
+
 /**
  * Middleware to set a users full profile (always refreshed) on the session, ready for use.
  * !!! This middleware requires the ssrMiddleware from serviceprovider.middleware.js !!!
@@ -17,8 +20,6 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
         userIsLoggedIn: false
       }
     });
-
-
 
     return next();
   }
@@ -123,4 +124,15 @@ export function ensureProfileImage(req, res, next) {
     res.locals.profileImage = JSON.stringify(image);
     next();
   }
+}
+
+/**
+ * This is a middleware to get the initial redux state and set it to the req object for easier SSR.
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+export function reduxStateMiddleware(req, res, next) {
+  req.initialReduxState = createStore(rootReducer).getState();
+  next();
 }

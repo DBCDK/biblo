@@ -63,6 +63,7 @@ export class GroupCreateContainer extends React.Component {
 
 GroupCreateContainer.displayName = 'GroupCreateContainer';
 GroupCreateContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,

@@ -235,7 +235,7 @@ CampaignRoutes.get(
         pid2work[reviewedWorks[i].pid] = reviewedWorks[i];
       }
 
-      const reviewsWithWorkData = ownReviews.map((review) => {
+      const reviewsWithWorkData = ownReviewsInCampaign.map((review) => {
         return Object.assign(pick(review, 'content', 'rating', 'created', 'id', 'reviewownerid'), pid2work[review.pid], {campaignLogo: campaign.logos.small});
       });
 

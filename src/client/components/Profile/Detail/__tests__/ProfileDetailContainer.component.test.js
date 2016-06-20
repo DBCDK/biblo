@@ -45,6 +45,10 @@ describe('Test profile detail container (public profile)', () => {
 
   const coverImages = {};
 
+  const profileActions = {
+    asyncMarkUserMessageAsRead: noop
+  };
+
   const workActions = {
     asyncGetWorks: noop
   };
@@ -84,6 +88,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={profileMock}
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
@@ -115,6 +120,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={moderatorMock}
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
@@ -146,6 +152,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={profileMock}
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
@@ -175,6 +182,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={feedMock.profile} // the users we're looking at
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={_reviews}
@@ -201,6 +209,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={moderatorMock} // the users we're looking at
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={_reviews}
@@ -225,6 +234,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={moderatorMock} // the users we're looking at
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={reviews}
@@ -256,6 +266,7 @@ describe('Test profile detail container (public profile)', () => {
         groupActions={groupActions}
         likeActions={likeActions}
         profile={feedMock.profile} // the users we're looking at
+        profileActions={profileActions}
         ui={uiMock}
         uiActions={uiActions}
         reviews={_reviews}

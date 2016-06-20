@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import VisibilitySensor from 'react-visibility-sensor';
 
 import Icon from '../../General/Icon/Icon.component';
 
@@ -15,7 +16,8 @@ export default class MessageRow extends React.Component {
     super(props);
 
     this.state = {
-      message: this.props.message
+      message: this.props.message,
+      justRead: false
     };
   }
 
@@ -25,11 +27,22 @@ export default class MessageRow extends React.Component {
     }
   }
 
-  /*
-   shouldComponentUpdate(nextProps, nextState) {
-   return true;
-   }
+  /**
+   * Callback for react-visibility-sensor used when the sensor detects changes
+   * in visiblity of the component.
+   *
+   * If isVisible is true this.props.readAction will be invoked.
+   *
+   * @param {boolean} isVisible
    */
+  onVisibilityChanged(isVisible) {
+    if (isVisible) {
+      const message = Object.assign({}, this.state.message);
+
+      this.setState({justRead: true});
+      this.props.readAction(message);
+    }
+  }
 
   getMessageType() {
     switch (this.props.message.type) {
@@ -111,26 +124,31 @@ export default class MessageRow extends React.Component {
     moment.locale('da');
 
     const containerClass = !this.state.message.read ? 'message-row--container unread' : 'message-row--container';
+    const justReadClass = this.state.justRead ? ' read' : '';
     const statusIndicator = !this.state.message.read ? '·' : '';
 
+    const visibilitySenstorActive = (!this.state.justRead && !this.state.message.read);
+
     return (
-      <div className={containerClass} >
-        <div className="message-row--status-container" >
-          <div className="message-row--status" >
-            {statusIndicator}
+      <VisibilitySensor onChange={this.onVisibilityChanged.bind(this)} delay={4000} active={visibilitySenstorActive} >
+        <div className={`${containerClass} ${justReadClass}`} >
+          <div className="message-row--status-container" >
+            <div className="message-row--status" >
+              {statusIndicator}
+            </div>
+          </div>
+          <div className="message-row--image-container" >
+            <img src={this.getMessageImage()} alt="Cover Image" />
+          </div>
+          <div className="message-row--data-container" >
+            <div className="message-row--message-type" >{this.getMessageType()}</div>
+            <div className="message-row--age" >{moment.utc(this.state.message.createdEpoch).fromNow()}</div>
+
+            <div className="message-data--headline" >{this.state.message.title}</div>
+            <div className="message-data--message-content" >{this.getMessageContent()}</div>
           </div>
         </div>
-        <div className="message-row--image-container" >
-          <img src={this.getMessageImage()} alt="Cover Image" />
-        </div>
-        <div className="message-row--data-container" >
-          <div className="message-row--message-type" >{this.getMessageType()}</div>
-          <div className="message-row--age" >{moment.utc(this.state.message.createdEpoch).fromNow()}</div>
-
-          <div className="message-data--headline" >{this.state.message.title}</div>
-          <div className="message-data--message-content" >{this.getMessageContent()}</div>
-        </div>
-      </div>
+      </VisibilitySensor>
     );
   }
 }
@@ -140,11 +158,5 @@ MessageRow.propTypes = {
   agencies: React.PropTypes.object.isRequired,
   agencyActions: React.PropTypes.object.isRequired,
   message: React.PropTypes.object.isRequired,
-  readAction: React.PropTypes.func
-};
-
-MessageRow.defaultProps = {
-  readAction: () => {
-    console.error('Using default readAction as no action was provided to component through props'); // eslint-disable-line no-console
-  }
+  readAction: React.PropTypes.func.isRequired
 };

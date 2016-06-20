@@ -16,11 +16,11 @@
 
   &.read {
     background-color: inherit;
-    @include transition(background-color .3s ease);
+    @include transition(background-color 1s ease);
 
     .message-row--status {
       opacity: 0;
-      @include transition(opacity .3s ease);
+      @include transition(opacity 1s ease);
     }
   }
 }

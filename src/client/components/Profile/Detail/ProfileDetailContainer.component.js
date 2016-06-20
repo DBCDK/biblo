@@ -353,6 +353,7 @@ export class ProfileDetailContainer extends React.Component {
           agencies={this.props.agencies}
           agencyActions={this.props.agencyActions}
           messages={this.props.profile.userMessages.messages}
+          readAction={this.props.profileActions.asyncMarkUserMessageAsRead}
         />
       );
 

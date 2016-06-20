@@ -40,13 +40,14 @@ export class SearchResultContainer extends React.Component {
   render() {
     let visFlereMaterialButton, visFlereGroupButton;
 
-    if (this.props.search.materialSearchResults.length >= (this.props.search.materialSearchOffset)) { // limit: 20 (we currently do not collect the total number of results)
+    if (this.props.search.materialSearchResults.length >= (this.props.search.materialSearchOffset + 20)) { // limit: 20 (we currently do not collect the total number of results)
       visFlereMaterialButton = <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults}/>;
     }
 
     if (this.props.search.groupSearchResults.length >= (this.props.search.groupSearchOffset)) { // limit: 20 (we currently do not collect the total number of results)
       visFlereGroupButton = <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults}/>;
     }
+
 
     return (
       <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState}>
@@ -61,6 +62,7 @@ export class SearchResultContainer extends React.Component {
     );
   }
 }
+
 
 SearchResultContainer.displayName = 'SearchResultContainer';
 

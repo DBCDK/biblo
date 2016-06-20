@@ -46,7 +46,7 @@ function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
   const mockCampaignData = [{
     id: 1,
     campaignName: 'Sommerbogen 2016',
-    workTypes: ['book', 'literature'],
+    workTypes: ['book', 'literature', 'audiobook'],
     startDate: '2016-06-09T20:00:00.044Z',
     endDate: '2016-08-21T04:00:00.044Z',
     logos: {

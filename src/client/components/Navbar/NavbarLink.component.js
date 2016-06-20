@@ -9,7 +9,7 @@ import React, {PropTypes} from 'react';
  */
 export default function NavbarLink(props) {
   return (
-    <a className='navbar--link' href={props.url}
+    <a className={`navbar--link ${props.className}`} href={props.url}
        onClick={(event) => props.onClick && props.onClick(event)}>{props.value}</a>
   );
 }
@@ -17,5 +17,10 @@ export default function NavbarLink(props) {
 NavbarLink.propTypes = {
   url: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  className: PropTypes.string,
   onClick: PropTypes.func
+};
+
+NavbarLink.defaultProps = {
+  className: ''
 };

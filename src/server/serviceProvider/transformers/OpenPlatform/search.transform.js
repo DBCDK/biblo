@@ -58,7 +58,7 @@ const SearchTransform = {
         'workType',
         'coverUrlFull'
       ],
-      limit: 20,
+      limit: 5,
       offset: offset,
       sort: rankSort
     });

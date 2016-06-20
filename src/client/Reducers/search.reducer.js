@@ -10,6 +10,7 @@ let initialState = {
   isSearchBoxVisible: false,
   groupSearchResults: [],
   groupSearchResultsPending: true,
+  groupSearchOffset: 0,
   materialSearchResults: [],
   materialSearchOffset: 0,
   materialSearchResultsPending: true,
@@ -18,7 +19,8 @@ let initialState = {
   selectedWorkSuggestion: -1,
   initialQuery: '',
   query: '',
-  isLoadingResults: false,
+  isLoadingMaterialResults: false,
+  isLoadingGroupResults: false,
   isSearching: false,
   filters: {
     materialFilters: {
@@ -51,6 +53,11 @@ if (typeof window !== 'undefined') {
       initialState.materialSearchResults = data.materialSearchResults;
       initialState.materialSearchResultsPending = false;
     }
+
+    if (data.groupSearchResults) {
+      initialState.groupSearchResults = data.groupSearchResults;
+      initialState.groupSearchResultsPending = false;
+    }
   }
 
 // identify enabled search filters by looking at the url
@@ -65,7 +72,6 @@ if (typeof window !== 'undefined') {
     initialState.filters.subjectFilters = urlParams.emneord.split(',');
   }
 }
-
 
 export default function searchReducer(state = initialState, action = {}) {
   Object.freeze(state);
@@ -84,15 +90,27 @@ export default function searchReducer(state = initialState, action = {}) {
       return newState;
     }
 
-    case types.LOAD_MORE_RESULTS: {
-      return assignToEmpty(state, {isLoadingResults: true});
+    case types.LOAD_MORE_MATERIAL_RESULTS: {
+      return assignToEmpty(state, {isLoadingMaterialResults: true});
     }
 
-    case types.LOADED_MORE_RESULTS: {
+    case types.LOADED_MORE_MATERIAL_RESULTS: {
       return assignToEmpty(state, {
         materialSearchResults: state.materialSearchResults.concat(action.results),
-        isLoadingResults: false,
+        isLoadingMaterialResults: false,
         materialSearchOffset: state.materialSearchOffset + 20
+      });
+    }
+
+    case types.LOAD_MORE_GROUP_RESULTS: {
+      return assignToEmpty(state, {isLoadingGroupResults: true});
+    }
+
+    case types.LOADED_MORE_GROUP_RESULTS: {
+      return assignToEmpty(state, {
+        groupSearchResults: action.results,
+        isLoadingGroupResults: false,
+        groupSearchOffset: state.groupSearchOffset + 20
       });
     }
 

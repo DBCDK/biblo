@@ -1,7 +1,6 @@
 @import 'tools';
 
-
-.material-result-list {
+.group-result-list {
   list-style: none;
 
   @include container();
@@ -14,15 +13,14 @@
       @include gallery(1 of 5);
       margin-bottom: gutter(20);
       padding-bottom: 20px;
-      .material-result-list--cover-image {
+      .group-result-list--cover-image {
         min-height: 250px;
         position: relative;
         height: auto;
         img {
           position: absolute;
           bottom: 10px;
-          max-width: 100%;
-          max-height: 100%;
+          width: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
@@ -33,15 +31,14 @@
       @include gallery(1 of 4);
       margin-bottom: gutter(15);
       padding-bottom: 15px;
-      .material-result-list--cover-image {
+      .group-result-list--cover-image {
         min-height: 250px;
         position: relative;
         height: auto;
         img {
           position: absolute;
           bottom: 10px;
-          max-width: 100%;
-          max-height: 100%;
+          width: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
@@ -52,15 +49,14 @@
       @include gallery(1 of 3);
       margin-bottom: gutter(15);
       padding-bottom: 15px;
-      .material-result-list--cover-image {
+      .group-result-list--cover-image {
         min-height: 250px;
         position: relative;
         height: auto;
         img {
           position: absolute;
           bottom: 10px;
-          max-width: 100%;
-          max-height: 100%;
+          width: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
@@ -71,41 +67,36 @@
       @include gallery(1 of 2);
       margin-bottom: gutter(10);
       padding-bottom: 10px;
-      .material-result-list--cover-image {
+      .group-result-list--cover-image {
         min-height: 250px;
         position: relative;
         height: auto;
         img {
           position: absolute;
           bottom: 10px;
-          max-width: 100%;
-          max-height: 100%;
+          width: 100%;
           object-fit: cover;
           box-shadow: #666 0px 2px 12px;
         }
       }
     }
 
-
-    .material-result-list--description {
-
+    .group-result-list--description {
       overflow: hidden;
 
       .icon--container {
-        .icon {
-          padding-right: 5 ox;
-        }
+        padding-right: 5px;
         fill: $turquoise;
       }
 
-      .material-result-list--title {
+      .group-result-list--title {
         margin-left: 24px;
       }
     }
   }
 }
 
-.material-result-list--empty-result {
+.group-result-list--empty-result {
   padding: 50px 10px 50px 10px;
   min-height: 40vh;
   text-align: center;

@@ -7,20 +7,21 @@ import * as searchActions from '../../Actions/search.actions';
 import PageLayout from '../Layout/PageLayout.component.js';
 import SearchFilters from '../SearchBox/SearchFilters/SearchFilters.component.js';
 import MaterialSearchResultList from './MaterialSearchResultList/MaterialSearchResultList.component.js';
+import GroupSearchResultList from './GroupSearchResultLIst/GroupSearchResultList.component.js';
 import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component.js';
 
 import './SearchResultContainer.scss';
-
 
 export class SearchResultContainer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.loadMoreResults = this.loadMoreResults.bind(this);
+    this.loadMoreMaterialResults = this.loadMoreMaterialResults.bind(this);
+    this.loadMoreGroupResults = this.loadMoreGroupResults.bind(this);
   }
 
-  loadMoreResults() {
-    this.props.searchActions.asyncLoadMoreResults({
+  loadMoreMaterialResults() {
+    this.props.searchActions.asyncLoadMoreMaterialResults({
       query: this.props.search.initialQuery,
       materialFilters: this.props.search.filters.materialFilters,
       subjects: this.props.search.filters.subjectFilters,
@@ -28,17 +29,34 @@ export class SearchResultContainer extends React.Component {
     });
   }
 
+  loadMoreGroupResults () {
+    this.props.searchActions.asyncLoadMoreGroupResults({
+      query: this.props.search.initialQuery,
+      limit: this.props.search.groupSearchOffset + 20,
+      from: 0
+    });
+  }
+
   render() {
-    let visFlereButton;
-    if (this.props.search.materialSearchResults.length > 19) { // limit: 20 (we currently do not collect the total number of results)
-      visFlereButton = <VisFlereButton onClick={this.loadMoreResults} isLoading={this.props.search.isLoadingResults}/>;
+    let visFlereMaterialButton, visFlereGroupButton;
+
+    if (this.props.search.materialSearchResults.length >= (this.props.search.materialSearchOffset)) { // limit: 20 (we currently do not collect the total number of results)
+      visFlereMaterialButton = <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults}/>;
+    }
+
+    if (this.props.search.groupSearchResults.length >= (this.props.search.groupSearchOffset)) { // limit: 20 (we currently do not collect the total number of results)
+      visFlereGroupButton = <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults}/>;
     }
 
     return (
       <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState}>
         <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
+
         <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
-        {visFlereButton}
+        {visFlereMaterialButton}
+        <GroupSearchResultList results={this.props.search.groupSearchResults}/>
+        {visFlereGroupButton}
+
       </PageLayout>
     );
   }

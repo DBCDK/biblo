@@ -29,7 +29,6 @@ function displayWorkTypeCover(type) {
   return basePath + fileName;
 }
 
-
 export default class MaterialSearchResultList extends React.Component {
 
   constructor(props) {
@@ -63,7 +62,7 @@ export default class MaterialSearchResultList extends React.Component {
     });
 
     let result = (
-      <ul className='material-result-list'>
+      <ul className>
         {listElements}
       </ul>
     );
@@ -76,7 +75,9 @@ export default class MaterialSearchResultList extends React.Component {
     }
 
     return (
-      <div>
+      <div className='material-result-list'>
+        <h2>På biblioteket:</h2>
+        <hr/>
         {result}
       </div>
     );

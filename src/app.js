@@ -41,7 +41,7 @@ import expressSession from 'express-session';
 import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
-import {ensureProfileImage} from './server/middlewares/data.middleware';
+import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession, renderComponent} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
 // Queue processors
@@ -223,6 +223,7 @@ module.exports.run = function (worker) {
   app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);
   app.set('Configuration', config);
+  app.set('BIBLO_CONFIG', BIBLO_CONFIG);
   app.set('amazonConfig', amazonConfig);
   app.set('s3', new AWS.S3());
   app.set('ElasticTranscoder', new AWS.ElasticTranscoder());
@@ -374,7 +375,10 @@ module.exports.run = function (worker) {
   // Setting middleware
   app.use(GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
   app.use(ssrMiddleware);
+  app.use(fullProfileOnSession);
   app.use(ensureProfileImage);
+  app.use(reduxStateMiddleware);
+  app.use(renderComponent);
 
   app.use('/anmeldelse', ReviewRoutes, ensureUserHasValidLibrary);
   app.use('/grupper', ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);

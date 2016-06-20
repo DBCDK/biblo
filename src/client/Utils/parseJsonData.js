@@ -3,13 +3,16 @@
  */
 
 export default function parseJsonData(id, key) {
-  let jsonData = document.getElementById(id);
+  if (typeof window !== 'undefined') {
+    let jsonData = document.getElementById(id);
 
-  if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
-    let data = JSON.parse(jsonData.innerHTML);
-    if (data[key]) {
-      return data[key];
+    if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
+      let data = JSON.parse(jsonData.innerHTML);
+      if (data[key]) {
+        return data[key];
+      }
     }
   }
+
   return {};
 }

@@ -22,13 +22,12 @@ import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 // Styles
 import './styling/navbar.scss';
 
-let image = {
-  shouldDisplay: false
-};
-
-let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
-if (data && data.innerHTML && data.innerHTML.length > 0) {
-  image = JSON.parse(data.innerHTML);
+let image = {shouldDisplay: false};
+if (typeof window !== 'undefined') {
+  let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
+  if (data && data.innerHTML && data.innerHTML.length > 0) {
+    image = JSON.parse(data.innerHTML);
+  }
 }
 
 export default class NavbarContainer extends React.Component {
@@ -65,6 +64,15 @@ export default class NavbarContainer extends React.Component {
   }
 
   renderProfile() {
+    const profile = this.props.profileState;
+    if (profile && profile.userIsLoggedIn) {
+      image = {
+        shouldDisplay: profile.image.url && profile.image.url.small && profile.image.url.small !== '/no_profile.png',
+        url: profile.image.url && profile.image.url.small,
+        unreadMessages: profile.userMessages && profile.userMessages.unreadMessages || 0
+      };
+    }
+
     if (image.shouldDisplay) {
       return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')} notifications={image.unreadMessages} />);
     }
@@ -139,6 +147,7 @@ export default class NavbarContainer extends React.Component {
 NavbarContainer.displayName = 'NavbarContainer';
 
 NavbarContainer.propTypes = {
+  profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };

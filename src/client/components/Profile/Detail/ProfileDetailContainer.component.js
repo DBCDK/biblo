@@ -37,6 +37,9 @@ import * as profileActions from '../../../Actions/profile.actions';
 // SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
+import beskederSVG from '../../General/Icon/svg/functions/beskeder.svg';
+import aktivitetSVG from '../../General/Icon/svg/functions/aktivitet.svg';
+import anmeldelserSVG from '../../General/Icon/svg/functions/anmeldelser.svg';
 
 import {PROFILE_EDIT, MODERATOR_PROFILE_EDIT} from '../../../Constants/hyperlinks.constants';
 
@@ -264,18 +267,8 @@ export class ProfileDetailContainer extends React.Component {
     );
   }
 
-  render() {
-    let userProfile = this.props.feed.profile;
-    userProfile = assignToEmpty(userProfile, {
-      image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
-    });
-
-    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
-    const isLoggedIn = this.props.profile.userIsLoggedIn;
-
-    const activityFeed = this.getActivityFeed(isMyProfile);
-
-    const reviewsFeed = (
+  getReviewsFeed() {
+    return (
       <ReviewsContainer
         reviews={this.props.reviews.userReviews}
         activeUser={this.props.profile}
@@ -284,18 +277,10 @@ export class ProfileDetailContainer extends React.Component {
         likeActions={this.props.likeActions}
       />
     );
+  }
 
-    let desc = '';
+  getShowMoreButton() {
     let showMore = '';
-
-    if (userProfile.description && userProfile.description.length > 0) {
-      desc = (
-        <p>
-          <span dangerouslySetInnerHTML={{__html: userProfile.description}} />
-        </p>
-      );
-    }
-
     if (
       this.props.feed.count &&
       this.props.feed.count.comments &&
@@ -308,53 +293,22 @@ export class ProfileDetailContainer extends React.Component {
       showMore = (
         <VisFlereButton
           onClick={() => this.props.feedActions.asyncGetUserFeed(
-            userProfile.id,
+            this.props.feed.profile.id,
             Math.max(this.props.feed.count.posts, this.props.feed.count.comments)
           )}
         />
       );
     }
 
-    let groupsModalContent = '';
-    if (this.state.groups && this.state.groups.length > 0) {
-      groupsModalContent = this.renderModalContent(isMyProfile);
-    }
-    else {
-      groupsModalContent = (
-        <div className="user-feed--groups-modal--text" >
-          <h2>{userProfile.displayName} følger ingen grupper!</h2>
-          <p>Det var da lidt kedeligt</p>
-        </div>
-      );
-    }
+    return showMore;
+  }
 
-    const modal = this.getModal();
+  getTabs(currentUserAddressing) {
+    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
 
-    // include edit button when user views her own page.
-    const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
-    const currentUserAddressing = (isMyProfile) ? 'dig' : userProfile.displayName;
-
-    let editButton = null;
-    let profileImage = null;
-    if (isLoggedIn && (isMyProfile || this.props.profile.isModerator)) {
-      editButton = (
-        <a href={editLink} >
-          <div className='p-detail--edit-button' >
-            <Icon className="icon" glyph={editSvg}
-                  width={24} height={24} /></div>
-        </a>);
-      profileImage = (<a href={editLink} >
-        <div className="p-detail--image-container" >
-          <img src={userProfile.image} alt={userProfile.displayName} />
-        </div>
-      </a>);
-    }
-
-    else {
-      profileImage = (<div className="p-detail--image-container" >
-        <img src={userProfile.image} alt={userProfile.displayName} />
-      </div>);
-    }
+    const activityFeed = this.getActivityFeed(isMyProfile);
+    const reviewsFeed = this.getReviewsFeed();
+    const showMore = this.getShowMoreButton();
 
     const activityPaneContent = (
       <div>
@@ -382,10 +336,12 @@ export class ProfileDetailContainer extends React.Component {
     const tabs = [
       {
         label: 'ANMELDELSER',
+        icon: anmeldelserSVG,
         content: reviewsPaneContent
       },
       {
         label: 'AKTIVITET',
+        icon: aktivitetSVG,
         content: activityPaneContent
       }
     ];
@@ -402,8 +358,74 @@ export class ProfileDetailContainer extends React.Component {
 
       tabs.push({
         label: 'BESKEDER',
+        icon: beskederSVG,
         content: messagesPaneContent
       });
+    }
+
+    return tabs;
+  }
+
+  render() {
+    let userProfile = this.props.feed.profile;
+    userProfile = assignToEmpty(userProfile, {
+      image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
+    });
+
+    const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
+    const isLoggedIn = this.props.profile.userIsLoggedIn;
+
+    const currentUserAddressing = (isMyProfile) ? 'dig' : userProfile.displayName;
+    const tabs = this.getTabs(currentUserAddressing);
+
+    let desc = '';
+
+    if (userProfile.description && userProfile.description.length > 0) {
+      desc = (
+        <p>
+          <span dangerouslySetInnerHTML={{__html: userProfile.description}} />
+        </p>
+      );
+    }
+
+    let groupsModalContent = '';
+    if (this.state.groups && this.state.groups.length > 0) {
+      groupsModalContent = this.renderModalContent(isMyProfile);
+    }
+    else {
+      groupsModalContent = (
+        <div className="user-feed--groups-modal--text" >
+          <h2>{userProfile.displayName} følger ingen grupper!</h2>
+          <p>Det var da lidt kedeligt</p>
+        </div>
+      );
+    }
+
+    const modal = this.getModal();
+
+    // include edit button when user views her own page.
+    const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
+
+    let editButton = null;
+    let profileImage = null;
+    if (isLoggedIn && (isMyProfile || this.props.profile.isModerator)) {
+      editButton = (
+        <a href={editLink} >
+          <div className='p-detail--edit-button' >
+            <Icon className="icon" glyph={editSvg}
+                  width={24} height={24} /></div>
+        </a>);
+      profileImage = (<a href={editLink} >
+        <div className="p-detail--image-container" >
+          <img src={userProfile.image} alt={userProfile.displayName} />
+        </div>
+      </a>);
+    }
+
+    else {
+      profileImage = (<div className="p-detail--image-container" >
+        <img src={userProfile.image} alt={userProfile.displayName} />
+      </div>);
     }
 
     let campaigns = {};
@@ -433,7 +455,7 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} >
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
         {modal}
         {profileImage}
         <div className="p-detail--displayname-description-follow" >

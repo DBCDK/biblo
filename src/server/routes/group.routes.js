@@ -11,12 +11,14 @@ import {createElasticTranscoderJob} from './../utils/aws.util.js';
 import {groupCreateForm} from '../forms/group.forms';
 
 import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
-import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const upload = multer({storage: multer.memoryStorage()});
 const GroupRoutes = express.Router();
 
-GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, (req, res) => {
+// React components
+import GroupContainer from '../../client/components/Groups/GroupsContainer.component';
+
+GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, (req, res) => {
   let data = {};
   let windowData = {
     propertyName: 'DATA',
@@ -32,7 +34,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserH
   });
 });
 
-GroupRoutes.post('/opret', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
+GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
@@ -138,7 +140,7 @@ GroupRoutes.get('/kommentar/:id', async function (req, res) {
   }
 });
 
-GroupRoutes.get('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, async function editGroupRoute(req, res) {
+GroupRoutes.get('/:id/rediger', ensureAuthenticated, ensureUserHasProfile, async function editGroupRoute(req, res) {
   let data = {};
   data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
 
@@ -154,7 +156,7 @@ GroupRoutes.get('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensur
   });
 });
 
-GroupRoutes.post('/:id/rediger', ensureAuthenticated, fullProfileOnSession, ensureUserHasProfile, upload.single('group_image'), async function editGroupRoutePost(req, res) {
+GroupRoutes.post('/:id/rediger', ensureAuthenticated, ensureUserHasProfile, upload.single('group_image'), async function editGroupRoutePost(req, res) {
   let data = {
     status: 'INCOMPLETE'
   };
@@ -320,7 +322,7 @@ async function fetchGroupData(params, req, res, update = {}) {
 /**
  * Get group view
  */
-GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], fullProfileOnSession, (req, res) => fetchGroupData(req.params, req, res));
+GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], (req, res) => fetchGroupData(req.params, req, res));
 
 /**
  * Add a post to a group
@@ -416,12 +418,15 @@ GroupRoutes.get('/', async function getGroups(req, res, next) {
     const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
     const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
 
+    // Set groups to state and render the component
+    req.writeToReduxStateTree('listGroupsReducer', {newGroups, popularGroups});
+    req.renderComponent(GroupContainer);
+
     res.locals.title = 'Grupper - Biblo.dk';
 
     res.render('page', {
       css: ['/css/groups.css'],
-      js: ['/js/groups.js'],
-      jsonData: [JSON.stringify({newGroups, popularGroups})]
+      js: ['/js/groups.js']
     });
   }
   catch (e) {

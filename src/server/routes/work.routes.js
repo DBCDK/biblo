@@ -1,10 +1,9 @@
 import express from 'express';
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
-import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 const WorkRoutes = express.Router();
 
-WorkRoutes.post('/bestil', ensureAuthenticated, fullProfileOnSession, async function(req, res) {
+WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
   try {
     let pid = req.body.mediaType;
     const profile = req.session.passport.user.profile.profile;
@@ -47,7 +46,7 @@ WorkRoutes.post('/bestil', ensureAuthenticated, fullProfileOnSession, async func
   }
 });
 
-WorkRoutes.get('/:pid', fullProfileOnSession, async function(req, res, next) {
+WorkRoutes.get('/:pid', async function(req, res, next) {
   const logger = res.app.get('logger');
   try {
     let pid = decodeURIComponent(req.params.pid);

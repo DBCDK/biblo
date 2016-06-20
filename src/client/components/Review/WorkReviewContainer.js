@@ -111,7 +111,7 @@ export class WorkReviewContainer extends React.Component {
     });
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
         {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {

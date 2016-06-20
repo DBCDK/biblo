@@ -46,39 +46,40 @@ let initialState = {
   }
 };
 
-let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
+if (typeof window !== 'undefined') {
+  let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
 
-if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
-  let data = JSON.parse(jsonData.innerHTML);
-  if (data.profile) {
-    initialState = assignToEmpty(initialState, data.profile);
+  if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
+    let data = JSON.parse(jsonData.innerHTML);
+    if (data.profile) {
+      initialState = assignToEmpty(initialState, data.profile);
+    }
   }
-}
 
-let statusMessage = document.getElementById('JSONDATA');
+  let statusMessage = document.getElementById('JSONDATA');
 
+  if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
+    let statusMessageData = JSON.parse(statusMessage.innerHTML);
+    if (statusMessageData && statusMessageData.status === 'ERROR') {
+      initialState = assignToEmpty(initialState, {
+        birthday: statusMessageData.query.birthday,
+        description: statusMessageData.query.description,
+        displayName: statusMessageData.query.displayname,
+        email: statusMessageData.query.email,
+        fullName: statusMessageData.query.fullName,
+        favoriteLibrary: {
+          libraryId: statusMessageData.query.libraryId,
+          loanerId: statusMessageData.query.loanerId,
+          pincode: statusMessageData.query.pincode
+        },
+        phone: statusMessageData.query.phone,
+        search: statusMessageData.query.search
+      });
 
-if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
-  let statusMessageData = JSON.parse(statusMessage.innerHTML);
-  if (statusMessageData && statusMessageData.status === 'ERROR') {
-    initialState = assignToEmpty(initialState, {
-      birthday: statusMessageData.query.birthday,
-      description: statusMessageData.query.description,
-      displayName: statusMessageData.query.displayname,
-      email: statusMessageData.query.email,
-      fullName: statusMessageData.query.fullName,
-      favoriteLibrary: {
-        libraryId: statusMessageData.query.libraryId,
-        loanerId: statusMessageData.query.loanerId,
-        pincode: statusMessageData.query.pincode
-      },
-      phone: statusMessageData.query.phone,
-      search: statusMessageData.query.search
-    });
-
-    statusMessageData.errors.forEach((error) => {
-      initialState.errors.push(error);
-    });
+      statusMessageData.errors.forEach((error) => {
+        initialState.errors.push(error);
+      });
+    }
   }
 }
 

@@ -2,6 +2,12 @@
  * @file: This file contains middlewares for appending and updating data for endpoints.
  */
 
+import {renderToString} from 'react-dom/server';
+import {createStore} from 'redux';
+
+import {wrapComponentInProvider} from '../../client/App';
+import rootReducer from '../../client/Reducers/root.reducer';
+
 /**
  * Middleware to set a users full profile (always refreshed) on the session, ready for use.
  * !!! This middleware requires the ssrMiddleware from serviceprovider.middleware.js !!!
@@ -17,6 +23,7 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
         userIsLoggedIn: false
       }
     });
+
     return next();
   }
 
@@ -74,7 +81,9 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
  */
 export function ensureProfileImage(req, res, next) {
   let image = {
-    shouldDisplay: false
+    shouldDisplay: false,
+    url: '',
+    unreadMessages: 0
   };
 
   if (req.isAuthenticated()) {
@@ -117,4 +126,50 @@ export function ensureProfileImage(req, res, next) {
     res.locals.profileImage = JSON.stringify(image);
     next();
   }
+}
+
+/**
+ * This is a middleware to get the initial redux state and set it to the req object for easier SSR.
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+export function reduxStateMiddleware(req, res, next) {
+  // Get initial state from root reducer
+  let init = createStore(rootReducer).getState();
+
+  try {
+    const profileReducer = req.session.passport.user.profile.profile;
+    req.initialReduxState = Object.assign(
+      init,
+      {profileReducer}// Overwrite profile state with actual profile.
+    );
+  }
+  catch (e) {
+    req.initialReduxState = init;
+  }
+
+  /**
+   * Helper function, overwrites a prop in the statetree
+   * @param {String} prop
+   * @param {PlainObject} value
+   */
+  req.writeToReduxStateTree = (prop, value) => {
+    let newState = {};
+    newState[prop] = Object.assign({}, req.initialReduxState[prop], value);
+    req.initialReduxState = Object.assign({}, req.initialReduxState, newState);
+    return req.initialReduxState;
+  };
+
+  next();
+}
+
+export function renderComponent(req, res, next) {
+  req.renderComponent = (Component, stateKeyName = 'state', contentKeyName = 'content') => {
+    const wrapper = wrapComponentInProvider(Component, req.initialReduxState);
+    res.locals[stateKeyName] = JSON.stringify(wrapper.state);
+    res.locals[contentKeyName] = renderToString(wrapper.component);
+  };
+
+  next();
 }

@@ -2,54 +2,41 @@
  * @file
  * Configure main routes
  */
-import config from '@dbcdk/biblo-config';
+
+// Libraries
 import express from 'express';
 import passport from 'passport';
-import http from 'http';
+import request from 'request';
+
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
+
+// React components
+import FrontpageContainer from '../../client/components/FrontPage/FrontpageContainer.component';
 
 const MainRoutes = express.Router();
 
-MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res) => {
+MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
   const frontPageBucket = process.env.FRONT_PAGE_BUCKET || 'uxdev-biblo-content-frontpage'; // eslint-disable-line no-process-env
-  const settingsUrl = config.biblo.getConfig({}).provider.services.community.endpoint +
-    `api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
+  const bibloCSUrl = req.app.get('BIBLO_CONFIG').provider.services.community.endpoint;
+  const settingsUrl = `${bibloCSUrl}api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
 
-  // fetch page settings from AWS
-  http.get(settingsUrl, (getRes) => {
-    let str = '';
+  request.get(settingsUrl, (e, d) => {
+    if (e) {
+      return next(e);
+    }
 
-    getRes.on('data', (chunk) => {
-      str += chunk;
+    // Parse the widget data from S3
+    const resp = JSON.parse(d.body);
+
+    // Write it into the state tree, and render the component.
+    req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
+    req.renderComponent(FrontpageContainer);
+
+    return res.render('page', {
+      css: ['/css/frontpage.css', '/css/search.css'],
+      js: ['/js/frontpage.js']
     });
-
-    getRes.on('end', () => {
-
-      if (getRes.statusCode !== 200) {
-        // send to 404 error page
-        res.status(404);
-      }
-      else {
-        let frontPageData = {
-          widgetLocations: {
-            FrontPageContent: []
-          }
-        };
-        const responseData = JSON.parse(str);
-
-        Object.assign(frontPageData.widgetLocations, responseData);
-
-        res.render('page', {
-          css: ['/css/frontpage.css', '/css/search.css'],
-          js: ['/js/frontpage.js'],
-          jsonData: [JSON.stringify(frontPageData)]
-        });
-      }
-
-    });
-
-  }).end();
-
+  });
 });
 
 MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',
@@ -90,7 +77,7 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
     );
 
     let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970
-    res.setHeader('Cache-Control', `max-age=${expires - 10}, no-cache, no-store`);
+    res.setHeader('Cache-Control', `max-age=${Number(expires[1]) - 60}`);
 
     setTimeout(() => res.redirect(imageUrl), 50);
     logger.info('got image url', {url: imageUrl});
@@ -99,20 +86,6 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
     logger.error('An error occurred while getting image!', {error: err.message});
     res.redirect('/kunne_ikke_finde_billede.png');
   }
-});
-
-MainRoutes.get('/billede/:id', (req, res) => {
-  res.setHeader('Cache-Control', 'public, max-age=360000');
-  req.callServiceProvider('getImage', req.params.id).then((imageObject) => {
-    const imageUrl = config.biblo.getConfig().provider.services.community.endpoint + imageObject[0].body.url;
-
-    res.setHeader('Content-Type', imageObject[0].body.type);
-    http.get(imageUrl, function(result) {
-      result.pipe(res);
-    });
-  }).catch((err) => {
-    res.send(JSON.stringify({errors: [err]}));
-  });
 });
 
 export default MainRoutes;

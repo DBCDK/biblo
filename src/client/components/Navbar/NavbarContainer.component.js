@@ -99,7 +99,7 @@ export default class NavbarContainer extends React.Component {
     return (
       <ul className="">
         <li><NavbarLink value='Profil' url='/profil'/></li>
-        <li><NavbarLink value='Log ud' url='/logout'/></li>
+        <li><NavbarLink value='Log ud' url='/logout' className='log-out-button' /></li>
       </ul>
     );
   }

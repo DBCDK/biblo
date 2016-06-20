@@ -59,7 +59,7 @@ describe('Testing the MessageRow Component', () => {
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
-    const expected = '/images/messages/other.png';
+    const expected = '/images/covers/other.png';
 
     assert.equal(imgUrl, expected);
   });

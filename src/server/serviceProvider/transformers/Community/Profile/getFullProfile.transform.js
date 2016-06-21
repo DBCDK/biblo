@@ -71,7 +71,7 @@ const getFullProfileTransform = {
     }).length > 0);
 
     body.quarantined = JSON.parse(response[1].body).quarantined;
-    body.userMessages = userMessageParser(response[2] && response[2].Items || []);
+    body.userMessages = userMessageParser(response[2] && response[2].Items || [], 0);
 
     return {body: body, statusCode: response[0].statusCode, statusMessage: response[0].statusMessage};
   }

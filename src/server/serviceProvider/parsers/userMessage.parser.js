@@ -8,9 +8,10 @@
  * Accepted messages are filtered using the acceptedMessageTypes array.
  *
  * @param {Array} items
+ * @param {Number} limit
  * @returns {{unreadMessages: number, messages: Array}}
  */
-export function userMessageParser(items = [], limit = 15) {
+export function userMessageParser(items = [], limit) {
   let userMessages = {
     unreadMessages: 0,
     messages: []

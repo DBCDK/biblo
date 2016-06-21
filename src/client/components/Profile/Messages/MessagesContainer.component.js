@@ -1,10 +1,15 @@
 import React from 'react';
 
 import MessageRow from './MessageRow.component';
+import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 
 export default class MessagesContainer extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      limit: 15
+    };
   }
 
   sortMessages() {
@@ -22,7 +27,7 @@ export default class MessagesContainer extends React.Component {
   getMessages() {
     const messages = this.sortMessages();
 
-    const renderedMessages = messages.map((msg, index) => {
+    const renderedMessages = messages.slice(0, this.state.limit).map((msg, index) => {
       return (
         <MessageRow
           agencies={this.props.agencies}
@@ -34,16 +39,23 @@ export default class MessagesContainer extends React.Component {
       );
     });
 
-    return (
-      <div className="p-detail--messages-container" >
-        {renderedMessages.length ? renderedMessages : 'Du har ingen beskeder'}
-      </div>
-    );
+    return (renderedMessages.length ? renderedMessages : 'Du har ingen beskeder');
+  }
+
+  onClickShowMore() {
+    const state = Object.assign({}, this.state);
+    this.setState({limit: state.limit + 15});
   }
 
   render() {
+    const showMoreButton = this.props.messages.length > this.state.limit ?
+      <VisFlereButton onClick={this.onClickShowMore.bind(this)} /> : null;
+
     return (
-      <div>{this.getMessages()}</div>
+      <div className="p-detail--messages-container" >
+           {this.getMessages()}
+           {showMoreButton}
+      </div>
     );
   }
 }

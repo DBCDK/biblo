@@ -95,3 +95,9 @@
   font-size: 1em;
   color: $dark;
 }
+
+.p-detail--messages-container {
+  .show-more-button--container {
+    overflow: visible;
+  }
+}

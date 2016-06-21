@@ -120,7 +120,7 @@ export default class AddContent extends UploadMedia {
                 <td className="attach-review-modal--review--radio-btn">
                   <input
                     type="radio" value={review.id} name="reviewAttachment" id={`review-attachment--${review.id}`}
-                    onChange={() => this.setState({attachment: {review}})}
+                    onChange={() => this.setState({attachment: Object.assign(this.state.attachment, {review})})}
                     className="attach-review-modal--radio-btn-input"
                   />
                   <span className="attach-review-modal--displayed-radio-btn"> </span>
@@ -143,7 +143,7 @@ export default class AddContent extends UploadMedia {
     });
 
     return (
-      <ModalWindow onClose={() => this.setState({showAddReviews: false, attachment: {}})} title="Indsæt Anmeldelse">
+      <ModalWindow onClose={() => this.setState({showAddReviews: false, attachment: Object.assign(this.state.attachment, {review: null})})} title="Indsæt Anmeldelse">
         <div className="attach-review-modal--reviews-container">
           {reviewRows.length > 0 ? reviewRows : 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!'}
         </div>
@@ -259,8 +259,8 @@ export default class AddContent extends UploadMedia {
                   className="content-add--upload-media droppable-media-field--file-input"
                   name="image"
                   disabled={this.state.disableInput}
-                  onChange={event => this.readInput(event, attachment => this.setState({isLoading: true, attachment: attachment}))
-                            .then(attachment => this.setState({isLoading: false, attachment: attachment}))
+                  onChange={event => this.readInput(event, attachment => this.setState({isLoading: true, attachment: Object.assign(this.state.attachment, attachment)}))
+                            .then(attachment => this.setState({isLoading: false, attachment: Object.assign(this.state.attachment, attachment)}))
                             .catch(errorMsg => this.setState({isLoading: false, errorMsg: errorMsg}))
                             }
                   ref="fileInput"

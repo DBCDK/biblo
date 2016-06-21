@@ -13,7 +13,7 @@ const SearchTransform = {
     return 'search';
   },
 
-  requestTransform(event, {q, forfatter, materialer, emneord, offset, rankSort}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {q, forfatter, materialer, emneord, limit, offset, rankSort}, connection) { // eslint-disable-line no-unused-vars
 
     offset = (offset) ? offset : 0;
     rankSort = (rankSort) ? rankSort : 'rank_frequency';
@@ -58,7 +58,7 @@ const SearchTransform = {
         'workType',
         'coverUrlFull'
       ],
-      limit: 20,
+      limit: limit,
       offset: offset,
       sort: rankSort
     });

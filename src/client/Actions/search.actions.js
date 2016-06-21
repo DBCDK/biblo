@@ -12,23 +12,27 @@ const openPlatformSuggestListener = once(openPlatformSuggest.response);
 const search = SocketClient('search');
 const searchListener = once(search.response);
 
-export function loadedMoreResults(res) {
+const searchGroups = SocketClient('searchGroups');
+const searchGroupListener = once(searchGroups.response);
+
+export function loadedMoreMaterialResults(res) {
   return {
-    type: types.LOADED_MORE_RESULTS,
+    type: types.LOADED_MORE_MATERIAL_RESULTS,
     results: res.data
   };
 }
 
-export function loadMoreResults() {
+export function loadMoreMaterialResults() {
   return {
-    type: types.LOAD_MORE_RESULTS
+    type: types.LOAD_MORE_MATERIAL_RESULTS
   };
 }
 
-export function asyncLoadMoreResults(query) {
+export function asyncLoadMoreMaterialResults(query) {
+
   return (dispatch) => {
-    dispatch(loadMoreResults());
-    searchListener((res) => dispatch(loadedMoreResults(res)));
+    dispatch(loadMoreMaterialResults());
+    searchListener((res) => dispatch(loadedMoreMaterialResults(res)));
 
     const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
       return query.materialFilters[type].enabled;
@@ -38,7 +42,33 @@ export function asyncLoadMoreResults(query) {
       q: query.query,
       materialer: materialTypes.join(),
       emneord: query.subjects.join(),
+      limit: 20,
       offset: query.offset
+    });
+  };
+}
+
+export function loadedMoreGroupResults (res) {
+  return {
+    type: types.LOADED_MORE_GROUP_RESULTS,
+    results: res
+  };
+}
+
+export function loadMoreGroupResults() {
+  return {
+    type: types.LOAD_MORE_GROUP_RESULTS
+  };
+}
+
+export function asyncLoadMoreGroupResults(query) {
+  return (dispatch) => {
+    dispatch(loadMoreGroupResults());
+    searchGroupListener((res) => dispatch(loadedMoreGroupResults(res)));
+    searchGroups.request({
+      q: query.query,
+      limit: 20,
+      from: query.from
     });
   };
 }

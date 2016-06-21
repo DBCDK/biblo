@@ -10,15 +10,19 @@ let initialState = {
   isSearchBoxVisible: false,
   groupSearchResults: [],
   groupSearchResultsPending: true,
+  groupSearchOffset: 0,
+  groupSearchLimit: 5,
   materialSearchResults: [],
   materialSearchOffset: 0,
+  materialSearchLimit: 5,
   materialSearchResultsPending: true,
   workSuggestions: {},
   workSuggestionsPending: false,
   selectedWorkSuggestion: -1,
   initialQuery: '',
   query: '',
-  isLoadingResults: false,
+  isLoadingMaterialResults: false,
+  isLoadingGroupResults: false,
   isSearching: false,
   filters: {
     materialFilters: {
@@ -51,6 +55,11 @@ if (typeof window !== 'undefined') {
       initialState.materialSearchResults = data.materialSearchResults;
       initialState.materialSearchResultsPending = false;
     }
+
+    if (data.groupSearchResults) {
+      initialState.groupSearchResults = data.groupSearchResults;
+      initialState.groupSearchResultsPending = false;
+    }
   }
 
 // identify enabled search filters by looking at the url
@@ -64,8 +73,8 @@ if (typeof window !== 'undefined') {
   if (urlParams.emneord) {
     initialState.filters.subjectFilters = urlParams.emneord.split(',');
   }
-}
 
+}
 
 export default function searchReducer(state = initialState, action = {}) {
   Object.freeze(state);
@@ -84,15 +93,29 @@ export default function searchReducer(state = initialState, action = {}) {
       return newState;
     }
 
-    case types.LOAD_MORE_RESULTS: {
-      return assignToEmpty(state, {isLoadingResults: true});
+    case types.LOAD_MORE_MATERIAL_RESULTS: {
+      return assignToEmpty(state, {isLoadingMaterialResults: true, materialSearchLimit: 20});
     }
 
-    case types.LOADED_MORE_RESULTS: {
+    case types.LOADED_MORE_MATERIAL_RESULTS: {
+      let newOffset = state.materialSearchOffset + state.materialSearchLimit;
       return assignToEmpty(state, {
         materialSearchResults: state.materialSearchResults.concat(action.results),
-        isLoadingResults: false,
-        materialSearchOffset: state.materialSearchOffset + 20
+        isLoadingMaterialResults: false,
+        materialSearchOffset: newOffset
+      });
+    }
+
+    case types.LOAD_MORE_GROUP_RESULTS: {
+      return assignToEmpty(state, {isLoadingGroupResults: true, groupSearchLimit: 20});
+    }
+
+    case types.LOADED_MORE_GROUP_RESULTS: {
+      let newOffset = state.groupSearchOffset + state.groupSearchLimit;
+      return assignToEmpty(state, {
+        groupSearchResults: state.groupSearchResults.concat(action.results),
+        isLoadingGroupResults: false,
+        groupSearchOffset: newOffset
       });
     }
 

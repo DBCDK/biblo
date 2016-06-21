@@ -29,7 +29,6 @@ function displayWorkTypeCover(type) {
   return basePath + fileName;
 }
 
-
 export default class MaterialSearchResultList extends React.Component {
 
   constructor(props) {
@@ -48,12 +47,12 @@ export default class MaterialSearchResultList extends React.Component {
       return (
         <li key={i}>
           <a href={workUrl}>
-            <div className='material-result-list--cover-image'>
+            <div className='cover-image'>
               <img src={coverUrl} />
             </div>
-            <div className='material-result-list--description'>
+            <div className='description'>
               <Icon glyph={displayTypeSvgs[displayType]} />
-              <div className='material-result-list--title'>
+              <div className='title'>
                 {result.dcTitle}
               </div>
             </div>
@@ -63,20 +62,22 @@ export default class MaterialSearchResultList extends React.Component {
     });
 
     let result = (
-      <ul className='material-result-list'>
+      <ul className>
         {listElements}
       </ul>
     );
     if (listElements.length === 0) {
       result = (
-        <div className='material-result-list--empty-result'>
+        <div className='empty-result'>
           Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.
         </div>
       );
     }
 
     return (
-      <div>
+      <div className='material-result-list'>
+        <h2>På biblioteket:</h2>
+        <hr/>
         {result}
       </div>
     );

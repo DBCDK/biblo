@@ -14,6 +14,23 @@
   max-width: 90%;
 }
 
+.group {
+  .search-area--dropdown--link:after {
+    content: 'Gruppe';
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 5px;
+    color: #aba6ff;
+  }
+}
+
+.group:hover, .group:active {
+  .search-area--dropdown--link:after {
+    color: #ffffff;
+  }
+}
+
 .search-area--dropdown {
   position: absolute;
   background-color: #ffffff;

@@ -17,40 +17,57 @@ const SuggestTransform = {
         type: 'title',
         limit: 6,
         fields: ['term', 'pid']
-      })
+      }),
+      this.callServiceClient('community', 'groupSuggest', {q})
     ]);
   },
 
   responseTransform(response, {q}) {
-    let workSuggestions = JSON.parse(response[1].body);
-    let creatorSuggestions = JSON.parse(response[0].body);
-    creatorSuggestions.data = [];
+    const total = 6;
 
-    let creatorTake = 3;
-    let workTake = 3;
+    const workSuggestions = JSON.parse(response[1].body);
+    const creatorSuggestions = JSON.parse(response[0].body);
+    const groupSuggestions = JSON.parse(response[2].body);
 
-    workSuggestions.q = q;
+    let suggestResponse = {
+      data: [],
+      errors: [],
+      q: q
+    };
 
-    if (workSuggestions.data.length < 3) {
-      creatorTake = 6 - workSuggestions.data.length;
+    let index = 0;
+    while (suggestResponse.data.length < total || index > total) {
+      if (workSuggestions.data && workSuggestions.data.length > index) {
+        const suggestion = workSuggestions.data[index];
+        suggestResponse.data.push({str: suggestion.term, type: 'work', typeIndex: 1});
+      }
+
+      // disable author suggest until the service is able to handle biblo.
+      if (creatorSuggestions.data && creatorSuggestions.data.length > index && false) {
+        const suggestion = creatorSuggestions.data[index];
+        suggestResponse.data.push({str: suggestion.term, type: 'creator', typeIndex: 2});
+      }
+
+      // disable groups until group searching is released
+      if (groupSuggestions.options && groupSuggestions.options.length > index && false) {
+        const suggestion = groupSuggestions.options[index];
+        suggestResponse.data.push({str: suggestion.text, type: 'group', typeIndex: 3});
+      }
+
+      index += 1;
     }
 
-
-    if (creatorSuggestions.data.length < 3) {
-      workTake = 6 - creatorSuggestions.data.length;
-    }
-
-    workSuggestions.data = workSuggestions.data.slice(0, workTake);
-    creatorSuggestions.data = creatorSuggestions.data.slice(0, creatorTake);
-
-    workSuggestions.data = workSuggestions.data.concat(creatorSuggestions.data).map((suggestion) => {
-      suggestion.str = suggestion.term.replace('Ꜳ', 'Aa').replace('ꜳ', 'aa');
-      suggestion.href = `/find?q=${encodeURIComponent(`${suggestion.str}`)}`;
-
+    suggestResponse.data = suggestResponse.data.slice(0, total).map(suggestion => {
+      suggestion.str = suggestion.str.replace('Ꜳ', 'Aa').replace('ꜳ', 'aa');
+      suggestion.href = `/find?q=${encodeURIComponent(suggestion.str)}`;
       return suggestion;
     });
 
-    return workSuggestions;
+    suggestResponse.data.sort((a, b) => {
+      return a.typeIndex - b.typeIndex;
+    });
+
+    return suggestResponse;
   }
 };
 

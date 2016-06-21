@@ -27,7 +27,7 @@ export default class SearchContainer extends React.Component {
   componentDidMount() {
     const self = this;
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       if (self.state.qChanged) {
         self.setState({qChanged: false});
         hideKeyboard(ReactDOM.findDOMNode(self.refs.searchFieldReference));
@@ -50,6 +50,12 @@ export default class SearchContainer extends React.Component {
         }
       }
     });
+  }
+
+  componentDidUpdate() {
+    if (this.props.search.isSearchBoxVisible) {
+      ReactDOM.findDOMNode(this.refs.searchFieldReference).focus();
+    }
   }
 
   searchInputChanged(e) {

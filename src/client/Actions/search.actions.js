@@ -29,6 +29,7 @@ export function loadMoreMaterialResults() {
 }
 
 export function asyncLoadMoreMaterialResults(query) {
+
   return (dispatch) => {
     dispatch(loadMoreMaterialResults());
     searchListener((res) => dispatch(loadedMoreMaterialResults(res)));
@@ -41,6 +42,7 @@ export function asyncLoadMoreMaterialResults(query) {
       q: query.query,
       materialer: materialTypes.join(),
       emneord: query.subjects.join(),
+      limit: 20,
       offset: query.offset
     });
   };
@@ -50,7 +52,6 @@ export function loadedMoreGroupResults (res) {
   return {
     type: types.LOADED_MORE_GROUP_RESULTS,
     results: res
-
   };
 }
 
@@ -66,7 +67,7 @@ export function asyncLoadMoreGroupResults(query) {
     searchGroupListener((res) => dispatch(loadedMoreGroupResults(res)));
     searchGroups.request({
       q: query.query,
-      limit: query.limit,
+      limit: 20,
       from: query.from
     });
   };

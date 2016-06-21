@@ -11,8 +11,10 @@ let initialState = {
   groupSearchResults: [],
   groupSearchResultsPending: true,
   groupSearchOffset: 0,
+  groupSearchLimit: 5,
   materialSearchResults: [],
   materialSearchOffset: 0,
+  materialSearchLimit: 5,
   materialSearchResultsPending: true,
   workSuggestions: {},
   workSuggestionsPending: false,
@@ -71,6 +73,7 @@ if (typeof window !== 'undefined') {
   if (urlParams.emneord) {
     initialState.filters.subjectFilters = urlParams.emneord.split(',');
   }
+
 }
 
 export default function searchReducer(state = initialState, action = {}) {
@@ -91,26 +94,28 @@ export default function searchReducer(state = initialState, action = {}) {
     }
 
     case types.LOAD_MORE_MATERIAL_RESULTS: {
-      return assignToEmpty(state, {isLoadingMaterialResults: true});
+      return assignToEmpty(state, {isLoadingMaterialResults: true, materialSearchLimit: 20});
     }
 
     case types.LOADED_MORE_MATERIAL_RESULTS: {
+      let newOffset = state.materialSearchOffset + state.materialSearchLimit;
       return assignToEmpty(state, {
         materialSearchResults: state.materialSearchResults.concat(action.results),
         isLoadingMaterialResults: false,
-        materialSearchOffset: state.materialSearchOffset + 20
+        materialSearchOffset: newOffset
       });
     }
 
     case types.LOAD_MORE_GROUP_RESULTS: {
-      return assignToEmpty(state, {isLoadingGroupResults: true});
+      return assignToEmpty(state, {isLoadingGroupResults: true, groupSearchLimit: 20});
     }
 
     case types.LOADED_MORE_GROUP_RESULTS: {
+      let newOffset = state.groupSearchOffset + state.groupSearchLimit;
       return assignToEmpty(state, {
-        groupSearchResults: action.results,
+        groupSearchResults: state.groupSearchResults.concat(action.results),
         isLoadingGroupResults: false,
-        groupSearchOffset: state.groupSearchOffset + 20
+        groupSearchOffset: newOffset
       });
     }
 

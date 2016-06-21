@@ -25,29 +25,29 @@ export class SearchResultContainer extends React.Component {
       query: this.props.search.initialQuery,
       materialFilters: this.props.search.filters.materialFilters,
       subjects: this.props.search.filters.subjectFilters,
-      offset: this.props.search.materialSearchOffset + 20
+      limit: this.props.search.materialSearchLimit,
+      offset: this.props.search.materialSearchOffset + this.props.search.materialSearchLimit
     });
   }
 
   loadMoreGroupResults () {
     this.props.searchActions.asyncLoadMoreGroupResults({
       query: this.props.search.initialQuery,
-      limit: this.props.search.groupSearchOffset + 20,
-      from: 0
+      limit: this.props.search.groupSearchLimit,
+      from: this.props.search.groupSearchOffset + this.props.search.groupSearchLimit
     });
   }
 
   render() {
     let visFlereMaterialButton, visFlereGroupButton;
 
-    if (this.props.search.materialSearchResults.length >= (this.props.search.materialSearchOffset + 20)) { // limit: 20 (we currently do not collect the total number of results)
+    if (this.props.search.materialSearchResults.length >= this.props.search.materialSearchLimit) {
       visFlereMaterialButton = <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults}/>;
     }
 
-    if (this.props.search.groupSearchResults.length >= (this.props.search.groupSearchOffset)) { // limit: 20 (we currently do not collect the total number of results)
+    if (this.props.search.groupSearchResults.length >= this.props.search.groupSearchLimit ) {
       visFlereGroupButton = <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults}/>;
     }
-
 
     return (
       <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState}>

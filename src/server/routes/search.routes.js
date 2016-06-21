@@ -13,13 +13,14 @@ SearchRoutes.get('/', async function (req, res, next) {
     q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
     forfatter: (req.query.forfatter) ? decodeURIComponent(req.query.forfatter) : null,
     materialer: (req.query.materialer) ? decodeURIComponent(req.query.materialer) : null,
-    emneord: (req.query.emneord) ? decodeURIComponent(req.query.emneord) : null
+    emneord: (req.query.emneord) ? decodeURIComponent(req.query.emneord) : null,
+    limit: 5
   };
 
   // call Community service search (we expect this to be fast so we wait for the result here)
   let groupSearchResults = await req.callServiceProvider('searchGroups', {
-    q: req.query.q, limit: 5 // 5 is the initial
-  });
+    q: req.query.q, limit: 5 
+    });
 
   groupSearchResults = groupSearchResults[0];
 

@@ -1,3 +1,5 @@
+@import 'mixins/notification-count';
+
 .profile-image--icon {
   display: inline-block;
   width: 42px;
@@ -17,17 +19,6 @@
   }
 
   .profile-image--notification-count {
-    font-size: 0.7em;
-    text-align: center;
-    color: white;
-    background-color: #ff5a5f;
-    border-radius: 25%;
-    box-shadow: 0 0 3px 1px #ff5a5f;
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    min-width: 15px;
-    min-height: 15px;
-    padding: 2px;
+    @include notification-count();
   }
 }

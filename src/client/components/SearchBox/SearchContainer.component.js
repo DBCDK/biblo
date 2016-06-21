@@ -96,7 +96,8 @@ export default class SearchContainer extends React.Component {
               window.location = suggestion.href;
             },
             href: suggestion.href,
-            active: suggestion.active || false
+            active: suggestion.active || false,
+            type: suggestion.type
           };
         })}
       />

@@ -7,7 +7,7 @@ export default function SearchDropDown({visible, elements}) {
     element.clickFunc = element.clickFunc || (() => {});
     element.href = element.href || '#!';
 
-    let itemClasses = 'searcharea--dropdown--list--item';
+    let itemClasses = `searcharea--dropdown--list--item ${element.type}`;
 
     if (element.active) {
       itemClasses += ' searcharea--dropdown--list--item--active';

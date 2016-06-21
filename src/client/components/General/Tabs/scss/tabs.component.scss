@@ -23,6 +23,7 @@ $tab-bg-color-inactive: #4740b7;
     }
 
     .tab {
+      position: relative;
       font-family: $header-font;
       font-size: 16px;
       letter-spacing: 1px;
@@ -78,6 +79,10 @@ $tab-bg-color-inactive: #4740b7;
     }
 
   }
+}
+
+.tab--notification-count {
+  @include notification-count();
 }
 
 .tab--label {

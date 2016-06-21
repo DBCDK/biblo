@@ -360,7 +360,8 @@ export class ProfileDetailContainer extends React.Component {
       tabs.push({
         label: 'BESKEDER',
         icon: beskederSVG,
-        content: messagesPaneContent
+        content: messagesPaneContent,
+        counter: this.props.profile.userMessages.unreadMessages
       });
     }
 

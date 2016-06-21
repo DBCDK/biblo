@@ -49,16 +49,21 @@ export default class Tabs extends React.Component {
     const listItems = this.props.tabs.map((pane, index) => {
       const activeClass = this.state.selected === index ? 'tab active' : 'tab';
       const icon = pane.icon ? this.getIcon(pane.icon) : null;
+
       return (
         <li className={activeClass} key={index} >
-          <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)} >{icon}<span className="tab--label" >{pane.label}</span></a>
+            {
+              pane.counter > 0 &&
+              <span className="tab--notification-count" >{pane.counter}</span>
+            }
+              <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)} >{icon}<span className="tab--label" >{pane.label}</span></a>
         </li>
       );
     });
 
     return (
       <ul className="tabs" >
-        {listItems}
+          {listItems}
       </ul>
     );
   }
@@ -66,7 +71,7 @@ export default class Tabs extends React.Component {
   renderContent() {
     return (
       <div className="tabs--content" >
-        {this.props.tabs[this.state.selected].content}
+           {this.props.tabs[this.state.selected].content}
       </div>
     );
   }
@@ -74,8 +79,8 @@ export default class Tabs extends React.Component {
   render() {
     return (
       <div className="tabs-container" >
-        {this.props.tabs.length >= 1 && this.renderPanes()}
-        {this.props.tabs.length >= 1 && this.renderContent()}
+           {this.props.tabs.length >= 1 && this.renderPanes()}
+           {this.props.tabs.length >= 1 && this.renderContent()}
       </div>
     );
   }
@@ -83,9 +88,11 @@ export default class Tabs extends React.Component {
 
 Tabs.propTypes = {
   selected: React.PropTypes.number,
-  tabs: React.PropTypes.arrayOf(React.PropTypes.object)
+  tabs: React.PropTypes.arrayOf(React.PropTypes.object),
+  counter: React.PropTypes.number
 };
 
 Tabs.defaultProps = {
-  tabs: []
+  tabs: [],
+  counter: 0
 };

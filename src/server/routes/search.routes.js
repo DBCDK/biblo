@@ -19,8 +19,8 @@ SearchRoutes.get('/', async function (req, res, next) {
 
   // call Community service search (we expect this to be fast so we wait for the result here)
   let groupSearchResults = await req.callServiceProvider('searchGroups', {
-    q: req.query.q, limit: 5 
-    });
+    q: req.query.q, limit: 5
+  });
 
   groupSearchResults = groupSearchResults[0];
 

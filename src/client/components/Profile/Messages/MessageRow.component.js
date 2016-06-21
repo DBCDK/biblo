@@ -47,7 +47,7 @@ export default class MessageRow extends React.Component {
 
   getMessageType() {
     switch (this.props.message.type) {
-      case 'type-orderExpiresSoon':
+      case 'type-orderExpiresSoon': {
         let glyph = backSVG;
         let text = 'Afleveres snart';
         let orderExpiresSoonClass = '';
@@ -61,11 +61,11 @@ export default class MessageRow extends React.Component {
         return (
           <span className={orderExpiresSoonClass} >
             <Icon icon="profile" width={15} height={15} glyph={glyph} />
-            {text}
+                {text}
           </span>
         );
-
-      case 'type-orderIsReady':
+      }
+      case 'type-orderIsReady': {
         const orderReadyClass = this.state.message.ready ? 'ready' : '';
 
         return (
@@ -74,37 +74,39 @@ export default class MessageRow extends React.Component {
             Klar til afhentning
           </span>
         );
-
-      case 'Fine':
+      }
+      case 'Fine': {
         return (
           <span className="boede" >
             <Icon icon="boede" width={15} height={15} glyph={boedeSVG} />
             Bøde
           </span>
         );
-
-      case 'Reservation Charge':
+      }
+      case 'Reservation Charge': {
         return (
           <span className="boede" >
             <Icon icon="boede" width={15} height={15} glyph={boedeSVG} />
             Reservations gebyr
           </span>
         );
-      default:
+      }
+      default: {
         return this.props.message.type;
+      }
     }
   }
 
   getMessageContent() {
     switch (this.state.message.type) {
-      case 'type-orderExpiresSoon':
+      case 'type-orderExpiresSoon': {
         const diff = moment(this.state.message.dateDue).diff();
         const dateString = moment(this.state.message.dateDue).fromNow();
         const string = diff < 0 ? 'Skulle være afleveret for' : 'Skal afleveres om senest';
 
         return (<span>{string} {dateString}</span>);
-
-      case 'type-orderIsReady':
+      }
+      case 'type-orderIsReady': {
         const agency = this.props.agencies[this.state.message.pickupAgency];
         let branchName = 'Ukendt bibliotek';
         if (agency) {
@@ -118,8 +120,8 @@ export default class MessageRow extends React.Component {
             <div>Husk at hente den senest {pickUpDateString}</div>
           </div>
         );
-
-      case 'Fine':
+      }
+      case 'Fine': {
         const boedeString = moment(this.state.message.date).fromNow();
         const amount = this.state.message.amount;
 
@@ -129,8 +131,8 @@ export default class MessageRow extends React.Component {
             <div>{`Du skylder biblioteket ${amount} kr for at aflevere for sent`}</div>
           </div>
         );
-
-      case 'Reservation Charge':
+      }
+      case 'Reservation Charge': {
         const charge = this.state.message.amount;
 
         return (
@@ -138,9 +140,10 @@ export default class MessageRow extends React.Component {
             <div>{`Reservationsgebyr: ${charge} kr`}</div>
           </div>
         );
-
-      default:
+      }
+      default: {
         return this.props.message.type;
+      }
     }
   }
 
@@ -148,15 +151,21 @@ export default class MessageRow extends React.Component {
     const imageBasePath = '/images/messages';
 
     switch (this.state.message.type) {
-      case 'type-orderExpiresSoon':
+      case 'type-orderExpiresSoon': {
         return `${imageBasePath}/default-afleveres.png`;
-      case 'type-orderIsReady':
+      }
+      case 'type-orderIsReady': {
         return `${imageBasePath}/default-afhentes.png`;
-      case 'Fine':
-      case 'Reservation Charge':
+      }
+      case 'Fine': {
         return `${imageBasePath}/default-boede.png`;
-      default:
+      }
+      case 'Reservation Charge': {
+        return `${imageBasePath}/default-boede.png`;
+      }
+      default: {
         return '/images/covers/other.png';
+      }
     }
   }
 
@@ -174,7 +183,7 @@ export default class MessageRow extends React.Component {
         <div className={`${containerClass} ${justReadClass}`} >
           <div className="message-row--status-container" >
             <div className="message-row--status" >
-              {statusIndicator}
+                 {statusIndicator}
             </div>
           </div>
           <div className="message-row--image-container" >

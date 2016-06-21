@@ -6,9 +6,10 @@ var webdriver = require('selenium-webdriver');
 var isSauceLabsTest = false;
 var sauceLabsCaps = config.saucelabs.browserCaps;
 
+
 var SAUCE_URL = 'http://ondemand.saucelabs.com:80/wd/hub';
 var BASE_URL = isSauceLabsTest ? 'https://biblo.demo.dbc.dk' : process.env.SELENIUM_URL || 'http://localhost:8080'; // eslint-disable-line
-var driverTimeout = process.env.DRIVER_TIMEOUT || 10000; // eslint-disable-line no-process-env
+var driverTimeout = process.env.DRIVER_TIMEOUT || 80000; // eslint-disable-line no-process-env
 driverTimeout = parseInt(driverTimeout, 10);
 
 function runAllTests(driverCaps) {
@@ -23,7 +24,7 @@ function runAllTests(driverCaps) {
       });
     });
   });
-}
+  }
 
 if (isSauceLabsTest) {
   for (var k in sauceLabsCaps) {
@@ -45,3 +46,4 @@ else {
 
   runAllTests(chromeCaps);
 }
+

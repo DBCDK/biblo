@@ -2,7 +2,7 @@ var webdriver = require('selenium-webdriver');
 var By = webdriver.By;
 var until = webdriver.until;
 
-var driverTimeout = 2000;
+var driverTimeout = 8000;
 
 function World() {
   this.driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome());

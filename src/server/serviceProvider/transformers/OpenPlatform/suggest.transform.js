@@ -43,13 +43,13 @@ const SuggestTransform = {
       }
 
       // disable author suggest until the service is able to handle biblo.
-      if (creatorSuggestions.data && creatorSuggestions.data.length > index && false) {
+      if (creatorSuggestions.data && creatorSuggestions.data.length > index && false) { // eslint-disable-line no-constant-condition
         const suggestion = creatorSuggestions.data[index];
         suggestResponse.data.push({str: suggestion.term, type: 'creator', typeIndex: 2});
       }
 
       // disable groups until group searching is released
-      if (groupSuggestions.options && groupSuggestions.options.length > index && false) {
+      if (groupSuggestions.options && groupSuggestions.options.length > index && false) { // eslint-disable-line no-constant-condition
         const suggestion = groupSuggestions.options[index];
         suggestResponse.data.push({str: suggestion.text, type: 'group', typeIndex: 3});
       }

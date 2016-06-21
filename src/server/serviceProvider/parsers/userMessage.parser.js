@@ -33,7 +33,8 @@ export function userMessageParser(items = [], limit = 15) {
 
     const accecptedMessageTypes = [
       'type-orderExpiresSoon',
-      'type-orderIsReady'
+      'type-orderIsReady',
+      'type-userTransaction'
     ];
 
     if (!accecptedMessageTypes.includes(message.messageType)) {

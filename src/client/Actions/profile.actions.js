@@ -44,7 +44,7 @@ export function checkDisplayNameExists(displayname, exists) {
 }
 
 export function asyncProfileEditSubmit(imageFile, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName, options) {
-  return function(dispatch) {
+  return (dispatch) => {
     dispatch(profileEditSubmitStateChange('SUBMITTING'));
 
     let fields = {
@@ -185,7 +185,7 @@ export function profileEditSubmitStateChange(state) {
  * @param {Number} limit
  * @returns {function()}
  */
-export function asyncGetUserReviews(reviewownerid, skip, limit=10) {
+export function asyncGetUserReviews(reviewownerid, skip, limit = 10) {
   return dispatch => {
     dispatch(getUserReviewsPending());
     getReviewsSocket.responseOnce((reviews) => {

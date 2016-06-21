@@ -375,18 +375,17 @@ module.exports.run = function (worker) {
   // Setting middleware
   app.use(GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
   app.use(ssrMiddleware);
-  app.use(fullProfileOnSession);
   app.use(ensureProfileImage);
   app.use(reduxStateMiddleware);
   app.use(renderComponent);
 
-  app.use('/anmeldelse', ReviewRoutes, ensureUserHasValidLibrary);
-  app.use('/grupper', ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);
-  app.use('/find', SearchRoutes, ensureUserHasValidLibrary);
-  app.use('/profil', ProfileRoutes);
-  app.use('/kampagne', CampaignRoutes);
-  app.use('/materiale', WorkRoutes, ensureUserHasValidLibrary);
-  app.use('/indhold', ContentRoutes, ensureUserHasValidLibrary);
+  app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
+  app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
+  app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);
+  app.use('/profil', fullProfileOnSession, ProfileRoutes);
+  app.use('/kampagne', fullProfileOnSession, CampaignRoutes);
+  app.use('/materiale', fullProfileOnSession, ensureUserHasValidLibrary, WorkRoutes);
+  app.use('/indhold', fullProfileOnSession, ensureUserHasValidLibrary, ContentRoutes);
   app.use('/api', ApiRoutes);
   app.use('/', MainRoutes);
 

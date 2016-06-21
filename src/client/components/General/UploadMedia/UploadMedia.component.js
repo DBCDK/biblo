@@ -76,7 +76,7 @@ export default class UploadMedia extends React.Component {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const attachment = {image: e.target.result, video: null};
+        const attachment = {image: e.target.result};
         return resolve(attachment);
       };
       reader.readAsDataURL(file);
@@ -91,7 +91,7 @@ export default class UploadMedia extends React.Component {
   handleVideo(file, onProgress) {
     return new Promise((resolve, reject) => {
       file.progress = 0;
-      const attachment = {image: null, video: {file: file}};
+      const attachment = {video: {file: file}};
       const form = new FormData();
       form.append('video', file);
       this.xhr = new XMLHttpRequest();

@@ -9,13 +9,14 @@ import passport from 'passport';
 import request from 'request';
 
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
+import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 // React components
 import FrontpageContainer from '../../client/components/FrontPage/FrontpageContainer.component';
 
 const MainRoutes = express.Router();
 
-MainRoutes.get('/', ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
+MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
   const frontPageBucket = process.env.FRONT_PAGE_BUCKET || 'uxdev-biblo-content-frontpage'; // eslint-disable-line no-process-env
   const bibloCSUrl = req.app.get('BIBLO_CONFIG').provider.services.community.endpoint;
   const settingsUrl = `${bibloCSUrl}api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;

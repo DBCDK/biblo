@@ -48,8 +48,7 @@ const SuggestTransform = {
         suggestResponse.data.push({str: suggestion.term, type: 'creator', typeIndex: 2});
       }
 
-      // disable groups until group searching is released
-      if (groupSuggestions.options && groupSuggestions.options.length > index && false) { // eslint-disable-line no-constant-condition
+      if (groupSuggestions.options && groupSuggestions.options.length > index) {
         const suggestion = groupSuggestions.options[index];
         suggestResponse.data.push({str: suggestion.text, type: 'group', typeIndex: 3});
       }

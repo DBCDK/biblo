@@ -45,7 +45,7 @@ export class SearchResultContainer extends React.Component {
       visFlereMaterialButton = <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults}/>;
     }
 
-    if (this.props.search.groupSearchResults.length >= this.props.search.groupSearchLimit ) {
+    if (this.props.search.groupSearchResults.length >= this.props.search.groupSearchLimit) {
       visFlereGroupButton = <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults}/>;
     }
 

@@ -13,11 +13,11 @@ export default class GroupSearchResultList extends React.Component {
       return (
         <li key={i}>
           <a href={groupUrl}>
-            <div className='group-result-list--cover-image'>
+            <div className='cover-image'>
               <img src={result.image}/>
             </div>
-            <div className='group-result-list--description'>
-              <div className='group-result-list--title'>
+            <div className='description'>
+              <div className='title'>
                 <Icon className="icon" glyph={groupSvg}/>
                 {result.name}
               </div>
@@ -35,7 +35,7 @@ export default class GroupSearchResultList extends React.Component {
 
     if (listElements.length === 0) {
       result = (
-        <div className='group-result-list--empty-result'>
+        <div className='empty-result'>
           Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.
         </div>
       );

@@ -51,12 +51,14 @@ import {processCheckForNewQuarantines} from './server/queues/checkForNewQuaranti
 import {notifyUsersRelevantToComment} from './server/queues/notifyUsersRelevantToAComment.queue';
 
 // Change handlers
+/*
 import {
   quarantinesChangeStreamHandler,
   commentWasAddedUserMessageChangeStreamHandler,
   postWasAddedEmitToClientsChangeStreamHandler,
   commentWasAddedEmitToClientsChangeStreamHandler
 } from './server/serviceProvider/handlers/ChangeStream.handlers';
+*/
 
 module.exports.run = function (worker) {
   // Setup

@@ -18,8 +18,7 @@ const SuggestTransform = {
         limit: 6,
         fields: ['term', 'pid']
       }),
-      Promise.resolve({options: []})
-      // this.callServiceClient('community', 'groupSuggest', {q})
+      this.callServiceClient('community', 'groupSuggest', {q})
     ]);
   },
 

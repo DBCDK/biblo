@@ -12,4 +12,4 @@ module.exports = function startSocketCluster(config = {}) {
     wsEngine: 'uws',
     rebootWorkerOnCrash: process.env.AUTO_REBOOT || true // eslint-disable-line no-process-env
   }, config));
-}
+};

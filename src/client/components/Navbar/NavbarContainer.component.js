@@ -65,9 +65,9 @@ export default class NavbarContainer extends React.Component {
 
   renderProfile() {
     const profile = this.props.profileState;
-    if (profile && profile.userIsLoggedIn) {
+    if (profile && profile.id) {
       image = {
-        shouldDisplay: profile.image.url && profile.image.url.small && profile.image.url.small !== '/no_profile.png',
+        shouldDisplay: !!profile.image.url && profile.image.url.small,
         url: profile.image.url && profile.image.url.small,
         unreadMessages: profile.userMessages && profile.userMessages.unreadMessages || 0
       };

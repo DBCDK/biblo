@@ -10,7 +10,7 @@
     "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:dev": "COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:localproxy": "NODE_TLS_REJECT_UNAUTHORIZED=0 NEW_RELIC_PROXY_URL=http://localhost:8888 http_proxy=http://localhost:8888 COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
-    "features": "cucumber.js --compilers js:babel/register selenium/features",
+    "features": "PORT=3334 cucumber.js --compilers js:babel/register selenium/features",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
     "serve": "nodemon --exec node --no-stdin src/main.js",

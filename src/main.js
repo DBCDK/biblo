@@ -11,4 +11,4 @@ if (config.getConfig({}).newrelic.enabled) {
 }
 
 require('babel-register')();
-require('./scaling');
+require('./scaling')();

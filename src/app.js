@@ -414,12 +414,12 @@ module.exports.run = function (worker) {
   app.use(expressLoggers.errorLogger);
 
   // Setup listeners for change streams
-  sp.trigger('listenForNewQuarantines', [quarantinesChangeStreamHandler.bind(null, app)]);
-  sp.trigger('listenForNewPosts', [postWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)]);
-  sp.trigger('listenForNewComments', [
-    commentWasAddedUserMessageChangeStreamHandler.bind(null, app),
-    commentWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)
-  ]);
+  // sp.trigger('listenForNewQuarantines', [quarantinesChangeStreamHandler.bind(null, app)]);
+  // sp.trigger('listenForNewPosts', [postWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)]);
+  // sp.trigger('listenForNewComments', [
+  //   commentWasAddedUserMessageChangeStreamHandler.bind(null, app),
+  //   commentWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)
+  // ]);
 
   logger.log('debug', '>> Worker PID: ' + process.pid);
   logger.log('debug', 'Server listening on port ' + app.get('port'));

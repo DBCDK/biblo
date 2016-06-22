@@ -35,27 +35,30 @@ function hooks() {
 
   this.Before(function (scenario) {
     return new Promise((resolve, reject) => {
-      // const cancelTimeout = setTimeout(reject, 2000); // Abort after two seconds
+      const cancelTimeout = setTimeout(reject, 2000); // Abort after two seconds
+
+      // Create a unique and reproducable name for the mock.
       const pathhash = crypto
         .createHash('md5')
         .update(`${scenario.getUri()}:${scenario.getLine()}`)
         .digest('hex');
 
+      // This is a listener function to start the scenario once the mock is loaded.
       function mockWasLoadedListener(workerId, message) {
         if (message === `mockWasLoaded-${pathhash}`) {
-          // clearTimeout(cancelTimeout);
+          // Clean up.
+          clearTimeout(cancelTimeout);
           SC.removeListener('workerMessage', mockWasLoadedListener);
+
+          // Start the show
           resolve(message);
-        }
-        else if (message === 'creatingNewMock') {
-          resolve(message);
-        }
-        else if (message === 'mockWasCreated') {
-          // SC.removeListener('workerMessage', mockWasLoadedListener);
         }
       }
 
+      // Enable the listener
       SC.on('workerMessage', mockWasLoadedListener);
+
+      // Signal the worker to load the mock.
       SC.sendToWorker(0, {event: 'loadMock', mockName: pathhash});
     });
   });

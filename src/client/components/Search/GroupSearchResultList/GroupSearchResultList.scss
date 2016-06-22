@@ -1,5 +1,7 @@
 @import 'tools';
 
 .group-result-list {
-  @include result-list()
+  @include result-list();
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

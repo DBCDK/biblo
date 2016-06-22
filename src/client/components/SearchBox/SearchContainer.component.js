@@ -53,7 +53,8 @@ export default class SearchContainer extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.search.isSearchBoxVisible) {
+    if (this.props.search.setFocusOnSearchBox) {
+      this.props.search.setFocusOnSearchBox = false;
       ReactDOM.findDOMNode(this.refs.searchFieldReference).focus();
     }
   }

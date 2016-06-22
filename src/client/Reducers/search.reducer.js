@@ -8,6 +8,7 @@ import * as types from '../Constants/action.constants';
 
 let initialState = {
   isSearchBoxVisible: false,
+  setFocusOnSearchBox: false,
   groupSearchResults: [],
   groupSearchResultsPending: true,
   groupSearchOffset: 0,
@@ -80,7 +81,10 @@ export default function searchReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
     case types.TOGGLE_SEARCH_BOX: {
-      return assignToEmpty(state, {isSearchBoxVisible: !state.isSearchBoxVisible});
+      return assignToEmpty(state, {
+        isSearchBoxVisible: !state.isSearchBoxVisible,
+        setFocusOnSearchBox: !state.isSearchBoxVisible
+      });
     }
 
     case types.SUGGESTIONS_ARE_LOADING: {

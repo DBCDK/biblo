@@ -1,5 +1,6 @@
 @import 'tools';
 
 .material-result-list {
-  @include result-list()
+  @include result-list();
+  padding-bottom: 40px;
 }

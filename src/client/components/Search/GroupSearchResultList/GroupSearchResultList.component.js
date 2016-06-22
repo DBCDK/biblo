@@ -7,6 +7,17 @@ import groupSvg from '../../General/Icon/svg/functions/group.svg';
 
 
 export default class GroupSearchResultList extends React.Component {
+  getCoverImageUrl(group) {
+    let url;
+    if (group.coverImage) {
+      url = '/billede/' + group.coverImage.id + '/small-square';
+    }
+    else {
+      url = '/no_group_image.png';
+    }
+    return url;
+  }
+
   render() {
     const listElements = this.props.results.map((result, i) => {
       let groupUrl = '/grupper/' + result.id;
@@ -14,7 +25,7 @@ export default class GroupSearchResultList extends React.Component {
         <li key={i}>
           <a href={groupUrl}>
             <div className='cover-image'>
-              <img src={result.image}/>
+              <img src={this.getCoverImageUrl(result)}/>
             </div>
             <div className='description'>
               <div className='title'>

@@ -4,7 +4,7 @@ var expect = require('expect');
 var bibloconfig = require('@dbcdk/biblo-config');
 var crypto = require('crypto');
 
-var BASE_URL = 'http://localhost:8080';
+var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`;
 
 module.exports = function() {
   this.Given(/^at en vilkårlig bruger besøger forsiden på biblo\.dk|a user visits the frontpage$/, function(callback) {

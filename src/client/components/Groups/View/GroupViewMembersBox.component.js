@@ -3,7 +3,7 @@ import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
 
 
-function shuffle (array) {
+function shuffle(array) {
   let currentIndex = array.length, temporaryValue, randomIndex;
 
   while (currentIndex !== 0) {
@@ -17,47 +17,60 @@ function shuffle (array) {
   return array;
 }
 
-export default function GroupMembersBox({members, owner, onExpand, isExpanded, isLoadingMembers}) {
+export default class GroupMembersBox extends React.Component {
 
-  // this is necessary to avoid modifying Redux state
-  let membersCopy = members.slice();
+  constructor(props) {
+    super(props);
+  }
 
-  membersCopy = shuffle(membersCopy); // github #43 . shuffle members randomly
+  render() {
+    let {owner, onExpand, isExpanded, isLoadingMembers} = this.props;
+    // shuffle members and store in state as a copy
+    let membersCopy;
+    if (!this.state) {
+      membersCopy = this.props.members.slice();
+      membersCopy = shuffle(membersCopy);
+      // mark owner and add to members
+      owner.isOwner = true;
+      membersCopy.unshift(owner);
+      this.setState({membersCopy});
+    }
+    else {
+      membersCopy = this.state.membersCopy;
+    }
 
-  // mark owner and add to members
-  owner.isOwner = true;
-  membersCopy.unshift(owner);
+    // if not expanded then show only the top 9 members
+    let visibleMembers = (!isExpanded) ? membersCopy.slice(0, 9) : membersCopy;
 
-  // if not expanded then show only the top 9 members
-  let visibleMembers = (!isExpanded) ? membersCopy.slice(0, 9) : membersCopy;
+    const memberImages = visibleMembers.map((member) => {
+      const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
+      return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || '/no_profile.png'} alt={member.displayName}/></a>;
+    });
 
-  const memberImages = visibleMembers.map((member) => {
-    const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
-    return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || '/no_profile.png'} alt={member.displayName}/></a>;
-  });
+    const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
 
-  const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
+    // show ExpandButton if there are more than 9 members
+    let expandButton = null;
+    if (membersCopy.length > 9) {
+      expandButton = (
+        <div className='members-button'>
+          <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText}/>
+        </div>
+      );
+    }
 
-  // show ExpandButton if there are more than 9 members
-  let expandButton = null;
-  if (membersCopy.length > 9) {
-    expandButton = (
-      <div className='members-button'>
-        <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText} />
+    return (
+      <div className='group--sidebar'>
+        <div className='group-view-members-box'>
+          {memberImages}
+        </div>
+        {expandButton}
       </div>
     );
   }
-
-  return (
-    <div className='group--sidebar'>
-      <div className='group-view-members-box'>
-        {memberImages}
-      </div>
-      {expandButton}
-    </div>
-  );
 }
 
+GroupMembersBox.displayName = 'GroupMembersBox';
 GroupMembersBox.propTypes = {
   onExpand: React.PropTypes.func.isRequired,
   isExpanded: React.PropTypes.bool.isRequired,

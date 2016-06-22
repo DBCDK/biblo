@@ -85,10 +85,10 @@
     .description {
       overflow: hidden;
       .icon--container {
+        padding-right: 5px;
         .icon {
-          padding-right: 5px;
+          fill: $turquoise;
         }
-        fill: $turquoise;
       }
 
       .title {

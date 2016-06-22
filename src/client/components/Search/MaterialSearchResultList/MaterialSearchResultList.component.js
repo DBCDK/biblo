@@ -51,8 +51,8 @@ export default class MaterialSearchResultList extends React.Component {
               <img src={coverUrl} />
             </div>
             <div className='description'>
-              <Icon glyph={displayTypeSvgs[displayType]} />
               <div className='title'>
+                <Icon glyph={displayTypeSvgs[displayType]} />
                 {result.dcTitle}
               </div>
             </div>

@@ -7,7 +7,7 @@ import * as searchActions from '../../Actions/search.actions';
 import PageLayout from '../Layout/PageLayout.component.js';
 import SearchFilters from '../SearchBox/SearchFilters/SearchFilters.component.js';
 import MaterialSearchResultList from './MaterialSearchResultList/MaterialSearchResultList.component.js';
-import GroupSearchResultList from './GroupSearchResultLIst/GroupSearchResultList.component.js';
+import GroupSearchResultList from './GroupSearchResultList/GroupSearchResultList.component.js';
 import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component.js';
 
 import './SearchResultContainer.scss';

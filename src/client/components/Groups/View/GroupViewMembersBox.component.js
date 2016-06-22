@@ -20,7 +20,9 @@ function shuffle (array) {
 export default function GroupMembersBox({members, owner, onExpand, isExpanded, isLoadingMembers}) {
 
   // this is necessary to avoid modifying Redux state
-  let membersCopy = shuffle(members.slice()); // github #43 . shuffle members randomly
+  let membersCopy = members.slice();
+
+  membersCopy = shuffle(membersCopy); // github #43 . shuffle members randomly
 
   // mark owner and add to members
   owner.isOwner = true;

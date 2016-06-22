@@ -15,7 +15,7 @@ const CheckOrderPolicyTransform = {
         request.agencyId = profile.favoriteLibrary.libraryId;
       }
       catch (err) {
-        throw new Error('Could not find library id in session or request or user is not logged in');
+        return Promise.resolve({error: 'Could not find library id in session or request or user is not logged in'});
       }
     }
 
@@ -31,6 +31,11 @@ const CheckOrderPolicyTransform = {
     data.orderPossible = false;
     data.pids = pids;
     data.errors = [];
+
+    if (response.error) {
+      data.errors.push(response.error);
+      return data;
+    }
 
     if (!(response.hasOwnProperty('checkOrderPolicyResponse') && response.checkOrderPolicyResponse.hasOwnProperty('orderPossible'))) {
       data.errors.push('could not determine order policy');

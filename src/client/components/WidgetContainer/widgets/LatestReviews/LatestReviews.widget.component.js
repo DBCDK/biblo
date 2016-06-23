@@ -8,6 +8,7 @@ import {CompactReviewElement} from './CompactReviewElement.component';
 import Icon from '../../../General/Icon/Icon.component';
 
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
+import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 
 import './scss/LatestReviews.widget.component.scss';
 
@@ -50,7 +51,7 @@ export class LatestReviewsWidget extends Component {
           <a
             className="latest-reviews-widget--show-more-button"
             onClick={() => this.setState({isClosed: !this.state.isClosed})}>
-            <Icon glyph={plusSvg} />
+            <Icon glyph={this.state.isClosed ? plusSvg : minusSvg}/>
             {this.state.isClosed ? ' VIS FLERE' : ' VIS FÆRRE'}
           </a>
         </div>

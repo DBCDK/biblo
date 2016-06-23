@@ -36,7 +36,7 @@ const SuggestTransform = {
     };
 
     let index = 0;
-    while (suggestResponse.data.length < total || index > total) {
+    while (suggestResponse.data.length < total && index < total) {
       if (workSuggestions.data && workSuggestions.data.length > index) {
         const suggestion = workSuggestions.data[index];
         suggestResponse.data.push({str: suggestion.term, type: 'work', typeIndex: 1});

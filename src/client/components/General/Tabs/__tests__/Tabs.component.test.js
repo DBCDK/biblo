@@ -85,6 +85,19 @@ describe('Testing the Tabs component', () => {
     assert.isFalse(tree.everySubTree('.tab')[0].props.children[0]);
   });
 
+  it('Should not display a notification count', () => {
+    const tabs = [
+      {
+        label: 'tab_1',
+        content: 'Tab1Content',
+        counter: null
+      }
+    ];
+    const tree = sd.shallowRender(<Tabs tabs={tabs} />);
+
+    assert.isFalse(tree.everySubTree('.tab')[0].props.children[0]);
+  });
+
   it('Should display a notification count', () => {
     const count = 10;
     const tabs = [

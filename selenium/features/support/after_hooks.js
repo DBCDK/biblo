@@ -3,30 +3,30 @@ require('babel-register')();
 const path = require('path');
 const crypto = require('crypto');
 
-let SC;
+let SocketCluster;
 
 function hooks() {
   this.registerHandler('BeforeFeatures', (ev, cb) => {
     // Start socketcluster and listen for when it's ready.
-    SC = require('../../../src/scaling.js')({
+    SocketCluster = require('../../../src/scaling.js')({
       workers: 1,
       brokers: 1,
       initController: path.join(__dirname, 'mockingInitController.js'),
       logLevel: 1,
       rebootWorkerOnCrash: false
     });
-    SC.on('ready', cb);
+    SocketCluster.on('ready', cb);
   });
 
   this.registerHandler('AfterFeatures', (ev, cb) => {
     // give the mocks a chance to write.
-    SC.sendToWorker(0, {event: 'shutDown'});
+    SocketCluster.sendToWorker(0, {event: 'shutDown'});
 
     setTimeout(() => {
       // Clean up everything before exiting.
-      if (SC) {
-        SC.killWorkers();
-        SC.killBrokers();
+      if (SocketCluster) {
+        SocketCluster.killWorkers();
+        SocketCluster.killBrokers();
       }
 
       cb();
@@ -48,7 +48,7 @@ function hooks() {
         if (message === `mockWasLoaded-${pathhash}`) {
           // Clean up.
           clearTimeout(cancelTimeout);
-          SC.removeListener('workerMessage', mockWasLoadedListener);
+          SocketCluster.removeListener('workerMessage', mockWasLoadedListener);
 
           // Start the show
           resolve(message);
@@ -56,10 +56,10 @@ function hooks() {
       }
 
       // Enable the listener
-      SC.on('workerMessage', mockWasLoadedListener);
+      SocketCluster.on('workerMessage', mockWasLoadedListener);
 
       // Signal the worker to load the mock.
-      SC.sendToWorker(0, {event: 'loadMock', mockName: pathhash});
+      SocketCluster.sendToWorker(0, {event: 'loadMock', mockName: pathhash});
     });
   });
 

@@ -144,6 +144,7 @@ export class WorkReviewContainer extends React.Component {
             profile={this.props.profile}
             unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
+            getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
             fullReview={true}
             ownReview={isOwnReview}
           />

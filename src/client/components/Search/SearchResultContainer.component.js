@@ -41,11 +41,15 @@ export class SearchResultContainer extends React.Component {
   render() {
     let visFlereMaterialButton, visFlereGroupButton;
 
-    if (this.props.search.materialSearchResults.length >= this.props.search.materialSearchLimit) {
+    if (this.props.search.materialSearchResults.length - this.props.search.materialSearchOffset >=
+      this.props.search.materialSearchLimit
+    ) {
       visFlereMaterialButton = <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults}/>;
     }
 
-    if (this.props.search.groupSearchResults.length >= this.props.search.groupSearchLimit) {
+    if (this.props.search.groupSearchResults.length - this.props.search.groupSearchOffset >=
+         this.props.search.groupSearchLimit
+    ) {
       visFlereGroupButton = <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults}/>;
     }
 

@@ -102,7 +102,7 @@ export default function searchReducer(state = initialState, action = {}) {
     }
 
     case types.LOADED_MORE_MATERIAL_RESULTS: {
-      let newOffset = state.materialSearchOffset + state.materialSearchLimit;
+      let newOffset = state.materialSearchResults.length;
       return assignToEmpty(state, {
         materialSearchResults: state.materialSearchResults.concat(action.results),
         isLoadingMaterialResults: false,
@@ -115,7 +115,7 @@ export default function searchReducer(state = initialState, action = {}) {
     }
 
     case types.LOADED_MORE_GROUP_RESULTS: {
-      let newOffset = state.groupSearchOffset + state.groupSearchLimit;
+      let newOffset = state.groupSearchResults.length;
       return assignToEmpty(state, {
         groupSearchResults: state.groupSearchResults.concat(action.results),
         isLoadingGroupResults: false,

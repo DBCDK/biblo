@@ -23,7 +23,7 @@ export default class FrontpageContainer extends React.Component {
   }
 }
 
-FrontpageContainer.displayName = 'ErrorPageContainer';
+FrontpageContainer.displayName = 'FrontPageContent';
 FrontpageContainer.propTypes = {
   profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,

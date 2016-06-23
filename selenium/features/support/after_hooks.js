@@ -1,17 +1,62 @@
 
 require('babel-register')();
 const path = require('path');
-const crypto = require('crypto');
 
 let SocketCluster;
+
+/**
+ * dispatches a message to a worker, and awaits a responding message.
+ * @param {String || PlainObject} requestEvent
+ * @param {String} responseEvent
+ * @param {Number} timeout
+ * @returns {Promise}
+ */
+function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
+  // First we want to check that everything is defined
+  if (!requestEvent || !responseEvent || !SocketCluster) {
+    return Promise.reject('Missing properties.');
+  }
+
+  // We return a promise and let cucumber handle it.
+  return new Promise((resolve, reject) => {
+    // Enable timeout, default timeout is 2 seconds
+    timeout = timeout || 2000;
+    const cancelTimeout = setTimeout(reject, timeout);
+
+    /**
+     * This is a generic listener for SocketCluster events
+     * @param {Int} worker
+     * @param {String || PlainObject} message
+     */
+    function listenForSocketClusterResponseEvent(worker, message) {
+      // Only respond to the event we want.
+      if (message === responseEvent) {
+        // We got a response within the timeout, so just clear it.
+        clearTimeout(cancelTimeout);
+
+        // Remove the listener to prevent method firing after we are interested in it.
+        SocketCluster.removeListener('workerMessage', listenForSocketClusterResponseEvent);
+
+        // Resolve the function, the event has been correctly handled.
+        resolve(responseEvent);
+      }
+    }
+
+    // Start listening for the response
+    SocketCluster.on('workerMessage', listenForSocketClusterResponseEvent);
+
+    // Send a request to the worker.
+    SocketCluster.sendToWorker(0, requestEvent);
+  });
+}
 
 function hooks() {
   this.registerHandler('BeforeFeatures', (ev, cb) => {
     // Start socketcluster and listen for when it's ready.
     SocketCluster = require('../../../src/scaling.js')({
+      initController: path.join(__dirname, 'mockingInitController.js'),
       workers: 1,
       brokers: 1,
-      initController: path.join(__dirname, 'mockingInitController.js'),
       logLevel: 1,
       rebootWorkerOnCrash: false
     });
@@ -34,38 +79,32 @@ function hooks() {
   });
 
   this.Before(function (scenario) {
-    return new Promise((resolve, reject) => {
-      const cancelTimeout = setTimeout(reject, 2000); // Abort after two seconds
+    /**
+     * cleanMocks removes all interceptors and resets recording.
+     */
+    this.cleanMocks = () => askSocketClusterWithTimeout('cleanMocks', 'mocksWereCleaned');
 
-      // Create a unique and reproducable name for the mock.
-      const pathhash = crypto
-        .createHash('md5')
-        .update(`${scenario.getUri()}:${scenario.getLine()}`)
-        .digest('hex');
+    /**
+     * disableNetConnect instruct nock to disable all net connections.
+     */
+    this.disableNetConnect = () => askSocketClusterWithTimeout('disableNetConnect', 'netConnectDisabled');
 
-      // This is a listener function to start the scenario once the mock is loaded.
-      function mockWasLoadedListener(workerId, message) {
-        if (message === `mockWasLoaded-${pathhash}`) {
-          // Clean up.
-          clearTimeout(cancelTimeout);
-          SocketCluster.removeListener('workerMessage', mockWasLoadedListener);
+    /**
+     * loadMock loads a mock by name.
+     * @param mockName
+     */
+    this.loadMock = mockName => askSocketClusterWithTimeout({event: 'loadMock', mockName: mockName}, `mockWasLoaded-${mockName}`);
 
-          // Start the show
-          resolve(message);
-        }
-      }
-
-      // Enable the listener
-      SocketCluster.on('workerMessage', mockWasLoadedListener);
-
-      // Signal the worker to load the mock.
-      SocketCluster.sendToWorker(0, {event: 'loadMock', mockName: pathhash});
-    });
+    // We start every scenario by cleaning any interceptors.
+    return this.disableNetConnect();
   });
 
   this.After(function () { // Use function instead of arrow to get correct scope.
+    // Tell socketcluster our scenario finished
+    SocketCluster.sendToWorker(0, 'scenarioDidFinish');
+
     // Close browser after scenario
-    return this.browser.quit();
+    return Promise.all([this.browser.quit(), this.cleanMocks()]);
   });
 };
 

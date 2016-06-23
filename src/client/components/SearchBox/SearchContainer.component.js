@@ -122,7 +122,7 @@ export default class SearchContainer extends React.Component {
             <span className="search-input--container">
               <input
                 type='search'
-                placeholder='Søg på bøger, film og spil'
+                placeholder='Søg på bøger, film, musik og spil'
                 defaultValue={initialQuery}
                 onChange={this.searchInputChanged}
                 onKeyDown={this.submitInput}

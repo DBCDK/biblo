@@ -31,16 +31,17 @@ module.exports = function() {
   });
 
   this.Then(/^the user can log in/, function (callback) {
-    var uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
-    var date = new Date();
-    var timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
-    var user = 'bobby_hansen';
-    var auth = crypto
+    const uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
+    const date = new Date();
+    const timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
+    const ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';
+    const user = 'bobby_hansen';
+    const auth = crypto
       .createHash('md5')
       .update(timestamp + uniloginSecret + user)
       .digest('hex');
-    var ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';
-    var url = `${BASE_URL}/login?auth=${auth}&timestamp=${timestamp}&user=${user}&ltoken=${ltoken}`;
+
+    const url = `${BASE_URL}/login?auth=${auth}&timestamp=${timestamp}&user=${user}&ltoken=${ltoken}`;
 
     this.browser.get(url);
     this.browser.findElement({tagName: 'body'}).then((bodyElement) => {
@@ -73,5 +74,9 @@ module.exports = function() {
     return this.browser.getTitle().then(title => {
       expect(title).toNotContain('Fejl');
     });
+  });
+
+  this.When(/^mock ([a-zA-Z\-]+) is loaded$/, function (mockName) {
+    return this.loadMock(mockName);
   });
 };

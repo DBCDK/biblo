@@ -2,7 +2,7 @@ Feature: Site Sessions
   This feature describes logging in and out of the system.
 
   Scenario: A user can log in, and the log out.
-    When mock frontpage is loaded
+    When mock frontpage is loaded 2 times
     Given a user visits the frontpage
     And the cookiewarning has been closed
     When mock emptyUser is loaded

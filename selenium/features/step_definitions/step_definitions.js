@@ -7,18 +7,18 @@ var crypto = require('crypto');
 var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`;
 
 module.exports = function() {
-  this.Given(/^at en vilkårlig bruger besøger forsiden på biblo\.dk|a user visits the frontpage$/, function(callback) {
+  this.Given(/^at en vilkårlig bruger besøger forsiden på biblo\.dk|a user visits the frontpage$/i, function(callback) {
     this.browser.get(BASE_URL)
       .then(() => {
         callback();
       });
   });
 
-  this.Given(/^the cookiewarning has been closed$/, function () {
+  this.Given(/^the cookiewarning has been closed$/i, function () {
     return this.click('.cookie-warning > .rounded-button');
   });
 
-  this.Then(/^skal pagetitel være Biblo$/, function(callback) {
+  this.Then(/^skal pagetitel være Biblo$/i, function(callback) {
     this.browser.getTitle()
       .then((title) => {
         if (title === 'Biblo') {
@@ -30,7 +30,7 @@ module.exports = function() {
       });
   });
 
-  this.Then(/^the user can log in/, function (callback) {
+  this.Then(/^the user can log in/i, function (callback) {
     const uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
     const date = new Date();
     const timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
@@ -52,7 +52,7 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^the user can log out/, function () {
+  this.Then(/^the user can log out/i, function () {
     return this.click('.profile-image--icon').then(() => {
       return new Promise(resolve => {
         // Wait for the animation to finish!
@@ -70,17 +70,17 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^page is not error page$/, function () {
+  this.Then(/^page is not error page$/i, function () {
     return this.browser.getTitle().then(title => {
       expect(title).toNotContain('Fejl');
     });
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/, function (mockName, times) {
+  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/i, function (mockName, times) {
     return this.loadMock(mockName, times);
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded$/, function (mockName) {
+  this.When(/^mock ([a-zA-Z\-]+) is loaded$/i, function (mockName) {
     return this.loadMock(mockName);
   });
 };

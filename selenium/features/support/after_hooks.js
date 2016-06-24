@@ -57,7 +57,7 @@ function hooks() {
       initController: path.join(__dirname, 'mockingInitController.js'),
       workers: 1,
       brokers: 1,
-      logLevel: 1,
+      logLevel: process.env.SC_LOGLEVEL || 1,
       rebootWorkerOnCrash: false
     });
     SocketCluster.on('ready', cb);

@@ -68,6 +68,10 @@ export default class SearchContainer extends React.Component {
     if (query.length >= 3) {
       this.props.searchActions.getWorkSuggestions(query);
     }
+   }
+
+  clearSearchBox() {
+    this.setState({query: ''});
   }
 
   submitInput(e) {
@@ -85,9 +89,6 @@ export default class SearchContainer extends React.Component {
   }
 
   render() {
-
-    let initialQuery = this.props.search.initialQuery;
-
     const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
     const dropDown = (
       <SearchDropDown
@@ -111,7 +112,7 @@ export default class SearchContainer extends React.Component {
     );
 
     const searchButtonGlyph = (this.props.search.isSearching) ? spinnerSvg : searchSvg;
-
+    const clearSearchBoxVisible = "search-container--clear-searchbox " + (this.state.query.length > 0 ? '' : 'clear-searchbox-hidden');
     return (
       <div className='search'>
         <div className={classNames}>
@@ -123,7 +124,7 @@ export default class SearchContainer extends React.Component {
               <input
                 type='search'
                 placeholder='Søg på bøger, film, musik og spil'
-                defaultValue={initialQuery}
+                value={this.state.query}
                 onChange={this.searchInputChanged}
                 onKeyDown={this.submitInput}
                 onBlur={() => this.setState({queryFieldIsActive: false})}
@@ -131,6 +132,12 @@ export default class SearchContainer extends React.Component {
                 ref="searchFieldReference"
               >
               </input>
+                <span className={clearSearchBoxVisible}
+                      ref="searchClearReference"
+                      onClick={this.clearSearchBox.bind(this)}
+                >
+                  ×
+                </span>
                 <div className="search-container--dropdown-container">
                   {dropDown}
                 </div>

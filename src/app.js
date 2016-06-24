@@ -379,6 +379,14 @@ module.exports.run = function (worker) {
   app.use(reduxStateMiddleware);
   app.use(renderComponent);
 
+  app.use((req, res, next) => {
+    if (process.env.GIT_COMMIT) { // eslint-disable-line
+      res.locals.gitsha = process.env.GIT_COMMIT; // eslint-disable-line
+    }
+
+    next();
+  });
+
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
   app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
   app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);

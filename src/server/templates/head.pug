@@ -8,6 +8,9 @@ head
     meta(name='theme-color' content='#000000')
     meta(name='description' content='Biblo er bibliotekernes nye website til børn under 14 år. Her kan man finde grupper om alt muligt, deltage i konkurrencer og snart låne bøger, film, spil og musik.')
 
+    if gitsha
+      meta(name='git_version', content!=gitsha)
+
     // FAVICON ETC START
     link(rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon")
     link(rel="icon" href="/favicons/favicon.ico" type="image/x-icon")

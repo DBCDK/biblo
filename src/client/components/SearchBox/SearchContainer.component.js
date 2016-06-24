@@ -22,6 +22,7 @@ export default class SearchContainer extends React.Component {
     };
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
+    this.clearSearchBox = this.clearSearchBox.bind(this);
   }
 
   componentDidMount() {
@@ -68,7 +69,7 @@ export default class SearchContainer extends React.Component {
     if (query.length >= 3) {
       this.props.searchActions.getWorkSuggestions(query);
     }
-   }
+  }
 
   clearSearchBox() {
     this.setState({query: ''});
@@ -132,15 +133,10 @@ export default class SearchContainer extends React.Component {
                 ref="searchFieldReference"
               >
               </input>
-                <span className={clearSearchBoxVisible}
-                      ref="searchClearReference"
-                      onClick={this.clearSearchBox.bind(this)}
-                >
-                  ×
-                </span>
-                <div className="search-container--dropdown-container">
-                  {dropDown}
-                </div>
+              <span className={clearSearchBoxVisible} onClick={this.clearSearchBox}>×</span>
+              <div className="search-container--dropdown-container">
+                {dropDown}
+              </div>
             </span>
           </div>
         </div>

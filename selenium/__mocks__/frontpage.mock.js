@@ -146,4 +146,19 @@ module.exports = function frontpage(times) {
       "resolutionImageFileId": 453,
       "resolutionVideoFileId": null
     });
+
+  nock('http://platform-i01.dbc.dk:8080', {"encodedQueryParams":true})
+    .post('/v1/work/', "pids%5B0%5D=870970-basis%3A07058063&fields%5B0%5D=coverUrlFull&fields%5B1%5D=collection&fields%5B2%5D=workType")
+    .reply(200, {"statusCode":200,"data":[{"collection":["870970-basis:07058063"],"workType":["book"]}]}, { 'access-control-allow-origin': '*',
+      'access-control-allow-methods': 'GET, POST, OPTIONS',
+      'access-control-allow-headers': 'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+      'x-frame-options': 'SAMEORIGIN',
+      'x-download-options': 'noopen',
+      'x-content-type-options': 'nosniff',
+      'content-type': 'application/json; charset=utf-8',
+      'content-length': '88',
+      etag: 'W/"58-hAm1fr+FcInMbMnBTRcZeA"',
+      vary: 'Accept-Encoding',
+      date: 'Fri, 24 Jun 2016 06:25:12 GMT',
+      connection: 'close' });
 };

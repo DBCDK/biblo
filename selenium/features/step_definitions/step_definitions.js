@@ -76,6 +76,10 @@ module.exports = function() {
     });
   });
 
+  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/, function (mockName, times) {
+    return this.loadMock(mockName, times);
+  });
+
   this.When(/^mock ([a-zA-Z\-]+) is loaded$/, function (mockName) {
     return this.loadMock(mockName);
   });

@@ -93,7 +93,7 @@ function hooks() {
      * loadMock loads a mock by name.
      * @param mockName
      */
-    this.loadMock = mockName => askSocketClusterWithTimeout({event: 'loadMock', mockName: mockName}, `mockWasLoaded-${mockName}`);
+    this.loadMock = (mockName, times = 1) => askSocketClusterWithTimeout({event: 'loadMock', mockName: mockName, times}, `mockWasLoaded-${mockName}`);
 
     // We start every scenario by cleaning any interceptors.
     return this.disableNetConnect();

@@ -22,6 +22,7 @@ export default class SearchContainer extends React.Component {
     };
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
+    this.clearSearchBox = this.clearSearchBox.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +71,10 @@ export default class SearchContainer extends React.Component {
     }
   }
 
+  clearSearchBox() {
+    this.setState({query: ''});
+  }
+
   submitInput(e) {
     if (e.keyCode === 13 && this.props.search.selectedWorkSuggestion >= 0) {
       window.location = this.props.search.workSuggestions[this.state.query][this.props.search.selectedWorkSuggestion].href;
@@ -85,9 +90,6 @@ export default class SearchContainer extends React.Component {
   }
 
   render() {
-
-    let initialQuery = this.props.search.initialQuery;
-
     const classNames = (this.props.search.isSearchBoxVisible) ? 'search-container' : 'search-container search-container--hidden';
     const dropDown = (
       <SearchDropDown
@@ -111,7 +113,7 @@ export default class SearchContainer extends React.Component {
     );
 
     const searchButtonGlyph = (this.props.search.isSearching) ? spinnerSvg : searchSvg;
-
+    const clearSearchBoxVisible = 'search-container--clear-searchbox ' + (this.state.query.length > 0 ? '' : 'clear-searchbox-hidden');
     return (
       <div className='search'>
         <div className={classNames}>
@@ -123,7 +125,7 @@ export default class SearchContainer extends React.Component {
               <input
                 type='search'
                 placeholder='Søg på bøger, film, musik og spil'
-                defaultValue={initialQuery}
+                value={this.state.query}
                 onChange={this.searchInputChanged}
                 onKeyDown={this.submitInput}
                 onBlur={() => this.setState({queryFieldIsActive: false})}
@@ -131,9 +133,10 @@ export default class SearchContainer extends React.Component {
                 ref="searchFieldReference"
               >
               </input>
-                <div className="search-container--dropdown-container">
-                  {dropDown}
-                </div>
+              <span className={clearSearchBoxVisible} onClick={this.clearSearchBox}>×</span>
+              <div className="search-container--dropdown-container">
+                {dropDown}
+              </div>
             </span>
           </div>
         </div>

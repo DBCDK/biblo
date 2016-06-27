@@ -352,8 +352,11 @@ export class ProfileDetailContainer extends React.Component {
         <MessagesContainer
           agencies={this.props.agencies}
           agencyActions={this.props.agencyActions}
+          groupActions={this.props.groupActions}
+          groupState={this.props.group}
           messages={this.props.profile.userMessages.messages}
           readAction={this.props.profileActions.asyncMarkUserMessageAsRead}
+
         />
       );
 

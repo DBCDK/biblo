@@ -16,7 +16,8 @@ const defaultState = {
   image: '/no_group_image.png',
   isMembersExpanded: false,
   posts: [],
-  works: {}
+  works: {},
+  comments: {}
 };
 
 const groupData = parseJsonData('JSONDATA', 'groupData');
@@ -89,7 +90,11 @@ export default function groupViewReducer(state = initialState, action = {}) {
 
     case types.GROUP_SHOW_MORE_POSTS: {
       posts = [...state.posts, ...action.posts];
-      return assignToEmpty(state, {posts, numberOfPostsLoaded: action.numberOfPostsLoaded, loadingPosts: false});
+      return assignToEmpty(state, {
+        posts,
+        numberOfPostsLoaded: action.numberOfPostsLoaded,
+        loadingPosts: false
+      });
     }
 
     case types.GROUP_LOADING_MORE_POSTS: {
@@ -198,6 +203,15 @@ export default function groupViewReducer(state = initialState, action = {}) {
       }
 
       return assignToEmpty(state);
+    }
+
+    case types.GET_SINGLE_COMMENT: {
+      let newState = assignToEmpty(state);
+      if (!newState.comments[action.comment.id]) {
+        newState.comments[action.comment.id] = action.comment;
+      }
+
+      return assignToEmpty(newState);
     }
 
     default: {

@@ -3,12 +3,14 @@ import moment from 'moment';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import Icon from '../../General/Icon/Icon.component';
+import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 
 // SVG
 import klarSVG from '../../General/Icon/svg/functions/klar-til-afhentning.svg';
 import backSVG from '../../General/Icon/svg/functions/back.svg';
 import boedeSVG from '../../General/Icon/svg/functions/boede.svg';
 import forSentSVG from '../../General/Icon/svg/functions/for-sent.svg';
+import commentSVG from '../../General/Icon/svg/functions/comment.svg';
 
 import './scss/MessageRow.container.scss';
 
@@ -18,6 +20,7 @@ export default class MessageRow extends React.Component {
 
     this.state = {
       message: this.props.message,
+      comment: {},
       justRead: false
     };
   }
@@ -25,6 +28,17 @@ export default class MessageRow extends React.Component {
   componentDidMount() {
     if (this.state.message.pickupAgency) {
       this.props.agencyActions.asyncGetLibraryDetailsAction({agencyId: this.state.message.pickupAgency});
+    }
+
+    if (this.state.message.commentId) {
+      this.props.groupActions.asyncGetSingleComment(this.state.message.commentId);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.groupState.comments[this.state.message.commentId] && !Object.keys(this.state.comment).length) {
+      const comment = nextProps.groupState.comments[this.state.message.commentId];
+      this.setState({comment: comment});
     }
   }
 
@@ -65,6 +79,7 @@ export default class MessageRow extends React.Component {
           </span>
         );
       }
+
       case 'type-orderIsReady': {
         const orderReadyClass = this.state.message.ready ? 'ready' : '';
 
@@ -75,6 +90,7 @@ export default class MessageRow extends React.Component {
           </span>
         );
       }
+
       case 'Fine': {
         return (
           <span className="boede" >
@@ -83,6 +99,7 @@ export default class MessageRow extends React.Component {
           </span>
         );
       }
+
       case 'Reservation Charge': {
         return (
           <span className="boede" >
@@ -91,6 +108,19 @@ export default class MessageRow extends React.Component {
           </span>
         );
       }
+
+      case 'type-commentWasAdded': {
+        const groupName = this.state.comment.post ? this.state.comment.post.group.name : '';
+        const groupId = this.state.comment.post ? this.state.comment.post.group.id : '';
+
+        return (
+          <span className="kommentar" >
+            <Icon icon="kommentar" width={15} height={15} glyph={commentSVG} />
+            Ny kommentar til dit indlæg i <a href={`/grupper/${groupId}`} >{groupName}</a>
+          </span>
+        );
+      }
+
       default: {
         return this.props.message.type;
       }
@@ -106,6 +136,7 @@ export default class MessageRow extends React.Component {
 
         return (<span>{string} {dateString}</span>);
       }
+
       case 'type-orderIsReady': {
         const agency = this.props.agencies[this.state.message.pickupAgency];
         let branchName = 'Ukendt bibliotek';
@@ -121,6 +152,7 @@ export default class MessageRow extends React.Component {
           </div>
         );
       }
+
       case 'Fine': {
         const boedeString = moment(this.state.message.date).fromNow();
         const amount = this.state.message.amount;
@@ -132,6 +164,7 @@ export default class MessageRow extends React.Component {
           </div>
         );
       }
+
       case 'Reservation Charge': {
         const charge = this.state.message.amount;
 
@@ -141,28 +174,69 @@ export default class MessageRow extends React.Component {
           </div>
         );
       }
+
+      case 'type-commentWasAdded': {
+        const username = this.state.comment.owner ? this.state.comment.owner.displayName : '';
+        const ownerId = this.state.comment.commentownerid || '';
+        const commentContent = this.state.comment.content || '';
+        const commentImg = this.state.comment.image ?
+          <img src={this.state.comment.image} alt={commentContent} /> : null;
+        const groupId = this.state.comment.post ? this.state.comment.post.groupid : null;
+        const postId = this.state.comment.commentcontainerpostid || null;
+
+        return (
+          <div>
+            <div className="comment" >
+              <div className="comment-username" ><a href={`/profil/${ownerId}`} >{username}</a></div>
+              <div>{commentContent}</div>
+                 {commentImg}
+            </div>
+            <RoundedButton buttonText='Se alle kommentarer' href={`/grupper/${groupId}/${postId}`} />
+          </div>
+        );
+      }
+
       default: {
         return this.props.message.type;
       }
     }
   }
 
+  /**
+   * Returns the appropriate iamge depending on the messagetype
+   * @return {*}
+   */
   getMessageImage() {
     const imageBasePath = '/images/messages';
 
     switch (this.state.message.type) {
+
       case 'type-orderExpiresSoon': {
-        return `${imageBasePath}/default-afleveres.png`;
+        return <img src={`${imageBasePath}/default-afleveres.png`} alt="Afleveres billede" />;
       }
+
       case 'type-orderIsReady': {
-        return `${imageBasePath}/default-afhentes.png`;
+        return <img src={`${imageBasePath}/default-afhentes.png`} alt="Afhentes billede" />;
       }
+
       case 'Fine': {
-        return `${imageBasePath}/default-boede.png`;
+        return <img src={`${imageBasePath}/default-boede.png`} alt="Bøde billede" />;
       }
+
       case 'Reservation Charge': {
-        return `${imageBasePath}/default-boede.png`;
+        return <img src={`${imageBasePath}/default-boede.png`} alt="Gebyr billede" />;
       }
+
+      case 'type-commentWasAdded': {
+        const profileImage = this.state.comment.owner ? this.state.comment.owner.image : '/no_profile.png';
+
+        return (
+          <div className="profileimage" >
+            <img src={profileImage} alt="Profil billede" />
+          </div>
+        );
+      }
+
       default: {
         return '/images/covers/other.png';
       }
@@ -187,11 +261,15 @@ export default class MessageRow extends React.Component {
             </div>
           </div>
           <div className="message-row--image-container" >
-            <img src={this.getMessageImage()} alt="Cover Image" />
+               {this.getMessageImage()}
           </div>
           <div className="message-row--data-container" >
-            <div className="message-row--message-type" >{this.getMessageType()}</div>
-            <div className="message-row--age" >{moment.utc(this.state.message.createdEpoch).fromNow()}</div>
+            <div className="message-row--message-type" >
+                 {this.getMessageType()}
+                   <div className="message-row--age" >
+                        {moment(this.state.message.createdEpoch).fromNow()}
+                   </div>ª$
+            </div>
 
             <div className="message-data--headline" >{this.state.message.title}</div>
             <div className="message-data--message-content" >{this.getMessageContent()}</div>
@@ -206,6 +284,8 @@ MessageRow.displayName = 'MessageRow';
 MessageRow.propTypes = {
   agencies: React.PropTypes.object.isRequired,
   agencyActions: React.PropTypes.object.isRequired,
+  groupActions: React.PropTypes.object.isRequired,
+  groupState: React.PropTypes.object.isRequired,
   message: React.PropTypes.object.isRequired,
   readAction: React.PropTypes.func.isRequired
 };

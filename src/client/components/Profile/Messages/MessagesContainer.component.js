@@ -32,9 +32,11 @@ export default class MessagesContainer extends React.Component {
         <MessageRow
           agencies={this.props.agencies}
           agencyActions={this.props.agencyActions}
+          groupActions={this.props.groupActions}
+          groupState={this.props.groupState}
+          key={index}
           message={msg}
           readAction={this.props.readAction}
-          key={index}
         />
       );
     });
@@ -64,6 +66,8 @@ MessagesContainer.displayName = 'MessagesContainer';
 MessagesContainer.propTypes = {
   agencies: React.PropTypes.object.isRequired,
   agencyActions: React.PropTypes.object.isRequired,
+  groupActions: React.PropTypes.object.isRequired,
+  groupState: React.PropTypes.object.isRequired,
   messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   readAction: React.PropTypes.func.isRequired
 };

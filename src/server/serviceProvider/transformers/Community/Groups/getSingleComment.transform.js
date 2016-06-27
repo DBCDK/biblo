@@ -1,3 +1,9 @@
+/**
+ * @file
+ * Transform that retreives a comment based on the given id.
+ * The comments context, relation to post and group, is also retreived.
+ */
+
 import parseComment from '../../../parsers/comment.parser';
 
 const GetSingleCommentsTransform = {
@@ -35,6 +41,7 @@ const GetSingleCommentsTransform = {
           }
         },
         {owner: ['image']},
+        {post: ['group']},
         {
           relation: 'video',
           scope: {

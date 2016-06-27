@@ -17,7 +17,7 @@ const markPostAsDeleted = SocketClient('deletePost');
 const loadComments = SocketClient('getComments');
 const loadMetadataForReviewAttachedToPostOrCommentSocket = SocketClient('work');
 const getSinglePosts = SocketClient('getSinglePosts');
-const getSingleComment = SocketClient('getSingleComment');
+const getSingleCommentSocket = SocketClient('getSingleComment');
 
 export function asyncChangeImage(file) {
   return (dispatch) => {
@@ -55,16 +55,19 @@ export function showGroups(response, skip, limit, groupType) {
   };
 }
 
-export function moreGroupsLoading(type='new') {
+export function moreGroupsLoading(type = 'new') {
   return {
     type: type === 'new' ? types.NEW_GROUPS_LIST_IS_LOADING : types.POPULAR_GROUPS_IS_LOADING
   };
 }
 
 export function asyncShowGroups(type, skip, limit) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(moreGroupsLoading(type));
-    let listgroup_params = {skip, limit};
+    let listgroup_params = {
+      skip,
+      limit
+    };
     if (type !== 'new') {
       listgroup_params.order = 'group_pop DESC';
     }
@@ -81,6 +84,35 @@ export function changeGroupColour(colourEvent) {
   return {
     type: types.CHANGE_GROUP_COLOUR,
     colour: colourEvent.target.value
+  };
+}
+
+/**
+ * Asynchronously requests a full comment object based on its ID.
+ *
+ * @param {string} commentId
+ * @return {function(*)}
+ */
+export function asyncGetSingleComment(commentId) {
+  return (dispatch) => {
+    getSingleCommentSocket.responseOnce((response) => {
+      dispatch(getSingleComment(response));
+    });
+    getSingleCommentSocket.request({id: commentId});
+  };
+}
+
+/**
+ * Callback method for asyncGetSingleComment that dispatches the
+ * GET_SINGLE_COMMENT action.
+ *
+ * @param {Object} comment
+ * @return {{type, comment: {Object}}}
+ */
+export function getSingleComment(comment) {
+  return {
+    type: types.GET_SINGLE_COMMENT,
+    comment: comment
   };
 }
 
@@ -216,15 +248,21 @@ export function groupFormUploadProgress(e) {
 }
 
 export function asyncGroupFollow(enableFollow, groupId, profileId) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(groupFollow(enableFollow));
 
     if (enableFollow) {
-      joinGroup.request({groupId, profileId});
+      joinGroup.request({
+        groupId,
+        profileId
+      });
     }
     else {
 
-      leaveGroup.request({groupId, profileId});
+      leaveGroup.request({
+        groupId,
+        profileId
+      });
     }
   };
 }
@@ -249,7 +287,10 @@ export function asyncGroupMembersExpand(expand, groupId) {
       dispatch(groupMembersLoading());
 
       // send request for more group members
-      getGroup.request({id: groupId, allMembers: true});
+      getGroup.request({
+        id: groupId,
+        allMembers: true
+      });
     };
   }
 
@@ -273,8 +314,12 @@ export function groupMembersLoading() {
 }
 
 export function asyncShowMorePosts(id, skip, limit) {
-  return function (dispatch) {
-    loadPosts.request({id, skip, limit});
+  return function(dispatch) {
+    loadPosts.request({
+      id,
+      skip,
+      limit
+    });
     const event = loadPosts.response(response => {
       dispatch(showMorePosts(response, skip + limit));
       event.off();
@@ -318,9 +363,13 @@ export function editComment(comment) {
 }
 
 export function asyncShowMoreComments(id, skip, limit) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(moreCommentsLoading(id));
-    loadComments.request({id, skip, limit});
+    loadComments.request({
+      id,
+      skip,
+      limit
+    });
     const event = loadComments.response(response => {
       dispatch(showMoreComments(id, response, skip + limit));
       event.off();
@@ -345,7 +394,7 @@ export function showMoreComments(id, comments, numberOfCommentsLoaded) {
 }
 
 export function asyncDeletePost(postId) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(deletePost(postId));
     markPostAsDeleted.request({id: postId});
   };
@@ -385,7 +434,7 @@ export function loadMetadataForReview(work) {
 export function asyncListenToGroupForNewContent(groupId) {
   return dispatch => {
     // Listen for the full comment objects
-    getSingleComment.response(commentResponse => {
+    getSingleCommentSocket.response(commentResponse => {
       dispatch(groupContentWasUpdated({comment: commentResponse}));
     });
 
@@ -397,7 +446,7 @@ export function asyncListenToGroupForNewContent(groupId) {
     getGroup.subscribe(`new_group_content-${groupId}`, data => {
       let gData = data && data.data && data.data.data;
       if (gData.commentownerid && gData.id) {
-        getSingleComment.request({id: gData.id});
+        getSingleCommentSocket.request({id: gData.id});
       }
       else if (gData.postownerid && gData.id) {
         getSinglePosts.request({id: gData.id});

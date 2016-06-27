@@ -11,10 +11,12 @@ describe('Testing the MessageRow Component', () => {
   const message = {
     read: false
   };
-  const readAction = () => {};
+  const readAction = () => {
+  };
 
   it('Should render unread message', () => {
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={readAction} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={readAction} />);
     const rendered = tree.getRenderOutput();
 
     assert.equal(rendered.props.children.props.className, 'message-row--container unread ');
@@ -24,7 +26,8 @@ describe('Testing the MessageRow Component', () => {
     const _message = Object.assign({}, message);
     _message.read = true;
 
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
     const rendered = tree.getRenderOutput();
 
     assert.equal(rendered.props.children.props.className, 'message-row--container ');
@@ -32,7 +35,8 @@ describe('Testing the MessageRow Component', () => {
 
   it('Should invoke props.readAction in onVisibilityChanged when given true as parameter', () => {
     const spy = sinon.spy();
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={spy} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={spy} />);
     const instance = tree.getMountedInstance();
 
     assert.isFalse(spy.called, 'The callback have not yet been invoked');
@@ -44,7 +48,8 @@ describe('Testing the MessageRow Component', () => {
 
   it('Should not invoke props.readAction in onVisibilityChanged when given false as parameter', () => {
     const spy = sinon.spy();
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={spy} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={spy} />);
     const instance = tree.getMountedInstance();
 
     assert.isFalse(spy.called, 'The callback have not yet been invoked');
@@ -53,9 +58,20 @@ describe('Testing the MessageRow Component', () => {
 
     assert.isFalse(spy.called, 'The callback have not been invoked');
   });
+});
+
+describe('Testing the getMessageImage method', () => {
+  const agencies = {};
+  const agencyActions = {};
+  const message = {
+    read: false
+  };
+  const readAction = () => {
+  };
 
   it('Should return default image', () => {
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={readAction} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={readAction} />);
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
@@ -68,25 +84,70 @@ describe('Testing the MessageRow Component', () => {
     const _message = Object.assign({}, message);
     _message.type = 'type-orderExpiresSoon';
 
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
     const expected = '/images/messages/default-afleveres.png';
 
-    assert.equal(imgUrl, expected);
+    assert.equal(imgUrl.props.src, expected);
   });
 
   it('Should return image matching type-orderIsReady', () => {
     const _message = Object.assign({}, message);
     _message.type = 'type-orderIsReady';
 
-    const tree = sd.shallowRender(<MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
     const expected = '/images/messages/default-afhentes.png';
 
-    assert.equal(imgUrl, expected);
+    assert.equal(imgUrl.props.src, expected);
+  });
+
+  it('Should return image matching type Fine', () => {
+    const _message = Object.assign({}, message);
+    _message.type = 'Fine';
+
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+    const instance = tree.getMountedInstance();
+
+    const imgUrl = instance.getMessageImage();
+    const expected = '/images/messages/default-boede.png';
+
+    assert.equal(imgUrl.props.src, expected);
+  });
+
+  it('Should return image matching type Fine', () => {
+    const _message = Object.assign({}, message);
+    _message.type = 'Reservation Charge';
+
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+    const instance = tree.getMountedInstance();
+
+    const imgUrl = instance.getMessageImage();
+    const expected = '/images/messages/default-boede.png';
+
+    assert.equal(imgUrl.props.src, expected);
+  });
+
+  it('Should return image matching type Fine', () => {
+    const _message = Object.assign({}, message);
+    _message.type = 'type-commentWasAdded';
+
+    const tree = sd.shallowRender(
+      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+    const instance = tree.getMountedInstance();
+
+    const imgUrl = instance.getMessageImage();
+    const expected = '/no_profile.png';
+
+    assert.equal(imgUrl.props.children.props.src, expected);
+    assert.equal(imgUrl.props.className, 'profileimage');
   });
 });

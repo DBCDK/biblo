@@ -279,6 +279,7 @@ export default class PostView extends React.Component {
   }
 }
 
+PostView.displayName = 'PostView';
 PostView.propTypes = {
   commentsCount: React.PropTypes.number,
   commentRedirect: React.PropTypes.string,

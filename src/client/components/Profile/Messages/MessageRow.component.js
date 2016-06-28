@@ -268,7 +268,7 @@ export default class MessageRow extends React.Component {
                  {this.getMessageType()}
                    <div className="message-row--age" >
                         {moment(this.state.message.createdEpoch).fromNow()}
-                   </div>ª$
+                   </div>
             </div>
 
             <div className="message-data--headline" >{this.state.message.title}</div>

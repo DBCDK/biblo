@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import ClassNames from 'classnames';
 
-import './styling/navbar-mobile-menu.scss';
+import './scss/navbar-mobile-menu.scss';
 
 /**
  * FallDown menu for mobile units

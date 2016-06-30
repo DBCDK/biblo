@@ -1,13 +1,16 @@
 'use strict';
 
-var expect = require('expect');
+// var expect = require('expect');
+var expect = require('chai').expect;
+var assert = require('chai').assert;
 var bibloconfig = require('@dbcdk/biblo-config');
 var crypto = require('crypto');
+import {By} from 'selenium-webdriver';
 
 var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`;
 
 module.exports = function() {
-  this.Given(/^at en vilkårlig bruger besøger forsiden på biblo\.dk|a user visits the frontpage$/i, function(callback) {
+  this.Given(/^a user visits the frontpage$/i, function(callback) {
     this.browser.get(BASE_URL)
       .then(() => {
         callback();
@@ -18,7 +21,12 @@ module.exports = function() {
     return this.click('.cookie-warning > .rounded-button');
   });
 
-  this.Then(/^skal pagetitel være Biblo$/i, function(callback) {
+  this.Given(/^a user uses a phone$/, function(callback) {
+    this.setViewportWidth({device: 'phone'});
+    callback();
+  });
+
+  this.Then(/^pagetitle should be Biblo$/i, function(callback) {
     this.browser.getTitle()
       .then((title) => {
         if (title === 'Biblo') {
@@ -46,7 +54,7 @@ module.exports = function() {
     this.browser.get(url);
     this.browser.findElement({tagName: 'body'}).then((bodyElement) => {
       bodyElement.getText().then((text) => {
-        expect(text).toContain('Opret Profil');
+        expect(text).to.contain('Opret Profil');
         callback();
       });
     });
@@ -65,14 +73,23 @@ module.exports = function() {
         return bodyElement.getInnerHtml();
       }).then(jsonData => {
         const userProfile = JSON.parse(jsonData);
-        expect(userProfile.profile.userIsLoggedIn).toNotExist();
+        assert.isFalse(userProfile.profile.userIsLoggedIn);
       });
     });
   });
 
   this.Then(/^page is not error page$/i, function () {
     return this.browser.getTitle().then(title => {
-      expect(title).toNotContain('Fejl');
+      expect(title).to.not.contain('Fejl');
+    });
+  });
+
+  this.Then(/^'Det Sker' menu item should not be visible$/, function() {
+    this.takeScreenshot('hest.png');
+    return this.browser.findElement(By.className('navbar-mobile-menu is-active menu')).then((menu) => {
+      menu.getText().then((text) => {
+        assert.notInclude(text, 'DET SKER');
+      });
     });
   });
 
@@ -82,5 +99,14 @@ module.exports = function() {
 
   this.When(/^mock ([a-zA-Z\-]+) is loaded$/i, function (mockName) {
     return this.loadMock(mockName);
+  });
+
+  this.When(/^the user clicks the menu$/, function() {
+    return this.click('.navbar--toggle').then(() => {
+      return new Promise(resolve => {
+        // Wait for the animation to finish!
+        setTimeout(resolve, 400);
+      });
+    });
   });
 };

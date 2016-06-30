@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var assert = require('chai').assert;
 var bibloconfig = require('@dbcdk/biblo-config');
 var crypto = require('crypto');
-import {By, error} from 'selenium-webdriver';
+import {By} from 'selenium-webdriver';
 
 var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`; // eslint-disable-line no-process-env
 
@@ -92,16 +92,14 @@ var myStepDefinitionsWrapper = function() {
   });
 
   this.Then(/^a cookiewarning should be shown$/, function() {
-    return this.browser.findElement(By.className('cookie-warning')).then((cookiewarning) => {
-      cookiewarning.isDisplayed().then((isDisplayed) => {
-        assert.isTrue(isDisplayed);
-      });
+    this.browser.isElementPresent(By.className('cookie-warning')).then(isPresent => {
+      assert.isTrue(isPresent);
     });
   });
 
   this.Then(/^the cookiewarning should not be displayed$/, function() {
-    return this.browser.findElements(By.className('cookie-warning')).then((elements) => {
-      assert.lengthOf(elements, 0);
+    this.browser.isElementPresent(By.className('cookie-warning')).then(isPresent => {
+      assert.isFalse(isPresent);
     });
   });
 

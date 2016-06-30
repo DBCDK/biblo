@@ -1,15 +1,14 @@
 'use strict';
 
-// var expect = require('expect');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var bibloconfig = require('@dbcdk/biblo-config');
 var crypto = require('crypto');
-import {By} from 'selenium-webdriver';
+import {By, error} from 'selenium-webdriver';
 
-var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`;
+var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`; // eslint-disable-line no-process-env
 
-module.exports = function() {
+var myStepDefinitionsWrapper = function() {
   this.Given(/^a user visits the frontpage$/i, function(callback) {
     this.browser.get(BASE_URL)
       .then(() => {
@@ -85,11 +84,24 @@ module.exports = function() {
   });
 
   this.Then(/^'Det Sker' menu item should not be visible$/, function() {
-    this.takeScreenshot('hest.png');
     return this.browser.findElement(By.className('navbar-mobile-menu is-active menu')).then((menu) => {
       menu.getText().then((text) => {
         assert.notInclude(text, 'DET SKER');
       });
+    });
+  });
+
+  this.Then(/^a cookiewarning should be shown$/, function() {
+    return this.browser.findElement(By.className('cookie-warning')).then((cookiewarning) => {
+      cookiewarning.isDisplayed().then((isDisplayed) => {
+        assert.isTrue(isDisplayed);
+      });
+    });
+  });
+
+  this.Then(/^the cookiewarning should not be displayed$/, function() {
+    return this.browser.findElements(By.className('cookie-warning')).then((elements) => {
+      assert.lengthOf(elements, 0);
     });
   });
 
@@ -110,3 +122,5 @@ module.exports = function() {
     });
   });
 };
+
+module.exports = myStepDefinitionsWrapper;

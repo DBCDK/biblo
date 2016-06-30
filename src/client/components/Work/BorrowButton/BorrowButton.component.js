@@ -296,7 +296,7 @@ export default class BorrowButton extends React.Component {
           this.props.profile,
           () => this.setState({displayModal: false})
         )}
-        <a className='work-detail--order-button' onClick={() => this.setState({displayModal: true})}>Lån</a>
+        <a className='work-detail--order-button' onClick={() => this.setState({displayModal: true})}>LÅN</a>
       </span>
     );
   }

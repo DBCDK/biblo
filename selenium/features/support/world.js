@@ -1,8 +1,6 @@
-'use strict';
-
 import webdriver, {By, until} from 'selenium-webdriver';
 import fs from 'fs';
-import * as path from "path";
+import * as path from 'path';
 
 const driverTimeout = 2000;
 

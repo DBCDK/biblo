@@ -16,6 +16,13 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
+  this.Given(/^a user visits the peterpedal page$/, function(callback) {
+    this.browser.get(`${BASE_URL}/materiale/870970-basis:05074975`)
+      .then(() => {
+        callback();
+      });
+  });
+
   this.Given(/^the cookiewarning has been closed$/i, function () {
     return this.click('.cookie-warning > .rounded-button');
   });
@@ -103,6 +110,14 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
+  this.Then(/^text on loan button should be ([a-zæøåA-ZÆØÅ\-]+)/, function(buttonText) {
+    return this.browser.findElement(By.className('work-detail--order-button')).then((menu) => {
+      menu.getText().then((text) => {
+        assert.strictEqual(text, buttonText);
+      });
+    });
+  });
+
   this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/i, function (mockName, times) {
     return this.loadMock(mockName, times);
   });
@@ -119,6 +134,7 @@ var myStepDefinitionsWrapper = function() {
       });
     });
   });
+
 };
 
 module.exports = myStepDefinitionsWrapper;

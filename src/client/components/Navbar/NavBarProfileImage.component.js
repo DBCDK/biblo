@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import './styling/navbar-profile-image.scss';
+import './scss/navbar-profile-image.scss';
 
 export default function NavBarProfileImage({image, onClick, notifications}) {
   return (

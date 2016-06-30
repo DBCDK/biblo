@@ -20,7 +20,7 @@ import profileSvg from '../General/Icon/svg/knap-ikoner-small/profile.svg';
 import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 
 // Styles
-import './styling/navbar.scss';
+import './scss/navbar.scss';
 
 let image = {shouldDisplay: false};
 if (typeof window !== 'undefined') {
@@ -125,15 +125,14 @@ export default class NavbarContainer extends React.Component {
           </div>
         </div>
         <NavbarMobileMenu active={this.state.active.menu} type='menu'>
-          <div className="">
-            <ul className="">
-              <li><NavbarLink value='Det Sker' url={DET_SKER_PAGE}/></li>
+          <div>
+            <ul>
               <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
             </ul>
           </div>
         </NavbarMobileMenu>
         <NavbarMobileMenu active={this.state.active.profile} type='profile'>
-          <div className="">
+          <div>
             {this.renderProfileLinks()}
           </div>
         </NavbarMobileMenu>

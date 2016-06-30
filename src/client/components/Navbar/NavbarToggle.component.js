@@ -1,6 +1,6 @@
 import ClassNames from 'classnames';
 import React, {PropTypes} from 'react';
-import './styling/navbar-toggle.scss';
+import './scss/navbar-toggle.scss';
 
 /**
  * Toggle Burger Menu Button

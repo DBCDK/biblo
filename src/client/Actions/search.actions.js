@@ -7,8 +7,6 @@ import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once, filter} from 'lodash';
 
-const openPlatformSuggest = SocketClient('suggest');
-const openPlatformSuggestListener = once(openPlatformSuggest.response);
 const search = SocketClient('search');
 const searchListener = once(search.response);
 
@@ -117,23 +115,17 @@ export function suggestionsAreLoading(q) {
   };
 }
 
-export function gotOpenPlatformSuggestions(res) {
-  return {
-    type: types.GOT_OPENPLATFORM_SUGGESTIONS,
-    res
-  };
-}
-
 export function getWorkSuggestions(q) {
   return (dispatch) => {
     // set loading
     dispatch(suggestionsAreLoading(q));
 
-    // create listener
-    openPlatformSuggestListener((res) => dispatch(gotOpenPlatformSuggestions(res)));
-
-    // Dispatch request
-    openPlatformSuggest.request({q});
+    // Call the service provider via middleware
+    dispatch({
+      type: types.callServiceProvider,
+      event: 'suggest',
+      data: {q}
+    });
   };
 }
 

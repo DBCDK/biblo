@@ -53,6 +53,15 @@ const getContentPageTransform = {
                 widgetConfig.src = contentField.embedded_video.url;
                 widgetConfig.type = contentField.embedded_video.type;
               }
+              else if (contentField.widgetName && contentField.widgetConfig) {
+                // @TODO: Once all admins are deployed we can remove a bunch of the above logic.
+                widgetName = contentField.widgetName;
+                widgetConfig = contentField.widgetConfig;
+
+                if (contentField.widgetConfig.medium) {
+                  widgetConfig.src = contentField.widgetConfig.medium;
+                }
+              }
 
               return {
                 widgetName,

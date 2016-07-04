@@ -10,7 +10,7 @@
     "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:dev": "KAFKA_TOPIC=\"ux-dev-biblo\" COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:localproxy": "NODE_TLS_REJECT_UNAUTHORIZED=0 NEW_RELIC_PROXY_URL=http://localhost:8888 http_proxy=http://localhost:8888 COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
-    "features": "PORT=3334 cucumber.js --compilers js:babel/register selenium/features",
+    "features": "COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" OPEN_PLATFORM_SERVICE_URL=\"http://platform-i01.dbc.dk:8080/v1/\" PORT=3334 cucumber.js --compilers js:babel/register selenium/features",
     "features:junit": "SC_LOGLEVEL=0 PORT=3334 cucumber.js --format=json --compilers js:babel/register selenium/features | ./node_modules/.bin/cucumber-junit > feature_report.xml",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",

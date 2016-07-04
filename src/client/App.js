@@ -27,7 +27,7 @@ import rootReducer from './Reducers/root.reducer';
  * @param getState
  * @returns {function(): function()}
  */
-export function serviceProviderReduxMiddleware({dispatch, getState}) {
+export function serviceProviderReduxMiddleware({dispatch}) {
   // This object contains our existing clients to prevent listener overflows.
   let clients = {};
 

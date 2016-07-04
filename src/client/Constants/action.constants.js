@@ -7,6 +7,9 @@
  */
 
 
+// Actions that go across reducers
+export const callServiceProvider = 'callServiceProvider';
+
 // Actions for high-level UI functionality
 export const OPEN_MODAL_WINDOW = 'OPEN_MODAL_WINDOW';
 export const CLOSE_MODAL_WINDOW = 'CLOSE_MODAL_WINDOW';
@@ -93,7 +96,7 @@ export const GET_WORK_REVIEWS_IS_LOADING = 'GET_WORK_REVIEWS_IS_LOADING';
 export const TOGGLE_SEARCH_BOX = 'TOGGLE_SEARCH_BOX';
 export const MATERIAL_SEARCH = 'MATERIAL_SEARCH';
 export const SUGGESTIONS_ARE_LOADING = 'SUGGESTIONS_ARE_LOADING';
-export const GOT_OPENPLATFORM_SUGGESTIONS = 'GOT_OPENPLATFORM_SUGGESTIONS';
+export const GOT_OPENPLATFORM_SUGGESTIONS = 'suggestResponse';
 export const LOADED_MORE_MATERIAL_RESULTS = 'LOADED_MORE_MATERIAL_RESULTS';
 export const LOAD_MORE_MATERIAL_RESULTS = 'LOAD_MORE_MATERIAL_RESULTS';
 export const LOADED_MORE_GROUP_RESULTS = 'LOADED_MORE_GROUP_RESULTS';

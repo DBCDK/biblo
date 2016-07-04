@@ -93,7 +93,8 @@ export default function searchReducer(state = initialState, action = {}) {
 
     case types.GOT_OPENPLATFORM_SUGGESTIONS: {
       let newState = assignToEmpty(state, {});
-      newState.workSuggestions[action.res.q] = action.res.data;
+      const res = action.data;
+      newState.workSuggestions[res.q] = res.data;
       return newState;
     }
 

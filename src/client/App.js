@@ -8,8 +8,56 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
+import SocketClient from 'dbc-node-serviceprovider-socketclient';
+import {callServiceProvider} from './Constants/action.constants';
 
 import rootReducer from './Reducers/root.reducer';
+
+/**
+ * Service Provider middleware for redux, use this to call the service provider from a plain action.
+ * Once the response is received, it will dispatch a new action with the event name + 'Response'.
+ *
+ * It expects a request of the following format:
+ * {type: 'callServiceProvider', data: {*}, event: {String}}
+ *
+ * And returns the following:
+ * {type: {String}, data: {*}}
+ *
+ * @param dispatch
+ * @param getState
+ * @returns {function(): function()}
+ */
+export function serviceProviderReduxMiddleware({dispatch}) {
+  // This object contains our existing clients to prevent listener overflows.
+  let clients = {};
+
+  return next => action => {
+    // First we check that the action type is correct
+    if (action.type === callServiceProvider) {
+
+      // We then extract the request data or query from the action
+      const requestData = action.data || {};
+
+      // We ensure the action has the required properties.
+      if (!action.event) {
+        throw new Error('Cannot call service provider without an event.');
+      }
+
+      // And also ensure reuse of socketclients to prevent excess listeners.
+      if (!clients[action.event]) {
+        clients[action.event] = SocketClient(action.event);
+        clients[action.event].response(function (data) {
+          dispatch({type: `${action.event}Response`, data});
+        });
+      }
+
+      // And finally we dispatch the request.
+      clients[action.event].request(requestData);
+    }
+
+    return next(action);
+  };
+}
 
 /**
  * Wraps a component in a provider with the store, and all middlewares.
@@ -18,7 +66,7 @@ import rootReducer from './Reducers/root.reducer';
  * @returns {{store: Object, component: XML}}
  */
 export function wrapComponentInProvider(Comp, initialState = {}) { // eslint-disable-line react/display-name
-  const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
+  const store = createStore(rootReducer, initialState, applyMiddleware(thunk, serviceProviderReduxMiddleware));
   const component = (
     <Provider store={store}>
       <Comp />

@@ -1,1 +1,14 @@
 @import 'tools';
+
+.search-result-show-more-button {
+  .show-more-button {
+    color: $white;
+    background-color: $melrose;
+    border-radius: 10px;
+    padding: 10px 20px;
+
+    &:hover{
+      background-color: #aba6ff;
+    }
+  }
+}

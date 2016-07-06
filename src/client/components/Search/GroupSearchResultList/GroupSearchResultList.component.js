@@ -18,11 +18,11 @@ export default class GroupSearchResultList extends React.Component {
     return url;
   }
 
-  render() {
-    const listElements = this.props.results.map((result, i) => {
+  getListElements() {
+    return this.props.results.map((result, i) => {
       let groupUrl = '/grupper/' + result.id;
       return (
-        <li key={i}>
+        <div className="result-item " key={i}>
           <a href={groupUrl}>
             <div className='cover-image'>
               <img src={this.getCoverImageUrl(result)}/>
@@ -34,29 +34,22 @@ export default class GroupSearchResultList extends React.Component {
               </div>
             </div>
           </a>
-        </li>
-      );
-    });
-
-    let result = (
-      <ul className>
-        {listElements}
-      </ul>
-    );
-
-    if (listElements.length === 0) {
-      result = (
-        <div className='empty-result'>
-          Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.
         </div>
       );
-    }
+    });
+  }
+
+  render() {
+    const listElements = this.getListElements();
+    const result = listElements.length ? listElements : 'Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.';
 
     return (
-      <div className='group-result-list'>
+      <div className='group-search--result-container'>
         <h2>I grupperne:</h2>
         <hr/>
-        {result}
+        <div className="group-search--results">
+          {result}
+        </div>
       </div>
     );
   }

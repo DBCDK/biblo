@@ -10,12 +10,12 @@ import ReviewButton from '../../Review/ReviewButton.js';
 import BorrowButton from '../BorrowButton/BorrowButton.component';
 import Icon from '../../General/Icon/Icon.component.js';
 
-import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat small/book.svg';
+import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/book.svg';
 import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/materialikon-uden-kvadrat-lydbog.svg';
-import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat small/game.svg';
-import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat small/music.svg';
-import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat small/film.svg';
-import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
+import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game.svg';
+import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music.svg';
+import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film.svg';
+import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/group.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 const displayTypeSvgs = {

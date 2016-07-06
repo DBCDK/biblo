@@ -1,6 +1,20 @@
 @import 'tools';
 
-.material-result-list {
-  @include result-list();
-  padding-bottom: 40px;
+.material-search--result-container {
+  @include container();
+  @include max-screen($desktop - 1){
+    @include squish(10px);
+  }
+
+  .result-item {
+    @include result-list();
+    @include min-screen($tablet){
+      @include result-list('tablet');
+    }
+  }
+}
+
+.material-search--results {
+  margin-top: 20px;
+  min-height: 50px;
 }

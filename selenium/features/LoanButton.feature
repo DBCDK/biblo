@@ -1,5 +1,5 @@
 Feature: Loan button
-  This feature describes the laod button
+  This feature describes the load button
 
   Scenario: The text on the load button should be capital letters
     When mock peterpedal is loaded

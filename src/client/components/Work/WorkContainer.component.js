@@ -140,7 +140,7 @@ export class WorkContainer extends React.Component {
             editText={this.getEditText()}
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
-            title={work.dcTitle[0]}
+            title={work.dcTitle ? work.dcTitle[0] : ''}
             displayType={workType}
             creator={creator}
             abstract={abstract}

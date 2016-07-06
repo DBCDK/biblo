@@ -6,17 +6,17 @@ import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component
 import Icon from '../../General/Icon/Icon.component';
 import ProfileLibraryInfo from '../../Profile/Edit/ProfileLibraryInfo.component';
 
-import animalpaw from '../../General/Icon/svg/Materialikon-kvadrat small/animalpaw.svg';
-import audiobook from '../../General/Icon/svg/Materialikon-kvadrat small/audiobook_no_border.svg';
-import book from '../../General/Icon/svg/Materialikon-kvadrat small/book_no_border.svg';
-import ebook from '../../General/Icon/svg/Materialikon-kvadrat small/ebook_no_border.svg';
-import film from '../../General/Icon/svg/Materialikon-kvadrat small/film_no_border.svg';
-import flag from '../../General/Icon/svg/Materialikon-kvadrat small/flag.svg';
-import game from '../../General/Icon/svg/Materialikon-kvadrat small/game_no_border.svg';
-import group from '../../General/Icon/svg/Materialikon-kvadrat small/group.svg';
-import music from '../../General/Icon/svg/Materialikon-kvadrat small/music_no_border.svg';
-import photo from '../../General/Icon/svg/Materialikon-kvadrat small/photo.svg';
-import smiley from '../../General/Icon/svg/Materialikon-kvadrat small/smiley.svg';
+import animalpaw from '../../General/Icon/svg/Materialikon-kvadrat-small/animalpaw.svg';
+import audiobook from '../../General/Icon/svg/Materialikon-kvadrat-small/audiobook_no_border.svg';
+import book from '../../General/Icon/svg/Materialikon-kvadrat-small/book_no_border.svg';
+import ebook from '../../General/Icon/svg/Materialikon-kvadrat-small/ebook_no_border.svg';
+import film from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
+import flag from '../../General/Icon/svg/Materialikon-kvadrat-small/flag.svg';
+import game from '../../General/Icon/svg/Materialikon-kvadrat-small/game_no_border.svg';
+import group from '../../General/Icon/svg/Materialikon-kvadrat-small/group.svg';
+import music from '../../General/Icon/svg/Materialikon-kvadrat-small/music_no_border.svg';
+import photo from '../../General/Icon/svg/Materialikon-kvadrat-small/photo.svg';
+import smiley from '../../General/Icon/svg/Materialikon-kvadrat-small/smiley.svg';
 
 import './BorrowButton.component.scss';
 

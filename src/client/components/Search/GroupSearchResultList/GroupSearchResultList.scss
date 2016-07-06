@@ -1,7 +1,25 @@
 @import 'tools';
 
-.group-result-list {
-  @include result-list();
-  padding-top: 20px;
-  padding-bottom: 20px;
+.group-search--result-container {
+  @include container();
+  @include max-screen($tablet){
+    @include squish(10px);
+  }
+
+  .result-item {
+    @include result-list();
+    @include min-screen($tablet){
+      @include result-list('tablet');
+    }
+
+    .cover-image {
+      min-height: 200px;
+    }
+  }
 }
+
+.group-search--results {
+  margin-top: 20px;
+  min-height: 50px;
+}
+

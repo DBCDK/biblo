@@ -2,12 +2,12 @@ import React from 'react';
 import Icon from '../Icon/Icon.component.js';
 import './MaterialButton.component.scss';
 
-import bookSvg from '../Icon/svg/Materialikon-kvadrat small/book.svg';
-import ebookSvg from '../Icon/svg/Materialikon-kvadrat small/ebook.svg';
-import audiobookSvg from '../Icon/svg/Materialikon-kvadrat small/audiobook.svg';
-import filmSvg from '../Icon/svg/Materialikon-kvadrat small/film.svg';
-import gameSvg from '../Icon/svg/Materialikon-kvadrat small/game.svg';
-import musicSvg from '../Icon/svg/Materialikon-kvadrat small/music.svg';
+import bookSvg from '../Icon/svg/Materialikon-kvadrat-small/book.svg';
+import ebookSvg from '../Icon/svg/Materialikon-kvadrat-small/ebook.svg';
+import audiobookSvg from '../Icon/svg/Materialikon-kvadrat-small/audiobook.svg';
+import filmSvg from '../Icon/svg/Materialikon-kvadrat-small/film.svg';
+import gameSvg from '../Icon/svg/Materialikon-kvadrat-small/game.svg';
+import musicSvg from '../Icon/svg/Materialikon-kvadrat-small/music.svg';
 
 const glyphs = {
   book: bookSvg,

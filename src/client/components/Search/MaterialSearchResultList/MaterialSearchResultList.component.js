@@ -26,6 +26,7 @@ export default class MaterialSearchResultList extends React.Component {
   }
 
   /**
+   * Returns string pointing to appropriate coverimage depending on material type.
    *
    * @param {string} type
    * @return {string}
@@ -75,7 +76,7 @@ export default class MaterialSearchResultList extends React.Component {
       <div className='material-search--result-container' >
         <h2>På biblioteket:</h2>
         <hr/>
-        <div className="material-search--results">
+        <div className="material-search--results" >
           {result}
         </div>
       </div>

@@ -30,7 +30,7 @@ export class SearchResultContainer extends React.Component {
     });
   }
 
-  loadMoreGroupResults () {
+  loadMoreGroupResults() {
     this.props.searchActions.asyncLoadMoreGroupResults({
       query: this.props.search.initialQuery,
       limit: this.props.search.groupSearchLimit,
@@ -44,29 +44,34 @@ export class SearchResultContainer extends React.Component {
     if (this.props.search.materialSearchResults.length - this.props.search.materialSearchOffset >=
       this.props.search.materialSearchLimit
     ) {
-      visFlereMaterialButton = <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults}/>;
+      visFlereMaterialButton =
+        <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults} />;
     }
 
     if (this.props.search.groupSearchResults.length - this.props.search.groupSearchOffset >=
-         this.props.search.groupSearchLimit
+      this.props.search.groupSearchLimit
     ) {
-      visFlereGroupButton = <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults}/>;
+      visFlereGroupButton =
+        <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults} />;
     }
 
     return (
-      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState}>
+      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState} >
         <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
 
-        <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
-        {visFlereMaterialButton}
-        <GroupSearchResultList results={this.props.search.groupSearchResults}/>
-        {visFlereGroupButton}
+        <MaterialSearchResultList results={this.props.search.materialSearchResults} />
+        <div className="search-result-show-more-button" >
+          {visFlereMaterialButton}
+        </div>
+        <GroupSearchResultList results={this.props.search.groupSearchResults} />
+        <div className="search-result-show-more-button" >
+          {visFlereGroupButton}
+        </div>
 
       </PageLayout>
     );
   }
 }
-
 
 SearchResultContainer.displayName = 'SearchResultContainer';
 

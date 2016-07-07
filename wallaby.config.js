@@ -22,7 +22,8 @@ module.exports = function(wallaby) {
       {pattern: 'src/**/*.scss'},
       {pattern: 'src/**/*.js', load: false},
       {pattern: 'src/**/*.test.js', ignore: true, load: false},
-      {pattern: 'src/**/*.svg', load: false, instrument: false}
+      {pattern: 'src/**/*.svg', load: false, instrument: false},
+      {pattern: 'src/**/mocks/*.json', load: false, instrument: false}
     ],
 
     tests: [

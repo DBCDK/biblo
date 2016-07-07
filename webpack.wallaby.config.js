@@ -13,7 +13,7 @@ var path = require('path');
  */
 module.exports = {
   resolve: {
-    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')],
+    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, 'src/server')],
     extensions: ['', '.js']
   },
 

@@ -8,7 +8,8 @@ module.exports = function(config) {
       'tests.actions.webpack.js',
       'tests.components.webpack.js',
       'tests.reducers.webpack.js',
-      'tests.utils.webpack.js'
+      'tests.utils.webpack.js',
+      'tests.server.webpack.js'
     ],
     proxies: {
     },
@@ -17,7 +18,8 @@ module.exports = function(config) {
       'tests.actions.webpack.js': ['webpack'],
       'tests.components.webpack.js': ['webpack'],
       'tests.reducers.webpack.js': ['webpack'],
-      'tests.utils.webpack.js': ['webpack']
+      'tests.utils.webpack.js': ['webpack'],
+      'tests.server.webpack.js': ['webpack']
     },
     reporters: ['mocha', 'junit', 'coverage'],
     junitReporter: {

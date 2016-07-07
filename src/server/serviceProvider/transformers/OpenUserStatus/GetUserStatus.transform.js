@@ -91,12 +91,17 @@ const GetUserStatusTransform = {
             }
           });
 
+          const orderStatus = order.orderStatus || '';
+
           if (order.pickupDate.length > 0 && order.pickupExpires.length > 0) {
             const now = Date.now();
             const pickupDate = (new Date(order.pickupDate)).getTime();
             const pickupExpires = (new Date(order.pickupExpires)).getTime();
 
             order.ready = !!(now - pickupDate > 0 && pickupExpires - now > 0);
+          }
+          else if (orderStatus.toLowerCase() === 'available for pickup') {
+            order.ready = true;
           }
 
           return order;

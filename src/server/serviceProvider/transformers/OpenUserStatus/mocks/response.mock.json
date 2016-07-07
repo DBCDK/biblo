@@ -1,0 +1,478 @@
+{
+  "ous:getUserStatusResponse": {
+    "$": {
+      "xmlns:ous": "http://oss.dbc.dk/ns/openuserstatus",
+      "xmlns": "http://oss.dbc.dk/ns/openuserstatus"
+    },
+    "ous:userId": [
+      "0000000000"
+    ],
+    "ous:userStatus": [
+      {
+        "ous:loanedItems": [
+          {
+            "ous:loan": [
+              {
+                "ous:author": [
+                  ""
+                ],
+                "ous:title": [
+                  "Hugo / directed by Martin Scorsese. - 1 "
+                ],
+                "ous:dateDue": [
+                  "2016-07-11T00:00:00+02:00"
+                ],
+                "ous:loanId": [
+                  "0123456789"
+                ],
+                "ous:reminderLevel": [
+                  "1"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Jacobsen, Søren Vagn, f. 1946"
+                ],
+                "ous:title": [
+                  "Violet in the grave"
+                ],
+                "ous:dateDue": [
+                  "2016-07-19T00:00:00+02:00"
+                ],
+                "ous:loanId": [
+                  "0123456789"
+                ],
+                "ous:reminderLevel": [
+                  "1"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Plum, Camilla"
+                ],
+                "ous:title": [
+                  "Camillas havebog"
+                ],
+                "ous:dateDue": [
+                  "2016-07-19T00:00:00+02:00"
+                ],
+                "ous:loanId": [
+                  "0123456789"
+                ],
+                "ous:reminderLevel": [
+                  "1"
+                ]
+              }
+            ],
+            "ous:loansCount": [
+              "3"
+            ]
+          }
+        ],
+        "ous:orderedItems": [
+          {
+            "ous:order": [
+              {
+                "ous:author": [
+                  "Fleischer, Charlotte"
+                ],
+                "ous:title": [
+                  "Bent Bandit"
+                ],
+                "ous:orderDate": [
+                  "2016-04-09T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Fleischer, Charlotte"
+                ],
+                "ous:title": [
+                  "Bent Bandit til Bølle Bal"
+                ],
+                "ous:orderDate": [
+                  "2016-04-09T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Flanagan, John"
+                ],
+                "ous:title": [
+                  "Gorlans ruiner"
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Kjær, Jan, f. 1971"
+                ],
+                "ous:title": [
+                  "Den sorte heks"
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "1334990"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Kjær, Jan, f. 1971"
+                ],
+                "ous:title": [
+                  "Den nye heks"
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Benton, Jim"
+                ],
+                "ous:title": [
+                  "Kære dumme dagbog, mine bukser er "
+                ],
+                "ous:orderDate": [
+                  "2016-07-06T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Mosdal, Søren Glosimodt"
+                ],
+                "ous:title": [
+                  "Lost highway"
+                ],
+                "ous:orderDate": [
+                  "2016-06-23T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Kjær, Jan, f. 1971"
+                ],
+                "ous:title": [
+                  "Den magiske hjelm. - 2. udgave"
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Kjær, Jan, f. 1971"
+                ],
+                "ous:title": [
+                  "Den magiske hjelm"
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "In process"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Rowling, Joanne K."
+                ],
+                "ous:title": [
+                  "Harry Potter og fangen fra Azkaban. - "
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "Available for pickup"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpExpiryDate": [
+                  "2016-07-14T00:00:00+02:00"
+                ],
+                "ous:pickUpId": [
+                  "941"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Benton, Jim"
+                ],
+                "ous:title": [
+                  "Kære dumme dagbog, skal vi ikke bare "
+                ],
+                "ous:orderDate": [
+                  "2016-07-06T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "Available for pickup"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpExpiryDate": [
+                  "2016-07-15T00:00:00+02:00"
+                ],
+                "ous:pickUpId": [
+                  "1111"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Neerlin, Mette E."
+                ],
+                "ous:title": [
+                  "Hest, hest, tiger, tiger"
+                ],
+                "ous:orderDate": [
+                  "2016-07-05T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "Available for pickup"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpExpiryDate": [
+                  "2016-07-14T00:00:00+02:00"
+                ],
+                "ous:pickUpId": [
+                  "864"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              },
+              {
+                "ous:author": [
+                  "Rowling, Joanne K."
+                ],
+                "ous:title": [
+                  "Harry Potter og fangen fra Azkaban. - "
+                ],
+                "ous:orderDate": [
+                  "2016-07-04T00:00:00+02:00"
+                ],
+                "ous:orderId": [
+                  "0123456"
+                ],
+                "ous:orderStatus": [
+                  "Available for pickup"
+                ],
+                "ous:orderType": [
+                  "Hold"
+                ],
+                "ous:holdQueuePosition": [
+                  "1"
+                ],
+                "ous:pickUpExpiryDate": [
+                  "2016-07-14T00:00:00+02:00"
+                ],
+                "ous:pickUpId": [
+                  "865"
+                ],
+                "ous:pickUpAgency": [
+                  "DK-123456"
+                ]
+              }
+            ],
+            "ous:ordersCount": [
+              "13"
+            ]
+          }
+        ],
+        "ous:fiscalAccount": [
+          {
+            "ous:fiscalTransaction": [
+              {
+                "ous:fiscalTransactionAmount": [
+                  "20"
+                ],
+                "ous:fiscalTransactionCurrency": [
+                  "DKK"
+                ],
+                "ous:fiscalTransactionDate": [
+                  "2016-06-06T00:00:00+02:00"
+                ],
+                "ous:fiscalTransactionType": [
+                  "Fine"
+                ],
+                "ous:author": [
+                  ""
+                ],
+                "ous:title": [
+                  "Nausicaä fra vindenes dal / original "
+                ]
+              }
+            ],
+            "ous:totalAmount": [
+              "20"
+            ],
+            "ous:totalAmountCurrency": [
+              "DKK"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

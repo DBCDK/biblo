@@ -13,11 +13,21 @@ var path = require('path');
  */
 module.exports = {
   resolve: {
-    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')],
-    extensions: ['', '.js']
+    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, 'src/server')],
+    extensions: ['', '.js', 'json']
   },
 
   cache: true,
+
+  loaders: [
+    {
+      test: /\.json$/,
+      loader: 'json',
+      include: [
+        /node_modules/
+      ]
+    }
+  ],
 
   module: {
     preLoaders: [
@@ -34,6 +44,13 @@ module.exports = {
         test: /\.js$/,
         exclude: /(test|node_modules|bower|__tests__)\//,
         loader: 'isparta'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json',
+        include: [
+          /node_modules/
+        ]
       }
     ]
   },

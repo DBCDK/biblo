@@ -1,0 +1,200 @@
+{
+  "result": {
+    "orders": [
+      {
+        "author": "Fleischer, Charlotte",
+        "title": "Bent Bandit",
+        "orderDate": "2016-04-09T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Fleischer, Charlotte",
+        "title": "Bent Bandit til Bølle Bal",
+        "orderDate": "2016-04-09T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Flanagan, John",
+        "title": "Gorlans ruiner",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Kjær, Jan, f. 1971",
+        "title": "Den sorte heks",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "1334990",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Kjær, Jan, f. 1971",
+        "title": "Den nye heks",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Benton, Jim",
+        "title": "Kære dumme dagbog, mine bukser er ",
+        "orderDate": "2016-07-06T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Mosdal, Søren Glosimodt",
+        "title": "Lost highway",
+        "orderDate": "2016-06-23T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Kjær, Jan, f. 1971",
+        "title": "Den magiske hjelm. - 2. udgave",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Kjær, Jan, f. 1971",
+        "title": "Den magiske hjelm",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "In process",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "",
+        "pickupAgency": "DK-123456",
+        "ready": false
+      },
+      {
+        "author": "Rowling, Joanne K.",
+        "title": "Harry Potter og fangen fra Azkaban. - ",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "Available for pickup",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "2016-07-14T00:00:00+02:00",
+        "pickupAgency": "DK-123456",
+        "ready": true
+      },
+      {
+        "author": "Benton, Jim",
+        "title": "Kære dumme dagbog, skal vi ikke bare ",
+        "orderDate": "2016-07-06T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "Available for pickup",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "2016-07-15T00:00:00+02:00",
+        "pickupAgency": "DK-123456",
+        "ready": true
+      },
+      {
+        "author": "Neerlin, Mette E.",
+        "title": "Hest, hest, tiger, tiger",
+        "orderDate": "2016-07-05T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "Available for pickup",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "2016-07-14T00:00:00+02:00",
+        "pickupAgency": "DK-123456",
+        "ready": true
+      },
+      {
+        "author": "Rowling, Joanne K.",
+        "title": "Harry Potter og fangen fra Azkaban. - ",
+        "orderDate": "2016-07-04T00:00:00+02:00",
+        "orderId": "0123456",
+        "orderStatus": "Available for pickup",
+        "orderType": "Hold",
+        "pickupDate": "",
+        "pickupExpires": "2016-07-14T00:00:00+02:00",
+        "pickupAgency": "DK-123456",
+        "ready": true
+      }
+    ],
+    "loans": [
+      {
+        "author": "",
+        "title": "Hugo / directed by Martin Scorsese. - 1 ",
+        "dateDue": "2016-07-11T00:00:00+02:00",
+        "loanId": "0123456789",
+        "expiresSoon": false
+      },
+      {
+        "author": "Jacobsen, Søren Vagn, f. 1946",
+        "title": "Violet in the grave",
+        "dateDue": "2016-07-19T00:00:00+02:00",
+        "loanId": "0123456789",
+        "expiresSoon": false
+      },
+      {
+        "author": "Plum, Camilla",
+        "title": "Camillas havebog",
+        "dateDue": "2016-07-19T00:00:00+02:00",
+        "loanId": "0123456789",
+        "expiresSoon": false
+      }
+    ],
+    "fiscal": {
+      "totalAmount": "0 DKK",
+      "transactions": [
+        {
+          "amount": "20",
+          "currency": "DKK",
+          "date": "2016-06-06T00:00:00+02:00",
+          "type": "Fine",
+          "author": "",
+          "title": "Nausicaä fra vindenes dal / original ",
+          "id": "656f3cecf80839ca1edbe868d7d8f38d"
+        }
+      ]
+    }
+  },
+  "errors": []
+}

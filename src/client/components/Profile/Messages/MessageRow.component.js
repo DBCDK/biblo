@@ -19,7 +19,7 @@ export default class MessageRow extends React.Component {
     super(props);
 
     this.state = {
-      message: this.props.message,
+      message: this.props.message || {},
       comment: {},
       justRead: false
     };

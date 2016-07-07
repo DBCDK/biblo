@@ -19,6 +19,16 @@ module.exports = {
 
   cache: true,
 
+  loaders: [
+    {
+      test: /\.json$/,
+      loader: 'json',
+      include: [
+        /node_modules/
+      ]
+    }
+  ],
+
   module: {
     preLoaders: [
       {

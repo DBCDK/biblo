@@ -9,7 +9,7 @@ const getTopReviewsTransform = {
   },
 
   requestTransform(event, {size, age, ratingParameter, countsParameter}) {
-    return this.callServiceClient('community', 'reviewSearch', {
+    return this.callServiceClient('community', 'topWorksFromReviews', {
       size,
       age,
       ratingParameter,
@@ -18,7 +18,7 @@ const getTopReviewsTransform = {
   },
 
   responseTransform(response) {
-    return JSON.parse(response.body);
+    return {statusCode: response.statusCode, data: JSON.parse(response.body), errors: []};
   }
 };
 

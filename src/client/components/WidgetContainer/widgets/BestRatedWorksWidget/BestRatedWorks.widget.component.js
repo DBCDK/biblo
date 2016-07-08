@@ -41,7 +41,7 @@ export class BestRatedWorksWidget extends Component {
           closed={this.state.closed}
           isLoading={this.props.widgetReducerProp.isLoading}
           works={this.props.widgetReducerProp.works} />
-        <a onClick={() => {this.setState({closed: !this.state.closed})}}>
+        <a onClick={() => this.setState({closed: !this.state.closed})}>
           {this.state.closed ? '+ Vis flere' : '- Vis færre'}
         </a>
       </div>

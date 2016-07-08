@@ -39,3 +39,11 @@ export function gotCoverImage(coverImageResult) {
     coverImageResult
   };
 }
+
+export function callServiceProvider(event, data) {
+  return {
+    type: types.callServiceProvider,
+    event,
+    data
+  };
+}

@@ -10,8 +10,10 @@ import {ContentPageTextWidget} from './ContentPageTextWidget/ContentPageText.wid
 import {ContentPageImageWidget} from './ContentPageImageWidget/ContentPageImage.widget.component';
 import {ContentPageEmbeddedVideoWidget} from './ContentPageEmbeddedVideoWidget/ContentPageEmbeddedVideo.widget.component';
 import {FullWidthBannerWidget} from './FullWidthBannerWidget/FullWidthBanner.widget.component';
+import {BestRatedWorksWidget} from './BestRatedWorksWidget/BestRatedWorks.widget.component';
 
 const widgetComponents = {
+  BestRatedWorksWidget,
   LatestReviewsWidget,
   DummyWidget,
   FullWidthBannerWidget,

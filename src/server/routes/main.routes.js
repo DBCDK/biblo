@@ -29,6 +29,20 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
     // Parse the widget data from S3
     const resp = JSON.parse(d.body);
 
+   /*
+    resp.FrontPageContent[0] = ({
+      widgetName: 'BestRatedWorksWidget',
+      widgetConfig: {
+        title: 'De bedste bøger på biblo',
+        size: 24,
+        age: 30,
+        ratingParameter: 1,
+        countsParameter: 1,
+        worktypes: []
+      }
+    });
+    */
+
     // Write it into the state tree, and render the component.
     req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
     req.renderComponent(FrontpageContainer);

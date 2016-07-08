@@ -12,6 +12,10 @@ import * as types from '../Constants/action.constants';
 let initialState = {
   LatestReviews: [],
   CoverImages: {},
+  BestRatedWorksWidget: {
+    works: [],
+    isLoading: true
+  },
   widgetLocations: {
     ContentPageLeft: [],
     ContentPageFactBox: [],
@@ -28,11 +32,17 @@ initialState.widgetLocations = Object.assign(initialState.widgetLocations, Conte
 export default function widgetReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-    case types.GET_LATEST_REVIEWS_FOR_WIDGET:
+    case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
       return assignToEmpty(state, {LatestReviews: action.reviews});
+    }
 
-    case types.GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET:
+    case types.GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET: {
       return assignToEmpty(state, {CoverImages: assignToEmpty(state.CoverImages, action.coverImageResult)});
+    }
+
+    case types.GOT_BEST_RATED_WORKS: {
+      return assignToEmpty(state, {BestRatedWorksWidget: {works: action.data.data, isLoading: false}});
+    }
 
     default:
       return state;

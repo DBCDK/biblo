@@ -56,6 +56,7 @@ const GetUserStatusTransform = {
       }
 
       userStatusResp = Array.isArray(userStatusResp['ous:userStatus']) ? userStatusResp['ous:userStatus'][0] : userStatusResp['ous:userStatus'];
+      const now = Date.now();
 
       if (userStatusResp.hasOwnProperty('ous:orderedItems')) {
         const orders = (Array.isArray(userStatusResp['ous:orderedItems']) ? userStatusResp['ous:orderedItems'][0] : userStatusResp['ous:orderedItems'])['ous:order'] || [];
@@ -94,7 +95,6 @@ const GetUserStatusTransform = {
           const orderStatus = order.orderStatus || '';
 
           if (order.pickupDate.length > 0 && order.pickupExpires.length > 0) {
-            const now = Date.now();
             const pickupDate = (new Date(order.pickupDate)).getTime();
             const pickupExpires = (new Date(order.pickupExpires)).getTime();
 
@@ -135,8 +135,7 @@ const GetUserStatusTransform = {
           if (loan.dateDue && loan.dateDue.length > 0) {
             try {
               const dueDate = new Date(loan.dateDue);
-              const now = new Date();
-              loan.expiresSoon = (dueDate.getTime() - 172800000 <= now.getTime());
+              loan.expiresSoon = (dueDate.getTime() - 172800000 <= now);
             }
             catch (err) {
               data.errors.push('could not parse date.');

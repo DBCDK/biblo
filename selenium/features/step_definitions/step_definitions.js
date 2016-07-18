@@ -135,6 +135,23 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
+  this.Given(/^PreviewPage is loaded with widgetConfig: (.*)$/, function(widgetConfig) {
+    return this.previewWidget(widgetConfig);
+  });
+
+  this.Then(/^Take a screenshot with filename: (.*)$/i, function(filename) {
+    return this.takeScreenshot(filename);
+  });
+
+  this.Then(/^wait ([0-9]+) ms$/i, function(timeout, cb) {
+    setTimeout(cb, timeout);
+  });
+
+  this.Then(/^the page contains: (.*)$/i, function (contained) {
+    return this.browser.findElement({tagName: 'body'})
+      .then(bodyElement => bodyElement.getText())
+      .then(bodyText => expect(bodyText).to.contain(contained));
+  });
 };
 
 module.exports = myStepDefinitionsWrapper;

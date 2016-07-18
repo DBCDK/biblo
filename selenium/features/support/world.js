@@ -4,6 +4,25 @@ import * as path from 'path';
 
 const driverTimeout = 2000;
 
+// [{"widgetName": "BestRatedWorksWidget", "widgetConfig": {"title": "Bob er sej!", "size": 50, "age": 365, "ratingParameter": 1, "countsParameter": 1, "worktypes": [], "showTitle": true}}]
+
+function postToPreview(widgetConfig) {
+  const callback = arguments[arguments.length - 1];
+
+  const f = document.createElement('form');
+  f.setAttribute('method', 'post');
+  f.setAttribute('action', '/preview');
+
+  const i = document.createElement('input');
+  i.setAttribute('type', 'hidden');
+  i.setAttribute('name', 'widgets');
+  i.setAttribute('value', widgetConfig);
+  f.appendChild(i);
+
+  callback();
+  f.submit();
+}
+
 function World() {
   this.driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome());
   this.browser = this.driver.build();
@@ -50,6 +69,10 @@ function World() {
         }
       });
     });
+  };
+
+  this.previewWidget = widgetConfig => {
+    return this.browser.executeAsyncScript(postToPreview, widgetConfig);
   };
 }
 

@@ -19,45 +19,53 @@ const articleData = parseJsonData('JSONDATA', 'articleData');
 export class Article extends React.Component {
   renderBibloAdminContentPage() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
-        <div className="article">
-          <div className='article-main'>
-            <WidgetContainer
-              widgetLocationName="ContentPageLeft"
-              widgetState={this.props.widgetState}
-              widgetActions={this.props.widgetActions} />
-          </div>
-          <div className='article-factbox'>
-            <WidgetContainer
-              widgetLocationName="ContentPageFactBox"
-              widgetState={this.props.widgetState}
-              widgetActions={this.props.widgetActions} />
-          </div>
+      <div className="article">
+        <div className='article-main'>
+          <WidgetContainer
+            widgetLocationName="ContentPageLeft"
+            widgetState={this.props.widgetState}
+            widgetActions={this.props.widgetActions}/>
         </div>
-      </PageLayout>
+        <div className='article-factbox'>
+          <WidgetContainer
+            widgetLocationName="ContentPageFactBox"
+            widgetState={this.props.widgetState}
+            widgetActions={this.props.widgetActions}/>
+        </div>
+      </div>
     );
   }
 
   renderAmazonArticle() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
-        <div className='article'>
-          <div className='article-header'>
-            <img src={articleData.headerImageUrl}/>
-          </div>
-          <div className='article-main' dangerouslySetInnerHTML={{__html: articleData.mainContent}}></div>
-          <div className='article-factbox' dangerouslySetInnerHTML={{__html: articleData.factboxContent}}></div>
+      <div className='article'>
+        <div className='article-header'>
+          <img src={articleData.headerImageUrl}/>
         </div>
-      </PageLayout>
+        <div className='article-main' dangerouslySetInnerHTML={{__html: articleData.mainContent}}></div>
+        <div className='article-factbox' dangerouslySetInnerHTML={{__html: articleData.factboxContent}}></div>
+      </div>
     );
   }
 
   render() {
+    let content;
+
     if (Object.getOwnPropertyNames(articleData).length > 0) {
-      return this.renderAmazonArticle();
+      content = this.renderAmazonArticle();
+    }
+    else {
+      content = this.renderBibloAdminContentPage();
     }
 
-    return this.renderBibloAdminContentPage();
+    return (
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profileState}>
+        {content}
+      </PageLayout>
+    )
   }
 }
 

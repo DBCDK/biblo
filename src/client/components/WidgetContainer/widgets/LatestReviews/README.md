@@ -10,7 +10,8 @@ Usage:
     displayTitle: 'text to display above the widget',
     reviewsToLoad: 15,
     backgroundColor: '#ff00ff',
-    backgroundImageUrl: 'http://some-host.com/url/to/image.jpeg'
+    backgroundImageUrl: 'http://some-host.com/url/to/image.jpeg',
+    showTitle: true
   }
 }
 ```

@@ -9,7 +9,10 @@ Usage:
   widgetConfig: {
     alt: 'Alt',
     src: 'http://uxscrum-i02.dbc.dk:8889/sites/default/files/2016-05/0-moonwalking-stormtrooper-1366x768-digital-art-wallpaper.jpg',
-    title: 'Title'
+    title: 'ImageTitle',
+    showTitle: false,
+    backgroundColor: '#FF00FF',
+    backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg'
   }
 }
 ```

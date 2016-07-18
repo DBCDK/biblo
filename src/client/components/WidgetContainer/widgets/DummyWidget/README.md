@@ -7,6 +7,11 @@ Usage:
 ```javascript
 {
   widgetName: 'DummyWidget',
-  widgetConfig: {}
+  widgetConfig: {
+    title: 'Super titel!',
+    showTitle: true,
+    backgroundColor: '#FF00FF',
+    backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg'
+  }
 }
 ```

@@ -65,7 +65,7 @@ export class Article extends React.Component {
         profileState={this.props.profileState}>
         {content}
       </PageLayout>
-    )
+    );
   }
 }
 

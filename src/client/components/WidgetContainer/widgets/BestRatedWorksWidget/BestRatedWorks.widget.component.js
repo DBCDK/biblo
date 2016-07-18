@@ -36,7 +36,6 @@ export class BestRatedWorksWidget extends Component {
 
     return (
       <div className="best-rated-works--widget">
-        <h2 className="best-rated-works--widget--title">{title}</h2>
         <CompactWorkElementsContainer
           closed={this.state.closed}
           isLoading={this.props.widgetReducerProp.isLoading}

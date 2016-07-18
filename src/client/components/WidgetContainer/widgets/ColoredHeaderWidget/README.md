@@ -9,7 +9,10 @@ Usage:
   widgetConfig: {
     color: '#f3f4f5', // Optional
     text: 'biblo.dk er mega sejt!', 
-    title: 'Velkommen!'
+    title: 'Velkommen!',
+    showTitle: false,
+    backgroundColor: '#FF00FF',
+    backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg'
   }
 }
 ```

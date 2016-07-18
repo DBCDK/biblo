@@ -25,7 +25,8 @@ module.exports = [{
     groupdetail: './src/client/components/Groups/View/index.js',
     groupedit: './src/client/components/Groups/Edit/index.js',
     work: './src/client/components/Work/index.js',
-    review: './src/client/components/Review/index.js'
+    review: './src/client/components/Review/index.js',
+    preview: './src/client/components/WidgetContainer/index.js'
   },
   output: {
     path: path.join(__dirname, 'public/js'),

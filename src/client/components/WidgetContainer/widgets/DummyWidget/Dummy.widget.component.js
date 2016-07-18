@@ -31,7 +31,7 @@ DummyWidget.propTypes = {
   widgetLocationName: PropTypes.string.isRequired,
 
   // This is an object containing the property from the widgetReducer that matches the widgetName.
-  widgetReducerProp: PropTypes.object.isRequired,
+  widgetReducerProp: PropTypes.object,
 
   // This is the entire state from the widgetReducer.
   widgetState: PropTypes.object.isRequired

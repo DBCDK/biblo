@@ -28,6 +28,7 @@ import ProfileRoutes from './server/routes/profile.routes';
 import CampaignRoutes from './server/routes/campaign.routes';
 import ContentRoutes from './server/routes/content.routes';
 import ApiRoutes from './server/routes/api.routes';
+import PreviewRoutes from './server/routes/preview.routes';
 import {wildCardRoute} from './server/routes/content.routes';
 
 // Passport Strategies
@@ -395,6 +396,7 @@ module.exports.run = function (worker) {
   app.use('/materiale', fullProfileOnSession, ensureUserHasValidLibrary, WorkRoutes);
   app.use('/indhold', fullProfileOnSession, ensureUserHasValidLibrary, ContentRoutes);
   app.use('/api', ApiRoutes);
+  app.use('/preview', PreviewRoutes);
   app.use('/', MainRoutes);
 
   // middleware like route to catch all non-caught routes.

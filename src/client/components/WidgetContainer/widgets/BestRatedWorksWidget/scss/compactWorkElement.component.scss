@@ -42,6 +42,11 @@
   .compact-work-element--title-and-worktype--container {
     .compact-work-element--title {
       text-overflow: ellipsis;
+      color: #4740b7;
+
+      .icon {
+        fill: #4740b7;
+      }
     }
   }
 }

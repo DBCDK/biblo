@@ -7,7 +7,11 @@ Usage:
 {
   widgetName: 'ContentPageEmbeddedVideoWidget',
   widgetConfig: {
-    type: 'YouTube', src: 'https://www.youtube.com/embed/qZ3fiOctBkE'
+    type: 'YouTube',
+    src: 'https://www.youtube.com/embed/qZ3fiOctBkE',
+    showTitle: false,
+    backgroundColor: '#FF00FF',
+    backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg'
    }
 }
 ```

@@ -88,7 +88,7 @@ describe('Test ContentPages Widgets', () => {
 
     let $root = $(component).shallowRender();
 
-    const EmbeddedVideoDisplayName = $root.find('.generic-widget-container')['0'].props.children.type.displayName;
+    const EmbeddedVideoDisplayName = $root.find('.generic-widget-container')['0'].props.children[1].props.children.type.displayName;
     expect(EmbeddedVideoDisplayName).toEqual('ContentPageEmbeddedVideoWidget');
   });
 });

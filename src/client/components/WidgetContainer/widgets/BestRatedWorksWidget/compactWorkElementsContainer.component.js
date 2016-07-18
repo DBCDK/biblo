@@ -25,11 +25,13 @@ export class CompactWorkElementsContainer extends Component {
 }
 
 CompactWorkElementsContainer.displayName = 'CompactWorkElementsContainer';
+
 CompactWorkElementsContainer.propTypes = {
   works: PropTypes.array,
   closed: PropTypes.bool,
   isLoading: PropTypes.bool
 };
+
 CompactWorkElementsContainer.defaultProps = {
   works: [],
   closed: true,

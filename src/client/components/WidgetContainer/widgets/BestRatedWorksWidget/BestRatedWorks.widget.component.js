@@ -39,8 +39,6 @@ export class BestRatedWorksWidget extends Component {
   }
 
   render() {
-    const title = this.props.widgetConfig.title || '';
-
     return (
       <div className="best-rated-works--widget">
         <CompactWorkElementsContainer

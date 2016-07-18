@@ -77,31 +77,12 @@ export class WorkReviewContainer extends React.Component {
     const work = this.props.workState.work;               // the work collection from the service provider
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
-    const meta = this.props.reviewState.workReviewsMeta;  // meta information about reviews (check for users own review)
-
-    const coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
-    const abstract = (work.abstract) ? work.abstract[0] : '';
-    let creator;
-    if (work.creatorAut) {
-      creator = (work.creatorAut) ? work.creatorAut[0] : '';
-    }
-    else {
-      creator = (work.creator) ? work.creator[0] : '';
-    }
-
-    const workType = (work.workType) ? work.workType[0] : 'other';
-    // const extent = (work.extent) ? work.extent[0] : '';
+    const meta = this.props.reviewState.workReviewsMeta;
 
     let isOwnReview;
     if (reviews.length > 0) {
       isOwnReview = (meta.ownReviewId === reviews[0].id);
     }
-
-    let tags = [];
-    tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;
-    tags = (work.subjectDBCS) ? tags.concat(work.subjectDBCS) : tags;
-    tags = (work.subjectDBCO) ? tags.concat(work.subjectDBCO) : tags;
-    tags = (work.subjectDBCM) ? tags.concat(work.subjectDBCM) : tags;
 
     let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
       return {
@@ -120,20 +101,20 @@ export class WorkReviewContainer extends React.Component {
         </ModalWindow>
         }
         <div className='work'>
-          <WorkHeader coverUrl={coverUrl}/>
+          <WorkHeader coverUrl={work.coverUrl}/>
           <WorkDetail
             collection={work.collection}
             collectionDetails={work.collectionDetails}
             editText={this.getEditText()}
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
-            title={work.dcTitleFull[0]}
-            displayType={workType}
-            creator={creator}
-            abstract={abstract}
-            tags={tags}
-            coverUrl={coverUrl}
-            workType={workType}
+            title={work.dcTitleFull}
+            displayType={work.workType}
+            creator={work.creator}
+            abstract={work.abstract}
+            tags={work.tags}
+            coverUrl={work.coverUrl}
+            workType={work.workType}
             orderState={this.props.workState.orderState}
             orderMaterialAction={this.props.workActions.asyncOrderWork}
             checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
@@ -159,7 +140,7 @@ export class WorkReviewContainer extends React.Component {
               pids={work.collection}
               limit={1}
               reviews={reviews}
-              worktype="book"
+              worktype={work.workType}
               profile={this.props.profile}
               reviewActions={this.props.reviewActions}
               uiActions={this.props.uiActions}

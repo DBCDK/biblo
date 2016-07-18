@@ -1,3 +1,5 @@
+import workParser from '../../parsers/work.parser';
+
 const WorkTransform = {
 
   event() {
@@ -51,8 +53,10 @@ const WorkTransform = {
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
     let body = JSON.parse(response.body);
     body.requestedPids = query.pids;
+    body.data = body.data.map(workParser);
     return body;
   }
+
 };
 
 export default WorkTransform;

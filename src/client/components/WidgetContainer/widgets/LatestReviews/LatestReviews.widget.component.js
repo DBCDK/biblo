@@ -26,7 +26,6 @@ export class LatestReviewsWidget extends Component {
   }
 
   render() {
-    let {displayTitle} = this.props.widgetConfig;
     let reviews = this.props.widgetReducerProp;
     let classNames = 'latest-reviews-widget--reviews-container';
 
@@ -46,19 +45,17 @@ export class LatestReviewsWidget extends Component {
 
     return (
       <div>
-        <div className="latest-reviews-widget--widget-title--and--show-more-button--container">
-          <h2>{displayTitle}</h2>
+        <div className={classNames}>
+          {reviews}
+        </div>
+        <div className="latest-reviews-widget--show-more-button--container">
           <a
             className="latest-reviews-widget--show-more-button"
             onClick={() => this.setState({isClosed: !this.state.isClosed})}>
             <Icon glyph={this.state.isClosed ? plusSvg : minusSvg}/>
             {this.state.isClosed ? ' VIS FLERE' : ' VIS FÆRRE'}
           </a>
-        </div>
-        <div>
-          <div className={classNames}>
-            {reviews}
-          </div>
+          <hr />
         </div>
       </div>
     );

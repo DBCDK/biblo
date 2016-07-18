@@ -55,7 +55,7 @@ const getTopReviewsTransform = {
 
   responseTransform(response) {
     let data = [];
-    let errors = [];
+    const errors = [];
 
     try {
       let seenPids = [];
@@ -64,14 +64,14 @@ const getTopReviewsTransform = {
       data = [].concat.apply([], response
         .map(res => JSON.parse(res.body).data))
         .filter(el => {
-          const seen = el.collection.filter(pid => seenPids.indexOf(pid) >= 0).length === 0;
+          const seen = el.collection && (el.collection).filter(pid => seenPids.indexOf(pid) >= 0).length === 0;
           seenPids = seenPids.concat(el.collection);
           return seen;
         });
     }
     catch (err) {
       // Handle errors kinda nicely.
-      errors.push(err);
+      errors.push(err.message ? err.message : err);
     }
 
     // send off the response.

@@ -29,7 +29,8 @@ describe('Test LatestReviews Widget', () => {
       widgetName: 'LatestReviewsWidget',
       widgetConfig: {
         displayTitle: 'LatestReviews displayTitle Test!',
-        reviewsToLoad: 15
+        reviewsToLoad: 15,
+        showTitle: true
       }
     };
 
@@ -42,7 +43,7 @@ describe('Test LatestReviews Widget', () => {
 
     let $root = $(component).render();
 
-    const LatestReviewsWidget = $root.find('.latest-reviews-widget--widget-title--and--show-more-button--container > h2').text();
+    const LatestReviewsWidget = $root.find('h2').text();
     expect(LatestReviewsWidget).toEqual('LatestReviews displayTitle Test!');
   });
 

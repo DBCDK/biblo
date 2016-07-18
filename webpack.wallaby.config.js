@@ -1,10 +1,9 @@
-'use strict';
 /**
  * Config file for webpack used by wallaby
  */
 
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
 /**
  * Setup webpack to transpile ES6 and jsx + handle scss files
@@ -21,7 +20,7 @@ module.exports = {
 
   plugins: [
     new webpack.NormalModuleReplacementPlugin(/\.(gif|svg|scss|css)$/, 'node-noop'), // replace all .scss files with one specific (and small) .scss file. We don't care about sass when testing anyways.
-    new webpack.IgnorePlugin(/(ReactContext)/)
+    new webpack.IgnorePlugin(/ReactContext|react\/addons/) // https://github.com/glenjamin/skin-deep/issues/73
   ],
 
   node: {

@@ -74,7 +74,8 @@ module.exports = [{
     react: 'React',
     'react-dom': 'ReactDOM',
     lodash: '_',
-    newrelic: 'newrelic'
+    newrelic: 'newrelic',
+    twemoji: 'twemoji'
   },
 
   plugins: [

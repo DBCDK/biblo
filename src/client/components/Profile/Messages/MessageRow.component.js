@@ -132,17 +132,15 @@ export default class MessageRow extends React.Component {
       case 'type-orderExpiresSoon': {
         const diff = moment(this.state.message.dateDue).diff();
         const dateString = moment(this.state.message.dateDue).fromNow();
-        const string = diff < 0 ? 'Skulle være afleveret for' : 'Skal afleveres om senest';
+        const string = diff < 0 ? 'Skulle være afleveret for' : 'Skal afleveres senest';
 
         return (<span>{string} {dateString}</span>);
       }
 
       case 'type-orderIsReady': {
         const agency = this.props.agencies[this.state.message.pickupAgency];
-        let branchName = 'Ukendt bibliotek';
-        if (agency) {
-          branchName = agency.branchName.$value;
-        }
+        const branchName = agency ? agency.branchName.$value : 'Ukendt bibliotek';
+
         const pickUpDateString = moment(this.state.message.pickupExpires).format('LL');
 
         return (

@@ -4,6 +4,7 @@
   "description": "biblo.dk",
   "main": "src/main.js",
   "scripts": {
+    "before:commit": "npm run lint && npm run features && npm run test",
     "build": "webpack --define process.env.NODE_ENV='\"production\"' --progress --colors -p",
     "build:dev": "webpack --progress --colors -d",
     "dev": "STANDARD_CACHE_TIME=1 parallelshell \"npm run start:watch -s\" \"npm run serve -s\"",

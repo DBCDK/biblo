@@ -31,9 +31,9 @@ export function processUserStatusCheck(job, done) {
         return reject('Could not get user status');
       }
 
-      let loanedItemsLoanIds = [];
-      let readyItemsOrderIds = [];
-      let registeredTransactions = [];
+      const loanedItemsLoanIds = [];
+      const readyItemsOrderIds = [];
+      const registeredTransactions = [];
 
       // First we check our messages to ensure we don't create duplicates
       userMessages.Items.forEach((Item) => {

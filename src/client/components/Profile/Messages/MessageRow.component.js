@@ -138,8 +138,12 @@ export default class MessageRow extends React.Component {
       }
 
       case 'type-orderIsReady': {
-        const agency = this.props.agencies[this.state.message.pickupAgency];
-        const branchName = agency ? agency.branchName.$value : 'Ukendt bibliotek';
+        const agency = this.props.agencies[this.state.message.pickupAgency] || {};
+        const branchShortNames = agency.branchShortName || null;
+        let branchName = 'Ukendt bibliotek';
+        if (branchShortNames) {
+          branchName = Array.isArray(branchShortNames) ? branchShortNames[0].$value : branchShortNames.$value;
+        }
 
         const pickUpDateString = moment(this.state.message.pickupExpires).format('LL');
 

@@ -29,7 +29,7 @@ const GetUserStatusTransform = {
   },
 
   responseTransform(response) {
-    let data = {
+    const data = {
       result: {
         orders: [],
         loans: [],
@@ -61,7 +61,7 @@ const GetUserStatusTransform = {
       if (userStatusResp.hasOwnProperty('ous:orderedItems')) {
         const orders = (Array.isArray(userStatusResp['ous:orderedItems']) ? userStatusResp['ous:orderedItems'][0] : userStatusResp['ous:orderedItems'])['ous:order'] || [];
         data.result.orders = orders.map((orderRes) => {
-          let order = {
+          const order = {
             author: '',
             title: '',
             orderDate: '',
@@ -111,7 +111,7 @@ const GetUserStatusTransform = {
       if (userStatusResp.hasOwnProperty('ous:loanedItems')) {
         const loans = (Array.isArray(userStatusResp['ous:loanedItems']) ? userStatusResp['ous:loanedItems'][0] : userStatusResp['ous:loanedItems'])['ous:loan'] || [];
         data.result.loans = loans.map((loanRes) => {
-          let loan = {
+          const loan = {
             author: '',
             title: '',
             dateDue: '',
@@ -156,7 +156,7 @@ const GetUserStatusTransform = {
 
         // Individual transactions
         (fiscals['ous:fiscalTransaction'] || []).forEach((transaction) => {
-          let bill = {
+          const bill = {
             amount: '',
             currency: '',
             date: '',

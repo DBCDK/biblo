@@ -3,7 +3,14 @@
  */
 
 import React, {Component, PropTypes} from 'react';
+
 import {CompactWorkElementsContainer} from './compactWorkElementsContainer.component';
+import Icon from '../../../General/Icon/Icon.component';
+
+import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
+import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
+
+import './scss/BestRatedWorks.widget.component.scss';
 
 export class BestRatedWorksWidget extends Component {
   constructor() {
@@ -32,18 +39,21 @@ export class BestRatedWorksWidget extends Component {
   }
 
   render() {
-    const title = this.props.widgetConfig.title || '';
-
     return (
       <div className="best-rated-works--widget">
-        <h2 className="best-rated-works--widget--title">{title}</h2>
         <CompactWorkElementsContainer
           closed={this.state.closed}
           isLoading={this.props.widgetReducerProp.isLoading}
           works={this.props.widgetReducerProp.works} />
-        <a onClick={() => this.setState({closed: !this.state.closed})}>
-          {this.state.closed ? '+ Vis flere' : '- Vis færre'}
-        </a>
+        <div className="best-rated-works--widget--show-more-button--container">
+          <a
+            className="best-rated-works--widget--show-more-button"
+            onClick={() => this.setState({closed: !this.state.closed})}>
+            <Icon glyph={this.state.closed ? plusSvg : minusSvg}/>
+            {this.state.closed ? ' VIS FLERE' : ' VIS FÆRRE'}
+          </a>
+          <hr />
+        </div>
       </div>
     );
   }

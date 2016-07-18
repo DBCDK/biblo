@@ -12,7 +12,10 @@ Usage:
     desktopImageUrl: 'https://this.is.a.dumme.link/dummy.desktop.png',
     tabletImageUrl: 'https://this.is.a.dumme.link/dummy.tablet.png',
     mobileImageUrl: 'https://this.is.a.dumme.link/dummy.mobile.png',
-    linkUrl: 'https://this.is.a.dummy.link'
+    linkUrl: 'https://this.is.a.dummy.link',
+    showTitle: false,
+    backgroundColor: '#FF00FF',
+    backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg'
   }
 }
 ```

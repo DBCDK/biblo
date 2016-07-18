@@ -3,7 +3,7 @@
 .latest-reviews-widget--reviews-container {
   @include span(24);
   background-color: #e2e0f7;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   -webkit-overflow-scrolling: touch;
 
   &.closed {
@@ -18,22 +18,28 @@
   }
 }
 
-.latest-reviews-widget--widget-title--and--show-more-button--container {
-  a {
-    float: right;
-    cursor: pointer;
-    font-family: $header-font;
-    color: #000000;
-    margin: 20px;
+.latest-reviews-widget--show-more-button--container {
+  text-align: center;
 
-    @include max-screen($tablet) {
-      display: none;
-    }
+  hr {
+    visibility: hidden;
   }
+}
 
-  h2 {
-    display: inline-block;
-    margin-left: 10px;
+.latest-reviews-widget--show-more-button {
+  cursor: pointer;
+  font-family: $header-font;
+  color: #000000;
+  padding: 5px;
+  margin: 20px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  border: #e2e2ed solid 1px;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+
+  @include max-screen($tablet) {
+    display: none;
   }
 
   .icon {

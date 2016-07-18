@@ -147,6 +147,8 @@ export default class Review extends UploadMedia {
    * @returns {boolean}
    */
   validate() {
+    const isModerator = this.state.profile.isModerator;
+
     let errors = [];
     if (typeof this.state.rating === 'undefined' || this.state.rating <= 0) {
       errors.push(
@@ -156,7 +158,7 @@ export default class Review extends UploadMedia {
         });
     }
 
-    if (!isSiteOpen()) {
+    if (!isModerator && !isSiteOpen()) {
       errors.push(
         {
           field: 'content',
@@ -287,7 +289,7 @@ export default class Review extends UploadMedia {
       errors.forEach((error) => {
         errorObj[error.field] = (
           <Message type='error'>
-            <span className={error.field}> {error.errorMessage} </span>
+            <span className={`error-${error.field}`}> {error.errorMessage} </span>
           </Message>
         );
       });
@@ -412,6 +414,7 @@ export default class Review extends UploadMedia {
           <Rating ref="rating" pid={pid} rating={rating}
                   onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null}/>
           {errorObj.rating || ''}
+          {errorObj.content || ''}
           {
             this.state.isEditing &&
             <div className={Classnames({'review-add': true, shakeit: errors})}>
@@ -498,7 +501,6 @@ export default class Review extends UploadMedia {
                     </label>
                   </div>
                 </div>
-                {errorObj.content || ''}
               </form>
             </div>
             ||

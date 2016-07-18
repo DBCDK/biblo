@@ -26,7 +26,6 @@ export class LatestReviewsWidget extends Component {
   }
 
   render() {
-    let {displayTitle} = this.props.widgetConfig;
     let reviews = this.props.widgetReducerProp;
     let classNames = 'latest-reviews-widget--reviews-container';
 

@@ -36,6 +36,19 @@ module.exports.run = function(proc) {
           // If we've reached the catch, it means no mock was found, so we create it.
           console.log('Creating mock for:', message.mockName);
 
+          function censorResponseObject (response) {
+            for (const k in response) {
+              if (k === 'owner') {
+                response[k] = {};
+              }
+              else if (typeof response[k] === 'object' && response[k] !== null) {
+                censorResponseObject(response[k]);
+              }
+            }
+
+            return response;
+          }
+
           // We want to listen for the next loadMock, as it's run once the previous scenario is complete.
           // This function doesn't get called until the recording is complete.
           function loadMockListener(msg) {
@@ -44,12 +57,14 @@ module.exports.run = function(proc) {
               const nockObject = nock.recorder.play().map(reqres => {
                 const url = urlParse(reqres.scope + reqres.path, true);
 
+                const censoredResponse = censorResponseObject(reqres.response);
+
                 return `
                 nock('${reqres.scope}', {encodedQueryParams: true})
                   .${reqres.method.toLowerCase()}('${url.pathname}')
                   .times(times)
                   ${Object.keys(url.query).length > 0 ? `.query(${JSON.stringify(url.query)})` : ''}
-                  .reply(${reqres.status}, ${JSON.stringify(reqres.response)});`
+                  .reply(${reqres.status}, ${JSON.stringify(censoredResponse)});`
               });
 
               // We want to remove the listener after it's been called to prevent any more calls.

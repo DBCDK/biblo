@@ -15,4 +15,4 @@ Feature: Best Rated Works widget
     # Make some assertions based on what we expect.
     Then page is not error page
      And the page contains: THIS IS A SUPER COOL WAY TO SHOW BIBLIOGRAPHIC WORKS!
-     And the page contains: Alle elsker Sigge
+     And the page contains: Harry Potter og De Vises Sten

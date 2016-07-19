@@ -1,21 +1,10 @@
 language: node_js
-node_js:
-- '4.1'
-cache:
-  directories:
-  - node_modules
-branches:
-  only:
-  - master
+sudo: required
+dist: trusty
+
 before_install:
-- npm config set //registry.npmjs.org/:_authToken $NPM_KEY
-after_success:
-- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-- ./node_modules/codeclimate-test-reporter/bin/codeclimate.js < ./coverage/lcov.info
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
+  - npm config set //registry.npmjs.org/:_authToken $NPM_KEY
+
+script:
+  - npm run lint
+  - npm test

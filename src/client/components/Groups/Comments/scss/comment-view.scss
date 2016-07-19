@@ -99,6 +99,10 @@
   }
 }
 
+.comment-content {
+  word-wrap: break-word;
+}
+
 .comment-profile-image {
   @include profileImage();
   float: left;

@@ -137,7 +137,7 @@ export default class MessageRow extends React.Component {
         const diffDays = Math.floor(( Date.parse(dueNoon) - Date.parse(now) ) / 86400000);
         const string = diffDays == 0 ? 'i dag' : (diffDays > 0 ? 'om ': '') + Math.abs(diffDays).toString() + ' dag' + (Math.abs(diffDays) == 1 ? '' : 'e');
         const dateString = diffDays < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
-        
+
         return (<span>{dateString}</span>);
       }
 

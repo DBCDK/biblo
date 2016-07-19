@@ -22,15 +22,7 @@ function postToPreview(widgetConfig) {
 }
 
 function World() {
-  let driverCaps;
-  if (process.env.DEBIAN_FRONTEND === 'noninteractive') {
-    driverCaps = webdriver.Capabilities.firefox();
-  }
-  else {
-    driverCaps = webdriver.Capabilities.chrome();
-  }
-
-  this.driver = new webdriver.Builder().withCapabilities(driverCaps);
+  this.driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome());
   this.browser = this.driver.build();
 
   this.$ = selector => {

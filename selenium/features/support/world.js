@@ -4,8 +4,6 @@ import * as path from 'path';
 
 const driverTimeout = 2000;
 
-// [{"widgetName": "BestRatedWorksWidget", "widgetConfig": {"title": "Bob er sej!", "size": 50, "age": 365, "ratingParameter": 1, "countsParameter": 1, "worktypes": [], "showTitle": true}}]
-
 function postToPreview(widgetConfig) {
   const callback = arguments[arguments.length - 1];
 

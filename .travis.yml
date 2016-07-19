@@ -1,6 +1,15 @@
 language: node_js
-sudo: required
+sudo: false
 dist: trusty
+
+cache:
+  bundler: true
+  directories:
+    - node_modules
+
+branches:
+  only:
+    - master
 
 before_install:
   - npm config set //registry.npmjs.org/:_authToken $NPM_KEY

@@ -7,15 +7,6 @@ cache:
   directories:
     - node_modules
 
-services:
-  - redis-server
-
-env:
-  - SELENIUM_BROWSER=firefox
-
-addons:
-  firefox: "46.0"
-
 branches:
   only:
     - master
@@ -26,4 +17,3 @@ before_install:
 script:
   - npm run lint
   - npm test
-  - npm run features

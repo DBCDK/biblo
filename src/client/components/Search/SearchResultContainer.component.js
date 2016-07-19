@@ -45,14 +45,14 @@ export class SearchResultContainer extends React.Component {
       this.props.search.materialSearchLimit
     ) {
       visFlereMaterialButton =
-        <VisFlereButton onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults} />;
+        <VisFlereButton id='moreMaterialsButton' onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults} />;
     }
 
     if (this.props.search.groupSearchResults.length - this.props.search.groupSearchOffset >=
       this.props.search.groupSearchLimit
     ) {
       visFlereGroupButton =
-        <VisFlereButton onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults} />;
+        <VisFlereButton id='moreGroupsButton' onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults} />;
     }
 
     return (
@@ -63,6 +63,7 @@ export class SearchResultContainer extends React.Component {
         <div className="search-result-show-more-button" >
           {visFlereMaterialButton}
         </div>
+
         <GroupSearchResultList results={this.props.search.groupSearchResults} />
         <div className="search-result-show-more-button" >
           {visFlereGroupButton}

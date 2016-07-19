@@ -50,7 +50,7 @@ describe('Test BestRatedWorksWidget Widget', () => {
     let innerText = '';
     $root
       .find('.compact-work-element > .compact-work-element--title-and-worktype--container > .compact-work-element--title > :text')
-      .each(node => (innerText = innerText.concat(node._stringText)));
+      .each(node => (innerText = innerText.concat(node)));
 
     expect(innerText).toEqual(` ${workTitle}`);
   });

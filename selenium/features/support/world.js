@@ -4,8 +4,6 @@ import * as path from 'path';
 
 const driverTimeout = 2000;
 
-// [{"widgetName": "BestRatedWorksWidget", "widgetConfig": {"title": "Bob er sej!", "size": 50, "age": 365, "ratingParameter": 1, "countsParameter": 1, "worktypes": [], "showTitle": true}}]
-
 function postToPreview(widgetConfig) {
   const callback = arguments[arguments.length - 1];
 
@@ -24,7 +22,15 @@ function postToPreview(widgetConfig) {
 }
 
 function World() {
-  this.driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome());
+  let driverCaps;
+  if (process.env.DEBIAN_FRONTEND === 'noninteractive') {
+    driverCaps = webdriver.Capabilities.firefox();
+  }
+  else {
+    driverCaps = webdriver.Capabilities.chrome();
+  }
+
+  this.driver = new webdriver.Builder().withCapabilities(driverCaps);
   this.browser = this.driver.build();
 
   this.$ = selector => {

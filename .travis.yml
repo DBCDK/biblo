@@ -7,9 +7,17 @@ cache:
   directories:
     - node_modules
 
+services:
+  - redis-server
+
+branches:
+  only:
+    - master
+
 before_install:
   - npm config set //registry.npmjs.org/:_authToken $NPM_KEY
 
 script:
   - npm run lint
   - npm test
+  - npm run features

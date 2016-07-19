@@ -11,10 +11,7 @@ services:
   - redis-server
 
 env:
-  - SELENIUM_BROWSER=firefox
-  - CC=clang
-  - CXX=clang++
-  - npm_config_clang=1
+  - SELENIUM_BROWSER=firefox CC=clang CXX=clang++ npm_config_clang=1
 
 addons:
   firefox: "42.0"

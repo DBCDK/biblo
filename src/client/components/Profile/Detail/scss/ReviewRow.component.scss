@@ -74,7 +74,7 @@
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 40px;
- 
+
   a {
     text-decoration: none;
     color: inherit;
@@ -98,6 +98,7 @@
   overflow: hidden;
   max-height: 100px;
   text-overflow: ellipsis;
+  word-wrap: break-word;
 
   @include min-screen($tablet){
     margin: 0;

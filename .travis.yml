@@ -10,6 +10,12 @@ cache:
 services:
   - redis-server
 
+env:
+  - SELENIUM_BROWSER=firefox
+
+addons:
+  firefox: "42.0"
+
 branches:
   only:
     - master

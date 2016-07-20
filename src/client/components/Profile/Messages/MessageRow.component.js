@@ -130,7 +130,7 @@ export default class MessageRow extends React.Component {
   getMessageContent() {
     switch (this.state.message.type) {
       case 'type-orderExpiresSoon': {
-        const diff = moment(this.state.message.dateDue).add(0, 'days').diff(moment(), 'days');
+        const diff = moment(this.state.message.dateDue).diff(moment(), 'days');
         const string = diff == 0 ? 'i dag' : (diff > 0 ? 'om ': '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) == 1 ? '' : 'e');
         const dateString = diff < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
 

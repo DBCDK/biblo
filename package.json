@@ -95,6 +95,7 @@
     "pdfkit": "^0.7.2",
     "pmx": "^0.6.1",
     "postcss-loader": "^0.9.1",
+    "primus": "^5.2.2",
     "proxy-agent": "^2.0.0",
     "pug": "^2.0.0-beta4",
     "react": "^15.2.1",
@@ -119,6 +120,7 @@
     "vhost": "3.0.2",
     "walk": "2.3.9",
     "webpack": "^1.13.0",
+    "ws": "^1.1.1",
     "xmldom": "0.1.22",
     "xss-filters": "1.2.6",
     "youtube-link-to-id": "^1.0.1"

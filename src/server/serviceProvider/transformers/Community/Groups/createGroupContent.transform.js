@@ -4,7 +4,21 @@ const CreateGroupContent = {
   },
 
   upsertContent(query, user) {
-    const method = query.type === 'post' && 'createPost' || 'createComment';
+    const imageCollectionQuery = {
+      id: query.imageId
+    };
+
+    let method;
+    let imageCollectionField;
+
+    if (query.type === 'post') {
+      method = 'createPost';
+      imageCollectionField = 'postImageCollection';
+    }
+    else {
+      method = 'createComment';
+      imageCollectionField = 'commentImageCollection';
+    }
 
     if (query.removeImage) {
       this.callServiceClient('community', 'removeImage', {imageId: query.removeImage});
@@ -21,18 +35,10 @@ const CreateGroupContent = {
       ownerid: query.ownerid || user.profileId,
       accessToken: user.id,
       video: query.video || null
-    }).then((response) => {
-      if (response.statusCode === 200 && query.image) {
-        const image = query.image;
-        query.image = {data: 'Binary Image Data!'};
-        return this.callServiceClient('community', 'updateImage', {
-          relationId: response.body.id,
-          image,
-          accessToken: user.id,
-          relationType: query.type === 'post' && 'postImageCollection' || 'commentImageCollection'
-        }).then(() => {
-          return response;
-        });
+    }).then(response => {
+      if (query.imageId) {
+        imageCollectionQuery[imageCollectionField] = response.body.id;
+        return this.callServiceClient('community', 'updateImageCollection', imageCollectionQuery).then(() => response);
       }
 
       return response;

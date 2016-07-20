@@ -55,7 +55,7 @@ export default class UploadMedia extends React.Component {
         const type = file.type.split('/')[0];
 
         if (type === 'image') {
-          resolve(this.handleImage(file));
+          resolve(this.handleImage(file, onProgress));
         }
         else if (type === 'video') {
           resolve(this.handleVideo(file, onProgress));
@@ -72,14 +72,58 @@ export default class UploadMedia extends React.Component {
    * @param file the file to be uploaded
    * @returns {Promise}  returns a promise with attachment if success or a error mesage if rejected
    */
-  handleImage(file) {
-    return new Promise((resolve) => {
+  handleImage(file, onProgress) {
+    const errorMessage = 'Upload af billede er fejlet!';
+
+    return new Promise((resolve, reject) => {
+      file.progress = 0;
+
+      const attachment = {image: {file: file}};
       const reader = new FileReader();
+      const form = new FormData();
+
       reader.onload = (e) => {
-        const attachment = {image: e.target.result};
-        return resolve(attachment);
+        attachment.image.data = e.target.result;
+        onProgress(attachment);
       };
+
       reader.readAsDataURL(file);
+      form.append('image', file);
+
+      this.xhr = new XMLHttpRequest();
+      this.xhr.open('POST', '/api/uploadimage');
+      this.xhr.upload.onprogress = e => {
+        if (e.lengthComputable) {
+          const percentage = (e.loaded / e.total) * 100;
+          attachment.image.file.progress = percentage;
+          if (onProgress) {
+            onProgress(attachment);
+          }
+        }
+      };
+
+      this.xhr.onerror = () => {
+        return reject(errorMessage);
+      };
+
+      this.xhr.onload = e => {
+        if (e.target.status === 200) {
+          try {
+            attachment.image.imageCollectionId = JSON.parse(this.xhr.responseText).id;
+          }
+          catch (err) {
+            return reject(errorMessage);
+          }
+
+          attachment.image.progress = 100;
+          attachment.image.file = null;
+          return resolve(attachment);
+        }
+
+        return reject(errorMessage);
+      };
+
+      this.xhr.send(form);
     });
   }
 

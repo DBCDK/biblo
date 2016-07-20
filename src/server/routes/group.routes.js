@@ -327,16 +327,15 @@ GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], (req, res) 
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/content/:type', ensureAuthenticated, upload.single('image'), async function (req, res) {
+GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async function (req, res) {
   const logger = req.app.get('logger');
   const ElasticTranscoder = req.app.get('ElasticTranscoder');
-  const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
-  let params = {
+  const params = {
     title: ' ',
     content: sanitize(req.body.content, {allowedTags: []}) || ' ',
     parentId: req.body.parentId,
     type: req.params.type,
-    image,
+    imageId: req.body.imageId,
     id: req.body.id,
     imageRemoved: req.body.imageRemoved === 'true' || false,
     attachedReviewId: req.body.attachedReview === 'removed' ? null : req.body.attachedReview // this nulls the value in the db if "removed" is set.

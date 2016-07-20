@@ -4,9 +4,34 @@
 
 import express from 'express';
 import Busboy from 'busboy';
+import multer from 'multer';
+import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
 const ApiRoutes = express.Router();
-import {ensureAuthenticated} from '../middlewares/auth.middleware';
+const upload = multer({storage: multer.memoryStorage()});
+
+ApiRoutes.post('/uploadimage', ensureAuthenticated, upload.single('image'), async function (req, res, next) {
+  try {
+    const logger = req.app.get('logger');
+    const accessToken = req.session.passport.user.id;
+
+    if (!req.file) {
+      throw new Error('Got no file!');
+    }
+
+    const uploadRes = (await req.callServiceProvider('uploadimage', {image: req.file, accessToken}))[0];
+    if (uploadRes.statusCode >= 400) {
+      throw new Error('Error occurred during file upload!');
+    }
+
+    logger.info('Successfully uploaded image!');
+
+    return res.send(JSON.stringify(uploadRes.data));
+  }
+  catch (err) {
+    return next(err);
+  }
+});
 
 /**
  * API endpoint for uploading video to AWS S3

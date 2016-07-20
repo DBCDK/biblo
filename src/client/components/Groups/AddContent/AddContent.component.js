@@ -29,10 +29,17 @@ export default class AddContent extends UploadMedia {
 
   constructor(props) {
     super(props);
+    let imageAttachment;
+    if (props.image) {
+      imageAttachment = {};
+      imageAttachment.data = props.image;
+      imageAttachment.imageCollectionId = props.image.replace('/billede/', '').replace('/medium', '');
+    }
+
     this.state = {
       text: props.text || '',
       attachment: {
-        image: props.image || null,
+        image: imageAttachment,
         video: null,
         review: null
       },
@@ -97,8 +104,8 @@ export default class AddContent extends UploadMedia {
     const reviewRows = this.props.profile.reviews.data.map((review) => {
       let work = this.props.works[review.pid];
       work = work || {title: '', creator: ''};
-      work.title = work.title ||'';
-      work.creator = work.creator ||'';
+      work.title = work.title || '';
+      work.creator = work.creator || '';
 
       let authorCreator = (
         <span>
@@ -143,7 +150,10 @@ export default class AddContent extends UploadMedia {
     });
 
     return (
-      <ModalWindow onClose={() => this.setState({showAddReviews: false, attachment: Object.assign(this.state.attachment, {review: null})})} title="Indsæt Anmeldelse">
+      <ModalWindow onClose={() => this.setState({
+        showAddReviews: false,
+        attachment: Object.assign(this.state.attachment, {review: null})
+      })} title="Indsæt Anmeldelse">
         <div className="attach-review-modal--reviews-container">
           {reviewRows.length > 0 ? reviewRows : 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!'}
         </div>
@@ -160,7 +170,23 @@ export default class AddContent extends UploadMedia {
     );
   }
 
+  handleFileChange(event) {
+    return this
+      .readInput(
+        event,
+        attachment => this.setState({isLoading: true, attachment: Object.assign(this.state.attachment, attachment)})
+      )
+      .then(
+        attachment => this.setState({isLoading: false, attachment: Object.assign(this.state.attachment, attachment)})
+      )
+      .catch(
+        errorMsg => this.setState({isLoading: false, errorMsg: errorMsg})
+      );
+  }
+
   render() {
+    const image = this.state.attachment.image || {};
+
     let deleteButton = null;
     if (this.props.delete) {
       deleteButton = (
@@ -191,24 +217,25 @@ export default class AddContent extends UploadMedia {
       <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
         {this.state.showAddReviews && this.renderAddReviewModal()}
 
-        <form method="POST" action={this.state.target} encType="multipart/form-data"
+        <form method="POST" action={this.state.target}
               id="content_form_component" ref="group-post-form"
               onSubmit={e => this.onSubmit(e)}>
           <div className='content-add--input'>
-            <input type="hidden" name="id" value={this.props.id || null}/>
+            <input type="hidden" name="id" value={this.props.id}/>
+            <input type="hidden" name="imageId" value={image.imageCollectionId}/>
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
             <input type="hidden" name="parentId" value={this.props.parentId}/>
             <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id}/>
-          <textarea className="content-add--textarea" ref='contentTextarea' name="content"
-                    placeholder='Gi den gas & hold god tone ;-)'
-                    value={this.state.text}
-                    disabled={this.state.disableInput}
-                    onChange={(e) => this.setState({text: e.target.value})}
-          />
-            {this.state.attachment.image &&
+            <textarea className="content-add--textarea" ref='contentTextarea' name="content"
+                      placeholder='Gi den gas & hold god tone ;-)'
+                      value={this.state.text}
+                      disabled={this.state.disableInput}
+                      onChange={(e) => this.setState({text: e.target.value})}
+            />
+            {image.data &&
             <div className='content-add--preview-image'>
-              <img src={this.state.attachment.image} alt="preview"/>
+              <img src={image.data} alt="preview"/>
               <a href="#removeImage" className="content-add--remove-media" onClick={(e) => this.clearImage(e)}>
                 <Icon glyph={close}/>
               </a>
@@ -237,7 +264,7 @@ export default class AddContent extends UploadMedia {
               </div>
               <div className="preview-review--remove-btn">
                 <a href="#removeReview" className="content-add--remove-media"
-                   onClick={() => this.setState({attachment: {review: 'removed'}})}>
+                   onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {review: 'removed'})})}>
                   <Icon glyph={close}/>
                 </a>
               </div>
@@ -257,12 +284,8 @@ export default class AddContent extends UploadMedia {
                   accept='image/*,video/*,video/mp4'
                   type="file"
                   className="content-add--upload-media droppable-media-field--file-input"
-                  name="image"
                   disabled={this.state.disableInput}
-                  onChange={event => this.readInput(event, attachment => this.setState({isLoading: true, attachment: Object.assign(this.state.attachment, attachment)}))
-                            .then(attachment => this.setState({isLoading: false, attachment: Object.assign(this.state.attachment, attachment)}))
-                            .catch(errorMsg => this.setState({isLoading: false, errorMsg: errorMsg}))
-                            }
+                  onChange={this.handleFileChange.bind(this)}
                   ref="fileInput"
                 />
                 <Icon glyph={videoSvg}/>
@@ -271,7 +294,7 @@ export default class AddContent extends UploadMedia {
               </label>
 
               <a className="insert-review-button" onClick={this.state.disableInput ? () => {} : () => this.setState({showAddReviews: true})}>
-                <img src="/attach_review.png" />
+                <img src="/attach_review.png"/>
                 <span className="attach-review-button--text"> Anmeldelse </span>
               </a>
 
@@ -288,7 +311,7 @@ export default class AddContent extends UploadMedia {
                 this.state.attachment.video.file.progress < 100 ||
                 this.state.isLoading ||
                 this.state.disableInput
-                }
+              }
             >
               {(this.state.isLoading) && <Icon glyph={spinner}/>}
               OK

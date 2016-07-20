@@ -17,6 +17,7 @@ import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
 import Queue from 'bull';
+import Primus from 'primus';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
@@ -423,13 +424,39 @@ module.exports.run = function (worker) {
   // Setting logger -- should be placed after routes
   app.use(expressLoggers.errorLogger);
 
-  // Setup listeners for change streams
-  sp.trigger('listenForNewQuarantines', [quarantinesChangeStreamHandler.bind(null, app)]);
-  sp.trigger('listenForNewPosts', [postWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)]);
-  sp.trigger('listenForNewComments', [
-    commentWasAddedUserMessageChangeStreamHandler.bind(null, app),
-    commentWasAddedEmitToClientsChangeStreamHandler.bind(null, app, scServer)
-  ]);
+  // We only want one connection per server.
+  if (worker.isLeader) {
+    // First we connect to the community service via primus
+    const bibloCsUrl = BIBLO_CONFIG.provider.services.community.endpoint;
+    const primus = new (Primus.createSocket({transformer: 'websockets'}))(bibloCsUrl);
+
+    // Whenever we get some data from the service, we hit this function
+    primus.on('data', function (data) {
+      // We only want to act on objects with events.
+      if (typeof data === 'object' && data.event) {
+        // Each event has different handlers
+        switch (data.event) {
+          case 'quarantineChanged': {
+            return [quarantinesChangeStreamHandler(app, data)];
+          }
+          case 'postChanged': {
+            return [postWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)];
+          }
+          case 'commentChanged': {
+            return [
+              commentWasAddedUserMessageChangeStreamHandler(app, data),
+              commentWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)
+            ];
+          }
+          default: {
+            return [];
+          }
+        }
+      }
+
+      return [];
+    });
+  }
 
   logger.log('debug', '>> Worker PID: ' + process.pid);
   logger.log('debug', 'Server listening on port ' + app.get('port'));

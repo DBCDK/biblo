@@ -7,8 +7,8 @@ import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once, filter} from 'lodash';
 
-const search = SocketClient('search');
-const searchListener = once(search.response);
+const searchClient = SocketClient('search');
+const searchClientListener = once(searchClient.response);
 
 const searchGroups = SocketClient('searchGroups');
 const searchGroupListener = once(searchGroups.response);
@@ -30,13 +30,13 @@ export function asyncLoadMoreMaterialResults(query) {
 
   return (dispatch) => {
     dispatch(loadMoreMaterialResults());
-    searchListener((res) => dispatch(loadedMoreMaterialResults(res)));
+    searchClientListener((res) => dispatch(loadedMoreMaterialResults(res)));
 
     const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
       return query.materialFilters[type].enabled;
     });
 
-    search.request({
+    searchClient.request({
       q: query.query,
       materialer: materialTypes.join(),
       emneord: query.subjects.join(),
@@ -77,6 +77,12 @@ export function toggleSearchBox() {
   };
 }
 
+export function toggleGroupFilter() {
+  return {
+    type: types.SEARCH_TOGGLE_GROUP_FILTER
+  };
+}
+
 export function toggleMaterialFilter(materialType) {
   return {
     type: types.SEARCH_TOGGLE_MATERIAL_FILTER,
@@ -90,7 +96,8 @@ export function resetMaterialFilters() {
   };
 }
 
-export function searchMaterials(query) {
+export function search(query) {
+
   // create array of enabled material filter types
   const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
     return query.materialFilters[type].enabled;
@@ -98,13 +105,14 @@ export function searchMaterials(query) {
 
   let searchUrl =
     '/find?q=' + encodeURIComponent(query.query) +
+     '&grupper=' + encodeURIComponent(query.groupFilter) +
     '&emneord=' + encodeURIComponent(query.subjects.join()) +
     '&materialer=' + encodeURIComponent(materialTypes.join());
 
   // OLD SKOOL redirect
   window.location = searchUrl;
   return {
-    type: types.MATERIAL_SEARCH
+    type: types.SEARCH
   };
 }
 

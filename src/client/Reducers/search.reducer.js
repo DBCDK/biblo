@@ -26,6 +26,7 @@ let initialState = {
   isLoadingGroupResults: false,
   isSearching: false,
   filters: {
+    groupFilter: false,
     materialFilters: {
       book: {enabled: false},
       game: {enabled: false},
@@ -65,10 +66,16 @@ if (typeof window !== 'undefined') {
 
 // identify enabled search filters by looking at the url
   const urlParams = parseQueryParams(window.location.href);
+
+  if (urlParams.grupper) {
+    initialState.filters.groupFilter = (urlParams.grupper === 'true');
+  }
   if (urlParams.materialer) {
     const materialFilters = urlParams.materialer.split(',');
     for (const i in materialFilters) { // eslint-disable-line guard-for-in
-      initialState.filters.materialFilters[materialFilters[i]].enabled = true;
+      if (materialFilters[i]) {
+        initialState.filters.materialFilters[materialFilters[i]].enabled = true;
+      }
     }
   }
   if (urlParams.emneord) {
@@ -176,8 +183,15 @@ export default function searchReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {query: action.q});
     }
 
-    case types.MATERIAL_SEARCH: {
+    case types.SEARCH: {
       return assignToEmpty(state, {isSearching: true});
+    }
+
+    case types.SEARCH_TOGGLE_GROUP_FILTER: {
+      let filtersToggledState = assignToEmpty(state, {});
+      const isEnabled = filtersToggledState.filters.groupFilter;
+      filtersToggledState.filters.groupFilter = !isEnabled;
+      return filtersToggledState;
     }
 
     case types.SEARCH_TOGGLE_MATERIAL_FILTER: {

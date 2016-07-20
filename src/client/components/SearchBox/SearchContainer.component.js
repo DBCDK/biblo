@@ -81,8 +81,9 @@ export default class SearchContainer extends React.Component {
     }
     else if (e.type === 'click' || e.keyCode === 13) {
       this.setState({loading: true});
-      this.props.searchActions.searchMaterials({
+      this.props.searchActions.search({
         query: this.state.query,
+        groupFilter: this.props.search.filters.groupFilter,
         materialFilters: this.props.search.filters.materialFilters,
         subjects: this.props.search.filters.subjectFilters
       });

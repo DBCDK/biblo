@@ -53,7 +53,10 @@ export class SearchResultContainer extends React.Component {
   }
 
   shouldRenderGroupResults() {
-    return (this.props.search.filters.groupFilter||!this.isMaterialFilterEnabled());
+    return (
+      (!this.props.search.filters.groupFilter&&!this.isMaterialFilterEnabled())  // on startup
+      ||(this.props.search.filters.groupFilter||this.isMaterialFilterEnabled()) // after enabling /disabling
+    );
   }
 
   render() {

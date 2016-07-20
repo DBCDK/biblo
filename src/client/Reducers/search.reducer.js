@@ -68,8 +68,9 @@ if (typeof window !== 'undefined') {
   const urlParams = parseQueryParams(window.location.href);
 
   if (urlParams.grupper) {
-    initialState.filters.groupFilter = (urlParams.grupper === 'true');
+    initialState.filters.groupFilter = (parseInt(urlParams.grupper, 10) === 1);
   }
+
   if (urlParams.materialer) {
     const materialFilters = urlParams.materialer.split(',');
     for (const i in materialFilters) { // eslint-disable-line guard-for-in

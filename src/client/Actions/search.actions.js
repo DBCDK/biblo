@@ -105,7 +105,7 @@ export function search(query) {
 
   let searchUrl =
     '/find?q=' + encodeURIComponent(query.query) +
-     '&grupper=' + encodeURIComponent(query.groupFilter) +
+     '&grupper=' + (query.groupFilter ? 1 : 0) +
     '&emneord=' + encodeURIComponent(query.subjects.join()) +
     '&materialer=' + encodeURIComponent(materialTypes.join());
 

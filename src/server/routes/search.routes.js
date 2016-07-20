@@ -12,7 +12,7 @@ SearchRoutes.get('/', async function (req, res, next) {
     // get search query from url
     const params = {
       q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
-      grupper: decodeURIComponent(req.query.grupper),
+      grupper: parseInt(req.query.grupper, 10),
       forfatter: (req.query.forfatter) ? decodeURIComponent(req.query.forfatter) : null,
       materialer: (req.query.materialer) ? decodeURIComponent(req.query.materialer) : null,
       emneord: (req.query.emneord) ? decodeURIComponent(req.query.emneord) : null,
@@ -30,8 +30,7 @@ SearchRoutes.get('/', async function (req, res, next) {
     groupSearchResults = groupSearchResults[0];
 
     // if group filter is set and no material filter is set , then we do not expect material results (SD-589)
-    if ((params.materialer !== null && params.materialer !== '')
-      || params.grupper === false || params.grupper === 'false' || params.grupper === 'undefined') {
+    if (!(params.grupper === 1 && params.materialer === null)) {
       materialSearchResults = await req.callServiceProvider('search', params).catch(function (e) {
         next(e);
       });

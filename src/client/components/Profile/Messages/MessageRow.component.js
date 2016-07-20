@@ -66,7 +66,7 @@ export default class MessageRow extends React.Component {
         let text = 'Afleveres snart';
         let orderExpiresSoonClass = '';
 
-        if (moment(this.state.message.dateDue).diff() < 0) {
+        if (moment(this.state.message.dateDue).diff(moment(), 'days') < 0) {
           glyph = forSentSVG;
           text = 'Afleveret for sent';
           orderExpiresSoonClass = 'late';
@@ -130,13 +130,9 @@ export default class MessageRow extends React.Component {
   getMessageContent() {
     switch (this.state.message.type) {
       case 'type-orderExpiresSoon': {
-        let dueNoon = new Date(this.state.message.dateDue);
-        let now = new Date();
-        dueNoon.setHours(12);  // to eliminate timezone issues in Denmark
-        now.setHours(0);  // start of today
-        const diffDays = Math.floor(( Date.parse(dueNoon) - Date.parse(now) ) / 86400000);
-        const string = diffDays == 0 ? 'i dag' : (diffDays > 0 ? 'om ': '') + Math.abs(diffDays).toString() + ' dag' + (Math.abs(diffDays) == 1 ? '' : 'e');
-        const dateString = diffDays < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
+        const diff = moment(this.state.message.dateDue).add(0, 'days').diff(moment(), 'days');
+        const string = diff == 0 ? 'i dag' : (diff > 0 ? 'om ': '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) == 1 ? '' : 'e');
+        const dateString = diff < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
 
         return (<span>{dateString}</span>);
       }

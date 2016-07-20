@@ -414,7 +414,7 @@ export default class Review extends UploadMedia {
           <Rating ref="rating" pid={pid} rating={rating}
                   onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null}/>
           {errorObj.rating || ''}
-          {errorObj.content || ''}
+          {this.state.isEditing && errorObj.content}
           {
             this.state.isEditing &&
             <div className={Classnames({'review-add': true, shakeit: errors})}>

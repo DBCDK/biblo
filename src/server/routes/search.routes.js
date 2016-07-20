@@ -12,41 +12,44 @@ SearchRoutes.get('/', async function (req, res, next) {
     // get search query from url
     const params = {
       q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
+      grupper: parseInt(req.query.grupper, 10),
       forfatter: (req.query.forfatter) ? decodeURIComponent(req.query.forfatter) : null,
       materialer: (req.query.materialer) ? decodeURIComponent(req.query.materialer) : null,
       emneord: (req.query.emneord) ? decodeURIComponent(req.query.emneord) : null,
       limit: 5
     };
 
-    // call Community service search (we expect this to be fast so we wait for the result here)
-    let groupSearchResults = await req.callServiceProvider('searchGroups', {
+    let materialSearchResults = [];
+    let groupSearchResults = [];
+    groupSearchResults = await req.callServiceProvider('searchGroups', {
       q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
       limit: 5
+    }).catch(function (e) {
+      next(e);
     });
-
     groupSearchResults = groupSearchResults[0];
 
-    // call Open-Platform search endpoint
-    req.callServiceProvider('search', params)
-      .then((stuff) => {
-        const materialSearchResults = stuff[0].data;
-        res.locals.title = `${params.q} - Søgning - Biblo.dk`;
-        res.render('page', {
-          css: ['/css/search.css'],
-          js: ['/js/search.js'],
-          jsonData: [JSON.stringify({
-            materialSearchResults: materialSearchResults,
-            groupSearchResults: groupSearchResults,
-            query: params.q
-          })]
-        });
-      })
-      .catch((e) => {
+    // if group filter is set and no material filter is set , then we do not expect material results (SD-589)
+    if (!(params.grupper === 1 && params.materialer === null)) {
+      materialSearchResults = await req.callServiceProvider('search', params).catch(function (e) {
         next(e);
       });
+      materialSearchResults = materialSearchResults[0].data;
+    }
+
+    res.locals.title = `${params.q} - Søgning - Biblo.dk`;
+    res.render('page', {
+      css: ['/css/search.css'],
+      js: ['/js/search.js'],
+      jsonData: [JSON.stringify({
+        materialSearchResults: materialSearchResults,
+        groupSearchResults: groupSearchResults,
+        query: params.q
+      })]
+    });
   }
-  catch (err) {
-    next(err);
+  catch (e) {
+    next(e);
   }
 });
 

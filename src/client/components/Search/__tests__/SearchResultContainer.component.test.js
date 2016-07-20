@@ -19,7 +19,10 @@ describe('Testing the SearchResultContainer component', () => {
       materialSearchLimit: 5,
       groupSearchResults: [],
       groupSearchOffset: 0,
-      groupSearchLimit: 5
+      groupSearchLimit: 5,
+      filters: {
+        groupFilter: false
+      }
     };
 
     const searchActions = {};
@@ -46,7 +49,10 @@ describe('Testing the SearchResultContainer component', () => {
       materialSearchLimit: 5,
       groupSearchResults: [],
       groupSearchOffset: 0,
-      groupSearchLimit: 5
+      groupSearchLimit: 5,
+      filters: {
+        groupFilter: false
+      }
     };
 
     const searchActions = {};

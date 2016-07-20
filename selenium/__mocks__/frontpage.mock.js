@@ -2,12 +2,6 @@
 const nock = require('nock');
 module.exports = function frontpage(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/Posts/')
-    .times(times)
-    .query({"filter": "{\"where\":{\"id\":-463,\"markedAsDeleted\":null},\"include\":[\"image\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"owner\":[\"image\"]},\"likes\",{\"relation\":\"comments\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
-    .reply(200, []);
-
-  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/fileContainers/uxdev-biblo-content-frontpage/download/frontpage_content.json')
     .times(times)
 
@@ -362,6 +356,313 @@ module.exports = function frontpage(times) {
       "id": 37302,
       "resolutionImageFileId": 37284,
       "resolutionVideoFileId": null
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51781937&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=d2a7262d8331df1eed79"],
+        "collection": ["870970-basis:51781937"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29205000&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=30f4fe330f74cc724bd7"],
+        "collection": ["870970-basis:29205000"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {"statusCode": 200, "data": [{"collection": ["870970-basis:07125321"], "workType": ["book"]}]});
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52169615&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=974faa955949f2cc2073"],
+        "collection": ["870970-basis:52169615"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52009901&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=cb0aeddc2d2fb522605e"],
+        "collection": ["870970-basis:52009901"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52297788&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=a91579a9ec915fc7af97"],
+        "collection": ["870970-basis:52297788"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28897723&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=5b3121d66bbc8687e681"],
+        "collection": ["870970-basis:28897723"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=26281180&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=b554cf39150ea59677c1"],
+        "collection": ["870970-basis:26281180"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{"collection": ["870970-basis:20988118", "870970-basis:06917070"], "workType": ["book"]}]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51716086&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2fbb62aa5528a06f2e52"],
+        "collection": ["870970-basis:51716086", "870970-basis:52206243"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{"collection": ["870970-basis:22647016", "870970-basis:52184320"], "workType": ["book"]}]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29941513&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=a5fd35444573ea4667ce"],
+        "collection": ["870970-basis:29941513", "870970-basis:50730654"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{"collection": ["870970-basis:23677466", "870970-basis:52174821"], "workType": ["book"]}]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29276188&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=4e6227c48cab916d206a"],
+        "collection": ["870970-basis:29276188", "870970-basis:50986942", "870970-basis:51453875"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51265130&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=c57bf5b24b4b74684aae"],
+        "collection": ["870970-basis:51265130", "870970-basis:50738310", "870970-basis:50738329", "870970-basis:51667905"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "dcTitle": ["Harry Potter og fangen fra Azkaban"],
+        "collection": ["870970-basis:22995154", "870970-basis:22639862", "870970-basis:29317003", "870970-basis:51980220", "870970-basis:25197879", "870970-basis:26239699", "870970-basis:23227932", "870970-basis:22937758", "870970-basis:22937766", "870970-basis:22937774", "870970-basis:27639151"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=22995154&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=f0b411b016a695418730"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Gummi-Tarzan"],
+        "collection": ["870970-basis:05025184", "870970-basis:24334562", "870970-basis:28321597", "870970-basis:20557192", "870970-basis:24699285", "870970-basis:26752345", "870970-basis:51742699", "870970-basis:02475804"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28321597&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=71d1e2e3fd0a0c2def80"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Maze runner - labyrinten"],
+        "collection": ["870970-basis:51263146", "870970-basis:51314719", "870970-basis:52159571"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51263146&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=fa840916b2e5b97967e3"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Hjerteveninder"],
+        "collection": ["870970-basis:29500800", "870970-basis:50774643", "870970-basis:50591859", "870970-basis:29890633"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29500800&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=7a00b7abf2b8809ad5d0"],
+        "workType": ["book"]
+      }]
+    });
+
+  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+    .post('/v1/work/')
+    .times(times)
+
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "dcTitle": ["En flænge i himlen"],
+        "collection": ["870970-basis:51115155", "870970-basis:29560749", "870970-basis:51500776"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29560749&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=b4d9884e04dca6baa1e0"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Harry Potter og De Vises Sten"],
+        "collection": ["870970-basis:22629344", "870970-basis:51989252", "870970-basis:29317038", "870970-basis:22252852", "870970-basis:51980247", "870970-basis:25194853", "870970-basis:24168638", "870970-basis:23195151", "870970-basis:27638708", "870970-basis:22513354"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=22629344&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=46563d4d495af52f9bf2"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Skammerens datter"],
+        "collection": ["870970-basis:23672626", "870970-basis:29677824", "870970-basis:24335763", "870970-basis:22758454", "870970-basis:51616324", "870970-basis:28709633", "870970-basis:28709706", "870970-basis:23236850", "870970-basis:27221580"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=23672626&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=f5e7ce9ccdbcaa99bda2"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["En flænge i himlen"],
+        "collection": ["870970-basis:51115155", "870970-basis:29560749", "870970-basis:51500776"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51115155&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2870de6fdc0021ded74b"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Dødsspillet"],
+        "collection": ["870970-basis:28290853", "870970-basis:27896634", "870970-basis:51367510"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28290853&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=66c767a135fc18fe3411"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Kaptajn Underhylers eventyr"],
+        "collection": ["870970-basis:24695751"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=24695751&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=4b08604ae781462b0db4"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Harry Potter og Hemmelighedernes Kammer"],
+        "collection": ["870970-basis:22677780", "870970-basis:29316945", "870970-basis:22375733", "870970-basis:51980239", "870970-basis:25197887", "870970-basis:25254031", "870970-basis:23227886", "870970-basis:22864416", "870970-basis:22864459", "870970-basis:22864467", "870970-basis:27639097"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Divergent"],
+        "collection": ["870970-basis:29276188", "870970-basis:50986942", "870970-basis:51453875"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29276188&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=4e6227c48cab916d206a"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Wimpy Kid"],
+        "collection": ["870970-basis:29570434", "870970-basis:29570442", "870970-basis:50618382", "870970-basis:51063376", "870970-basis:51723740", "870970-basis:52430119"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29570434&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=95d715bfe570ddc7207c"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Vildheks"],
+        "collection": ["870970-basis:28394438", "870970-basis:28693788", "870970-basis:28898274", "870970-basis:29622469", "870970-basis:50568024", "870970-basis:51362241", "870970-basis:29601151", "870970-basis:51967518", "870970-basis:51453700", "870970-basis:51453492", "870970-basis:51453654", "870970-basis:51650743", "870970-basis:51880897", "870970-basis:52045215"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28394438&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=afe2cbb7ec1a47f6bc8c"],
+        "workType": ["book"]
+      }, {}, {
+        "dcTitle": ["Lindormen"],
+        "collection": ["870970-basis:26326591", "870970-basis:50845397"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Asta og det store flytterod"],
+        "collection": ["870970-basis:28506392"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28506392&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=be71e29ce75bd62ec93c"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Alle elsker Sigge"],
+        "collection": ["870970-basis:25915690", "870970-basis:25771923"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=25915690&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=d85264e585e89ce71a57"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Wimpy Kid"],
+        "collection": ["870970-basis:29570434", "870970-basis:29570442", "870970-basis:50618382", "870970-basis:51063376", "870970-basis:51723740", "870970-basis:52430119"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29570442&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2dd5e1b9ca02bee669b5"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Wimpy Kid"],
+        "collection": ["870970-basis:29570434", "870970-basis:29570442", "870970-basis:50618382", "870970-basis:51063376", "870970-basis:51723740", "870970-basis:52430119"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51063376&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=dd595cae144ec5380ab3"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Hvem er hvem?"],
+        "collection": ["870970-basis:28183380"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28183380&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=a17f0a3c8eb2b48a86da"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Skammerens datter"],
+        "collection": ["870970-basis:23672626", "870970-basis:29677824", "870970-basis:24335763", "870970-basis:22758454", "870970-basis:51616324", "870970-basis:28709633", "870970-basis:28709706", "870970-basis:23236850", "870970-basis:27221580"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29677824&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=8a1ccd6752381319ff16"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Elverskud - skæbnedans"],
+        "collection": ["870970-basis:29859698", "870970-basis:52078164"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29859698&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=e783523038a9c100f5ec"],
+        "workType": ["book"]
+      }, {
+        "dcTitle": ["Divergent"],
+        "collection": ["870970-basis:29276188", "870970-basis:50986942", "870970-basis:51453875"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=50986942&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=af21e024e5bfbd086076"],
+        "workType": ["book"]
+      }]
     });
 
   nock('http://localhost:3000', {encodedQueryParams: true})

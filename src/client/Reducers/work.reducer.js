@@ -93,6 +93,12 @@ export default function workReducer(state = initialState, action = {}) {
       });
     }
 
+    case types.WORK_ORDER_RESET_STATE: {
+      return assignToEmpty(state, {
+        orderState: 0
+      });
+    }
+
     default: {
       return state;
     }

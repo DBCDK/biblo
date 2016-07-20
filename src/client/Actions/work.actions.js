@@ -108,3 +108,9 @@ export function orderWork(orderPlaced, errors) {
     errors
   };
 }
+
+export function resetOrderState() {
+  return {
+    type: types.WORK_ORDER_RESET_STATE
+  };
+}

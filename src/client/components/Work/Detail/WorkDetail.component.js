@@ -75,6 +75,7 @@ export class WorkDetail extends React.Component {
                 checkOrderPolicyAction={this.props.checkOrderPolicyAction}
                 checkOrderPolicyResult={this.props.checkOrderPolicyResult}
                 checkOrderPolicyDone={this.props.checkOrderPolicyDone}
+                resetOrderState={this.props.resetOrderState}
                 saveProfileAction={this.props.saveProfileAction}
                 unselectLibraryFunction={this.props.unselectLibraryFunction}
                 searchForLibraryAction={this.props.searchForLibraryAction}
@@ -121,6 +122,7 @@ WorkDetail.propTypes = {
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
   checkOrderPolicyDone: React.PropTypes.bool,
+  resetOrderState: React.PropTypes.func.isRequired,
   unselectLibraryFunction: React.PropTypes.func.isRequired,
   searchForLibraryAction: React.PropTypes.func.isRequired,
   saveProfileAction: React.PropTypes.func.isRequired,

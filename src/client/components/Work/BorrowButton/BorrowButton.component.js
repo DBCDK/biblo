@@ -284,6 +284,11 @@ export default class BorrowButton extends React.Component {
     );
   }
 
+  closeModal() {
+    this.setState({displayModal: false});
+    this.props.resetOrderState();
+  }
+
   render() {
     return (
       <span>
@@ -294,7 +299,7 @@ export default class BorrowButton extends React.Component {
           this.props.checkOrderPolicyDone,
           this.props.orderState,
           this.props.profile,
-          () => this.setState({displayModal: false})
+          this.closeModal.bind(this)
         )}
         <a className='work-detail--order-button' onClick={() => this.setState({displayModal: true})}>LÅN</a>
       </span>
@@ -316,6 +321,7 @@ BorrowButton.propTypes = {
   checkOrderPolicyAction: React.PropTypes.func.isRequired,
   checkOrderPolicyResult: React.PropTypes.object,
   checkOrderPolicyDone: React.PropTypes.bool,
+  resetOrderState: React.PropTypes.func.isRequired,
   profile: React.PropTypes.object,
   getWorkOnlineAccessAction: React.PropTypes.func.isRequired
 };

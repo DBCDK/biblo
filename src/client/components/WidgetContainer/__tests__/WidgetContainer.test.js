@@ -37,7 +37,9 @@ describe('Test generic WidgetContainer', () => {
       DummyWidget: {},
       widgetLocations: {}
     };
-    const widgetActions = {};
+    const widgetActions = {
+      callServiceProvider() {}
+    };
 
     widgetState.widgetLocations[widgetLocationName] = {widgetName: 'DummyWidget', widgetConfig: {}};
 

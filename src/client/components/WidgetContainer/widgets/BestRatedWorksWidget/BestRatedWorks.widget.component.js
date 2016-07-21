@@ -2,7 +2,8 @@
  * @file: BestRatedWorksWidget, used to display a list of the best works.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import {AbstractWidget} from '../../AbstractWidget.component';
 
 import {CompactWorkElementsContainer} from './compactWorkElementsContainer.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -12,9 +13,9 @@ import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 
 import './scss/BestRatedWorks.widget.component.scss';
 
-export class BestRatedWorksWidget extends Component {
-  constructor() {
-    super();
+export class BestRatedWorksWidget extends AbstractWidget {
+  constructor(props) {
+    super(props);
 
     this.state = {
       closed: true
@@ -29,7 +30,7 @@ export class BestRatedWorksWidget extends Component {
     const countsParameter = config.countsParameter;
     const worktypes = config.worktypes;
 
-    this.props.widgetActions.callServiceProvider('getTopReviews', {
+    this.callServiceProvider('getTopReviews', {
       size,
       age,
       ratingParameter,
@@ -39,18 +40,33 @@ export class BestRatedWorksWidget extends Component {
   }
 
   render() {
+    let closeButtonContent;
+
+    if (this.state.closed) {
+      closeButtonContent = (
+        <span>
+          <Icon glyph={plusSvg}/> VIS FLERE
+        </span>
+      );
+    }
+    else {
+      closeButtonContent = (
+        <span>
+          <Icon glyph={minusSvg}/> VIS FÆRRE
+        </span>
+      );
+    }
+
     return (
       <div className="best-rated-works--widget">
         <CompactWorkElementsContainer
           closed={this.state.closed}
           isLoading={this.props.widgetReducerProp.isLoading}
           works={this.props.widgetReducerProp.works} />
+
         <div className="best-rated-works--widget--show-more-button--container">
-          <a
-            className="best-rated-works--widget--show-more-button"
-            onClick={() => this.setState({closed: !this.state.closed})}>
-            <Icon glyph={this.state.closed ? plusSvg : minusSvg}/>
-            {this.state.closed ? ' VIS FLERE' : ' VIS FÆRRE'}
+          <a className="best-rated-works--widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
+            {closeButtonContent}
           </a>
           <hr />
         </div>
@@ -60,9 +76,3 @@ export class BestRatedWorksWidget extends Component {
 }
 
 BestRatedWorksWidget.displayName = 'BestRatedWorksWidget';
-BestRatedWorksWidget.propTypes = {
-  widgetActions: PropTypes.object.isRequired,
-  widgetConfig: PropTypes.object.isRequired,
-  widgetReducerProp: PropTypes.object.isRequired,
-  widgetState: PropTypes.object.isRequired
-};

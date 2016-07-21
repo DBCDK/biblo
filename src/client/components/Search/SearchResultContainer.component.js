@@ -38,6 +38,31 @@ export class SearchResultContainer extends React.Component {
     });
   }
 
+  shouldRenderMaterialResults() {
+    return (
+      !this.isFiltering()                     // display everything when not filtering
+      ||(!this.isGroupFilterEnabled()         // do not show material list when group filter is on
+      ||this.isMaterialFilterEnabled())       // show material list when material filter is on
+      );
+  }
+
+  shouldRenderGroupResults() {
+    return (
+      !this.isFiltering()                     // display everything when not filtering
+      ||this.isGroupFilterEnabled()           // show group list when group filter is on
+    );
+  }
+
+  isFiltering() {
+    return (
+      this.isGroupFilterEnabled() ||this.isMaterialFilterEnabled()
+    );
+  }
+
+  isGroupFilterEnabled() {
+    return this.props.search.filters.groupFilter;
+  }
+
   isMaterialFilterEnabled() {
     let materialFilterEnabled = false;
     for (let materialFilter in this.props.search.filters.materialFilters) {
@@ -46,17 +71,6 @@ export class SearchResultContainer extends React.Component {
       }
     }
     return materialFilterEnabled;
-  }
-
-  shouldRenderMaterialResults() {
-    return (!this.props.search.filters.groupFilter||this.isMaterialFilterEnabled());
-  }
-
-  shouldRenderGroupResults() {
-    return (
-      (!this.props.search.filters.groupFilter&&!this.isMaterialFilterEnabled())  // on startup
-      ||(this.props.search.filters.groupFilter||this.isMaterialFilterEnabled()) // after enabling /disabling
-    );
   }
 
   render() {

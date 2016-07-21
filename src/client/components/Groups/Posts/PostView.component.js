@@ -137,6 +137,14 @@ export default class PostView extends React.Component {
     );
   }
 
+  renderCampaignLogo(campaign) {
+    if (campaign && campaign.logos && campaign.logos.svg) {
+      return <Icon height={40} width={40} svgLink={campaign.logos.svg} />;
+    }
+
+    return <span />;
+  }
+
   render() {
     const {
             groupActions,
@@ -209,6 +217,7 @@ export default class PostView extends React.Component {
             <a href={`/profil/${owner.id}`} ><span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} /></a>
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons' >
+              <span className="post--campaign--logo">{this.renderCampaignLogo(this.props.campaign)}</span>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                           icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>} />
@@ -281,6 +290,7 @@ export default class PostView extends React.Component {
 
 PostView.displayName = 'PostView';
 PostView.propTypes = {
+  campaign: React.PropTypes.object,
   commentsCount: React.PropTypes.number,
   commentRedirect: React.PropTypes.string,
   comments: React.PropTypes.array,
@@ -305,4 +315,10 @@ PostView.propTypes = {
   getCoverImage: React.PropTypes.func.isRequired,
   getMoreWorks: React.PropTypes.func,
   video: React.PropTypes.object
+};
+
+PostView.defaultProps = {
+  campaign: {
+    logos: {}
+  }
 };

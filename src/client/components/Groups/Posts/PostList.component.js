@@ -12,13 +12,15 @@ export default function PostList({
   works,
   coverImages,
   getCoverImage,
-  getMoreWorks
+  getMoreWorks,
+  campaign = {}
 }) {
   return (
     <div className='post-list' >
          {
            posts
            && posts.map((item) => (<PostView
+             campaign={campaign}
              key={item.id} {...item}
              profile={profile}
              likes={item.likes}

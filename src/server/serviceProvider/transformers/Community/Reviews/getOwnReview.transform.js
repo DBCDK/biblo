@@ -55,7 +55,7 @@ const GetOwnReviewTransform = {
 
     return Promise.all([
       this.callServiceClient('community', 'getReviews', params),
-      this.callServiceClient('bibloadmin', 'getCampaigns')
+      this.callServiceClient('community', 'getReviewCampaigns')
     ]);
   },
 

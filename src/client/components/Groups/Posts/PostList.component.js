@@ -12,13 +12,15 @@ export default function PostList({
   works,
   coverImages,
   getCoverImage,
-  getMoreWorks
+  getMoreWorks,
+  campaign = {}
 }) {
   return (
     <div className='post-list' >
          {
            posts
            && posts.map((item) => (<PostView
+             campaign={campaign}
              key={item.id} {...item}
              profile={profile}
              likes={item.likes}
@@ -39,6 +41,7 @@ export default function PostList({
 
 PostList.displayName = 'PostList';
 PostList.propTypes = {
+  campaign: React.PropTypes.object,
   posts: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   groupId: React.PropTypes.number.isRequired,

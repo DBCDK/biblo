@@ -115,7 +115,7 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-view'>
               <h2
                 className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
-              <PostList posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
+              <PostList campaign={this.props.group.campaign} posts={this.props.group.posts} profile={this.props.profile} groupId={this.props.group.id}
                         coverImages={this.props.coverImages} getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
                         groupActions={this.props.groupActions} uiActions={this.props.uiActions} works={this.props.group.works}
                         flagActions={this.props.flagActions} likeActions={this.props.likeActions} getMoreWorks={this.props.profileActions.asyncGetUserReviews} />

@@ -64,7 +64,7 @@ const GetReviewTransform = {
       Promise.all([
         this.callServiceClient('community', 'countReviews', {accessToken, where: params.filter.where}),
         this.callServiceClient('community', 'getReviews', params),
-        this.callServiceClient('bibloadmin', 'getCampaigns')
+        this.callServiceClient('community', 'getReviewCampaigns')
       ])
       .then((response) => {
         resolve(response);

@@ -162,6 +162,7 @@ export class ProfileDetailContainer extends React.Component {
               title={title}
             >
               <PostView
+                campaign={activity.post.group.campaign}
                 content={activity.post.content}
                 html={activity.post.html}
                 timeCreated={activity.timeCreated}
@@ -226,6 +227,7 @@ export class ProfileDetailContainer extends React.Component {
               title={postTitle}
             >
               <PostView
+                campaign={activity.group.campaign}
                 content={activity.content}
                 likes={activity.likes}
                 html={activity.html}

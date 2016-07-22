@@ -13,8 +13,12 @@ const getContentPageTransform = {
   /**
    * @returns {Promise}
    */
-  requestTransform() {
-    return this.callServiceClient('bibloadmin', 'getCampaigns');
+  requestTransform(event, type) {
+    if (type === 'group') {
+      return this.callServiceClient('community', 'getGroupCampaigns');
+    }
+
+    return this.callServiceClient('community', 'getReviewCampaigns');
   },
 
   /**

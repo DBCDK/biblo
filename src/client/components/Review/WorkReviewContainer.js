@@ -92,7 +92,8 @@ export class WorkReviewContainer extends React.Component {
     });
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
+                  profileState={this.props.profile}>
         {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
@@ -120,6 +121,7 @@ export class WorkReviewContainer extends React.Component {
             checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
             checkOrderPolicyResult={this.props.workState.orderPolicy}
             checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
+            resetOrderState={this.props.workActions.resetOrderState}
             searchForLibraryAction={this.librarySearch.bind(this)}
             librarySearchResults={librarySuggestions}
             profile={this.props.profile}
@@ -159,7 +161,7 @@ export class WorkReviewContainer extends React.Component {
 WorkReviewContainer.displayName = 'WorkReviewContainer';
 WorkReviewContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
-  reviewState: React.PropTypes.object.isRequied,
+  reviewState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   reviewActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,

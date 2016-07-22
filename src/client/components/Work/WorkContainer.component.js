@@ -96,7 +96,8 @@ export class WorkContainer extends React.Component {
     });
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
+                  profileState={this.props.profile}>
         {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
@@ -199,7 +200,7 @@ export class WorkContainer extends React.Component {
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
-  reviewState: React.PropTypes.object.isRequied,
+  reviewState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   reviewActions: React.PropTypes.object.isRequired,
   flagActions: React.PropTypes.object.isRequired,

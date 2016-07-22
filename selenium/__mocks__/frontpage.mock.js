@@ -332,7 +332,10 @@ module.exports = function frontpage(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/count')
     .times(times)
-    .query({"access_token": "", "where": "{\"markedAsDeleted\":null}"})
+    .query({
+      "access_token": "",
+      "where": "{\"markedAsDeleted\":null}"
+    })
     .reply(200, {"count": 69172});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
@@ -388,7 +391,13 @@ module.exports = function frontpage(times) {
     .post('/v1/work/')
     .times(times)
 
-    .reply(200, {"statusCode": 200, "data": [{"collection": ["870970-basis:07125321"], "workType": ["book"]}]});
+    .reply(200, {
+      "statusCode": 200,
+      "data": [{
+        "collection": ["870970-basis:07125321"],
+        "workType": ["book"]
+      }]
+    });
 
   nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
     .post('/v1/work/')
@@ -461,7 +470,10 @@ module.exports = function frontpage(times) {
 
     .reply(200, {
       "statusCode": 200,
-      "data": [{"collection": ["870970-basis:20988118", "870970-basis:06917070"], "workType": ["book"]}]
+      "data": [{
+        "collection": ["870970-basis:20988118", "870970-basis:06917070"],
+        "workType": ["book"]
+      }]
     });
 
   nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
@@ -483,7 +495,10 @@ module.exports = function frontpage(times) {
 
     .reply(200, {
       "statusCode": 200,
-      "data": [{"collection": ["870970-basis:22647016", "870970-basis:52184320"], "workType": ["book"]}]
+      "data": [{
+        "collection": ["870970-basis:22647016", "870970-basis:52184320"],
+        "workType": ["book"]
+      }]
     });
 
   nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
@@ -505,7 +520,10 @@ module.exports = function frontpage(times) {
 
     .reply(200, {
       "statusCode": 200,
-      "data": [{"collection": ["870970-basis:23677466", "870970-basis:52174821"], "workType": ["book"]}]
+      "data": [{
+        "collection": ["870970-basis:23677466", "870970-basis:52174821"],
+        "workType": ["book"]
+      }]
     });
 
   nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})

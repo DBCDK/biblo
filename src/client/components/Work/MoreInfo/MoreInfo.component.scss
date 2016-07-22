@@ -1,32 +1,47 @@
-
 @import 'tools';
 
 .more-info {
-  padding-left: 30px;
-  @include min-screen($desktop) {
-    padding-left: 60px;
-  }
-
-  padding-right: 100px;
+  @include span(24);
+  @include squish(15px);
   padding-top: 20px;
   padding-bottom: 50px;
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: $body-font;
-    text-transform: none;
-    margin: 0px;
-    color: black;
+  @include min-screen($desktop){
+    @include squish(0);
+  }
+
+}
+
+.more-info--header {
+  font-family: $body-font;
+  font-size: 1.5em;
+  color: black;
+  padding-bottom: 10px;
+}
+
+.more-info--row {
+  @include span(24);
+  padding-bottom: 5px;
+}
+
+.more-info--type {
+  @include span(8);
+  color: $gray;
+
+  @include min-screen($tablet){
+    @include span(5);
+  }
+
+  @include min-screen($desktop){
+    @include span(9);
   }
 }
 
-.more-info--table {
-  @include min-screen($desktop) {
-    padding-top: 30px;
-  }
-  td:first-child {
-    color:$gray;
-    min-width: 150px;
-    display: table-row;
+.more-info--content {
+  @include span(15);
+
+  @include min-screen($desktop){
+    @include span(14);
   }
 }
 

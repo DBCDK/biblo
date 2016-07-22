@@ -10,69 +10,136 @@ import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/animalpa
 
 import './MoreInfo.component.scss';
 
-function type2iconType(type, workType) {
-
-  let iconType = otherSvg;
-
-  if (workType === 'audiobook') {
-    iconType = audiobookSvg;
-  }
-  else if (workType === 'book') {
-    iconType = bookSvg;
-  }
-  else if (workType === 'game') {
-    iconType = gameSvg;
-  }
-  else if (workType === 'movie') {
-    iconType = movieSvg;
-  }
-  else if (workType === 'music') {
-    iconType = musicSvg;
-  }
-  return iconType;
-}
+const MORE_INFO_TYPES = {
+  publisher: 'Udgiver',
+  director: 'Instruktør',
+  actors: 'Medvirkende',
+  series: 'Serie',
+  tags: 'Emne',
+  year: 'Udgivet i',
+  dk5: 'DK5',
+  dk5Text: 'Opstilling',
+  languages: 'Sprog',
+  ageAllowed: 'Tilladt for',
+  ageRecommended: 'Alder',
+  lix: 'Lix',
+  extent: 'Omfang'
+};
 
 export class MoreInfo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  render() {
+  /**
+   * Returns svg based on given workType
+   *
+   * @param {string} workType
+   * @returns {string} iconType
+   */
+  type2iconType(workType) {
 
+    let iconType = otherSvg;
+
+    if (workType === 'audiobook') {
+      iconType = audiobookSvg;
+    }
+    else if (workType === 'book') {
+      iconType = bookSvg;
+    }
+    else if (workType === 'game') {
+      iconType = gameSvg;
+    }
+    else if (workType === 'movie') {
+      iconType = movieSvg;
+    }
+    else if (workType === 'music') {
+      iconType = musicSvg;
+    }
+    return iconType;
+  }
+
+  /**
+   * Returns rendered block
+   *
+   * @param {string} type
+   * @param {XML} content
+   * @param {string} key
+   * @returns {XML|null}
+   */
+  getMoreInfoRow(type, content, key) {
+    if (!content) {
+      return null;
+    }
+
+    return (
+      <div className="more-info--row" key={key}>
+        <span className="more-info--type" >{type}</span>
+        <span className="more-info--content" >{content}</span>
+      </div>
+    );
+  }
+
+  getSubjects() {
+    const tags = Array.isArray(this.props.tags) && this.props.tags.length ? this.props.tags : null;
+    if (!tags) {
+      return null;
+    }
+
+    return tags.map((tag, key) => (<a key={key} href={'/find?emneord=' + tag} >{tag} </a>));
+  }
+
+  getGenericList(key) {
+    const list = this.props[key];
+    if (!list) {
+      return null;
+    }
+    return list.map((item, index) => (<span key={index} >{item}<br /></span>));
+  }
+
+  getMoreInfoElements() {
     const workType = this.props.workType;
+    const keys = Object.keys(MORE_INFO_TYPES);
+    const elements = [];
 
-    const seriesRow = (this.props.series) ? (<tr><td>Serie</td><td>{this.props.series}</td></tr>) : null;
+    keys.forEach((key) => {
+      const type = MORE_INFO_TYPES[key];
+      let content;
 
-    const yearRow = (this.props.year) ? (<tr><td>Udgivet i</td><td>{this.props.year}</td></tr>) : null;
+      switch (key) {
+        case 'tags': {
+          content = this.getSubjects();
+          break;
+        }
+        case 'languages':
+        case 'ageRecommended':
+        case 'year':
+        case 'actors': {
+          content = this.getGenericList(key);
+          break;
+        }
+        case 'publisher': {
+          content = workType === 'game' ? this.props[key] : null;
+          break;
+        }
+        case 'extent': {
+          content = workType !== 'music' ? this.props[key] : null;
+          break;
+        }
+        default: {
+          content = this.props[key] || null;
+          break;
+        }
+      }
 
-    const tagElements = (this.props.tags) ? this.props.tags.map((tag) => (<div><a href={'/find?emneord=' + tag}>{tag}</a></div>)) : null;
-    const tagsRow = (this.props.tags.length > 0) ? (<tr><td>Emne</td><td>{tagElements}</td></tr>) : null;
+      elements.push(this.getMoreInfoRow(type, content, key));
+    });
 
-    const dk5Row = (this.props.dk5) ? (<tr><td>DK5</td><td>{this.props.dk5}</td></tr>) : null;
+    return elements;
+  }
 
-    const dk5TextRow = (this.props.dk5Text) ? (<tr><td>Opstilling</td><td>{this.props.dk5Text}</td></tr>) : null;
-
-    const languages = this.props.languages || [];
-    const languageElements = languages.map((language) => (<div>{language}</div>));
-    const languagesRow = (languages.length > 0) ? (<tr><td>Sprog</td><td>{languageElements}</td></tr>) : null;
-
-    const agesRecommended = this.props.ageRecommended || [];
-    const agesRecommendedElements = agesRecommended.map((age) => (<span>{age}</span>));
-    const agesRecommendedRow = (agesRecommended.length > 0) ? (<tr><td>Alder</td><td>{agesRecommendedElements}</td></tr>) : null;
-
-    const ageAllowedRow = (this.props.ageAllowed) ? (<tr><td>Tilladt for</td><td>{this.props.ageAllowed}</td></tr>) : null;
-
-    const lixRow = (this.props.lix) ? (<tr><td>Lix</td><td>{this.props.lix}</td></tr>) : null;
-
-    const publisherRow = (this.props.publisher && workType === 'game') ? (<tr><td>Udgiver</td><td>{this.props.publisher}</td></tr>) : null;
-
-    const directorRow = (this.props.director) ? (<tr><td>Instruktør</td><td>{this.props.director}</td></tr>) : null;
-
-    const actors = this.props.actors || [];
-    const actorsElements = actors.map((actor) => (<div>{actor}</div>));
-    const actorsRow = (actors.length > 0) ? (<tr><td>Medvirkende</td><td>{actorsElements}</td></tr>) : null;
-
-    const extentRow = (this.props.extent && workType !== 'music') ? (<tr><td>Omfang</td><td>{this.props.extent}</td></tr>) : null;
-
-
-    let uniqueMaterialTypes = {};
+  getMaterials() {
+    const uniqueMaterialTypes = {};
     if (this.props.materials) {
       this.props.materials.forEach((material) => {
         uniqueMaterialTypes[material.type] = {
@@ -82,38 +149,27 @@ export class MoreInfo extends React.Component {
       });
     }
 
-    const materialTypeElements = Object.keys(uniqueMaterialTypes).map((key) => (
-        <li className={'more-info--material-type'}>
+    return Object.keys(uniqueMaterialTypes).map((key) => (
+        <li className={'more-info--material-type'} key={key} >
           <Icon
             width={36}
             height={36}
-            glyph={type2iconType(uniqueMaterialTypes[key].type[0], uniqueMaterialTypes[key].workType[0])}/>
+            glyph={this.type2iconType(uniqueMaterialTypes[key].workType[0])} />
           <span>{uniqueMaterialTypes[key].type[0]}</span>
         </li>
       )
     );
+  }
+
+  render() {
+    const moreInfoElements = this.getMoreInfoElements();
+    const materialTypeElements = this.getMaterials();
 
     return (
-      <div className='more-info'>
-        <h2>Mere info</h2>
-        <table className='more-info--table'>
-          <tbody>
-            {publisherRow}
-            {directorRow}
-            {actorsRow}
-            {seriesRow}
-            {tagsRow}
-            {yearRow}
-            {dk5Row}
-            {dk5TextRow}
-            {languagesRow}
-            {ageAllowedRow}
-            {agesRecommendedRow}
-            {lixRow}
-            {extentRow}
-          </tbody>
-        </table>
-        <ul className='more-info--material-types'>
+      <div className='more-info' >
+        <div className="more-info--header" >Mere info</div>
+        {moreInfoElements}
+        <ul className='more-info--material-types' >
           {materialTypeElements}
         </ul>
       </div>
@@ -123,10 +179,10 @@ export class MoreInfo extends React.Component {
 
 MoreInfo.displayName = 'MoreInfo';
 MoreInfo.propTypes = {
-  workType: React.PropTypes.string.isRequired,
+  workType: React.PropTypes.string,
   tags: React.PropTypes.array,
   series: React.PropTypes.string,
-  year: React.PropTypes.string,
+  year: React.PropTypes.array,
   dk5: React.PropTypes.string,
   dk5Text: React.PropTypes.string,
   languages: React.PropTypes.array,
@@ -137,6 +193,6 @@ MoreInfo.propTypes = {
   actors: React.PropTypes.array,
   lix: React.PropTypes.number,
   extent: React.PropTypes.string,
-  materials: React.PropTypes.array.isRequired
+  materials: React.PropTypes.array
 };
 

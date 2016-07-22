@@ -36,7 +36,7 @@ describe('test group actions', () => {
   it('should test CHANGE_GROUP_IMAGE without file reader support', (done) => {
     xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
     // remove filereader support
-    let _fileReader = window.FileReader;
+    const _fileReader = window.FileReader;
 
     // test the action
     const imageFile = new Blob(['detteerenbilledfil'], {type: 'image/png'});
@@ -61,14 +61,13 @@ describe('test group actions', () => {
     }
 
     const store = mockStore({});
-    store.dispatch(actions.asyncChangeImage(imageFile))
+    return store.dispatch(actions.asyncChangeImage(imageFile))
       .then(() => {
         expect(store.getActions()[0]).toEqual(expected);
         xhrMock.restore();
+        // restore filereader support
+        window.FileReader = _fileReader;
         done();
       });
-
-    // restore filereader support
-    window.FileReader = _fileReader;
   });
 });

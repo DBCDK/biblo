@@ -13,6 +13,8 @@
 }
 
 .work--moreinfo {
-  @include span(8 last);
-  float: left
+  @include min-screen($desktop) {
+    @include span(8 last);
+    float: left
+  }
 }

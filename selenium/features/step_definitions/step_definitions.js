@@ -23,7 +23,21 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
-  this.Given(/^the cookiewarning has been closed$/i, function () {
+  this.Given(/^a user visits the LegoIndianaJones page$/, function(callback) {
+    this.browser.get(`${BASE_URL}/materiale/870970-basis:29186626`)
+      .then(() => {
+        callback();
+      });
+  });
+
+  this.Given(/^a user visits the LegoBatmanMovie page$/, function(callback) {
+    this.browser.get(`${BASE_URL}/materiale/870970-basis:29992487`)
+      .then(() => {
+        callback();
+      });
+  });
+
+  this.Given(/^the cookiewarning has been closed$/i, function() {
     return this.click('.cookie-warning > .rounded-button');
   });
 
@@ -44,10 +58,10 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
-  this.Then(/^the user can log in/i, function (callback) {
+  this.Then(/^the user can log in/i, function(callback) {
     const uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
     const date = new Date();
-    const timestamp = `${date.getFullYear()}${date.getMonth()+1}${date.getUTCDate()}${date.getUTCHours()+1}${date.getUTCMinutes()}${date.getSeconds()}`;
+    const timestamp = `${date.getFullYear()}${date.getMonth() + 1}${date.getUTCDate()}${date.getUTCHours() + 1}${date.getUTCMinutes()}${date.getSeconds()}`;
     const ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';
     const user = 'bobby_hansen';
     const auth = crypto
@@ -66,7 +80,7 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.Then(/^the user can log out/i, function () {
+  this.Then(/^the user can log out/i, function() {
     return this.click('.profile-image--icon').then(() => {
       return new Promise(resolve => {
         // Wait for the animation to finish!
@@ -84,7 +98,7 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.Then(/^page is not error page$/i, function () {
+  this.Then(/^page is not error page$/i, function() {
     return this.browser.getTitle().then(title => {
       expect(title).to.not.contain('Fejl');
     });
@@ -118,11 +132,11 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/i, function (mockName, times) {
+  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/i, function(mockName, times) {
     return this.loadMock(mockName, times);
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded$/i, function (mockName) {
+  this.When(/^mock ([a-zA-Z\-]+) is loaded$/i, function(mockName) {
     return this.loadMock(mockName);
   });
 
@@ -147,7 +161,7 @@ var myStepDefinitionsWrapper = function() {
     setTimeout(cb, timeout);
   });
 
-  this.Then(/^the page contains: (.*)$/i, function (contained) {
+  this.Then(/^the page contains: (.*)$/i, function(contained) {
     return this.browser.findElement({tagName: 'body'})
       .then(bodyElement => bodyElement.getText())
       .then(bodyText => expect(bodyText).to.contain(contained));
@@ -161,11 +175,28 @@ var myStepDefinitionsWrapper = function() {
     return this.browser.get(`${BASE_URL}/grupper/${groupId}`);
   });
 
-  this.Then(/^the page contains a post with a campaign logo$/, function () {
+  this.Then(/^the page contains a post with a campaign logo$/, function() {
     return this.$('.post--campaign--logo > span > img')
       .then(logo => logo.getAttribute('src'))
       .then(src => expect(src).to.contain('/sommerbogen-logo.svg'));
-  })
+  });
+
+  this.Then(/^the MoreInfo box should be present$/, function() {
+    return this.browser.findElement(By.className('more-info--header')).then((menu) => {
+      menu.getText().then((text) => assert.equal(text, 'Mere info'));
+    });
+  });
+
+  this.Then(/^the (.*) selector should contain the following items$/, function(selector, data) {
+    const items = data.raw()[0];
+    return this.$('.' + selector)
+      .then(element => element.getText())
+      .then(text => {
+        return items.forEach((item) => {
+          assert.include(text, item);
+        });
+      });
+  });
 };
 
 module.exports = myStepDefinitionsWrapper;

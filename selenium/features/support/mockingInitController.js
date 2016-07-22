@@ -64,7 +64,7 @@ module.exports.run = function(proc) {
                   .${reqres.method.toLowerCase()}('${url.pathname}')
                   .times(times)
                   ${Object.keys(url.query).length > 0 ? `.query(${JSON.stringify(url.query)})` : ''}
-                  .reply(${reqres.status}, ${JSON.stringify(censoredResponse)});`
+                  .reply(${reqres.status}, ${JSON.stringify(censoredResponse)});`;
               });
 
               // We want to remove the listener after it's been called to prevent any more calls.

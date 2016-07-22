@@ -1,15 +1,12 @@
-'use strict';
+const wallabyWebpack = require('wallaby-webpack');
 
-let webpack = require('webpack');
-let wallabyWebpack = require('wallaby-webpack');
+const webpackConfig = require('./webpack.wallaby.config');
 
-let webpackConfig = require('./webpack.wallaby.config');
+const babel = require('babel-core');
+const path = require('path');
+const fs = require('fs');
 
-let babel = require('babel-core');
-let path = require('path');
-let fs = require('fs');
-
-var babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '.babelrc')));
+const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '.babelrc')));
 babelConfig.babel = babel;
 
 module.exports = function(wallaby) {

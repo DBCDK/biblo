@@ -55,7 +55,29 @@ module.exports = function peterpedal(times) {
     .get('/api/Campaigns?filter=%7B%22where%22%3A%7B%22type%22%3A%22review%22%7D%7D')
     .times(times)
 
-    .reply(200, [{"campaignName":"Sommerbogen 2016","startDate":"2016-06-09T20:00:00.044Z","endDate":"2016-08-21T04:00:00.044Z","logos":{"svg":"/sommerbogen-logo.svg","small":"/sommerbogen-logo.png","medium":"/sommerbogen-logo.png","large":"/sommerbogen-logo.png"},"type":"review","id":1,"workTypes":[{"worktype":"book","id":1},{"worktype":"audiobook","id":7},{"worktype":"literature","id":10}]}]);
+    .reply(200, [{
+      "campaignName": "Sommerbogen 2016",
+      "startDate": "2016-06-09T20:00:00.044Z",
+      "endDate": "2016-08-21T04:00:00.044Z",
+      "logos": {
+        "svg": "/sommerbogen-logo.svg",
+        "small": "/sommerbogen-logo.png",
+        "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      },
+      "type": "review",
+      "id": 1,
+      "workTypes": [{
+        "worktype": "book",
+        "id": 1
+      }, {
+        "worktype": "audiobook",
+        "id": 7
+      }, {
+        "worktype": "literature",
+        "id": 10
+      }]
+    }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/count')

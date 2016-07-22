@@ -41,6 +41,7 @@ export default function PostList({
 
 PostList.displayName = 'PostList';
 PostList.propTypes = {
+  campaign: React.PropTypes.object,
   posts: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   groupId: React.PropTypes.number.isRequired,

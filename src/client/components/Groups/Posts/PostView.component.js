@@ -150,7 +150,9 @@ export default class PostView extends React.Component {
           return <Icon height={40} width={40} svgLink={campaign.logos.svg}/>;
         }
       }
-      catch (er) {}
+      catch (er) {
+        return <span className="campaign--logo--error" />;
+      }
     }
 
     return <span />;

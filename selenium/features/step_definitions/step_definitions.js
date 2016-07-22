@@ -156,6 +156,16 @@ var myStepDefinitionsWrapper = function() {
   this.When(/^a user visits the aboutpage$/, function() {
     return this.browser.get(`${BASE_URL}/indhold/om-biblo`);
   });
+
+  this.When(/^a user visits group ([0-9]+)$/, function(groupId) {
+    return this.browser.get(`${BASE_URL}/grupper/${groupId}`);
+  });
+
+  this.Then(/^the page contains a post with a campaign logo$/, function () {
+    return this.$('.post--campaign--logo > span > img')
+      .then(logo => logo.getAttribute('src'))
+      .then(src => expect(src).to.contain('/sommerbogen-logo.svg'));
+  })
 };
 
 module.exports = myStepDefinitionsWrapper;

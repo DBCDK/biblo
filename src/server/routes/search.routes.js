@@ -21,19 +21,25 @@ SearchRoutes.get('/', async function (req, res, next) {
 
     let materialSearchResults = [];
     let groupSearchResults = [];
-    groupSearchResults = await req.callServiceProvider('searchGroups', {
-      q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
-      limit: 5
-    }).catch(function (e) {
+    try {
+      groupSearchResults = await req.callServiceProvider('searchGroups', {
+        q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
+        limit: 5
+      });
+    }
+    catch (e) {
       next(e);
-    });
+    }
     groupSearchResults = groupSearchResults[0];
 
     // if group filter is set and no material filter is set , then we do not expect material results (SD-589)
     if (!(params.grupper === 1 && params.materialer === null)) {
-      materialSearchResults = await req.callServiceProvider('search', params).catch(function (e) {
+      try {
+        materialSearchResults = await req.callServiceProvider('search', params);
+      }
+      catch (e) {
         next(e);
-      });
+      }
       materialSearchResults = materialSearchResults[0].data;
     }
 

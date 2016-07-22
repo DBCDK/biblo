@@ -211,6 +211,7 @@ export default class Review extends UploadMedia {
     }
     else {
       this.setState({
+        image: null,
         attachment: attachment,
         imageRemoveId: this.state.imageId
       });
@@ -512,10 +513,10 @@ export default class Review extends UploadMedia {
                 <p className='review--content' dangerouslySetInnerHTML={{__html: content}}/> // eslint-disable-line
               }
               {
-                image &&
+                (image || this.state.attachment.image && this.state.attachment.image.data) &&
                 <div className='review--media'>
-                  <a href={image.replace('medium', 'original')} target="_blank">
-                    <img src={image} alt="image for review"/>
+                  <a href={image && image.replace('medium', 'original')} target="_blank">
+                    <img src={this.state.attachment.image.data} alt="image for review"/>
                   </a>
                 </div>
               }

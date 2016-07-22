@@ -76,7 +76,7 @@ class WidgetContainer extends Component {
         // We now render our widget inside a container
         return (
           <div
-            className="generic-widget-container"
+            className={`generic-widget-container ${widgetName}--container`}
             key={`${this.props.widgetLocationName}_${widgetName}_${idx}`}
           >
             {title}

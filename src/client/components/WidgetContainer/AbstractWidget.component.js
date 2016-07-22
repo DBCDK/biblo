@@ -60,7 +60,7 @@ AbstractWidget.propTypes = {
   widgetLocationName: PropTypes.string.isRequired,
 
   // This is an object containing the property from the widgetReducer that matches the widgetName.
-  widgetReducerProp: PropTypes.object,
+  widgetReducerProp: PropTypes.any,
 
   // This is the entire state from the widgetReducer.
   widgetState: PropTypes.object.isRequired

@@ -428,7 +428,7 @@ module.exports.run = function (worker) {
   if (worker.isLeader) {
     // First we connect to the community service via primus
     const bibloCsUrl = BIBLO_CONFIG.provider.services.community.endpoint;
-    const primus = new (Primus.createSocket({transformer: 'websockets'}))(bibloCsUrl);
+    const primus = new (Primus.createSocket({transformer: 'websockets', iknowclusterwillbreakconnections: true}))(bibloCsUrl);
 
     // Whenever we get some data from the service, we hit this function
     primus.on('data', function (data) {

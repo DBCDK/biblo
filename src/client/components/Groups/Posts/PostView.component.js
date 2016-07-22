@@ -137,9 +137,20 @@ export default class PostView extends React.Component {
     );
   }
 
-  renderCampaignLogo(campaign) {
-    if (campaign && campaign.logos && campaign.logos.svg) {
-      return <Icon height={40} width={40} svgLink={campaign.logos.svg} />;
+  renderCampaignLogo(campaign, timeCreated) {
+    if (campaign && campaign.startDate && campaign.endDate) {
+      try {
+        const postCreate = new Date(timeCreated);
+        const campaignStart = new Date(campaign.startDate);
+        const campaignEnd = new Date(campaign.endDate);
+
+        const isInCampaign = postCreate >= campaignStart && postCreate <= campaignEnd;
+
+        if (isInCampaign && campaign.logos && campaign.logos.svg) {
+          return <Icon height={40} width={40} svgLink={campaign.logos.svg}/>;
+        }
+      }
+      catch (er) {}
     }
 
     return <span />;
@@ -217,7 +228,9 @@ export default class PostView extends React.Component {
             <a href={`/profil/${owner.id}`} ><span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} /></a>
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons' >
-              <span className="post--campaign--logo">{this.renderCampaignLogo(this.props.campaign)}</span>
+              <span className="post--campaign--logo">
+                {this.renderCampaignLogo(this.props.campaign, this.props.timeCreated)}
+              </span>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
                           icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>} />

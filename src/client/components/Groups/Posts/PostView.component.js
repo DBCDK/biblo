@@ -174,7 +174,15 @@ export default class PostView extends React.Component {
             uiActions,
             commentsCount,
             numberOfCommentsLoaded,
-            loadingComments
+            loadingComments,
+            likes,
+            campaign,
+            works,
+            review,
+            coverImages,
+            getMoreWorks,
+            commentRedirect,
+            likeActions
           } = this.props;
 
     const postFlagModalContent = (
@@ -186,9 +194,20 @@ export default class PostView extends React.Component {
       />
     );
 
+    const flagFunction = () => uiActions.openModalWindow(postFlagModalContent);
+    let flagButton = null;
+    if (profile.userIsLoggedIn) {
+      flagButton = (
+        <TinyButton
+          clickFunction={flagFunction}
+          icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
+        />
+      );
+    }
+
     const youtube = ExtractYoutubeID(content);
 
-    const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
+    const isLikedByCurrentUser = includes(likes, profile.id);
 
     const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {
     };
@@ -199,24 +218,11 @@ export default class PostView extends React.Component {
       <LikeButton
         likeFunction={likeFunction}
         unlikeFunction={unlikeFunction}
-        usersWhoLikeThis={this.props.likes}
+        usersWhoLikeThis={likes}
         isLikedByCurrentUser={isLikedByCurrentUser}
         active={profile.userIsLoggedIn}
       />
     );
-
-    const flagFunction = () => {
-      this.props.uiActions.openModalWindow(postFlagModalContent);
-    };
-    let flagButton = null;
-    if (profile.userIsLoggedIn) {
-      flagButton = (
-        <TinyButton
-          clickFunction={flagFunction}
-          icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
-        />
-      );
-    }
 
     return (
       <div className='post--wrapper' >
@@ -231,7 +237,7 @@ export default class PostView extends React.Component {
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons' >
               <span className="post--campaign--logo">
-                {this.renderCampaignLogo(this.props.campaign, this.props.timeCreated)}
+                {this.renderCampaignLogo(campaign, timeCreated)}
               </span>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
@@ -243,15 +249,15 @@ export default class PostView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post" getMoreWorks={this.props.getMoreWorks}
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id} works={this.props.works}
-                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} coverImages={this.props.coverImages} />
+            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post" getMoreWorks={getMoreWorks}
+                        abort={() => this.toggleEditting()} text={content} image={image} id={id} works={works}
+                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} coverImages={coverImages} />
             ||
             <div className='post--content-wrapper' >
               {
                 <p className='post--content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
               }
-              {this.props.review && this.renderReview(this.props.review, this.props.coverImages, this.props.works, this.props.profile, this.props.likeActions)}
+              {review && this.renderReview(review, coverImages, works, profile, likeActions)}
               {
                 image &&
                 <div className='post--media' >
@@ -259,7 +265,7 @@ export default class PostView extends React.Component {
                 </div>
               }
               {
-                video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
+                video && video.resolutions.length ? getVideoPlayer(video) : null
               }
               {
                 youtube &&
@@ -269,9 +275,9 @@ export default class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} getMoreWorks={this.props.getMoreWorks}
-                       submitFlagFunction={this.submitCommentFlag} uiActions={this.props.uiActions}
-                       groupActions={this.props.groupActions} works={this.props.works} coverImages={this.props.coverImages} />
+          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} getMoreWorks={getMoreWorks}
+                       submitFlagFunction={this.submitCommentFlag} uiActions={uiActions}
+                       groupActions={groupActions} works={works} coverImages={coverImages} />
           {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments" >
             <ExpandButton isLoading={loadingComments}
@@ -285,9 +291,9 @@ export default class PostView extends React.Component {
           {!this.state.isEditting && <span>
             {
               this.state.isCommentInputVisible &&
-              <ContentAdd redirectTo={this.props.commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
-                          type="comment" works={this.props.works} coverImages={this.props.coverImages}
-                          abort={() => this.toggleCommentInput()} getMoreWorks={this.props.getMoreWorks}
+              <ContentAdd redirectTo={commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
+                          type="comment" works={works} coverImages={coverImages}
+                          abort={() => this.toggleCommentInput()} getMoreWorks={getMoreWorks}
                           addContentAction={groupActions.addComment}
                           autofocus={true}
               />

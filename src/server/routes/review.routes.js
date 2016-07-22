@@ -10,7 +10,7 @@ import {createElasticTranscoderJob} from './../utils/aws.util.js';
 
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
-const upload = multer({storage: multer.memoryStorage()}).single('image');
+const upload = multer({storage: multer.memoryStorage()});
 const ReviewRoutes = express.Router();
 
 /**
@@ -117,26 +117,21 @@ ReviewRoutes.get('/:id', async function(req, res, next) {
 /**
  * Post a review
  */
-ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
-  upload(req, res, function (err) {
-    if (err) {
-      return;
-    }
-
+ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handlePostReview (req, res, next) {
+  try {
     const profile = req.session.passport.user.profile.profile;
     const logger = req.app.get('logger');
     const amazonConfig = req.app.get('amazonConfig');
     const ElasticTranscoder = req.app.get('ElasticTranscoder');
-    const image = req.file && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0 && req.file || null;
 
-    let params = {
+    const params = {
       id: req.body.id,
       pid: req.body.pid,
       worktype: req.body.worktype,
       imageRemoveId: req.body.imageRemoveId,
       content: sanitize(req.body.content, {allowedTags: []}) || ' ',
       rating: req.body.rating,
-      image: image,
+      imageId: req.body.imageId,
       reviewownerid: req.body.reviewownerid || profile.id,
       libraryid: profile.favoriteLibrary.libraryId
     };
@@ -145,20 +140,18 @@ ReviewRoutes.post('/', ensureAuthenticated, function (req, res) {
       params.video = req.session.videoupload;
     }
 
-    req.callServiceProvider('createReview', params).then(function (response) {
-      if (response[0].status === 200 && req.session.videoupload) {
-        createElasticTranscoderJob(ElasticTranscoder,
-            req.session.videoupload, null, null, response[0].data.id, logger, amazonConfig);
-      }
+    const createReviewResponse = (await req.callServiceProvider('createReview', params))[0];
+    if (createReviewResponse.status === 200 && req.session.videoupload) {
+      createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, createReviewResponse.data.id, logger, amazonConfig);
+    }
 
-      req.session.videoupload = null;
-      res.send(response[0]);
-    },
-    function (response) {
-      req.session.videoupload = null;
-      res.send(response);
-    });
-  });
+    req.session.videoupload = null;
+    res.send(createReviewResponse);
+  }
+  catch (error) {
+    req.session.videoupload = null;
+    next(error);
+  }
 });
 
 export default ReviewRoutes;

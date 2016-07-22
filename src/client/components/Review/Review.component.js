@@ -61,7 +61,7 @@ export default class Review extends UploadMedia {
       created: props.created,
       isEditing: props.isEditing || false,
       attachment: {
-        image: props.image || null,
+        image: {data: props.image || null},
         video: null
       },
       imageId: props.imageId,
@@ -356,7 +356,8 @@ export default class Review extends UploadMedia {
       let dialog = (
         <div>
           <p>Du skal logge ind for at like</p>
-          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
+          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`}
+                         buttonText="Login"
                          compact={false}/>
         </div>
       );
@@ -382,6 +383,8 @@ export default class Review extends UploadMedia {
     else {
       ownerimage = owner.image;
     }
+
+    const imageCollectionId = this.state.attachment && this.state.attachment.image && this.state.attachment.image.imageCollectionId;
 
     /* eslint-disable react/no-danger */
     return (
@@ -428,14 +431,15 @@ export default class Review extends UploadMedia {
                   <input type="hidden" name="id" value={this.state.id}/>
                   <input type="hidden" name="reviewownerid" value={this.state.reviewownerid}/>
                   <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId}/>
+                  <input type="hidden" name="imageId" value={imageCollectionId} />
                   <input type="hidden" name="pid" value={this.state.pid}/>
                   <input type="hidden" name="worktype" value={this.state.worktype}/>
                   <input type="hidden" name="rating" value={this.state.rating}/>
                   <input type="hidden" name="libraryid" value={libraryId}/>
 
-                  {this.state.attachment.image &&
+                  {this.state.attachment.image && this.state.attachment.image.data &&
                   <div className='review-add--preview-image'>
-                    <img src={this.state.attachment.image} alt="preview"/>
+                    <img src={this.state.attachment.image.data} alt="preview"/>
                     <a href="#removeImage" className="review-add--remove-media" onClick={(e) => this.clearImage(e)}>
                       <Icon glyph={close}/>
                     </a>
@@ -488,7 +492,6 @@ export default class Review extends UploadMedia {
                         accept='image/*,video/*,video/mp4'
                         type="file"
                         className="review-add--upload-media droppable-media-field--file-input"
-                        name="image"
                         onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
                             .then(attachment=>this.setState({attachment: attachment}))
                             .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
@@ -511,12 +514,13 @@ export default class Review extends UploadMedia {
               {
                 image &&
                 <div className='review--media'>
-                  <a href={image.replace('medium', 'original')} target="_blank"><img src={image}
-                                                                                     alt="image for review"/></a>
+                  <a href={image.replace('medium', 'original')} target="_blank">
+                    <img src={image} alt="image for review"/>
+                  </a>
                 </div>
               }
               {
-                video && video.resolutions && video.resolutions.length ? getVideoPlayer(this.props.video) : null
+                video && video.resolutions && video.resolutions.length ? getVideoPlayer(video) : null
               }
               {
                 youtube &&

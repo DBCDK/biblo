@@ -152,6 +152,10 @@ var myStepDefinitionsWrapper = function() {
       .then(bodyElement => bodyElement.getText())
       .then(bodyText => expect(bodyText).to.contain(contained));
   });
+
+  this.When(/^a user visits the aboutpage$/, function() {
+    return this.browser.get(`${BASE_URL}/indhold/om-biblo`);
+  });
 };
 
 module.exports = myStepDefinitionsWrapper;

@@ -5,6 +5,7 @@ import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import Icon from '../../General/Icon/Icon.component';
 import ProfileLibraryInfo from '../../Profile/Edit/ProfileLibraryInfo.component';
+import Message from '../../General/Message/Message.component.js';
 
 import animalpaw from '../../General/Icon/svg/Materialikon-kvadrat-small/animalpaw.svg';
 import audiobook from '../../General/Icon/svg/Materialikon-kvadrat-small/audiobook_no_border.svg';
@@ -64,6 +65,17 @@ export default class BorrowButton extends React.Component {
     if (nextProps.profile.favoriteLibrary && this.state.libraryId !== nextProps.profile.favoriteLibrary.libraryId) {
       this.setState({libraryId: nextProps.profile.favoriteLibrary.libraryId});
     }
+
+    let collectionsObject = {};
+    let collectionType;
+    nextProps.collectionDetails.forEach((collectionItem) => {
+      collectionType = collectionItem.type;
+      collectionsObject[collectionType] = collectionItem;
+    });
+
+    if (Object.keys(collectionsObject).length === 1 && collectionsObject[collectionType].accessType[0] !== 'online') {
+      this.onChange(collectionsObject[collectionType], {target: {value: collectionsObject[collectionType].pid[0]}});
+    }
   }
 
   submitOrderForm(e) {
@@ -76,9 +88,17 @@ export default class BorrowButton extends React.Component {
     else if (this.state.selectedPid) {
       this.props.orderMaterialAction(this.state.selectedPid);
     }
+    else {
+      this.setState({
+        errors: [{
+          field: 'mustSelectItem',
+          errorMessage: 'Du skal vælge hvad du vil låne, før du trykker OK'
+        }]
+      });
+    }
   }
 
-  onChange (collectionItem, e) {
+  onChange(collectionItem, e) {
     let onlineUrl;
     if (collectionItem.accessType[0] === 'online') {
       onlineUrl = collectionItem.hasOnlineAccess[0];
@@ -91,6 +111,23 @@ export default class BorrowButton extends React.Component {
   }
 
   renderOrderForm(collectionsObject) {
+    const messageObj = {};
+
+    if (this.state.errors) {
+      this.state.errors.forEach((error) => {
+        messageObj[error.field] = (
+          <Message type='error'>
+            <span className={`error-${error.field}`}> {error.errorMessage} </span>
+          </Message>
+        );
+      });
+    }
+
+    let checked;
+    if (Object.keys(collectionsObject).length === 1 && collectionsObject[Object.keys(collectionsObject)[0]].accessType[0] !== 'online') {
+      checked = true;
+    }
+
     return (
       <form action={ORDER_POST_URL} method="POST" onSubmit={(e) => this.submitOrderForm(e)}>
         <h3>Vælg hvad du vil låne</h3>
@@ -101,6 +138,7 @@ export default class BorrowButton extends React.Component {
               return (
                 <span key={collectionItem.pid} className="modal-window--collection-item--container">
                   <input type="radio" name="mediaType" value={collectionItem.pid}
+                         checked={checked}
                          id={`${collectionItem.workType}${collectionItem.pid}`}
                          onChange={this.onChange.bind(this, collectionItem)}/>
                   <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
@@ -112,14 +150,15 @@ export default class BorrowButton extends React.Component {
             })
           }
         </div>
+        {messageObj.mustSelectItem}
         {this.state.onlineUrl &&
-          <span>
+        <span>
           <RoundedButton className='onlinelink' href={this.state.onlineUrl} target='_blank' buttonText="HENT ONLINE"/>
           <p className="modal-window--message-under-submit-button">
-             Du viderestilles til en anden hjemmeside i et nyt vindue.
-           </p>
+            Du viderestilles til en anden hjemmeside i et nyt vindue.
+          </p>
           </span>
-         ||
+        ||
         <span>
           <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
            <p className="modal-window--message-under-submit-button">
@@ -175,7 +214,7 @@ export default class BorrowButton extends React.Component {
             libraryId={this.state.libraryId}
             loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
             pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})}
-            requireAll={true} />
+            requireAll={true}/>
           <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
         </form>
       </div>
@@ -323,7 +362,8 @@ BorrowButton.propTypes = {
   checkOrderPolicyDone: React.PropTypes.bool,
   resetOrderState: React.PropTypes.func.isRequired,
   profile: React.PropTypes.object,
-  getWorkOnlineAccessAction: React.PropTypes.func.isRequired
+  getWorkOnlineAccessAction: React.PropTypes.func.isRequired,
+  errors: React.PropTypes.array
 };
 
 BorrowButton.defaultProps = {
@@ -332,5 +372,5 @@ BorrowButton.defaultProps = {
   checkOrderPolicyDone: false,
   profile: {
     userIsLoggedIn: false
-  }
+  },
 };

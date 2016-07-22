@@ -549,7 +549,7 @@ Review.propTypes = {
   rating: React.PropTypes.number,
   reviewActions: React.PropTypes.object.isRequired,
   timeCreated: React.PropTypes.string,
-  image: React.PropTypes.object,
+  image: React.PropTypes.string,
   video: React.PropTypes.object,
   flagActions: React.PropTypes.object,
   likes: React.PropTypes.array,

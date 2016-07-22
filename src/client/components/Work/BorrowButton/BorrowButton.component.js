@@ -372,5 +372,5 @@ BorrowButton.defaultProps = {
   checkOrderPolicyDone: false,
   profile: {
     userIsLoggedIn: false
-  },
+  }
 };

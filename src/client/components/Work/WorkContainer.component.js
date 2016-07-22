@@ -124,6 +124,7 @@ export class WorkContainer extends React.Component {
             checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
             checkOrderPolicyResult={this.props.workState.orderPolicy}
             checkOrderPolicyDone={work.collection && this.props.workState.responses === work.collection.length}
+            resetOrderState={this.props.workActions.resetOrderState}
             searchForLibraryAction={this.librarySearch.bind(this)}
             librarySearchResults={librarySuggestions}
             profile={this.props.profile}

@@ -38,36 +38,86 @@ export class SearchResultContainer extends React.Component {
     });
   }
 
+  shouldRenderMaterialResults() {
+    return (
+      !this.isFiltering()                     // display everything when not filtering
+      ||(!this.isGroupFilterEnabled()         // do not show material list when group filter is on
+      ||this.isMaterialFilterEnabled())       // show material list when material filter is on
+      );
+  }
+
+  shouldRenderGroupResults() {
+    return (
+      !this.isFiltering()                     // display everything when not filtering
+      ||this.isGroupFilterEnabled()           // show group list when group filter is on
+    );
+  }
+
+  isFiltering() {
+    return (
+      this.isGroupFilterEnabled() ||this.isMaterialFilterEnabled()
+    );
+  }
+
+  isGroupFilterEnabled() {
+    return this.props.search.filters.groupFilter;
+  }
+
+  isMaterialFilterEnabled() {
+    let materialFilterEnabled = false;
+    for (let materialFilter in this.props.search.filters.materialFilters) {
+      if (materialFilter) {
+        materialFilterEnabled = materialFilterEnabled || this.props.search.filters.materialFilters[materialFilter].enabled;
+      }
+    }
+    return materialFilterEnabled;
+  }
+
   render() {
     let visFlereMaterialButton, visFlereGroupButton;
 
     if (this.props.search.materialSearchResults.length - this.props.search.materialSearchOffset >=
       this.props.search.materialSearchLimit
     ) {
-      visFlereMaterialButton =
-        <VisFlereButton id='moreMaterialsButton' onClick={this.loadMoreMaterialResults} isLoading={this.props.search.isLoadingMaterialResults} />;
+      visFlereMaterialButton = (
+        <VisFlereButton id='moreMaterialsButton' onClick={this.loadMoreMaterialResults}
+                        isLoading={this.props.search.isLoadingMaterialResults}/>
+      );
     }
 
     if (this.props.search.groupSearchResults.length - this.props.search.groupSearchOffset >=
       this.props.search.groupSearchLimit
     ) {
-      visFlereGroupButton =
-        <VisFlereButton id='moreGroupsButton' onClick={this.loadMoreGroupResults} isLoading={this.props.search.isLoadingGroupResults} />;
+      visFlereGroupButton = (
+        <VisFlereButton id='moreGroupsButton' onClick={this.loadMoreGroupResults}
+                        isLoading={this.props.search.isLoadingGroupResults}/>
+      );
     }
 
     return (
-      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState} >
-        <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
+      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions}
+                  profileState={this.props.profileState}>
+        <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
 
-        <MaterialSearchResultList results={this.props.search.materialSearchResults} />
-        <div className="search-result-show-more-button" >
-          {visFlereMaterialButton}
-        </div>
+        {
+          this.shouldRenderMaterialResults() &&
+          <div>
+            <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
+            <div className="search-result-show-more-button">
+              {visFlereMaterialButton}
+            </div>
+          </div>
+        }
 
-        <GroupSearchResultList results={this.props.search.groupSearchResults} />
-        <div className="search-result-show-more-button" >
-          {visFlereGroupButton}
-        </div>
+        {
+          this.shouldRenderGroupResults() &&
+          <div>
+            <GroupSearchResultList results={this.props.search.groupSearchResults}/>
+            <div className="search-result-show-more-button">
+              {visFlereGroupButton}
+            </div>
+          </div>
+        }
 
       </PageLayout>
     );

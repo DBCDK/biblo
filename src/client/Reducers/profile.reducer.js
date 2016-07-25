@@ -190,6 +190,21 @@ export default function profileReducer(state = initialState, action = {}) {
       return newState;
     }
 
+    case types.DELETE_USER_MESSAGE: {
+      const messages = [];
+
+      state.userMessages.messages.forEach((message, idx) => {
+        if (message.messageType !== action.messageType || message.createdEpoch !== action.createdEpoch) {
+          messages.push(message);
+        }
+      });
+      return assignToEmpty(state, {
+        userMessages: assignToEmpty(state.userMessages, {
+          messages: messages
+        })
+      });
+    }
+
     default: {
       return state;
     }

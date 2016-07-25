@@ -73,6 +73,12 @@
   }
 }
 
+.message-row--delete-message {
+  display: inline-block;
+  float: right;
+  padding-right: 2vw;
+}
+
 .message-row--message-type {
   display: inline-block;
 

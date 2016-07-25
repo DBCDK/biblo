@@ -358,6 +358,7 @@ export class ProfileDetailContainer extends React.Component {
           groupState={this.props.group}
           messages={this.props.profile.userMessages.messages}
           readAction={this.props.profileActions.asyncMarkUserMessageAsRead}
+          deleteAction={this.props.profileActions.asyncDeleteUserMessage}
 
         />
       );

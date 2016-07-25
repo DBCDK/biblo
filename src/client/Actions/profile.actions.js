@@ -16,6 +16,7 @@ import {asyncGetCoverImage} from './coverImage.actions';
 
 // Sockets
 const setUserMessageReadSocket = SocketClient('setUserMessageRead');
+const deleteUserMessageSocket = SocketClient('deleteUserMessage');
 const getReviewsSocket = SocketClient('getReviews');
 const checkIfDisplayNameIsTaken = SocketClient('checkIfDisplayNameIsTaken');
 
@@ -167,7 +168,7 @@ export function profileEditUploadProgress(event) {
   return {
     type: types.PROFILE_EDIT_UPLOAD_PROGRESS,
     event,
-    progress: Math.floor((event.loaded/event.total)*100)
+    progress: Math.floor((event.loaded / event.total) * 100)
   };
 }
 
@@ -244,6 +245,32 @@ export function asyncMarkUserMessageAsRead({messageType, createdEpoch}) {
 export function markUserMessageAsRead({messageType, createdEpoch}) {
   return {
     type: types.MARK_USER_MESSAGE_AS_READ,
+    messageType,
+    createdEpoch
+  };
+}
+
+/**
+ *
+ * @param {String} messageType - Type of message (for example "type-orderIsReady").
+ * @param {Number} createdEpoch - Epoch of when the message was created (Find this is the message object).
+ * @returns {function()} - Dispatches the result once it arrives.
+ */
+export function asyncDeleteUserMessage({messageType, createdEpoch}) {
+  return (dispatch) => {
+    deleteUserMessageSocket.responseOnce((resp) => dispatch(deleteUserMessage(resp.message)));
+    deleteUserMessageSocket.request({messageType, createdEpoch});
+  };
+}
+
+/**
+ * Used internally to pass a response to a reducer.
+ * @param messageType
+ * @param createdEpoch
+ */
+export function deleteUserMessage({messageType, createdEpoch}) {
+  return {
+    type: types.DELETE_USER_MESSAGE,
     messageType,
     createdEpoch
   };

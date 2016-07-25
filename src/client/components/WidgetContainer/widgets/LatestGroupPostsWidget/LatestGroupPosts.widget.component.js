@@ -24,7 +24,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
 
   componentDidMount() {
     this.loadGroup();
-    this.loadPosts();
+    this.loadPosts(true);
   }
 
   loadGroup() {
@@ -32,12 +32,16 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     this.callServiceProvider('getGroup', {id: groupId});
   }
 
-  loadPosts() {
+  loadPosts(first = false) {
     const groupId = this.props.widgetConfig.group;
     const postsToLoad = this.props.widgetConfig.postsToLoad;
     const offset = this.state.postsOffset;
-    this.callServiceProvider('getPosts', {id: groupId, skip: offset, limit: postsToLoad});
-    this.setState({postsOffset: offset + postsToLoad});
+    const group = this.props.widgetReducerProp.groups[groupId] || {};
+
+    if (first || group.postsCount > offset) {
+      this.callServiceProvider('getPosts', {id: groupId, skip: offset, limit: postsToLoad});
+      this.setState({postsOffset: offset + postsToLoad});
+    }
   }
 
   render() {

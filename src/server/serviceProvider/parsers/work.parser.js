@@ -1,9 +1,8 @@
 /**
- * file: adapt work attributes for use with biblo.dk
- *
- *
+ * @file
+ * Adapt work attributes for use with biblo.dk
  */
-function useCreateAutIfPossible (work) { // github #117
+function useCreateAutIfPossible (work) {
   if (work.creatorAut) {
     work.creator = work.creatorAut[0];
   }
@@ -23,7 +22,6 @@ function getTags (work) {
 }
 
 export default function parseWork(work) {
-
   work.dcTitle = work.dcTitle ? work.dcTitle[0] : '';
   work.dcTitleFull = work.dcTitleFull ? work.dcTitleFull[0] : '';
   work.abstract = (work.abstract) ? work.abstract[0] : '';

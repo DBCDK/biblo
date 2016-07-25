@@ -3,7 +3,7 @@ import parseText from './text.parser';
 
 /**
  * Abstracts away common logic for groups shared across transforms.
- * @param {PlainObject} group
+ * @param {PlainObject}group
  * @returns {PlainObject}
  */
 export default function parseGroup(group = {}) {

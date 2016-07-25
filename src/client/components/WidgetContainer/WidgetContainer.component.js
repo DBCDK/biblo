@@ -45,27 +45,42 @@ class WidgetContainer extends Component {
     return styles;
   }
 
+  getComponent(widgetConfig, widgetName) {
+    const CurrentWidget = widgetComponents[widgetName];
+
+    if (!CurrentWidget) {
+      return (<span className="widget--not--found"/>);
+    }
+
+    // And we get the relevant state for that widget.
+    const widgetReducerProp =
+      this.props.widgetState[widgetName] ||
+      this.props.widgetState[widgetName.replace('Widget', '')];
+
+    return (
+      <CurrentWidget
+        widgetLocationName={this.props.widgetLocationName}
+        widgetState={this.props.widgetState}
+        widgetActions={this.props.widgetActions}
+        widgetReducerProp={widgetReducerProp}
+        widgetConfig={widgetConfig}/>
+    );
+  }
+
   render() {
     // First, find all widgets we want to render for this widgetcontainer
     let currentWidgetStates = this.props.widgetState.widgetLocations[this.props.widgetLocationName];
     if (currentWidgetStates) {
       // Loop over the widgets, you can have as many as you'd like
       const widgets = (Array.isArray(currentWidgetStates) ? currentWidgetStates : [currentWidgetStates]).map((currentWidgetState, idx) => {
-        // Now we get the widget we wish to render.
-        const widgetName = currentWidgetState.widgetName;
-        const CurrentWidget = widgetComponents[widgetName];
-
-        if (!CurrentWidget) {
-          return (<span className="widget--not--found"/>);
-        }
-
         // Get widgetConfig
         const widgetConfig = currentWidgetState.widgetConfig;
 
-        // And we get the relevant state for that widget.
-        const widgetReducerProp =
-          this.props.widgetState[widgetName] ||
-          this.props.widgetState[widgetName.replace('Widget', '')];
+        // Now we get the widget we wish to render.
+        const widgetName = currentWidgetState.widgetName;
+
+        // Get the component
+        const CurrentWidget = this.getComponent(widgetConfig, widgetName);
 
         // Get a generic title
         const title = this.getTitle(widgetConfig, widgetName);
@@ -84,12 +99,7 @@ class WidgetContainer extends Component {
               className={`${widgetName}--wrapper`}
               style={widgetStyles}
             >
-              <CurrentWidget
-                widgetLocationName={this.props.widgetLocationName}
-                widgetState={this.props.widgetState}
-                widgetActions={this.props.widgetActions}
-                widgetReducerProp={widgetReducerProp}
-                widgetConfig={widgetConfig}/>
+              {CurrentWidget}
             </div>
           </div>
         );

@@ -5,7 +5,7 @@ const GetReviewTransform = {
     return 'getCampaignReviews';
   },
 
-  requestTransform(event, {skip, limit, order='created DESC', campaignId}, connection) {
+  requestTransform(event, {skip, limit, order='created DESC', campaignId}) {
     return this.callServiceClient('community', 'getCampaign', {id: campaignId}).then(campaignResponse => {
       const campaign = campaignResponse.body;
       const startDate = campaign.startDate;

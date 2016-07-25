@@ -5,7 +5,7 @@ import parseReview from './review.parser';
 /**
  * Abstracts away common logic for comments shared across transforms.
  * @param {PlainObject} comment
- * @param {Array} campaigns
+ * @param {Array}campaigns
  * @returns {PlainObject}
  */
 export default function parseComment(comment = {}, campaigns = []) {

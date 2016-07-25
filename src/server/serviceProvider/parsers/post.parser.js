@@ -6,7 +6,7 @@ import parseReview from './review.parser';
 /**
  * Abstracts away common logic for posts shared across transforms.
  * @param {PlainObject} post
- * @param {Array} campaigns
+ * @param {Array}campaigns
  * @returns {PlainObject}
  */
 export default function parsePost(post = {}, campaigns = []) {

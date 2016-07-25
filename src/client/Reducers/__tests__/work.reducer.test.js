@@ -14,7 +14,7 @@ describe('Unittesting the methods in work.reducer.js', () => {
     workMetadataOrderedByPid: {}
   };
 
-  it('Should do somethin', () => {
+  it('Should ensure that data is expected when returned from reducer', () => {
     const action = {
       type: GET_WORK_METADATA_FOR_PERSONAL_REVIEWS,
       response: {

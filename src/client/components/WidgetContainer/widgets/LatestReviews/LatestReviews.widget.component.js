@@ -30,7 +30,7 @@ export class LatestReviewsWidget extends AbstractWidget {
   }
 
   render() {
-    const campaignLogoUrl = this.props.widgetReducerProp.campaign.logos && this.props.widgetReducerProp.campaign.logos.small || null;
+    const campaignLogoUrl = this.props.widgetReducerProp.campaign && this.props.widgetReducerProp.campaign.logos && this.props.widgetReducerProp.campaign.logos.small || null;
     let campaignLogo = '';
     if (campaignLogoUrl) {
       campaignLogo = (

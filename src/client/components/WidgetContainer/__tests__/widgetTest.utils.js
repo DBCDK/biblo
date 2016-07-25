@@ -23,7 +23,7 @@ export function renderWidgetWithTeaspoon(params) {
     widgetConfig: params.widgetConfig
   };
 
-  let component = (
+  const component = (
     <WidgetContainer
       widgetLocationName={widgetLocationName}
       widgetState={widgetState}

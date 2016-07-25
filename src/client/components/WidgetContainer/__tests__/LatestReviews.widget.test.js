@@ -3,80 +3,48 @@
  **/
 
 // import libs
-import React from 'react';
 import expect from 'expect';
-import $ from 'teaspoon';
-
-// import components
-import WidgetContainer from '../WidgetContainer.component';
+import {renderWidgetWithTeaspoon} from './widgetTest.utils';
 
 // import mocks
 import {singleReviewMock} from '../__mocks__/Review.mock';
 
 describe('Test LatestReviews Widget', () => {
   it('Test LatestReviews widget can render inside a WidgetContainer', () => {
-    const widgetLocationName = 'test-latest-review-widget-location';
-    let widgetState = {
-      LatestReviews: [],
-      widgetLocations: {}
-    };
-    const widgetActions = {
-      asyncGetLatestReviews: () => {},
-      asyncListenForCoverImages: () => {}
-    };
-
-    widgetState.widgetLocations[widgetLocationName] = {
+    const $root = renderWidgetWithTeaspoon({
+      location: 'test-latest-review-widget-location',
       widgetName: 'LatestReviewsWidget',
       widgetConfig: {
         displayTitle: 'LatestReviews displayTitle Test!',
         reviewsToLoad: 15,
         showTitle: true
+      },
+      state: {
+        LatestReviews: {
+          reviews: []
+        }
       }
-    };
-
-    let component = (
-      <WidgetContainer
-        widgetLocationName={widgetLocationName}
-        widgetState={widgetState}
-        widgetActions={widgetActions} />
-    );
-
-    let $root = $(component).render();
+    });
 
     const LatestReviewsWidget = $root.find('h2').text();
     expect(LatestReviewsWidget).toEqual('LatestReviews displayTitle Test!');
   });
 
   it('Test LatestReviews can render with a review.', () => {
-    const widgetLocationName = 'test-latest-review-widget-location';
-
-    let widgetState = {
-      LatestReviews: [singleReviewMock],
-      widgetLocations: {}
-    };
-
-    const widgetActions = {
-      asyncGetLatestReviews: () => {},
-      asyncListenForCoverImages: () => {},
-      asyncGetCoverImage: () => {}
-    };
-
-    widgetState.widgetLocations[widgetLocationName] = {
+    const $root = renderWidgetWithTeaspoon({
+      location: 'test-latest-review-widget-location',
       widgetName: 'LatestReviewsWidget',
       widgetConfig: {
         displayTitle: 'Brugerne Siger!',
-        reviewsToLoad: 1
+        reviewsToLoad: 1,
+        showTitle: true
+      },
+      state: {
+        LatestReviews: {
+          reviews: [singleReviewMock]
+        }
       }
-    };
-
-    let component = (
-      <WidgetContainer
-        widgetLocationName={widgetLocationName}
-        widgetState={widgetState}
-        widgetActions={widgetActions}/>
-    );
-
-    let $root = $(component).render();
+    });
 
     const reviewStars = $root.find('.compact-review--review-content--rating').text();
     expect(reviewStars).toEqual('★★★★★★');

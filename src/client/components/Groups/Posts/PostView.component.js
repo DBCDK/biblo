@@ -197,22 +197,19 @@ export default class PostView extends React.Component {
     const flagFunction = () => uiActions.openModalWindow(postFlagModalContent);
     let flagButton = null;
     if (profile.userIsLoggedIn) {
+      const flagIcon = <Icon glyph={flagSvg} className="icon flag-post--button" />;
       flagButton = (
         <TinyButton
           clickFunction={flagFunction}
-          icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
+          icon={flagIcon}
         />
       );
     }
 
     const youtube = ExtractYoutubeID(content);
-
     const isLikedByCurrentUser = includes(likes, profile.id);
-
-    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {
-    };
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {
-    };
+    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
 
     const likeButton = (
       <LikeButton
@@ -249,9 +246,20 @@ export default class PostView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={groupId} type="post" getMoreWorks={getMoreWorks}
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id} works={works}
-                        delete={() => this.deletePost()} addContentAction={groupActions.editPost} coverImages={coverImages} />
+            <ContentAdd
+              redirectTo={`/grupper/${groupId}`}
+              profile={profile}
+              parentId={groupId}
+              type="post"
+              getMoreWorks={getMoreWorks}
+              abort={() => this.toggleEditting()}
+              text={content}
+              image={image}
+              id={id}
+              works={works}
+              delete={() => this.deletePost()}
+              addContentAction={groupActions.editPost}
+              coverImages={coverImages} />
             ||
             <div className='post--content-wrapper' >
               {
@@ -261,7 +269,9 @@ export default class PostView extends React.Component {
               {
                 image &&
                 <div className='post--media' >
-                  <a href={image.replace('medium', 'original')} target="_blank" ><img src={image} alt="image for post" /></a>
+                  <a href={image.replace('medium', 'original')} target="_blank" >
+                    <img src={image} alt="image for post" />
+                  </a>
                 </div>
               }
               {
@@ -275,14 +285,23 @@ export default class PostView extends React.Component {
               }
             </div>
           }
-          <CommentList comments={comments} profile={profile} groupId={groupId} postId={id} getMoreWorks={getMoreWorks}
-                       submitFlagFunction={this.submitCommentFlag} uiActions={uiActions}
-                       groupActions={groupActions} works={works} coverImages={coverImages} />
+          <CommentList
+            comments={comments}
+            profile={profile}
+            groupId={groupId}
+            postId={id}
+            getMoreWorks={getMoreWorks}
+            submitFlagFunction={this.submitCommentFlag}
+            uiActions={uiActions}
+            groupActions={groupActions}
+            works={works}
+            coverImages={coverImages} />
           {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments" >
-            <ExpandButton isLoading={loadingComments}
-                          onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
-                          text="Vis flere" />
+            <ExpandButton
+              isLoading={loadingComments}
+              onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
+              text="Vis flere" />
               <span className="post--comment-count" >
                 {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
               </span>
@@ -291,15 +310,21 @@ export default class PostView extends React.Component {
           {!this.state.isEditting && <span>
             {
               this.state.isCommentInputVisible &&
-              <ContentAdd redirectTo={commentRedirect || `/grupper/${groupId}`} profile={profile} parentId={id}
-                          type="comment" works={works} coverImages={coverImages}
-                          abort={() => this.toggleCommentInput()} getMoreWorks={getMoreWorks}
-                          addContentAction={groupActions.addComment}
-                          autofocus={true}
-              />
+              <ContentAdd
+                redirectTo={commentRedirect || `/grupper/${groupId}`}
+                profile={profile}
+                parentId={id}
+                type="comment"
+                works={works}
+                coverImages={coverImages}
+                abort={() => this.toggleCommentInput()}
+                getMoreWorks={getMoreWorks}
+                addContentAction={groupActions.addComment}
+                autofocus={true} />
               ||
-              <a className="post--add-comment-button" href="#add-comment"
-                 onClick={e => this.toggleCommentInput(e)} ><Icon glyph={backSvg} />Svar</a>
+              <a className="post--add-comment-button" href="#add-comment" onClick={e => this.toggleCommentInput(e)} >
+                <Icon glyph={backSvg} />Svar
+              </a>
             }
             {likeButton}
           </span>}

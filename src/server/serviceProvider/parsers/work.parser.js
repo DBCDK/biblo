@@ -26,10 +26,10 @@ export default function parseWork(work) {
 
   work.dcTitle = work.dcTitle ? work.dcTitle[0] : '';
   work.dcTitleFull = work.dcTitleFull ? work.dcTitleFull[0] : '';
-  work.coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/Billede-kommer-snart.jpg';
   work.abstract = (work.abstract) ? work.abstract[0] : '';
   work = useCreateAutIfPossible(work);
   work.workType = (work.workType) ? work.workType[0] : 'other';
+  work.coverUrl = (work.coverUrlFull) ? 'http:' + work.coverUrlFull[0] : '/images/covers/' + work.workType + '.png';
   work.extent = (work.extent) ? work.extent[0] : '';
 
   work.tags = getTags(work);

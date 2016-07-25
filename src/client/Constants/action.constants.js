@@ -122,6 +122,8 @@ export const MARK_USER_MESSAGE_AS_READ = 'MARK_USER_MESSAGE_AS_READ';
 export const GET_LATEST_REVIEWS_FOR_WIDGET = 'GET_LATEST_REVIEWS_FOR_WIDGET';
 export const GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET = 'GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET';
 export const GOT_BEST_RATED_WORKS = 'getTopReviewsResponse';
+export const GOT_CAMPAIGN = 'getCampaignResponse';
+export const GOT_CAMPAIGN_REVIEWS = 'getCampaignReviewsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';

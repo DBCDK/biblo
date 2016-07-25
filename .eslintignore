@@ -1,1 +1,5 @@
+.sonar/
+artillery/
+coverage/
+node_modules/
 public/

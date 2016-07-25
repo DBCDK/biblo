@@ -2,7 +2,8 @@
  * @file: Widget to display a list of the latest reviews.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import {AbstractWidget} from '../../AbstractWidget.component';
 
 import {CompactReviewElement} from './CompactReviewElement.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -12,7 +13,7 @@ import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 
 import './scss/LatestReviews.widget.component.scss';
 
-export class LatestReviewsWidget extends Component {
+export class LatestReviewsWidget extends AbstractWidget {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,13 +22,30 @@ export class LatestReviewsWidget extends Component {
   }
 
   componentDidMount() {
-    this.props.widgetActions.asyncGetLatestReviews('id DESC', this.props.widgetConfig.reviewsToLoad || 15);
+    const widgetConfig = this.props.widgetConfig;
+
+    this.callServiceProvider('getCampaign', {id: widgetConfig.campaignId});
+    this.props.widgetActions.asyncGetLatestReviews('id DESC', widgetConfig.reviewsToLoad || 15, widgetConfig.campaignId);
     this.props.widgetActions.asyncListenForCoverImages();
   }
 
   render() {
-    let reviews = this.props.widgetReducerProp;
+    const campaignLogoUrl = this.props.widgetReducerProp.campaign && this.props.widgetReducerProp.campaign.logos && this.props.widgetReducerProp.campaign.logos.small || null;
+    let campaignLogo = '';
+    if (campaignLogoUrl) {
+      campaignLogo = (
+        <span className="latest-reviews-widget--campaign-logo">
+          <img src={campaignLogoUrl} />
+        </span>
+      );
+    }
+
+    let reviews = this.props.widgetReducerProp.reviews;
     let classNames = 'latest-reviews-widget--reviews-container';
+
+    if (this.props.widgetConfig.campaignId) {
+      reviews = this.props.widgetReducerProp.campaignReviews[this.props.widgetConfig.campaignId] || [];
+    }
 
     if (this.state.isClosed) {
       classNames += ' closed';
@@ -45,7 +63,9 @@ export class LatestReviewsWidget extends Component {
 
     return (
       <div>
+        {campaignLogo}
         <div className={classNames}>
+          {reviews.length === 0 && !this.props.widgetReducerProp.reviewsPending && 'Der er ikke lavet nogen anmeldelser endnu'}
           {reviews}
         </div>
         <div className="latest-reviews-widget--show-more-button--container">
@@ -63,10 +83,3 @@ export class LatestReviewsWidget extends Component {
 }
 
 LatestReviewsWidget.displayName = 'LatestReviewsWidget';
-LatestReviewsWidget.propTypes = {
-  widgetActions: PropTypes.object.isRequired,
-  widgetConfig: PropTypes.object.isRequired,
-  widgetLocationName: PropTypes.string.isRequired,
-  widgetReducerProp: PropTypes.array.isRequired,
-  widgetState: PropTypes.object.isRequired
-};

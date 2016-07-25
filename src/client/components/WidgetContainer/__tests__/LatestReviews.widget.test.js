@@ -65,7 +65,7 @@ describe('Test LatestReviews Widget', () => {
         LatestReviews: {
           reviews: [],
           campaignReviews: {
-            '1': [singleCampaignReviewMock]
+            1: [singleCampaignReviewMock]
           },
           campaign: singleCampaignReviewMock.campaign,
           reviewsPending: false

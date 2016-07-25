@@ -124,6 +124,8 @@ export const GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET = 'GOT_COVER_IMAGE_FROM_PID_FOR
 export const GOT_BEST_RATED_WORKS = 'getTopReviewsResponse';
 export const GOT_CAMPAIGN = 'getCampaignResponse';
 export const GOT_CAMPAIGN_REVIEWS = 'getCampaignReviewsResponse';
+export const GOT_GROUP = 'getGroupResponse';
+export const GOT_POSTS = 'getPostsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';

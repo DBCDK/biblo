@@ -21,6 +21,13 @@ let initialState = {
     works: [],
     isLoading: true
   },
+  LatestGroupPostsWidget: {
+    posts: {},
+    groups: {},
+    groupLoading: true,
+    postsLoading: true,
+    isLoading: true
+  },
   widgetLocations: {
     ContentPageLeft: [],
     ContentPageFactBox: [],
@@ -69,6 +76,36 @@ export default function widgetReducer(state = initialState, action = {}) {
       }
 
       return assignToEmpty(state, {LatestReviews});
+    }
+
+    case types.GOT_GROUP: {
+      const LatestGroupPostsWidget = state.LatestGroupPostsWidget;
+      if (action.data.id) {
+        LatestGroupPostsWidget.groups[action.data.id] = action.data;
+        LatestGroupPostsWidget.groupLoading = false;
+        LatestGroupPostsWidget.isLoading = LatestGroupPostsWidget.postsLoading;
+      }
+
+      return assignToEmpty(state, LatestGroupPostsWidget);
+    }
+
+    case types.GOT_POSTS: {
+      const LatestGroupPostsWidget = state.LatestGroupPostsWidget;
+      if (Array.isArray(action.data)) {
+        action.data.forEach(post => {
+          const groupId = post.groupid;
+          if (!LatestGroupPostsWidget.posts[groupId]) {
+            LatestGroupPostsWidget.posts[groupId] = [];
+          }
+
+          LatestGroupPostsWidget.posts[groupId].push(post);
+        });
+      }
+
+      LatestGroupPostsWidget.postsLoading = false;
+      LatestGroupPostsWidget.isLoading = LatestGroupPostsWidget.groupLoading;
+
+      return assignToEmpty(state, LatestGroupPostsWidget);
     }
 
     default:

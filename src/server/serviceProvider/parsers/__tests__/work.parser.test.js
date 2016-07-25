@@ -130,7 +130,7 @@ describe('Unittest methods in work.parser.js', () => {
 
   it('Should return all elements from audienceAge', () => {
     const work = {
-      audienceAge: ['PUBLISHER 1', 'PUBLISHER 2']
+      audienceAge: ['AUDIENCE 1', 'AUDIENCE 2']
     };
     const result = parseWork(Object.assign({}, work));
     assert.deepEqual(result.ageRecommended, work.audienceAge);

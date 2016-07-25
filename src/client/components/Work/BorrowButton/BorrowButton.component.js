@@ -66,7 +66,7 @@ export default class BorrowButton extends React.Component {
       this.setState({libraryId: nextProps.profile.favoriteLibrary.libraryId});
     }
 
-    let collectionsObject = {};
+    const collectionsObject = {};
     let collectionType;
     nextProps.collectionDetails.forEach((collectionItem) => {
       collectionType = collectionItem.type;
@@ -222,7 +222,7 @@ export default class BorrowButton extends React.Component {
   }
 
   placeOrderModal(collectionDetails, checkOrderPolicyResult, checkOrderPolicyDone, orderState, profile, onClose) {
-    let collectionsObject = {};
+    const collectionsObject = {};
     collectionDetails.forEach((collectionItem) => {
 
       // get actual url if accessType is online

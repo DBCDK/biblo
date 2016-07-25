@@ -134,7 +134,35 @@ export default class Review extends UploadMedia {
         }}
         confirmFunc={() => {
           this.props.reviewActions.asyncDeleteWorkReview(this.props.id, this.state.pids);
-          this.setState({text: '', attachment: {}});
+          this.setState({id: null, text: '', attachment: {}});
+          this.props.uiActions.closeModalWindow();
+        }}
+      >{content}</ConfirmDialog>
+    );
+    this.props.uiActions.openModalWindow(dialog);
+  }
+
+  /**
+   * choose to overwrite or keep existing review
+   */
+  overwriteReview (id) {
+    const content = (
+      <div>
+        <p>Du har allerede anmeldt den her. Ønsker du at overskrive den gamle?</p>
+      </div>
+    );
+
+    const dialog = (
+      <ConfirmDialog
+        cancelButtonText={'Fortryd'}
+        confirmButtonText={'Overskriv'}
+        cancelFunc={() => {
+          this.setState({isLoading: false});
+          this.props.uiActions.closeModalWindow();
+        }}
+        confirmFunc={() => {
+          this.setState({id: id});
+          this.processContent();
           this.props.uiActions.closeModalWindow();
         }}
       >{content}</ConfirmDialog>
@@ -176,6 +204,7 @@ export default class Review extends UploadMedia {
     if (errors.length <= 0) {
       return true;
     }
+
     this.setState({
       errors: errors
     });
@@ -237,26 +266,46 @@ export default class Review extends UploadMedia {
     if (this.validate()) {
       if (XMLHttpRequest && FormData) {
         this.setState({isLoading: true});
-        this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
-          if (this.props.ownReview) { // only show one review
-            this.props.reviewActions.asyncShowReview(response.data.id);
-          }
-          else {
-            // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
-            this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
-          }
-          this.afterEdit();
-        }).catch((errorMsg) => {
-          this.setState({errorMsg: errorMsg});
-        });
-      }
-
-      if (this.props.toggleReview) {
-        this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
+        this.processContent();
       }
     }
     return false;
   }
+
+  processContent () {
+    this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
+      if (response.errors && response.errors.length>0) {
+        this.setState({errorMsg: response.errors[0].errorMessage});
+      }
+      else {
+        if (this.props.ownReview) { // only show the  onereview
+          this.props.reviewActions.asyncShowReview(response.data.id);
+        }
+        else {
+          // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
+          this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
+        }
+        this.afterEdit();
+
+        if (this.props.toggleReview) {
+          this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
+        }
+      }
+    }).catch((resp) => {
+
+      let errorMsg = resp.errors[0].errorMessage;
+      let data = JSON.parse(resp.data)[0];
+
+      // github #136 : circumenvent issue with data model (We do not have a unique constraint on reviewownerid and pid)
+      if (errorMsg === 'Eksisterende anmeldelse') {
+        this.overwriteReview(data.id);
+      }
+      else {
+        this.setState({errorMsg: errorMsg});
+      }
+    });
+  }
+
 
   render() {
     let {

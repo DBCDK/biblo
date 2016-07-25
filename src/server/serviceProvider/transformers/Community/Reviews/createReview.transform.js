@@ -8,6 +8,7 @@ const CreateReviewTransform = {
       this.callServiceClient('community', 'removeImage', {imageId: query.imageRemoveId});
     }
 
+
     if (user.profileId === parseInt(query.reviewownerid, 10) || user.profile.profile.isModerator) {
       return this.callServiceClient('community', 'createReview', {
         id: query.id || null,
@@ -36,7 +37,32 @@ const CreateReviewTransform = {
 
   requestTransform(event, query, connection) {
     const user = Object.assign({}, connection.request.session.passport.user);
-    return this.upsertContent(query, user);
+
+    const me = this;
+    if (query.id) {
+      return this.upsertContent(query, user);
+    }
+
+    const ownerId = query.reviewownerid || user.profileid;
+    return this.callServiceClient('community', 'getReviews', {
+      filter: {
+        where: {
+          reviewownerid: ownerId,
+          pid: query.pid,
+          markedAsDeleted: null
+        }
+      }
+    }).then(response => {
+      let reviews = JSON.parse(response.body);
+
+      if (reviews.length === 0) {
+        return me.upsertContent(query, user);
+      }
+      response.errors = [{
+        errorMessage: 'Eksisterende anmeldelse'
+      }];
+      return response;
+    });
   },
 
   responseTransform(response) {

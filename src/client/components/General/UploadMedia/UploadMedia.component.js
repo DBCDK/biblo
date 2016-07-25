@@ -32,7 +32,7 @@ export default class UploadMedia extends React.Component {
         if (event.target.status === 200) {
           const contentResponse = JSON.parse(event.target.response);
           if (contentResponse.errors && contentResponse.errors.length > 0) {
-            return reject(contentResponse.errors[0].errorMessage);
+            return reject(contentResponse);
           }
           return resolve(contentResponse);
         }

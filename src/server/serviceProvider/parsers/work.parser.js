@@ -29,7 +29,7 @@ export default function parseWork(work) {
   work.abstract = (work.abstract) ? work.abstract[0] : '';
   work = useCreateAutIfPossible(work);
   work.workType = (work.workType) ? work.workType[0] : 'other';
-  work.coverUrl = (work.coverUrlFull) ? 'https½:' + work.coverUrlFull[0] : '/images/covers/' + work.workType + '.png';
+  work.coverUrl = (work.coverUrlFull) ? 'https:' + work.coverUrlFull[0] : '/images/covers/' + work.workType + '.png';
   work.extent = (work.extent) ? work.extent[0] : '';
 
   work.tags = getTags(work);

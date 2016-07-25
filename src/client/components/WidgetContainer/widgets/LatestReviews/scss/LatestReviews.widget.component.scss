@@ -2,7 +2,6 @@
 
 .latest-reviews-widget--reviews-container {
   @include span(24);
-  background-color: #e2e0f7;
   margin-bottom: 10px;
   -webkit-overflow-scrolling: touch;
 
@@ -46,4 +45,18 @@
     fill: #938ee9;
     margin-bottom:-1px;
   }
+}
+
+.latest-reviews-widget--campaign-logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  img {
+    max-height: 40px;
+  }
+}
+
+.LatestReviewsWidget--container {
+  position: relative;
 }

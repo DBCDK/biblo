@@ -11,21 +11,21 @@
 .latest-group-posts-widget--show-more-button {
   cursor: pointer;
   font-family: $header-font;
-  color: #000000;
+  color: $black;
   padding: 5px;
   margin: 20px;
   margin-top: 0;
   margin-bottom: 30px;
   border: #e2e2ed solid 1px;
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: $white;
 
   @include max-screen($tablet) {
     display: none;
   }
 
   .icon {
-    fill: #938ee9;
+    fill: $melrose;
     margin-bottom:-1px;
   }
 }

@@ -8,7 +8,7 @@
   padding-right: 20px;
   position: relative;
   margin: 20px;
-  background-color: #ffffff;
+  background-color: $white;
 }
 
 .text--post {
@@ -39,7 +39,7 @@
     height: 45px;
     object-fit: cover;
     border-radius: 50%;
-    border: 3px solid #ffffff;
+    border: 3px solid $white;
   }
 }
 
@@ -70,14 +70,14 @@
     left: 21px;
     width: 230px;
     height: 130px;
-    color: #FFF;
+    color: $white;
     background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
     background-size: cover;
   }
 }
 
 .compact-group-post-element--text-post {
-  color: #000000;
+  color: $black;
   display: block;
   display: -webkit-box;
   max-width: 270px;

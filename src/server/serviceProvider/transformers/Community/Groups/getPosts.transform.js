@@ -90,7 +90,8 @@ const GetPostsTransform = {
 
     return Promise.all([
       this.callServiceClient('community', 'getPosts', {id, filter: postFilter}),
-      this.callServiceClient('bibloadmin', 'getCampaigns')
+      this.callServiceClient('community', 'getReviewCampaigns'),
+      this.callServiceClient('community', 'getGroupCampaigns')
     ]);
   },
 
@@ -99,9 +100,11 @@ const GetPostsTransform = {
       throw new Error('Call to community service, with method getPosts failed');
     }
 
+    const campaigns = response[1].concat(response[2].body);
     const posts = JSON.parse(response[0].body);
     return Promise.all(posts.map(post => this.fetchCommentsForPost(post)
-      .then(postWithComments => parsePost(postWithComments, response[1]))));
+      .then(postWithComments => parsePost(postWithComments, campaigns))))
+      .catch(err => ({errors: [err]}));
   }
 };
 

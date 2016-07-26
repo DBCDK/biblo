@@ -1,0 +1,89 @@
+@import 'tools';
+
+.compact-group-post-element--container {
+  display: inline-table;
+  width: 300px;
+  height: 200px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  margin: 20px;
+  background-color: $white;
+}
+
+.text--post {
+  .compact-group-post-element--author {
+    margin-bottom: 0;
+  }
+
+  .compact-group-post-element--author--image--container {
+    margin-left: -10px;
+    float: left;
+  }
+}
+
+.video--post, .image--post {
+  .compact-group-post-element--author--image--container {
+    position: absolute;
+    top: 45px;
+    left: 0;
+  }
+}
+
+.compact-group-post-element--author--image--container {
+  z-index: 10;
+
+  img {
+    z-index: 9;
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid $white;
+  }
+}
+
+.compact-group-post-element--image-post {
+  img {
+    max-height: 130px;
+    max-width: 275px;
+  }
+}
+
+.compact-group-post-element--video-post {
+  z-index: 6;
+  margin-bottom: 5px;
+
+  img {
+    z-index: 7;
+    height: 130px;
+    width: 230px;
+    object-fit: cover;
+    background: url('/video_behandler.png') no-repeat center 0;
+    background-size: cover;
+  }
+
+  .after {
+    z-index: 8;
+    position: absolute;
+    top: 59px;
+    left: 21px;
+    width: 230px;
+    height: 130px;
+    color: $white;
+    background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
+    background-size: cover;
+  }
+}
+
+.compact-group-post-element--text-post {
+  color: $black;
+  display: block;
+  display: -webkit-box;
+  max-width: 270px;
+  line-height: 1.2;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

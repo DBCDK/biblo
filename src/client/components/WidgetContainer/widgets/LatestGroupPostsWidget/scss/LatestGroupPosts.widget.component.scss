@@ -1,0 +1,58 @@
+@import 'tools';
+
+.latest-group-posts-widget--show-more-button--container {
+  text-align: center;
+
+  hr {
+    visibility: hidden;
+  }
+}
+
+.latest-group-posts-widget--show-more-button {
+  cursor: pointer;
+  font-family: $header-font;
+  color: $black;
+  padding: 5px;
+  margin: 20px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  border: #e2e2ed solid 1px;
+  border-radius: 5px;
+  background-color: $white;
+
+  @include max-screen($tablet) {
+    display: none;
+  }
+
+  .icon {
+    fill: $melrose;
+    margin-bottom:-1px;
+  }
+}
+
+.latest-group-posts--container {
+  @include span(24);
+  margin-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+
+  @include max-screen($tablet) {
+    overflow-x: scroll;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+.latest-group-posts-widget--campaign-logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  img {
+    max-height: 40px;
+  }
+}
+
+.LatestGroupPostsWidget--container {
+  position: relative;
+}
+

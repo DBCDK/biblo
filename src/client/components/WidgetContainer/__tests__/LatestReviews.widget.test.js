@@ -16,7 +16,6 @@ describe('Test LatestReviews Widget', () => {
       widgetName: 'LatestReviewsWidget',
       widgetConfig: {
         displayTitle: 'LatestReviews displayTitle Test!',
-        reviewsToLoad: 15,
         showTitle: true
       },
       state: {

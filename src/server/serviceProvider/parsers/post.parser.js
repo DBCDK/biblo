@@ -16,6 +16,12 @@ export default function parsePost(post = {}, campaigns = []) {
   post.likes = post.likes && post.likes.map(like => like.profileId || []);
   post.html = parseText(post.content);
 
+  campaigns.forEach(campaign => {
+    if (campaign.group && campaign.group.id === post.groupid) {
+      post.campaign = campaign;
+    }
+  });
+
   if (post.review) {
     post.review = parseReview(post.review, campaigns);
   }

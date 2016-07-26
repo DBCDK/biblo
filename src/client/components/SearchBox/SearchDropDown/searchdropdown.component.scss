@@ -23,7 +23,7 @@
     right: 0;
     margin-right: 20px;
     margin-top: 5px;
-    color: #aba6ff;
+    color: $melrose-hover;
   }
 }
 
@@ -36,7 +36,7 @@
 .search-area--dropdown {
   position: absolute;
   background-color: $white;
-  border: #aba6ff solid 1px;
+  border: $melrose-hover solid 1px;
   left: 0;
   right: 0;
   z-index: 9;
@@ -52,7 +52,7 @@
 
     .searcharea--dropdown--list--item {
       overflow: hidden;
-      padding: 3px 10px;
+      padding: 6px 10px 3px 10px;
       left: 0;
       right: 0;
 
@@ -61,9 +61,10 @@
         right: 0;
       }
     }
-
-    .searcharea--dropdown--list--item:hover, .searcharea--dropdown--list--item--active {
-      background-color: #aba6ff;
+    
+    .searcharea--dropdown--list--item:hover,
+    .searcharea--dropdown--list--item--active {
+      background-color: $melrose-hover;
       color: white;
       cursor: pointer;
 

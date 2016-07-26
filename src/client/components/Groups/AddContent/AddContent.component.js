@@ -370,6 +370,7 @@ AddContent.propTypes = {
   works: React.PropTypes.object,
   coverImages: React.PropTypes.object
 };
+
 AddContent.defaultProps = {
   getMoreWorks: () => {
   },

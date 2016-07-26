@@ -27,16 +27,17 @@ export default class MessagesContainer extends React.Component {
   getMessages() {
     const messages = this.sortMessages();
 
-    const renderedMessages = messages.slice(0, this.state.limit).map((msg, index) => {
+    const renderedMessages = messages.slice(0, this.state.limit).map(msg => {
       return (
         <MessageRow
           agencies={this.props.agencies}
           agencyActions={this.props.agencyActions}
           groupActions={this.props.groupActions}
           groupState={this.props.groupState}
-          key={index}
+          key={msg.createdEpoch}
           message={msg}
           readAction={this.props.readAction}
+          deleteAction={this.props.deleteAction}
         />
       );
     });
@@ -69,5 +70,6 @@ MessagesContainer.propTypes = {
   groupActions: React.PropTypes.object.isRequired,
   groupState: React.PropTypes.object.isRequired,
   messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  readAction: React.PropTypes.func.isRequired
+  readAction: React.PropTypes.func.isRequired,
+  deleteAction: React.PropTypes.func.isRequired
 };

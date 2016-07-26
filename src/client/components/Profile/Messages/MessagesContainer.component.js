@@ -27,7 +27,7 @@ export default class MessagesContainer extends React.Component {
   getMessages() {
     const messages = this.sortMessages();
 
-    const renderedMessages = messages.slice(0, this.state.limit).map((msg, index) => {
+    const renderedMessages = messages.slice(0, this.state.limit).map(msg => {
       return (
         <MessageRow
           agencies={this.props.agencies}

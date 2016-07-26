@@ -193,7 +193,7 @@ export default function profileReducer(state = initialState, action = {}) {
     case types.DELETE_USER_MESSAGE: {
       const messages = [];
 
-      state.userMessages.messages.forEach((message, idx) => {
+      state.userMessages.messages.forEach(message => {
         if (message.messageType !== action.messageType || message.createdEpoch !== action.createdEpoch) {
           messages.push(message);
         }

@@ -11,6 +11,9 @@ describe('Testing the MessageRow Component', () => {
   const message = {
     read: false
   };
+
+  const noop = () => {
+  };
   const readAction = () => {
   };
 
@@ -23,6 +26,7 @@ describe('Testing the MessageRow Component', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const rendered = tree.getRenderOutput();
@@ -42,6 +46,7 @@ describe('Testing the MessageRow Component', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const rendered = tree.getRenderOutput();
@@ -59,6 +64,7 @@ describe('Testing the MessageRow Component', () => {
         readAction={spy}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -80,6 +86,7 @@ describe('Testing the MessageRow Component', () => {
         readAction={spy}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -98,6 +105,9 @@ describe('Testing the getMessageImage method', () => {
   const message = {
     read: false
   };
+
+  const noop = () => {
+  };
   const readAction = () => {
   };
 
@@ -110,6 +120,7 @@ describe('Testing the getMessageImage method', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -132,6 +143,7 @@ describe('Testing the getMessageImage method', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -154,6 +166,7 @@ describe('Testing the getMessageImage method', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -176,6 +189,7 @@ describe('Testing the getMessageImage method', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -198,6 +212,7 @@ describe('Testing the getMessageImage method', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();
@@ -220,6 +235,7 @@ describe('Testing the getMessageImage method', () => {
         readAction={readAction}
         groupActions={{}}
         groupState={{}}
+        deleteAction={noop}
       />
     );
     const instance = tree.getMountedInstance();

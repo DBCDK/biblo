@@ -112,10 +112,7 @@ export default class AddContent extends UploadMedia {
   renderAddReviewModal() {
     const reviewRows = this.props.profile.reviews.data.map((review) => {
       let work = this.props.works[review.pid];
-      work = work || {
-          title: '',
-          creator: ''
-        };
+      work = work || {title: '', creator: ''};
       work.title = work.title || '';
       work.creator = work.creator || '';
 
@@ -254,11 +251,14 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo} />
             <input type="hidden" name="parentId" value={this.props.parentId} />
             <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id} />
-            <textarea className="content-add--textarea" ref='contentTextarea' name="content"
-                      placeholder='Gi den gas & hold god tone ;-)'
-                      value={this.state.text}
-                      disabled={this.state.disableInput}
-                      onChange={(e) => this.setState({text: e.target.value})}
+            <textarea
+              className="content-add--textarea"
+              ref='contentTextarea'
+              name="content"
+              placeholder='Gi den gas & hold god tone ;-)'
+              value={this.state.text}
+              disabled={this.state.disableInput}
+              onChange={(e) => this.setState({text: e.target.value})}
             />
             {image.data &&
             <div className='content-add--preview-image' >
@@ -378,6 +378,6 @@ AddContent.defaultProps = {
     pids: {}
   },
   addContentAction: () => {
-    console.error('YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'); // eslint-disable-line}
+    console.error('YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'); // eslint-disable-line
   }
 };

@@ -2,14 +2,16 @@
  * @file: This file contains the compact group post element, this is meant to be displayed in a grid, and originally constructed for the latest group posts widget.
  */
 
-import react, {PropTypes} from 'react';
+/* eslint-disable react/no-danger */
+
+import React, {PropTypes} from 'react';
 import './scss/CompactGroupPostElement.component.scss';
 
 function renderTextGroupPost(post) {
   return <span className="compact-group-post-element--text-post"> "<span dangerouslySetInnerHTML={{__html: post.html}} />"</span>;
 }
 
-function renderImageGroupPost(post) {
+function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
   return (
     <div className="compact-group-post-element--image-post">
       <img src={post.image} />
@@ -17,7 +19,7 @@ function renderImageGroupPost(post) {
   );
 }
 
-function renderVideoGroupPost(post) {
+function renderVideoGroupPost(post) { // eslint-disable-line react/no-multi-comp
   const resolution = post.video.resolutions.slice(-1)[0];
   const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
   const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
@@ -30,7 +32,7 @@ function renderVideoGroupPost(post) {
   );
 }
 
-export function CompactGroupPostElement({post}) {
+export function CompactGroupPostElement({post}) { // eslint-disable-line react/no-multi-comp
   let postBody;
   let postType;
   if (post.video) {

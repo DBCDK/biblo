@@ -102,7 +102,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
 
   render() {
     if (this.props.widgetReducerProp.isLoading) {
-      return <span>Loading...</span>
+      return <span>Loading...</span>;
     }
 
     const groupId = this.props.widgetConfig.group;

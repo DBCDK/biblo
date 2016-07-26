@@ -23,45 +23,7 @@ const getContentPageTransform = {
 
   getArticleLocations(contentResponse) {
     const ContentPageFactBox = contentResponse.field_secondary_content || [];
-    let ContentPageLeft = [];
-
-    if (contentResponse.field_content) {
-      ContentPageLeft = (Array.isArray(contentResponse.field_content) ?
-          contentResponse.field_content : [contentResponse.field_content]).map(contentField => {
-          let widgetName;
-          let widgetConfig = {};
-
-          if (contentField.text) {
-            widgetName = 'ContentPageTextWidget';
-            widgetConfig.content = contentField.text;
-          }
-          else if (contentField.image) {
-            widgetName = 'ContentPageImageWidget';
-            widgetConfig.alt = contentField.image.alt;
-            widgetConfig.title = contentField.image.title;
-            widgetConfig.src = contentField.image.original;
-          }
-          else if (contentField.embedded_video) {
-            widgetName = 'ContentPageEmbeddedVideoWidget';
-            widgetConfig.src = contentField.embedded_video.url;
-            widgetConfig.type = contentField.embedded_video.type;
-          }
-          else if (contentField.widgetName && contentField.widgetConfig) {
-            // @TODO: Once all admins are deployed we can remove a bunch of the above logic.
-            widgetName = contentField.widgetName;
-            widgetConfig = contentField.widgetConfig;
-
-            if (contentField.widgetConfig.medium) {
-              widgetConfig.src = contentField.widgetConfig.medium;
-            }
-          }
-
-          return {
-            widgetName,
-            widgetConfig
-          };
-        }) || [];
-    }
+    const ContentPageLeft = contentResponse.field_content || [];
 
     if (contentResponse.title) {
       ContentPageLeft.unshift({

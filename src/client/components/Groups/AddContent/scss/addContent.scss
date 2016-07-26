@@ -5,7 +5,7 @@
 }
 
 .content-add--input {
-  border: #ccc 1px solid;
+  border: $light-gray 1px solid;
 }
 
 .content-add--textarea {
@@ -142,7 +142,7 @@ progress[value] {
 
   label {
     @include button($athens-gray, $melrose, false);
-    border: 1px solid #ccc;
+    border: 1px solid $light-gray;
   }
   svg {
     margin-right: 10px;
@@ -179,7 +179,7 @@ progress[value] {
 
   padding: 5px;
   border: 1px solid #c6c6c6;
-  box-shadow: 1px 1px 1px #868686;
+  box-shadow: 1px 1px 1px $gray;
   display: inline-block;
 }
 
@@ -196,10 +196,10 @@ progress[value] {
 }
 
 .insert-review-button {
-  @include hover-transition((background: #eeeeee), 200ms, false);
+  @include hover-transition((background: $athens-gray), 200ms, false);
 
-  background-color: #eeeeee;
-  border: 1px solid #ccc;
+  background-color: $athens-gray;
+  border: 1px solid $light-gray;
   border-radius: 5px;
   padding: 8px 30px;
   margin: 0 10px;
@@ -303,8 +303,8 @@ progress[value] {
 
 .attach-review-modal--radio-btn-input + span:before {
   content: " ";
-  border: 2px solid #FFF;
-  box-shadow: 0 0 0 3px #868686;
+  border: 2px solid $white;
+  box-shadow: 0 0 0 3px $gray;
   border-radius: 50%;
   width: 12px;
   height: 12px;

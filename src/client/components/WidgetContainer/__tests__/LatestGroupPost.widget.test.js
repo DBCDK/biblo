@@ -58,7 +58,7 @@ describe('Test LatestGroupPosts Widget', () => {
       }
     });
 
-    const groupPostContent = $root.find('.compact-group-post-element--text-post').unwrap().innerText;
-    expect(groupPostContent).toEqual(` "${singleGroupPostMock.html}"`);
+    const groupPostContent = $root.find('.compact-group-post-element--text-post').unwrap().innerHTML;
+    expect(groupPostContent).toContain(singleGroupPostMock.html);
   });
 });

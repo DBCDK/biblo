@@ -29,10 +29,11 @@ const getContentPageTransform = {
     let data = {body: {}, errors: [], statusCode: 200, statusMessage: 'OK'};
 
     try {
-      let contentResponse = JSON.parse(response.body);
+      const contentResponse = JSON.parse(response.body) || {};
+      const ContentPageFactBox = contentResponse.field_secondary_content || [];
       let ContentPageLeft = [];
 
-      if (contentResponse && contentResponse.field_content) {
+      if (contentResponse.field_content) {
         ContentPageLeft = (Array.isArray(contentResponse.field_content) ?
             contentResponse.field_content : [contentResponse.field_content]).map(contentField => {
               let widgetName;
@@ -79,7 +80,7 @@ const getContentPageTransform = {
         });
       }
 
-      data.body = {widgetLocations: {ContentPageLeft}, title: contentResponse.title};
+      data.body = {widgetLocations: {ContentPageLeft, ContentPageFactBox}, title: contentResponse.title};
     }
     catch (err) {
       data.errors.push(err);

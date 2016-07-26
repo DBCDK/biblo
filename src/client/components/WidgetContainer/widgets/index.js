@@ -12,8 +12,10 @@ import {ContentPageEmbeddedVideoWidget} from './ContentPageEmbeddedVideoWidget/C
 import {FullWidthBannerWidget} from './FullWidthBannerWidget/FullWidthBanner.widget.component';
 import {BestRatedWorksWidget} from './BestRatedWorksWidget/BestRatedWorks.widget.component';
 import {LatestGroupPostsWidget} from './LatestGroupPostsWidget/LatestGroupPosts.widget.component';
+import {FactBoxWidget} from './FactBoxWidget/FactBox.widget.component';
 
 const widgetComponents = {
+  FactBoxWidget,
   BestRatedWorksWidget,
   LatestReviewsWidget,
   DummyWidget,

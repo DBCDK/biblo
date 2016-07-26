@@ -86,7 +86,16 @@ export default class AddContent extends UploadMedia {
       let form = this.refs['group-post-form'];
       this.addContent(form, e.target.action).then((response) => {
         if (form.id.value === '') { // UploadComponent does upserts. checks on id null  . clear state to prepare for new
-          this.setState({id: null, isLoading: false, text: '', attachment: {image: null, video: null, review: null}});
+          this.setState({
+            id: null,
+            isLoading: false,
+            text: '',
+            attachment: {
+              image: null,
+              video: null,
+              review: null
+            }
+          });
         }
         this.props.addContentAction(response);
         if (this.props.abort) {
@@ -103,7 +112,10 @@ export default class AddContent extends UploadMedia {
   renderAddReviewModal() {
     const reviewRows = this.props.profile.reviews.data.map((review) => {
       let work = this.props.works[review.pid];
-      work = work || {title: '', creator: ''};
+      work = work || {
+          title: '',
+          creator: ''
+        };
       work.title = work.title || '';
       work.creator = work.creator || '';
 
@@ -119,27 +131,27 @@ export default class AddContent extends UploadMedia {
       );
 
       return (
-        <div key={`${review.id}`} className="attach-review-modal--review-row--container">
-          <label htmlFor={`review-attachment--${review.id}`}>
+        <div key={`${review.id}`} className="attach-review-modal--review-row--container" >
+          <label htmlFor={`review-attachment--${review.id}`} >
             <table>
               <tbody>
               <tr>
-                <td className="attach-review-modal--review--radio-btn">
+                <td className="attach-review-modal--review--radio-btn" >
                   <input
                     type="radio" value={review.id} name="reviewAttachment" id={`review-attachment--${review.id}`}
                     onChange={() => this.setState({attachment: Object.assign(this.state.attachment, {review})})}
                     className="attach-review-modal--radio-btn-input"
                   />
-                  <span className="attach-review-modal--displayed-radio-btn"> </span>
+                  <span className="attach-review-modal--displayed-radio-btn" > </span>
                 </td>
-                <td className="attach-review-modal--review--cover-image">
-                  <img src={this.props.coverImages.pids[review.pid]}/>
+                <td className="attach-review-modal--review--cover-image" >
+                  <img src={this.props.coverImages.pids[review.pid]} />
                 </td>
-                <td className="attach-review-modal--review--title-and-creator">
+                <td className="attach-review-modal--review--title-and-creator" >
                   {authorCreator}
                 </td>
-                <td className="attach-review-modal--review--content-container">
-                  <span className="attach-review-modal--review-content">{review.content}</span>
+                <td className="attach-review-modal--review--content-container" >
+                  <span className="attach-review-modal--review-content" >{review.content}</span>
                 </td>
               </tr>
               </tbody>
@@ -153,8 +165,8 @@ export default class AddContent extends UploadMedia {
       <ModalWindow onClose={() => this.setState({
         showAddReviews: false,
         attachment: Object.assign(this.state.attachment, {review: null})
-      })} title="Indsæt Anmeldelse">
-        <div className="attach-review-modal--reviews-container">
+      })} title="Indsæt Anmeldelse" >
+        <div className="attach-review-modal--reviews-container" >
           {reviewRows.length > 0 ? reviewRows : 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!'}
         </div>
         {this.props.profile.reviews.data.length < this.props.profile.reviews.reviewsCount && <div>
@@ -163,8 +175,8 @@ export default class AddContent extends UploadMedia {
             isLoading={this.props.profile.reviews.isLoading}
           />
         </div>}
-        <div className="attach-review-modal--buttons-container">
-          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})}/>
+        <div className="attach-review-modal--buttons-container" >
+          <RoundedButton buttonText="OK" clickFunction={() => this.setState({showAddReviews: false})} />
         </div>
       </ModalWindow>
     );
@@ -174,13 +186,22 @@ export default class AddContent extends UploadMedia {
     return this
       .readInput(
         event,
-        attachment => this.setState({isLoading: true, attachment: Object.assign(this.state.attachment, attachment)})
+        attachment => this.setState({
+          isLoading: true,
+          attachment: Object.assign(this.state.attachment, attachment)
+        })
       )
       .then(
-        attachment => this.setState({isLoading: false, attachment: Object.assign(this.state.attachment, attachment)})
+        attachment => this.setState({
+          isLoading: false,
+          attachment: Object.assign(this.state.attachment, attachment)
+        })
       )
       .catch(
-        errorMsg => this.setState({isLoading: false, errorMsg: errorMsg})
+        errorMsg => this.setState({
+          isLoading: false,
+          errorMsg: errorMsg
+        })
       );
   }
 
@@ -190,7 +211,7 @@ export default class AddContent extends UploadMedia {
     let deleteButton = null;
     if (this.props.delete) {
       deleteButton = (
-        <a className="button delete" onClick={() => this.props.delete()}>
+        <a className="button delete" onClick={() => this.props.delete()} >
           <span>Slet</span>
         </a>
       );
@@ -198,7 +219,7 @@ export default class AddContent extends UploadMedia {
 
     if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
-        <div className='content-add'>
+        <div className='content-add' >
           <Login>Log ind for at skrive et indlæg</Login>
         </div>
       );
@@ -208,25 +229,31 @@ export default class AddContent extends UploadMedia {
 
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
-    let work = {title: '', creator: ''};
+    let work = {
+      title: '',
+      creator: ''
+    };
     if (this.state.attachment && this.state.attachment.review) {
       work = this.props.works[this.state.attachment.review.pid] || work;
     }
 
     return (
-      <div className={Classnames({'content-add': true, shakeit: this.state.errorMsg})}>
+      <div className={Classnames({
+        'content-add': true,
+        shakeit: this.state.errorMsg
+      })} >
         {this.state.showAddReviews && this.renderAddReviewModal()}
 
         <form method="POST" action={this.state.target}
               id="content_form_component" ref="group-post-form"
-              onSubmit={e => this.onSubmit(e)}>
-          <div className='content-add--input'>
-            <input type="hidden" name="id" value={this.props.id}/>
-            <input type="hidden" name="imageId" value={image.imageCollectionId}/>
-            <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
-            <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
-            <input type="hidden" name="parentId" value={this.props.parentId}/>
-            <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id}/>
+              onSubmit={e => this.onSubmit(e)} >
+          <div className='content-add--input' >
+            <input type="hidden" name="id" value={this.props.id} />
+            <input type="hidden" name="imageId" value={image.imageCollectionId} />
+            <input type="hidden" name="imageRemoved" value={this.state.imageRemoved} />
+            <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo} />
+            <input type="hidden" name="parentId" value={this.props.parentId} />
+            <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id} />
             <textarea className="content-add--textarea" ref='contentTextarea' name="content"
                       placeholder='Gi den gas & hold god tone ;-)'
                       value={this.state.text}
@@ -234,51 +261,54 @@ export default class AddContent extends UploadMedia {
                       onChange={(e) => this.setState({text: e.target.value})}
             />
             {image.data &&
-            <div className='content-add--preview-image'>
-              <img src={image.data} alt="preview"/>
-              <a href="#removeImage" className="content-add--remove-media" onClick={(e) => this.clearImage(e)}>
-                <Icon glyph={close}/>
+            <div className='content-add--preview-image' >
+              <img src={image.data} alt="preview" />
+              <a href="#removeImage" className="content-add--remove-media" onClick={(e) => this.clearImage(e)} >
+                <Icon glyph={close} />
               </a>
             </div>
             }
 
-            <div className='preview-video'>
+            <div className='preview-video' >
               {this.state.attachment.video &&
               <div>
-                <span className="preview-video--name">{this.state.attachment.video.file.name}</span>
+                <span className="preview-video--name" >{this.state.attachment.video.file.name}</span>
                 <progress className={progressStatusClass} max="100"
-                          value={this.state.attachment.video.file.progress || 0}/>
+                          value={this.state.attachment.video.file.progress || 0} />
               </div>
               }
             </div>
 
             {this.state.attachment.review && this.state.attachment.review !== 'removed' &&
-            <div className="preview-review">
-              <div className="preview-review--cover-image--container">
-                <img src={this.props.coverImages.pids[this.state.attachment.review.pid]}/>
+            <div className="preview-review" >
+              <div className="preview-review--cover-image--container" >
+                <img src={this.props.coverImages.pids[this.state.attachment.review.pid]} />
               </div>
-              <div className="preview-review--title--container">
+              <div className="preview-review--title--container" >
                 <p>
                   <strong>{work.title}</strong>
                 </p>
               </div>
-              <div className="preview-review--remove-btn">
+              <div className="preview-review--remove-btn" >
                 <a href="#removeReview" className="content-add--remove-media"
-                   onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {review: 'removed'})})}>
-                  <Icon glyph={close}/>
+                   onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {review: 'removed'})})} >
+                  <Icon glyph={close} />
                 </a>
               </div>
             </div>}
           </div>
-          <div className={Classnames({'content-add--messages': true, fadein: this.state.errorMsg})}>
+          <div className={Classnames({
+            'content-add--messages': true,
+            fadein: this.state.errorMsg
+          })} >
             {
               this.state.errorMsg &&
-              <Message type="error" onClose={() => this.setState({errorMsg: null})}>{this.state.errorMsg}</Message>
+              <Message type="error" onClose={() => this.setState({errorMsg: null})} >{this.state.errorMsg}</Message>
             }
           </div>
-          <div className='content-add--actions'>
-            <div className='content-add--media'>
-              <label htmlFor={uniqueId}>
+          <div className='content-add--actions' >
+            <div className='content-add--media' >
+              <label htmlFor={uniqueId} >
                 <input
                   id={uniqueId}
                   accept='image/*,video/*,video/mp4'
@@ -288,14 +318,15 @@ export default class AddContent extends UploadMedia {
                   onChange={this.handleFileChange.bind(this)}
                   ref="fileInput"
                 />
-                <Icon glyph={videoSvg}/>
-                <Icon glyph={cameraSvg}/>
-                <span className="content-add--media-label">Upload</span>
+                <Icon glyph={videoSvg} />
+                <Icon glyph={cameraSvg} />
+                <span className="content-add--media-label" >Upload</span>
               </label>
 
-              <a className="insert-review-button" onClick={this.state.disableInput ? () => {} : () => this.setState({showAddReviews: true})}>
-                <img src="/attach_review.png"/>
-                <span className="attach-review-button--text"> Anmeldelse </span>
+              <a className="insert-review-button" onClick={this.state.disableInput ? () => {
+              } : () => this.setState({showAddReviews: true})} >
+                <img src="/attach_review.png" />
+                <span className="attach-review-button--text" > Anmeldelse </span>
               </a>
 
               {deleteButton}
@@ -313,7 +344,7 @@ export default class AddContent extends UploadMedia {
                 this.state.disableInput
               }
             >
-              {(this.state.isLoading) && <Icon glyph={spinner}/>}
+              {(this.state.isLoading) && <Icon glyph={spinner} />}
               OK
             </button>
           </div>
@@ -345,5 +376,8 @@ AddContent.defaultProps = {
   works: {},
   coverImages: {
     pids: {}
+  },
+  addContentAction: () => {
+    console.error('YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'); // eslint-disable-line}
   }
 };

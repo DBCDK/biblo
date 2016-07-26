@@ -33,23 +33,24 @@ describe('Test group create container', () => {
     };
 
     // actions for this test (just use spies)
-    let actions = {
+    const actions = {
       changeGroupColour: noop,
       asyncChangeImage: noop
     };
 
-    let uiActions = {
+    const uiActions = {
       openModalWindow: noop,
       closeModalWindow: noop
     };
 
-    let component = (
+    const component = (
       <GroupCreateContainer
         searchState={searchState}
         searchActions={{}}
         group={group}
         actions={actions}
         uiActions={uiActions}
+        profileState={{}}
         />
     );
 

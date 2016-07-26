@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Config file for webpack used by wallaby
  */
@@ -13,7 +14,16 @@ const path = require('path');
 module.exports = {
   resolve: {
     root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, 'src/server')],
-    extensions: ['', '.js']
+    extensions: ['', '.js', '.json']
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }
+    ]
   },
 
   cache: true,

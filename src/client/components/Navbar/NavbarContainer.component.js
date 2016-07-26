@@ -5,7 +5,7 @@ import React from 'react';
 import SearchContainer from '../SearchBox/SearchContainer.component.js';
 import ClickOverlay from '../General/ClickOverlay/ClickOverlay.Component.js';
 import NavbarLink from './NavbarLink.component.js';
-import NavbarIconLink from './NavbarIconLink.component.js';
+import {NavBarIconLink} from './NavbarIconLink.component.js';
 import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
@@ -74,31 +74,46 @@ export default class NavbarContainer extends React.Component {
     }
 
     if (image.shouldDisplay) {
-      return (<NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')} notifications={image.unreadMessages} />);
+      return (
+        <NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')} notifications={image.unreadMessages} />);
     }
-    return (<NavbarIconLink width={35} height={35} className="navbar--profile" url="#" glyph={profileSvg}
-                             onClick={() => this.onToggle('profile')}/>);
+    return (
+      <NavBarIconLink
+        width={35}
+        height={35}
+        className="navbar--profile"
+        url="#"
+        glyph={profileSvg}
+        onClick={() => this.onToggle('profile')}
+      />
+    );
   }
 
   renderSearch() {
     return (
-      <NavbarIconLink width={35} height={35} className="navbar--search" url="#" glyph={searchSvg}
-                      onClick={() => this.toggleSearchBox()}/>
+      <NavBarIconLink
+        width={35}
+        height={35}
+        className="navbar--search"
+        url="#"
+        glyph={searchSvg}
+        onClick={() => this.toggleSearchBox()}
+      />
     );
   }
 
   renderProfileLinks() {
     if (!image.shouldDisplay) {
       return (
-        <ul className="">
-          <li><NavbarLink value='Log ind' url='/login'/></li>
+        <ul className="" >
+          <li><NavbarLink value='Log ind' url='/login' /></li>
         </ul>
       );
     }
 
     return (
-      <ul className="">
-        <li><NavbarLink value='Profil' url='/profil'/></li>
+      <ul className="" >
+        <li><NavbarLink value='Profil' url='/profil' /></li>
         <li><NavbarLink value='Log ud' url='/logout' className='log-out-button' /></li>
       </ul>
     );
@@ -106,37 +121,37 @@ export default class NavbarContainer extends React.Component {
 
   render() {
     return (
-      <div className="navbar">
-        <div className="navbar--container">
-          <div className="navbar--menu">
-            <ul className="inline-list">
+      <div className="navbar" >
+        <div className="navbar--container" >
+          <div className="navbar--menu" >
+            <ul className="inline-list" >
               <li>
-                <a className='bibloLogo' href={DET_SKER_PAGE}>
-                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg}/>
-              </a></li>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
+                <a className='bibloLogo' href={DET_SKER_PAGE} >
+                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg} />
+                </a></li>
+              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
             </ul>
           </div>
 
-          <div className="navbar--icons">
+          <div className="navbar--icons" >
             {this.renderSearch()}
             {this.renderProfile()}
-            <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')}/>
+            <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')} />
           </div>
         </div>
-        <NavbarMobileMenu active={this.state.active.menu} type='menu'>
+        <NavbarMobileMenu active={this.state.active.menu} type='menu' >
           <div>
             <ul>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW}/></li>
+              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
             </ul>
           </div>
         </NavbarMobileMenu>
-        <NavbarMobileMenu active={this.state.active.profile} type='profile'>
+        <NavbarMobileMenu active={this.state.active.profile} type='profile' >
           <div>
             {this.renderProfileLinks()}
           </div>
         </NavbarMobileMenu>
-        <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')}/>
+        <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')} />
         <SearchContainer search={this.props.searchState} searchActions={this.props.searchActions} />
       </div>
     );

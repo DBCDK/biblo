@@ -15,16 +15,20 @@ describe('Test Group Form component', () => {
     const noop = () => {};
     const imageSrc = 'dette er en billedekilde';
 
-    let component = (
+    const component = (
       <GroupForm
         changeColourAction={noop}
         changeImageAction={noop}
         errors={[]}
         groupImageSrc={imageSrc}
-        submit={noop} />
+        submit={noop}
+        submitProgress={1}
+      />
     );
-    let dm = TestUtils.renderIntoDocument(component);
-    let dmn = ReactDOM.findDOMNode(dm);
+
+    const dm = TestUtils.renderIntoDocument(component);
+    const dmn = ReactDOM.findDOMNode(dm);
+
     expect(dmn.innerHTML).toContain(imageSrc);
   });
 });

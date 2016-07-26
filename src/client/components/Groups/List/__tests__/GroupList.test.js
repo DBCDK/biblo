@@ -15,8 +15,14 @@ describe('Test of GroupList', () => {
       groupsLimit: 15
     };
 
-    const comp = TestUtils.renderIntoDocument(<GroupList groups={data.groups}/>);
+    const comp = TestUtils.renderIntoDocument(
+      <GroupList
+        title={'test-title'}
+        groups={data.groups}
+      />
+    );
+
     expect(ReactDOM.findDOMNode(comp).textContent)
-      .toEqual('heste test 1 følger '); // we currently expect followers count on screen
+      .toEqual('test-titleheste test 1 følger '); // we currently expect followers count on screen
   });
 });

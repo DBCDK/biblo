@@ -1,8 +1,8 @@
 @import 'tools';
 
 $border-color: #c9c9c9;
-$tab-bg-color-active: #ffffff;
-$tab-bg-color-inactive: #4740b7;
+$tab-bg-color-active: $white;
+$tab-bg-color-inactive: $governor-bay;
 
 .tabs-container {
   width: 100%;

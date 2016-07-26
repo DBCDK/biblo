@@ -2,7 +2,7 @@
 
 .footer--container {
   @include span(24);
-  background-color: #000;
+  background-color: $black;
   position: relative;
 }
 
@@ -14,10 +14,10 @@
   }
 
   a:hover {
-    color: lighten(#938EE9, 10%);
+    color: lighten($melrose, 10%);
 
     h2 {
-      color: lighten(#938EE9, 10%);
+      color: lighten($melrose, 10%);
     }
   }
 }

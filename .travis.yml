@@ -1,21 +1,20 @@
 language: node_js
 sudo: false
 dist: trusty
-
 cache:
   bundler: true
   directories:
-    - node_modules
-
+  - node_modules
 branches:
   only:
-    - master
-
+  - master
 before_install:
-  - npm config set //registry.npmjs.org/:_authToken $NPM_KEY
-
+- npm config set //registry.npmjs.org/:_authToken $NPM_KEY
 env:
-  - TEST_SUITE=lint
-  - TEST_SUITE=test
-
+- TEST_SUITE=lint
+- TEST_SUITE=test
 script: "npm run $TEST_SUITE"
+notifications:
+  slack:
+    secure: uXvdxzx6MnwBFkR3EFa/0DeBvVS1SZl/85UN58lWcHU7d8BjY6Kfhd8qAQ/lINIPyK3wHE0wMgtFkee+wcAskt04XOYiFZvWZIFbY3Eej+AVN6DCqpv8im7NXsh4m5DmAqJ3ktU6pH8+I1w6eGU2Rl3mZ/c7EDJquLJUOeMF7SVEHqSofxIuWDady1ErMmgMQjKjrutkxzvhJcG1kW7b445BWKGWQo7g6i7BV5M5nMcUJItD0urMbLLRn/pMCZ/7am87FckSaeXsIcLolkyzQQqImbN4/rBF4lnoQfH3N8a5yyGLaxu898KBe0FnTxYLeYONfAtJn/DKIsCvg8pNlp7AfXWjBifrbJ7K5fcevOzCSRrmFNiiyXFDD2+qqtkyLaMvgov1HNv8DavfRIAVXVAZRwrohaaoc7Ti+qBQVIGuBIP238h9jFi/wLjqAIGnu0/FSAk1+WkOYyBCt3DA1dEPmPu6UNd7bKwwNbjsriJqUQ4nX9wCIjngH3gS1u0YzY6mQxmB4ehgTdCm5HRFPQ8nUPK3O1nvPwkKs2HVLQD5OAHscSWUX1r7uJyjfgiJcBpE9tUkZbuNuf7A8/TLwVQymJ2ita+oyjf9BcZ3CgQ26NLUp5eAPyIMyXzKGbCwoa0y1lBoZ5pAHBsHfL9KqhF99VRRHYGZkIg4RbAkPJI=
+

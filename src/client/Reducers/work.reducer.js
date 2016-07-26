@@ -16,8 +16,8 @@ const initialState = {
 
 /**
  * Work Reducer
- * @param state
- * @param {{response: {}, data: []}} action
+ * @param {object} state
+ * @param {{type: {string}, response: {data: {}, statusCode: {number}}}} action
  * @return {{orderPolicy: {}, orderState: number, responses: number, work: {}, workReviews: {}, workReviewsMeta: {}, workMetadataOrderedByPid: {}}}
  */
 export default function workReducer(state = initialState, action = {}) {
@@ -35,10 +35,10 @@ export default function workReducer(state = initialState, action = {}) {
         data.forEach((item) => {
           const pid = item.pid && Array.isArray(item.pid) && item.pid[0] || '';
           newState.workMetadataOrderedByPid[pid] = {
-            dcTitle: item.dcTitle ? item.dcTitle[0] : null,
-            dcTitleFull: item.dcTitleFull ? item.dcTitleFull[0] : null,
+            dcTitle: item.dcTitle ? item.dcTitle : null,
+            dcTitleFull: item.dcTitleFull ? item.dcTitleFull : null,
             coverUrl: item.coverUrlFull ? item.coverUrlFull[0] : null,
-            workType: item.workType ? item.workType[0] : null
+            workType: item.workType ? item.workType : null
           };
         });
       }

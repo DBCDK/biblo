@@ -75,13 +75,18 @@ export class LatestGroupPostsWidget extends AbstractWidget {
       );
     });
 
-    compactReviewElements.splice(
-      compactReviewElements.length - 1,
-      0,
-      <span className="waypoint" key="vis">
-        <VisibilitySensor onChange={(vis) => (vis && this.loadPosts())} />
-      </span>
-    );
+    let width = 700;
+    if (typeof window !== 'undefined') {
+      width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    }
+
+    if (width < 600) {
+      compactReviewElements.splice(
+        compactReviewElements.length - 1,
+        0,
+        <VisibilitySensor onChange={(vis) => (vis && this.loadPosts())} delayedCall={true}/>
+      );
+    }
 
     return (
       <div className="latest-group-posts-widget">

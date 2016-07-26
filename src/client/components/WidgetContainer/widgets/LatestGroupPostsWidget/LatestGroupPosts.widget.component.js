@@ -44,32 +44,8 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     }
   }
 
-  render() {
-    if (this.props.widgetReducerProp.isLoading) {
-      return <span>Loading...</span>
-    }
-
-    const groupId = this.props.widgetConfig.group;
-    const widgetGroup = this.props.widgetReducerProp.groups[groupId];
-    const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
-    const shouldDisplayShowMoreButton = widgetPosts.length < widgetGroup.postsCount;
-
-    let showMoreButtonClasses = 'latest-group-posts-widget--show-more-button';
-    if (!shouldDisplayShowMoreButton) {
-      showMoreButtonClasses += ' hidden';
-    }
-
-    const campaignLogoUrl = widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small || null;
-    let campaignLogo = '';
-    if (campaignLogoUrl) {
-      campaignLogo = (
-        <span className="latest-group-posts-widget--campaign-logo">
-          <img src={campaignLogoUrl} />
-        </span>
-      );
-    }
-
-    let compactReviewElements = widgetPosts.map(post => {
+  renderCompactReviewElements(widgetPosts) {
+    let elements = widgetPosts.map(post => {
       return (
         <CompactGroupPostElement key={`cpe-${post.id}`} post={post} />
       );
@@ -81,25 +57,68 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     }
 
     if (width < 600) {
-      compactReviewElements.splice(
-        compactReviewElements.length - 1,
+      elements.splice(
+        elements.length - 1,
         0,
         <VisibilitySensor onChange={(vis) => (vis && this.loadPosts())} delayedCall={true}/>
       );
     }
 
     return (
+      <div className="latest-group-posts--container">
+        {elements}
+      </div>
+    );
+  }
+
+  renderCampaignLogo(widgetGroup) {
+    const campaignLogoUrl = widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small || null;
+    if (campaignLogoUrl) {
+      return (
+        <span className="latest-group-posts-widget--campaign-logo">
+          <img src={campaignLogoUrl} />
+        </span>
+      );
+    }
+
+    return <span />;
+  }
+
+  renderShowMoreButton(shouldDisplayShowMoreButton) {
+    let showMoreButtonClasses = 'latest-group-posts-widget--show-more-button';
+    if (!shouldDisplayShowMoreButton) {
+      showMoreButtonClasses += ' hidden';
+    }
+
+    return (
+      <div className="latest-group-posts-widget--show-more-button--container">
+        <a className={showMoreButtonClasses} onClick={() => this.loadPosts()}>
+          <Icon glyph={plusSvg}/> VIS FLERE
+        </a>
+        <hr />
+      </div>
+    );
+  }
+
+  render() {
+    if (this.props.widgetReducerProp.isLoading) {
+      return <span>Loading...</span>
+    }
+
+    const groupId = this.props.widgetConfig.group;
+    const widgetGroup = this.props.widgetReducerProp.groups[groupId];
+    const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
+    const shouldDisplayShowMoreButton = widgetPosts.length < widgetGroup.postsCount;
+
+    const showMoreButton = this.renderShowMoreButton(shouldDisplayShowMoreButton);
+    const campaignLogo = this.renderCampaignLogo(widgetGroup);
+    const compactReviewElements = this.renderCompactReviewElements(widgetPosts);
+
+    return (
       <div className="latest-group-posts-widget">
         {campaignLogo}
-        <div className="latest-group-posts--container">
-          {compactReviewElements}
-        </div>
-        <div className="latest-group-posts-widget--show-more-button--container">
-          <a className={showMoreButtonClasses} onClick={() => this.loadPosts()}>
-            <Icon glyph={plusSvg}/> VIS FLERE
-          </a>
-          <hr />
-        </div>
+        {compactReviewElements}
+        {showMoreButton}
       </div>
     );
   }

@@ -2,6 +2,13 @@ import React from 'react';
 
 import './searchdropdown.component.scss';
 
+/**
+ *
+ * @param {bool} visible
+ * @param {Array} elements
+ * @returns {XML}
+ * @constructor
+ */
 export default function SearchDropDown({visible, elements}) {
   elements = elements.map((element) => {
     element.clickFunc = element.clickFunc || (() => {});
@@ -34,7 +41,6 @@ export default function SearchDropDown({visible, elements}) {
 }
 
 SearchDropDown.displayName = 'SearchDropDown';
-
 SearchDropDown.propTypes = {
   visible: React.PropTypes.bool,
   elements: (props, propName) => { // eslint-disable-line consistent-return

@@ -14,6 +14,8 @@ branches:
 before_install:
   - npm config set //registry.npmjs.org/:_authToken $NPM_KEY
 
-script:
-  - npm run lint
-  - npm test
+env:
+  - TEST_SUITE=lint
+  - TEST_SUITE=test
+
+script: "npm run $TEST_SUITE"

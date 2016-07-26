@@ -80,6 +80,8 @@ describe('Test profile detail container (public profile)', () => {
   it('should render activity rows containing posts, and a comment.', () => {
     const component = (
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         searchState={searchState}
         feed={feedMock}
         feedActions={feedActions}
@@ -112,6 +114,8 @@ describe('Test profile detail container (public profile)', () => {
   it('should render rows containing an edit link when a moderator is viewing', () => {
     const component = (
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         searchState={searchState}
         feed={moderatedFeedMock}
         feedActions={feedActions}
@@ -144,6 +148,8 @@ describe('Test profile detail container (public profile)', () => {
   it('should render tabs', () => {
     const component = (
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         searchState={searchState}
         feed={feedMock}
         feedActions={feedActions}
@@ -175,6 +181,8 @@ describe('Test profile detail container (public profile)', () => {
 
     const tree = sd.shallowRender(
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         feed={feedMock} // contains the current logged in user
         feedActions={feedActions}
         flagActions={flagActions}
@@ -202,6 +210,8 @@ describe('Test profile detail container (public profile)', () => {
 
     const tree = sd.shallowRender(
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         feed={feedMock} // contains the current logged in user
         feedActions={feedActions}
         flagActions={flagActions}
@@ -227,6 +237,8 @@ describe('Test profile detail container (public profile)', () => {
   it('Should not render campaignDiplomaButtons when no reviews have been created by user', () => {
     const tree = sd.shallowRender(
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         feed={feedMock} // contains the current logged in user
         feedActions={feedActions}
         flagActions={flagActions}
@@ -259,6 +271,8 @@ describe('Test profile detail container (public profile)', () => {
 
     const tree = sd.shallowRender(
       <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
         feed={feedMock} // contains the current logged in user
         feedActions={feedActions}
         flagActions={flagActions}

@@ -17,13 +17,8 @@ export default class CookieWarningContainer extends React.Component {
 
     // Assume they've already seen the warning
     this.state = {
-      displayWarning: false
+      displayWarning: (typeof window !== 'undefined') ? !Cookies.get('reddi-fe-cookie') : false
     };
-
-    // Correct once we have access to the cookie
-    if (typeof window !== 'undefined') {
-      this.state.displayWarning = !Cookies.get('reddi-fe-cookie');
-    }
   }
 
   onClose() {

@@ -1,4 +1,4 @@
-'use strict';
+/* eslint-disable */
 /**
  * Config file for webpack
  */
@@ -19,17 +19,13 @@ module.exports = {
 
   cache: true,
 
-  loaders: [
-    {
-      test: /\.json$/,
-      loader: 'json',
-      include: [
-        /node_modules/
-      ]
-    }
-  ],
-
   module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }
+    ],
     preLoaders: [
       {
         test: /\.js?$/,
@@ -44,13 +40,6 @@ module.exports = {
         test: /\.js$/,
         exclude: /(test|node_modules|bower|__tests__)\//,
         loader: 'isparta'
-      },
-      {
-        test: /\.json$/,
-        loader: 'json',
-        include: [
-          /node_modules/
-        ]
       }
     ]
   },

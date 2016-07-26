@@ -1,7 +1,7 @@
 import React from 'react';
 import CommentView from './CommentView.component';
 
-export default function CommentList({comments = [], profile = {}, groupId = null, postId = null, submitFlagFunction = () => {
+export function CommentList({comments = [], profile = {}, groupId = null, postId = null, submitFlagFunction = () => {
 }, uiActions= {}, groupActions = {}, works, coverImages, getMoreWorks}) {
   return (
     <div className='post-list'>

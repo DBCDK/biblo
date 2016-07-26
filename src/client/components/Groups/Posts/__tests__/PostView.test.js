@@ -14,9 +14,10 @@ describe('Test of Post Components', () => {
   };
 
   // actions for this test (just use spies)
-  let groupActions = {
+  const groupActions = {
     changeGroupColour: noop,
-    asyncChangeImage: noop
+    asyncChangeImage: noop,
+    addContentAction: noop
   };
 
   const props = {
@@ -34,7 +35,12 @@ describe('Test of Post Components', () => {
       userIsLoggedIn: true
     },
     uiActions: uiActions,
-    groupActions: groupActions
+    groupActions: groupActions,
+    flagActions: {},
+    likeActions: {},
+    works: {},
+    coverImages: {},
+    getCoverImage: noop
   };
 
   it('it should show generate html', () => {

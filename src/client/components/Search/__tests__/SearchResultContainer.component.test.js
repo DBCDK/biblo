@@ -32,6 +32,7 @@ describe('Testing the SearchResultContainer component', () => {
         store={store}
         search={search}
         searchActions={searchActions}
+        profileState={{}}
       />
     );
 
@@ -60,7 +61,9 @@ describe('Testing the SearchResultContainer component', () => {
       <SearchResultContainer
         store={store}
         search={search}
-        searchActions={searchActions}/>
+        searchActions={searchActions}
+        profileState={{}}
+      />
     );
 
     const VisFlereFunc = () => tree.dive(['#moreMaterialsButton']);
@@ -87,7 +90,9 @@ describe('Testing the SearchResultContainer component', () => {
       <SearchResultContainer
         store={store}
         search={search}
-        searchActions={searchActions}/>
+        searchActions={searchActions}
+        profileState={{}}
+      />
     );
 
     assert.isTrue(tree.subTree('MaterialSearchResultList').getRenderOutput().props.results.length === search.materialSearchResults.length,
@@ -117,7 +122,9 @@ describe('Testing the SearchResultContainer component', () => {
       <SearchResultContainer
         store={store}
         search={search}
-        searchActions={searchActions}/>
+        searchActions={searchActions}
+        profileState={{}}
+      />
     );
 
     assert.isFalse(tree.subTree('MaterialSearchResultlist'),
@@ -151,7 +158,9 @@ describe('Testing the SearchResultContainer component', () => {
       <SearchResultContainer
         store={store}
         search={search}
-        searchActions={searchActions}/>
+        searchActions={searchActions}
+        profileState={{}}
+      />
     );
 
     assert.isFalse(tree.subTree('GroupSearchResultlist'),

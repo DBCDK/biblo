@@ -10,7 +10,7 @@ import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
 import DisplayNameField from './DisplayNameField.component';
 import InputField from '../../General/InputField/InputField.component';
 import Message from '../../General/Message/Message.component';
-import ProfileLibraryInfo from './ProfileLibraryInfo.component';
+import {ProfileLibraryInfo} from './ProfileLibraryInfo.component';
 
 import '../../../Utils/dateInputPolyfill/date-input-polyfill';
 import './profileform.component.scss';

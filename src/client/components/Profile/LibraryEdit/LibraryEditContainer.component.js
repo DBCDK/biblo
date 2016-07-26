@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component';
-import ProfileLibraryInfo from '../Edit/ProfileLibraryInfo.component';
+import {ProfileLibraryInfo} from '../Edit/ProfileLibraryInfo.component';
 import PageLayout from '../../Layout/PageLayout.component';
 
 import * as ProfileActions from '../../../Actions/profile.actions';

@@ -6,83 +6,87 @@ import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component
 
 import './ProfileLibraryInfo.component.scss';
 
-export default function ProfileLibraryInfo({
-  errorObj, favoriteLibrary, unselectLibraryFunction, search, searchAction, searchElements, libraryId, loanerIdChangeFunc, pincodeChangeFunc, requireAll
-}) {
-  let libraryDescription = '';
-
-  if (favoriteLibrary && favoriteLibrary.libraryAddress && favoriteLibrary.libraryName) {
-    libraryDescription = (
-      <div>
-        {favoriteLibrary.libraryName} <br />
-        {favoriteLibrary.libraryAddress} <br />
-        <RoundedButton clickFunction={() => unselectLibraryFunction()}
-                       buttonText="Klik her for at vælge et andet bibliotek" compact={true} />
-      </div>
-    );
+export class ProfileLibraryInfo extends React.Component {
+  constructor(props) {
+    super(props);
   }
 
-  let searchField = null;
-  if (typeof favoriteLibrary.libraryName === 'undefined') {
-    searchField = (
-      <div className="search-area library-search-area">
+  render() {
+    let libraryDescription = '';
+
+    if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
+      libraryDescription = (
+        <div>
+          {this.props.favoriteLibrary.libraryName} <br />
+          {this.props.favoriteLibrary.libraryAddress} <br />
+          <RoundedButton clickFunction={() => this.props.unselectLibraryFunction()}
+                         buttonText="Klik her for at vælge et andet bibliotek" compact={true} />
+        </div>
+      );
+    }
+
+    let searchField = null;
+    if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
+      searchField = (
+        <div className="search-area library-search-area" >
+          <InputField
+            defaultValue={this.props.search}
+            error={this.props.errorObj.search}
+            onChangeFunc={this.props.searchAction}
+            type="text"
+            name="search"
+            title="Vælg dit bibliotek"
+            placeholder="Søg efter dit bibliotek her"
+            autocomplete="off"
+            disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
+            required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
+          />
+          <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements} />
+        </div>
+      );
+    }
+
+    return (
+      <div className="library--form-area" >
+        <h3>Dit bibliotek</h3>
+        {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
+
+        <div className="selected-library-description" >
+          {libraryDescription}
+        </div>
+
+        {searchField}
+
+        <div className='hidden' >
+          <input
+            type='hidden'
+            name='libraryId'
+            value={this.props.libraryId}
+          />
+        </div>
+
         <InputField
-          defaultValue={search}
-          error={errorObj.search}
-          onChangeFunc={searchAction}
+          error={this.props.errorObj.loanerId}
+          onChangeFunc={this.props.loanerIdChangeFunc}
           type="text"
-          name="search"
-          title="Vælg dit bibliotek"
-          placeholder="Søg efter dit bibliotek her"
-          autocomplete="off"
-          disabled={!!(favoriteLibrary && favoriteLibrary.libraryName && favoriteLibrary.libraryAddress)}
-          required={!(favoriteLibrary && favoriteLibrary.libraryId && favoriteLibrary.libraryId.length > 0)}
+          name="loanerId"
+          title="Dit lånernummer"
+          placeholder="Lånernummer"
+          required={this.props.requireAll}
         />
-        <SearchDropDown visible={searchElements.length > 0} elements={searchElements} />
+
+        <InputField
+          error={this.props.errorObj.pincode}
+          onChangeFunc={this.props.pincodeChangeFunc}
+          type="password"
+          name="pincode"
+          title="Din pinkode"
+          placeholder="Pinkode"
+          required={this.props.requireAll}
+        />
       </div>
     );
   }
-
-  return (
-    <div className="library--form-area" >
-      <h3>Dit bibliotek</h3>
-      {errorObj.library || errorObj.libraryId || ''}
-
-      <div className="selected-library-description" >
-        {libraryDescription}
-      </div>
-
-      {searchField}
-
-      <div className='hidden' >
-        <input
-          type='hidden'
-          name='libraryId'
-          value={libraryId}
-        />
-      </div>
-
-      <InputField
-        error={errorObj.loanerId}
-        onChangeFunc={loanerIdChangeFunc}
-        type="text"
-        name="loanerId"
-        title="Dit lånernummer"
-        placeholder="Lånernummer"
-        required={requireAll}
-      />
-
-      <InputField
-        error={errorObj.pincode}
-        onChangeFunc={pincodeChangeFunc}
-        type="password"
-        name="pincode"
-        title="Din pinkode"
-        placeholder="Pinkode"
-        required={requireAll}
-      />
-    </div>
-  );
 }
 
 ProfileLibraryInfo.propTypes = {

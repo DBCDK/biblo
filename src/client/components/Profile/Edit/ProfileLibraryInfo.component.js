@@ -11,23 +11,27 @@ export class ProfileLibraryInfo extends React.Component {
     super(props);
   }
 
-  render() {
-    let libraryDescription = '';
-
+  getLibraryDescription() {
     if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
-      libraryDescription = (
+      return (
         <div>
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />
-          <RoundedButton clickFunction={() => this.props.unselectLibraryFunction()}
-                         buttonText="Klik her for at vælge et andet bibliotek" compact={true} />
+          <RoundedButton
+            clickFunction={() => this.props.unselectLibraryFunction()}
+            buttonText="Klik her for at vælge et andet bibliotek"
+            compact={true}
+          />
         </div>
       );
     }
 
-    let searchField = null;
+    return '';
+  }
+
+  getSearchField() {
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
-      searchField = (
+      return (
         <div className="search-area library-search-area" >
           <InputField
             defaultValue={this.props.search}
@@ -41,10 +45,21 @@ export class ProfileLibraryInfo extends React.Component {
             disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
             required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
           />
-          <SearchDropDown visible={this.props.searchElements.length > 0} elements={this.props.searchElements} />
+
+          <SearchDropDown
+            visible={this.props.searchElements.length > 0}
+            elements={this.props.searchElements}
+          />
         </div>
       );
     }
+
+    return null;
+  }
+
+  render() {
+    const libraryDescription = this.getLibraryDescription();
+    const searchField = this.getSearchField();
 
     return (
       <div className="library--form-area" >

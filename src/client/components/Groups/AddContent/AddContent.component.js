@@ -82,7 +82,10 @@ export default class AddContent extends UploadMedia {
     }
     else if (XMLHttpRequest && FormData) {
       e.preventDefault();
-      this.setState({isLoading: true});
+      this.setState({
+        isLoading: true,
+        errorMsg: null
+      });
       let form = this.refs['group-post-form'];
       this.addContent(form, e.target.action).then((response) => {
         if (form.id.value === '') { // UploadComponent does upserts. checks on id null  . clear state to prepare for new

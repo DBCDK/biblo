@@ -1,7 +1,7 @@
 import React from 'react';
 import PostView from './PostView.component.js';
 
-export default function PostList({
+export function PostList({
   posts = [],
   profile = {},
   groupId = null,
@@ -49,8 +49,12 @@ PostList.propTypes = {
   flagActions: React.PropTypes.object.isRequired,
   likeActions: React.PropTypes.object.isRequired,
   uiActions: React.PropTypes.object.isRequired,
-  works: React.PropTypes.object.isRequired,
+  works: React.PropTypes.object,
   getMoreWorks: React.PropTypes.func,
   coverImages: React.PropTypes.object.isRequired,
   getCoverImage: React.PropTypes.func.isRequired
+};
+
+PostList.dedaultProps = {
+  works: {}
 };

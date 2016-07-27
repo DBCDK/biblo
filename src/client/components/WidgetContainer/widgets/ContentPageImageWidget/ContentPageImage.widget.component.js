@@ -10,7 +10,7 @@ export class ContentPageImageWidget extends Component {
 
     return (
       <span className="content-page--image-widget">
-        <img src={widgetConfig.src} alt={widgetConfig.alt} title={widgetConfig.title} />
+        <img src={widgetConfig.src || widgetConfig.large} alt={widgetConfig.alt} title={widgetConfig.title} />
       </span>
     );
   }

@@ -1,10 +1,12 @@
+@import "settings/colors";
+
 .search-area {
   width: 100%;
   position: relative;
 }
 
 .search-area--dropdown--link {
-  color: #3a3a3A;
+  color: $dark;
   white-space: nowrap;
   margin-right: 2px;
   clear: both;
@@ -27,13 +29,13 @@
 
 .group:hover, .group:active {
   .search-area--dropdown--link:after {
-    color: #ffffff;
+    color: $white;
   }
 }
 
 .search-area--dropdown {
   position: absolute;
-  background-color: #ffffff;
+  background-color: $white;
   border: #aba6ff solid 1px;
   left: 0;
   right: 0;

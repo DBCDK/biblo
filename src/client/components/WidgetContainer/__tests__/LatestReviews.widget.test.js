@@ -7,7 +7,7 @@ import expect from 'expect';
 import {renderWidgetWithTeaspoon} from './widgetTest.utils';
 
 // import mocks
-import {singleReviewMock} from '../__mocks__/Review.mock';
+import {singleReviewMock, singleCampaignReviewMock} from '../__mocks__/Review.mock';
 
 describe('Test LatestReviews Widget', () => {
   it('Test LatestReviews widget can render inside a WidgetContainer', () => {
@@ -16,7 +16,6 @@ describe('Test LatestReviews Widget', () => {
       widgetName: 'LatestReviewsWidget',
       widgetConfig: {
         displayTitle: 'LatestReviews displayTitle Test!',
-        reviewsToLoad: 15,
         showTitle: true
       },
       state: {
@@ -48,5 +47,33 @@ describe('Test LatestReviews Widget', () => {
 
     const reviewStars = $root.find('.compact-review--review-content--rating').text();
     expect(reviewStars).toEqual('★★★★★★');
+  });
+
+  it('Should render a campaign logo when a campaign is attached', () => {
+    const coverImagesState = {};
+    coverImagesState[singleCampaignReviewMock.pid] = '/images/covers/book.png';
+
+    const $root = renderWidgetWithTeaspoon({
+      location: 'test-latest-review-widget-location',
+      widgetName: 'LatestReviewsWidget',
+      widgetConfig: {
+        reviewsToLoad: 1,
+        campaignId: 1
+      },
+      state: {
+        LatestReviews: {
+          reviews: [],
+          campaignReviews: {
+            1: [singleCampaignReviewMock]
+          },
+          campaign: singleCampaignReviewMock.campaign,
+          reviewsPending: false
+        },
+        CoverImages: coverImagesState
+      }
+    });
+
+    const campaignLogoSrc = $root.find('.latest-reviews-widget--campaign-logo > img').unwrap().src;
+    expect(campaignLogoSrc).toContain(singleCampaignReviewMock.campaign.logos.small);
   });
 });

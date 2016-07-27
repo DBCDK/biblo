@@ -44,7 +44,7 @@ function getUserMessages(docClient, tableName, userId) {
 function setUserMessageRead(docClient, tableName, {messageType, createdEpoch}) {
   return new Promise((resolve, reject) => {
     if (!(messageType && createdEpoch)) {
-      reject('Not enough parameters! Please ensure messageType, userId and createdEpoch is set.');
+      reject('Not enough parameters! Please ensure messageType and createdEpoch is set.');
     }
 
     const parameters = {
@@ -55,6 +55,44 @@ function setUserMessageRead(docClient, tableName, {messageType, createdEpoch}) {
       },
       AttributeUpdates: {
         read: {
+          Action: 'PUT',
+          Value: Date.now()
+        }
+      }
+    };
+
+    docClient.update(parameters, (err, data) => {
+      if (err || !data) {
+        reject(err || 'No data found!');
+      }
+      else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+/**
+ *  Delete a message.
+ * @param docClient
+ * @param {String} tableName
+ * @param {String} messageType
+ * @param {Number} createdEpoch
+ */
+function deleteUserMessage(docClient, tableName, {messageType, createdEpoch}) {
+  return new Promise((resolve, reject) => {
+    if (!(messageType && createdEpoch)) {
+      reject('Not enough parameters! Please ensure messageType and createdEpoch is set.');
+    }
+
+    const parameters = {
+      TableName: tableName,
+      Key: {
+        messageType: messageType.indexOf('type-') === 0 ? messageType : `type-${messageType}`,
+        createdEpoch
+      },
+      AttributeUpdates: {
+        markAsDeleted: {
           Action: 'PUT',
           Value: Date.now()
         }
@@ -118,6 +156,7 @@ export default function AWSClient(config = null) {
 
   return {
     setUserMessageRead: setUserMessageRead.bind(null, docClient, tableName),
-    getUserMessages: getUserMessages.bind(null, docClient, tableName)
+    getUserMessages: getUserMessages.bind(null, docClient, tableName),
+    deleteUserMessage: deleteUserMessage.bind(null, docClient, tableName)
   };
 }

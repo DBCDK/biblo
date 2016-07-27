@@ -5,7 +5,7 @@
 /**
  * This function parses user messages.
  * During parsing it is ensured that only accepted messages are sent to client.
- * Accepted messages are filtered using the acceptedMessageTypes array.
+ * Accepted messages with empty markAsDeleted are filtered using the acceptedMessageTypes array
  *
  * @param {Array} items
  * @param {Number} limit
@@ -39,7 +39,7 @@ export function userMessageParser(items = [], limit) {
       'type-commentWasAdded'
     ];
 
-    if (!accecptedMessageTypes.includes(message.messageType)) {
+    if (!!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {
       return;
     }
 

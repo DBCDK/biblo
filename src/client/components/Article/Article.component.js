@@ -32,6 +32,11 @@ export class Article extends React.Component {
             widgetState={this.props.widgetState}
             widgetActions={this.props.widgetActions}/>
         </div>
+
+        <WidgetContainer
+          widgetLocationName="SectionPage"
+          widgetState={this.props.widgetState}
+          widgetActions={this.props.widgetActions}/>
       </div>
     );
   }

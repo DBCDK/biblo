@@ -14,7 +14,7 @@
   float: none;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: #ffffff;
+  background-color: $white;
   display: inline-block;
 
   @include min-screen($tablet) {
@@ -93,7 +93,7 @@
 
   .compact-review-element--text-excerpt {
     font-weight: 600;
-    color: #000;
+    color: $black;
     word-break: normal;
     font-size: 1em;
   }
@@ -104,7 +104,7 @@
   }
 
   .compact-review-worktype-icon {
-    fill: #4740b7;
+    fill: $governor-bay;
     padding: 4px;
   }
 
@@ -119,7 +119,7 @@
       height: 45px;
       object-fit: cover;
       border-radius: 50%;
-      border: 3px solid #fff;
+      border: 3px solid $white;
     }
   }
 
@@ -163,7 +163,7 @@
       left: 0;
       width: 200px;
       height: 110px;
-      color: #FFF;
+      color: $white;
       background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
       background-size: cover;
     }

@@ -7,9 +7,11 @@
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import request from 'superagent';
+import {once} from 'lodash';
 
 const checkOrderPolicySocket = SocketClient('checkOrderPolicy');
 const getWorksSocket = SocketClient('work');
+const getWorksListener = once(getWorksSocket.response);
 
 /**
  * Async method to retreive one or more works associated with the given list of pids
@@ -18,11 +20,7 @@ const getWorksSocket = SocketClient('work');
  */
 export function asyncGetWorks(pids) {
   return (dispatch) => {
-    getWorksSocket.response((response) => dispatch(getWorks(response)));
-
-    // cancel the eventlistener after response -- this is a potentiel memoryleak
-    getWorksSocket.response = () => {
-    };
+    getWorksListener((response) => dispatch(getWorks(response)));
 
     getWorksSocket.request({pids: pids, fields: ['coverUrlFull', 'dcTitle', 'dcTitleFull', 'pid', 'workType']});
   };

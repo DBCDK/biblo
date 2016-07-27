@@ -5,6 +5,7 @@ import sd from 'skin-deep';
 import CommentView from '../CommentView.component';
 
 describe('Test of Comment Components', () => {
+  const noop = () => {};
   const props = {
     content: 'test content',
     html: 'test content',
@@ -18,8 +19,11 @@ describe('Test of Comment Components', () => {
     profile: {
       id: 1
     },
-    uiActions: {
-    }
+    uiActions: {},
+    submitFlagFunction: noop,
+    groupActions: {},
+    coverImages: {},
+    works: {}
   };
 
   it('it should show generate html', () => {

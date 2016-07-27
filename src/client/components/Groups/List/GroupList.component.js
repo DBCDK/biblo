@@ -22,9 +22,12 @@ export default class GroupList extends React.Component {
 
     if (hasMore && expand) {
       expandButton = (
-        <ExpandButton className="group-showmore" text="Vis flere"
-                      isLoading={isLoading}
-                      onClick={()=> expand(skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
+        <ExpandButton
+          className="group-showmore"
+          text="Vis flere"
+          isLoading={isLoading}
+          onClick={()=> expand(skip, parseInt(limit, 10) + parseInt(delta, 10))}
+        />
       );
     }
 
@@ -32,13 +35,13 @@ export default class GroupList extends React.Component {
       <div>
         <h2>{title}</h2>
         <hr/>
-        <div className="group--list">
-        {
-          groups && groups.map((item) => (
-            <GroupViewTile key={item.id} group={item}/>
-          ))
-        }
-          <div className="group--showmore">
+        <div className="group--list" >
+          {
+            groups && groups.map((item) => (
+              <GroupViewTile key={item.id} group={item} />
+            ))
+          }
+          <div className="group--showmore" >
             {expandButton}
           </div>
 

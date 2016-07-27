@@ -1,3 +1,5 @@
+@import "settings/colors";
+
 .modal-window--borrow-container {
   padding: 5px;
 
@@ -7,10 +9,10 @@
 
   .modal-window--collection-item--container > label:hover {
     background-color: #cac8f5;
-    color: #FFF;
+    color: $white;
 
     .icon {
-      fill: #FFF;
+      fill: currentColor;
     }
   }
 
@@ -32,7 +34,7 @@
     }
 
     .icon {
-      fill: #4740b7;
+      fill: currentColor;
       display: inline-block;
       vertical-align: middle;
     }
@@ -63,8 +65,8 @@
     content: " ";
     margin-right: 10px;
     float: right;
-    border: 2px solid #FFF;
-    box-shadow: 0 0 0 3px #868686;
+    border: 2px solid $white;
+    box-shadow: 0 0 0 3px $gray;
     border-radius: 50%;
     width: 12px;
     height: 12px;
@@ -74,17 +76,17 @@
   }
 
   input[name=mediaType]:checked + label:after {
-    background-color: #FFF;
-    box-shadow: 0 0 0 3px #FFF;
-    border: 2px solid #4740b7;
+    background-color: $white;
+    box-shadow: 0 0 0 3px $white;
+    border: 2px solid $governor-bay;
   }
 
   input[name=mediaType]:checked + label {
-    color: #FFF;
-    background-color: #4740b7;
+    color: $white;
+    background-color: $governor-bay;
 
     .icon {
-      fill: #FFF;
+      fill: currentColor;
     }
   }
 
@@ -122,7 +124,7 @@
   }
 
   .modal-window--message-under-submit-button {
-    color: #868686 !important;
+    color: $gray !important;
     font-size: 12pt;
   }
 

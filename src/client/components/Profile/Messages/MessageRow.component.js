@@ -11,6 +11,7 @@ import backSVG from '../../General/Icon/svg/functions/back.svg';
 import boedeSVG from '../../General/Icon/svg/functions/boede.svg';
 import forSentSVG from '../../General/Icon/svg/functions/for-sent.svg';
 import commentSVG from '../../General/Icon/svg/functions/comment.svg';
+import closeSVG from '../../General/Icon/svg/functions/close.svg';
 
 import './scss/MessageRow.container.scss';
 
@@ -73,9 +74,9 @@ export default class MessageRow extends React.Component {
         }
 
         return (
-          <span className={orderExpiresSoonClass} >
-            <Icon icon="profile" width={15} height={15} glyph={glyph} />
-                {text}
+          <span className={orderExpiresSoonClass}>
+            <Icon icon="profile" width={15} height={15} glyph={glyph}/>
+            {text}
           </span>
         );
       }
@@ -84,8 +85,8 @@ export default class MessageRow extends React.Component {
         const orderReadyClass = this.state.message.ready ? 'ready' : '';
 
         return (
-          <span className={orderReadyClass} >
-            <Icon icon="klar-til-afhentning" width={15} height={15} glyph={klarSVG} />
+          <span className={orderReadyClass}>
+            <Icon icon="klar-til-afhentning" width={15} height={15} glyph={klarSVG}/>
             Klar til afhentning
           </span>
         );
@@ -93,8 +94,8 @@ export default class MessageRow extends React.Component {
 
       case 'Fine': {
         return (
-          <span className="boede" >
-            <Icon icon="boede" width={15} height={15} glyph={boedeSVG} />
+          <span className="boede">
+            <Icon icon="boede" width={15} height={15} glyph={boedeSVG}/>
             Bøde
           </span>
         );
@@ -102,8 +103,8 @@ export default class MessageRow extends React.Component {
 
       case 'Reservation Charge': {
         return (
-          <span className="boede" >
-            <Icon icon="boede" width={15} height={15} glyph={boedeSVG} />
+          <span className="boede">
+            <Icon icon="boede" width={15} height={15} glyph={boedeSVG}/>
             Reservations gebyr
           </span>
         );
@@ -114,9 +115,9 @@ export default class MessageRow extends React.Component {
         const groupId = this.state.comment.post ? this.state.comment.post.group.id : '';
 
         return (
-          <span className="kommentar" >
-            <Icon icon="kommentar" width={15} height={15} glyph={commentSVG} />
-            Ny kommentar til dit indlæg i <a href={`/grupper/${groupId}`} >{groupName}</a>
+          <span className="kommentar">
+            <Icon icon="kommentar" width={15} height={15} glyph={commentSVG}/>
+            Ny kommentar til dit indlæg i <a href={`/grupper/${groupId}`}>{groupName}</a>
           </span>
         );
       }
@@ -131,7 +132,7 @@ export default class MessageRow extends React.Component {
     switch (this.state.message.type) {
       case 'type-orderExpiresSoon': {
         const diff = moment(this.state.message.dateDue).diff(moment(), 'days');
-        const string = diff === 0 ? 'i dag' : (diff > 0 ? 'om ': '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
+        const string = diff === 0 ? 'i dag' : (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
         const dateString = diff < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
 
         return (<span>{dateString}</span>);
@@ -182,18 +183,18 @@ export default class MessageRow extends React.Component {
         const ownerId = this.state.comment.commentownerid || '';
         const commentContent = this.state.comment.content || '';
         const commentImg = this.state.comment.image ?
-          <img src={this.state.comment.image} alt={commentContent} /> : null;
+          <img src={this.state.comment.image} alt={commentContent}/> : null;
         const groupId = this.state.comment.post ? this.state.comment.post.groupid : null;
         const postId = this.state.comment.commentcontainerpostid || null;
 
         return (
           <div>
-            <div className="comment" >
-              <div className="comment-username" ><a href={`/profil/${ownerId}`} >{username}</a></div>
+            <div className="comment">
+              <div className="comment-username"><a href={`/profil/${ownerId}`}>{username}</a></div>
               <div>{commentContent}</div>
-                 {commentImg}
+              {commentImg}
             </div>
-            <RoundedButton buttonText='Se alle kommentarer' href={`/grupper/${groupId}/${postId}`} />
+            <RoundedButton buttonText='Se alle kommentarer' href={`/grupper/${groupId}/${postId}`}/>
           </div>
         );
       }
@@ -214,27 +215,27 @@ export default class MessageRow extends React.Component {
     switch (this.state.message.type) {
 
       case 'type-orderExpiresSoon': {
-        return <img src={`${imageBasePath}/default-afleveres.png`} alt="Afleveres billede" />;
+        return <img src={`${imageBasePath}/default-afleveres.png`} alt="Afleveres billede"/>;
       }
 
       case 'type-orderIsReady': {
-        return <img src={`${imageBasePath}/default-afhentes.png`} alt="Afhentes billede" />;
+        return <img src={`${imageBasePath}/default-afhentes.png`} alt="Afhentes billede"/>;
       }
 
       case 'Fine': {
-        return <img src={`${imageBasePath}/default-boede.png`} alt="Bøde billede" />;
+        return <img src={`${imageBasePath}/default-boede.png`} alt="Bøde billede"/>;
       }
 
       case 'Reservation Charge': {
-        return <img src={`${imageBasePath}/default-boede.png`} alt="Gebyr billede" />;
+        return <img src={`${imageBasePath}/default-boede.png`} alt="Gebyr billede"/>;
       }
 
       case 'type-commentWasAdded': {
         const profileImage = this.state.comment.owner ? this.state.comment.owner.image : '/no_profile.png';
 
         return (
-          <div className="profileimage" >
-            <img src={profileImage} alt="Profil billede" />
+          <div className="profileimage">
+            <img src={profileImage} alt="Profil billede"/>
           </div>
         );
       }
@@ -243,6 +244,18 @@ export default class MessageRow extends React.Component {
         return '/images/covers/other.png';
       }
     }
+  }
+
+  deleteMessageButton() {
+    return (
+      <span onClick={this.deleteMessage.bind(this)}>
+        <Icon icon="close" width={15} height={15} glyph={closeSVG}/>
+      </span>
+    );
+  }
+
+  deleteMessage() {
+    this.props.deleteAction(this.state.message);
   }
 
   render() {
@@ -255,26 +268,30 @@ export default class MessageRow extends React.Component {
     const visibilitySenstorActive = (!this.state.justRead && !this.state.message.read);
 
     return (
-      <VisibilitySensor onChange={this.onVisibilityChanged.bind(this)} delay={5000} active={visibilitySenstorActive} >
-        <div className={`${containerClass} ${justReadClass}`} >
-          <div className="message-row--status-container" >
-            <div className="message-row--status" >
-                 {statusIndicator}
+      <VisibilitySensor onChange={this.onVisibilityChanged.bind(this)} delay={5000} active={visibilitySenstorActive}>
+        <div className={`${containerClass} ${justReadClass}`}>
+          <div className="message-row--status-container">
+
+            <div className="message-row--status">
+              {statusIndicator}
             </div>
           </div>
-          <div className="message-row--image-container" >
-               {this.getMessageImage()}
+          <div className="message-row--image-container">
+            {this.getMessageImage()}
           </div>
-          <div className="message-row--data-container" >
-            <div className="message-row--message-type" >
-                 {this.getMessageType()}
-                   <div className="message-row--age" >
-                        {moment(this.state.message.createdEpoch).fromNow()}
-                   </div>
+          <div className="message-row--data-container">
+            <div className="message-row--message-type">
+              {this.getMessageType()}
+              <div className="message-row--age">
+                {moment(this.state.message.createdEpoch).fromNow()}
+              </div>
+            </div>
+            <div className="message-row--delete-message">
+              {this.deleteMessageButton()}
             </div>
 
-            <div className="message-data--headline" >{this.state.message.title}</div>
-            <div className="message-data--message-content" >{this.getMessageContent()}</div>
+            <div className="message-data--headline">{this.state.message.title}</div>
+            <div className="message-data--message-content">{this.getMessageContent()}</div>
           </div>
         </div>
       </VisibilitySensor>
@@ -289,5 +306,6 @@ MessageRow.propTypes = {
   groupActions: React.PropTypes.object.isRequired,
   groupState: React.PropTypes.object.isRequired,
   message: React.PropTypes.object.isRequired,
-  readAction: React.PropTypes.func.isRequired
+  readAction: React.PropTypes.func.isRequired,
+  deleteAction: React.PropTypes.func.isRequired
 };

@@ -1,11 +1,8 @@
-'use strict';
-
 var webpack = require('webpack');
 var path = require('path');
 var extractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
-//var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 var noErrorsPlugin = new webpack.NoErrorsPlugin();
 var extractCss = new extractTextPlugin('../css/[name].css', {allChunks: true});
 
@@ -80,7 +77,6 @@ module.exports = [{
   },
 
   plugins: [
-    //commonsPlugin,
     extractCss,
     noErrorsPlugin
   ]

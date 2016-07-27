@@ -8,10 +8,10 @@ import './icon.scss';
  * @param width
  * @param height
  * @param className
+ // * @param svgLink
  * @returns {XML}
  * @constructor
  */
-
 export default function Icon({glyph, svgLink, width = 16, height = 16, className = 'icon'}) {
 
   let innerIcon = (

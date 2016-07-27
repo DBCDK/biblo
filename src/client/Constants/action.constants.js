@@ -117,6 +117,8 @@ export const WORK_ORDER_RESET_STATE = 'WORK_ORDER_RESET_STATE';
 export const GET_WORK_METADATA_FOR_PERSONAL_REVIEWS = 'GET_WORK_METADATA_FOR_PERSONAL_REVIEWS'; // action used to retreive works associated with one ore more pids
 export const GET_WORK_ONLINEACCESS = 'GET_WORK_ONLINEACCESS';
 export const MARK_USER_MESSAGE_AS_READ = 'MARK_USER_MESSAGE_AS_READ';
+export const DELETE_USER_MESSAGE = 'DELETE_USER_MESSAGE';
+
 
 // Widget actions
 export const GET_LATEST_REVIEWS_FOR_WIDGET = 'GET_LATEST_REVIEWS_FOR_WIDGET';
@@ -124,6 +126,8 @@ export const GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET = 'GOT_COVER_IMAGE_FROM_PID_FOR
 export const GOT_BEST_RATED_WORKS = 'getTopReviewsResponse';
 export const GOT_CAMPAIGN = 'getCampaignResponse';
 export const GOT_CAMPAIGN_REVIEWS = 'getCampaignReviewsResponse';
+export const GOT_GROUP = 'getGroupResponse';
+export const GOT_POSTS = 'getPostsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';

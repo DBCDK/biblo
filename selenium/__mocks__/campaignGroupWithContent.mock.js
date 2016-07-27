@@ -2,10 +2,46 @@
 const nock = require('nock');
 module.exports = function campaignGroupWithContent(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Campaigns')
+    .times(times)
+    .query({"filter": "{\"where\":{\"type\":\"review\"},\"include\":[]}"})
+    .reply(200, [{
+      "campaignName": "Sommerbogen 2016",
+      "startDate": "2016-06-09T20:00:00.044Z",
+      "endDate": "2016-08-21T04:00:00.044Z",
+      "logos": {
+        "svg": "/sommerbogen-logo.svg",
+        "small": "/sommerbogen-logo.png",
+        "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      },
+      "type": "review",
+      "id": 1,
+      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "audiobook", "id": 7}, {
+        "worktype": "literature",
+        "id": 10
+      }]
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Posts/')
     .times(times)
     .query({"filter": "{\"limit\":5,\"skip\":0,\"counts\":\"comments\",\"where\":{\"groupid\":\"2\",\"markedAsDeleted\":null},\"order\":\"timeCreated DESC\",\"include\":[\"image\",{\"owner\":[\"image\"]},\"likes\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
     .reply(200, [{
+      "title": " ",
+      "content": "asdasd",
+      "timeCreated": "2016-07-22T07:02:49.000Z",
+      "markedAsDeleted": null,
+      "id": 2,
+      "postownerid": 1,
+      "postcontainergroupid": 2,
+      "postid": null,
+      "groupid": 2,
+      "attachedReviewId": 0,
+      "commentsCount": 0,
+      "owner": {},
+      "likes": []
+    }, {
       "title": " ",
       "content": "halløj!",
       "timeCreated": "2016-07-21T13:28:11.000Z",
@@ -19,6 +55,48 @@ module.exports = function campaignGroupWithContent(times) {
       "commentsCount": 1,
       "owner": {},
       "likes": []
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Campaigns')
+    .times(times)
+    .query({"filter": "{\"where\":{\"type\":\"group\"},\"include\":\"group\"}"})
+    .reply(200, [{
+      "campaignName": "fjolle kampagne",
+      "startDate": "2016-07-20T00:00:00.000Z",
+      "endDate": "2016-07-22T00:00:00.000Z",
+      "logos": {
+        "svg": "/sommerbogen-logo.svg",
+        "small": "/sommerbogen-logo.png",
+        "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      },
+      "type": "group",
+      "id": 2,
+      "workTypes": [],
+      "group": {
+        "name": "Skriv din egen historie",
+        "description": "Dette er en test kampagne gruppe!",
+        "colour": "blue",
+        "timeCreated": "2016-07-25T09:03:23.000Z",
+        "id": 136,
+        "groupownerid": 323,
+        "campaignGroupFK": 2,
+        "campaign": {
+          "campaignName": "fjolle kampagne",
+          "startDate": "2016-07-20T00:00:00.000Z",
+          "endDate": "2016-07-22T00:00:00.000Z",
+          "logos": {
+            "svg": "/sommerbogen-logo.svg",
+            "small": "/sommerbogen-logo.png",
+            "medium": "/sommerbogen-logo.png",
+            "large": "/sommerbogen-logo.png"
+          },
+          "type": "group",
+          "id": 2,
+          "workTypes": []
+        }
+      }
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
@@ -77,7 +155,16 @@ module.exports = function campaignGroupWithContent(times) {
     .get('/api/Comments/')
     .times(times)
     .query({"filter": "{\"limit\":1,\"skip\":0,\"order\":\"timeCreated DESC\",\"include\":[\"image\",\"review\",{\"owner\":[\"image\"]},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}],\"where\":{\"postid\":1}}"})
-    .reply(200, []);
+    .reply(200, [{
+      "content": "adsf",
+      "timeCreated": "2016-07-21T13:31:42.000Z",
+      "id": 1,
+      "commentownerid": 1,
+      "commentcontainerpostid": 1,
+      "postid": 1,
+      "attachedReviewId": 0,
+      "owner": {}
+    }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/imageCollections/1/download/small')
@@ -94,10 +181,88 @@ module.exports = function campaignGroupWithContent(times) {
     });
 
   nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Campaigns')
+    .times(times)
+    .query({"filter": "{\"where\":{\"type\":\"review\"},\"include\":[]}"})
+    .reply(200, [{
+      "campaignName": "Sommerbogen 2016",
+      "startDate": "2016-06-09T20:00:00.044Z",
+      "endDate": "2016-08-21T04:00:00.044Z",
+      "logos": {
+        "svg": "/sommerbogen-logo.svg",
+        "small": "/sommerbogen-logo.png",
+        "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      },
+      "type": "review",
+      "id": 1,
+      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "audiobook", "id": 7}, {
+        "worktype": "literature",
+        "id": 10
+      }]
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Campaigns')
+    .times(times)
+    .query({"filter": "{\"where\":{\"type\":\"group\"},\"include\":\"group\"}"})
+    .reply(200, [{
+      "campaignName": "fjolle kampagne",
+      "startDate": "2016-07-20T00:00:00.000Z",
+      "endDate": "2016-07-22T00:00:00.000Z",
+      "logos": {
+        "svg": "/sommerbogen-logo.svg",
+        "small": "/sommerbogen-logo.png",
+        "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      },
+      "type": "group",
+      "id": 2,
+      "workTypes": [],
+      "group": {
+        "name": "Skriv din egen historie",
+        "description": "Dette er en test kampagne gruppe!",
+        "colour": "blue",
+        "timeCreated": "2016-07-25T09:03:23.000Z",
+        "id": 136,
+        "groupownerid": 323,
+        "campaignGroupFK": 2,
+        "campaign": {
+          "campaignName": "fjolle kampagne",
+          "startDate": "2016-07-20T00:00:00.000Z",
+          "endDate": "2016-07-22T00:00:00.000Z",
+          "logos": {
+            "svg": "/sommerbogen-logo.svg",
+            "small": "/sommerbogen-logo.png",
+            "medium": "/sommerbogen-logo.png",
+            "large": "/sommerbogen-logo.png"
+          },
+          "type": "group",
+          "id": 2,
+          "workTypes": []
+        }
+      }
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Posts/')
     .times(times)
     .query({"filter": "{\"limit\":5,\"skip\":0,\"counts\":\"comments\",\"where\":{\"groupid\":\"2\",\"markedAsDeleted\":null},\"order\":\"timeCreated DESC\",\"include\":[\"image\",{\"owner\":[\"image\"]},\"likes\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
     .reply(200, [{
+      "title": " ",
+      "content": "asdasd",
+      "timeCreated": "2016-07-22T07:02:49.000Z",
+      "markedAsDeleted": null,
+      "id": 2,
+      "postownerid": 1,
+      "postcontainergroupid": 2,
+      "postid": null,
+      "groupid": 2,
+      "attachedReviewId": 0,
+      "commentsCount": 0,
+      "owner": {},
+      "likes": []
+    }, {
       "title": " ",
       "content": "halløj!",
       "timeCreated": "2016-07-21T13:28:11.000Z",
@@ -169,5 +334,14 @@ module.exports = function campaignGroupWithContent(times) {
     .get('/api/Comments/')
     .times(times)
     .query({"filter": "{\"limit\":1,\"skip\":0,\"order\":\"timeCreated DESC\",\"include\":[\"image\",\"review\",{\"owner\":[\"image\"]},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}],\"where\":{\"postid\":1}}"})
-    .reply(200, []);
+    .reply(200, [{
+      "content": "adsf",
+      "timeCreated": "2016-07-21T13:31:42.000Z",
+      "id": 1,
+      "commentownerid": 1,
+      "commentcontainerpostid": 1,
+      "postid": 1,
+      "attachedReviewId": 0,
+      "owner": {}
+    }]);
 };

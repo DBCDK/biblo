@@ -11,8 +11,11 @@ import {ContentPageImageWidget} from './ContentPageImageWidget/ContentPageImage.
 import {ContentPageEmbeddedVideoWidget} from './ContentPageEmbeddedVideoWidget/ContentPageEmbeddedVideo.widget.component';
 import {FullWidthBannerWidget} from './FullWidthBannerWidget/FullWidthBanner.widget.component';
 import {BestRatedWorksWidget} from './BestRatedWorksWidget/BestRatedWorks.widget.component';
+import {LatestGroupPostsWidget} from './LatestGroupPostsWidget/LatestGroupPosts.widget.component';
+import {FactBoxWidget} from './FactBoxWidget/FactBox.widget.component';
 
 const widgetComponents = {
+  FactBoxWidget,
   BestRatedWorksWidget,
   LatestReviewsWidget,
   DummyWidget,
@@ -21,7 +24,8 @@ const widgetComponents = {
   ContentGridWidget,
   ContentPageTextWidget,
   ContentPageImageWidget,
-  ContentPageEmbeddedVideoWidget
+  ContentPageEmbeddedVideoWidget,
+  LatestGroupPostsWidget
 };
 
 export default widgetComponents;

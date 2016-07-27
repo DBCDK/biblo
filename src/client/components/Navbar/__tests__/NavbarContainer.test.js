@@ -9,10 +9,17 @@ import {assert} from 'chai';
 import NavbarContainer from '../NavbarContainer.component.js';
 
 describe('Test NavbarContainer Component', () => {
+  const emptyObj = {};
 
   it('Assert className navbar--container', () => {
     const render = TestUtils.createRenderer();
-    render.render(<NavbarContainer />);
+    render.render(
+      <NavbarContainer
+        profileState={emptyObj}
+        searchState={emptyObj}
+        searchActions={emptyObj}
+      />
+    );
 
     const rendered = render.getRenderOutput();
 
@@ -36,7 +43,13 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
+    let dom = TestUtils.renderIntoDocument(
+      <NavbarContainer
+        searchState={searchState}
+        profileState={emptyObj}
+        searchActions={emptyObj}
+      />
+    );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
 
@@ -69,7 +82,12 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
+    let dom = TestUtils.renderIntoDocument(<NavbarContainer
+      searchState={searchState}
+      profileState={emptyObj}
+      searchActions={emptyObj}
+    />
+    );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');
     let toggleButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
 
@@ -104,7 +122,13 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer searchState={searchState} />);
+    let dom = TestUtils.renderIntoDocument(
+      <NavbarContainer
+        searchState={searchState}
+        profileState={emptyObj}
+        searchActions={emptyObj}
+      />
+    );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');
     let clickOverlay = TestUtils.findRenderedDOMComponentWithClass(dom, 'click-overlay');

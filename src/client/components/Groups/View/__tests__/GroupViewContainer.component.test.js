@@ -22,7 +22,8 @@ describe('Test GroupView Component', () => {
     owner: {
       id: 1
     },
-    members: []
+    members: [],
+    isMembersExpanded: true
   };
 
   const profile = {
@@ -71,6 +72,8 @@ describe('Test GroupView Component', () => {
         ui={ui}
         coverImageActions={coverImageActions}
         coverImages={{}}
+        searchActions={{}}
+        searchState={{}}
       />
     );
     assert.equal(`<p class="group--description">${group.description}</p>`, tree.subTree('.group--description').toString());
@@ -109,7 +112,8 @@ describe('Test GroupView Component', () => {
       postid: 1,
       postownerid: 1,
       timeCreated: '2016-02-19T12:34:11.000Z',
-      title: ' '
+      title: ' ',
+      isMembersExpanded: true
     }];
     group.postsCount = 1;
     const actions = {};
@@ -124,6 +128,8 @@ describe('Test GroupView Component', () => {
         ui={ui}
         coverImageActions={coverImageActions}
         coverImages={{}}
+        searchActions={{}}
+        searchState={{}}
       />
     );
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '1 bruger skriver');

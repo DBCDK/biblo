@@ -1,3 +1,5 @@
+/* eslint-disable */
+const webpack = require('webpack');
 const wallabyWebpack = require('wallaby-webpack');
 
 const webpackConfig = require('./webpack.wallaby.config');

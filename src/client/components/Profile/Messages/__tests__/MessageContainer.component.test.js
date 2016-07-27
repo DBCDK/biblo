@@ -15,6 +15,9 @@ describe('Testing the MessageContainer.component', () => {
         agencies={emptyObj}
         agencyActions={emptyObj}
         readAction={noop}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
       />
     );
 

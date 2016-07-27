@@ -5,8 +5,8 @@ import './scss/PostView.scss';
 import React from 'react';
 import TimeToString from '../../../Utils/timeToString.js';
 import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
-import ContentAdd from '../AddContent/AddContent.component';
-import CommentList from '../Comments/CommentList.component';
+import AddContent from '../AddContent/AddContent.component';
+import {CommentList} from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import LikeButton from '../../General/LikeButton/LikeButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
@@ -57,7 +57,10 @@ export default class PostView extends React.Component {
     if (!this.state.isCommentInputVisible) {
       isEditing = false;
     }
-    this.setState({isCommentInputVisible: !this.state.isCommentInputVisible, isEditting: isEditing});
+    this.setState({
+      isCommentInputVisible: !this.state.isCommentInputVisible,
+      isEditting: isEditing
+    });
   }
 
   submitPostFlag(flag) { // eslint-disable-line
@@ -120,17 +123,25 @@ export default class PostView extends React.Component {
     if (!this.state.isEditting) {
       isCommentInputVisible = false;
     }
-    this.setState({isEditting: !this.state.isEditting, isCommentInputVisible: isCommentInputVisible});
+    this.setState({
+      isEditting: !this.state.isEditting,
+      isCommentInputVisible: isCommentInputVisible
+    });
   }
 
   renderReview(review, coverImages, works, profile, likeActions) {
     const work = works[review.pid] || {};
 
     return (
-      <div className="attached-review--container">
+      <div className="attached-review--container" >
         <ReviewRow
           activeUser={profile}
-          metadata={{coverUrl: coverImages.pids[review.pid], dcTitle: work.title, dcTitleFull: work.title, workType: work.workType}}
+          metadata={{
+            coverUrl: coverImages.pids[review.pid],
+            dcTitle: work.title,
+            dcTitleFull: work.title,
+            workType: work.workType
+          }}
           likeActions={likeActions}
           review={review} />
       </div>
@@ -147,7 +158,7 @@ export default class PostView extends React.Component {
         const isInCampaign = postCreate >= campaignStart && postCreate <= campaignEnd;
 
         if (isInCampaign && campaign.logos && campaign.logos.svg) {
-          return <Icon height={40} width={40} svgLink={campaign.logos.svg}/>;
+          return <Icon height={40} width={40} svgLink={campaign.logos.svg} />;
         }
       }
       catch (er) {
@@ -208,8 +219,10 @@ export default class PostView extends React.Component {
 
     const youtube = ExtractYoutubeID(content);
     const isLikedByCurrentUser = includes(likes, profile.id);
-    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
+    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {
+    };
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {
+    };
 
     const likeButton = (
       <LikeButton
@@ -233,12 +246,12 @@ export default class PostView extends React.Component {
             <a href={`/profil/${owner.id}`} ><span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} /></a>
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons' >
-              <span className="post--campaign--logo">
+              <span className="post--campaign--logo" >
                 {this.renderCampaignLogo(campaign, timeCreated)}
               </span>
               {(profile.id === owner.id || profile.isModerator) &&
               <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                          icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>} />
+                          icon={<Icon glyph={pencilSvg} className="icon edit-post--button" />} />
               ||
               flagButton
               }
@@ -246,7 +259,7 @@ export default class PostView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd
+            <AddContent
               redirectTo={`/grupper/${groupId}`}
               profile={profile}
               parentId={groupId}
@@ -302,7 +315,7 @@ export default class PostView extends React.Component {
               isLoading={loadingComments}
               onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
               text="Vis flere" />
-              <span className="post--comment-count" >
+            <span className="post--comment-count" >
                 {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
               </span>
           </div>
@@ -310,7 +323,7 @@ export default class PostView extends React.Component {
           {!this.state.isEditting && <span>
             {
               this.state.isCommentInputVisible &&
-              <ContentAdd
+              <AddContent
                 redirectTo={commentRedirect || `/grupper/${groupId}`}
                 profile={profile}
                 parentId={id}
@@ -366,5 +379,6 @@ PostView.propTypes = {
 PostView.defaultProps = {
   campaign: {
     logos: {}
-  }
+  },
+  comments: []
 };

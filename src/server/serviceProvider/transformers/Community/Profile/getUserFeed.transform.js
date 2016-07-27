@@ -16,6 +16,32 @@ const getUserFeedTransform = {
     return 'getUserFeed';
   },
 
+  handleGetMyGroups(groups) {
+    const seenGroups = {};
+    return Promise.all(
+      groups
+        .filter(group => {
+          if (!seenGroups[group.groupid]) {
+            seenGroups[group.groupid] = true;
+            return true;
+          }
+
+          return false;
+        })
+        .map(group => this.callServiceClient('community', 'countPosts', {
+          where: {
+            markedAsDeleted: null,
+            groupid: group.groupid,
+            timeCreated: {
+              gte: group.visited
+            }
+          }
+        }).then(pCount => {
+          const postsSinceLast = JSON.parse(pCount.body).count;
+          return Object.assign(group.group, {postsSinceLast});
+        })));
+  },
+
   /**
    *
    * @param event
@@ -87,7 +113,12 @@ const getUserFeedTransform = {
         this.callServiceClient('community', 'getAllComments', {accessToken, filter: commentsFilter}),
         this.callServiceClient('community', 'getFullProfile', {accessToken, uid: userId, profileFilter}),
         this.callServiceClient('community', 'countComments', {accessToken, where: commentsWhere}),
-        this.callServiceClient('community', 'countPosts', {accessToken, where: postsWhere})
+        this.callServiceClient('community', 'countPosts', {accessToken, where: postsWhere}),
+        this.callServiceClient('community', 'getMyGroups', {
+          accessToken,
+          uid: userId,
+          include: {group: 'coverImage'}
+        }).then(groups => this.handleGetMyGroups(groups))
       ])
         .then((response) => {
           resolve(response);
@@ -144,7 +175,9 @@ const getUserFeedTransform = {
       return 0;
     });
 
-    let profile = profileParser(JSON.parse(response[2].body || '{}'), true, false);
+    const profileResponse = JSON.parse(response[2].body || '{}');
+    profileResponse.groups = response[5];
+    const profile = profileParser(profileResponse, true, false);
 
     let count = {
       commentsTotal: JSON.parse(response[3].body).count,

@@ -100,6 +100,40 @@ module.exports = function campaignGroupWithContent(times) {
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Groups/2/members')
+    .times(times)
+    .query({"filter": "{}"})
+    .reply(200, [{
+      "username": "bobby_hansen",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 2
+    }, {
+      "username": "jona341k",
+      "displayName": "Llama",
+      "favoriteLibrary": {"libraryId": "714700"},
+      "description": "",
+      "email": "",
+      "phone": "",
+      "created": "2016-07-21T13:15:38.943Z",
+      "lastUpdated": "2016-07-21T13:15:38.943Z",
+      "hasFilledInProfile": true,
+      "birthday": null,
+      "fullName": "",
+      "palleid": null,
+      "id": 1
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Groups/2')
     .times(times)
     .query({"filter": "{\"counts\":[\"posts\",\"members\"],\"include\":[{\"relation\":\"members\",\"scope\":{\"order\":\"id DESC\",\"include\":[\"image\"]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}},{\"relation\":\"coverImage\"}]}"})
@@ -112,7 +146,7 @@ module.exports = function campaignGroupWithContent(times) {
       "groupownerid": 1,
       "campaignGroupFK": 2,
       "postsCount": 2,
-      "membersCount": 1,
+      "membersCount": 2,
       "campaign": {
         "campaignName": "fjolle kampagne",
         "startDate": "2016-07-20T00:00:00.000Z",
@@ -127,21 +161,7 @@ module.exports = function campaignGroupWithContent(times) {
         "id": 2,
         "workTypes": []
       },
-      "members": [{
-        "username": "bobby_hansen",
-        "displayName": null,
-        "favoriteLibrary": null,
-        "description": null,
-        "email": null,
-        "phone": null,
-        "created": "2016-07-22T09:24:55.650Z",
-        "lastUpdated": "2016-07-22T09:24:55.650Z",
-        "hasFilledInProfile": null,
-        "birthday": null,
-        "fullName": null,
-        "palleid": null,
-        "id": 2
-      }],
+      "members": [],
       "owner": {}
     });
 
@@ -200,6 +220,40 @@ module.exports = function campaignGroupWithContent(times) {
         "worktype": "literature",
         "id": 10
       }]
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Groups/2/members')
+    .times(times)
+    .query({"filter": "{}"})
+    .reply(200, [{
+      "username": "bobby_hansen",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 2
+    }, {
+      "username": "jona341k",
+      "displayName": "Llama",
+      "favoriteLibrary": {"libraryId": "714700"},
+      "description": "",
+      "email": "",
+      "phone": "",
+      "created": "2016-07-21T13:15:38.943Z",
+      "lastUpdated": "2016-07-21T13:15:38.943Z",
+      "hasFilledInProfile": true,
+      "birthday": null,
+      "fullName": "",
+      "palleid": null,
+      "id": 1
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
@@ -291,7 +345,7 @@ module.exports = function campaignGroupWithContent(times) {
       "groupownerid": 1,
       "campaignGroupFK": 2,
       "postsCount": 2,
-      "membersCount": 1,
+      "membersCount": 2,
       "campaign": {
         "campaignName": "fjolle kampagne",
         "startDate": "2016-07-20T00:00:00.000Z",
@@ -306,21 +360,7 @@ module.exports = function campaignGroupWithContent(times) {
         "id": 2,
         "workTypes": []
       },
-      "members": [{
-        "username": "bobby_hansen",
-        "displayName": null,
-        "favoriteLibrary": null,
-        "description": null,
-        "email": null,
-        "phone": null,
-        "created": "2016-07-22T09:24:55.650Z",
-        "lastUpdated": "2016-07-22T09:24:55.650Z",
-        "hasFilledInProfile": null,
-        "birthday": null,
-        "fullName": null,
-        "palleid": null,
-        "id": 2
-      }],
+      "members": [],
       "owner": {}
     });
 

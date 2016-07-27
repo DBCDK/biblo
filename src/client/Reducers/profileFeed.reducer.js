@@ -19,7 +19,9 @@ let initialState = {
     displayName: 'Anonym',
     image: '/no_profile.png',
     id: 0,
-    description: ''
+    description: '',
+    groups: [],
+    postsInGroups: 0
   }
 };
 

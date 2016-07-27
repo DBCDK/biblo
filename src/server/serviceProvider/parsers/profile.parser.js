@@ -25,6 +25,7 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
   p.displayName = textParser(profile.displayName || 'Anonym', false);
   p.id = profile.id || 0;
   p.groups = profile.groups || [];
+  p.postsInGroups = p.groups.reduce((prev, cur) => prev + cur.postsSinceLast, 0);
 
   if (profile.image && profile.image.id) {
     p.image = {

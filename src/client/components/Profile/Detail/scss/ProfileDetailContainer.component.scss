@@ -43,6 +43,7 @@
   border-radius: 5px;
   margin: 5px;
   padding: 5px;
+  position: relative;
 
   p {
     margin-top: 0;
@@ -91,16 +92,29 @@
   white-space: nowrap;
 }
 
-.user-feed--groups-modal-group-info--container {
-}
-
 .user-feed--groups-modal--group {
   padding-top: 10px;
   display: inline-block;
   width: 190px;
   margin: 5px;
+  position: relative;
 
   .follow {
     padding: 8px 20px;
   }
+}
+
+.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
+  font-size: .7em;
+  text-align: center;
+  color: #fff;
+  background-color: #ff5a5f;
+  border-radius: 25%;
+  box-shadow: 0 0 3px 1px #ff5a5f;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 15px;
+  min-height: 15px;
+  padding: 2px 2px 2px 4px;
 }

@@ -78,23 +78,26 @@ export class ProfileDetailContainer extends React.Component {
 
   renderModalContent(isMyProfile) {
     return (
-      <div className="groups-modal--container" >
+      <div className="groups-modal--container">
         {this.state.groups.map((group) => {
           return (
-            <span key={`group_${group.id}`} className="user-feed--groups-modal--group" >
-                <a href={'/grupper/' + group.id} >
+            <span key={`group_${group.id}`} className="user-feed--groups-modal--group">
+                <a href={'/grupper/' + group.id}>
+                  {isMyProfile && group.postsSinceLast &&
+                  <span className="groups-modal--posts-since-last">
+                    {group.postsSinceLast <= 30 ? group.postsSinceLast : '30+'}
+                  </span> || null}
                   <img
                     className="user-feed--groups-modal--group-image"
                     src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
                   />
-                  <div className="user-feed--groups-modal--group-name"
-                       dangerouslySetInnerHTML={{__html: group.name}} ></div>
+                  <div className="user-feed--groups-modal--group-name" dangerouslySetInnerHTML={{__html: group.name}}/>
                 </a>
               {isMyProfile ?
                 <Follow active={group.following}
                         onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
                         showLoginLink={false}
-                        text={group.following && 'Følger' || 'Følg gruppen'} /> : ''}
+                        text={group.following && 'Følger' || 'Følg gruppen'}/> : ''}
                  </span>
           );
         })}
@@ -121,10 +124,10 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
-                  <span dangerouslySetInnerHTML={{__html: title}} />
+                  <span dangerouslySetInnerHTML={{__html: title}}/>
                   <span> i </span>
                   <a href={`/grupper/${activity.post.group.id}`}
-                     dangerouslySetInnerHTML={{__html: activity.post.group.name}} />
+                     dangerouslySetInnerHTML={{__html: activity.post.group.name}}/>
                   <span>:</span>
                 </span>
             );
@@ -195,10 +198,10 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.group && activity.group.name) {
             postTitle = (
               <span>
-                  <span dangerouslySetInnerHTML={{__html: postTitle}} />
+                  <span dangerouslySetInnerHTML={{__html: postTitle}}/>
                   <span> i </span>
                   <a href={`/grupper/${activity.group.id}`}
-                     dangerouslySetInnerHTML={{__html: activity.group.name}} />
+                     dangerouslySetInnerHTML={{__html: activity.group.name}}/>
                   <span>:</span>
                 </span>
             );
@@ -266,7 +269,7 @@ export class ProfileDetailContainer extends React.Component {
       this.props.ui.modal.isOpen ? (
         <ModalWindow onClose={() => {
           this.props.uiActions.closeModalWindow();
-        }} >
+        }}>
           {this.props.ui.modal.children} </ModalWindow>) : null
     );
   }
@@ -319,7 +322,7 @@ export class ProfileDetailContainer extends React.Component {
         {
           (this.props.feed.feed.length > 0) ? activityFeed :
             (
-              <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`} />
+              <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`}/>
             )
         }
         {showMore}
@@ -331,7 +334,7 @@ export class ProfileDetailContainer extends React.Component {
         {
           (reviewsFeed && this.props.reviews.userReviews.length) ? reviewsFeed :
             (
-              <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`} />
+              <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`}/>
             )
         }
       </div>
@@ -393,7 +396,7 @@ export class ProfileDetailContainer extends React.Component {
     if (userProfile.description && userProfile.description.length > 0) {
       desc = (
         <p>
-          <span dangerouslySetInnerHTML={{__html: userProfile.description}} />
+          <span dangerouslySetInnerHTML={{__html: userProfile.description}}/>
         </p>
       );
     }
@@ -404,7 +407,7 @@ export class ProfileDetailContainer extends React.Component {
     }
     else {
       groupsModalContent = (
-        <div className="user-feed--groups-modal--text" >
+        <div className="user-feed--groups-modal--text">
           <h2>{userProfile.displayName} følger ingen grupper!</h2>
           <p>Det var da lidt kedeligt</p>
         </div>
@@ -420,21 +423,21 @@ export class ProfileDetailContainer extends React.Component {
     let profileImage = null;
     if (isLoggedIn && (isMyProfile || this.props.profile.isModerator)) {
       editButton = (
-        <a href={editLink} >
-          <div className='p-detail--edit-button' >
+        <a href={editLink}>
+          <div className='p-detail--edit-button'>
             <Icon className="icon" glyph={editSvg}
-                  width={24} height={24} /></div>
+                  width={24} height={24}/></div>
         </a>);
-      profileImage = (<a href={editLink} >
-        <div className="p-detail--image-container" >
-          <img src={userProfile.image} alt={userProfile.displayName} />
+      profileImage = (<a href={editLink}>
+        <div className="p-detail--image-container">
+          <img src={userProfile.image} alt={userProfile.displayName}/>
         </div>
       </a>);
     }
 
     else {
-      profileImage = (<div className="p-detail--image-container" >
-        <img src={userProfile.image} alt={userProfile.displayName} />
+      profileImage = (<div className="p-detail--image-container">
+        <img src={userProfile.image} alt={userProfile.displayName}/>
       </div>);
     }
 
@@ -452,10 +455,10 @@ export class ProfileDetailContainer extends React.Component {
         const campaign = campaigns[id];
         const downloadUrl = '/kampagne/laesebevis/' + campaign.id;
         return (
-          <span className="p-detail--campaign-diploma" key={key} >
-            <a href={downloadUrl} key={id} className='p-detail--groups-button--container' >
-              <div className="p-detail--groups-button" >
-                <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42} />
+          <span className="p-detail--campaign-diploma" key={key}>
+            <a href={downloadUrl} key={id} className='p-detail--groups-button--container'>
+              <div className="p-detail--groups-button">
+                <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42}/>
                 <p>Læsebevis</p>
               </div>
             </a>
@@ -465,28 +468,33 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} >
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
+                  profileState={this.props.profile}>
         {modal}
         {profileImage}
-        <div className="p-detail--displayname-description-follow" >
-          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}} />
+        <div className="p-detail--displayname-description-follow">
+          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
           {editButton}
           {desc}
-          <div className="p-detail--groups-flag-buttons--container" >
+          <div className="p-detail--groups-flag-buttons--container">
             <span>
                 <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
                   this.props.uiActions.openModalWindow(groupsModalContent);
-                }} >
-                  <div className="p-detail--groups-button" >
-                    <Icon glyph={grupperSvg} width={42} height={42} /><p>Grupper</p>
+                }}>
+                  {isMyProfile && userProfile.postsInGroups &&
+                    <span className="p-detail--total-posts-since-last">
+                      {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
+                    </span> || null}
+                  <div className="p-detail--groups-button">
+                    <Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
                   </div>
                 </a>
               </span>
             {campaignDiplomaButtons}
           </div>
         </div>
-        <div className="p-detail--activity-tabs" >
-          <Tabs tabs={tabs} selected={this.props.selectedTab} />
+        <div className="p-detail--activity-tabs">
+          <Tabs tabs={tabs} selected={this.props.selectedTab}/>
         </div>
       </PageLayout>
     );

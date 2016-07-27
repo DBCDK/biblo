@@ -38,6 +38,7 @@ const GetGroupTransform = {
     };
 
     promises.push(this.callServiceClient('community', 'getGroup', {id, filter: groupFilter}));
+    promises.push(this.callServiceClient('community', 'getGroupMembers', {id}));
 
     if (uid) {
       promises.push(this.callServiceClient('community', 'checkForMemberInGroup', {groupId: id, profileId: uid}));
@@ -48,8 +49,8 @@ const GetGroupTransform = {
 
   responseTransform(response) {
     let body = groupParser(JSON.parse(response[0].body));
-    body.isFollowing = response[1] && response[1].statusCode && response[1].statusCode !== 404 || false; // If the status code is 404, the user is not following the group
-    body.members = (_.filter(body.members, (member) => member.id !== body.owner.id)).map((member) => {
+    body.isFollowing = response[2] && response[2].statusCode && response[2].statusCode !== 404 || false; // If the status code is 404, the user is not following the group
+    body.members = (_.filter(response[1], (member) => member.id !== body.owner.id)).map((member) => {
       return parseProfile(member, true, 'small');
     });
 

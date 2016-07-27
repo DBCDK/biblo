@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Icon from '../General/Icon/Icon.component.js';
-import SearchDropDown from './SearchDropDown/SearchDropDown.component';
+import {SearchDropDown} from './SearchDropDown/SearchDropDown.component';
 import searchSvg from '../General/Icon/svg/functions/search.svg';
 import spinnerSvg from '../General/Icon/svg/spinners/loading-spin.svg';
 

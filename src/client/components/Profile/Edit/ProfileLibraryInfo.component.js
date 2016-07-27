@@ -1,7 +1,7 @@
 import React from 'react';
 
 import InputField from '../../General/InputField/InputField.component';
-import SearchDropDown from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
+import {SearchDropDown} from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 
 import './ProfileLibraryInfo.component.scss';

@@ -7,15 +7,18 @@ export class SearchDropDown extends React.Component {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return (JSON.stringify(nextProps) !== JSON.stringify(this.props));
+  }
+
   render() {
-    console.log(this.props.elements);
-    const elements = this.props.elements.map((element) => {
+    const elements = this.props.elements.map((element, index) => {
       element.clickFunc = element.clickFunc || (() => {});
       element.href = element.href || '#!';
 
       let itemClasses = `searcharea--dropdown--list--item ${element.type}`;
 
-      if (element.active) {
+      if (element.active || this.props.selected === index) {
         itemClasses += ' searcharea--dropdown--list--item--active';
       }
 
@@ -44,6 +47,7 @@ export class SearchDropDown extends React.Component {
 SearchDropDown.displayName = 'SearchDropDown';
 SearchDropDown.propTypes = {
   visible: React.PropTypes.bool,
+  selected: React.PropTypes.number,
   elements: (props, propName) => { // eslint-disable-line consistent-return
     const prop = props[propName];
     if (!Array.isArray(prop)) {
@@ -63,5 +67,6 @@ SearchDropDown.propTypes = {
 
 SearchDropDown.defaultProps = {
   visible: true,
+  selected: -1,
   elements: []
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InputField from '../../General/InputField/InputField.component';
+import {InputField} from '../../General/InputField/InputField.component';
 import {SearchDropDown} from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 
@@ -9,6 +9,76 @@ import './ProfileLibraryInfo.component.scss';
 export class ProfileLibraryInfo extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      selected: -1,
+      visible: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const state = Object.assign({}, this.state);
+    state.visible = nextProps.searchElements.length > 0;
+    this.setState(state);
+  }
+
+  /**
+   * Genereal keyDown handling
+   *
+   * @param {KeyboardEvent} e
+   */
+  onKeyDownHandler(e) {
+    switch (e.key) {
+      case 'ArrowUp':
+        this.arrowKeyPressed(true);
+        break;
+      case 'ArrowDown':
+        this.arrowKeyPressed(false);
+        break;
+      case 'Escape':
+        this.escapeKeyPressed();
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (this.state.selected >= 0) {
+          this.props.searchElements[this.state.selected].clickFunc();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  escapeKeyPressed() {
+    const state = Object.assign({}, this.state);
+    state.visible = false;
+    this.setState(state);
+  }
+
+  /**
+   * Handlind arrow key presses.
+   *
+   * @param {Boolean} up
+   * @returns {boolean}
+   */
+  arrowKeyPressed(up) {
+    if (!this.props.searchElements.length) {
+      return false;
+    }
+
+    const state = Object.assign({}, this.state);
+    const min = -1;
+    const max = this.props.searchElements.length - 1;
+
+    if (up) {
+      state.selected = state.selected > min ? state.selected - 1 : min;
+    }
+    else {
+      state.selected = state.selected < max ? state.selected + 1 : max;
+    }
+
+    state.visible = true;
+    this.setState(state);
   }
 
   getLibraryDescription() {
@@ -32,7 +102,7 @@ export class ProfileLibraryInfo extends React.Component {
   getSearchField() {
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
       return (
-        <div className="search-area library-search-area" >
+        <div className="search-area library-search-area" onKeyDown={this.onKeyDownHandler.bind(this)}>
           <InputField
             defaultValue={this.props.search}
             error={this.props.errorObj.search}
@@ -47,8 +117,9 @@ export class ProfileLibraryInfo extends React.Component {
           />
 
           <SearchDropDown
-            visible={this.props.searchElements.length > 0}
+            visible={this.state.visible}
             elements={this.props.searchElements}
+            selected={this.state.selected}
           />
         </div>
       );
@@ -62,17 +133,17 @@ export class ProfileLibraryInfo extends React.Component {
     const searchField = this.getSearchField();
 
     return (
-      <div className="library--form-area" >
+      <div className="library--form-area">
         <h3>Dit bibliotek</h3>
         {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
 
-        <div className="selected-library-description" >
+        <div className="selected-library-description">
           {libraryDescription}
         </div>
 
         {searchField}
 
-        <div className='hidden' >
+        <div className='hidden'>
           <input
             type='hidden'
             name='libraryId'
@@ -115,4 +186,9 @@ ProfileLibraryInfo.propTypes = {
   loanerIdChangeFunc: React.PropTypes.func.isRequired,
   pincodeChangeFunc: React.PropTypes.func.isRequired,
   requireAll: React.PropTypes.bool
+};
+
+ProfileLibraryInfo.defaultProps = {
+  errorObj: {},
+  searchElements: []
 };

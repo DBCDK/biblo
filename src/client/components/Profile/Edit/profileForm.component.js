@@ -8,7 +8,7 @@ import DroppableImageField from '../../General/DroppableImageField/DroppableImag
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
 import DisplayNameField from './DisplayNameField.component';
-import InputField from '../../General/InputField/InputField.component';
+import {InputField} from '../../General/InputField/InputField.component';
 import Message from '../../General/Message/Message.component';
 import {ProfileLibraryInfo} from './ProfileLibraryInfo.component';
 
@@ -18,6 +18,7 @@ import './profileform.component.scss';
 export default class ProfileForm extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       displayName: props.displayName,
       description: props.description,
@@ -35,7 +36,7 @@ export default class ProfileForm extends React.Component {
   componentDidMount() {
     autosize(this.refs.description);
 
-    let elem = ReactDOM.findDOMNode(this.refs['profile-form']);
+    const elem = ReactDOM.findDOMNode(this.refs['profile-form']);
     elem.onsubmit = (e) => {
       const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
       this.props.submit(
@@ -74,8 +75,7 @@ export default class ProfileForm extends React.Component {
 
     if (this.props.submitState === 'SUBMITTING') {
       disabled = true;
-      submitArea =
-        <ProgressBar completed={this.props.submitProgress} height={'35px'}/>;
+      submitArea = <ProgressBar completed={this.props.submitProgress} height={'35px'}/>;
     }
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;

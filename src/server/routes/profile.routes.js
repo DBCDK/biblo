@@ -389,7 +389,11 @@ ProfileRoutes.get(
     }
 
     try {
-      data.userReviews = (await req.callServiceProvider('getOwnReview', {reviewownerid: profileId, offset: 0, order: 'created ASC'}))[0].data;
+      data.userReviews = (await req.callServiceProvider('getOwnReview', {
+        reviewownerid: profileId,
+        offset: 0,
+        order: 'created ASC'
+      }))[0].data;
       data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
     }
     catch (e) { // eslint-disable-line no-catch-shadow

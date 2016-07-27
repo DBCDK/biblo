@@ -235,13 +235,11 @@ export default class AddContent extends UploadMedia {
     }
 
     return (
-      <div className={Classnames({
-        'content-add': true,
-        shakeit: this.state.errorMsg
-      })} >
+      <div className='content-add'>
         {this.state.showAddReviews && this.renderAddReviewModal()}
 
         <form method="POST" action={this.state.target}
+              className={this.state.errorMsg ? 'shakeit': ''}
               id="content_form_component" ref="group-post-form"
               onSubmit={e => this.onSubmit(e)} >
           <div className='content-add--input' >

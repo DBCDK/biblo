@@ -42,35 +42,35 @@
   z-index: 9;
   margin-right: 85px;
   margin-left: 20px;
+}
 
-  .searcharea--dropdown--list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    left: 0;
-    right: 0;
+.searcharea--dropdown--list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  right: 0;
+}
 
-    .searcharea--dropdown--list--item {
-      overflow: hidden;
-      padding: 6px 10px 3px 10px;
-      left: 0;
-      right: 0;
+.searcharea--dropdown--list--item {
+  overflow: hidden;
+  padding: 6px 10px 3px 10px;
+  left: 0;
+  right: 0;
+}
 
-      .searcharea--dropdown--list--item--link {
-        left: 0;
-        right: 0;
-      }
-    }
-    
-    .searcharea--dropdown--list--item:hover,
-    .searcharea--dropdown--list--item--active {
-      background-color: $melrose-hover;
-      color: white;
-      cursor: pointer;
+.searcharea--dropdown--list--item:hover,
+.searcharea--dropdown--list--item--active {
+  background-color: $melrose-hover;
+  color: white;
+  cursor: pointer;
 
-      div > .search-area--dropdown--link {
-        color: white;
-      }
-    }
+  .search-area--dropdown--link {
+    color: white;
   }
+}
+
+.searcharea--dropdown--list--item--link {
+  left: 0;
+  right: 0;
 }

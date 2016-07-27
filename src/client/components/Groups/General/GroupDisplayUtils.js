@@ -1,6 +1,8 @@
+import React from 'react';
+
 export function getVideoPlayer(videoProp) {
   let thumbUrl = null;
-  let sources = [];
+  const sources = [];
 
   videoProp.resolutions.forEach((resolution, key) => {
     if (resolution.size !== 'original_video') {

@@ -42,7 +42,13 @@ describe('GroupsContainer component tests', () => {
     };
 
     const comp = TestUtils.renderIntoDocument(
-      <GroupsContainer searchState={searchState} searchActions={searchActions} data={data} actions={actions}/>
+      <GroupsContainer
+        searchState={searchState}
+        searchActions={searchActions}
+        data={data}
+        actions={actions}
+        profileState={{}}
+      />
     );
     expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent)
       .toEqual('Opret ny gruppePopulære grupperNyeste grupper');

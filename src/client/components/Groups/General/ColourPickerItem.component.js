@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ColourPickerItem = ({colourName, disabled, inputName, onChangeFunction}) => {
+export function ColourPickerItem({colourName, disabled, inputName, onChangeFunction}) {
   return (
-    <span className="colour-picker--item">
+    <span className="colour-picker--item" >
         <input
           name={inputName}
           className={'colour-picker--colour ' + colourName}
@@ -16,11 +16,11 @@ const ColourPickerItem = ({colourName, disabled, inputName, onChangeFunction}) =
         <label
           className={'colour-picker--label ' + colourName}
           htmlFor={'colour-picker--colour-' + colourName} >
-          <div className={'colour-box ' + colourName}></div>
+          <div className={'colour-box ' + colourName} ></div>
         </label>
       </span>
   );
-};
+}
 
 ColourPickerItem.displayName = 'ColourPickerItem';
 ColourPickerItem.propTypes = {
@@ -29,5 +29,3 @@ ColourPickerItem.propTypes = {
   inputName: React.PropTypes.string.isRequired,
   onChangeFunction: React.PropTypes.func.isRequired
 };
-
-export default ColourPickerItem;

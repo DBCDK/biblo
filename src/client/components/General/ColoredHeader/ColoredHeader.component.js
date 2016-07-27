@@ -30,7 +30,7 @@ ColoredHeader.displayName = 'ColoredHeader';
 
 ColoredHeader.propTypes = {
   color: React.PropTypes.string,
-  iconGlyph: React.PropTypes.string,
+  iconGlyph: React.PropTypes.any,
   text: React.PropTypes.string,
   title: React.PropTypes.string
 };

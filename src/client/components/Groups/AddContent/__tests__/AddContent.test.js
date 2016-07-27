@@ -17,12 +17,23 @@ describe('Test of AddContent Component', () => {
     hasFilledInProfile: true
   };
 
+  const noop = () => {
+  };
 
   let defaultComponent = null;
 
   beforeEach(() => {
     defaultComponent = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
+      />
+    );
   });
 
   afterEach(() => {
@@ -36,8 +47,9 @@ describe('Test of AddContent Component', () => {
         parentId={1}
         type="test"
         redirectTo="some_url"
-        abort={() => {
-        }}
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
       />
     );
 
@@ -53,8 +65,9 @@ describe('Test of AddContent Component', () => {
         parentId={1}
         type="test"
         redirectTo="some_url"
-        abort={() => {
-        }}
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
       />
     );
 
@@ -78,8 +91,9 @@ describe('Test of AddContent Component', () => {
         parentId={1}
         type="test"
         redirectTo="some_url"
-        abort={() => {
-        }}
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
       />
     );
 
@@ -108,8 +122,9 @@ describe('Test of AddContent Component', () => {
         parentId={1}
         type="test"
         redirectTo="some_url"
-        abort={() => {
-        }}
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
       />
     );
 
@@ -167,7 +182,16 @@ describe('Test of AddContent Component', () => {
   it('it should be hidden if user not logged in', () => {
     profile.userIsLoggedIn = false;
     const component = TestUtils.renderIntoDocument(
-      <AddContent profile={profile} parentId={1} type="test" redirectTo="some_url"/>);
+      <AddContent
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
+      />
+    );
     let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
     expect(form.length).to.be.eql(0);
     let aTag = TestUtils.findRenderedDOMComponentWithTag(component, 'a');
@@ -181,8 +205,20 @@ describe('Test of AddContent Component', () => {
       id: 1
     };
     const component = TestUtils.renderIntoDocument(
-      <AddContent owner={owner} profile={profile} parentId={1} text="text to test" image="some_url" type="test"
-                  redirectTo="some_url"/>);
+      <AddContent
+        owner={owner}
+        profile={profile}
+        parentId={1}
+        text="text to test"
+        image="some_url"
+        type="test"
+        redirectTo="some_url"
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
+      />
+    );
+
     let form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
     expect(form.length).to.be.eql(1);
     let textarea = TestUtils.findRenderedDOMComponentWithTag(component, 'textarea');
@@ -197,7 +233,7 @@ describe('Test of AddContent Component', () => {
   it('It should submit form on submit event', (done) => {
 
     // var h = window.Date.prototype.getHours;
-    window.Date.prototype.getHours = function () {
+    window.Date.prototype.getHours = function() {
       return 12;
     };
 
@@ -237,8 +273,18 @@ describe('Test of AddContent Component', () => {
     };
 
     const component = TestUtils.renderIntoDocument(
-      <AddContent owner={owner} profile={profile} parentId={1} text="text to test hest" image="some_url" type="test"
-                  redirectTo="some_url" addContentAction={addContentActionMock}/>
+      <AddContent
+        owner={owner}
+        profile={profile}
+        parentId={1}
+        text="text to test hest"
+        image="some_url"
+        type="test"
+        redirectTo="some_url"
+        addContentAction={addContentActionMock}
+        abort={noop}
+        getMoreWorks={noop}
+      />
     );
     const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
 
@@ -258,7 +304,16 @@ describe('Test of AddContent Component', () => {
     };
 
     let component = (
-      <AddContent owner={owner} profile={profile} parentId={1}/>
+      <AddContent
+        owner={owner}
+        profile={profile}
+        parentId={1}
+        type="test"
+        redirectTo="some_url"
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
+      />
     );
 
     let $root = $(component).render();
@@ -294,7 +349,17 @@ describe('Test of AddContent Component', () => {
     };
 
     let component = (
-      <AddContent owner={owner} profile={profile} parentId={1} works={works}/>
+      <AddContent
+        owner={owner}
+        profile={profile}
+        parentId={1}
+        works={works}
+        type="test"
+        redirectTo="some_url"
+        abort={noop}
+        addContentAction={noop}
+        getMoreWorks={noop}
+      />
     );
 
     let $root = $(component).render();

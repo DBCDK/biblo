@@ -11,12 +11,24 @@ describe('Testing the MessageRow Component', () => {
   const message = {
     read: false
   };
+
+  const noop = () => {
+  };
   const readAction = () => {
   };
 
   it('Should render unread message', () => {
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const rendered = tree.getRenderOutput();
 
     assert.equal(rendered.props.children.props.className, 'message-row--container unread ');
@@ -27,7 +39,16 @@ describe('Testing the MessageRow Component', () => {
     _message.read = true;
 
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={_message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const rendered = tree.getRenderOutput();
 
     assert.equal(rendered.props.children.props.className, 'message-row--container ');
@@ -36,7 +57,16 @@ describe('Testing the MessageRow Component', () => {
   it('Should invoke props.readAction in onVisibilityChanged when given true as parameter', () => {
     const spy = sinon.spy();
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={spy} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={message}
+        readAction={spy}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     assert.isFalse(spy.called, 'The callback have not yet been invoked');
@@ -49,7 +79,16 @@ describe('Testing the MessageRow Component', () => {
   it('Should not invoke props.readAction in onVisibilityChanged when given false as parameter', () => {
     const spy = sinon.spy();
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={spy} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={message}
+        readAction={spy}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     assert.isFalse(spy.called, 'The callback have not yet been invoked');
@@ -66,12 +105,24 @@ describe('Testing the getMessageImage method', () => {
   const message = {
     read: false
   };
+
+  const noop = () => {
+  };
   const readAction = () => {
   };
 
   it('Should return default image', () => {
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
@@ -85,7 +136,16 @@ describe('Testing the getMessageImage method', () => {
     _message.type = 'type-orderExpiresSoon';
 
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={_message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
@@ -99,7 +159,16 @@ describe('Testing the getMessageImage method', () => {
     _message.type = 'type-orderIsReady';
 
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={_message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
@@ -113,7 +182,16 @@ describe('Testing the getMessageImage method', () => {
     _message.type = 'Fine';
 
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={_message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
@@ -127,7 +205,16 @@ describe('Testing the getMessageImage method', () => {
     _message.type = 'Reservation Charge';
 
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={_message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();
@@ -141,7 +228,16 @@ describe('Testing the getMessageImage method', () => {
     _message.type = 'type-commentWasAdded';
 
     const tree = sd.shallowRender(
-      <MessageRow agencies={agencies} agencyActions={agencyActions} message={_message} readAction={readAction} />);
+      <MessageRow
+        agencies={agencies}
+        agencyActions={agencyActions}
+        message={_message}
+        readAction={readAction}
+        groupActions={{}}
+        groupState={{}}
+        deleteAction={noop}
+      />
+    );
     const instance = tree.getMountedInstance();
 
     const imgUrl = instance.getMessageImage();

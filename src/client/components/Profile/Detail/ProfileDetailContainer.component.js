@@ -364,7 +364,6 @@ export class ProfileDetailContainer extends React.Component {
           messages={this.props.profile.userMessages.messages}
           readAction={this.props.profileActions.asyncMarkUserMessageAsRead}
           deleteAction={this.props.profileActions.asyncDeleteUserMessage}
-
         />
       );
 

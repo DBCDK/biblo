@@ -2,49 +2,54 @@ import React from 'react';
 
 import './searchdropdown.component.scss';
 
-/**
- *
- * @param {bool} visible
- * @param {Array} elements
- * @returns {XML}
- * @constructor
- */
-export default function SearchDropDown({visible, elements}) {
-  elements = elements.map((element) => {
-    element.clickFunc = element.clickFunc || (() => {});
-    element.href = element.href || '#!';
+export class SearchDropDown extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-    let itemClasses = `searcharea--dropdown--list--item ${element.type}`;
+  shouldComponentUpdate(nextProps) {
+    return (JSON.stringify(nextProps) !== JSON.stringify(this.props));
+  }
 
-    if (element.active) {
-      itemClasses += ' searcharea--dropdown--list--item--active';
-    }
+  render() {
+    const elements = this.props.elements.map((element, index) => {
+      element.clickFunc = element.clickFunc || (() => {});
+      element.href = element.href || '#!';
+
+      let itemClasses = `searcharea--dropdown--list--item ${element.type}`;
+
+      if (element.active || this.props.selected === index) {
+        itemClasses += ' searcharea--dropdown--list--item--active';
+      }
+
+      return (
+        <li className={itemClasses} onClick={element.clickFunc} key={element.text}>
+          <div>
+            <a href={element.href} className="search-area--dropdown--link">
+              {element.text}
+            </a>
+          </div>
+        </li>
+      );
+    });
 
     return (
-      <li className={itemClasses} onClick={element.clickFunc} key={element.text}>
-        <div>
-          <a href={element.href} className="search-area--dropdown--link">
-            {element.text}
-          </a>
-        </div>
-      </li>
+      <div className="search-area--dropdown" style={{display: this.props.visible ? 'block' : 'none'}}>
+        <ul className="searcharea--dropdown--list">
+          {elements}
+        </ul>
+      </div>
     );
-  });
+  }
 
-  return (
-    <div className="search-area--dropdown" style={{display: visible ? 'block' : 'none'}}>
-      <ul className="searcharea--dropdown--list">
-        {elements}
-      </ul>
-    </div>
-  );
 }
 
 SearchDropDown.displayName = 'SearchDropDown';
 SearchDropDown.propTypes = {
   visible: React.PropTypes.bool,
+  selected: React.PropTypes.number,
   elements: (props, propName) => { // eslint-disable-line consistent-return
-    let prop = props[propName];
+    const prop = props[propName];
     if (!Array.isArray(prop)) {
       return new Error('Elements must be an array!');
     }
@@ -62,5 +67,6 @@ SearchDropDown.propTypes = {
 
 SearchDropDown.defaultProps = {
   visible: true,
+  selected: -1,
   elements: []
 };

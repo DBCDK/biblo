@@ -46,7 +46,8 @@ describe('Test profile detail container (public profile)', () => {
   const coverImages = {};
 
   const profileActions = {
-    asyncMarkUserMessageAsRead: noop
+    asyncMarkUserMessageAsRead: noop,
+    asyncDeleteUserMessage: noop
   };
 
   const workActions = {

@@ -7,7 +7,7 @@
   transition-timing-function: ease;
   height: 90px;
   padding: 20px;
-  @include max-screen($small-phone){
+  @include max-screen($small-phone) {
     height: 66px;
     padding: 8px;
   }
@@ -19,7 +19,7 @@
 
     input {
       width: 100%;
-      overflow:hidden;
+      overflow: hidden;
       height: 50px;
       padding-left: 10px;
     }
@@ -27,7 +27,7 @@
     .search-container--clear-searchbox {
       color: #a1b9ed;
       cursor: pointer;
-      font: 34px arial,sens-serif;
+      font: 34px arial, sens-serif;
       margin-left: -30px;
       vertical-align: -5px;
       display: inline;
@@ -43,20 +43,18 @@
     padding: 10px 20px 10px 20px;
     background-color: $black;
     .icon {
-      position:relative;
+      position: relative;
       fill: $white;
-      top:5px;
+      top: 5px;
     }
   }
 }
 
-
-
 .search-container--hidden {
   overflow: hidden;
-  max-height:0px;
-  padding-top:0px;
-  padding-bottom:0px;
+  max-height: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 
   .search-container--dropdown-container {
     display: none;

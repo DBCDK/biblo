@@ -290,7 +290,14 @@ async function fetchGroupData(params, req, res, update = {}) {
 
     if (req.isAuthenticated()) {
       profile = req.session.passport.user.profile;
-      reviewsPromise = req.callServiceProvider('getOwnReview', {reviewownerid: profile.profile.id, offset: 0, order: 'created ASC', markedAsDeleted: null});
+      const profileId = profile.profile.id;
+      reviewsPromise = req.callServiceProvider('getOwnReview', {reviewownerid: profileId, offset: 0, order: 'created ASC', markedAsDeleted: null});
+
+      const isMemberOfGroup = (await req.callServiceProvider('checkForMemberInGroup', {id: params.id}))[0];
+      if (isMemberOfGroup) {
+        // The user is a member of the group, so we want to refresh the last visited attribute on the membership.
+        await req.callServiceProvider('joinGroup', {groupId: params.id, profileId});
+      }
     }
     else {
       reviewsPromise = Promise.resolve([{data: [], errors: [], reviewsCount: 0}]);

@@ -69,7 +69,7 @@ function fetchImageBuffer(url) { // eslint-disable-line no-unused-vars
  *
  * @return {Promise}
  */
-async function createPDFDocument(frontpageData, reviewsWithWorkData) {
+function createPDFDocument(frontpageData, reviewsWithWorkData) {
 
   // Allocate PDF
   let doc = new PDFDocument({

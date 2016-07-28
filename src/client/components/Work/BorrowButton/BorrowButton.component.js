@@ -4,7 +4,7 @@ import {ORDER_POST_URL} from '../../../Constants/hyperlinks.constants';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import Icon from '../../General/Icon/Icon.component';
-import ProfileLibraryInfo from '../../Profile/Edit/ProfileLibraryInfo.component';
+import {ProfileLibraryInfo} from '../../Profile/Edit/ProfileLibraryInfo.component';
 import Message from '../../General/Message/Message.component.js';
 
 import animalpaw from '../../General/Icon/svg/Materialikon-kvadrat-small/animalpaw.svg';

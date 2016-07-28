@@ -7,6 +7,10 @@
   transition-timing-function: ease;
   height: 90px;
   padding: 20px;
+  @include max-screen($small-phone){
+    height: 66px;
+    padding: 8px;
+  }
 
   .search-input--container {
     display: block;

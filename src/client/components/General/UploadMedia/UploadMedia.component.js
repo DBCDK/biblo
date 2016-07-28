@@ -29,13 +29,24 @@ export default class UploadMedia extends React.Component {
       this.xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       this.xhr.send(formData);
       this.xhr.onload = (event) => {
-        if (event.target.status === 200) {
+        try {
           const contentResponse = JSON.parse(event.target.response);
-          if (contentResponse.errors && contentResponse.errors.length > 0) {
-            return reject(contentResponse);
+
+          if (event.target.status === 200) {
+            if (contentResponse.errors && contentResponse.errors.length > 0) {
+              return reject(contentResponse);
+            }
+            return resolve(contentResponse);
           }
-          return resolve(contentResponse);
+
+          if (contentResponse.status === 500 && contentResponse.data && contentResponse.data.error) {
+            return reject(contentResponse.data.error);
+          }
         }
+        catch (err) {
+          reject(err);
+        }
+
         return reject('Upload fejlede');
       };
     });

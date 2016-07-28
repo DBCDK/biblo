@@ -37,32 +37,7 @@ const CreateReviewTransform = {
 
   requestTransform(event, query, connection) {
     const user = Object.assign({}, connection.request.session.passport.user);
-
-    const me = this;
-    if (query.id) {
-      return this.upsertContent(query, user);
-    }
-
-    const ownerId = query.reviewownerid || user.profileid;
-    return this.callServiceClient('community', 'getReviews', {
-      filter: {
-        where: {
-          reviewownerid: ownerId,
-          pid: query.pid,
-          markedAsDeleted: null
-        }
-      }
-    }).then(response => {
-      let reviews = JSON.parse(response.body);
-
-      if (reviews.length === 0) {
-        return me.upsertContent(query, user);
-      }
-      response.errors = [{
-        errorMessage: 'Eksisterende anmeldelse'
-      }];
-      return response;
-    });
+    return this.upsertContent(query, user);
   },
 
   responseTransform(response) {

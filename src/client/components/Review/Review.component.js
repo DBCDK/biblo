@@ -148,7 +148,7 @@ export default class Review extends UploadMedia {
   overwriteReview (id) {
     const content = (
       <div>
-        <p>Du har allerede anmeldt den her. Ønsker du at overskrive den gamle?</p>
+        <p>HOV! Du har vist allerede anmeldt den her. Du må kun lave en. Ønsker du at overskrive?</p>
       </div>
     );
 
@@ -161,9 +161,11 @@ export default class Review extends UploadMedia {
           this.props.uiActions.closeModalWindow();
         }}
         confirmFunc={() => {
-          this.setState({id: id});
-          this.processContent();
-          this.props.uiActions.closeModalWindow();
+          this.setState({id: id},
+            () => {
+              this.processContent();
+              this.props.uiActions.closeModalWindow();
+            });
         }}
       >{content}</ConfirmDialog>
     );
@@ -292,13 +294,9 @@ export default class Review extends UploadMedia {
         }
       }
     }).catch((resp) => {
-
-      let errorMsg = resp.errors[0].errorMessage;
-      let data = JSON.parse(resp.data)[0];
-
-      // github #136 : circumenvent issue with data model (We do not have a unique constraint on reviewownerid and pid)
+      let errorMsg = resp.message;
       if (errorMsg === 'Eksisterende anmeldelse') {
-        this.overwriteReview(data.id);
+        this.overwriteReview(resp.existingReviewId);
       }
       else {
         this.setState({errorMsg: errorMsg});

@@ -114,7 +114,7 @@ video {
     margin-top: 0px;
     @include max-screen($desktop) {
       top: 15px;
-      right: 30px;
+      right: 50px;
     }
     @include min-screen($desktop) {
       padding-left: 10px;

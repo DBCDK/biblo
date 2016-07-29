@@ -17,11 +17,11 @@ let upload = multer({storage: multer.memoryStorage()});
 
 const ProfileRoutes = express.Router();
 
-function getAgencyShortName(agency) {
-  if (Array.isArray(agency.branchShortName)) {
-    return agency.branchShortName[0].$value;
+function getAgencyName(agency) {
+  if (Array.isArray(agency.branchName)) {
+    return agency.branchName[0].$value;
   }
-  return agency.branchShortName.$value;
+  return agency.branchName.$value;
 }
 
 async function checkUserLibraryInfo(req, b, p) {
@@ -144,7 +144,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, a
     /* Mock agency object, for debugging on the go :)
      agency = agency || {
      agencyId: 'DK-775100',
-     branchShortName: [{$value: 'bob'}],
+     branchName: [{$value: 'bob'}],
      postalAddress: 'bob2',
      postalCode: 'bob3',
      city: 'bob4'
@@ -155,12 +155,11 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, a
     // fetch library details and attach to favorite library
     if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
       const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;
-      const selectedLibrary = {
+      fullProfile.favoriteLibrary = {
         libraryId: agency.agencyId,
-        libraryName: getAgencyShortName(agency), // see github #22
+        libraryName: getAgencyName(agency), // see github #22
         libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
       };
-      fullProfile.favoriteLibrary = selectedLibrary;
     }
 
     res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
@@ -200,7 +199,7 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
         if (agency) {
           p.favoriteLibrary = {
             libraryId: agency.agencyId,
-            libraryName: getAgencyShortName(agency),
+            libraryName: getAgencyName(agency),
             libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
           };
         }
@@ -390,7 +389,11 @@ ProfileRoutes.get(
     }
 
     try {
-      data.userReviews = (await req.callServiceProvider('getOwnReview', {reviewownerid: profileId, offset: 0, order: 'created ASC'}))[0].data;
+      data.userReviews = (await req.callServiceProvider('getOwnReview', {
+        reviewownerid: profileId,
+        offset: 0,
+        order: 'created ASC'
+      }))[0].data;
       data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
     }
     catch (e) { // eslint-disable-line no-catch-shadow

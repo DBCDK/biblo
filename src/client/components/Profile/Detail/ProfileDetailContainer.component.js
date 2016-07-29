@@ -386,8 +386,9 @@ export class ProfileDetailContainer extends React.Component {
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const isLoggedIn = this.props.profile.userIsLoggedIn;
+    const displayName = userProfile.raw ? userProfile.raw.displayName : userProfile.displayName;
 
-    const currentUserAddressing = (isMyProfile) ? 'dig' : userProfile.displayName;
+    const currentUserAddressing = (isMyProfile) ? 'dig' : displayName;
     const tabs = this.getTabs(currentUserAddressing);
 
     let desc = '';

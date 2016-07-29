@@ -71,19 +71,30 @@ export default class ProfileForm extends React.Component {
     });
 
     let disabled = false;
-    let submitArea = <RoundedButtonSubmit buttonText="OK"/>;
-
-    if (this.props.submitState === 'SUBMITTING') {
-      disabled = true;
-      submitArea = <ProgressBar completed={this.props.submitProgress} height={'35px'}/>;
-    }
-    else if (this.props.submitState === 'UPLOAD_COMPLETE') {
-      disabled = true;
-      submitArea = (
-        <ProgressBar completed={this.props.submitProgress} height={'35px'}>
-          <p className="progressbar--message">Behandler</p>
-        </ProgressBar>
-      );
+    let submitArea;
+    switch (this.props.submitState) {
+      case 'SUBMITTING': {
+        disabled = true;
+        submitArea = <ProgressBar completed={this.props.submitProgress} height={'43px'}/>;
+        break;
+      }
+      case 'UPLOAD_COMPLETE': {
+        disabled = true;
+        submitArea = (
+          <ProgressBar completed={this.props.submitProgress} height={'43px'}>
+            <p className="progressbar--message">Behandler</p>
+          </ProgressBar>
+        );
+        break;
+      }
+      case 'SUBMITTED': {
+        submitArea = <RoundedButtonSubmit buttonText="GEMT"/>;
+        break;
+      }
+      default: {
+        submitArea = <RoundedButtonSubmit buttonText="OK"/>;
+        break;
+      }
     }
 
     const birthday = !isEmpty(this.props.birthday) ? dateformat(this.props.birthday, 'yyyy-mm-dd') : '';
@@ -98,7 +109,7 @@ export default class ProfileForm extends React.Component {
                 imageSrc={this.props.profileImageSrc}
                 onFile={this.props.changeImageAction}
                 fieldName={'profile_image'}
-                overlayText={this.props.profileImageSrc === '/no_profile.png'? 'Upload dit billede' : ''}
+                overlayText={this.props.profileImageSrc === '/no_profile.png' ? 'Upload dit billede' : ''}
               />
               {errorObj.profile_image || ''}
             </div>
@@ -119,13 +130,13 @@ export default class ProfileForm extends React.Component {
                   <p>
                     <strong>Beskriv dig selv</strong>
                   </p>
-                <textarea
-                  placeholder="Her kan du skrive lidt om dig selv"
-                  name="description"
-                  defaultValue={this.props.description}
-                  ref="description"
-                  onChange={(e) => this.setState({description: e.target.value})}
-                />
+                  <textarea
+                    placeholder="Her kan du skrive lidt om dig selv"
+                    name="description"
+                    defaultValue={this.props.description}
+                    ref="description"
+                    onChange={(e) => this.setState({description: e.target.value})}
+                  />
                   {errorObj.description || ''}
                 </label>
               </div>
@@ -182,7 +193,7 @@ export default class ProfileForm extends React.Component {
                 searchElements={this.props.searchElements}
                 libraryId={this.state.libraryId}
                 loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
-                pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})} />
+                pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})}/>
 
               <div className={'profile-form-submit-button'}>
                 {submitArea}

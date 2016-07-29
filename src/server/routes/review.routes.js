@@ -145,8 +145,22 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
       createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, createReviewResponse.data.id, logger, amazonConfig);
     }
 
+    if (
+        createReviewResponse.status === 500 &&
+        createReviewResponse.data &&
+        createReviewResponse.data.error &&
+        createReviewResponse.data.error.message === 'Eksisterende anmeldelse') {
+      // find the existing review id from an existing review of a pid for the given review owner id
+      const existingReviewResponse = (await req.callServiceProvider('getReviews', ({
+        markedAsDeleted: null, pid: params.pid, reviewownerid: params.reviewownerid
+      })));
+      createReviewResponse.data.error.existingReviewId = existingReviewResponse[0].data[0].id;
+    }
+
     req.session.videoupload = null;
+    res.status(createReviewResponse.status);
     res.send(createReviewResponse);
+
   }
   catch (error) {
     req.session.videoupload = null;

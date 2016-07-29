@@ -16,8 +16,10 @@ import RedisStore from 'connect-redis';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
-import Queue from 'bull';
 import Primus from 'primus';
+
+// Utils
+import {createQueue} from './app.utils';
 
 // Routes
 import MainRoutes from './server/routes/main.routes.js';
@@ -269,12 +271,10 @@ module.exports.run = function (worker) {
       break;
   }
 
+  const queueCreate = createQueue.bind(app, redisConfig);
+
   // Configure message queue
-  const userMessageQueue = Queue('user messages', redisConfig.port, redisConfig.host);
-  userMessageQueue.process((job, done) => {
-    job.app = app;
-    return processUserMessage(job, done);
-  });
+  const userMessageQueue = queueCreate('user messages', processUserMessage);
 
   /**
    * Helper method to remember the required
@@ -287,25 +287,13 @@ module.exports.run = function (worker) {
   }
 
   // Configure user status queue
-  const userStatusCheckQueue = Queue('user status check', redisConfig.port, redisConfig.host);
-  userStatusCheckQueue.process((job, done) => {
-    job.app = app;
-    return processUserStatusCheck(job, done);
-  });
+  const userStatusCheckQueue = queueCreate('user status check', processUserStatusCheck);
 
   // Configure user status queue
-  const checkForNewQuarantinesQueue = Queue('quarantine check', redisConfig.port, redisConfig.host);
-  checkForNewQuarantinesQueue.process((job, done) => {
-    job.app = app;
-    return processCheckForNewQuarantines(job, done);
-  });
+  const checkForNewQuarantinesQueue = queueCreate('quarantine check', processCheckForNewQuarantines);
 
   // Configure addedCommentQueue
-  const addedCommentQueue = Queue('addedCommentQueue', redisConfig.port, redisConfig.host);
-  addedCommentQueue.process((job, done) => {
-    job.app = app;
-    return notifyUsersRelevantToComment(job, done);
-  });
+  const addedCommentQueue = queueCreate('addedCommentQueue', notifyUsersRelevantToComment);
 
   // Set queues to app
   app.set('userMessageAdd', userMessageAdd);

@@ -5,15 +5,18 @@
   padding: 20px 20px 20px 0;
   margin: 0;
 
+  @include max-screen($small-phone) {
+    padding: 3px 0 0 0;
+  }
+
   .search-filters--button {
-    display:inline-block;
+    display: inline-block;
     padding: 5px 20px;
     margin-right: 3px;
     background-color: $athens-gray;
     svg {
       fill: $governor-bay;
     }
-
 
     &.search-filters--button-active {
       background-color: $governor-bay;
@@ -31,7 +34,6 @@
     }
 
   }
-
 
   .search-filters--reset-button {
     background-color: $white;

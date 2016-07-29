@@ -12,9 +12,7 @@ import Queue from 'bull';
  * @param {Function} processFunction
  * @returns {bull.Queue}
  */
-export function createQueue(app, redisConfig, queueName, processFunction) {
-  const logger = app.get('logger');
-
+export function createQueue(logger, app, redisConfig, queueName, processFunction) {
   const redisPrefix = process.env.REDIS_QUEUE_PREFIX || '';
   const genericQueue = Queue(`${redisPrefix}${queueName}`, redisConfig.port, redisConfig.host);
 

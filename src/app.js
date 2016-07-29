@@ -271,7 +271,7 @@ module.exports.run = function (worker) {
       break;
   }
 
-  const queueCreate = createQueue.bind(app, redisConfig);
+  const queueCreate = createQueue.bind(logger, app, redisConfig);
 
   // Configure message queue
   const userMessageQueue = queueCreate('user messages', processUserMessage);

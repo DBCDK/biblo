@@ -8,6 +8,7 @@ const CreateReviewTransform = {
       this.callServiceClient('community', 'removeImage', {imageId: query.imageRemoveId});
     }
 
+
     if (user.profileId === parseInt(query.reviewownerid, 10) || user.profile.profile.isModerator) {
       return this.callServiceClient('community', 'createReview', {
         id: query.id || null,

@@ -60,6 +60,27 @@ export default class ProfileForm extends React.Component {
     }
   }
 
+  renderSubmitArea(submitState) {
+    switch (submitState) {
+      case 'SUBMITTING': {
+        return <ProgressBar completed={this.props.submitProgress} height={'43px'}/>;
+      }
+      case 'UPLOAD_COMPLETE': {
+        return (
+          <ProgressBar completed={this.props.submitProgress} height={'43px'}>
+            <p className="progressbar--message">Behandler</p>
+          </ProgressBar>
+        );
+      }
+      case 'SUBMITTED': {
+        return <RoundedButtonSubmit buttonText="GEMT"/>;
+      }
+      default: {
+        return <RoundedButtonSubmit buttonText="OK"/>;
+      }
+    }
+  }
+
   render() {
     const errorObj = {};
     this.props.errors.forEach((error) => {
@@ -70,33 +91,8 @@ export default class ProfileForm extends React.Component {
       );
     });
 
-    let disabled = false;
-    let submitArea;
-    switch (this.props.submitState) {
-      case 'SUBMITTING': {
-        disabled = true;
-        submitArea = <ProgressBar completed={this.props.submitProgress} height={'43px'}/>;
-        break;
-      }
-      case 'UPLOAD_COMPLETE': {
-        disabled = true;
-        submitArea = (
-          <ProgressBar completed={this.props.submitProgress} height={'43px'}>
-            <p className="progressbar--message">Behandler</p>
-          </ProgressBar>
-        );
-        break;
-      }
-      case 'SUBMITTED': {
-        submitArea = <RoundedButtonSubmit buttonText="GEMT"/>;
-        break;
-      }
-      default: {
-        submitArea = <RoundedButtonSubmit buttonText="OK"/>;
-        break;
-      }
-    }
-
+    const disabled = !!(this.props.submitState === 'SUBMITTING' || this.props.submitState === 'UPLOAD_COMPLETE');
+    const submitArea = this.renderSubmitArea(this.props.submitState);
     const birthday = !isEmpty(this.props.birthday) ? dateformat(this.props.birthday, 'yyyy-mm-dd') : '';
 
     return (

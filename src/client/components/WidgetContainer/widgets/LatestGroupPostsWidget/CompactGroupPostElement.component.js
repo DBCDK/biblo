@@ -19,7 +19,7 @@ function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
   );
 }
 
-function renderVideoGroupPost(post) { // eslint-disable-line react/no-multi-comp
+export function renderVideoGroupPost(post) { // eslint-disable-line react/no-multi-comp
   const resolution = post.video.resolutions.slice(-1)[0];
   const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
   const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;

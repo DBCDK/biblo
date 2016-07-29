@@ -23,7 +23,8 @@ module.exports = [{
     groupedit: './src/client/components/Groups/Edit/index.js',
     work: './src/client/components/Work/index.js',
     review: './src/client/components/Review/index.js',
-    preview: './src/client/components/WidgetContainer/index.js'
+    preview: './src/client/components/WidgetContainer/index.js',
+    campaigncertificate: './src/client/components/CampaignCertificate/CampaignCertificate.component.js'
   },
   output: {
     path: path.join(__dirname, 'public/js'),

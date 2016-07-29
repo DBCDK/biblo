@@ -39,13 +39,13 @@ const GetPostsTransform = {
       });
   },
 
-  requestTransform(event, {id, skip, limit}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {id, skip, limit, where = {}}, connection) { // eslint-disable-line no-unused-vars
 
     const postFilter = {
       limit: limit,
       skip: skip,
       counts: 'comments',
-      where: {groupid: id, markedAsDeleted: null},
+      where: Object.assign({groupid: id, markedAsDeleted: null}, where),
       order: 'timeCreated DESC',
       include: [
         'image', {

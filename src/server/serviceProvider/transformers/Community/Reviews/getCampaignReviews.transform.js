@@ -5,7 +5,7 @@ const GetReviewTransform = {
     return 'getCampaignReviews';
   },
 
-  requestTransform(event, {skip, limit, order='created DESC', campaignId}) {
+  requestTransform(event, {skip, limit, order='created DESC', campaignId, wheres = []}) {
     return this.callServiceClient('community', 'getCampaign', {id: campaignId}).then(campaignResponse => {
       const campaign = campaignResponse.body;
       const startDate = campaign.startDate;
@@ -44,7 +44,7 @@ const GetReviewTransform = {
               {created: {gte: startDate}},
               {created: {lte: endDate}},
               {or: campaign.workTypes.map(w => ({worktype: w}))} // Only get reviews when they have one of the predefined worktypes.
-            ]
+            ].concat(wheres)
           }
         }
       };

@@ -3,11 +3,10 @@
   "watch": [
     "src/app.js",
     "src/server",
-    "node_modules"
-  ],
-  "ignore": [
+    "node_modules",
     "src/client"
   ],
+  "ignore": [],
   "env": {
     "NODE_ENV": "development"
   },

@@ -22,14 +22,15 @@ let initialState = {
     description: '',
     groups: [],
     postsInGroups: 0
-  }
+  },
+  campaigns: []
 };
 
 let json_feed_data = parseJsonData('JSONDATA', 'feed');
 initialState.feed = json_feed_data.feed || [];
 initialState.count = assignToEmpty(initialState.count, json_feed_data.count || {});
 initialState.profile = assignToEmpty(initialState.profile, json_feed_data.profile || {});
-
+initialState.campaigns = parseJsonData('JSONDATA', 'campaigns') || [];
 
 export default function profileFeedReducer(state = initialState, action = {}) {
 

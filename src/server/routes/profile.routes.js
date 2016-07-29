@@ -375,13 +375,14 @@ ProfileRoutes.get(
   ['/:id', '/'],
   ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary,
   async function (req, res) {
-    let profile,
-      profileId = req.params.id,
-      data = {
-        feed: {},
-        errors: [],
-        reviews: []
-      };
+    let profile;
+    let profileId = req.params.id;
+    const data = {
+      feed: {},
+      errors: [],
+      reviews: [],
+      campaigns: []
+    };
 
     if (!profileId) {
       profile = JSON.parse(res.locals.profile);
@@ -395,6 +396,7 @@ ProfileRoutes.get(
         order: 'created ASC'
       }))[0].data;
       data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
+      data.campaigns = (await req.callServiceProvider('getAllCampaigns', {}))[0].body;
     }
     catch (e) { // eslint-disable-line no-catch-shadow
       data.errors = [e];

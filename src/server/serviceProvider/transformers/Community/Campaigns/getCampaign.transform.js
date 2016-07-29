@@ -13,8 +13,8 @@ const getContentPageTransform = {
   /**
    * @returns {Promise}
    */
-  requestTransform(event, {id}) {
-    return this.callServiceClient('community', 'getCampaign', {id});
+  requestTransform(event, {id, filter={}}) {
+    return this.callServiceClient('community', 'getCampaign', {id, filter});
   },
 
   /**

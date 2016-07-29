@@ -310,15 +310,6 @@ export default class AddContent extends UploadMedia {
           <div className='content-add--actions'>
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
-                <input
-                  id={uniqueId}
-                  accept='image/*,video/*,video/mp4'
-                  type="file"
-                  className="content-add--upload-media droppable-media-field--file-input"
-                  disabled={this.state.disableInput}
-                  onChange={this.handleFileChange.bind(this)}
-                  ref="fileInput"
-                />
                 <Icon glyph={videoSvg}/>
                 <Icon glyph={cameraSvg}/>
                 <span className="content-add--media-label">Upload</span>
@@ -350,6 +341,16 @@ export default class AddContent extends UploadMedia {
             </button>
           </div>
         </form>
+
+        <input
+          id={uniqueId}
+          accept='image/*,video/*,video/mp4'
+          type="file"
+          className="content-add--upload-media droppable-media-field--file-input"
+          disabled={this.state.disableInput}
+          onChange={this.handleFileChange.bind(this)}
+          ref="fileInput"
+        />
       </div>);
   }
 }

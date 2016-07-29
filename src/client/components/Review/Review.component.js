@@ -422,21 +422,27 @@ export default class Review extends UploadMedia {
           {
             this.state.isEditing &&
             <div className={Classnames({'review-add': true, shakeit: errors})}>
-              <form method="post" action='/anmeldelse/' ref="contentForm" onSubmit={(e) => this.onSubmit(e)}>
+              <form
+                method="post"
+                action='/anmeldelse/'
+                ref="contentForm"
+                onSubmit={(e) => this.onSubmit(e)}
+                encType="multipart/form-data"
+              >
                 <div className='review-add--input'>
                    <textarea className="review-add--textarea" ref='contentTextarea' name="content"
                              placeholder='Skriv din anmeldelse her'
                              value={this.state.content}
                              onChange={(e) => this.setState({content: e.target.value})}
                    />
-                  <input type="hidden" name="id" value={this.state.id}/>
-                  <input type="hidden" name="reviewownerid" value={this.state.reviewownerid}/>
-                  <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId}/>
-                  <input type="hidden" name="imageId" value={imageCollectionId} />
-                  <input type="hidden" name="pid" value={this.state.pid}/>
-                  <input type="hidden" name="worktype" value={this.state.worktype}/>
-                  <input type="hidden" name="rating" value={this.state.rating}/>
-                  <input type="hidden" name="libraryid" value={libraryId}/>
+                  <input type="hidden" name="id" value={this.state.id || ''}/>
+                  <input type="hidden" name="reviewownerid" value={this.state.reviewownerid || ''}/>
+                  <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId || ''}/>
+                  <input type="hidden" name="imageId" value={imageCollectionId || ''} />
+                  <input type="hidden" name="pid" value={this.state.pid || ''}/>
+                  <input type="hidden" name="worktype" value={this.state.worktype || ''}/>
+                  <input type="hidden" name="rating" value={this.state.rating || ''}/>
+                  <input type="hidden" name="libraryid" value={libraryId || ''}/>
 
                   {this.state.attachment.image && this.state.attachment.image.data &&
                   <div className='review-add--preview-image'>
@@ -486,19 +492,9 @@ export default class Review extends UploadMedia {
                            value="Fortryd"/>
                   }
                   {deleteButton}
+
                   <div className='review-add--media'>
                     <label htmlFor={uniqueId}>
-                      <input
-                        id={uniqueId}
-                        accept='image/*,video/*,video/mp4'
-                        type="file"
-                        className="review-add--upload-media droppable-media-field--file-input"
-                        onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
-                            .then(attachment=>this.setState({attachment: attachment}))
-                            .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
-                            }
-                        ref="fileInput"
-                      />
                       <Icon glyph={videoSvg}/>
                       <Icon glyph={cameraSvg}/>
                       <span className="review-add--media-label">Upload</span>
@@ -506,6 +502,19 @@ export default class Review extends UploadMedia {
                   </div>
                 </div>
               </form>
+
+              <input
+                id={uniqueId}
+                accept='image/*,video/*,video/mp4'
+                type="file"
+                className="review-add--upload-media droppable-media-field--file-input"
+                onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
+                  .then(attachment=>this.setState({attachment: attachment}))
+                  .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
+                }
+                ref="fileInput"
+              />
+
             </div>
             ||
             <div className='review--content-wrapper'>

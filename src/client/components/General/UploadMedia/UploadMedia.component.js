@@ -27,7 +27,6 @@ export default class UploadMedia extends React.Component {
       this.xhr = new XMLHttpRequest();
       this.xhr.open('POST', target);
       this.xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      this.xhr.send(formData);
       this.xhr.onload = (event) => {
         if (event.target.status === 200) {
           const contentResponse = JSON.parse(event.target.response);
@@ -38,6 +37,7 @@ export default class UploadMedia extends React.Component {
         }
         return reject('Upload fejlede');
       };
+      this.xhr.send(formData);
     });
   }
 

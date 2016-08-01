@@ -5,9 +5,11 @@
 
 import express from 'express';
 import request from 'request';
-import path from 'path';
+
 import {pick, find, filter} from 'lodash';
 import PDFDocument from 'pdfkit';
+
+import path from 'path';
 import twemoji from 'twemoji';
 import Logger from 'dbc-node-logger';
 import pdf from 'html-pdf';
@@ -102,6 +104,12 @@ function getContributions(req, campaign, profile) {
   });
 }
 
+/**
+ * This method generates a PDF from a request.
+ * @param {Object}req
+ * @param {Object}res
+ * @param {Function}next
+ */
 async function getCampaignPDF(req, res, next) {
   try {
     const baseUrl = `http://localhost:${req.app.get('port')}`;

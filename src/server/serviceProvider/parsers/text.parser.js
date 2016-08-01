@@ -14,11 +14,25 @@ const autolinker = new AutoLinker({
  * @param links {Bool}
  * @returns {String}
  */
-export default function textParser(text, links = true) {
+export default function textParser(text, links = true, newLines = 'paragraphs') {
   // Make sure the text is clean when it comes in
   text = sanitizeHtml(text, {
     allowedTags: []
   });
+
+  switch (newLines) {
+    case 'paragraphs': {
+      text = text.split('\n').map(paragraph => `<p>${paragraph}</p>`).join('');
+      break;
+    }
+    case 'break': {
+      text = text.split('\n').join('<br />');
+      break;
+    }
+    default: {
+      break;
+    }
+  }
 
   // Add links to the text
   if (links) {

@@ -396,7 +396,7 @@ export class ProfileDetailContainer extends React.Component {
     if (userProfile.description && userProfile.description.length > 0) {
       desc = (
         <p>
-          <span dangerouslySetInnerHTML={{__html: userProfile.description}}/>
+          <span className="profile--description" dangerouslySetInnerHTML={{__html: userProfile.description}}/>
         </p>
       );
     }

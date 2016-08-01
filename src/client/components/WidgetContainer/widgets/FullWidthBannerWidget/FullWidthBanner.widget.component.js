@@ -39,7 +39,7 @@ export class FullWidthBannerWidget extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     // If the state updates, the component should update
     // If the props update, we don't care unless it's the widgetConfig.
-    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetConfig);
+    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
   }
 
   windowDidResize() {

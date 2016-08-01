@@ -43,6 +43,7 @@ const GetReviewTransform = {
             and: [
               {created: {gte: startDate}},
               {created: {lte: endDate}},
+              {markedAsDeleted: null},
               {or: campaign.workTypes.map(w => ({worktype: w}))} // Only get reviews when they have one of the predefined worktypes.
             ].concat(wheres)
           }

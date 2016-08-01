@@ -188,12 +188,13 @@ describe('Test of Review Component ', () => {
 
     const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
     xhrMock.onCreate = (xhr) => {
-      setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
+      setTimeout(() => xhr.respond(500, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
     };
 
     const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
     TestUtils.Simulate.submit(form);
-    TestUtils.findRenderedDOMComponentWithTag(component, 'modal-window--window');
+
+    assert(component.state.isLoading); // we expect an error here (existing reviewownerid + pid
     done();
   });
 

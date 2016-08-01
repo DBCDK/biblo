@@ -7,7 +7,7 @@ import ColoredHeader from '../../../General/ColoredHeader/ColoredHeader.componen
 import {isEqual} from 'lodash';
 
 export class ColoredHeaderWidget extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // We only care about the widgetConfig
     return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
   }

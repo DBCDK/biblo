@@ -7,7 +7,7 @@ import ContentGrid from '../../../General/ContentGrid/ContentGrid.component';
 import {isEqual} from 'lodash';
 
 export class ContentGridWidget extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // We only care about the widgetConfig
     return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
   }

@@ -8,7 +8,7 @@ import ExtractYoutubeID from '../../../../Utils/extractYoutubeID';
 import {isEqual} from 'lodash';
 
 export class ContentPageEmbeddedVideoWidget extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // We only care about the widgetConfig
     return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
   }

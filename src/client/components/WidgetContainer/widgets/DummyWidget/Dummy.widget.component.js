@@ -12,7 +12,7 @@ import {AbstractWidget} from '../../AbstractWidget.component';
 // And request whatever remains, via our actions.
 // All data received after the CMS data, for a specific widget should be namespaced in the reducer to the widget name.
 export class DummyWidget extends AbstractWidget {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate() {
     return false;
   }
 

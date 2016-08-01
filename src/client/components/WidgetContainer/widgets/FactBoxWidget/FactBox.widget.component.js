@@ -11,7 +11,7 @@ import {isEqual} from 'lodash';
 import './scss/FactBox.widget.component.scss';
 
 export class FactBoxWidget extends AbstractWidget {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // We only care about the widgetConfig
     return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
   }

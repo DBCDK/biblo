@@ -2,6 +2,8 @@
  * @file: Implementation of the popular groups widget.
  */
 
+/* eslint-disable react/no-danger */
+
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
@@ -20,7 +22,7 @@ export class PopularGroupsWidget extends AbstractWidget {
 
     this.state = {
       expanded: false
-    }
+    };
   }
 
   componentDidMount() {

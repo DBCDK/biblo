@@ -7,7 +7,7 @@ import {renderWidgetWithTeaspoon} from './widgetTest.utils';
 import {singleGroupMock} from '../__mocks__/PopularGroups.mock';
 
 describe('Popular groups widget!', () => {
-  it('should render with empty config', () =>  {
+  it('should render with empty config', () => {
     const $root = renderWidgetWithTeaspoon({
       location: 'test-popular-groups-widget-location',
       widgetName: 'PopularGroupsWidget',

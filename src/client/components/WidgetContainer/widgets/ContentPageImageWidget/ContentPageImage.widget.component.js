@@ -3,8 +3,14 @@
  */
 
 import React, {Component, PropTypes} from 'react';
+import {isEqual} from 'lodash';
 
 export class ContentPageImageWidget extends Component {
+  shouldComponentUpdate(nextProps) {
+    // We only care about the widgetConfig
+    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+  }
+
   render() {
     const widgetConfig = this.props.widgetConfig;
 

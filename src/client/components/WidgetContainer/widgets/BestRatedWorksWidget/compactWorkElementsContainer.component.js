@@ -16,10 +16,6 @@ import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg';
 import './scss/compactWorkElementsContainer.component.scss';
 
 export class CompactWorkElementsContainer extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
     const elements = this.props.works.map(work => <CompactWorkElement work={work} key={`work-${work.collection[0]}`}/>);
     const classNames = 'compact-works--container' + (this.props.closed ? ' closed' : '');

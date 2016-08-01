@@ -128,6 +128,7 @@ export const GOT_CAMPAIGN = 'getCampaignResponse';
 export const GOT_CAMPAIGN_REVIEWS = 'getCampaignReviewsResponse';
 export const GOT_GROUP = 'getGroupResponse';
 export const GOT_POSTS = 'getPostsResponse';
+export const GOT_GROUPS = 'listGroupsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';

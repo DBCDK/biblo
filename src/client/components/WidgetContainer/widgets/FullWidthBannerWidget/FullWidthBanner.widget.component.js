@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import {debounce} from 'lodash';
+import {debounce, isEqual} from 'lodash';
 import './scss/FullWidthBannerWidget.component.scss';
 
 const defaultConfig = {
@@ -34,6 +34,12 @@ export class FullWidthBannerWidget extends Component {
       window.addEventListener('resize', debounce(this.windowDidResize.bind(this), 50));
       this.windowDidResize();
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // If the state updates, the component should update
+    // If the props update, we don't care unless it's the widgetConfig.
+    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetConfig);
   }
 
   windowDidResize() {

@@ -5,8 +5,14 @@
 /* eslint-disable react/no-danger */
 
 import React, {Component, PropTypes} from 'react';
+import {isEqual} from 'lodash';
 
 export class ContentPageTextWidget extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    // We only care about the widgetConfig
+    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+  }
+
   render() {
     return (
       <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: this.props.widgetConfig.content}} />

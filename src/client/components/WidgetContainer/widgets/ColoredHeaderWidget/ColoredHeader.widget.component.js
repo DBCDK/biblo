@@ -4,8 +4,14 @@
 
 import React, {Component, PropTypes} from 'react';
 import ColoredHeader from '../../../General/ColoredHeader/ColoredHeader.component';
+import {isEqual} from 'lodash';
 
 export class ColoredHeaderWidget extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    // We only care about the widgetConfig
+    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+  }
+
   render() {
     let {color, iconGlyph, text, title} = this.props.widgetConfig;
 

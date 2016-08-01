@@ -5,6 +5,7 @@
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import VisibilitySensor from 'react-visibility-sensor';
+import {isEqual} from 'lodash';
 
 import {CompactGroupPostElement} from './CompactGroupPostElement.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -20,6 +21,12 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     this.state = {
       postsOffset: 0
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // If the state updates, the component should update
+    // If the props update, we don't care unless it's the widgetReducerProp.
+    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
   }
 
   componentDidMount() {

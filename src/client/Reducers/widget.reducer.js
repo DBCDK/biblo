@@ -28,6 +28,10 @@ let initialState = {
     postsLoading: true,
     isLoading: true
   },
+  PopularGroupsWidget: {
+    groups: [],
+    isLoading: true
+  },
   widgetLocations: {
     ContentPageLeft: [],
     ContentPageFactBox: [],
@@ -45,10 +49,12 @@ export default function widgetReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
     case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
-      const LatestReviews = state.LatestReviews;
-      LatestReviews.reviews = action.reviews;
-      LatestReviews.reviewsPending = false;
-      return assignToEmpty(state, {LatestReviews: LatestReviews});
+      return assignToEmpty(state, {
+        LatestReviews: assignToEmpty(state.LatestReviews, {
+          reviews: action.reviews,
+          reviewsPending: false
+        })
+      });
     }
 
     case types.GOT_COVER_IMAGE_FROM_PID_FOR_WIDGET: {
@@ -60,37 +66,43 @@ export default function widgetReducer(state = initialState, action = {}) {
     }
 
     case types.GOT_CAMPAIGN_REVIEWS: {
-      const LatestReviews = state.LatestReviews;
+      const LatestReviews = assignToEmpty(state.LatestReviews, {});
       if (action.data.status === 200) {
         LatestReviews.campaignReviews[action.data.campaignId] = action.data.data;
         LatestReviews.reviewsPending = false;
       }
 
-      return assignToEmpty(state, LatestReviews);
+      return assignToEmpty(state, {
+        LatestReviews
+      });
     }
 
     case types.GOT_CAMPAIGN: {
-      const LatestReviews = state.LatestReviews;
+      const LatestReviews = {};
       if (action.data.statusCode === 200) {
         LatestReviews.campaign = action.data.body;
       }
 
-      return assignToEmpty(state, {LatestReviews});
+      return assignToEmpty(state, {
+        LatestReviews: assignToEmpty(state.LatestReviews, LatestReviews)
+      });
     }
 
     case types.GOT_GROUP: {
-      const LatestGroupPostsWidget = state.LatestGroupPostsWidget;
+      const LatestGroupPostsWidget = assignToEmpty(state.LatestGroupPostsWidget, {});
       if (action.data.id) {
         LatestGroupPostsWidget.groups[action.data.id] = action.data;
         LatestGroupPostsWidget.groupLoading = false;
-        LatestGroupPostsWidget.isLoading = LatestGroupPostsWidget.postsLoading;
+        LatestGroupPostsWidget.isLoading = state.LatestGroupPostsWidget.postsLoading;
       }
 
-      return assignToEmpty(state, LatestGroupPostsWidget);
+      return assignToEmpty(state, {
+        LatestGroupPostsWidget
+      });
     }
 
     case types.GOT_POSTS: {
-      const LatestGroupPostsWidget = state.LatestGroupPostsWidget;
+      const LatestGroupPostsWidget = assignToEmpty(state.LatestGroupPostsWidget, {});
       if (Array.isArray(action.data)) {
         action.data.forEach(post => {
           const groupId = post.groupid;
@@ -105,7 +117,18 @@ export default function widgetReducer(state = initialState, action = {}) {
       LatestGroupPostsWidget.postsLoading = false;
       LatestGroupPostsWidget.isLoading = LatestGroupPostsWidget.groupLoading;
 
-      return assignToEmpty(state, LatestGroupPostsWidget);
+      return assignToEmpty(state, {
+        LatestGroupPostsWidget
+      });
+    }
+
+    case types.GOT_GROUPS: {
+      return assignToEmpty(state, {
+        PopularGroupsWidget: {
+          isLoading: false,
+          groups: action.data
+        }
+      });
     }
 
     default:

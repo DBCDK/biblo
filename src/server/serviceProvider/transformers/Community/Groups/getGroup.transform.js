@@ -38,7 +38,7 @@ const GetGroupTransform = {
     };
 
     promises.push(this.callServiceClient('community', 'getGroup', {id, filter: groupFilter}));
-    promises.push(this.callServiceClient('community', 'getGroupMembers', {id}));
+    promises.push(this.callServiceClient('community', 'getGroupMembers', {id, filter: {include: 'image'}}));
 
     if (uid) {
       promises.push(this.callServiceClient('community', 'checkForMemberInGroup', {groupId: id, profileId: uid}));

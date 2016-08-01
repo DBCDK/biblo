@@ -441,25 +441,17 @@ export class ProfileDetailContainer extends React.Component {
       </div>);
     }
 
-    let campaigns = {};
-    for (let i in this.props.reviews.userReviews) { // eslint-disable-line guard-for-in
-      const review = this.props.reviews.userReviews[i];
-      if (review.campaign) {
-        campaigns[review.campaign.id] = review.campaign;
-      }
-    }
-
+    const campaigns = this.props.feed.campaigns;
     let campaignDiplomaButtons = null;
-    if (isMyProfile) {
-      campaignDiplomaButtons = Object.keys(campaigns).map((id, key) => {
-        const campaign = campaigns[id];
-        const downloadUrl = '/kampagne/laesebevis/' + campaign.id;
+    if (isMyProfile && campaigns) {
+      campaignDiplomaButtons = campaigns.map(campaign => {
+        const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
         return (
-          <span className="p-detail--campaign-diploma" key={key}>
-            <a href={downloadUrl} key={id} className='p-detail--groups-button--container'>
+          <span className="p-detail--campaign-diploma" key={`campaign_${campaign.id}`}>
+            <a href={downloadUrl} className='p-detail--groups-button--container'>
               <div className="p-detail--groups-button">
-                <Icon svgLink={'/sommerbogen-logo.svg'} width={42} height={42}/>
-                <p>Læsebevis</p>
+                <Icon svgLink={campaign.logos.svg} width={42} height={42}/>
+                <p>Bevis</p>
               </div>
             </a>
           </span>

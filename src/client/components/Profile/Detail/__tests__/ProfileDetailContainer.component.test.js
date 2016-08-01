@@ -78,6 +78,57 @@ describe('Test profile detail container (public profile)', () => {
     isLoadingResults: false
   };
 
+  const campaignsMock = [{
+    campaignName: 'Sommerbogen 2016',
+    startDate: '2016-06-09T20:00:00.044Z',
+    endDate: '2016-08-21T04:00:00.044Z',
+    logos: {
+      svg: '/sommerbogen-logo.svg',
+      small: '/sommerbogen-logo.png',
+      medium: '/sommerbogen-logo.png',
+      large: '/sommerbogen-logo.png'
+    },
+    type: 'review',
+    id: 1,
+    workTypes: ['book', 'audiobook', 'literature']
+  }, {
+    campaignName: 'Skriv din egen historie',
+    startDate: '2016-07-20T00:00:00.000Z',
+    endDate: '2016-12-25T00:00:00.000Z',
+    logos: {
+      small: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+      medium: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+      large: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+      svg: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png'
+    },
+    type: 'group',
+    id: 2,
+    workTypes: [],
+    group: {
+      name: 'Skriv din egen historie',
+      description: 'Dette er en test kampagne gruppe!',
+      colour: 'blue',
+      timeCreated: '2016-07-25T09:03:23.000Z',
+      id: 136,
+      groupownerid: 323,
+      campaignGroupFK: 2,
+      campaign: {
+        campaignName: 'Skriv din egen historie',
+        startDate: '2016-07-20T00:00:00.000Z',
+        endDate: '2016-12-25T00:00:00.000Z',
+        logos: {
+          small: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+          medium: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+          large: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+          svg: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png'
+        },
+        type: 'group',
+        id: 2,
+        workTypes: []
+      }
+    }
+  }];
+
   it('should render activity rows containing posts, and a comment.', () => {
     const component = (
       <ProfileDetailContainer
@@ -179,12 +230,13 @@ describe('Test profile detail container (public profile)', () => {
 
   it('Should render campaignDiplomaButtons', () => {
     const _reviews = assignToEmpty(reviews, {userReviews: reviewsMock});
+    const _feedMock = assignToEmpty(feedMock, {campaigns: campaignsMock});
 
     const tree = sd.shallowRender(
       <ProfileDetailContainer
         agencies={{}}
         agencyActions={{}}
-        feed={feedMock} // contains the current logged in user
+        feed={_feedMock} // contains the current logged in user
         feedActions={feedActions}
         flagActions={flagActions}
         group={group}

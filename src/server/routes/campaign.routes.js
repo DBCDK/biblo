@@ -5,11 +5,17 @@
 
 import express from 'express';
 import request from 'request';
-import path from 'path';
+
 import {pick, find, filter} from 'lodash';
 import PDFDocument from 'pdfkit';
+
+import path from 'path';
 import twemoji from 'twemoji';
 import Logger from 'dbc-node-logger';
+import pdf from 'html-pdf';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {CampaignCertificate} from '../../client/components/CampaignCertificate/CampaignCertificate.component';
 
 import {
   ensureUserHasProfile,
@@ -18,15 +24,8 @@ import {
   ensureUserHasValidLibrary
 } from '../middlewares/auth.middleware';
 
-const logger = new Logger();
-
-function pad(n, width, z) {
-  z = z || '0';
-  n += '';
-  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-}
-
 const CampaignRoutes = express.Router();
+const logger = new Logger();
 
 /**
  * Computes age
@@ -42,6 +41,142 @@ function computeAge(birthday) {
     age -= 1;
   }
   return age;
+}
+
+function generatePDFFromHTML(html, baseUrl) {
+  const renderingOptions = {
+    format: 'A4',
+    base: baseUrl,
+    header: {
+      height: '10mm'
+    },
+    footer: {
+      height: '20mm'
+    },
+    margin: '1cm'
+  };
+
+  return new Promise((resolve, reject) => {
+    pdf.create(html, renderingOptions).toStream((err, stream) => {
+      if (err) {
+        // Reject leads to next handler which logs the bug and gives the user a nice error page.
+        reject(err);
+      }
+
+      resolve(stream);
+    });
+  });
+}
+
+function getContributions(req, campaign, profile) {
+  const contributions = {group: {data: [], postsCount: 0}, review: {data: [], reviewsCount: 0}};
+
+  if (campaign.type === 'group' && campaign.group && campaign.group.id) {
+    const getPostsArgs = {
+      limit: null,
+      skip: 0,
+      id: campaign.group.id,
+      where: {
+        and: [
+          {postownerid: profile.id},
+          {timeCreated: {gte: campaign.startDate}},
+          {timeCreated: {lte: campaign.endDate}}
+        ]
+      }
+    };
+
+    return req.callServiceProvider('getPosts', getPostsArgs).then(posts => {
+      contributions.group = {postsCount: posts[0].length, data: posts[0]};
+      return contributions;
+    });
+  }
+
+  const getCampaignReviewsParams = {
+    campaignId: campaign.id,
+    wheres: [
+      {reviewownerid: profile.id}
+    ]
+  };
+
+  return req.callServiceProvider('getCampaignReviews', getCampaignReviewsParams).then(reviews => {
+    contributions.review = reviews[0];
+    return contributions;
+  });
+}
+
+/**
+ * This method generates a PDF from a request.
+ * @param {Object}req
+ * @param {Object}res
+ * @param {Function}next
+ */
+async function getCampaignPDF(req, res, next) {
+  try {
+    const baseUrl = `http://localhost:${req.app.get('port')}`;
+    const campaignId = req.params[0];
+    const campaign = (await req.callServiceProvider('getCampaign', {id: campaignId}))[0].body;
+    const profile = req.session.passport.user.profile.profile;
+    profile.displayName = twemoji.parse(profile.displayName);
+    if (profile.birthday) {
+      profile.age = computeAge(new Date(profile.birthday));
+    }
+
+    const contributions = await getContributions(req, campaign, profile);
+    const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
+    const works = {};
+    await Promise.all(contributions.review.data.map(review => {
+      return req.callServiceProvider('work', {pids: [review.pid]}).then(work => {
+        work = work[0].data[0];
+
+        if (!work.coverUrl) {
+          work.coverUrl = `/images/cover/${work.workType}.png`;
+        }
+
+        (work.collection || []).forEach(pid => {
+          works[pid] = work;
+        });
+      });
+    }));
+
+    const reactMarkup = renderToStaticMarkup(
+      <CampaignCertificate
+        campaign={campaign}
+        profile={profile}
+        library={library}
+        contributions={contributions}
+        works={works}
+        />
+    );
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Kampagne bevis</title>
+          <link rel="stylesheet" type="text/css" href="/css/campaigncertificate.css">
+          <link rel="stylesheet" type="text/css" href="/css/groupdetail.css">
+        </head>
+        <body>
+          <div class="content">
+            ${reactMarkup}
+          </div>
+        </body>
+      </html>`;
+
+    const pdfStream = (await generatePDFFromHTML(html, baseUrl));
+    res.set('Content-Type', 'application/pdf');
+    pdfStream.pipe(res);
+  }
+  catch (err) {
+    next(err);
+  }
+}
+
+CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, getCampaignPDF);
+
+function pad(n, width, z) {
+  z = z || '0';
+  n += '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
 /**

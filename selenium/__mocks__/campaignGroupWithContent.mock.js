@@ -100,9 +100,8 @@ module.exports = function campaignGroupWithContent(times) {
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/Groups/2/members')
+    .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%7D')
     .times(times)
-    .query({"filter": "{}"})
     .reply(200, [{
       "username": "bobby_hansen",
       "displayName": null,
@@ -223,9 +222,8 @@ module.exports = function campaignGroupWithContent(times) {
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/Groups/2/members')
+    .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%7D')
     .times(times)
-    .query({"filter": "{}"})
     .reply(200, [{
       "username": "bobby_hansen",
       "displayName": null,

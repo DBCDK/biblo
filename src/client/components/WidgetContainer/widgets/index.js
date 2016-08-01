@@ -13,6 +13,7 @@ import {FullWidthBannerWidget} from './FullWidthBannerWidget/FullWidthBanner.wid
 import {BestRatedWorksWidget} from './BestRatedWorksWidget/BestRatedWorks.widget.component';
 import {LatestGroupPostsWidget} from './LatestGroupPostsWidget/LatestGroupPosts.widget.component';
 import {FactBoxWidget} from './FactBoxWidget/FactBox.widget.component';
+import {PopularGroupsWidget} from './PopularGroupsWidget/PopularGroups.widget.component.js';
 
 const widgetComponents = {
   FactBoxWidget,
@@ -25,7 +26,8 @@ const widgetComponents = {
   ContentPageTextWidget,
   ContentPageImageWidget,
   ContentPageEmbeddedVideoWidget,
-  LatestGroupPostsWidget
+  LatestGroupPostsWidget,
+  PopularGroupsWidget
 };
 
 export default widgetComponents;

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
+import {isEqual} from 'lodash';
 
 import {CompactReviewElement} from './CompactReviewElement.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -27,6 +28,12 @@ export class LatestReviewsWidget extends AbstractWidget {
     this.callServiceProvider('getCampaign', {id: widgetConfig.campaignId});
     this.props.widgetActions.asyncGetLatestReviews('id DESC', widgetConfig.reviewsToLoad || 15, widgetConfig.campaignId);
     this.props.widgetActions.asyncListenForCoverImages();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // If the state updates, the component should update
+    // If the props update, we don't care unless it's the widgetReducerProp.
+    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
   }
 
   render() {

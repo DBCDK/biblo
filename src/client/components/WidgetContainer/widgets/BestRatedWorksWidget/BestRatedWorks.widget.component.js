@@ -4,6 +4,7 @@
 
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
+import {isEqual} from 'lodash';
 
 import {CompactWorkElementsContainer} from './compactWorkElementsContainer.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -39,6 +40,12 @@ export class BestRatedWorksWidget extends AbstractWidget {
     });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // If the state updates, the component should update
+    // If the props update, we don't care unless it's the widgetReducerProp.
+    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
+  }
+
   render() {
     let closeButtonContent;
 
@@ -57,12 +64,14 @@ export class BestRatedWorksWidget extends AbstractWidget {
       );
     }
 
+    const works = (this.props.widgetReducerProp.works || []).slice(0, this.state.closed ? 6 : this.props.widgetConfig.size);
+
     return (
       <div className="best-rated-works--widget">
         <CompactWorkElementsContainer
           closed={this.state.closed}
           isLoading={this.props.widgetReducerProp.isLoading}
-          works={this.props.widgetReducerProp.works} />
+          works={works} />
 
         <div className="best-rated-works--widget--show-more-button--container">
           <a className="best-rated-works--widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>

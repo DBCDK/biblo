@@ -5,8 +5,14 @@
 import React, {Component, PropTypes} from 'react';
 import Youtube from 'react-youtube';
 import ExtractYoutubeID from '../../../../Utils/extractYoutubeID';
+import {isEqual} from 'lodash';
 
 export class ContentPageEmbeddedVideoWidget extends Component {
+  shouldComponentUpdate(nextProps) {
+    // We only care about the widgetConfig
+    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+  }
+
   render() {
     let video = '';
 

@@ -127,10 +127,10 @@ describe('Test of Review Component ', () => {
       />);
 
     const form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
-    assert(form.length === 0)
+    assert(form.length === 0);
   });
 
-  it('It should submit form on submit event', () => {
+  it('should submit form on a submit event', () => {
     profile.userIsLoggedIn = true;
     const component = TestUtils.renderIntoDocument(
       <Review
@@ -151,8 +151,50 @@ describe('Test of Review Component ', () => {
 
     const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
     TestUtils.Simulate.submit(form);
-    assert(component.state.isLoading); //we expect an error here (existing reviewownerid + pid
+    assert(component.state.isLoading); // we expect an error here (existing reviewownerid + pid
   });
 
+  it('should display a overwriteModal on duplicate reviews', (done) => {
+    profile.userIsLoggedIn = true;
+    const component = TestUtils.renderIntoDocument(
+    <Review
+      isEditing={true}
+      toggleReview={noop}
+      profile={profile}
+      owner={profile}
+      pid={work.id}
+      worktype={work.workType}
+      pids={work.collection}
+      reviewActions={reviewActions}
+      uiActions={uiActions}
+      flagActions={flagActions}
+      likeActions={likeActions}
+      content='test hest'
+      rating={5}
+    />);
+
+    const mockContent = {
+      status: 500,
+      data: {
+        error: {
+          name: 'Error',
+          status: 500,
+          message: 'Eksisterende anmeldelse',
+          stack: 'Error: Eksisterende anmeldelse',
+          existingReviewId: 1
+        }
+      }
+    };
+
+    const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
+    xhrMock.onCreate = (xhr) => {
+      setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
+    };
+
+    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
+    TestUtils.Simulate.submit(form);
+    TestUtils.findRenderedDOMComponentWithTag(component, 'modal-window--window');
+    done();
+  });
 
 });

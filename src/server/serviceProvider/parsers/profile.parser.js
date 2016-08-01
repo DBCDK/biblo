@@ -16,13 +16,13 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
     displayName: profile.displayName
   };
 
-  p.description = textParser(profile.description || '');
+  p.description = textParser(profile.description || '', true, 'break');
 
   if (p.description.length > 0) {
     p.description = '“' + p.description + '”';
   }
 
-  p.displayName = textParser(profile.displayName || 'Anonym', false);
+  p.displayName = textParser(profile.displayName || 'Anonym', false, 'none');
   p.id = profile.id || 0;
   p.groups = profile.groups || [];
   p.postsInGroups = p.groups.reduce((prev, cur) => prev + cur.postsSinceLast, 0);

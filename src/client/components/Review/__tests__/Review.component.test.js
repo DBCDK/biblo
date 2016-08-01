@@ -154,7 +154,7 @@ describe('Test of Review Component ', () => {
     assert(component.state.isLoading); // we expect an error here (existing reviewownerid + pid
   });
 
-  it('should display a overwriteModal on duplicate reviews', (done) => {
+  it('should throw an error on duplicate reviews', (done) => {
     profile.userIsLoggedIn = true;
     const component = TestUtils.renderIntoDocument(
     <Review

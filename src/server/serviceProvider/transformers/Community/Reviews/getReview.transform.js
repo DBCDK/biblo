@@ -66,12 +66,12 @@ const GetReviewTransform = {
         this.callServiceClient('community', 'getReviews', params),
         this.callServiceClient('community', 'getReviewCampaigns')
       ])
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((err) => {
-        reject(err);
-      });
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   },
 

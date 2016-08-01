@@ -247,7 +247,7 @@ GroupRoutes.post('/:id/rediger', ensureAuthenticated, ensureUserHasProfile, uplo
  * @param res
  */
 function showGroup(groupData, res) {
-  res.locals.title = `${groupData.name} - Biblo.dk`;
+  res.locals.title = `${groupData.raw.name} - Biblo.dk`;
   res.render('page', {
     css: ['/css/groupdetail.css'],
     js: ['/js/groupdetail.js'],

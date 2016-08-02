@@ -11,6 +11,9 @@ import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
 
+import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
+
+
 // Constants
 import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
@@ -23,23 +26,36 @@ import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 import './scss/navbar.scss';
 
 let image = {shouldDisplay: false};
+let profileData = false;
 if (typeof window !== 'undefined') {
   let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
   if (data && data.innerHTML && data.innerHTML.length > 0) {
     image = JSON.parse(data.innerHTML);
+  }
+
+  data = document.getElementById('JSONDATA_USER_PROFILE');
+  if (data && data.innerHTML && data.innerHTML.length > 0) {
+    profileData = JSON.parse(data.innerHTML);
   }
 }
 
 export default class NavbarContainer extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      displayLogoutWarning: this.shouldDisplayLogoutWarning(),
       active: {
         profile: false,
         menu: false,
         button: false
       }
     };
+    this.onLogout = this.onLogout.bind(this);
+  }
+
+  shouldDisplayLogoutWarning () {
+    return (profileData && profileData.userIsLoggedOut && !profileData.displayedLogoutWarning);
   }
 
   onToggle(type) {
@@ -102,6 +118,10 @@ export default class NavbarContainer extends React.Component {
     );
   }
 
+  onLogout () {
+    this.setState({displayLogoutWarning: false});
+  }
+
   renderProfileLinks() {
     if (!image.shouldDisplay) {
       return (
@@ -114,7 +134,7 @@ export default class NavbarContainer extends React.Component {
     return (
       <ul className="" >
         <li><NavbarLink value='Profil' url='/profil' /></li>
-        <li><NavbarLink value='Log ud' url='/logout' className='log-out-button' /></li>
+        <li><NavbarLink value='Log ud' onClick={this.onLogout} url='/logout' className='log-out-button' /></li>
       </ul>
     );
   }
@@ -153,6 +173,9 @@ export default class NavbarContainer extends React.Component {
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')} />
         <SearchContainer search={this.props.searchState} searchActions={this.props.searchActions} />
+        {
+          this.state.displayLogoutWarning && <LogoutWarning/>
+        }
       </div>
     );
   }

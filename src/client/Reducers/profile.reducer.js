@@ -22,6 +22,7 @@ let initialState = {
   hasFilledInProfile: false,
   id: -1,
   userIsLoggedIn: false,
+  userIsLoggedOut: false, // user is actively logged out (use this to display warning)
   image: {
     url: {
       small: '/no_profile.png',

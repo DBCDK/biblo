@@ -17,6 +17,7 @@ import FrontpageContainer from '../../client/components/FrontPage/FrontpageConta
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
+
   const frontPageBucket = process.env.FRONT_PAGE_BUCKET || 'uxdev-biblo-content-frontpage'; // eslint-disable-line no-process-env
   const bibloCSUrl = req.app.get('BIBLO_CONFIG').provider.services.community.endpoint;
   const settingsUrl = `${bibloCSUrl}api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
@@ -29,13 +30,26 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
     // Parse the widget data from S3
     const resp = JSON.parse(d.body);
 
+    if (req.session && req.session.passport) {
+      if (req.session.passport.user) {
+        req.session.userIsLoggedOut = false;
+      }
+    }
+
+    let profile = {
+      userIsLoggedOut: req.session.userIsLoggedOut,
+      displayedLogoutWarning: req.session.displayedLogoutWarning
+    };
+
     // Write it into the state tree, and render the component.
     req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
     req.renderComponent(FrontpageContainer);
 
+    req.session.displayedLogoutWarning = true;
     return res.render('page', {
       css: ['/css/frontpage.css', '/css/search.css'],
-      js: ['/js/frontpage.js']
+      js: ['/js/frontpage.js'],
+      profile: JSON.stringify(profile)
     });
   });
 });
@@ -53,6 +67,8 @@ MainRoutes.get('/logout', function(req, res) {
   logger.info('Logging out user', {session: req.session});
 
   req.logout();
+  req.session.userIsLoggedOut = true;
+  req.session.displayedLogoutWarning = false;
   res.redirect('/');
 });
 

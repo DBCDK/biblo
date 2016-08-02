@@ -1,0 +1,152 @@
+@import "tools";
+
+.editorially-selected-reviews-widget {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.editorial-reviews--review {
+  margin-top: 15px;
+  background-color: $white;
+  box-shadow: $gray 0 5px 10px;
+  text-align: center;
+  display: inline-block;
+  width: 280px;
+  height: 265px;
+  overflow: hidden;
+  position: relative;
+
+  @include min-screen($tablet) {
+    margin: 15px;
+    width: 460px;
+    height: 230px;
+  }
+
+  .editorial-reviews--review--left, .editorial-reviews--review--right {
+    display: inline-block;
+    width: 140px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+
+    @include min-screen($tablet) {
+      position: absolute;
+    }
+  }
+
+  @include min-screen($tablet) {
+    .editorial-reviews--review--right {
+      height: 170px;
+      width: 300px;
+      right: 0;
+    }
+
+    .editorial-reviews--review--left {
+      left: 0;
+    }
+  }
+
+  .editorial-reviews--review--profile-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid $white;
+      box-shadow: $gray 0 5px 10px;
+    }
+  }
+
+  .editorial-reviews--review--cover-image {
+    width: 133px;
+    height: 200px;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      box-shadow: $gray 0 5px 10px;
+    }
+  }
+
+  .editorial-reviews--review--profile-display-name--container {
+    display: block;
+    font-size: 10pt;
+    padding-top: 2px;
+
+    .twemoji {
+      width: 15px;
+    }
+  }
+
+  .editorial-reviews--review--work-title {
+    margin: 0;
+    text-overflow: ellipsis;
+    display: none;
+
+    @include min-screen($tablet) {
+      display: block;
+    }
+  }
+
+  .editorial-reviews--review--rating-container {
+    @include max-screen($tablet - 1) {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+  .editorial-reviews--review--content {
+    word-break: break-all;
+    text-align: justify;
+  }
+
+  .editorial-reviews--review--read-button {
+    display: inline-block;
+    width: 90%;
+    background-color: $melrose;
+    padding: 5px;
+    border-radius: 5px;
+    color: $white;
+
+    @include min-screen($tablet) {
+      width: 290px;
+      position: absolute;
+      bottom: 10px;
+      left: 165px;
+    }
+  }
+}
+
+.editorially-selected-reviews-widget--show-more-button--container {
+  text-align: center;
+  margin-top: 15px;
+
+  hr {
+    visibility: hidden;
+  }
+}
+
+.editorially-selected-reviews-widget--show-more-button {
+  cursor: pointer;
+  font-family: $header-font;
+  color: $black;
+  padding: 5px;
+  margin: 20px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  border: #e2e2ed solid 1px;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+
+  .icon {
+    fill: #938ee9;
+    margin-bottom:-1px;
+  }
+}

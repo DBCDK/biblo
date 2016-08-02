@@ -57,7 +57,7 @@ function hooks() {
       initController: path.join(__dirname, 'mockingInitController.js'),
       workers: 1,
       brokers: 1,
-      logLevel: process.env.SC_LOGLEVEL || 1,
+      logLevel: process.env.SC_LOGLEVEL || 1, // eslint-disable-line no-process-env
       rebootWorkerOnCrash: false
     });
     SocketCluster.on('ready', cb);
@@ -78,7 +78,7 @@ function hooks() {
     }, 500);
   });
 
-  this.Before(function (scenario) {
+  this.Before(function () {
     /**
      * cleanMocks removes all interceptors and resets recording.
      */
@@ -106,6 +106,6 @@ function hooks() {
     // Close browser after scenario
     return Promise.all([this.browser.quit(), this.cleanMocks()]);
   });
-};
+}
 
 module.exports = hooks;

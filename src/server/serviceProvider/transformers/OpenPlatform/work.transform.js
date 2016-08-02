@@ -12,6 +12,7 @@ const WorkTransform = {
       fields: fields || [
         'dcTitle',
         'dcTitleFull',
+        'titleSeries',
         'publisher',
         'description',
         'descriptionSeries',

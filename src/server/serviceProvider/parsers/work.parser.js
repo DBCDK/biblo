@@ -2,7 +2,7 @@
  * @file
  * Adapt work attributes for use with biblo.dk
  */
-function useCreateAutIfPossible (work) {
+function useCreateAutIfPossible(work) {
   if (work.creatorAut) {
     work.creator = work.creatorAut[0];
   }
@@ -12,7 +12,7 @@ function useCreateAutIfPossible (work) {
   return work;
 }
 
-function getTags (work) {
+function getTags(work) {
   let tags = [];
   tags = (work.subjectDBCF) ? tags.concat(work.subjectDBCF) : tags;
   tags = (work.subjectDBCS) ? tags.concat(work.subjectDBCS) : tags;
@@ -24,6 +24,7 @@ function getTags (work) {
 export default function parseWork(work) {
   work.dcTitle = work.dcTitle ? work.dcTitle[0] : '';
   work.dcTitleFull = work.dcTitleFull ? work.dcTitleFull[0] : '';
+  work.titleSeries = work.titleSeries ? work.titleSeries[0] : '';
   work.abstract = (work.abstract) ? work.abstract[0] : '';
   work = useCreateAutIfPossible(work);
   work.workType = (work.workType) ? work.workType[0] : 'other';

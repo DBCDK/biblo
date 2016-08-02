@@ -9,6 +9,12 @@
     color: black;
   }
 
+  .work-detail--title-series {
+    font-size: 0.9rem;
+    display: block;
+    cursor: pointer;
+  }
+
   .work-detail--subheader {
     font-size: 0.8rem;
   }
@@ -18,7 +24,7 @@
   }
 
   @include max-screen($desktop - 1px) {
-    margin:0px 15px 0px 15px;
+    margin: 0px 15px 0px 15px;
   }
 
   padding-bottom: 30px;

@@ -32,24 +32,36 @@ export class WorkDetail extends React.Component {
   render() {
     const coverUrl = this.props.coverUrl;
     const title = this.props.title;
+    const titleSeries = this.props.titleSeries;
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
     const materialTypes = [];
 
-    const materialTypeElements = materialTypes.map((materialType, i) => (<li key={i}><MaterialButton materialType={materialType} active={true} /></li>));
+    const materialTypeElements = materialTypes.map((materialType, i) => (
+      <li key={i}><MaterialButton materialType={materialType} active={true}/></li>));
 
     const abstract = this.props.abstract;
 
     const profile = this.props.profile;
     let reviewButton;
 
+    let titleSeriesQuery = titleSeries;
+    if (titleSeriesQuery) {
+      if (titleSeriesQuery.indexOf(' ; ') > 0) {
+        titleSeriesQuery = titleSeriesQuery.substring(0, titleSeriesQuery.indexOf(' ; '));
+      }
+      titleSeriesQuery = encodeURIComponent(titleSeriesQuery.replace('&', ''));
+    }
+
     // sd-566: tweak login requirements and button glyph when in full review view
     if (this.props.fullReview) {
-      reviewButton = (<ReviewButton editText={this.props.editText} loginRequired={false} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />);
+      reviewButton = (<ReviewButton editText={this.props.editText} loginRequired={false}
+                                    clickFunction={this.props.toggleReview.bind(this)} profile={profile}/>);
     }
     else {
-      reviewButton = (<ReviewButton editText={this.props.editText} glyph={pencilSvg} loginRequired={true} clickFunction={this.props.toggleReview.bind(this)} profile={profile} />);
+      reviewButton = (<ReviewButton editText={this.props.editText} glyph={pencilSvg} loginRequired={true}
+                                    clickFunction={this.props.toggleReview.bind(this)} profile={profile}/>);
     }
 
     return (
@@ -57,6 +69,12 @@ export class WorkDetail extends React.Component {
         <div className='work-detail--main'>
           <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
           <h2>{title}</h2>
+          {
+            titleSeries &&
+            <span className="work-detail--title-series">
+              <a href={'/find?q=' + titleSeriesQuery}>{titleSeries}</a>
+            </span>
+          }
           <span className='work-detail--subheader'>{creator}</span>
           <div className='work-detail--description'>
             {abstract}
@@ -64,8 +82,8 @@ export class WorkDetail extends React.Component {
 
           <div className='work-detail--action-buttons'>
             {
-             //  sd-566: Do not show borrow button when displaying own review in expanded mode (the user allready borrowed this)
-             !this.props.ownReview && <BorrowButton
+              //  sd-566: Do not show borrow button when displaying own review in expanded mode (the user allready borrowed this)
+              !this.props.ownReview && <BorrowButton
                 collectionDetails={this.props.collectionDetails}
                 collection={this.props.collection}
                 workTitle={title}
@@ -114,6 +132,7 @@ WorkDetail.propTypes = {
   abstract: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   creator: React.PropTypes.string.isRequired,
+  titleSeries: React.PropTypes.string.isRequired,
   displayType: React.PropTypes.string.isRequired,
   collection: React.PropTypes.array.isRequired,
   coverUrl: React.PropTypes.string.isRequired,

@@ -118,6 +118,7 @@ export class WorkContainer extends React.Component {
             title={work.dcTitle}
             displayType={work.workType}
             creator={work.creator}
+            titleSeries={work.titleSeries}
             abstract={work.abstract}
             tags={work.tags}
             coverUrl={work.coverUrl}

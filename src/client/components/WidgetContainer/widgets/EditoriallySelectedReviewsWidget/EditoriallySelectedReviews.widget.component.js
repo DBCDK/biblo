@@ -56,8 +56,6 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
   }
 
   renderReview(review, work) {
-    console.log(review, work)
-
     if (review && work) {
       const coverUrl = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
 

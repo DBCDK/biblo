@@ -2,6 +2,8 @@
  * @file: implements EditoriallySelectedReviewsWidget, renders pre selected reviews from widgetConfig.
  */
 
+/* eslint-disable react/no-danger */
+
 import React from 'react';
 import {isEqual} from 'lodash';
 
@@ -20,7 +22,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
     this.state = {
       expanded: false,
-      reviews: []
+      reviews: Object.values(props.widgetReducerProp.reviews)
     };
   }
 
@@ -54,8 +56,10 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
   }
 
   renderReview(review, work) {
+    console.log(review, work)
+
     if (review && work) {
-      const coverUrl = work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
+      const coverUrl = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
 
       return (
         <div key={`review_${review.id}`} className="editorial-reviews--review">
@@ -97,7 +101,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       );
     }
 
-    return <span key={`review_${review.id}`} />
+    return <span key={`review_${review.id}`} />;
   }
 
   render() {

@@ -147,7 +147,7 @@ export default function widgetReducer(state = initialState, action = {}) {
 
       return assignToEmpty(state, {
         EditoriallySelectedReviewsWidget
-      })
+      });
     }
 
     case types.GOT_WORKS_FROM_REVIEWS: {

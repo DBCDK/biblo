@@ -7,7 +7,7 @@ const getWorkFromReviewIdsTransform = {
     return 'getWorkFromReviewIds';
   },
 
-  requestTransform(event, {ids}, connection) {
+  requestTransform(event, {ids}) {
     return this.callServiceClient('community', 'getReviews', {
       filter: {
         where: {

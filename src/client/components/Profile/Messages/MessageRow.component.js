@@ -248,7 +248,7 @@ export default class MessageRow extends React.Component {
 
   deleteMessageButton() {
     return (
-      <span onClick={this.deleteMessage.bind(this)}>
+      <span title=' Slet denne besked ' onClick={this.deleteMessage.bind(this)}>
         <Icon icon="close" width={15} height={15} glyph={closeSVG}/>
       </span>
     );

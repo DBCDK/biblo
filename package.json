@@ -130,7 +130,7 @@
     "babel-eslint": "^6.0.4",
     "chai": "^3.2.0",
     "chai-as-promised": "^5.3.0",
-    "chromedriver": "2.19.0",
+    "chromedriver": "^2.19.0",
     "cucumber": "^1.0.0",
     "cucumberjs-junitxml": "0.0.12",
     "eslint": "^3.1.0",

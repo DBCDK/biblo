@@ -56,12 +56,25 @@ export class WorkDetail extends React.Component {
 
     // sd-566: tweak login requirements and button glyph when in full review view
     if (this.props.fullReview) {
-      reviewButton = (<ReviewButton editText={this.props.editText} loginRequired={false}
-                                    clickFunction={this.props.toggleReview.bind(this)} profile={profile}/>);
+      reviewButton = (
+        <ReviewButton
+          editText={this.props.editText}
+          loginRequired={false}
+          clickFunction={this.props.toggleReview.bind(this)}
+          profile={profile}
+        />
+      );
     }
     else {
-      reviewButton = (<ReviewButton editText={this.props.editText} glyph={pencilSvg} loginRequired={true}
-                                    clickFunction={this.props.toggleReview.bind(this)} profile={profile}/>);
+      reviewButton = (
+        <ReviewButton
+          editText={this.props.editText}
+          glyph={pencilSvg}
+          loginRequired={true}
+          clickFunction={this.props.toggleReview.bind(this)}
+          profile={profile}
+        />
+      );
     }
 
     return (

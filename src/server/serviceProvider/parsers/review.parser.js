@@ -1,7 +1,7 @@
 import parseProfile from './profile.parser';
 import parseText from './text.parser';
 
-export default function parseReview(review, campaigns = []) {
+export default function parseReview(review, campaigns = [], limitReviewContent) {
   campaigns.forEach(campaign => {
     const reviewCreatedEpoch = (new Date(review.created)).getTime();
     const campaignStartEpoch = (new Date(campaign.startDate)).getTime();
@@ -16,11 +16,16 @@ export default function parseReview(review, campaigns = []) {
     }
   });
 
+  let content = review.content;
+  if (limitReviewContent > 0 && content.length > limitReviewContent) {
+    content = `${content.substr(0, limitReviewContent)}...`;
+  }
+
   review.owner = parseProfile(review.owner, true, 'small');
   review.imageId = review.image && review.image.id; // we currently only allow one image at a time
   review.image = review.image && '/billede/' + review.image.id + '/medium' || null;
   review.likes = review.likes && review.likes.map(like => like.profileId || []);
-  review.html = parseText(review.content);
+  review.html = parseText(content, true, 'break');
 
   return review;
 }

@@ -64,7 +64,7 @@ const GetReviewTransform = {
     }
 
     let reviewsCount = JSON.parse(response[0].body);
-    let reviews = JSON.parse(response[1].body);
+    let reviews = response[1].body;
     const campaigns = response[2];
     reviews = reviews.map(review => parseReview(review, campaigns)) || [];
 

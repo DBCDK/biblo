@@ -75,15 +75,15 @@ const GetReviewTransform = {
     });
   },
 
-  responseTransform(response) {
+  responseTransform(response, {limitReviewContent = 0}) {
     if (response[1].statusCode !== 200) {
       throw new Error('Call to community service, with method getReviews failed');
     }
 
     let reviewsCount = JSON.parse(response[0].body);
-    let reviews = JSON.parse(response[1].body);
+    let reviews = response[1].body;
     const campaigns = response[2];
-    reviews = reviews.map(review => parseReview(review, campaigns)) || [];
+    reviews = reviews.map(review => parseReview(review, campaigns, limitReviewContent)) || [];
 
     return {
       status: response[1].statusCode,

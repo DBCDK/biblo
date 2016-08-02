@@ -65,7 +65,7 @@ const GetOwnReviewTransform = {
     }
 
     const campaigns = response[1];
-    const reviews = (JSON.parse(response[0].body) || []).map(review => parseReview(review, campaigns));
+    const reviews = (response[0].body || []).map(review => parseReview(review, campaigns));
 
     return {status: response.statusCode, data: reviews, errors: response.errors || []};
   }

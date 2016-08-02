@@ -32,6 +32,11 @@ let initialState = {
     groups: [],
     isLoading: true
   },
+  EditoriallySelectedReviewsWidget: {
+    works: {},
+    reviews: {},
+    isLoading: true
+  },
   widgetLocations: {
     ContentPageLeft: [],
     ContentPageFactBox: [],
@@ -128,6 +133,35 @@ export default function widgetReducer(state = initialState, action = {}) {
           isLoading: false,
           groups: action.data
         }
+      });
+    }
+
+    case types.GOT_REVIEWS: {
+      const EditoriallySelectedReviewsWidget = assignToEmpty(state.EditoriallySelectedReviewsWidget, {});
+      EditoriallySelectedReviewsWidget.isLoading = false;
+      (action.data.data || []).forEach(review => {
+        if (review.id) {
+          EditoriallySelectedReviewsWidget.reviews[review.id] = review;
+        }
+      });
+
+      return assignToEmpty(state, {
+        EditoriallySelectedReviewsWidget
+      })
+    }
+
+    case types.GOT_WORKS_FROM_REVIEWS: {
+      const works = action.data.data || [];
+      const EditoriallySelectedReviewsWidget = assignToEmpty(state.EditoriallySelectedReviewsWidget, {});
+      EditoriallySelectedReviewsWidget.works = assignToEmpty(EditoriallySelectedReviewsWidget.works, {});
+      works.forEach(work => {
+        (work.collection || []).forEach(pid => {
+          EditoriallySelectedReviewsWidget.works[pid] = work;
+        });
+      });
+
+      return assignToEmpty(state, {
+        EditoriallySelectedReviewsWidget
       });
     }
 

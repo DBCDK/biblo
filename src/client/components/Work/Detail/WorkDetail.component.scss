@@ -9,6 +9,14 @@
     color: black;
   }
 
+  .work-detail--title {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .work-detail--title-series {
     font-size: 0.9rem;
     display: block;

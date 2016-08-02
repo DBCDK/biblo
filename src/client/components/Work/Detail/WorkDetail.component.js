@@ -81,7 +81,7 @@ export class WorkDetail extends React.Component {
       <div className='work-detail'>
         <div className='work-detail--main'>
           <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
-          <h2>{title}</h2>
+          <h2 className='work-detail--title'>{title}</h2>
           {
             titleSeries &&
             <span className="work-detail--title-series">

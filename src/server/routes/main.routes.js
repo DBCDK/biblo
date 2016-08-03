@@ -17,6 +17,7 @@ import FrontpageContainer from '../../client/components/FrontPage/FrontpageConta
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
+
   const frontPageBucket = process.env.FRONT_PAGE_BUCKET || 'uxdev-biblo-content-frontpage'; // eslint-disable-line no-process-env
   const bibloCSUrl = req.app.get('BIBLO_CONFIG').provider.services.community.endpoint;
   const settingsUrl = `${bibloCSUrl}api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
@@ -31,6 +32,7 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
 
     // Write it into the state tree, and render the component.
     req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
+    req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: (req.query.logout === '1')});
     req.renderComponent(FrontpageContainer);
 
     return res.render('page', {
@@ -53,7 +55,7 @@ MainRoutes.get('/logout', function(req, res) {
   logger.info('Logging out user', {session: req.session});
 
   req.logout();
-  res.redirect('/');
+  res.redirect('/?logout=1');
 });
 
 MainRoutes.get('/error', (req, res, next) => {

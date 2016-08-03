@@ -9,3 +9,6 @@ Feature: Site Sessions
     Then the user can log in
     And the user can log out
     And page is not error page
+    And the logout-warning selector should contain the following items
+      | Du er nu logget ud af biblo.dk |
+

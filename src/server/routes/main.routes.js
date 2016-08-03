@@ -7,6 +7,7 @@
 import express from 'express';
 import passport from 'passport';
 import request from 'request';
+import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
 
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
@@ -17,8 +18,8 @@ import FrontpageContainer from '../../client/components/FrontPage/FrontpageConta
 const MainRoutes = express.Router();
 
 MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
-  const frontPageBucket = process.env.FRONT_PAGE_BUCKET || 'uxdev-biblo-content-frontpage'; // eslint-disable-line no-process-env
-  const bibloCSUrl = req.app.get('BIBLO_CONFIG').provider.services.community.endpoint;
+  const frontPageBucket = config.get('Biblo.frontPageBucket');
+  const bibloCSUrl = config.get('CommunityService.endpoint');
   const settingsUrl = `${bibloCSUrl}api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
 
   request.get(settingsUrl, (e, d) => {
@@ -68,17 +69,16 @@ MainRoutes.get('/error', (req, res, next) => {
 });
 
 MainRoutes.get('/billede/:id/:size', async function (req, res) {
-  const amazonConfig = req.app.get('amazonConfig');
   const logger = req.app.get('logger');
 
   try {
-    let imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
-    let imageUrl = amazonConfig.generateSignedCloudfrontCookie(
-      `https://${amazonConfig.cloudfrontUrls[imageResults[0].body.container]}/${imageResults[0].body.name}`
+    const imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
+    const imageUrl = generateSignedCloudfrontCookie(
+      `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${imageResults[0].body.container}`)}/${imageResults[0].body.name}`
     );
 
     let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970
-    res.setHeader('Cache-Control', `max-age=${Number(expires[1]) - 60}`);
+    res.setHeader('Cache-Control', `expires=${Number(expires[1]) - 60}`);
 
     setTimeout(() => res.redirect(imageUrl), 50);
     logger.info('got image url', {url: imageUrl});

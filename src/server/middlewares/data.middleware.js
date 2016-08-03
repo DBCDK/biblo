@@ -2,11 +2,24 @@
  * @file: This file contains middlewares for appending and updating data for endpoints.
  */
 
+import {config} from '@dbcdk/biblo-config';
+
 import {renderToString} from 'react-dom/server';
 import {createStore} from 'redux';
 
 import {wrapComponentInProvider} from '../../client/App';
 import rootReducer from '../../client/Reducers/root.reducer';
+
+/**
+ * Sets the config object to a prop on the request object.
+ * @param {Object}req
+ * @param {Object}res
+ * @param {Function}next
+ */
+export function ConfigurationMiddleware(req, res, next) {
+  req.config = config;
+  next();
+}
 
 /**
  * Middleware to set a users full profile (always refreshed) on the session, ready for use.

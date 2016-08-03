@@ -4,9 +4,10 @@
  */
 
 // Config
-import config from '@dbcdk/biblo-config';
+import {config} from '@dbcdk/biblo-config';
+
 // newrelic needs to be required the es5 way because we only wants to load new relic if specified in config.js
-const newrelic = config.biblo.getConfig({}).newrelic.enabled && require('newrelic') || null;
+const newrelic = config.get('NewRelic.enabled') && require('newrelic') || null;
 
 // Libraries
 import express from 'express';
@@ -45,7 +46,7 @@ import expressSession from 'express-session';
 import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
-import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession, renderComponent} from './server/middlewares/data.middleware';
+import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession, renderComponent, ConfigurationMiddleware} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
 // Queue processors
@@ -64,15 +65,15 @@ import {
 
 module.exports.run = function (worker) {
   // Setup
-  const BIBLO_CONFIG = config.biblo.getConfig({});
+  const BIBLO_CONFIG = config;
   const app = express();
   const server = worker.httpServer;
   const scServer = worker.getSCServer();
   const ENV = app.get('env');
   const PRODUCTION = ENV === 'production';
-  const APP_NAME = process.env.NEW_RELIC_APP_NAME || 'biblo'; // eslint-disable-line no-process-env
+  const APP_NAME = config.get('NewRelic.app_name');
   const APPLICATION = 'biblo';
-  const KAFKA_TOPIC = process.env.KAFKA_TOPIC || 'local'; // eslint-disable-line no-process-env
+  const KAFKA_TOPIC = config.get('Logger.KAFKA_TOPIC');
   const logger = new Logger({app_name: APP_NAME});
   const expressLoggers = logger.getExpressLoggers();
 
@@ -80,7 +81,7 @@ module.exports.run = function (worker) {
   server.on('request', app);
   // robots.txt handler
   app.get('/robots.txt', (req, res) => {
-    if (process.env.SHOW_IN_SEARCH_ENGINES) { // eslint-disable-line no-process-env
+    if (config.get('Biblo.showInSearchEngines')) {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /api/');
     }
@@ -103,6 +104,9 @@ module.exports.run = function (worker) {
     }
   });
 
+  // Set the configuration middleware early so we always have it available.
+  app.use(ConfigurationMiddleware);
+
   // Setting bodyparser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
@@ -114,47 +118,27 @@ module.exports.run = function (worker) {
   app.use(helmet.noSniff());
 
   // Port config
-  app.set('port', process.env.PORT || 8080); // eslint-disable-line no-process-env
-
-  // EMAIL Redirect requires port to be defined therefore it must come after
-  const EMAIL_REDIRECT = process.env.EMAIL_REDIRECT || 'localhost:' + app.get('port'); // eslint-disable-line no-process-env
+  app.set('port', config.get('Biblo.port'));
 
   // Configure amazon
-  let amazonConfig;
+  const amazonConfig = {
+    region: config.get('ServiceProvider.aws.region'),
+    accessKeyId: config.get('ServiceProvider.aws.keyId'),
+    secretAccessKey: config.get('ServiceProvider.aws.key')
+  };
+  AWS.config.update(amazonConfig);
 
-  if (process.env.AMAZON_S3_KEY && process.env.AMAZON_S3_KEYID) { // eslint-disable-line no-process-env
-    amazonConfig = {
-      key: process.env.AMAZON_S3_KEY, // eslint-disable-line no-process-env
-      keyId: process.env.AMAZON_S3_KEYID // eslint-disable-line no-process-env
-    };
-  }
-  else if (require('@dbcdk/biblo-config').communityservice.amazon) {
-    amazonConfig = require('@dbcdk/biblo-config').communityservice.amazon;
-  }
-  else {
-    amazonConfig = {
-      key: '',
-      keyId: ''
-    };
-  }
-
-  AWS.config.update({
-    region: amazonConfig.region,
-    accessKeyId: amazonConfig.keyId,
-    secretAccessKey: amazonConfig.key
-  });
-
-  if (process.env.http_proxy) { // eslint-disable-line no-process-env
+  if (config.get('Proxy.http_proxy')) {
     AWS.config.update({
       httpOptions: {
-        agent: new ProxyAgent(process.env.http_proxy) // eslint-disable-line no-process-env
+        agent: new ProxyAgent(config.get('Proxy.http_proxy'))
       }
     });
   }
 
   // Initialize DynamoDB
-  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`; // eslint-disable-line no-process-env
-  const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+  const tableName = config.get('ServiceProvider.aws.DynamoDB.tableName') || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
+  const dynamodb = new AWS.DynamoDB({apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')});
   const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   // List tables in dynamo db
@@ -191,14 +175,14 @@ module.exports.run = function (worker) {
                 ProjectionType: 'ALL'
               },
               ProvisionedThroughput: {
-                ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 5, // eslint-disable-line no-process-env
-                WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 5 // eslint-disable-line no-process-env
+                ReadCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.readCap'),
+                WriteCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.writeCap')
               }
             }
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: process.env.DYNAMO_READ_CAP || 5, // eslint-disable-line no-process-env
-            WriteCapacityUnits: process.env.DYNAMO_WRITE_CAP || 5 // eslint-disable-line no-process-env
+            ReadCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.readCap'),
+            WriteCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.writeCap')
           }
         };
 
@@ -219,12 +203,11 @@ module.exports.run = function (worker) {
   });
 
   // Configure service provider
-  const sp = ServiceProviderSetup(BIBLO_CONFIG, logger, worker);
+  const sp = ServiceProviderSetup(config, logger, worker);
 
   // Configure app variables
   app.set('serviceProvider', sp);
   app.set('logger', logger);
-  app.set('EMAIL_REDIRECT', EMAIL_REDIRECT);
   app.set('APPLICATION', APPLICATION);
   app.set('Configuration', config);
   app.set('BIBLO_CONFIG', BIBLO_CONFIG);
@@ -249,29 +232,15 @@ module.exports.run = function (worker) {
   // setting local vars that should be available to our template engine
   app.locals.env = ENV;
   app.locals.production = PRODUCTION;
-  app.locals.title = BIBLO_CONFIG.applicationTitle || 'Biblo'; // eslint-disable-line no-process-env
+  app.locals.title = config.get('Biblo.applicationTitle');
   app.locals.application = APPLICATION;
   app.locals.faviconUrl = '/favicon.ico';
 
   // Setup environments
-  let redisConfig;
-  let fileHeaders = {};
+  const fileHeaders = PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'} || {};
 
-  // Redis
-  switch (ENV) {
-    case 'development':
-      redisConfig = BIBLO_CONFIG.sessionStores.redis.development; // eslint-disable-line no-process-env
-      break;
-    case 'production':
-      redisConfig = BIBLO_CONFIG.sessionStores.redis.production; // eslint-disable-line no-process-env
-      fileHeaders = {index: false, dotfiles: 'ignore', maxAge: '5 days'};
-      break;
-    default:
-      redisConfig = BIBLO_CONFIG.sessionStores.redis.local; // eslint-disable-line no-process-env
-      break;
-  }
-
-  const queueCreate = createQueue.bind(logger, app, redisConfig);
+  // Queue handlers
+  const queueCreate = createQueue.bind(logger, app);
 
   // Configure message queue
   const userMessageQueue = queueCreate('user messages', processUserMessage);
@@ -305,8 +274,8 @@ module.exports.run = function (worker) {
   const redisStore = RedisStore(expressSession);
 
   const redisInstance = new redisStore({
-    host: redisConfig.host,
-    port: redisConfig.port,
+    host: config.get('Redis.host'),
+    port: config.get('Redis.port'),
     prefix: APP_NAME + '_session_'
   });
 
@@ -314,9 +283,12 @@ module.exports.run = function (worker) {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
   });
 
+  const cookieExpires = new Date();
+  cookieExpires.setHours(22, 0, 0, 0);
+
   const sessionMiddleware = expressSession({
     store: redisInstance,
-    secret: redisConfig.secret + APP_NAME,
+    secret: config.get('Sessions.secret') + APP_NAME,
     name: APP_NAME,
     rolling: true,
     resave: false,
@@ -326,9 +298,8 @@ module.exports.run = function (worker) {
       httpOnly: true,
       secure: PRODUCTION,
 
-      // Expire the cookie at end of browser session (same behavior as uni-login).
-      expires: null,
-      maxAge: null
+      // Expire the cookie at 22:00, one hour after closing the site.
+      expires: cookieExpires
     }
   });
 
@@ -360,15 +331,17 @@ module.exports.run = function (worker) {
   });
 
   // Setup passport
-  PassportStrategies.Unilogin(app, BIBLO_CONFIG.unilogin);
+  PassportStrategies.Unilogin(app, config.get('UNILogin'));
 
   // Setting middleware
-  app.use(GlobalsMiddleware); // should be placed after PassportStrategies.MobilSoegPassportConfig
+  app.use(GlobalsMiddleware);
   app.use(ssrMiddleware);
   app.use(ensureProfileImage);
   app.use(reduxStateMiddleware);
   app.use(renderComponent);
 
+  // This middleware sets the git sha to locals so we can render it in the template
+  // We do this to ensure we know exactly what's deployed.
   app.use((req, res, next) => {
     if (process.env.GIT_COMMIT) { // eslint-disable-line
       res.locals.gitsha = process.env.GIT_COMMIT; // eslint-disable-line
@@ -415,7 +388,7 @@ module.exports.run = function (worker) {
   // We only want one connection per server.
   if (worker.isLeader) {
     // First we connect to the community service via primus
-    const bibloCsUrl = BIBLO_CONFIG.provider.services.community.endpoint;
+    const bibloCsUrl = config.get('CommunityService.endpoint');
     const primus = new (Primus.createSocket({transformer: 'websockets', iknowclusterwillbreakconnections: true}))(bibloCsUrl);
 
     // Whenever we get some data from the service, we hit this function
@@ -450,5 +423,4 @@ module.exports.run = function (worker) {
   logger.log('debug', 'Server listening on port ' + app.get('port'));
   logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
   logger.log('debug', 'APPLICATION: ' + APPLICATION);
-  logger.log('debug', 'EMAIL_REDIRECT: ' + EMAIL_REDIRECT);
 };

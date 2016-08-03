@@ -5,6 +5,7 @@
 
 import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
 import path from 'path';
+import redisStore from 'cache-manager-redis';
 
 // import clients
 import Borchk from 'dbc-node-borchk';
@@ -28,10 +29,12 @@ import OpenUserStatus from 'dbc-node-openuserstatus-client';
  * @param client
  */
 function registerServiceClient(provider, config, clientCache, clientName, client) {
-  const methods = client(config[clientName]);
-  const cache = config[clientName].cache || null;
+  const clientConfig = config.get(`ServiceProvider.${clientName}`);
+  const methods = client(clientConfig);
+  const cache = clientConfig.cache || null;
   if (cache) {
-    provider.registerServiceClient(clientName, clientCache(methods, cache));
+    const cacheTime = config.get(cache);
+    provider.registerServiceClient(clientName, clientCache(methods, cacheTime));
   }
   else {
     provider.registerServiceClient(clientName, methods);
@@ -50,7 +53,15 @@ export default function initProvider(config, logger, sockets) {
   const provider = Provider(logger);
   provider.dispatcher(sockets);
 
-  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config.provider.services, ClientCache(config.cache));
+  const cacheStore = {
+    store: redisStore,
+    host: config.get('Redis.host'), // default value
+    port: config.get('Redis.port'), // default value
+    db: config.get('Redis.db'),
+    ttl: config.get('CacheTimes.standard')
+  };
+
+  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));
 
   // Register all clients
   RegisterClientOnProvider('borchk', Borchk);

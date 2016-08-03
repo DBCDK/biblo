@@ -352,7 +352,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     params.video = req.session.videoupload;
   }
 
-  const amazonConfig = req.app.get('amazonConfig');
+  const amazonConfig = req.config.get('ServiceProvider.aws');
   try {
     const response = (await req.callServiceProvider('createGroupContent', params, {request: req}))[0];
 

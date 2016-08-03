@@ -1,6 +1,9 @@
-'use strict';
-let newRelicConfig = require('@dbcdk/biblo-config').biblo.getConfig({}).newrelic;
-const NAME = newRelicConfig.app_name;
+/**
+ * @file: Setup new relic monitoring.
+ */
+
+const config = require('@dbcdk/biblo-config').config;
+
 /**
  * New Relic agent configuration.
  *
@@ -11,11 +14,11 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: NAME,
+  app_name: config.get('NewRelic.app_name'),
   /**
    * Your New Relic license key.
    */
-  license_key: newRelicConfig.license_key,
+  license_key: config.get('NewRelic.license_key'),
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

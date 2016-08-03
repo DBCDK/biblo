@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
-    "@dbcdk/biblo-config": "^1.14.0",
+    "@dbcdk/biblo-config": "^2.0.0",
     "autolinker": "^0.27.0",
     "autoprefixer": "^6.3.1",
     "autosize": "^3.0.15",
@@ -59,6 +59,7 @@
     "body-parser": "1.15.2",
     "bull": "^1.0.0-rc2",
     "busboy": "^0.2.13",
+    "cache-manager-redis": "^0.2.2",
     "classnames": "^2.2.3",
     "compass-sass-mixins": "^0.12.7",
     "compression": "1.6.2",

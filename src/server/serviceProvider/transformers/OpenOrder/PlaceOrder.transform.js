@@ -13,7 +13,10 @@ const PlaceOrderTransform = {
       agencyId: request.agencyId,
       pids: request.pids.split(','),
       userId: request.loanerId,
-      needBeforeDate: this.getNeedBeforeDate(90)
+      needBeforeDate: this.getNeedBeforeDate(90),
+      fullName: request.fullName,
+      phone: request.phone,
+      email: request.email
     });
   },
 

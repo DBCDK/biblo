@@ -2,6 +2,7 @@
  * @file: Client for AWS.
  */
 
+import {config} from '@dbcdk/biblo-config';
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
 
@@ -146,12 +147,12 @@ export default function AWSClient(config = null) {
   }
 
   // Figure out the table name!
-  const KAFKA_TOPIC = process.env.KAFKA_TOPIC || 'local'; // eslint-disable-line no-process-env
+  const KAFKA_TOPIC = config.get('Logger.KAFKA_TOPIC');
   const ENV = process.env.NODE_ENV || 'development'; // eslint-disable-line no-process-env
-  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`; // eslint-disable-line no-process-env
+  const tableName = config.get('ServiceProvider.aws.DynamoDB.tableName') || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
 
   // Create the document client
-  const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+  const dynamodb = new AWS.DynamoDB({apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')});
   const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   return {

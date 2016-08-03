@@ -1,8 +1,7 @@
-var assert = require('assert');
 var expect = require('expect');
 
 export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout}) {
-  describe('Front Page tests', function() {
+  describe('Front Page tests', function () {
     var driver;
 
     beforeEach(() => {
@@ -20,10 +19,10 @@ export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout})
       var body = driver.findElement({tagName: 'body'});
       var header = body.findElement({tagName: 'h2'});
 
-       header.getText().then((text) => {
-      //  assert.equal(text, 'Velkommen til biblo.dk');
+      header.getText().then((text) => {
+        assert.equal(text, 'Velkommen til biblo.dk');
         done();
-       });
+      });
     });
 
     it('Cookie warning is shown, and functions', (done) => {

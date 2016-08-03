@@ -3,23 +3,22 @@ import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
 const WorkRoutes = express.Router();
 
-WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
+WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
   try {
     let pid = req.body.mediaType;
     const profile = req.session.passport.user.profile.profile;
 
-    const libId = profile.favoriteLibrary.libraryId;
-    const loanerId = profile.favoriteLibrary.loanerId;
-    const pincode = profile.favoriteLibrary.pincode;
+    const {libraryId, loanerId, pincode} = profile.favoriteLibrary;
+    const {fullName, phone, email} = profile;
 
-    if (!libId || !loanerId || !pincode) {
+    if (!libraryId || !loanerId || !pincode) {
       throw new Error('Missing borrower info!');
     }
 
     const borrChk = (await req.callServiceProvider('borrowerCheck', {
       loanerID: loanerId,
       pincode: pincode,
-      agencyID: libId
+      agencyID: libraryId
     }))[0];
 
     if (borrChk.data !== 'ok') {
@@ -27,9 +26,12 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
     }
 
     let orderReponse = (await req.callServiceProvider('placeOrder', {
-      agencyId: libId,
+      agencyId: libraryId,
       pids: pid,
-      loanerId
+      loanerId: loanerId,
+      fullName: fullName,
+      phone: phone,
+      email: email
     }))[0];
 
     if (!orderReponse.orderPlaced || orderReponse.errors && orderReponse.errors.length > 0) {
@@ -46,7 +48,7 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
   }
 });
 
-WorkRoutes.get('/:pid', async function(req, res, next) {
+WorkRoutes.get('/:pid', async function (req, res, next) {
   const logger = res.app.get('logger');
   try {
     let pid = decodeURIComponent(req.params.pid);

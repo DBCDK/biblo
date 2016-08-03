@@ -121,7 +121,7 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
   try {
     const profile = req.session.passport.user.profile.profile;
     const logger = req.app.get('logger');
-    const amazonConfig = req.app.get('amazonConfig');
+    const amazonConfig = req.config.get('ServiceProvider.aws');
     const ElasticTranscoder = req.app.get('ElasticTranscoder');
 
     const params = {

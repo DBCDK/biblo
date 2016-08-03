@@ -2,11 +2,11 @@
 
 var expect = require('chai').expect;
 var assert = require('chai').assert;
-var bibloconfig = require('@dbcdk/biblo-config');
+var config = require('@dbcdk/biblo-config').config;
 var crypto = require('crypto');
 import {By} from 'selenium-webdriver';
 
-var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${process.env.PORT || 8080}`; // eslint-disable-line no-process-env
+var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${config.get('Biblo.port')}`; // eslint-disable-line no-process-env
 
 var myStepDefinitionsWrapper = function() {
   this.Given(/^a user visits the frontpage$/i, function(callback) {
@@ -59,7 +59,7 @@ var myStepDefinitionsWrapper = function() {
   });
 
   this.Then(/^the user can log in/i, function(callback) {
-    const uniloginSecret = bibloconfig.biblo.getConfig().unilogin.secret;
+    const uniloginSecret = config.get('UNILogin.secret');
     const date = new Date();
     const timestamp = `${date.getFullYear()}${date.getMonth() + 1}${date.getUTCDate()}${date.getUTCHours() + 1}${date.getUTCMinutes()}${date.getSeconds()}`;
     const ltoken = 'ac8b69252151a7f42e898a54257f935ea80611a6';

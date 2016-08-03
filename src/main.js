@@ -4,9 +4,9 @@
  *
  */
 
-var config = require('@dbcdk/biblo-config').biblo; // eslint-disable-line no-process-env
+const config = require('@dbcdk/biblo-config').config;
 
-if (config.getConfig({}).newrelic.enabled) {
+if (config.get('NewRelic.enabled')) {
   require('newrelic');
 }
 

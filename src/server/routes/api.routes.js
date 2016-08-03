@@ -39,7 +39,7 @@ ApiRoutes.post('/uploadimage', ensureAuthenticated, upload.single('image'), asyn
 ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
 
   const logger = req.app.get('logger');
-  const amazonConfig = req.app.get('amazonConfig');
+  const videoInputBucket = req.config.get('ServiceProvider.aws.buckets.videoInputBucket');
   const s3 = req.app.get('s3');
   let busboy = new Busboy({headers: req.headers});
 
@@ -49,7 +49,7 @@ ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
     file_extension = file_extension[file_extension.length - 1];
     filename = Date.now() + '_profile_' + pid + '.' + file_extension;
     s3.upload({
-      Bucket: amazonConfig.buckets.videoInputBucket,
+      Bucket: videoInputBucket,
       Key: filename,
       Body: file
     }, (err, data) => {
@@ -65,7 +65,7 @@ ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
           req.session.videoupload = {
             mimetype: mimetype,
             videofile: data.key || data.Key,
-            container: amazonConfig.buckets.videoInputBucket,
+            container: videoInputBucket,
             pureFileName: pureFileName
           };
 

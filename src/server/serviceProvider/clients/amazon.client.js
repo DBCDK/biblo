@@ -2,6 +2,7 @@
  * @file: Client for AWS.
  */
 
+import {config} from '@dbcdk/biblo-config';
 import AWS from 'aws-sdk';
 import ProxyAgent from 'proxy-agent';
 
@@ -115,43 +116,43 @@ function deleteUserMessage(docClient, tableName, {messageType, createdEpoch}) {
  *
  * @param {Object} config Config object with the necessary parameters to use the webservice.
  */
-export default function AWSClient(config = null) {
-  if (!config) {
+export default function AWSClient(configuration = null) {
+  if (!configuration) {
     throw new Error('Expected config object but got null!');
   }
-  else if (!config.key) {
+  else if (!configuration.key) {
     throw new Error('Expected key in config object but got nothing!');
   }
-  else if (!config.keyId) {
+  else if (!configuration.keyId) {
     throw new Error('Expected keyId in config object but got nothing!');
   }
-  else if (!config.region) {
+  else if (!configuration.region) {
     throw new Error('Expected region in config object but got nothing!');
   }
 
   // Ensure global settings are correct!
   AWS.config.update({
-    region: config.region,
-    accessKeyId: config.keyId,
-    secretAccessKey: config.key
+    region: configuration.region,
+    accessKeyId: configuration.keyId,
+    secretAccessKey: configuration.key
   });
 
   // Make sure we can go through the DMZ proxy.
-  if (config.http_proxy) {
+  if (config.get('Proxy.http_proxy')) {
     AWS.config.update({
       httpOptions: {
-        agent: new ProxyAgent(config.http_proxy)
+        agent: new ProxyAgent(config.get('Proxy.http_proxy'))
       }
     });
   }
 
   // Figure out the table name!
-  const KAFKA_TOPIC = process.env.KAFKA_TOPIC || 'local'; // eslint-disable-line no-process-env
+  const KAFKA_TOPIC = config.get('Logger.KAFKA_TOPIC');
   const ENV = process.env.NODE_ENV || 'development'; // eslint-disable-line no-process-env
-  const tableName = process.env.DYNAMO_TABLE_NAME || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`; // eslint-disable-line no-process-env
+  const tableName = config.get('ServiceProvider.aws.DynamoDB.tableName') || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
 
   // Create the document client
-  const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+  const dynamodb = new AWS.DynamoDB({apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')});
   const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   return {

@@ -38,17 +38,13 @@ export default class NavbarContainer extends React.Component {
     super(props);
 
     this.state = {
-      displayLogoutWarning: this.shouldDisplayLogoutWarning(),
+      displayLogoutWarning: this.props.profileState.displayLogoutWarning,
       active: {
         profile: false,
         menu: false,
         button: false
       }
     };
-  }
-
-  shouldDisplayLogoutWarning () {
-    return (this.props.profileState.displayLogoutWarning);
   }
 
   onToggle(type) {

@@ -32,6 +32,7 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
 
     // Write it into the state tree, and render the component.
     req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
+    req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: (req.query.logout === '1')});
     req.renderComponent(FrontpageContainer);
 
     return res.render('page', {
@@ -54,7 +55,7 @@ MainRoutes.get('/logout', function(req, res) {
   logger.info('Logging out user', {session: req.session});
 
   req.logout();
-  res.redirect('/');
+  res.redirect('/?logout=1');
 });
 
 MainRoutes.get('/error', (req, res, next) => {

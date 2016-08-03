@@ -11,6 +11,9 @@ import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
 
+import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
+
+
 // Constants
 import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
@@ -33,13 +36,19 @@ if (typeof window !== 'undefined') {
 export default class NavbarContainer extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      displayLogoutWarning: this.shouldDisplayLogoutWarning(),
       active: {
         profile: false,
         menu: false,
         button: false
       }
     };
+  }
+
+  shouldDisplayLogoutWarning () {
+    return (this.props.profileState.displayLogoutWarning);
   }
 
   onToggle(type) {
@@ -153,6 +162,9 @@ export default class NavbarContainer extends React.Component {
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')} />
         <SearchContainer search={this.props.searchState} searchActions={this.props.searchActions} />
+        {
+          this.state.displayLogoutWarning && <LogoutWarning/>
+        }
       </div>
     );
   }

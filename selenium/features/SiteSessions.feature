@@ -9,3 +9,4 @@ Feature: Site Sessions
     Then the user can log in
     And the user can log out
     And page is not error page
+    And page contains a logout warning

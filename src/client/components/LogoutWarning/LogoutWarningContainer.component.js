@@ -1,3 +1,6 @@
+/**
+ * @file: display logout warning. Display this if the user is logged out.
+ */
 import React from 'react';
 
 import ModalWindow from '../General/ModalWindow/ModalWindow.component';
@@ -5,22 +8,23 @@ import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
 
 import './scss/logout-warning.scss';
 
+
 export default class LogoutWarningContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      displayLogoutWarning: true
+      displayWarning: true
     };
     this.onClose = this.onClose.bind(this);
   }
 
   onClose() {
-    this.setState({displayLogoutWarning: false});
+    this.setState({displayWarning: false});
   }
 
   render() {
     return (
-      this.state.displayLogoutWarning &&
+      this.state.displayWarning &&
       <ModalWindow onClose={this.onClose.bind(this)} >
         <div className="logout-warning" >
           <div className='icon-container'>

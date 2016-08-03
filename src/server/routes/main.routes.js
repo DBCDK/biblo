@@ -30,26 +30,14 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
     // Parse the widget data from S3
     const resp = JSON.parse(d.body);
 
-    if (req.session && req.session.passport) {
-      if (req.session.passport.user) {
-        req.session.userIsLoggedOut = false;
-      }
-    }
-
-    let profile = {
-      userIsLoggedOut: req.session.userIsLoggedOut,
-      displayedLogoutWarning: req.session.displayedLogoutWarning
-    };
-
     // Write it into the state tree, and render the component.
     req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
+    req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: (req.query.logout === '1')});
     req.renderComponent(FrontpageContainer);
 
-    req.session.displayedLogoutWarning = true;
     return res.render('page', {
       css: ['/css/frontpage.css', '/css/search.css'],
-      js: ['/js/frontpage.js'],
-      profile: JSON.stringify(profile)
+      js: ['/js/frontpage.js']
     });
   });
 });
@@ -67,9 +55,7 @@ MainRoutes.get('/logout', function(req, res) {
   logger.info('Logging out user', {session: req.session});
 
   req.logout();
-  req.session.userIsLoggedOut = true;
-  req.session.displayedLogoutWarning = false;
-  res.redirect('/');
+  res.redirect('/?logout=1');
 });
 
 MainRoutes.get('/error', (req, res, next) => {

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import ModalWindow from '../General/ModalWindow/ModalWindow.component';
-import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
+import RoundedButton from '../General/RoundedButton/RoundedButton.submit.component';
 
 import './scss/logout-warning.scss';
 

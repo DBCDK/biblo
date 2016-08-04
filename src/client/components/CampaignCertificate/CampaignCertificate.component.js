@@ -203,11 +203,14 @@ export class CampaignCertificate extends Component {
         postContent = <img src={post.image}/>;
       }
 
+      const cDate = new Date(post.timeCreated);
+      const dateString = `${cDate.getDate()}/${cDate.getMonth() + 1}/${cDate.getFullYear()}`;
+
       return (
         <div key={`post_${post.id}`} className="contribution--post-container">
           <div>
             <span dangerouslySetInnerHTML={{__html: group.name}}/>
-            <span> den. {(new Date(post.timeCreated)).toLocaleDateString()} </span>
+            <span> d. {dateString} </span>
           </div>
 
           <div className="post--content">
@@ -232,11 +235,14 @@ export class CampaignCertificate extends Component {
         reviewContent = <img src={review.image}/>;
       }
 
+      const cDate = new Date(review.created);
+      const dateString = `${cDate.getDate()}/${cDate.getMonth() + 1}/${cDate.getFullYear()}`;
+
       return (
         <div key={`review_${review.id}`} className="contribution--reivew-container">
           <div>
             <span dangerouslySetInnerHTML={{__html: review.campaign.campaignName}}/>
-            <span> d. {(new Date(review.created)).toLocaleDateString()} </span>
+            <span> d. {dateString} </span>
           </div>
 
           <div className="review--work">

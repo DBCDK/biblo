@@ -419,8 +419,8 @@ module.exports.run = function (worker) {
     });
   }
 
-  logger.log('debug', '>> Worker PID: ' + process.pid);
-  logger.log('debug', 'Server listening on port ' + app.get('port'));
-  logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
-  logger.log('debug', 'APPLICATION: ' + APPLICATION);
+  logger.debug('>> Worker PID: ' + process.pid);
+  logger.debug('Server listening on port ' + app.get('port'));
+  logger.debug('NEW_RELIC_APP_NAME: ' + APP_NAME);
+  logger.debug('APPLICATION: ' + APPLICATION);
 };

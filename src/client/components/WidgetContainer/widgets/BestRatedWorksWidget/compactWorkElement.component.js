@@ -32,7 +32,7 @@ export class CompactWorkElement extends Component {
     const title = work.dcTitle;
     const workType = work.workType || 'other';
     const workTypeSvg = materialSvgs[workType];
-    const cover = work.coverUrlFull; // && work.coverUrlFull[0] || `/images/covers/${workType}.png`;
+    const cover = work.coverUrlFull;
     const pid = work.collection[0];
 
     return (

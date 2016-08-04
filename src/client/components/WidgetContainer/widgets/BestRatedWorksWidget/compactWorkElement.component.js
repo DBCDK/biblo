@@ -29,10 +29,10 @@ const materialSvgs = {
 export class CompactWorkElement extends Component {
   render() {
     const work = this.props.work;
-    const title = work.dcTitle && work.dcTitle[0];
-    const workType = work.workType && work.workType[0] || 'other';
+    const title = work.dcTitle;
+    const workType = work.workType || 'other';
     const workTypeSvg = materialSvgs[workType];
-    const cover = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${workType}.png`;
+    const cover = work.coverUrlFull; // && work.coverUrlFull[0] || `/images/covers/${workType}.png`;
     const pid = work.collection[0];
 
     return (

@@ -240,7 +240,7 @@ module.exports.run = function (worker) {
   const fileHeaders = PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'} || {};
 
   // Queue handlers
-  const queueCreate = createQueue.bind(logger, app);
+  const queueCreate = createQueue.bind(null, logger, app);
 
   // Configure message queue
   const userMessageQueue = queueCreate('user messages', processUserMessage);

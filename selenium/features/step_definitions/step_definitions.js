@@ -104,14 +104,6 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.Then(/page contains a logout warning$/i, function () {
-    return this.$('.logout-warning .header')
-      .then(element => element.getText())
-      .then(text => {
-        expect(text).to.contain('Du er nu logget ud af biblo.dk');
-      });
-  });
-
   this.Then(/^'Det Sker' menu item should not be visible$/, function() {
     return this.browser.findElement(By.className('navbar-mobile-menu is-active menu')).then((menu) => {
       menu.getText().then((text) => {

@@ -21,7 +21,7 @@ module.exports = function(config) {
       'tests.utils.webpack.js': ['webpack'],
       'tests.server.webpack.js': ['webpack']
     },
-    reporters: ['mocha', 'junit', 'coverage'],
+    reporters: ['mocha', 'junit'],
     junitReporter: {
       outputDir: 'output'
     },
@@ -35,19 +35,6 @@ module.exports = function(config) {
     webpackMiddleware: {
       noInfo: true,
       quiet: true
-    },
-    coverageReporter: {
-      includeAllSources: true,
-      dir: 'coverage/',
-      reporters: [{
-        type: 'html'
-      }, {
-        type: 'cobertura'
-      }, {
-        type: 'lcovonly',
-        file: 'lcov.info',
-        subdir: '.'
-      }]
     }
   });
 };

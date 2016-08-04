@@ -35,11 +35,6 @@ module.exports = {
           presets: ['react', 'es2015'],
           plugins: ['transform-runtime', 'transform-async-to-generator']
         }
-      },
-      {
-        test: /\.js$/,
-        exclude: /(test|node_modules|bower|__tests__)\//,
-        loader: 'isparta'
       }
     ]
   },

@@ -33,6 +33,7 @@ let initialState = {
     isLoading: true
   },
   EditoriallySelectedReviewsWidget: {
+    works: {},
     reviews: {},
     isLoading: true
   },

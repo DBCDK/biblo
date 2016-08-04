@@ -12,7 +12,7 @@ const checkIfGroupNameExistsTransform = {
   },
 
   responseTransform(response) {
-    const data = {exists: true, errors: [], status: 200};
+    const data = {exists: true, errors: [], statusCode: 200};
 
     try {
       data.statusCode = response.statusCode;

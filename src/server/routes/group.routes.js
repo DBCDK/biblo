@@ -69,7 +69,7 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
   // We want to ensure new groups have a unique name.
   if (req.body['group-name']) {
     const nameCheck = (await req.callServiceProvider('checkIfGroupNameExists', {groupName: req.body['group-name']}))[0];
-    if (nameCheck.errors.length > 0) {
+    if (nameCheck.errors.length > 0 || nameCheck.statusCode >= 400) {
       errors.push({
         errorMessage: 'Der er sket en fejl, prøv igen senere!',
         field: 'group_image'

@@ -35,10 +35,10 @@ GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, (req, res) 
 });
 
 GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
-  let data = {
+  const data = {
     status: 'INCOMPLETE'
   };
-  let errors = [];
+  const errors = [];
 
   function handler(form) {
     for (let key in form.fields) {
@@ -64,6 +64,23 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
       errorMessage: 'Husk at vælge et coverbillede!',
       field: 'group_image'
     });
+  }
+
+  // We want to ensure new groups have a unique name.
+  if (req.body['group-name']) {
+    const nameCheck = (await req.callServiceProvider('checkIfGroupNameExists', {groupName: req.body['group-name']}))[0];
+    if (nameCheck.errors.length > 0) {
+      errors.push({
+        errorMessage: 'Der er sket en fejl, prøv igen senere!',
+        field: 'group_image'
+      });
+    }
+    else if (nameCheck.exists) {
+      errors.push({
+        errorMessage: 'Der findes allerede en gruppe med det navn',
+        field: 'group-name'
+      })
+    }
   }
 
   if (errors.length > 0) {

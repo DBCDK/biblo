@@ -9,6 +9,7 @@ import request from 'request';
 import {pick, find, filter} from 'lodash';
 import PDFDocument from 'pdfkit';
 
+import {config} from '@dbcdk/biblo-config';
 import path from 'path';
 import twemoji from 'twemoji';
 import Logger from 'dbc-node-logger';
@@ -26,6 +27,7 @@ import {
 
 const CampaignRoutes = express.Router();
 const logger = new Logger();
+const proxy = config.get('Proxy.http_proxy');
 
 /**
  * Computes age
@@ -44,6 +46,12 @@ function computeAge(birthday) {
 }
 
 function generatePDFFromHTML(html, baseUrl) {
+  const phantomArgs = [];
+
+  if (proxy) {
+    phantomArgs.push(`--proxy=${proxy}`);
+  }
+
   const renderingOptions = {
     format: 'A4',
     base: baseUrl,
@@ -53,7 +61,8 @@ function generatePDFFromHTML(html, baseUrl) {
     footer: {
       height: '20mm'
     },
-    margin: '1cm'
+    margin: '1cm',
+    phantomArgs
   };
 
   return new Promise((resolve, reject) => {

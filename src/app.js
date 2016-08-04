@@ -240,7 +240,7 @@ module.exports.run = function (worker) {
   const fileHeaders = PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'} || {};
 
   // Queue handlers
-  const queueCreate = createQueue.bind(logger, app);
+  const queueCreate = createQueue.bind(null, logger, app);
 
   // Configure message queue
   const userMessageQueue = queueCreate('user messages', processUserMessage);
@@ -419,8 +419,8 @@ module.exports.run = function (worker) {
     });
   }
 
-  logger.log('debug', '>> Worker PID: ' + process.pid);
-  logger.log('debug', 'Server listening on port ' + app.get('port'));
-  logger.log('debug', 'NEW_RELIC_APP_NAME: ' + APP_NAME);
-  logger.log('debug', 'APPLICATION: ' + APPLICATION);
+  logger.debug('>> Worker PID: ' + process.pid);
+  logger.debug('Server listening on port ' + app.get('port'));
+  logger.debug('NEW_RELIC_APP_NAME: ' + APP_NAME);
+  logger.debug('APPLICATION: ' + APPLICATION);
 };

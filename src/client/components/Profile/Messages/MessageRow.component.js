@@ -129,7 +129,7 @@ export default class MessageRow extends React.Component {
             <Icon width={15} height={15} glyph={commentSVG} />
             Ny besked fra moderator
           </span>
-        )
+        );
       }
 
       default: {
@@ -212,6 +212,7 @@ export default class MessageRow extends React.Component {
       case 'type-userWasQuarantined': {
         const messageContent = this.state.message.reason;
 
+        /* eslint-disable react/no-danger */
         return (
           <div className="quarantine">
             <div className="quarantine--author">Moderator</div>
@@ -221,6 +222,7 @@ export default class MessageRow extends React.Component {
             </div>
           </div>
         );
+        /* eslint-enable react/no-danger */
       }
 
       default: {

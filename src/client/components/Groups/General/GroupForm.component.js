@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {debounce} from 'lodash';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
@@ -8,19 +9,54 @@ import Message from '../../General/Message/Message.component';
 
 import './_groupform.component.scss';
 
+const debouncedCheckGroupName = debounce((groupName, checkIfGroupNameExists) => {
+  checkIfGroupNameExists(groupName);
+}, 400);
+
 export default class GroupForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      errors: props.errors,
+      groupName: props.defaultValues['group-name']
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // copy array to avoid error persistence.
+    const errors = nextProps.errors.slice();
+    const checkedNames = nextProps.checkedNames;
+    const groupName = this.state.groupName;
+
+    if (checkedNames[groupName]) {
+      errors.push({
+        errorMessage: 'Der findes allerede en gruppe med det navn',
+        field: 'group-name'
+      });
+    }
+
+    this.setState({errors});
+  }
+
   componentDidMount() {
     let elem = ReactDOM.findDOMNode(this.refs['group-form']);
     elem.onsubmit = (e) => this.props.submit(
       e,
-      this.refs.groupNameInput.value,
+      this.state.groupName,
       this.refs.groupDescriptionArea.value
     );
   }
 
+  groupNameChange(ev) {
+    const groupName = ev.target.value;
+    this.setState({groupName: groupName});
+    debouncedCheckGroupName(groupName, this.props.checkIfGroupNameExistsAction);
+  }
+
   render() {
     const errorObj = {};
-    this.props.errors.forEach((error) => {
+    this.state.errors.forEach((error) => {
       errorObj[error.field] = (
         <Message type='error'>
           <span className={error.field}>{error.errorMessage}</span>
@@ -29,7 +65,7 @@ export default class GroupForm extends React.Component {
     });
 
     let disabled = false;
-    let submitArea = <RoundedButtonSubmit buttonText="OK"/>;
+    let submitArea = <RoundedButtonSubmit buttonText="OK" disabled={this.state.errors.length > 0}/>;
 
     if (this.props.submitState === 'SUBMITTING') {
       disabled = true;
@@ -63,7 +99,8 @@ export default class GroupForm extends React.Component {
               required
               placeholder="Find på et gruppenavn"
               ref={'groupNameInput'}
-              defaultValue={this.props.defaultValues['group-name']}
+              value={this.state.groupName}
+              onChange={this.groupNameChange.bind(this)}
             />
             {errorObj['group-name'] || ''}
           </div>
@@ -104,10 +141,13 @@ GroupForm.propTypes = {
   submitState: React.PropTypes.string,
   submitProgress: React.PropTypes.number.isRequired,
   submit: React.PropTypes.func.isRequired,
+  checkIfGroupNameExistsAction: React.PropTypes.func.isRequired,
+  checkedNames: React.PropTypes.object,
   defaultValues: React.PropTypes.object
 };
 
 GroupForm.defaultProps = {
+  checkedNames: {},
   defaultValues: {
     'group-name': '',
     'group-description': ''

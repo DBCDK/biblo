@@ -19,6 +19,8 @@ export function processCheckForNewQuarantines(job, done) {
     const getUserMessagesPromise = serviceProvider.trigger('getUserMessages', job.data.userId);
 
     Promise.all(getQuarantinesPromise.concat(getUserMessagesPromise)).then((serviceProviderData) => {
+      console.log('spdata:', serviceProviderData);
+
       const userMessages = serviceProviderData[1];
       const quarantines = serviceProviderData[0].body;
 

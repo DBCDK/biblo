@@ -1,0 +1,25 @@
+<svg id="Moderator_profilbillede_stor" data-name="Moderator profilbillede stor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="140" viewBox="0 0 140 140">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e7e7ef;
+        filter: url(#filter);
+      }
+
+      .cls-2 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+    <filter id="filter" x="0" y="0" width="140" height="140" filterUnits="userSpaceOnUse">
+      <feGaussianBlur result="blur" stdDeviation="7.071" in="SourceAlpha"/>
+      <feFlood result="flood" flood-opacity="0.1"/>
+      <feComposite result="composite" operator="out" in2="blur"/>
+      <feOffset result="offset"/>
+      <feComposite result="composite-2" operator="in" in2="SourceAlpha"/>
+      <feBlend result="blend" mode="multiply" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <circle class="cls-1" cx="70" cy="70" r="70"/>
+  <path id="Shape_25_copy" data-name="Shape 25 copy" class="cls-2" d="M144.447,2626.88a7.562,7.562,0,1,1,7.555,7.88A7.725,7.725,0,0,1,144.447,2626.88Zm17.629,18.38,25.938-11.66-1.869-4.89-31.624,11.3h-5.037l-31.629-11.3-1.869,4.89,25.942,11.66v21.02l-10.335,34.84,4.713,1.87,14.614-34.09h2.164l14.615,34.09,4.712-1.87-10.33-34.84Z" transform="translate(-82 -2589)"/>
+</svg>

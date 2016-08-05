@@ -12,6 +12,7 @@ import boedeSVG from '../../General/Icon/svg/functions/boede.svg';
 import forSentSVG from '../../General/Icon/svg/functions/for-sent.svg';
 import commentSVG from '../../General/Icon/svg/functions/comment.svg';
 import closeSVG from '../../General/Icon/svg/functions/close.svg';
+import moderatorProfileSVG from '../../General/Icon/svg/functions/moderator-profilbillede.svg';
 
 import './scss/MessageRow.container.scss';
 
@@ -122,6 +123,15 @@ export default class MessageRow extends React.Component {
         );
       }
 
+      case 'type-userWasQuarantined': {
+        return (
+          <span className="quarantine">
+            <Icon width={15} height={15} glyph={commentSVG} />
+            Ny besked fra moderator
+          </span>
+        )
+      }
+
       default: {
         return this.props.message.type;
       }
@@ -199,6 +209,20 @@ export default class MessageRow extends React.Component {
         );
       }
 
+      case 'type-userWasQuarantined': {
+        const messageContent = this.state.message.reason;
+
+        return (
+          <div className="quarantine">
+            <div className="quarantine--author">Moderator</div>
+
+            <div className="quarantine--message-content">
+              <span dangerouslySetInnerHTML={{__html: messageContent}} />
+            </div>
+          </div>
+        );
+      }
+
       default: {
         return this.props.message.type;
       }
@@ -236,6 +260,14 @@ export default class MessageRow extends React.Component {
         return (
           <div className="profileimage">
             <img src={profileImage} alt="Profil billede"/>
+          </div>
+        );
+      }
+
+      case 'type-userWasQuarantined': {
+        return (
+          <div className="profileimage moderator">
+            <Icon glyph={moderatorProfileSVG} height={70} width={70} />
           </div>
         );
       }

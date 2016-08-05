@@ -32,7 +32,7 @@ const getQuarantinesTransform = {
     const filter = {
       where: {
         end: {
-          gte: (new Date()).toISOString()
+          gte: (new Date()).toDateString()
         }
       }
     };

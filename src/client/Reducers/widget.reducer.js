@@ -37,6 +37,10 @@ let initialState = {
     reviews: {},
     isLoading: true
   },
+  EditoriallySelectedMaterialsWidget: {
+    works: [],
+    isLoading: true
+  },
   widgetLocations: {
     ContentPageLeft: [],
     ContentPageFactBox: [],
@@ -51,6 +55,7 @@ let ContentPageJSONData = parseJsonData('JSONDATA', 'contentPageData');
 initialState.widgetLocations = Object.assign(initialState.widgetLocations, ContentPageJSONData.widgetLocations);
 
 export default function widgetReducer(state = initialState, action = {}) {
+
   Object.freeze(state);
   switch (action.type) {
     case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
@@ -134,6 +139,10 @@ export default function widgetReducer(state = initialState, action = {}) {
           groups: action.data
         }
       });
+    }
+
+    case types.GOT_WORKS: {
+      return assignToEmpty(state, {EditoriallySelectedMaterialsWidget: {works: action.data.data, isLoading: false}});
     }
 
     case types.GOT_REVIEWS: {

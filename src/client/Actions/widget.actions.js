@@ -11,7 +11,7 @@ export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = fals
     return {
       type: types.callServiceProvider,
       event: 'getCampaignReviews',
-      data: {campaignId}
+      data: {order: sort, campaignId, limit}
     };
   }
 

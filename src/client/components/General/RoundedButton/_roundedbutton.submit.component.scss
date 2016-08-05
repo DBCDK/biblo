@@ -1,3 +1,5 @@
+@import "tools";
+
 .rounded-button-submit {
   margin: 10px auto;
   padding: 10px;
@@ -6,6 +8,7 @@
   background-color: #2acc94;
   color: white;
   border-style: none;
+  transition: all 0.2s ease;
 }
 
 .rounded-button-submit:hover {
@@ -14,4 +17,12 @@
   border-style: solid;
   border-color: #2acc94;
   background-color: #62edc6;
+}
+
+.rounded-button-submit.disabled {
+  background-color: $gray;
+
+  &:hover {
+    border-color: $gray;
+  }
 }

@@ -56,6 +56,11 @@
     @include profileImage(70px);
     margin-left: auto;
     margin-right: auto;
+
+    &.moderator {
+      margin-top: 20px;
+      background-color: $light-blueish-gray;
+    }
   }
 
   img {
@@ -87,9 +92,14 @@
     color: $turquoise;
   }
 
+  .quarantine,
   .late,
   .boede {
     color: $carnation;
+  }
+
+  .quarantine {
+    font-weight: bold;
   }
 
   .icon--container {
@@ -118,6 +128,7 @@
 .message-data--message-content {
   font-size: 1em;
   color: $dark;
+  position: relative;
 
   .comment {
     margin-left: 0;
@@ -130,6 +141,29 @@
     &:hover {
       border-color: $governor-bay;
       background-color: $governor-bay;
+    }
+  }
+
+  .quarantine {
+    background-color: $white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 10px;
+    max-width: 600px;
+
+    &--author {
+      color: $melrose;
+      font-weight: bold;
+    }
+
+    &:before {
+      position: absolute;
+      left: -24px;
+      content: " ";
+      border-right: 12px solid $white;
+      border-left: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-top: 12px solid transparent;
     }
   }
 }

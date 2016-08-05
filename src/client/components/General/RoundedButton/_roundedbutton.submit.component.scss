@@ -18,9 +18,9 @@
 }
 
 .rounded-button-submit.disabled {
-  background-color: #868686;
+  background-color: $gray;
 
   &:hover {
-    border-color: #868686;
+    border-color: $gray;
   }
 }

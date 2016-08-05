@@ -7,6 +7,7 @@ export function processUserStatusCheck(job, done) {
     const app = job.app;
     const serviceProvider = app.get('serviceProvider');
     const userMessageAdd = app.get('userMessageAdd');
+    const logger = app.get('logger');
 
     if (
       !job.data || !job.data.favoriteLibrary || !job.data.favoriteLibrary.libraryId ||
@@ -14,6 +15,8 @@ export function processUserStatusCheck(job, done) {
     ) {
       return reject(new Error('Required props were not found, try add more data!'));
     }
+
+    logger.info('About to check user status for:', {userId: job.data.userId});
 
     const getUserStatusPromise = serviceProvider.trigger('getUserStatus', {
       agencyId: job.data.favoriteLibrary.libraryId,
@@ -30,6 +33,8 @@ export function processUserStatusCheck(job, done) {
       if (!userStatus) {
         return reject('Could not get user status');
       }
+
+      logger.info('Got user status for user:', {userId: job.data.userId});
 
       const loanedItemsLoanIds = [];
       const readyItemsOrderIds = [];

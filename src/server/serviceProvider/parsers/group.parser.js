@@ -15,5 +15,6 @@ export default function parseGroup(group = {}) {
   };
   group.name = parseText(group.name, false, 'none');
   group.description = parseText(group.description);
+  group.isClosed = !!group.timeClosed || (Date.now() - Date.parse(group.timeClosed)) > 0;
   return group;
 }

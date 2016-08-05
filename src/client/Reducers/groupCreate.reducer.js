@@ -14,6 +14,7 @@ const initialState = {
     submitState: null,
     submitProgress: 0
   },
+  checkedNames: {},
   errors: []
 };
 
@@ -77,6 +78,19 @@ export default function groupCreateReducer(state = initialState, action={}) {
           submitProgress: action.progress
         })
       });
+
+    case types.GOT_CHECK_IF_GROUP_NAME_EXISTS: {
+      const checkedNames = {};
+      const checkName = action.data;
+
+      if (checkName.groupName) {
+        checkedNames[checkName.groupName] = checkName.exists;
+      }
+
+      return assignToEmpty(state, {
+        checkedNames: assignToEmpty(state.checkedNames, checkedNames)
+      });
+    }
 
     default:
       return state;

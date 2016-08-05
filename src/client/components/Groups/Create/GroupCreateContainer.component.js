@@ -17,7 +17,7 @@ import './_groupcreatecontainer.component.scss';
 
 export class GroupCreateContainer extends React.Component {
   groupFormSubmit(event, name, description) {
-    const actions = this.props.actions;
+    const actions = this.props.groupActions;
     const group = this.props.group;
 
     if (
@@ -37,7 +37,7 @@ export class GroupCreateContainer extends React.Component {
   }
 
   render() {
-    const actions = this.props.actions;
+    const actions = this.props.groupActions;
     const group = this.props.group;
     const submit = this.groupFormSubmit.bind(this);
 
@@ -53,7 +53,10 @@ export class GroupCreateContainer extends React.Component {
               groupImageSrc={group.UI.imageSrc}
               submitState={group.UI.submitState}
               submitProgress={group.UI.submitProgress}
-              submit={submit} />
+              submit={submit}
+              checkedNames={group.checkedNames}
+              checkIfGroupNameExistsAction={groupName => actions.callServiceProvider('checkIfGroupNameExists', {groupName})}
+            />
           </div>
         </PageLayout>
       </div>
@@ -67,7 +70,7 @@ GroupCreateContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object.isRequired
+  groupActions: React.PropTypes.object.isRequired
 };
 
 /**
@@ -87,7 +90,7 @@ export default connect(
   (dispatch) => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
-      actions: bindActionCreators(groupActions, dispatch)
+      groupActions: bindActionCreators(groupActions, dispatch)
     };
   }
 )(GroupCreateContainer);

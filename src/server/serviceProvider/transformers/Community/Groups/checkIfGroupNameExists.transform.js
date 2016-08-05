@@ -11,8 +11,8 @@ const checkIfGroupNameExistsTransform = {
     return this.callServiceClient('community', 'checkIfGroupNameExists', {groupName});
   },
 
-  responseTransform(response) {
-    const data = {exists: true, errors: [], statusCode: 200};
+  responseTransform(response, {groupName}) {
+    const data = {exists: false, errors: [], statusCode: 200, groupName};
 
     try {
       data.statusCode = response.statusCode;

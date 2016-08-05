@@ -462,3 +462,11 @@ export function groupContentWasUpdated({comment, post}) {
     post
   };
 }
+
+export function callServiceProvider(event, data) {
+  return {
+    type: types.callServiceProvider,
+    event,
+    data
+  };
+}

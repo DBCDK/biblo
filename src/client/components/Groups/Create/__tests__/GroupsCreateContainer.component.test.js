@@ -48,12 +48,11 @@ describe('Test group create container', () => {
         searchState={searchState}
         searchActions={{}}
         group={group}
-        actions={actions}
+        groupActions={actions}
         uiActions={uiActions}
         profileState={{}}
         />
     );
-
 
     let dm = TestUtils.renderIntoDocument(component);
     let dmn = ReactDOM.findDOMNode(dm);

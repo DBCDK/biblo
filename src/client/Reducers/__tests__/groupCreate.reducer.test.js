@@ -30,6 +30,7 @@ describe('Test GroupCreate reducer', () => {
       description: '',
       imageFile: null,
       name: '',
+      checkedNames: {},
       errors: []
     };
   });

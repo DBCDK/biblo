@@ -79,7 +79,7 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
       errors.push({
         errorMessage: 'Der findes allerede en gruppe med det navn',
         field: 'group-name'
-      })
+      });
     }
   }
 

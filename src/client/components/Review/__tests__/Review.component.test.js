@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
-import {expect, assert} from 'chai';
+import sd from 'skin-deep';
+import {assert} from 'chai';
+import sinon from 'sinon';
+
 import Review from '../Review.component';
 import {profileMock} from '../../__mocks__/profile.mock.js';
 
@@ -15,15 +16,66 @@ describe('Test of Review Component ', () => {
   };
 
   const noop = () => { };
-  let defaultComponent = null;
-
-  let reviewActions = {};
-  let uiActions = {};
+  let uiActions = {openModalWindow: () => {}};
   let flagActions = {};
   let likeActions = {};
+  let reviewActions = {
+    asyncShowReview: () => {},
+    asyncShowWorkReviews: () => {}
+  };
 
-  beforeEach(() => {
-    defaultComponent = TestUtils.renderIntoDocument(
+  it('onSubmit method should add an error if content is empty', () => {
+    const component = sd.shallowRender(
+        <Review
+            isEditing={true}
+            toggleReview={noop}
+            profile={profile}
+            owner={profile}
+            pid={work.id}
+            worktype={work.workType}
+            pids={work.collection}
+            reviewActions={reviewActions}
+            uiActions={uiActions}
+            flagActions={flagActions}
+            likeActions={likeActions}
+            content=''
+            rating={1}
+        />);
+
+    let instance = component.getMountedInstance();
+    instance.processContent()
+      .then(()=> {
+        assert.isNotFalse(component.subTree('Message'));
+      })
+      .catch(()=> {
+      });
+  });
+
+  it('should add an error if rating is not set', () => {
+    const component = sd.shallowRender(
+      <Review
+        isEditing={true}
+        toggleReview={noop}
+        profile={profile}
+        owner={profile}
+        pid={work.id}
+        worktype={work.workType}
+        pids={work.collection}
+        reviewActions={reviewActions}
+        uiActions={uiActions}
+        flagActions={flagActions}
+        likeActions={likeActions}
+        content='test hest'
+        rating={0}
+    />);
+    let instance = component.getMountedInstance();
+    instance.validate();
+    assert.isNotFalse(component.subTree('Message'), 'error message was not found');
+  });
+
+  it('should not be able to submit if the user is not logged in', () => {
+    profile.userIsLoggedIn = false;
+    const component = sd.shallowRender(
       <Review
         isEditing={true}
         toggleReview={noop}
@@ -38,125 +90,13 @@ describe('Test of Review Component ', () => {
         likeActions={likeActions}
         content='test hest'
         rating={1}
-    />);
-  });
-
-  it('it should render form', () => {
-    const component = defaultComponent;
-    let form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    const method = ReactDOM.findDOMNode(form).method.toUpperCase();
-    expect(method).to.equal('POST');
-
-    let inputContent = TestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
-    expect(inputContent.length).to.be.eql(9);
-    let submit = TestUtils.findRenderedDOMComponentWithTag(component, 'button');
-    expect(submit.type).to.be.eql('submit');
-  });
-
-  it('onSubmit method should add an error if content is empty', () => {
-    const component = TestUtils.renderIntoDocument(
-    <Review
-      isEditing={true}
-      toggleReview={noop}
-      profile={profile}
-      owner={profile}
-      pid={work.id}
-      worktype={work.workType}
-      pids={work.collection}
-      reviewActions={reviewActions}
-      uiActions={uiActions}
-      flagActions={flagActions}
-      likeActions={likeActions}
-      content=''
-      rating={1}
-   />);
-
-    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    TestUtils.Simulate.submit(form);
-    TestUtils.findRenderedDOMComponentWithClass(component, 'message');
-  });
-
-  it('onSubmit method should add an error if rating is not set', () => {
-    const component = TestUtils.renderIntoDocument(
-      <Review
-        isEditing={true}
-        toggleReview={noop}
-        profile={profile}
-        owner={profile}
-        pid={work.id}
-        worktype={work.workType}
-        pids={work.collection}
-        reviewActions={reviewActions}
-        uiActions={uiActions}
-        flagActions={flagActions}
-        likeActions={likeActions}
-        content='test hest'
-        rating={0}
-    />);
-
-    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    TestUtils.Simulate.submit(form);
-    TestUtils.findRenderedDOMComponentWithClass(component, 'message');
-  });
-
-  it('it should add textarea value to state', () => {
-    let textarea = TestUtils.findRenderedDOMComponentWithTag(defaultComponent, 'textarea');
-    textarea.value = 'some test value';
-    TestUtils.Simulate.change(textarea);
-    expect(defaultComponent.state.content).to.be.equal(textarea.value);
-  });
-
-  it('should not be able to submit if the user is not logged in', () => {
-    profile.userIsLoggedIn = false;
-
-    const component = TestUtils.renderIntoDocument(
-      <Review
-        isEditing={true}
-        toggleReview={noop}
-        profile={profile}
-        owner={profile}
-        pid={work.id}
-        worktype={work.workType}
-        pids={work.collection}
-        reviewActions={reviewActions}
-        uiActions={uiActions}
-        flagActions={flagActions}
-        likeActions={likeActions}
-        content='test hest'
-        rating={0}
       />);
 
-    const form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
-    assert(form.length === 0);
+    assert.isFalse(component.subTree('form'));
   });
 
-  it('should submit form on a submit event', () => {
-    profile.userIsLoggedIn = true;
-    const component = TestUtils.renderIntoDocument(
-      <Review
-        isEditing={true}
-        toggleReview={noop}
-        profile={profile}
-        owner={profile}
-        pid={work.id}
-        worktype={work.workType}
-        pids={work.collection}
-        reviewActions={reviewActions}
-        uiActions={uiActions}
-        flagActions={flagActions}
-        likeActions={likeActions}
-        content='test hest'
-        rating={5}
-    />);
-
-    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    TestUtils.Simulate.submit(form);
-    assert(component.state.isLoading); // we expect an error here (existing reviewownerid + pid
-  });
-
-  it('should throw an error on duplicate reviews', (done) => {
-    profile.userIsLoggedIn = true;
-    const component = TestUtils.renderIntoDocument(
+  it('should open a modal on a duplicate review for a work', (done) => {
+    const component = sd.shallowRender(
     <Review
       isEditing={true}
       toggleReview={noop}
@@ -173,13 +113,14 @@ describe('Test of Review Component ', () => {
       rating={5}
     />);
 
+    let instance = component.getMountedInstance();
     const mockContent = {
-      status: 500,
+      status: 500, // biblo.dk transport
       data: {
         error: {
           name: 'Error',
-          status: 500,
-          message: 'Eksisterende anmeldelse',
+          status: 500, // community server transport
+          message: 'Eksisterende anmeldelse',  //
           stack: 'Error: Eksisterende anmeldelse',
           existingReviewId: 1
         }
@@ -191,11 +132,15 @@ describe('Test of Review Component ', () => {
       setTimeout(() => xhr.respond(500, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
     };
 
-    const form = TestUtils.findRenderedDOMComponentWithTag(component, 'form');
-    TestUtils.Simulate.submit(form);
-
-    assert(component.state.isLoading); // we expect an error here (existing reviewownerid + pid
-    done();
+    // expect that we render call a function to render a modal to let the user overwrite the existing review
+    const spy = sinon.spy(instance, 'overwriteReview');
+    instance.processContent()
+      .then(() => {
+        assert.isTrue(spy.called);
+        done();
+      })
+      .catch(() => {
+         // ...
+      });
   });
-
 });

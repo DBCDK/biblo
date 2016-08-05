@@ -36,7 +36,8 @@ export function userMessageParser(items = [], limit) {
       'type-orderExpiresSoon',
       'type-orderIsReady',
       'type-userTransaction',
-      'type-commentWasAdded'
+      'type-commentWasAdded',
+      'type-userWasQuarantined'
     ];
 
     if (!!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {

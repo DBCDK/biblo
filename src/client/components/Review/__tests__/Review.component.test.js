@@ -113,38 +113,45 @@ describe('Test of Review Component ', () => {
       rating={5}
     />);
 
-    let instance = component.getMountedInstance();
-    const mockContent = {
-      status: 500, // biblo.dk transport
-      data: {
-        error: {
-          name: 'Error',
-          status: 500, // community server transport
-          message: 'Eksisterende anmeldelse',  //
-          stack: 'Error: Eksisterende anmeldelse',
-          existingReviewId: 1
+    try {
+      let instance = component.getMountedInstance();
+      const mockContent = {
+        status: 500, // biblo.dk transport
+        data: {
+          error: {
+            name: 'Error',
+            status: 500, // community server transport
+            message: 'Eksisterende anmeldelse',  //
+            stack: 'Error: Eksisterende anmeldelse',
+            existingReviewId: 1
+          }
         }
-      }
-    };
+      };
 
-    const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
-    xhrMock.onCreate = (xhr) => {
-      setTimeout(() => xhr.respond(500, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
-    };
+      const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
+      xhrMock.onCreate = (xhr) => {
+        setTimeout(() => xhr.respond(500, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
+      };
 
-    // expect that we render call a function to render a modal to let the user overwrite the existing review
-    const spy = sinon.spy(instance, 'overwriteReview');
-    instance.processContent()
-      .then(() => {
-        assert.isTrue(spy.called);
-        done();
-        xhrMock.restore();
-      })
-      .catch(() => {
-        assert.isTrue(false, 'processContent failed');
-        done();
-        xhrMock.restore();
-      });
+      const spy = sinon.spy(instance, 'overwriteReview');
+      instance.processContent()
+        .then(() => {
+          assert.isTrue(spy.called);
+          done();
+          xhrMock.restore();
+        })
+        .catch((err) => {
+          console.warn('procesContent failed:', err);  // eslint-disable-line no-console
+          assert.isTrue(false, 'processContent failed');
+          done();
+          xhrMock.restore();
+        });
+    }
+    catch (err) {
+      assert.isTrue(false, 'failed to wait for overwriteReview modal');
+      console.warn('failed to wait for overwriteReview modal:', err); // eslint-disable-line no-console
+      done();
+    }
 
   });
 });

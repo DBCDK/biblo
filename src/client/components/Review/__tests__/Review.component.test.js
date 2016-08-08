@@ -138,10 +138,12 @@ describe('Test of Review Component ', () => {
       .then(() => {
         assert.isTrue(spy.called);
         done();
+        xhrMock.restore();
       })
       .catch(() => {
         assert.isTrue(false, 'processContent failed');
         done();
+        xhrMock.restore();
       });
 
   });

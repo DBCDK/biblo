@@ -96,24 +96,26 @@ describe('Test of Review Component ', () => {
   });
 
   it('should open a modal on a duplicate review for a work', (done) => {
-    const component = sd.shallowRender(
-    <Review
-      isEditing={true}
-      toggleReview={noop}
-      profile={profile}
-      owner={profile}
-      pid={work.id}
-      worktype={work.workType}
-      pids={work.collection}
-      reviewActions={reviewActions}
-      uiActions={uiActions}
-      flagActions={flagActions}
-      likeActions={likeActions}
-      content='test hest'
-      rating={5}
-    />);
-
     try {
+      profile.userIsLoggedIn = true;
+      const component = sd.shallowRender(
+
+      <Review
+        isEditing={true}
+        toggleReview={noop}
+        profile={profile}
+        owner={profile}
+        pid={work.id}
+        worktype={work.workType}
+        pids={work.collection}
+        reviewActions={reviewActions}
+        uiActions={uiActions}
+        flagActions={flagActions}
+        likeActions={likeActions}
+        content='test hest'
+        rating={5}
+      />);
+
       let instance = component.getMountedInstance();
       const mockContent = {
         status: 500, // biblo.dk transport

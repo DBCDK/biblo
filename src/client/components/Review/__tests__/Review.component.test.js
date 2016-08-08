@@ -117,40 +117,26 @@ describe('Test of Review Component ', () => {
       />);
 
       let instance = component.getMountedInstance();
-      const mockContent = {
-        status: 500, // biblo.dk transport
-        data: {
-          error: {
-            name: 'Error',
-            status: 500, // community server transport
-            message: 'Eksisterende anmeldelse',  //
-            stack: 'Error: Eksisterende anmeldelse',
-            existingReviewId: 1
-          }
-        }
-      };
-
-      const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
-      xhrMock.onCreate = (xhr) => {
-        setTimeout(() => xhr.respond(500, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
-      };
 
       const spy = sinon.spy(instance, 'overwriteReview');
+
+      instance.addContent = ()=> {
+        return new Promise((resolve, reject) => {
+          reject({message: 'Eksisterende anmeldelse'});
+        });
+      };
+
       instance.processContent()
         .then(() => {
-          assert.isTrue(spy.called);
+          assert.isTrue(spy.called, 'did not call overwriteReview');
           done();
-          xhrMock.restore();
         })
         .catch((err) => {
           console.warn('procesContent failed:', err);  // eslint-disable-line no-console
-          assert.isTrue(false, 'processContent failed');
           done();
-          xhrMock.restore();
         });
     }
     catch (err) {
-      assert.isTrue(false, 'failed to wait for overwriteReview modal');
       console.warn('failed to wait for overwriteReview modal:', err); // eslint-disable-line no-console
       done();
     }

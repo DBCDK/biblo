@@ -10,7 +10,7 @@ describe('Test of Review Component ', () => {
 
   const profile = profileMock;
   const work = {
-    id: 1,
+    pid: 'test-hest',
     workType: 'book',
     collection: ['test-hest']
   };
@@ -31,7 +31,7 @@ describe('Test of Review Component ', () => {
             toggleReview={noop}
             profile={profile}
             owner={profile}
-            pid={work.id}
+            pid={work.pid}
             worktype={work.workType}
             pids={work.collection}
             reviewActions={reviewActions}
@@ -58,7 +58,7 @@ describe('Test of Review Component ', () => {
         toggleReview={noop}
         profile={profile}
         owner={profile}
-        pid={work.id}
+        pid={work.pid}
         worktype={work.workType}
         pids={work.collection}
         reviewActions={reviewActions}
@@ -81,7 +81,7 @@ describe('Test of Review Component ', () => {
         toggleReview={noop}
         profile={profile}
         owner={profile}
-        pid={work.id}
+        pid={work.pid}
         worktype={work.workType}
         pids={work.collection}
         reviewActions={reviewActions}
@@ -105,7 +105,7 @@ describe('Test of Review Component ', () => {
         toggleReview={noop}
         profile={profile}
         owner={profile}
-        pid={work.id}
+        pid={work.pid}
         worktype={work.workType}
         pids={work.collection}
         reviewActions={reviewActions}

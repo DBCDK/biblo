@@ -29,10 +29,12 @@ describe('Test of Post Components', () => {
     timeCreated: (new Date()).toISOString(),
     owner: {
       displayName: 'testUser',
-      image: 'some_profile_image'
+      image: 'some_profile_image',
+      id: 1
     },
     profile: {
-      userIsLoggedIn: true
+      userIsLoggedIn: true,
+      id: 1
     },
     uiActions: uiActions,
     groupActions: groupActions,
@@ -40,6 +42,7 @@ describe('Test of Post Components', () => {
     likeActions: {},
     works: {},
     coverImages: {},
+    groupIsClosed: false,
     getCoverImage: noop
   };
 
@@ -52,6 +55,18 @@ describe('Test of Post Components', () => {
     expect(tree.subTree('.time').text()).to.be.equal('Lige nu');
     expect(tree.subTree('.post--content').props.dangerouslySetInnerHTML.__html).to.be.equal(props.html);
     expect(tree.subTree('.post--media').subTree('img').getRenderOutput().props.src).to.be.equal(props.image);
+  });
+
+  it('it should have add comment button', () => {
+    props.groupIsClosed = false;
+    const tree = sd.shallowRender(<PostView {...props} />);
+    expect(tree.subTree('.post--add-comment-button')).to.have.property('type', 'a');
+  });
+
+  it('it should have add comment button disabled', () => {
+    props.groupIsClosed = true;
+    const tree = sd.shallowRender(<PostView {...props} />);
+    expect(tree.subTree('.post--add-comment-button-disabled')).to.have.property('type', 'a');
   });
 
   it('it should not show an image', () => {

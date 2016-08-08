@@ -283,9 +283,6 @@ module.exports.run = function (worker) {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.');
   });
 
-  const cookieExpires = new Date();
-  cookieExpires.setHours(22, 0, 0, 0);
-
   const sessionMiddleware = expressSession({
     store: redisInstance,
     secret: config.get('Sessions.secret') + APP_NAME,
@@ -297,9 +294,7 @@ module.exports.run = function (worker) {
       path: '/',
       httpOnly: true,
       secure: PRODUCTION,
-
-      // Expire the cookie at 22:00, one hour after closing the site.
-      expires: cookieExpires
+      expires: null
     }
   });
 

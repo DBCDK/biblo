@@ -291,6 +291,7 @@ describe('Test of AddContent Component', () => {
     assert(!component.state.isLoading);
     TestUtils.Simulate.submit(form);
     assert(component.state.isLoading);
+    xhrMock.restore();
     done();
   });
 

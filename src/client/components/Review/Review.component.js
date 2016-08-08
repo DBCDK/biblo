@@ -267,43 +267,50 @@ export default class Review extends UploadMedia {
 
     if (this.validate()) {
       if (XMLHttpRequest && FormData) {
-        this.setState({isLoading: true});
-        this.processContent();
+        this.processContent()
+          .then(() => {
+            this.setState({isLoading: true});
+          });
       }
     }
     return false;
   }
 
   processContent () {
-    this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
-      if (response.errors && response.errors.length>0) {
-        this.setState({errorMsg: response.errors[0].errorMessage});
-      }
-      else {
-        if (this.props.ownReview) { // only show the  onereview
-          this.props.reviewActions.asyncShowReview(response.data.id);
+    return new Promise((resolve, reject) => {
+      this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
+        if (response.errors && response.errors.length > 0) {
+          this.setState({errorMsg: response.errors[0].errorMessage});
+          reject(this.state);
         }
         else {
-          // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
-          this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
-        }
-        this.afterEdit();
+          if (this.props.ownReview) { // only show the one review
+            this.props.reviewActions.asyncShowReview(response.data.id);
+          }
+          else {
+            // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
+            this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
+          }
+          this.afterEdit();
 
-        if (this.props.toggleReview) {
-          this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
+          if (this.props.toggleReview) {
+            this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
+          }
+          resolve(this.state);
         }
-      }
-    }).catch((resp) => {
-      let errorMsg = resp.message;
-      if (errorMsg === 'Eksisterende anmeldelse') {
-        this.overwriteReview(resp.existingReviewId);
-      }
-      else {
-        this.setState({errorMsg: errorMsg});
-      }
+      }).catch((resp) => {
+        let errorMsg = resp.message;
+        if (errorMsg === 'Eksisterende anmeldelse') {
+          this.overwriteReview(resp.existingReviewId);
+          resolve(this.state);
+        }
+        else {
+          this.setState({errorMsg: errorMsg});
+          reject(this.state);
+        }
+      });
     });
   }
-
 
   render() {
     let {

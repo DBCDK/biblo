@@ -95,7 +95,7 @@ describe('Test of Review Component ', () => {
     assert.isFalse(component.subTree('form'));
   });
 
-  it('should open a modal on a duplicate review for a work', (done) => {
+  it('should open a modal on a duplicate review for a work - test', (done) => {
     try {
       profile.userIsLoggedIn = true;
       const component = sd.shallowRender(

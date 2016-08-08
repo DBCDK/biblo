@@ -140,7 +140,9 @@ describe('Test of Review Component ', () => {
         done();
       })
       .catch(() => {
-         // ...
+        assert.isTrue(false, 'processContent failed');
+        done();
       });
+
   });
 });

@@ -29,10 +29,12 @@ describe('Test of Post Components', () => {
     timeCreated: (new Date()).toISOString(),
     owner: {
       displayName: 'testUser',
-      image: 'some_profile_image'
+      image: 'some_profile_image',
+      id: 1
     },
     profile: {
-      userIsLoggedIn: true
+      userIsLoggedIn: true,
+      id: 1
     },
     uiActions: uiActions,
     groupActions: groupActions,
@@ -40,6 +42,7 @@ describe('Test of Post Components', () => {
     likeActions: {},
     works: {},
     coverImages: {},
+    groupIsClosed: false,
     getCoverImage: noop
   };
 
@@ -54,9 +57,22 @@ describe('Test of Post Components', () => {
     expect(tree.subTree('.post--media').subTree('img').getRenderOutput().props.src).to.be.equal(props.image);
   });
 
-  it('it should not show an image', () => {
-    props.image = null;
+  it('it should have add comment button', () => {
     const tree = sd.shallowRender(<PostView {...props} />);
+    expect(tree.subTree('.post--add-comment-button')).to.have.property('type', 'a');
+  });
+
+  it('it should have add comment button disabled', () => {
+    const newProps = cloneDeep(props);
+    newProps.groupIsClosed = true;
+    const tree = sd.shallowRender(<PostView {...newProps} />);
+    expect(tree.subTree('.post--add-comment-button-disabled')).to.have.property('type', 'a');
+  });
+
+  it('it should not show an image', () => {
+    const newProps = cloneDeep(props);
+    newProps.image = null;
+    const tree = sd.shallowRender(<PostView {...newProps} />);
     expect(tree.subTree('.post--media')).to.be.equal(false);
   });
 

@@ -68,7 +68,6 @@ video {
     max-width: 100%;
   }
 
-
   .is-hidden {
     display: none;
   }
@@ -94,9 +93,16 @@ video {
   }
 }
 
-
 .post--add-comment-button {
   @include button($melrose);
+}
+
+.post--add-comment-button-disabled {
+  @include button($gray);
+  cursor: not-allowed;
+  &:hover {
+    background: $gray;
+  }
 }
 
 .post--header {

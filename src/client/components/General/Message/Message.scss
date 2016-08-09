@@ -12,6 +12,11 @@
   color: white;
 }
 
+.message.warning {
+  background-color: $carnation;
+  color: white;
+}
+
 .message--close {
   position: absolute;
   right: 20px;

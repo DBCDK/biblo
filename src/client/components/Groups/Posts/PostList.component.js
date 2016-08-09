@@ -13,29 +13,33 @@ export function PostList({
   coverImages,
   getCoverImage,
   getMoreWorks,
-  campaign = {}
+  campaign = {},
+  groupIsClosed = false
 }) {
   return (
-    <div className='post-list' >
-         {
-           posts
-           && posts.map((item) => (<PostView
-             campaign={campaign}
-             key={item.id} {...item}
-             profile={profile}
-             likes={item.likes}
-             groupId={groupId}
-             uiActions={uiActions}
-             groupActions={groupActions}
-             flagActions={flagActions}
-             likeActions={likeActions}
-             works={works}
-             coverImages={coverImages}
-             getCoverImage={getCoverImage}
-             getMoreWorks={getMoreWorks}
-           />))
-           || 'Der er ikke skrevet nogen indlæg i gruppen endnu'
-         }
+    <div className='post-list'>
+      {
+        posts
+        && posts.map((item) => (
+          <PostView
+            campaign={campaign}
+            key={item.id} {...item}
+            profile={profile}
+            likes={item.likes}
+            groupId={groupId}
+            uiActions={uiActions}
+            groupActions={groupActions}
+            flagActions={flagActions}
+            likeActions={likeActions}
+            works={works}
+            coverImages={coverImages}
+            getCoverImage={getCoverImage}
+            getMoreWorks={getMoreWorks}
+            groupIsClosed={groupIsClosed}
+          />
+        ))
+        || 'Der er ikke skrevet nogen indlæg i gruppen endnu'
+      }
     </div>);
 }
 
@@ -52,9 +56,10 @@ PostList.propTypes = {
   works: React.PropTypes.object,
   getMoreWorks: React.PropTypes.func,
   coverImages: React.PropTypes.object.isRequired,
-  getCoverImage: React.PropTypes.func.isRequired
+  getCoverImage: React.PropTypes.func.isRequired,
+  groupIsClosed: React.PropTypes.bool
 };
 
-PostList.dedaultProps = {
+PostList.defaultProps = {
   works: {}
 };

@@ -13,10 +13,10 @@ export default function entitySuggestReducer(state = initialState, action = {}) 
   Object.freeze(state);
   switch (action.type) {
     case GET_LIBRARY_DETAILS: {
-      const agencyId = action.query.agencyId;
-      let newState = {};
-      newState[agencyId] = action.elements;
-
+      const agencyId = action.pickupAgency.isil || `DK-${action.pickupAgency.branchId}`;
+      const newState = {
+        [agencyId]: action.pickupAgency
+      };
       return assignToEmpty(state, newState);
     }
 

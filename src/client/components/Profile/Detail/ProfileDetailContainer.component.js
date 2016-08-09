@@ -378,6 +378,27 @@ export class ProfileDetailContainer extends React.Component {
     return tabs;
   }
 
+  renderCampaignBadges (campaigns) {
+    let campaignDiplomaButtons = null;
+    if (campaigns) {
+      campaignDiplomaButtons = campaigns.map(campaign => {
+       return this.renderCampaignBadge(campaign)
+      });
+    }
+    return campaignDiplomaButtons;
+  }
+
+  renderCampaignBadge (campaign) {
+    const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
+    return (
+      <span className="p-detail--campaign-diploma" key={`campaign_${campaign.id}`}>
+        <a href={downloadUrl}>
+           <Icon svgLink={campaign.logos.svg} width={100} height={100}/>
+        </a>
+      </span>
+    );
+  }
+
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
@@ -414,6 +435,13 @@ export class ProfileDetailContainer extends React.Component {
       );
     }
 
+    const campaigns = this.props.feed.campaigns;
+
+    let campaignDiplomaButtons = null;
+    if (isMyProfile) {
+      campaignDiplomaButtons = this.renderCampaignBadges(campaigns);
+    }
+
     const modal = this.getModal();
 
     // include edit button when user views her own page.
@@ -441,28 +469,14 @@ export class ProfileDetailContainer extends React.Component {
       </div>);
     }
 
-    const campaigns = this.props.feed.campaigns;
-    let campaignDiplomaButtons = null;
-    if (isMyProfile && campaigns) {
-      campaignDiplomaButtons = campaigns.map(campaign => {
-        const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-        return (
-          <span className="p-detail--campaign-diploma" key={`campaign_${campaign.id}`}>
-            <a href={downloadUrl} className='p-detail--groups-button--container'>
-              <div className="p-detail--groups-button">
-                <Icon svgLink={campaign.logos.svg} width={42} height={42}/>
-                <p>Bevis</p>
-              </div>
-            </a>
-          </span>
-        );
-      });
-    }
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
                   profileState={this.props.profile}>
         {modal}
+        <div className="p-detail--badge-container">
+          <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
+        </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
@@ -482,7 +496,6 @@ export class ProfileDetailContainer extends React.Component {
                   </div>
                 </a>
               </span>
-            {campaignDiplomaButtons}
           </div>
         </div>
         <div className="p-detail--activity-tabs">

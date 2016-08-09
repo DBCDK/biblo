@@ -113,7 +113,8 @@ describe('Test GroupView Component', () => {
       postownerid: 1,
       timeCreated: '2016-02-19T12:34:11.000Z',
       title: ' ',
-      isMembersExpanded: true
+      isMembersExpanded: true,
+      groupIsClosed: false
     }];
     group.postsCount = 1;
     const actions = {};

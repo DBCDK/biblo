@@ -188,6 +188,7 @@ export class ProfileDetailContainer extends React.Component {
                 works={this.props.works}
                 coverImages={this.props.coverImages}
                 getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
+                groupIsClosed={activity.post.group.isClosed}
               />
             </ActivityRow>
           );
@@ -252,6 +253,7 @@ export class ProfileDetailContainer extends React.Component {
                 works={this.props.works}
                 coverImages={this.props.coverImages}
                 getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
+                groupIsClosed={activity.group.isClosed}
               />
             </ActivityRow>
           );

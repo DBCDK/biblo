@@ -58,20 +58,21 @@ describe('Test of Post Components', () => {
   });
 
   it('it should have add comment button', () => {
-    props.groupIsClosed = false;
     const tree = sd.shallowRender(<PostView {...props} />);
     expect(tree.subTree('.post--add-comment-button')).to.have.property('type', 'a');
   });
 
   it('it should have add comment button disabled', () => {
-    props.groupIsClosed = true;
-    const tree = sd.shallowRender(<PostView {...props} />);
+    const newProps = cloneDeep(props);
+    newProps.groupIsClosed = true;
+    const tree = sd.shallowRender(<PostView {...newProps} />);
     expect(tree.subTree('.post--add-comment-button-disabled')).to.have.property('type', 'a');
   });
 
   it('it should not show an image', () => {
-    props.image = null;
-    const tree = sd.shallowRender(<PostView {...props} />);
+    const newProps = cloneDeep(props);
+    newProps.image = null;
+    const tree = sd.shallowRender(<PostView {...newProps} />);
     expect(tree.subTree('.post--media')).to.be.equal(false);
   });
 

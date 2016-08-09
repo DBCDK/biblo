@@ -60,6 +60,6 @@ PostList.propTypes = {
   groupIsClosed: React.PropTypes.bool
 };
 
-PostList.dedaultProps = {
+PostList.defaultProps = {
   works: {}
 };

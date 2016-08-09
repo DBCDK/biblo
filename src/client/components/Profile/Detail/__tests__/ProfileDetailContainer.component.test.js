@@ -125,7 +125,8 @@ describe('Test profile detail container (public profile)', () => {
         type: 'group',
         id: 2,
         workTypes: []
-      }
+      },
+      isClosed: false
     }
   }];
 

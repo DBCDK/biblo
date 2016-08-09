@@ -188,6 +188,7 @@ export class ProfileDetailContainer extends React.Component {
                 works={this.props.works}
                 coverImages={this.props.coverImages}
                 getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
+                groupIsClosed={activity.post.group.isClosed}
               />
             </ActivityRow>
           );
@@ -252,6 +253,7 @@ export class ProfileDetailContainer extends React.Component {
                 works={this.props.works}
                 coverImages={this.props.coverImages}
                 getCoverImage={this.props.coverImageActions.asyncGetCoverImage}
+                groupIsClosed={activity.group.isClosed}
               />
             </ActivityRow>
           );
@@ -474,7 +476,7 @@ export class ProfileDetailContainer extends React.Component {
                   this.props.uiActions.openModalWindow(groupsModalContent);
                 }}>
                   {isMyProfile && userProfile.postsInGroups &&
-                    <span className="p-detail--total-posts-since-last">
+                  <span className="p-detail--total-posts-since-last">
                       {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
                     </span> || null}
                   <div className="p-detail--groups-button">

@@ -11,17 +11,16 @@ const getLibraryDetails = SocketClient('getLibraryDetails');
 
 export function asyncGetLibraryDetailsAction(query) {
   return function(dispatch) {
-    getLibraryDetails.response((res) => {
-      dispatch(getLibraryDetailsAction(query, res.pickupAgency || {}));
+    getLibraryDetails.responseOnce((res) => {
+      dispatch(getLibraryDetailsAction(res.pickupAgency || {}));
     });
     getLibraryDetails.request(query);
   };
 }
 
-export function getLibraryDetailsAction(query, elements) {
+export function getLibraryDetailsAction(pickupAgency) {
   return {
     type: types.GET_LIBRARY_DETAILS,
-    query,
-    elements
+    pickupAgency
   };
 }

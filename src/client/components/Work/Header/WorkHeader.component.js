@@ -11,7 +11,9 @@ export class WorkHeader extends React.Component {
       <div>
         <div className='work-header' >
           <div className='work-header--background-image' style={{backgroundImage: `url("${coverUrl}")`}} ></div>
-          <div className='work-header--foreground-image' ><img src={coverUrl} /></div>
+          <div className="work-header--foreground-image--wrapper">
+            <div className='work-header--foreground-image' ><img src={coverUrl} /></div>
+          </div>
         </div>
       </div>
     );

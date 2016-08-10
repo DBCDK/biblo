@@ -7,28 +7,32 @@
 }
 
 .work-header--background-image {
-  width: 100%;
-  height: 210px;
+  width: 101%;
+  left: -5px;
+  top: -8px;
+  height: 220px;
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(5px) grayscale(30%);
-  box-shadow: 20px -11px 0 white inset, -20px 0px 0px 0 white inset;
+  box-shadow: 0 -20px white inset;
   overflow: hidden;
   position: absolute;
   background-position: 50%;
 }
 
+.work-header--foreground-image--wrapper {
+  width: 150px;
+  margin: auto;
+}
+
 .work-header--foreground-image {
   width: 150px;
+  position: absolute;
+  bottom: 70px;
 
   img {
     width: 150px;
-    box-shadow: #999 0 5px 10px;
+    box-shadow: 0 2px 20px #232323;
     object-fit: cover;
   }
-
-  position: relative;
-  top: 20px;
-  margin: auto;
-  display: inline-block;
 }

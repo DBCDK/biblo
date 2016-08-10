@@ -32,8 +32,9 @@ export class LatestReviewsWidget extends AbstractWidget {
 
   shouldComponentUpdate(nextProps, nextState) {
     // If the state updates, the component should update
-    // If the props update, we don't care unless it's the widgetReducerProp.
-    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
+    // If the props update, we don't care unless it's the widgetReducerProp or widgetState cover images.
+    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp)
+      || !isEqual(nextProps.widgetState.CoverImages, this.props.widgetState.CoverImages);
   }
 
   render() {

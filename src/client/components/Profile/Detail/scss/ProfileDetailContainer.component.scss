@@ -4,15 +4,19 @@
   background: linear-gradient(180deg, #d784e7 70%, $white 30%);
   height: 400px;
   padding: 0px;
+  display: block;
+}
+
+.p-detail--diploma-container--wrapper {
+  display:  inline-block;
 }
 
 .p-detail--diploma-container {
    padding: 20px;
    padding-left: 10vw;
 
-   @include min-screen($desktop) {
+  @include min-screen($desktop) {
      padding: 200px;
-     height: 300px;
      vertical-align: bottom;
 
      /* reverse order from profile image when on large screens*/
@@ -20,6 +24,22 @@
      display: table-cell;
      position: relative;
      text-align: right;
+  }
+}
+
+.p-detail--groups-flag-buttons--container {
+  display: none;
+  @include min-screen($desktop) {
+    height: 300px;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+}
+
+
+.p-detail--groups-button {
+  @include min-screen($desktop) {
+    padding-left: 80px;
   }
 }
 
@@ -54,7 +74,6 @@
     height: 200px;
     filter: drop-shadow(5px 5px 5px #222);
   }
-
 }
 
 .p-detail--displayname-description-follow {
@@ -78,22 +97,32 @@
     pointer-events: none;
   }
 }
-
-.p-detail--groups-button--container, .p-detail--flag-button--container {
-  display: inline-block;
-  border: #f2f2f2 solid 2px;
-  border-radius: 5px;
-  margin: 5px;
-  padding: 5px;
-  position: relative;
-
-  p {
-    margin-top: 0;
-    padding-top: 0;
+.p-detail--groups-flag-buttons--phone-container {
+  display: none;
+  @include max-screen($desktop) {
+    display: inline-block;
+    vertical-align: bottom;
   }
 }
 
-.p-detail--groups-button--container:hover, .p-detail--flag-button--container:hover {
+.p-detail--groups-button--phone-container, .p-detail--flag-button--phone-container {
+  display: none;
+  @include max-screen($desktop) {
+    display: inline-block;
+    border: #f2f2f2 solid 2px;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+    position: relative;
+
+    p {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+}
+
+.p-detail--groups-button--phone-container:hover, .p-detail--flag-button--container:hover {
   background-color: #f2f2f2;
   border-color: #f2f2f2;
 }

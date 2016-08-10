@@ -190,7 +190,7 @@ export default class MessageRow extends React.Component {
       }
 
       case 'type-commentWasAdded': {
-        const username = this.state.comment.owner ? this.state.comment.owner.displayName : '';
+        const username = this.state.comment.owner ? this.state.comment.owner.raw.displayName : '';
         const ownerId = this.state.comment.commentownerid || '';
         const commentContent = this.state.comment.content || '';
         const commentImg = this.state.comment.image ?

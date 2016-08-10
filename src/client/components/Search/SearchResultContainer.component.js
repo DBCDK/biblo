@@ -41,21 +41,21 @@ export class SearchResultContainer extends React.Component {
   shouldRenderMaterialResults() {
     return (
       !this.isFiltering()                     // display everything when not filtering
-      ||(!this.isGroupFilterEnabled()         // do not show material list when group filter is on
-      ||this.isMaterialFilterEnabled())       // show material list when material filter is on
-      );
+      || (!this.isGroupFilterEnabled()         // do not show material list when group filter is on
+      || this.isMaterialFilterEnabled())       // show material list when material filter is on
+    );
   }
 
   shouldRenderGroupResults() {
     return (
       !this.isFiltering()                     // display everything when not filtering
-      ||this.isGroupFilterEnabled()           // show group list when group filter is on
+      || this.isGroupFilterEnabled()           // show group list when group filter is on
     );
   }
 
   isFiltering() {
     return (
-      this.isGroupFilterEnabled() ||this.isMaterialFilterEnabled()
+      this.isGroupFilterEnabled() || this.isMaterialFilterEnabled()
     );
   }
 

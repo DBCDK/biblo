@@ -4,6 +4,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 import Icon from '../../General/Icon/Icon.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 
 // SVG
 import klarSVG from '../../General/Icon/svg/functions/klar-til-afhentning.svg';
@@ -126,7 +127,7 @@ export default class MessageRow extends React.Component {
       case 'type-userWasQuarantined': {
         return (
           <span className="quarantine">
-            <Icon width={15} height={15} glyph={commentSVG} />
+            <Icon width={15} height={15} glyph={commentSVG}/>
             Ny besked fra moderator
           </span>
         );
@@ -218,7 +219,7 @@ export default class MessageRow extends React.Component {
             <div className="quarantine--author">Moderator</div>
 
             <div className="quarantine--message-content">
-              <span dangerouslySetInnerHTML={{__html: messageContent}} />
+              <span dangerouslySetInnerHTML={{__html: messageContent}}/>
             </div>
           </div>
         );
@@ -269,7 +270,7 @@ export default class MessageRow extends React.Component {
       case 'type-userWasQuarantined': {
         return (
           <div className="profileimage moderator">
-            <Icon glyph={moderatorProfileSVG} height={70} width={70} />
+            <Icon glyph={moderatorProfileSVG} height={70} width={70}/>
           </div>
         );
       }
@@ -282,9 +283,10 @@ export default class MessageRow extends React.Component {
 
   deleteMessageButton() {
     return (
-      <span title=' Slet denne besked ' onClick={this.deleteMessage.bind(this)}>
-        <Icon icon="close" width={15} height={15} glyph={closeSVG}/>
-      </span>
+      <TinyButton
+        clickFunction={this.deleteMessage.bind(this)}
+        icon={<Icon icon="close" glyph={closeSVG} width={15} height={15}/>}
+      />
     );
   }
 

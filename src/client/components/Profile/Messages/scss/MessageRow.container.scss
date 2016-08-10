@@ -80,9 +80,9 @@
 
 .message-row--delete-message {
   display: inline-block;
+  position: relative;
   float: right;
-  padding-right: 2vw;
-  cursor: pointer;
+  padding-right: 1vw;
 }
 
 .message-row--message-type {

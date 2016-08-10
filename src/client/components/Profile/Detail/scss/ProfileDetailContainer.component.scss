@@ -1,23 +1,65 @@
 @import 'tools';
 
-.p-detail--image-container {
+.p-detail--badge-container {
   background: linear-gradient(180deg, #d784e7 70%, $white 30%);
-  padding-top: 100px;
+  height: 400px;
+  padding: 0px;
+}
+
+.p-detail--diploma-container {
+   padding: 20px;
+   padding-left: 10vw;
+
+   @include min-screen($desktop) {
+     padding: 200px;
+     height: 300px;
+     vertical-align: bottom;
+
+     /* reverse order from profile image when on large screens*/
+     direction: rtl;
+     display: table-cell;
+     position: relative;
+     text-align: right;
+  }
+}
+
+.p-detail--campaign-diploma {
+  position: relative;
+  max-height: 400px;
+
+  /* make the entire diploma clickable */
+  a {
+    display: inline-block;
+  }
 
   img {
+    filter: drop-shadow(2px 2px 0 white)
+    drop-shadow(-2px 2px 0 white)
+    drop-shadow(2px -2px 0 white)
+    drop-shadow(-2px -2px 0 white);
+  }
+
+}
+
+.p-detail--image-container {
+  height: 0px;
+
+  img {
+    position: relative;
+    top: -250px;
     display: block;
     margin: 0 auto;
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    object-fit: cover;
+    filter: drop-shadow(5px 5px 5px #222);
   }
+
 }
 
 .p-detail--displayname-description-follow {
   align-content: center;
   text-align: center;
-
   p {
     margin: 5px;
     font-family: $body-font;

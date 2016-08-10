@@ -100,7 +100,7 @@ export default class BorrowButton extends React.Component {
 
   onChange(collectionItem, e) {
     let onlineUrl;
-    if (collectionItem.accessType[0] === 'online') {
+    if (collectionItem.accessType[0] === 'online' && !!collectionItem.hasOnlineAccess) {
       onlineUrl = collectionItem.hasOnlineAccess[0];
     }
 

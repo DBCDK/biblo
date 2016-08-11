@@ -3,6 +3,12 @@ import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
 const WorkRoutes = express.Router();
 
+/**
+ * Get an authenticated token from smaug
+ *
+ * @param {Object} req The express request object
+ * @returns {Promise}
+ */
 function authenticate(req) {
   const profile = req.session.passport.user.profile.profile;
   if (req.session.token && req.session.token.expires > Date.now()) {
@@ -20,6 +26,14 @@ function authenticate(req) {
   });
 }
 
+/**
+ * Add an order on a given set of pid's
+ *
+ * @param {Object} req The express request object
+ * @param {Array} pids An array of pid's
+ * @param {String} token An authenticated token
+ * @returns {Promise}
+ */
 function order(req, pids, token) {
   const {fullName, phone, email, favoriteLibrary} = req.session.passport.user.profile.profile;
 

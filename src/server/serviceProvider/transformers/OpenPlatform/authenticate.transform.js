@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Event for getting an authenticated token through smaug.
+ */
+
 const AuthenticateTransform = {
 
   event() {

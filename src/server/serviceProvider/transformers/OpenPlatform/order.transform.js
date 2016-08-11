@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Event for placing an order through openPlatform.
+ */
+
 const PlaceOrderTransform = {
 
   event() {

@@ -73,30 +73,38 @@ export class SearchResultContainer extends React.Component {
     return materialFilterEnabled;
   }
 
+  renderVisFlereMaterialButton(search) {
+    if (search.isLoadingMaterialResults ||
+      (search.materialSearchResults.length - search.materialSearchOffset >= search.materialSearchLimit)) {
+      return (
+        <VisFlereButton
+          id='moreMaterialsButton'
+          onClick={this.loadMoreMaterialResults}
+          isLoading={search.isLoadingMaterialResults}/>
+      );
+    }
+    return null;
+  }
+
+  renderVisFlereGroupButton(search) {
+    if (search.isLoadingGroupResults ||
+      (search.groupSearchResults.length - search.groupSearchOffset >= search.groupSearchLimit)) {
+      return (
+        <VisFlereButton
+          id='moreGroupsButton'
+          onClick={this.loadMoreGroupResults}
+          isLoading={search.isLoadingGroupResults}/>
+      );
+    }
+    return null;
+  }
+
   render() {
-    let visFlereMaterialButton, visFlereGroupButton;
-
-    if (this.props.search.materialSearchResults.length - this.props.search.materialSearchOffset >=
-      this.props.search.materialSearchLimit
-    ) {
-      visFlereMaterialButton = (
-        <VisFlereButton id='moreMaterialsButton' onClick={this.loadMoreMaterialResults}
-                        isLoading={this.props.search.isLoadingMaterialResults}/>
-      );
-    }
-
-    if (this.props.search.groupSearchResults.length - this.props.search.groupSearchOffset >=
-      this.props.search.groupSearchLimit
-    ) {
-      visFlereGroupButton = (
-        <VisFlereButton id='moreGroupsButton' onClick={this.loadMoreGroupResults}
-                        isLoading={this.props.search.isLoadingGroupResults}/>
-      );
-    }
-
     return (
-      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions}
-                  profileState={this.props.profileState}>
+      <PageLayout
+        searchState={this.props.search}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profileState}>
         <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
 
         {
@@ -104,7 +112,7 @@ export class SearchResultContainer extends React.Component {
           <div>
             <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
             <div className="search-result-show-more-button">
-              {visFlereMaterialButton}
+              {this.renderVisFlereMaterialButton(this.props.search)}
             </div>
           </div>
         }
@@ -114,7 +122,7 @@ export class SearchResultContainer extends React.Component {
           <div>
             <GroupSearchResultList results={this.props.search.groupSearchResults}/>
             <div className="search-result-show-more-button">
-              {visFlereGroupButton}
+              {this.renderVisFlereGroupButton(this.props.search)}
             </div>
           </div>
         }

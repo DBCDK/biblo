@@ -471,7 +471,6 @@ export class ProfileDetailContainer extends React.Component {
       </div>);
     }
 
-
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
                   profileState={this.props.profile}>
@@ -480,7 +479,7 @@ export class ProfileDetailContainer extends React.Component {
           <div className="p-detail--diploma-container--wrapper">
              <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
            </div>
-          <div className="p-detail--groups-flag-buttons--container">
+          <div className="p-detail--groups-buttons--container">
             <span>
                 <a href="#!Grupper" onClick={() => {
                   this.props.uiActions.openModalWindow(groupsModalContent);
@@ -490,7 +489,7 @@ export class ProfileDetailContainer extends React.Component {
                       {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
                     </span> || null}
                   <div className="p-detail--groups-button">
-                    <Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
+                    <Icon glyph={grupperSvg} width={30} height={30}/><p>Grupper</p>
                   </div>
                 </a>
               </span>
@@ -501,7 +500,7 @@ export class ProfileDetailContainer extends React.Component {
           <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
           {editButton}
           {desc}
-          <div className="p-detail--groups-flag-buttons--phone-container">
+          <div className="p-detail--groups-buttons--phone-container">
             <span>
                 <a href="#!Grupper" onClick={() => {
                   this.props.uiActions.openModalWindow(groupsModalContent);

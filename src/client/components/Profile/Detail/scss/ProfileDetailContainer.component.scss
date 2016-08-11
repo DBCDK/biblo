@@ -9,43 +9,30 @@
 
 .p-detail--diploma-container--wrapper {
   display:  inline-block;
+  height: 300px;
+  @include min-screen($desktop) {
+    width: 50%;
+  }
 }
 
 .p-detail--diploma-container {
    padding: 20px;
-   padding-left: 10vw;
+   max-width: 100%;
 
   @include min-screen($desktop) {
-     padding: 200px;
-     vertical-align: bottom;
-
-     /* reverse order from profile image when on large screens*/
+     height: 300px;
      direction: rtl;
-     display: table-cell;
-     position: relative;
-     text-align: right;
-  }
-}
-
-.p-detail--groups-flag-buttons--container {
-  display: none;
-  @include min-screen($desktop) {
-    height: 300px;
-    display: inline-block;
-    vertical-align: bottom;
-  }
-}
-
-
-.p-detail--groups-button {
-  @include min-screen($desktop) {
-    padding-left: 80px;
+     padding-right: 100px;
   }
 }
 
 .p-detail--campaign-diploma {
   position: relative;
-  max-height: 400px;
+  padding: 10px;
+  max-height: 80px;
+  max-width: 80px;
+  top: 60%;
+  right: 10px;
 
   /* make the entire diploma clickable */
   a {
@@ -58,7 +45,33 @@
     drop-shadow(2px -2px 0 white)
     drop-shadow(-2px -2px 0 white);
   }
+}
 
+/* for desktop display  - see separate rule for phone */
+.p-detail--groups-buttons--container {
+  height: 300px;
+  display: none;
+  @include min-screen($desktop) {
+    display: inline-block;
+    margin: 0 auto;
+    margin-left: 60px;
+    position: relative;
+    top: 140px;
+    left: 75px;
+  }
+}
+
+.p-detail--groups-button {
+  @include button($white, $melrose);
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.p-detail--groups-button:hover {
+  @include min-screen($desktop) {
+  }
 }
 
 .p-detail--image-container {
@@ -97,28 +110,17 @@
     pointer-events: none;
   }
 }
-.p-detail--groups-flag-buttons--phone-container {
+.p-detail--groups-buttons--phone-container {
   display: none;
   @include max-screen($desktop) {
     display: inline-block;
-    vertical-align: bottom;
   }
 }
 
-.p-detail--groups-button--phone-container, .p-detail--flag-button--phone-container {
-  display: none;
+.p-detail--groups-button--phone-container, .p-detail--flag-button--container {
   @include max-screen($desktop) {
-    display: inline-block;
-    border: #f2f2f2 solid 2px;
-    border-radius: 5px;
-    margin: 5px;
-    padding: 5px;
-    position: relative;
-
-    p {
-      margin-top: 0;
-      padding-top: 0;
-    }
+    @include button($white, $melrose);
+    display: block;
   }
 }
 
@@ -154,7 +156,6 @@
   height: 190px;
   max-width: 190px;
 }
-
 
 .user-feed--groups-modal--group-name {
   overflow: hidden;

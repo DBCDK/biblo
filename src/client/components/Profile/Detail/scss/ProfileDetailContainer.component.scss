@@ -56,8 +56,8 @@
     margin: 0 auto;
     margin-left: 60px;
     position: relative;
-    top: 140px;
-    left: 75px;
+    top: 155px;
+    left: 70px;
   }
 }
 
@@ -65,21 +65,25 @@
   @include button($white, $melrose);
   padding-right: 15px;
   padding-left: 15px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  display:block;
+
+  p {
+    margin: 0px;
+  }
 }
 
 .p-detail--groups-button:hover {
-  @include min-screen($desktop) {
-  }
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
 }
 
 .p-detail--image-container {
   height: 0px;
-
   img {
     position: relative;
-    top: -250px;
+    top: -275px;
     display: block;
     margin: 0 auto;
     border-radius: 50%;
@@ -112,21 +116,13 @@
 }
 .p-detail--groups-buttons--phone-container {
   display: none;
-  @include max-screen($desktop) {
-    display: inline-block;
-  }
 }
 
-.p-detail--groups-button--phone-container, .p-detail--flag-button--container {
+.p-detail--groups-buttons--phone-container, .p-detail--flag-button--container {
   @include max-screen($desktop) {
     @include button($white, $melrose);
     display: block;
   }
-}
-
-.p-detail--groups-button--phone-container:hover, .p-detail--flag-button--container:hover {
-  background-color: #f2f2f2;
-  border-color: #f2f2f2;
 }
 
 .p-detail--report-container {

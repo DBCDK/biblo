@@ -485,11 +485,11 @@ export class ProfileDetailContainer extends React.Component {
                   this.props.uiActions.openModalWindow(groupsModalContent);
                 }}>
                   {isMyProfile && userProfile.postsInGroups &&
-                  <span className="p-detail--total-posts-since-last">
+                  <div className="p-detail--total-posts-since-last">
                       {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
-                    </span> || null}
+                    </div> || null}
                   <div className="p-detail--groups-button">
-                    <Icon glyph={grupperSvg} width={30} height={30}/><p>Grupper</p>
+                    <Icon glyph={grupperSvg} width={60} height={60}/><p>Grupper </p>
                   </div>
                 </a>
               </span>

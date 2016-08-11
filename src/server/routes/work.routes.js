@@ -9,7 +9,7 @@ const WorkRoutes = express.Router();
  * @param {Object} req The express request object
  * @returns {Promise}
  */
-function authenticate(req) {
+function getAuthenticatedToken(req) {
   const profile = req.session.passport.user.profile.profile;
   if (req.session.token && req.session.token.expires > Date.now()) {
     return req.session.token.token;
@@ -34,7 +34,7 @@ function authenticate(req) {
  * @param {String} token An authenticated token
  * @returns {Promise}
  */
-function order(req, pids, token) {
+function placeOrder(req, pids, token) {
   const {fullName, phone, email, favoriteLibrary} = req.session.passport.user.profile.profile;
 
   return req.callServiceProvider('order', {
@@ -50,14 +50,19 @@ function order(req, pids, token) {
 WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
   const pids = req.body.pid.split(',');
   try {
-    const tokeninfo = (await authenticate(req));
-    const orderResponse = (await order(req, pids, tokeninfo.token));
+    const tokeninfo = (await getAuthenticatedToken(req));
+    const orderResponse = (await placeOrder(req, pids, tokeninfo.token));
     res.json(orderResponse);
   }
   catch (err) {
     res.status(400);
     res.json({
       errors: [err.message]
+    });
+    res.app.get('logger').error('An error occured while placing an order', {
+      endpoint: '/bestil',
+      error: err,
+      url: req.url
     });
   }
 });

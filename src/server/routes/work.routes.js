@@ -3,42 +3,42 @@ import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
 const WorkRoutes = express.Router();
 
+function authenticate(req) {
+  const profile = req.session.passport.user.profile.profile;
+  if (req.session.token && req.session.token.expires > Date.now()) {
+    return req.session.token.token;
+  }
+  const {libraryId, loanerId, pincode} = profile.favoriteLibrary;
+  return req.callServiceProvider('authenticate', {
+    userId: loanerId,
+    password: pincode,
+    libraryId: libraryId
+  }).then(response => {
+    req.session.token = response[0];
+    req.session.save();
+    return req.session.token.token;
+  });
+}
+
+function order(req, pids, token) {
+  const {fullName, phone, email, favoriteLibrary} = req.session.passport.user.profile.profile;
+
+  return req.callServiceProvider('order', {
+    libraryId: favoriteLibrary.libraryId,
+    pids: pids,
+    name: fullName,
+    phone: phone,
+    email: email,
+    token: token
+  }).then(response => response[0]);
+}
+
 WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
+  const pids = req.body.pid.split(',');
   try {
-    let pid = req.body.mediaType;
-    const profile = req.session.passport.user.profile.profile;
-
-    const {libraryId, loanerId, pincode} = profile.favoriteLibrary;
-    const {fullName, phone, email} = profile;
-
-    if (!libraryId || !loanerId || !pincode) {
-      throw new Error('Missing borrower info!');
-    }
-
-    const borrChk = (await req.callServiceProvider('borrowerCheck', {
-      loanerID: loanerId,
-      pincode: pincode,
-      agencyID: libraryId
-    }))[0];
-
-    if (borrChk.data !== 'ok') {
-      throw new Error(borrChk.data);
-    }
-
-    let orderReponse = (await req.callServiceProvider('placeOrder', {
-      agencyId: libraryId,
-      pids: pid,
-      loanerId: loanerId,
-      fullName: fullName,
-      phone: phone,
-      email: email
-    }))[0];
-
-    if (!orderReponse.orderPlaced || orderReponse.errors && orderReponse.errors.length > 0) {
-      throw new Error('The order could not be placed!');
-    }
-
-    res.json(orderReponse);
+    const tokeninfo = (await authenticate(req));
+    const orderResponse = (await order(req, pids, tokeninfo.token));
+    res.json(orderResponse);
   }
   catch (err) {
     res.status(400);

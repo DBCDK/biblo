@@ -80,12 +80,15 @@ export default function workReducer(state = initialState, action = {}) {
     case types.WORK_HAS_ORDERED: {
       let newOrderState = 2;
 
-      if (action.errors && action.errors.length > 0) {
+      if (action.response.errors && action.response.errors.length > 0) {
         newOrderState = 3;
 
-        if (action.errors[0] === 'borrower_not_found') {
+        if (action.response.errors[0] === 'User credentials are invalid') {
           newOrderState = 4;
         }
+      }
+      if (action.response.data && action.response.data.status && action.response.data.status !== 'ok') {
+        newOrderState = 4;
       }
 
       return assignToEmpty(state, {

@@ -76,6 +76,25 @@ function work(endpoint, params) {
   return callOpenPlatform('post', options);
 }
 
+/**
+ * Create order
+ *
+ * @param {String} endpoint
+ * @param {Object} params
+ */
+function order(endpoint, params) {
+  const req = {
+    url: `${endpoint}order/`,
+    headers: {
+      Authorization: params.token,
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(params.request)
+  };
+
+  return promiseRequest('post', req);
+}
+
 function suggest(endpoint, params) {
   const options = {
     url: `${endpoint}suggest/`,
@@ -83,6 +102,40 @@ function suggest(endpoint, params) {
   };
 
   return callOpenPlatform('get', options);
+}
+
+
+/**
+ * Requesting an authenticated access token.
+ *
+ * If params gives a valid client and user, a token is returned. Else an error is thrown.
+ *
+ * @param {Object} config
+ * @param {Object} params
+ *
+ * @returns {String}
+ *
+ * @throws Error
+ */
+function authenticate(config, {userId, libraryId, password}) {
+  return promiseRequest('post', {
+    url: `${config.smaug}oauth/token`,
+    form: {
+      grant_type: 'password',
+      username: `${userId}@${libraryId}`,
+      password: password
+    },
+    auth: {
+      user: config.clientId,
+      pass: config.clientSecret
+    }
+  }).then((smaugResp) => {
+    const smaugBody = JSON.parse(smaugResp.body);
+    if (smaugBody.error) {
+      throw new Error(smaugBody.error_description);
+    }
+    return smaugBody;
+  });
 }
 
 /**
@@ -119,6 +172,8 @@ export default function OpenPlatformClient(config = null) {
   return {
     search: search.bind(null, config.endpoint),
     suggest: suggest.bind(null, config.endpoint),
-    work: work.bind(null, config.endpoint)
+    work: work.bind(null, config.endpoint),
+    order: order.bind(null, config.endpoint),
+    authenticate: authenticate.bind(null, config)
   };
 }

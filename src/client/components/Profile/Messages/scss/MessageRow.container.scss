@@ -131,7 +131,12 @@
   position: relative;
 
   .comment {
+    background-color: $athens-gray;
     margin-left: 0;
+
+    &:before {
+      border-color: transparent #eeeeee;
+    }
   }
 
   .rounded-button {

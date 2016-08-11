@@ -1,5 +1,5 @@
 @mixin result-list($device: 'phone') {
-  @if($device == 'phone') {
+  @if ($device == 'phone') {
     @include gallery(1 of 2);
     height: 320px;
   }
@@ -22,7 +22,12 @@
   }
 
   .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 5.2em;
     .icon--container {
       padding-right: 5px;
       vertical-align: middle;

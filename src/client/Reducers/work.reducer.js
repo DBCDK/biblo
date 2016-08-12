@@ -63,9 +63,8 @@ export default function workReducer(state = initialState, action = {}) {
         responses: state.responses + 1,
         orderPolicy: state.orderPolicy
       };
-
-      if (action.pid.pids && action.pid.errors && action.pid.errors.length < 1) {
-        newState.orderPolicy[action.pid.pids] = action.pid.orderPossible;
+      if (action.data.pids && !action.data.errors) {
+        newState.orderPolicy[action.data.pids] = action.data.data.willLend;
       }
 
       return assignToEmpty(state, newState);

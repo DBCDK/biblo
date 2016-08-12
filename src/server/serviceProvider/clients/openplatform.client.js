@@ -1,6 +1,14 @@
 import request from 'request';
 let token = 'Bearer bobby'; // invalid by default, this value gets overwritten by config, but is useful for debugging.
 
+/**
+ * Map containing anonymous and library authenticated tokens.
+ *
+ * @type {Map}
+ */
+const tokens = new Map();
+
+
 function promiseRequest(method, req) {
   return new Promise((resolve, reject) => {
     request[method](req, (err, httpResponse) => {
@@ -14,7 +22,7 @@ function promiseRequest(method, req) {
   });
 }
 
-let callOpenPlatform = function callOpenPlatform(config, method, req) {
+function callOpenPlatform(config, method, req) {
   // First try a normal call with the token we have
   return promiseRequest(method, Object.assign(
     {headers: {Authorization: token}},
@@ -95,6 +103,23 @@ function order(endpoint, params) {
   return promiseRequest('post', req);
 }
 
+function availability(config, params) {
+  return authenticate(config, {libraryId: params.libraryId, password: `@${params.libraryId}`}).then(response => {
+    const token = `Bearer ${response.access_token}`;
+    const options = {
+      url: `${config.endpoint}availability/`,
+      headers: {
+        Authorization: token,
+      },
+      qs: {
+        pid: params.pids
+
+      }
+    };
+    return promiseRequest('get', options);
+  });
+}
+
 function suggest(endpoint, params) {
   const options = {
     url: `${endpoint}suggest/`,
@@ -117,8 +142,8 @@ function suggest(endpoint, params) {
  *
  * @throws Error
  */
-function authenticate(config, {userId, libraryId, password}) {
-  return promiseRequest('post', {
+function authenticate(config, {userId = '', libraryId = '', password = '@'}) {
+  const req = {
     url: `${config.smaug}oauth/token`,
     form: {
       grant_type: 'password',
@@ -129,10 +154,14 @@ function authenticate(config, {userId, libraryId, password}) {
       user: config.clientId,
       pass: config.clientSecret
     }
-  }).then((smaugResp) => {
+  };
+  return promiseRequest('post', req).then((smaugResp) => {
     const smaugBody = JSON.parse(smaugResp.body);
     if (smaugBody.error) {
       throw new Error(smaugBody.error_description);
+    }
+    if (!userId) {
+      tokens.set(req.form.username, `Bearer ${smaugBody.access_token}`);
     }
     return smaugBody;
   });
@@ -174,6 +203,7 @@ export default function OpenPlatformClient(config = null) {
     suggest: suggest.bind(null, config.endpoint),
     work: work.bind(null, config.endpoint),
     order: order.bind(null, config.endpoint),
-    authenticate: authenticate.bind(null, config)
+    authenticate: authenticate.bind(null, config),
+    availability: availability.bind(null, config)
   };
 }

@@ -50,8 +50,8 @@ function placeOrder(req, pids, token) {
 WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
   const pids = req.body.pid.split(',');
   try {
-    const tokeninfo = (await getAuthenticatedToken(req));
-    const orderResponse = (await placeOrder(req, pids, tokeninfo.token));
+    const token = (await getAuthenticatedToken(req));
+    const orderResponse = (await placeOrder(req, pids, token));
     res.json(orderResponse);
   }
   catch (err) {

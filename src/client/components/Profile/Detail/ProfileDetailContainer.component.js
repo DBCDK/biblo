@@ -401,6 +401,24 @@ export class ProfileDetailContainer extends React.Component {
     );
   }
 
+  renderGroupButton (userProfile, groupsModalContent, isMyProfile, sz) {
+    return (
+      <span>
+        <a href="#!Grupper" onClick={() => {
+          this.props.uiActions.openModalWindow(groupsModalContent);
+        }}>
+          {isMyProfile && userProfile.postsInGroups &&
+          <div className="p-detail--total-posts-since-last">
+            {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
+          </div> || null}
+          <div className="p-detail--groups-button">
+            <Icon glyph={grupperSvg} width={sz} height={sz}/><p>Grupper </p>
+          </div>
+        </a>
+      </span>
+    );
+  }
+
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
@@ -480,19 +498,7 @@ export class ProfileDetailContainer extends React.Component {
              <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
            </div>
           <div className="p-detail--groups-buttons--container">
-            <span>
-                <a href="#!Grupper" onClick={() => {
-                  this.props.uiActions.openModalWindow(groupsModalContent);
-                }}>
-                  {isMyProfile && userProfile.postsInGroups &&
-                  <div className="p-detail--total-posts-since-last">
-                      {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
-                    </div> || null}
-                  <div className="p-detail--groups-button">
-                    <Icon glyph={grupperSvg} width={60} height={60}/><p>Grupper </p>
-                  </div>
-                </a>
-              </span>
+            {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 60)}
           </div>
         </div>
         {profileImage}
@@ -501,19 +507,7 @@ export class ProfileDetailContainer extends React.Component {
           {editButton}
           {desc}
           <div className="p-detail--groups-buttons--phone-container">
-            <span>
-                <a href="#!Grupper" onClick={() => {
-                  this.props.uiActions.openModalWindow(groupsModalContent);
-                }}>
-                  {isMyProfile && userProfile.postsInGroups &&
-                  <span className="p-detail--total-posts-since-last">
-                      {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
-                    </span> || null}
-                  <div className="p-detail--groups-button">
-                    <Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
-                  </div>
-                </a>
-              </span>
+            {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 42)}
           </div>
         </div>
         <div className="p-detail--activity-tabs">

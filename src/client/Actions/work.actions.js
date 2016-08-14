@@ -85,10 +85,10 @@ export function asyncOrderWork(pid) {
     dispatch(orderingWork());
     request
       .post('/materiale/bestil')
-      .send({mediaType: pid})
+      .send({pid: pid})
       .set('Accept', 'application/json')
       .end((err, res) => {
-        dispatch(orderWork(res.body.orderPlaced, res.body.errors || []));
+        dispatch(orderWork(res.body || []));
       });
   };
 }
@@ -99,11 +99,10 @@ export function orderingWork() {
   };
 }
 
-export function orderWork(orderPlaced, errors) {
+export function orderWork(response) {
   return {
     type: types.WORK_HAS_ORDERED,
-    orderPlaced,
-    errors
+    response
   };
 }
 

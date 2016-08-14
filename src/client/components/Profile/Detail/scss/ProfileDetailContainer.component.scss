@@ -59,14 +59,11 @@
     top: 155px;
     left: 70px;
   }
+
 }
 
 .p-detail--groups-button {
   @include button($white, $melrose);
-  padding-right: 15px;
-  padding-left: 15px;
-  padding-bottom: 0px;
-  padding-top: 0px;
   display:block;
 
   p {
@@ -114,14 +111,16 @@
     pointer-events: none;
   }
 }
+
 .p-detail--groups-buttons--phone-container {
   display: none;
+  position: relative;
 }
 
 .p-detail--groups-buttons--phone-container, .p-detail--flag-button--container {
   @include max-screen($desktop) {
     @include button($white, $melrose);
-    display: block;
+    padding: 0px;
   }
 }
 
@@ -173,16 +172,16 @@
 }
 
 .p-detail--total-posts-since-last, .groups-modal--posts-since-last {
+  position: absolute;
   font-size: .7em;
   text-align: center;
   color: #fff;
   background-color: #ff5a5f;
   border-radius: 25%;
   box-shadow: 0 0 3px 1px #ff5a5f;
-  position: absolute;
   top: -5px;
   right: -5px;
-  min-width: 15px;
-  min-height: 15px;
+  width: 15px;
+  height: 15px;
   padding: 2px 2px 2px 4px;
 }

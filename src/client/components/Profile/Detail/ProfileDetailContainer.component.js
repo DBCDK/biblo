@@ -403,7 +403,6 @@ export class ProfileDetailContainer extends React.Component {
 
   renderGroupButton (userProfile, groupsModalContent, isMyProfile, sz) {
     return (
-      <span>
         <a href="#!Grupper" onClick={() => {
           this.props.uiActions.openModalWindow(groupsModalContent);
         }}>
@@ -415,7 +414,6 @@ export class ProfileDetailContainer extends React.Component {
             <Icon glyph={grupperSvg} width={sz} height={sz}/><p>Grupper </p>
           </div>
         </a>
-      </span>
     );
   }
 
@@ -493,20 +491,22 @@ export class ProfileDetailContainer extends React.Component {
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
                   profileState={this.props.profile}>
         {modal}
-        <div className="p-detail--badge-container">
-          <div className="p-detail--diploma-container--wrapper">
+        <span className="p-detail--badge-container">
+          <div className="p-detail--diploma--wrapper">
              <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
            </div>
-          <div className="p-detail--groups-buttons--container">
-            {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 60)}
-          </div>
-        </div>
+           <div className="p-detail--buttons--wrapper">
+             <div className="p-detail--buttons--container">
+               {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 60)}
+             </div>
+           </div>
+        </span>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
           {editButton}
           {desc}
-          <div className="p-detail--groups-buttons--phone-container">
+          <div className="p-detail--buttons--phone-container">
             {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 42)}
           </div>
         </div>

@@ -1,6 +1,4 @@
 import request from 'request';
-let token = 'Bearer bobby'; // invalid by default, this value gets overwritten by config, but is useful for debugging.
-
 /**
  * Map containing anonymous and library authenticated tokens.
  *
@@ -22,45 +20,69 @@ function promiseRequest(method, req) {
   });
 }
 
-function callOpenPlatform(config, method, req) {
-  // First try a normal call with the token we have
-  return promiseRequest(method, Object.assign(
-    {headers: {Authorization: token}},
-    req
-  )).then((resp) => {
-    // Check if call was successful
-    if (resp.statusCode === 401 && resp.statusMessage === 'Unauthorized') {
-      // It was not, request new token
-      return promiseRequest('post', {
-        url: `${config.smaug}oauth/token`,
-        form: {
-          grant_type: 'password',
-          username: '@',
-          password: '@'
-        },
-        auth: {
-          user: config.clientId,
-          pass: config.clientSecret
-        }
-      }).then((smaugResp) => {
-        const smaugBody = JSON.parse(smaugResp.body);
-        if (!smaugBody.access_token) {
-          throw new Error('Error in response from smaug, is you clientId/clientSecret set correctly?');
-        }
-
-        token = `Bearer ${smaugBody.access_token}`;
-
-        // Try call again with new token.
-        return promiseRequest(method, Object.assign(
-          {headers: {Authorization: token}},
-          req
-        ));
-      });
+/**
+ * Requesting an authenticated access token.
+ *
+ * If params gives a valid client and user, a token is returned. Else an error is thrown.
+ *
+ * @param {Object} config
+ * @param {Object} params
+ *
+ * @returns {String}
+ *
+ * @throws Error
+ */
+function authenticate(config, {username = '@', password = '@'}) {
+  const req = {
+    url: `${config.smaug}oauth/token`,
+    form: {
+      grant_type: 'password',
+      username: username,
+      password: password
+    },
+    auth: {
+      user: config.clientId,
+      pass: config.clientSecret
     }
-
-    return resp;
+  };
+  return promiseRequest('post', req).then((smaugResp) => {
+    const smaugBody = JSON.parse(smaugResp.body);
+    if (smaugBody.error) {
+      throw new Error(smaugBody.error_description);
+    }
+    return smaugBody;
   });
+}
+
+/**
+ * Generic method for making request to openplatform authenticated with either anonymous or library users.
+ *
+ * @param config
+ * @param method
+ * @param req
+ * @param authUser
+ * @returns {*}
+ */
+let callOpenPlatform = async function callOpenPlatform(config, method, req, authUser = '@') {
+  const resp = await promiseRequest(method, Object.assign(
+    {headers: {Authorization: tokens.get(authUser)}},
+    req
+  ));
+  // Check if call was successful
+  if (resp.statusCode === 401 && resp.statusMessage === 'Unauthorized') {
+    // It was not, request new token
+    const token = await authenticate(config, {username: authUser, password: authUser});
+    tokens.set(authUser, `Bearer ${token.access_token}`);
+
+    // Make request with new token
+    return await promiseRequest(method, Object.assign(
+      {headers: {Authorization: tokens.get(authUser)}},
+      req
+    ));
+  }
+  return resp;
 };
+
 
 function search(endpoint, params) {
   const options = {
@@ -103,21 +125,22 @@ function order(endpoint, params) {
   return promiseRequest('post', req);
 }
 
-function availability(config, params) {
-  return authenticate(config, {libraryId: params.libraryId, password: `@${params.libraryId}`}).then(response => {
-    const token = `Bearer ${response.access_token}`;
-    const options = {
-      url: `${config.endpoint}availability/`,
-      headers: {
-        Authorization: token,
-      },
-      qs: {
-        pid: params.pids
+/**
+ * Check if material is available at library.
+ *
+ * @param endpoint
+ * @param params
+ * @returns {*}
+ */
+function availability(endpoint, params) {
 
-      }
-    };
-    return promiseRequest('get', options);
-  });
+  const authUser = `@${params.libraryId}`;
+  const req = {
+    url: `${endpoint}availability/`,
+    qs: {pid: params.pids}
+  };
+
+  return callOpenPlatform('get', req, authUser);
 }
 
 function suggest(endpoint, params) {
@@ -127,44 +150,6 @@ function suggest(endpoint, params) {
   };
 
   return callOpenPlatform('get', options);
-}
-
-
-/**
- * Requesting an authenticated access token.
- *
- * If params gives a valid client and user, a token is returned. Else an error is thrown.
- *
- * @param {Object} config
- * @param {Object} params
- *
- * @returns {String}
- *
- * @throws Error
- */
-function authenticate(config, {userId = '', libraryId = '', password = '@'}) {
-  const req = {
-    url: `${config.smaug}oauth/token`,
-    form: {
-      grant_type: 'password',
-      username: `${userId}@${libraryId}`,
-      password: password
-    },
-    auth: {
-      user: config.clientId,
-      pass: config.clientSecret
-    }
-  };
-  return promiseRequest('post', req).then((smaugResp) => {
-    const smaugBody = JSON.parse(smaugResp.body);
-    if (smaugBody.error) {
-      throw new Error(smaugBody.error_description);
-    }
-    if (!userId) {
-      tokens.set(req.form.username, `Bearer ${smaugBody.access_token}`);
-    }
-    return smaugBody;
-  });
 }
 
 /**
@@ -195,7 +180,7 @@ export default function OpenPlatformClient(config = null) {
     throw new Error('Expected clientSecret in config, but none provided');
   }
 
-  token = config.token;
+  tokens.set('@', config.token);
   callOpenPlatform = callOpenPlatform.bind(null, config);
 
   return {
@@ -204,6 +189,6 @@ export default function OpenPlatformClient(config = null) {
     work: work.bind(null, config.endpoint),
     order: order.bind(null, config.endpoint),
     authenticate: authenticate.bind(null, config),
-    availability: availability.bind(null, config)
+    availability: availability.bind(null, config.endpoint)
   };
 }

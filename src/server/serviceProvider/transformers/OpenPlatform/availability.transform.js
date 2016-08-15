@@ -25,7 +25,7 @@ const AvailabilityTransform = {
 
   responseTransform(response, {pids}) {
     const body = JSON.parse(response.body);
-    if (body.statusCode != 200) {
+    if (body.statusCode !== 200) {
       return {
         errors: ['could not determine order policy']
       };

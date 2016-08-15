@@ -14,9 +14,15 @@
   }
 
   .work-detail--title-series {
-    font-size: 0.9rem;
+    font-size: 1.0rem;
     display: block;
     cursor: pointer;
+    a {
+      color: $gray;
+      &:hover {
+        color: $dark;
+      }
+    }
   }
 
   .work-detail--subheader {

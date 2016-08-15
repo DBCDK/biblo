@@ -29,13 +29,39 @@ const displayTypeSvgs = {
 
 export class WorkDetail extends React.Component {
 
+  clipTailOnMatch(text, match) {
+    if (text.indexOf(match) > 0) {
+      return text.substring(0, text.indexOf(match));
+    }
+    return text;
+  }
+
+  seriesReference(titleSeries, descriptionSeries) {
+    let query = '';
+    let title;
+    if (titleSeries) {
+      query = title = titleSeries;
+    }
+    else if (descriptionSeries) {
+      query = title = descriptionSeries;
+      if (query.indexOf(': ') > 0) {
+        query = query.substring(query.indexOf(': ') + 2);
+      }
+      title = this.clipTailOnMatch(title, ' ; ');
+      title = title.replace('Samhørende:', '1. del af:');
+    }
+    query = this.clipTailOnMatch(query, ' ; ');
+    query = encodeURIComponent(query.replace('&', ''));
+    return {consolidatedTitleSeries: title, consolidatedTitleSeriesQuery: query};
+  }
+
   render() {
     const coverUrl = this.props.coverUrl;
     const title = this.props.title;
-    const titleSeries = this.props.titleSeries;
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
+    const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(this.props.titleSeries, this.props.descriptionSeries);
     const materialTypes = [];
 
     const materialTypeElements = materialTypes.map((materialType, i) => (
@@ -45,14 +71,6 @@ export class WorkDetail extends React.Component {
 
     const profile = this.props.profile;
     let reviewButton;
-
-    let titleSeriesQuery = titleSeries;
-    if (titleSeriesQuery) {
-      if (titleSeriesQuery.indexOf(' ; ') > 0) {
-        titleSeriesQuery = titleSeriesQuery.substring(0, titleSeriesQuery.indexOf(' ; '));
-      }
-      titleSeriesQuery = encodeURIComponent(titleSeriesQuery.replace('&', ''));
-    }
 
     // sd-566: tweak login requirements and button glyph when in full review view
     if (this.props.fullReview) {
@@ -83,9 +101,9 @@ export class WorkDetail extends React.Component {
           <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
           <h2 className='work-detail--title'>{title}</h2>
           {
-            titleSeries &&
+            consolidatedTitleSeries &&
             <span className="work-detail--title-series">
-              <a href={'/find?q=' + titleSeriesQuery}>{titleSeries}</a>
+              <a href={'/find?q=' + consolidatedTitleSeriesQuery}>{consolidatedTitleSeries}</a>
             </span>
           }
           <span className='work-detail--subheader'>{creator}</span>
@@ -146,6 +164,7 @@ WorkDetail.propTypes = {
   title: React.PropTypes.string.isRequired,
   creator: React.PropTypes.string.isRequired,
   titleSeries: React.PropTypes.string.isRequired,
+  descriptionSeries: React.PropTypes.string.isRequired,
   displayType: React.PropTypes.string.isRequired,
   collection: React.PropTypes.array.isRequired,
   coverUrl: React.PropTypes.string.isRequired,

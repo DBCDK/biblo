@@ -25,6 +25,7 @@ export default function parseWork(work) {
   work.dcTitle = work.dcTitle ? work.dcTitle[0] : '';
   work.dcTitleFull = work.dcTitleFull ? work.dcTitleFull[0] : '';
   work.titleSeries = work.titleSeries ? work.titleSeries[0] : '';
+  work.descriptionSeries = work.descriptionSeries ? work.descriptionSeries[0] : '';
   work.abstract = (work.abstract) ? work.abstract[0] : '';
   work = useCreateAutIfPossible(work);
   work.workType = (work.workType) ? work.workType[0] : 'other';

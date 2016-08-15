@@ -7,7 +7,7 @@
   display: block;
 }
 
-.p-detail--diploma-container--wrapper {
+.p-detail--diploma--wrapper {
   display:  inline-block;
   height: 300px;
   @include min-screen($desktop) {
@@ -15,14 +15,21 @@
   }
 }
 
+.p-detail--buttons--wrapper {
+  display: none;
+  height: 300px;
+  @include min-screen($desktop) {
+    display:  inline-block;
+    width: 50%;
+  }
+}
+
 .p-detail--diploma-container {
    padding: 20px;
-   max-width: 100%;
 
   @include min-screen($desktop) {
      height: 300px;
-     direction: rtl;
-     padding-right: 100px;
+     padding-right: 150px;
   }
 }
 
@@ -33,8 +40,8 @@
   max-width: 80px;
   top: 60%;
   right: 10px;
+  float: right;
 
-  /* make the entire diploma clickable */
   a {
     display: inline-block;
   }
@@ -48,24 +55,20 @@
 }
 
 /* for desktop display  - see separate rule for phone */
-.p-detail--groups-buttons--container {
-  height: 300px;
-  display: none;
-  @include min-screen($desktop) {
-    display: inline-block;
-    margin: 0 auto;
-    margin-left: 60px;
-    position: relative;
-    top: 155px;
-    left: 70px;
-  }
+.p-detail--buttons--container {
 
+  position: absolute;
+
+  @include min-screen($desktop) {
+    height: 300px;
+    padding-left: 120px;
+    top: 240px;
+  }
 }
 
 .p-detail--groups-button {
   @include button($white, $melrose);
-  display:block;
-
+  max-width: 120px;
   p {
     margin: 0px;
   }
@@ -112,12 +115,12 @@
   }
 }
 
-.p-detail--groups-buttons--phone-container {
+.p-detail--buttons--phone-container {
   display: none;
   position: relative;
 }
 
-.p-detail--groups-buttons--phone-container, .p-detail--flag-button--container {
+.p-detail--buttons--phone-container, .p-detail--flag-button--container {
   @include max-screen($desktop) {
     @include button($white, $melrose);
     padding: 0px;

@@ -7,7 +7,7 @@ import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
 
 const initialState = {
-  orderPolicy: {},
+  availability: {},
   orderState: 0,
   responses: 0,
   work: parseJsonData('JSONDATA', 'work'),
@@ -18,7 +18,7 @@ const initialState = {
  * Work Reducer
  * @param {object} state
  * @param {{type: {string}, response: {data: {}, statusCode: {number}}}} action
- * @return {{orderPolicy: {}, orderState: number, responses: number, work: {}, workReviews: {}, workReviewsMeta: {}, workMetadataOrderedByPid: {}}}
+ * @return {{availability: {}, orderState: number, responses: number, work: {}, workReviews: {}, workReviewsMeta: {}, workMetadataOrderedByPid: {}}}
  */
 export default function workReducer(state = initialState, action = {}) {
   Object.freeze(state);
@@ -58,13 +58,13 @@ export default function workReducer(state = initialState, action = {}) {
       return state;
     }
 
-    case types.CHECK_ORDER_POLICY: {
+    case types.CHECK_AVAILABILITY: {
       let newState = {
         responses: state.responses + 1,
-        orderPolicy: state.orderPolicy
+        availability: state.availability
       };
       if (action.data.pids && !action.data.errors) {
-        newState.orderPolicy[action.data.pids] = action.data.data.willLend;
+        newState.availability[action.data.pids] = action.data.data.willLend;
       }
 
       return assignToEmpty(state, newState);

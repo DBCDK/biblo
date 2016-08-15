@@ -120,9 +120,9 @@ export class WorkReviewContainer extends React.Component {
             workType={work.workType}
             orderState={this.props.workState.orderState}
             orderMaterialAction={this.props.workActions.asyncOrderWork}
-            checkOrderPolicyAction={this.props.workActions.asyncCheckOrderPolicy}
-            checkOrderPolicyResult={this.props.workState.orderPolicy}
-            checkOrderPolicyDone={this.props.workState.responses === work.collection.length}
+            checkAvailabilityAction={this.props.workActions.asyncCheckAvailability}
+            checkAvailabilityResult={this.props.workState.availability}
+            checkAvailabilityDone={this.props.workState.responses === work.collection.length}
             resetOrderState={this.props.workActions.resetOrderState}
             searchForLibraryAction={this.librarySearch.bind(this)}
             librarySearchResults={librarySuggestions}

@@ -57,7 +57,7 @@ export default class BorrowButton extends React.Component {
 
   componentDidMount() {
     if (this.props.profile.userIsLoggedIn) {
-      this.props.checkOrderPolicyAction(this.props.collection);
+      this.props.checkAvailabilityAction(this.props.collection);
     }
   }
 
@@ -221,7 +221,7 @@ export default class BorrowButton extends React.Component {
     );
   }
 
-  placeOrderModal(collectionDetails, checkOrderPolicyResult, checkOrderPolicyDone, orderState, profile, onClose) {
+  placeOrderModal(collectionDetails, checkAvailabilityResult, checkAvailabilityDone, orderState, profile, onClose) {
     const collectionsObject = {};
     collectionDetails.forEach((collectionItem) => {
 
@@ -230,7 +230,7 @@ export default class BorrowButton extends React.Component {
         this.props.getWorkOnlineAccessAction([collectionItem.pid[0]]);
       }
 
-      if (checkOrderPolicyResult[collectionItem.pid[0]] && !collectionsObject[collectionItem.type]) {
+      if (checkAvailabilityResult[collectionItem.pid[0]] && !collectionsObject[collectionItem.type]) {
         collectionsObject[collectionItem.type] = collectionItem;
       }
     });
@@ -280,8 +280,8 @@ export default class BorrowButton extends React.Component {
       );
     }
     // An error occured during order or
-    // CheckOrderPolicy says you can't borrow this work
-    else if (orderState === 3 || checkOrderPolicyDone && collectionObjectSize <= 0) {
+    // CheckAvailability says you can't borrow this work
+    else if (orderState === 3 || checkAvailabilityDone && collectionObjectSize <= 0) {
       modalContent = (
         <div>
           <p>Du kan desværre ikke låne denne bog.</p>
@@ -302,7 +302,7 @@ export default class BorrowButton extends React.Component {
     else if (collectionObjectSize > 0) {
       modalContent = this.renderOrderForm(collectionsObject);
     }
-    // CheckOrderPolicy has not returned results yet.
+    // CheckAvailability has not returned results yet.
     else {
       modalContent = (
         <p>Vent venligst mens vi checker hvilke udgaver du kan låne.</p>
@@ -334,8 +334,8 @@ export default class BorrowButton extends React.Component {
         {this.state.displayModal &&
         this.placeOrderModal(
           this.props.collectionDetails,
-          this.props.checkOrderPolicyResult,
-          this.props.checkOrderPolicyDone,
+          this.props.checkAvailabilityResult,
+          this.props.checkAvailabilityDone,
           this.props.orderState,
           this.props.profile,
           this.closeModal.bind(this)
@@ -357,9 +357,9 @@ BorrowButton.propTypes = {
   unselectLibraryFunction: React.PropTypes.func.isRequired,
   searchForLibraryAction: React.PropTypes.func.isRequired,
   librarySearchResults: React.PropTypes.array.isRequired,
-  checkOrderPolicyAction: React.PropTypes.func.isRequired,
-  checkOrderPolicyResult: React.PropTypes.object,
-  checkOrderPolicyDone: React.PropTypes.bool,
+  checkAvailabilityAction: React.PropTypes.func.isRequired,
+  checkAvailabilityResult: React.PropTypes.object,
+  checkAvailabilityDone: React.PropTypes.bool,
   resetOrderState: React.PropTypes.func.isRequired,
   profile: React.PropTypes.object,
   getWorkOnlineAccessAction: React.PropTypes.func.isRequired,
@@ -368,8 +368,8 @@ BorrowButton.propTypes = {
 
 BorrowButton.defaultProps = {
   orderState: 0,
-  checkOrderPolicyResult: {},
-  checkOrderPolicyDone: false,
+  checkAvailabilityResult: {},
+  checkAvailabilityDone: false,
   profile: {
     userIsLoggedIn: false
   }

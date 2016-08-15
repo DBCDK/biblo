@@ -9,7 +9,7 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import request from 'superagent';
 import {once} from 'lodash';
 
-const checkOrderPolicySocket = SocketClient('availability');
+const availabilitySocket = SocketClient('availability');
 const getWorksSocket = SocketClient('work');
 const getWorksListener = once(getWorksSocket.response);
 
@@ -62,20 +62,20 @@ export function getWorkOnlineAccess (response) {
   };
 }
 
-export function asyncCheckOrderPolicy(pids) {
+export function asyncCheckAvailability(pids) {
   return (dispatch) => {
-    checkOrderPolicySocket.response((response) => dispatch(checkOrderPolicy(response)));
+    availabilitySocket.response((response) => dispatch(checkAvailability(response)));
     if (pids) {
       pids.forEach((pid) => {
-        checkOrderPolicySocket.request({pids: pid});
+        availabilitySocket.request({pids: pid});
       });
     }
   };
 }
 
-export function checkOrderPolicy(data) {
+export function checkAvailability(data) {
   return {
-    type: types.CHECK_ORDER_POLICY,
+    type: types.CHECK_AVAILABILITY,
     data
   };
 }

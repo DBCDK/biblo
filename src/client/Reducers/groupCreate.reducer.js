@@ -18,7 +18,7 @@ const initialState = {
   errors: []
 };
 
-export default function groupCreateReducer(state = initialState, action={}) {
+export default function groupCreateReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
     case types.CHANGE_GROUP_IMAGE:
@@ -26,7 +26,8 @@ export default function groupCreateReducer(state = initialState, action={}) {
         imageFile: action.imageFile,
         UI: assignToEmpty(state.UI, {
           imageSrc: action.imageSrc
-        })
+        }),
+        errors: []
       });
 
     case types.SUBMIT_CREATE_GROUP:

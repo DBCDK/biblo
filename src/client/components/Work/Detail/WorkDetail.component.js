@@ -15,7 +15,7 @@ import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/mater
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film.svg';
-import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/group.svg';
+import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 const displayTypeSvgs = {

@@ -1,23 +1,132 @@
 @import 'tools';
 
-.p-detail--image-container {
+.p-detail--badge-container {
   background: linear-gradient(180deg, #d784e7 70%, $white 30%);
-  padding-top: 100px;
+  height: 400px;
+  padding: 0px;
+  display: block;
+}
+
+/* campaign diplomas */
+.p-detail--diploma-wrapper {
+  display:  inline-block;
+  @include min-screen($desktop) {
+    width: 50%;
+  }
+}
+
+.p-detail--diploma-container {
+   padding: 20px;
+   height: 50px;
+
+   @include min-screen($desktop) {
+     padding-right: 150px;
+     height: 300px;
+   }
+}
+
+.p-detail--diploma {
+  position: relative;
+  padding: 10px;
+  max-height: 80px;
+  max-width: 80px;
+  top: 60%;
+  right: 10px;
+  float: right;
+
+  a {
+    display: inline-block;
+  }
 
   img {
+    filter: drop-shadow(2px 2px 0 white)
+    drop-shadow(-2px 2px 0 white)
+    drop-shadow(2px -2px 0 white)
+    drop-shadow(-2px -2px 0 white);
+  }
+}
+
+/* buttons (e.g : group button) */
+.p-detail--buttons-wrapper {
+  display: none;
+  @include min-screen($desktop) {
+    display:  inline-block;
+    width: 50%;
+  }
+}
+
+.p-detail--buttons-container {
+  position: absolute;
+  @include min-screen($desktop) {
+    height: 300px;
+    padding-left: 120px;
+    top: 240px;
+  }
+}
+
+.p-detail--group-button {
+  @include button($white, $melrose);
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  max-width: 120px;
+  max-height: 120px;
+  p {
+    margin: 0px;
+  }
+}
+
+.p-detail--button:hover {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+}
+
+.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
+  position: absolute;
+  font-size: .7em;
+  text-align: center;
+  color: #fff;
+  background-color: #ff5a5f;
+  border-radius: 25%;
+  box-shadow: 0 0 3px 1px #ff5a5f;
+  top: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  padding: 2px 2px 2px 4px;
+}
+
+.p-detail--buttons--phone-container {
+  display: none;
+  position: relative;
+}
+
+.p-detail--buttons--phone-container, .p-detail--flag-button--container {
+  @include max-screen($desktop) {
+    @include button($white, $melrose);
+    padding: 0px;
+  }
+}
+
+/* profile details */
+.p-detail--image-container {
+  height: 0px;
+  img {
+    position: relative;
+    top: -275px;
     display: block;
     margin: 0 auto;
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    object-fit: cover;
+    filter: drop-shadow(5px 5px 5px #222);
   }
 }
 
 .p-detail--displayname-description-follow {
   align-content: center;
   text-align: center;
-
   p {
     margin: 5px;
     font-family: $body-font;
@@ -35,25 +144,6 @@
   .icon {
     pointer-events: none;
   }
-}
-
-.p-detail--groups-button--container, .p-detail--flag-button--container {
-  display: inline-block;
-  border: #f2f2f2 solid 2px;
-  border-radius: 5px;
-  margin: 5px;
-  padding: 5px;
-  position: relative;
-
-  p {
-    margin-top: 0;
-    padding-top: 0;
-  }
-}
-
-.p-detail--groups-button--container:hover, .p-detail--flag-button--container:hover {
-  background-color: #f2f2f2;
-  border-color: #f2f2f2;
 }
 
 .p-detail--report-container {
@@ -84,7 +174,6 @@
   max-width: 190px;
 }
 
-
 .user-feed--groups-modal--group-name {
   overflow: hidden;
   line-height: 2;
@@ -104,17 +193,4 @@
   }
 }
 
-.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
-  font-size: .7em;
-  text-align: center;
-  color: #fff;
-  background-color: #ff5a5f;
-  border-radius: 25%;
-  box-shadow: 0 0 3px 1px #ff5a5f;
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  min-width: 15px;
-  min-height: 15px;
-  padding: 2px 2px 2px 4px;
-}
+

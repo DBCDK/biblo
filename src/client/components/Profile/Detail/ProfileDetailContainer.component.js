@@ -380,6 +380,43 @@ export class ProfileDetailContainer extends React.Component {
     return tabs;
   }
 
+  renderCampaignBadges (campaigns) {
+    let campaignDiplomaButtons = null;
+    if (campaigns) {
+      campaignDiplomaButtons = campaigns.map(campaign => {
+        return this.renderCampaignBadge(campaign);
+      });
+    }
+    return campaignDiplomaButtons;
+  }
+
+  renderCampaignBadge (campaign) {
+    const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
+    return (
+      <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
+        <a href={downloadUrl}>
+          <img src={campaign.logos.svg} className='svg' width={80}/>
+        </a>
+      </span>
+    );
+  }
+
+  renderGroupButton (userProfile, groupsModalContent, isMyProfile, sz) {
+    return (
+        <a href="#!Grupper" onClick={() => {
+          this.props.uiActions.openModalWindow(groupsModalContent);
+        }}>
+         {isMyProfile && userProfile.postsInGroups &&
+          <div className="p-detail--total-posts-since-last">
+            {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
+          </div> || null}
+          <div className="p-detail--group-button">
+            <Icon glyph={grupperSvg} width={sz} height={sz}/><p>Grupper </p>
+          </div>
+        </a>
+    );
+  }
+
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
@@ -416,6 +453,13 @@ export class ProfileDetailContainer extends React.Component {
       );
     }
 
+    const campaigns = this.props.feed.campaigns;
+
+    let campaignDiplomaButtons = null;
+    if (isMyProfile) {
+      campaignDiplomaButtons = this.renderCampaignBadges(campaigns);
+    }
+
     const modal = this.getModal();
 
     // include edit button when user views her own page.
@@ -443,48 +487,27 @@ export class ProfileDetailContainer extends React.Component {
       </div>);
     }
 
-    const campaigns = this.props.feed.campaigns;
-    let campaignDiplomaButtons = null;
-    if (isMyProfile && campaigns) {
-      campaignDiplomaButtons = campaigns.map(campaign => {
-        const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-        return (
-          <span className="p-detail--campaign-diploma" key={`campaign_${campaign.id}`}>
-            <a href={downloadUrl} className='p-detail--groups-button--container'>
-              <div className="p-detail--groups-button">
-                <Icon svgLink={campaign.logos.svg} width={42} height={42}/>
-                <p>Bevis</p>
-              </div>
-            </a>
-          </span>
-        );
-      });
-    }
-
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
                   profileState={this.props.profile}>
         {modal}
+        <div className="p-detail--badge-container">
+          <div className="p-detail--diploma-wrapper">
+             <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
+           </div>
+           <div className="p-detail--buttons-wrapper">
+             <div className="p-detail--buttons-container">
+               {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 60)}
+             </div>
+           </div>
+        </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
           {editButton}
           {desc}
-          <div className="p-detail--groups-flag-buttons--container">
-            <span>
-                <a href="#!Grupper" className="p-detail--groups-button--container" onClick={() => {
-                  this.props.uiActions.openModalWindow(groupsModalContent);
-                }}>
-                  {isMyProfile && userProfile.postsInGroups &&
-                  <span className="p-detail--total-posts-since-last">
-                      {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
-                    </span> || null}
-                  <div className="p-detail--groups-button">
-                    <Icon glyph={grupperSvg} width={42} height={42}/><p>Grupper</p>
-                  </div>
-                </a>
-              </span>
-            {campaignDiplomaButtons}
+          <div className="p-detail--buttons--phone-container">
+            {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 42)}
           </div>
         </div>
         <div className="p-detail--activity-tabs">

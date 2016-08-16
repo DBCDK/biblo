@@ -6,7 +6,7 @@ import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/mater
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game_no_border.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music_no_border.svg';
-import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/animalpaw.svg';
+import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other_no_border.svg';
 
 import './MoreInfo.component.scss';
 

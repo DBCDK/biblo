@@ -229,7 +229,7 @@ describe('Test profile detail container (public profile)', () => {
     expect(tabs[0].innerHTML).toContain('tabs-container');
   });
 
-  it('Should render campaignDiplomaButtons', () => {
+  it('Should render diplomaButtons', () => {
     const _reviews = assignToEmpty(reviews, {userReviews: reviewsMock});
     const _feedMock = assignToEmpty(feedMock, {campaigns: campaignsMock});
 
@@ -256,7 +256,7 @@ describe('Test profile detail container (public profile)', () => {
         works={works}
       />);
 
-    assert.isNotFalse(tree.subTree('.p-detail--campaign-diploma'), 'Found campaign-diploma container');
+    assert.isNotFalse(tree.subTree('.p-detail--diploma'), 'Found diploma container');
   });
 
   it('Should not render campaignDiplomaButtons when looking at someone elses profile', () => {

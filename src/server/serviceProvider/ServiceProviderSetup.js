@@ -8,14 +8,12 @@ import path from 'path';
 import redisStore from 'cache-manager-redis';
 
 // import clients
-import Borchk from 'dbc-node-borchk';
 import CommunityClient from 'dbc-node-community-client';
 import EntitySuggest from 'dbc-node-entitysuggest';
 import OpenAgency from 'dbc-node-openagency-client';
 import OpenPlatformClient from './clients/openplatform.client.js';
 import BibloAdminClient from './clients/bibloadmin.client';
 import AWSClient from './clients/amazon.client';
-import OpenOrder from 'dbc-node-openorder-client';
 import OpenUserStatus from 'dbc-node-openuserstatus-client';
 
 /**
@@ -64,13 +62,11 @@ export default function initProvider(config, logger, sockets) {
   const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));
 
   // Register all clients
-  RegisterClientOnProvider('borchk', Borchk);
   RegisterClientOnProvider('community', CommunityClient.bind(null, logger));
   RegisterClientOnProvider('openplatform', OpenPlatformClient);
   RegisterClientOnProvider('bibloadmin', BibloAdminClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);
   RegisterClientOnProvider('openagency', OpenAgency);
-  RegisterClientOnProvider('openorder', OpenOrder);
   RegisterClientOnProvider('openuserstatus', OpenUserStatus);
   RegisterClientOnProvider('aws', AWSClient);
 

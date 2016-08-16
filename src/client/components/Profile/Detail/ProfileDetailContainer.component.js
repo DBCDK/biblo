@@ -393,7 +393,7 @@ export class ProfileDetailContainer extends React.Component {
   renderCampaignBadge (campaign) {
     const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
     return (
-      <span className="p-detail--campaign-diploma " key={`campaign_${campaign.id}`}>
+      <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
         <a href={downloadUrl}>
           <img src={campaign.logos.svg} className='svg' width={80}/>
         </a>
@@ -406,11 +406,11 @@ export class ProfileDetailContainer extends React.Component {
         <a href="#!Grupper" onClick={() => {
           this.props.uiActions.openModalWindow(groupsModalContent);
         }}>
-          {isMyProfile && userProfile.postsInGroups &&
+         {isMyProfile && userProfile.postsInGroups &&
           <div className="p-detail--total-posts-since-last">
             {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
           </div> || null}
-          <div className="p-detail--groups-button">
+          <div className="p-detail--group-button">
             <Icon glyph={grupperSvg} width={sz} height={sz}/><p>Grupper </p>
           </div>
         </a>
@@ -491,16 +491,16 @@ export class ProfileDetailContainer extends React.Component {
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
                   profileState={this.props.profile}>
         {modal}
-        <span className="p-detail--badge-container">
-          <div className="p-detail--diploma--wrapper">
+        <div className="p-detail--badge-container">
+          <div className="p-detail--diploma-wrapper">
              <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
            </div>
-           <div className="p-detail--buttons--wrapper">
-             <div className="p-detail--buttons--container">
+           <div className="p-detail--buttons-wrapper">
+             <div className="p-detail--buttons-container">
                {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 60)}
              </div>
            </div>
-        </span>
+        </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
           <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>

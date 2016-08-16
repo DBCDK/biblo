@@ -33,10 +33,11 @@ export default function groupViewReducer(state = initialState, action = {}) {
 
     case types.DELETE_POST: {
       let postsAfterDelete = [...state.posts];
+      let postsCount = state.postsCount - 1;
       postsAfterDelete = filter(postsAfterDelete, (post)=> {
         return action.postId !== post.id;
       });
-      return assignToEmpty(state, {posts: postsAfterDelete});
+      return assignToEmpty(state, {posts: postsAfterDelete, postsCount: postsCount});
     }
 
     case types.GROUP_FOLLOW: {
@@ -60,7 +61,8 @@ export default function groupViewReducer(state = initialState, action = {}) {
     }
 
     case types.GROUP_ADD_POST: {
-      return assignToEmpty(state, {posts: [action.post, ...state.posts]});
+      let postsCount = state.postsCount + 1;
+      return assignToEmpty(state, {posts: [action.post, ...state.posts], postsCount: postsCount});
     }
 
     case types.GROUP_ADD_COMMENT: {
@@ -180,7 +182,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
       let newState = assignToEmpty(state);
       const postIds = newState.posts.map(post => post.id);
 
-      if (action.post) {
+      if (action.post && action.post.id) {
         if (postIds.indexOf(action.post.id) >= 0) {
           newState.posts = newState.posts.map((post) => post.id === action.post.id ? action.post : post);
         }
@@ -189,7 +191,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
         }
       }
 
-      if (action.comment) {
+      if (action.comment && action.comment.postid) {
         const postIndex = postIds.indexOf(action.comment.postid);
         if (postIndex >= 0) {
           let commentIds = (newState.posts[postIndex].comments || []).map(comment => comment.id);
@@ -202,7 +204,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
         }
       }
 
-      return assignToEmpty(state);
+      return newState;
     }
 
     case types.GET_SINGLE_COMMENT: {
@@ -211,7 +213,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
         newState.comments[action.comment.id] = action.comment;
       }
 
-      return assignToEmpty(newState);
+      return newState;
     }
 
     default: {

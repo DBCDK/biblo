@@ -9,8 +9,9 @@ const AuthenticateTransform = {
     return 'authenticate';
   },
 
-  requestTransform(event, params, connection) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('openplatform', 'authenticate', params);
+  requestTransform(event, {userId, libraryId, password}, connection) { // eslint-disable-line no-unused-vars
+    const username = `${userId}@${libraryId}`;
+    return this.callServiceClient('openplatform', 'authenticate', {username, password});
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars

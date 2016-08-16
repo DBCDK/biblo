@@ -121,9 +121,9 @@ export class WorkDetail extends React.Component {
                 coverUrl={coverUrl}
                 orderState={this.props.orderState}
                 orderMaterialAction={this.props.orderMaterialAction}
-                checkOrderPolicyAction={this.props.checkOrderPolicyAction}
-                checkOrderPolicyResult={this.props.checkOrderPolicyResult}
-                checkOrderPolicyDone={this.props.checkOrderPolicyDone}
+                checkAvailabilityAction={this.props.checkAvailabilityAction}
+                checkAvailabilityResult={this.props.checkAvailabilityResult}
+                checkAvailabilityDone={this.props.checkAvailabilityDone}
                 resetOrderState={this.props.resetOrderState}
                 saveProfileAction={this.props.saveProfileAction}
                 unselectLibraryFunction={this.props.unselectLibraryFunction}
@@ -170,9 +170,9 @@ WorkDetail.propTypes = {
   coverUrl: React.PropTypes.string.isRequired,
   orderState: React.PropTypes.number,
   orderMaterialAction: React.PropTypes.func.isRequired,
-  checkOrderPolicyAction: React.PropTypes.func.isRequired,
-  checkOrderPolicyResult: React.PropTypes.object,
-  checkOrderPolicyDone: React.PropTypes.bool,
+  checkAvailabilityAction: React.PropTypes.func.isRequired,
+  checkAvailabilityResult: React.PropTypes.object,
+  checkAvailabilityDone: React.PropTypes.bool,
   resetOrderState: React.PropTypes.func.isRequired,
   unselectLibraryFunction: React.PropTypes.func.isRequired,
   searchForLibraryAction: React.PropTypes.func.isRequired,

@@ -46,11 +46,12 @@ function authenticate(config, {username = '@', password = '@'}) {
     }
   };
   return promiseRequest('post', req).then((smaugResp) => {
-    const smaugBody = JSON.parse(smaugResp.body);
-    if (smaugBody.error) {
-      throw new Error(smaugBody.error_description);
+    const token = JSON.parse(smaugResp.body);
+    if (token.error) {
+      return Promise.reject(token.error_description);
     }
-    return smaugBody;
+    return token;
+
   });
 }
 
@@ -64,23 +65,27 @@ function authenticate(config, {username = '@', password = '@'}) {
  * @returns {*}
  */
 let callOpenPlatform = async function callOpenPlatform(config, method, req, authUser = '@') {
-  const resp = await promiseRequest(method, Object.assign(
-    {headers: {Authorization: tokens.get(authUser)}},
-    req
-  ));
-  // Check if call was successful
-  if (resp.statusCode === 401 && resp.statusMessage === 'Unauthorized') {
-    // It was not, request new token
-    const token = await authenticate(config, {username: authUser, password: authUser});
-    tokens.set(authUser, `Bearer ${token.access_token}`);
-
-    // Make request with new token
-    return await promiseRequest(method, Object.assign(
+  try {
+    const resp = await promiseRequest(method, Object.assign(
       {headers: {Authorization: tokens.get(authUser)}},
       req
     ));
+    // Check if call was successful
+    if (resp.statusCode === 401 && resp.statusMessage === 'Unauthorized') {
+      // It was not, request new token
+      const token = await authenticate(config, {username: authUser, password: authUser});
+      tokens.set(authUser, `Bearer ${token.access_token}`);
+      // Make request with new token
+      return await promiseRequest(method, Object.assign(
+        {headers: {Authorization: tokens.get(authUser)}},
+        req
+      ));
+    }
+    return resp;
   }
-  return resp;
+  catch (e) {
+    return Promise.reject(e);
+  }
 };
 
 

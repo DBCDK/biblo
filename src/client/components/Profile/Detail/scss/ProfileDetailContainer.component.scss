@@ -2,7 +2,7 @@
 
 .p-detail--badge-container {
   background: linear-gradient(180deg, #d784e7 70%, $white 30%);
-  height: 400px;
+  height: 350px;
   padding: 0px;
   display: block;
 }
@@ -20,7 +20,7 @@
 
    @include min-screen($desktop) {
      padding-right: 150px;
-     height: 250px;
+     height: 220px;
    }
 }
 

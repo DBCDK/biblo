@@ -7,33 +7,25 @@
   display: block;
 }
 
-.p-detail--diploma--wrapper {
+/* campaign diplomas */
+.p-detail--diploma-wrapper {
   display:  inline-block;
-  height: 300px;
   @include min-screen($desktop) {
-    width: 50%;
-  }
-}
-
-.p-detail--buttons--wrapper {
-  display: none;
-  height: 300px;
-  @include min-screen($desktop) {
-    display:  inline-block;
     width: 50%;
   }
 }
 
 .p-detail--diploma-container {
    padding: 20px;
+   height: 50px;
 
-  @include min-screen($desktop) {
-     height: 300px;
+   @include min-screen($desktop) {
      padding-right: 150px;
-  }
+     height: 300px;
+   }
 }
 
-.p-detail--campaign-diploma {
+.p-detail--diploma {
   position: relative;
   padding: 10px;
   max-height: 80px;
@@ -54,11 +46,17 @@
   }
 }
 
-/* for desktop display  - see separate rule for phone */
-.p-detail--buttons--container {
+/* buttons (e.g : group button) */
+.p-detail--buttons-wrapper {
+  display: none;
+  @include min-screen($desktop) {
+    display:  inline-block;
+    width: 50%;
+  }
+}
 
+.p-detail--buttons-container {
   position: absolute;
-
   @include min-screen($desktop) {
     height: 300px;
     padding-left: 120px;
@@ -66,19 +64,52 @@
   }
 }
 
-.p-detail--groups-button {
+.p-detail--group-button {
   @include button($white, $melrose);
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   max-width: 120px;
+  max-height: 120px;
   p {
     margin: 0px;
   }
 }
 
-.p-detail--groups-button:hover {
+.p-detail--button:hover {
   background-color: #f2f2f2;
   border-color: #f2f2f2;
 }
 
+.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
+  position: absolute;
+  font-size: .7em;
+  text-align: center;
+  color: #fff;
+  background-color: #ff5a5f;
+  border-radius: 25%;
+  box-shadow: 0 0 3px 1px #ff5a5f;
+  top: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  padding: 2px 2px 2px 4px;
+}
+
+.p-detail--buttons--phone-container {
+  display: none;
+  position: relative;
+}
+
+.p-detail--buttons--phone-container, .p-detail--flag-button--container {
+  @include max-screen($desktop) {
+    @include button($white, $melrose);
+    padding: 0px;
+  }
+}
+
+/* profile details */
 .p-detail--image-container {
   height: 0px;
   img {
@@ -112,18 +143,6 @@
   display: inline-block;
   .icon {
     pointer-events: none;
-  }
-}
-
-.p-detail--buttons--phone-container {
-  display: none;
-  position: relative;
-}
-
-.p-detail--buttons--phone-container, .p-detail--flag-button--container {
-  @include max-screen($desktop) {
-    @include button($white, $melrose);
-    padding: 0px;
   }
 }
 
@@ -174,17 +193,4 @@
   }
 }
 
-.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
-  position: absolute;
-  font-size: .7em;
-  text-align: center;
-  color: #fff;
-  background-color: #ff5a5f;
-  border-radius: 25%;
-  box-shadow: 0 0 3px 1px #ff5a5f;
-  top: -5px;
-  right: -5px;
-  width: 15px;
-  height: 15px;
-  padding: 2px 2px 2px 4px;
-}
+

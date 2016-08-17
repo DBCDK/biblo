@@ -2,7 +2,7 @@
 
 .p-detail--badge-container {
   background: linear-gradient(180deg, #d784e7 70%, $white 30%);
-  height: 400px;
+  height: 350px;
   padding: 0px;
   display: block;
 }
@@ -16,12 +16,11 @@
 }
 
 .p-detail--diploma-container {
-   padding: 20px;
    height: 50px;
 
    @include min-screen($desktop) {
      padding-right: 150px;
-     height: 300px;
+     height: 220px;
    }
 }
 
@@ -51,16 +50,13 @@
   display: none;
   @include min-screen($desktop) {
     display:  inline-block;
-    width: 50%;
   }
 }
 
 .p-detail--buttons-container {
-  position: absolute;
   @include min-screen($desktop) {
-    height: 300px;
     padding-left: 120px;
-    top: 240px;
+    position: relative;
   }
 }
 
@@ -83,18 +79,17 @@
 }
 
 .p-detail--total-posts-since-last, .groups-modal--posts-since-last {
-  position: absolute;
   font-size: .7em;
   text-align: center;
   color: #fff;
   background-color: #ff5a5f;
   border-radius: 25%;
   box-shadow: 0 0 3px 1px #ff5a5f;
-  top: -5px;
   right: -5px;
   width: 15px;
   height: 15px;
   padding: 2px 2px 2px 4px;
+  position: absolute;
 }
 
 .p-detail--buttons--phone-container {

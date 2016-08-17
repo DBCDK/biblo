@@ -24,50 +24,46 @@ function getAgencyName(agency) {
   return agency.branchName.$value;
 }
 
-async function checkUserLibraryInfo(req, b, p) {
+async function checkUserLibraryInfo(req, body, profile) {
   let errors = [];
   let updatedProfileObject = {};
+  const {libraryId, loanerId, pincode} = body;
 
-  if (
-    typeof b.libraryId === 'string' && b.libraryId.length > 0 &&
-    typeof b.loanerId === 'string' && b.loanerId.length > 0 &&
-    typeof b.pincode === 'string' && b.pincode.length > 0
-  ) {
-    const borrChk = (await req.callServiceProvider('borrowerCheck', {
-      loanerID: b.loanerId,
-      pincode: b.pincode,
-      agencyID: b.libraryId
-    }))[0];
-
-    if (borrChk.data === 'ok') {
-      updatedProfileObject.favoriteLibrary = {
-        libraryId: b.libraryId,
-        pincode: b.pincode,
-        loanerId: b.loanerId
-      };
-    }
-    else if (borrChk.data === 'borrower_not_found') {
-      errors.push({
-        field: 'loanerId',
-        errorMessage: 'Forkert lånernummer eller pinkode!'
+  if (typeof libraryId === 'string' && libraryId.length > 0 &&
+    typeof loanerId === 'string' && loanerId.length > 0 &&
+    typeof pincode === 'string' && pincode.length > 0) {
+    try {
+      await req.callServiceProvider('authenticate', {
+        userId: loanerId,
+        password: pincode,
+        libraryId: libraryId
       });
+      updatedProfileObject.favoriteLibrary = {libraryId, loanerId, pincode};
     }
-    else {
-      errors.push({
-        field: 'loanerId',
-        errorMessage: 'Der er sket en fejl! Prøv igen senere!'
-      });
+    catch (e) {
+      if (e === 'User credentials are invalid') {
+        errors.push({
+          field: 'loanerId',
+          errorMessage: 'Forkert lånernummer eller pinkode!'
+        });
+      }
+      else {
+        errors.push({
+          field: 'loanerId',
+          errorMessage: 'Der er sket en fejl! Prøv igen senere!'
+        });
+      }
     }
   }
   else if (
-    typeof b.libraryId === 'string' &&
-    b.libraryId.length > 0 ||
-    typeof b.libraryId === 'number' &&
-    b.libraryId > 0
+    typeof libraryId === 'string' &&
+    libraryId.length > 0 ||
+    typeof libraryId === 'number' &&
+    libraryId > 0
   ) {
-    if ((p.favoriteLibrary || {}).libraryId !== b.libraryId) {
+    if ((profile.favoriteLibrary || {}).libraryId !== libraryId) {
       updatedProfileObject.favoriteLibrary = {
-        libraryId: b.libraryId
+        libraryId: libraryId
       };
     }
   }

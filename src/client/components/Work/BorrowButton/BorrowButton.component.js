@@ -230,7 +230,7 @@ export default class BorrowButton extends React.Component {
         this.props.getWorkOnlineAccessAction([collectionItem.pid[0]]);
       }
 
-      if (checkAvailabilityResult[collectionItem.pid[0]] && !collectionsObject[collectionItem.type]) {
+      if (checkAvailabilityResult[collectionItem.pid[0]] && !collectionsObject[collectionItem.type] || collectionItem.accessType[0] === 'online') {
         collectionsObject[collectionItem.type] = collectionItem;
       }
     });

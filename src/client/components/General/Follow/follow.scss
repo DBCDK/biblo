@@ -2,7 +2,4 @@
 
 .follow {
   @include button($turquoise);
-  &.is-active {
-    @include hover-transition((background: $melrose))
-  }
 }

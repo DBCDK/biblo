@@ -1,0 +1,20 @@
+@mixin bubble($color: white, $width: 30px, $height: 20px, $radius: 3px) {
+  position: relative;
+  width: $width;
+  height: $height;
+  text-align: center;
+  line-height: $height;
+  background-color: $color;
+  border-radius: $radius;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 20%;
+    top: $height;
+    border: $radius solid;
+    border-color: $color transparent transparent $color;
+  }
+}

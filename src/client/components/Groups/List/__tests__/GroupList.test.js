@@ -23,6 +23,6 @@ describe('Test of GroupList', () => {
     );
 
     expect(ReactDOM.findDOMNode(comp).textContent)
-      .toEqual('test-titleheste test 1 følger '); // we currently expect followers count on screen
+      .toEqual('test-titleheste test1 følger'); // we currently expect followers count on screen
   });
 });

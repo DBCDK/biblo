@@ -21,6 +21,7 @@ import Follow from '../../General/Follow/Follow.component';
 import Tabs from '../../General/Tabs/Tabs.component';
 import ReviewsContainer from './ReviewsContainer.component';
 import MessagesContainer from '../Messages/MessagesContainer.component';
+import GroupViewTile from '../../Groups/View/GroupViewTile.component';
 
 // Actions
 import * as agencyActions from '../../../Actions/agency.actions';
@@ -81,24 +82,14 @@ export class ProfileDetailContainer extends React.Component {
       <div className="groups-modal--container">
         {this.state.groups.map((group) => {
           return (
-            <span key={`group_${group.id}`} className="user-feed--groups-modal--group">
-                <a href={'/grupper/' + group.id}>
-                  {isMyProfile && group.postsSinceLast &&
-                  <span className="groups-modal--posts-since-last">
-                    {group.postsSinceLast <= 30 ? group.postsSinceLast : '30+'}
-                  </span> || null}
-                  <img
-                    className="user-feed--groups-modal--group-image"
-                    src={group.coverImage ? `/billede/${group.coverImage.id}/small-square` : '/no_group_image.png'}
-                  />
-                  <div className="user-feed--groups-modal--group-name" dangerouslySetInnerHTML={{__html: group.name}}/>
-                </a>
+            <div key={`group_${group.id}`} className="groups-modal--group">
+              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast} followers={false} />
               {isMyProfile ?
                 <Follow active={group.following}
                         onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
                         showLoginLink={false}
                         text={group.following && 'Følger' || 'Følg gruppen'}/> : ''}
-                 </span>
+                 </div>
           );
         })}
       </div>
@@ -219,7 +210,7 @@ export class ProfileDetailContainer extends React.Component {
           }, activity);
 
           activity.group = assignToEmpty({
-            id: '',
+            id: null,
             name: ''
           }, activity.group);
 
@@ -271,7 +262,7 @@ export class ProfileDetailContainer extends React.Component {
       this.props.ui.modal.isOpen ? (
         <ModalWindow onClose={() => {
           this.props.uiActions.closeModalWindow();
-        }}>
+        }} title={this.props.ui.modal.title}>
           {this.props.ui.modal.children} </ModalWindow>) : null
     );
   }
@@ -401,18 +392,18 @@ export class ProfileDetailContainer extends React.Component {
     );
   }
 
-  renderGroupButton (userProfile, groupsModalContent, isMyProfile, sz) {
+  renderGroupButton (userProfile, groupsModalContent, modalTitle, isMyProfile, size) {
     return (
         <a href="#!Grupper" onClick={() => {
-          this.props.uiActions.openModalWindow(groupsModalContent);
+          this.props.uiActions.openModalWindow(groupsModalContent, modalTitle);
         }}>
-         {isMyProfile && userProfile.postsInGroups &&
+          <div className="p-detail--group-button">
+            <Icon glyph={grupperSvg} width={size} height={size}/><div>Grupper</div>
+          </div>
+          {isMyProfile && userProfile.postsInGroups &&
           <div className="p-detail--total-posts-since-last">
             {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
           </div> || null}
-          <div className="p-detail--group-button">
-            <Icon glyph={grupperSvg} width={sz} height={sz}/><p>Grupper </p>
-          </div>
         </a>
     );
   }
@@ -441,8 +432,11 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     let groupsModalContent = '';
+    let groupsModalTitle = '';
+
     if (this.state.groups && this.state.groups.length > 0) {
       groupsModalContent = this.renderModalContent(isMyProfile);
+      groupsModalTitle = this.state.groups.length > 1 && `${this.state.groups.length} Grupper` || '1 Gruppe';
     }
     else {
       groupsModalContent = (
@@ -451,6 +445,7 @@ export class ProfileDetailContainer extends React.Component {
           <p>Det var da lidt kedeligt</p>
         </div>
       );
+      groupsModalTitle = '0 Grupper';
     }
 
     const campaigns = this.props.feed.campaigns;
@@ -497,7 +492,7 @@ export class ProfileDetailContainer extends React.Component {
            </div>
            <div className="p-detail--buttons-wrapper">
              <div className="p-detail--buttons-container">
-               {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 60)}
+               {this.renderGroupButton(userProfile, groupsModalContent, groupsModalTitle, isMyProfile, 40)}
              </div>
            </div>
         </div>
@@ -506,8 +501,8 @@ export class ProfileDetailContainer extends React.Component {
           <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
           {editButton}
           {desc}
-          <div className="p-detail--buttons--phone-container">
-            {this.renderGroupButton(userProfile, groupsModalContent, isMyProfile, 42)}
+          <div className="p-detail--buttons-container--mobile">
+            {this.renderGroupButton(userProfile, groupsModalContent, groupsModalTitle, isMyProfile, 42)}
           </div>
         </div>
         <div className="p-detail--activity-tabs">

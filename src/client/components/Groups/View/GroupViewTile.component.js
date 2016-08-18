@@ -40,24 +40,28 @@ export default class GroupViewTile extends React.Component {
     let groupUrl = '/grupper/' + group.id;
 
     return (<div key={group.id} className="group--tile">
-      <div>
-        <a href={groupUrl}>
+      <a href={groupUrl}>
           <img className="coverimage" src={this.getCoverImageUrl()}/>
-        </a>
-      </div>
-      <div>
         <div className="group--title">
-          <Icon className="icon" glyph={groupSvg}/>
+          <Icon className="icon" glyph={groupSvg} />
           <span dangerouslySetInnerHTML={{__html: group.name}}/>
         </div>
-      </div>
-      <div> {this.getMembersCountString()} </div>
+      </a>
+      {this.props.followers &&
+      <div>{this.getMembersCountString()}</div> || ''
+      }
+      {this.props.postsSinceLast &&
+        <span className="groups-modal--posts-since-last">
+          {this.props.postsSinceLast <= 30 ? this.props.postsSinceLast : '30+'}
+        </span> || ''}
     </div>);
   }
 }
 
 GroupViewTile.propTypes = {
-  group: React.PropTypes.object.isRequired
+  group: React.PropTypes.object.isRequired,
+  postsSinceLast: React.PropTypes.number,
+  followers: React.PropTypes.bool
 };
 
 GroupViewTile.displayName = 'GroupViewTile';

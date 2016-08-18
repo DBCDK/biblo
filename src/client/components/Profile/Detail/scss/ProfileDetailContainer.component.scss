@@ -29,9 +29,11 @@
   padding: 10px;
   max-height: 80px;
   max-width: 80px;
-  top: 60%;
   right: 10px;
   float: right;
+  @include min-screen($desktop) {
+    top: 70%;
+  }
 
   a {
     display: inline-block;
@@ -59,18 +61,25 @@
     position: relative;
   }
 }
+.p-detail--buttons-container--mobile {
+  position: relative;
+  display: inline-block;
+  @include min-screen($desktop) {
+    display: none;
+  }
+}
 
 .p-detail--group-button {
-  @include button($white, $melrose);
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  max-width: 120px;
-  max-height: 120px;
-  p {
-    margin: 0px;
+  @include button($white, $governor-bay);
+  @include max-screen($tablet - 1px) {
+    padding: 25px 25px 10px;
   }
+  filter: drop-shadow(2px 2px 5px #666);
+  svg {
+    margin-right: 0;
+  }
+  padding: 25px 25px 10px;
+  text-align: center;
 }
 
 .p-detail--button:hover {
@@ -78,30 +87,21 @@
   border-color: #f2f2f2;
 }
 
-.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
-  font-size: .7em;
-  text-align: center;
-  color: #fff;
-  background-color: #ff5a5f;
-  border-radius: 25%;
-  box-shadow: 0 0 3px 1px #ff5a5f;
-  right: -5px;
-  width: 15px;
-  height: 15px;
-  padding: 2px 2px 2px 4px;
+.p-detail--total-posts-since-last, .groups-modal--posts-since-last{
+  @include bubble($governor-bay);
   position: absolute;
+  color: white;
+  font-size: .7em;
 }
 
-.p-detail--buttons--phone-container {
-  display: none;
-  position: relative;
+.p-detail--total-posts-since-last {
+  top: 5px;
+  right: 5px;
 }
 
-.p-detail--buttons--phone-container, .p-detail--flag-button--container {
-  @include max-screen($desktop) {
-    @include button($white, $melrose);
-    padding: 0px;
-  }
+.groups-modal--posts-since-last {
+  top: -5px;
+  right: -5px;
 }
 
 /* profile details */
@@ -115,7 +115,7 @@
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(2px 2px 5px #666);
   }
 }
 
@@ -162,22 +162,7 @@
   text-align: center;
 }
 
-.user-feed--groups-modal--group-image {
-  object-fit: cover;
-  width: 190px;
-  height: 190px;
-  max-width: 190px;
-}
-
-.user-feed--groups-modal--group-name {
-  overflow: hidden;
-  line-height: 2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.user-feed--groups-modal--group {
-  padding-top: 10px;
+.groups-modal--group {
   display: inline-block;
   width: 190px;
   margin: 5px;
@@ -185,6 +170,9 @@
 
   .follow {
     padding: 8px 20px;
+  }
+  .group--tile {
+    margin-bottom: 1em;
   }
 }
 

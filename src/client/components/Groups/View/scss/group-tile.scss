@@ -1,81 +1,35 @@
 @import 'tools';
 
 .group--tile {
-
-  @include min-screen($desktop) {
-    @include gallery(1 of 5);
-    margin-bottom: gutter(20);
-    padding-bottom: 20px;
-
-    .coverimage {
-      max-width: 172px;
-      max-height: 172px;
-      object-fit: cover;
-      box-shadow: #666 0px 2px 12px;
-      object-fit: cover;
-      width: 16vw;
-      height: 16vw;
-    }
-  }
-
-  @include max-screen($desktop - 1) {
-    @include gallery(1 of 4);
-    margin-bottom: gutter(15);
-    padding-bottom: 15px;
-
-    .coverimage {
-      max-width: 172px;
-      max-height: 172px;
-      object-fit: cover;
-      box-shadow: #666 0px 2px 12px;
-      object-fit: cover;
-      width: 18vw;
-      height: 18vw;
-    }
-  }
-
-  @include max-screen($tablet - 1) {
-    @include gallery(1 of 3);
-    margin-bottom: gutter(10);
-    padding-bottom: 15px;
-
-    .coverimage {
-      max-width: 172px;
-      max-height: 172px;
-      object-fit: cover;
-      box-shadow: #666 0px 2px 12px;
-      object-fit: cover;
-      width: 29vw;
-      height: 29vw;
-    }
-  }
-
-  @include max-screen($phone) {
-    max-width: 172px;
-    max-height: 172px;
-    @include gallery(1 of 2);
-    margin-bottom: gutter(10);
-    padding-bottom: 30px;
-    padding-right: 0px;
-    .coverimage {
-      object-fit: cover;
-      box-shadow: #666 0px 2px 12px;
-      object-fit: cover;
-      width: 40vw;
-      height: 40vw;
-    }
-  }
-
   .icon {
-    padding-right: 5px;
-    fill: $turquoise;
+    fill: currentColor;
   }
 
+  .icon--container {
+    padding-right: 5px;
+    vertical-align: middle;
+  }
   .group--title {
-    max-width: 175px;
+    color: $governor-bay;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .coverimage {
+    max-width: 172px;
+    max-height: 172px;
+    width: 172px;
+    height: 172px;
+    object-fit: cover;
+    box-shadow: #666 0px 2px 12px;
+  }
+
+  .twemoji, .emoji {
+    max-width: 16px;
+    max-height: 16px;
+    padding-left: 3px;
+    vertical-align: middle;
   }
 }
 

@@ -112,6 +112,10 @@ export class ProfileDetailContainer extends React.Component {
         case 'comment': {
           let title = displayName + ' skrev en kommentar';
 
+          if (activity.post && activity.post.markedAsDeleted) {
+            return;
+          }
+
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>

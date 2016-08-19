@@ -152,7 +152,7 @@ describe('Testing the ReviewRow component', () => {
     assert.equal(renderedContainer.props.className, 'review--container');
 
     // Assert that the review.content is present in the ree
-    const content = tree.dive(['.review--content']).text();
+    const content = tree.dive(['.review--content']).props.dangerouslySetInnerHTML.__html;
     assert.equal(content, _review.content);
 
     // Assert that the Rating component is present in tree (found by its displayName property)

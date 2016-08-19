@@ -138,8 +138,9 @@ export default class ReviewRow extends React.Component {
         </div>
 
         <div className="review--content--container" >
-          <div className="review--content" dangerouslySetInnerHTML={{__html: video && video || content}} >
-          </div>
+          {
+          <div className="review--content" dangerouslySetInnerHTML={{__html: video && video || content}} /> // eslint-disable-line react/no-danger
+          }
           <div className="review--content--actions" >
             <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
             <div className="review--content--actions--likebutton" >

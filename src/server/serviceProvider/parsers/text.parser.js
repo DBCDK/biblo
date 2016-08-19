@@ -14,7 +14,7 @@ const autolinker = new AutoLinker({
  * @param links {Bool}
  * @returns {String}
  */
-export default function textParser(text, links = true, newLines = 'paragraphs') {
+export default function textParser(text, links = true, newLines = 'break') {
   // Make sure the text is clean when it comes in
   text = sanitizeHtml(text, {
     allowedTags: []
@@ -22,11 +22,11 @@ export default function textParser(text, links = true, newLines = 'paragraphs') 
 
   switch (newLines) {
     case 'paragraphs': {
-      text = text.split('\n').map(paragraph => `<p>${paragraph}</p>`).join('');
+      text = text.split(/\r+\n/).map(paragraph => `<p>${paragraph}</p>`).join('');
       break;
     }
     case 'break': {
-      text = text.split('\n').join('<br />');
+      text = text.split(/\r+\n/).join('<br />');
       break;
     }
     default: {

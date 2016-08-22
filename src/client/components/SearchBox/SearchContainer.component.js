@@ -122,10 +122,6 @@ export default class SearchContainer extends React.Component {
 
     const searchButtonGlyph = (this.props.search.isSearching) ? spinnerSvg : searchSvg;
     const clearSearchBoxVisible = 'search-container--clear-searchbox ' + (this.state.query.length > 0 ? '' : 'clear-searchbox-hidden');
-    let placeholder = 'Søg på bøger, film, musik, spil og grupper';
-    if (typeof window !== 'undefined' && Math.max(document.documentElement.clientWidth, window.innerWidth) < 600) {
-      placeholder = 'Søg her';
-    }
     return (
       <div className='search'>
         <div className={classNames}>
@@ -163,8 +159,4 @@ SearchContainer.propTypes = {
   search: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   searchPlaceholder: React.PropTypes.string.isRequired
-};
-
-SearchContainer.defaultProps = {
-  searchPlaceholder: 'Søg på bøger, film, musik, spil og grupper'
 };

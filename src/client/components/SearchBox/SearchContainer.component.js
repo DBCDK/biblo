@@ -55,7 +55,8 @@ export default class SearchContainer extends React.Component {
 
     if (typeof window !== 'undefined' && Math.max(document.documentElement.clientWidth, window.innerWidth) < 600) {
       self.setState({searchPlaceholder: 'Søg her'});
-    } else {
+    }
+    else {
       self.setState({searchPlaceholder: 'Søg på bøger, film, musik, spil og grupper'});
     }
   }

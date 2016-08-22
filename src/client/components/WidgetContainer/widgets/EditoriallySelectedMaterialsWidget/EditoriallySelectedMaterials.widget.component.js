@@ -22,7 +22,8 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
 
     this.state = {
       closed: true,
-      works: Object.values(props.widgetReducerProp.works)
+      works: Object.values(props.widgetReducerProp.works),
+      isLoading: props.widgetReducerProp.isLoading
     };
   }
 
@@ -34,7 +35,7 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
 
   componentWillReceiveProps(nextProps) {
     const works = Object.values(nextProps.widgetReducerProp.works);
-    this.setState({works});
+    this.setState({works, isLoading: false});
   }
 
   componentDidMount() {
@@ -48,15 +49,15 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
     if (this.state.closed) {
       closeButtonContent = (
         <span>
-          <Icon glyph={plusSvg}/> VIS FLERE
-        </span>
+        <Icon glyph={plusSvg}/> VIS FLERE
+      </span>
       );
     }
     else {
       closeButtonContent = (
         <span>
-          <Icon glyph={minusSvg}/> VIS FÆRRE
-        </span>
+        <Icon glyph={minusSvg}/> VIS FÆRRE
+      </span>
       );
     }
 
@@ -64,13 +65,16 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
       <div className="editorially-selected-materials-widget">
         <CompactWorkElementsContainer
           closed={this.state.closed}
-          isLoading={this.props.widgetReducerProp.isLoading}
+          isLoading={this.state.isLoading}
           works={works} />
 
         <div className="editorially-selected-materials-widget--show-more-button--container">
+          {
+            !this.state.isLoading &&
           <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
             {closeButtonContent}
           </a>
+          }
           <hr />
         </div>
 

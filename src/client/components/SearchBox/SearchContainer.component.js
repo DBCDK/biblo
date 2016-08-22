@@ -18,7 +18,8 @@ export default class SearchContainer extends React.Component {
       query: this.props.search.query,
       qChanged: false,
       queryFieldIsActive: false,
-      loading: false
+      loading: false,
+      searchPlaceholder: ''
     };
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
@@ -51,6 +52,13 @@ export default class SearchContainer extends React.Component {
         }
       }
     });
+
+    if (typeof window !== 'undefined' && Math.max(document.documentElement.clientWidth, window.innerWidth) < 600) {
+      self.setState({searchPlaceholder: 'Søg her'});
+    }
+    else {
+      self.setState({searchPlaceholder: 'Søg på bøger, film, musik, spil og grupper'});
+    }
   }
 
   componentDidUpdate() {
@@ -98,7 +106,7 @@ export default class SearchContainer extends React.Component {
           this.state.query.length >= 3 &&
           this.props.search.workSuggestions[this.state.query] &&
           this.props.search.workSuggestions[this.state.query].length > 0 || false
-          }
+        }
         elements={(this.props.search.workSuggestions[this.state.query] || []).map((suggestion) => {
           return {
             text: suggestion.str,
@@ -125,7 +133,7 @@ export default class SearchContainer extends React.Component {
             <span className="search-input--container">
               <input
                 type='search'
-                placeholder='Søg på bøger, film, musik og spil'
+                placeholder={this.state.searchPlaceholder}
                 value={this.state.query}
                 onChange={this.searchInputChanged}
                 onKeyDown={this.submitInput}
@@ -150,5 +158,6 @@ SearchContainer.displayName = 'SearchContainer';
 
 SearchContainer.propTypes = {
   search: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  searchActions: React.PropTypes.object.isRequired,
+  searchPlaceholder: React.PropTypes.string.isRequired
 };

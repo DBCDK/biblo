@@ -34,7 +34,7 @@
   }
 
   .compact-work-element--artwork-container > img {
-    height: 200px;
+    max-height: 200px;
     max-width: 133px;
     object-fit: cover;
   }

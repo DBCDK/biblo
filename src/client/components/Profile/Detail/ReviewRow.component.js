@@ -119,6 +119,7 @@ export default class ReviewRow extends React.Component {
     if (content.length > 200) {
       content = content.slice(0, 197) + '...';
     }
+    content = content.split(/\r+\n/).join('<br />');
 
     const isLikedByActiveUser = likes.includes(activeUser.id);
 
@@ -137,9 +138,9 @@ export default class ReviewRow extends React.Component {
         </div>
 
         <div className="review--content--container" >
-          <div className="review--content" >
-            {video ? video : content}
-          </div>
+          {
+          <div className="review--content" dangerouslySetInnerHTML={{__html: video && video || content}} /> // eslint-disable-line react/no-danger
+          }
           <div className="review--content--actions" >
             <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
             <div className="review--content--actions--likebutton" >

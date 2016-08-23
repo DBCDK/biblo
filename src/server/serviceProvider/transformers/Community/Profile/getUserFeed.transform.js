@@ -16,7 +16,7 @@ const getUserFeedTransform = {
     return 'getUserFeed';
   },
 
-  handleGetMyGroups(groups) {
+  handleGetMyGroups(groups, userId) {
     const seenGroups = {};
     return Promise.all(
       groups
@@ -34,6 +34,9 @@ const getUserFeedTransform = {
             groupid: group.groupid,
             timeCreated: {
               gte: group.visited
+            },
+            postownerid: {
+              neq: userId
             }
           }
         }).then(pCount => {
@@ -118,7 +121,7 @@ const getUserFeedTransform = {
           accessToken,
           uid: userId,
           include: {group: 'coverImage'}
-        }).then(groups => this.handleGetMyGroups(groups))
+        }).then(groups => this.handleGetMyGroups(groups, userId))
       ])
         .then((response) => {
           resolve(response);

@@ -18,6 +18,9 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {CampaignCertificate} from '../../client/components/CampaignCertificate/CampaignCertificate.component';
 
+
+import {getContributions} from '../utils/campaign.util.js';
+
 import {
   ensureUserHasProfile,
   ensureAuthenticated,
@@ -77,42 +80,6 @@ function generatePDFFromHTML(html, baseUrl) {
   });
 }
 
-function getContributions(req, campaign, profile) {
-  const contributions = {group: {data: [], postsCount: 0}, review: {data: [], reviewsCount: 0}};
-
-  if (campaign.type === 'group' && campaign.group && campaign.group.id) {
-    const getPostsArgs = {
-      limit: null,
-      skip: 0,
-      id: campaign.group.id,
-      where: {
-        and: [
-          {postownerid: profile.id},
-          {timeCreated: {gte: campaign.startDate}},
-          {timeCreated: {lte: campaign.endDate}}
-        ]
-      }
-    };
-
-    return req.callServiceProvider('getPosts', getPostsArgs).then(posts => {
-      contributions.group = {postsCount: posts[0].length, data: posts[0]};
-      return contributions;
-    });
-  }
-
-  const getCampaignReviewsParams = {
-    campaignId: campaign.id,
-    wheres: [
-      {reviewownerid: profile.id}
-    ]
-  };
-
-  return req.callServiceProvider('getCampaignReviews', getCampaignReviewsParams).then(reviews => {
-    contributions.review = reviews[0];
-    return contributions;
-  });
-}
-
 /**
  * This method generates a PDF from a request.
  * @param {Object}req
@@ -130,7 +97,7 @@ async function getCampaignPDF(req, res, next) {
       profile.age = computeAge(new Date(profile.birthday));
     }
 
-    const contributions = await getContributions(req, campaign, profile);
+    const contributions = await getContributions(req, campaign, profile.id);
     const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
     const works = {};
     await Promise.all(contributions.review.data.map(review => {

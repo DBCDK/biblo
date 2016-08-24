@@ -15,7 +15,8 @@ let initialState = {
     submitState: null,
     submitProgress: 0
   },
-  errors: []
+  errors: [],
+  deleted: false
 };
 
 initialState = assignToEmpty(initialState, parseJsonData('JSONDATA', 'groupData'));
@@ -83,6 +84,11 @@ export default function groupEditReducer(state = initialState, action) {
         UI: assignToEmpty(state.UI, {
           submitProgress: action.progress
         })
+      });
+
+    case types.GROUP_DELETED:
+      return assignToEmpty(state, {
+        deleted: action.success,
       });
 
     default:

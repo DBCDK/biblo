@@ -166,6 +166,10 @@ GroupRoutes.get('/:id/rediger', ensureAuthenticated, ensureUserHasProfile, async
     return res.redirect('/error/403');
   }
 
+  if (data.groupData.markedAsDeleted) {
+    return res.redirect(`/grupper/${req.params.id}`);
+  }
+
   return res.render('page', {
     css: ['/css/groupedit.css'],
     js: ['/js/groupedit.js'],

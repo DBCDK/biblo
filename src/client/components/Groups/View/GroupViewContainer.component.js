@@ -93,7 +93,7 @@ export class GroupViewContainer extends React.Component {
         profileState={this.props.profile}>
         {modal}
         <div className='group'>
-          <GroupHeader uri={this.props.group.image || ''}/>
+          <GroupHeader uri={this.props.group.imageSquare || ''}/>
           {this.props.group.isClosed &&
           <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           }

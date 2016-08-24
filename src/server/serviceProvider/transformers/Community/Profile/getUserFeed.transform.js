@@ -180,7 +180,7 @@ const getUserFeedTransform = {
 
     const profileResponse = JSON.parse(response[2].body || '{}');
     profileResponse.groups = response[5].map((group) => {
-      return groupParser(group)
+      return groupParser(group);
     });
     const profile = profileParser(profileResponse, true, false);
 

@@ -1,6 +1,7 @@
 /**
  * @file: This file contains a transform to get the top reviews and populate them with briefdisplay and coverImage.
  */
+import workParser from '../../../parsers/work.parser';
 
 const getTopReviewsTransform = {
 
@@ -68,6 +69,9 @@ const getTopReviewsTransform = {
           seenPids = seenPids.concat(el.collection);
           return seen;
         });
+
+      data = data.map(workParser);
+
     }
     catch (err) {
       // Handle errors kinda nicely.

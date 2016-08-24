@@ -13,6 +13,8 @@ import {
   ensureUserHasValidLibrary
 } from '../middlewares/auth.middleware';
 
+import {getUserContributedCampaigns} from '../utils/campaign.util.js';
+
 let upload = multer({storage: multer.memoryStorage()});
 
 const ProfileRoutes = express.Router();
@@ -392,7 +394,7 @@ ProfileRoutes.get(
         order: 'created ASC'
       }))[0].data;
       data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
-      data.campaigns = (await req.callServiceProvider('getAllCampaigns', {}))[0].body;
+      data.campaigns = (await getUserContributedCampaigns(req, profileId));
     }
     catch (e) { // eslint-disable-line no-catch-shadow
       data.errors = [e];

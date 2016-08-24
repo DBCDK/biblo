@@ -387,10 +387,19 @@ export class ProfileDetailContainer extends React.Component {
 
   renderCampaignBadge (campaign) {
     const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
+
+    let logo;
+    if (campaign.logos.svg) {
+      logo = (<img src ={campaign.logos.svg} className='svg' width={80}/>);
+    }
+    else {
+      logo = (<img src={campaign.logos.small} width={80}/>);
+    }
+
     return (
       <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
         <a href={downloadUrl}>
-          <img src={campaign.logos.svg} className='svg' width={80}/>
+          {logo}
         </a>
       </span>
     );

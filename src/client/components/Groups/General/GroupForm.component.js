@@ -126,8 +126,8 @@ export default class GroupForm extends React.Component {
           <div className={'group-form-submit-button'}>
             {submitArea}
           </div>
-          <div className="group-form--delete">
-            {this.props.delete && <a href="#delete" onClick={this.props.delete}>delete</a> || null }
+          <div className="group-form--moderation">
+            {this.props.delete && <a href="#delete" onClick={this.props.delete}>Slet gruppe</a> || null }
           </div>
         </form>
       </div>

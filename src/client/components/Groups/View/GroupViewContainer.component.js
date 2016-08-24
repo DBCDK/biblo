@@ -80,6 +80,13 @@ export class GroupViewContainer extends React.Component {
         </PageLayout>
       );
     }
+    if (this.props.group.markedAsDeleted) {
+      return (
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
+          <div className="error">Gruppen er slettet</div>
+        </PageLayout>
+      );
+    }
 
     const modal = (this.props.ui.modal.isOpen) ? <ModalWindow
       onClose={() => {

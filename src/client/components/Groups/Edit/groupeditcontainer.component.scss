@@ -6,3 +6,50 @@
   font-size: 32pt;
   font-weight: 600;
 }
+
+.group-delete {
+  padding: 0 2em 2em;
+  @include max-screen($tablet - 1px) {
+    padding: 0 1em 1em;
+  }
+}
+.group-delete--text {
+  margin-bottom: 0px;
+}
+
+.group-delete--title {
+  font-size: 1.11em;
+  color: $gray;
+  margin-bottom: 2em;
+}
+
+.group-delete--image {
+  text-align: center;
+  img {
+    @extend %coverimage;
+  }
+}
+
+.group-delete--cancel {
+  @include button($melrose);
+  position: absolute;
+}
+
+.group-delete--done {
+  @include button($melrose);
+  display: block;
+}
+
+.group-delete--confirm {
+  @include button($carnation);
+  display: block;
+  margin-left: 140px;
+  text-align: center;
+  @include max-screen($tablet - 1px) {
+    margin-left: 110px;
+  }
+}
+
+.group-delete--deleted {
+  text-align: center;
+}

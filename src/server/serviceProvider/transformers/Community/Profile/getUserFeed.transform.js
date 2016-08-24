@@ -21,7 +21,7 @@ const getUserFeedTransform = {
     return Promise.all(
       groups
         .filter(group => {
-          if (!seenGroups[group.groupid]) {
+          if (group.group && !group.group.markedAsDeleted && !seenGroups[group.groupid]) {
             seenGroups[group.groupid] = true;
             return true;
           }

@@ -14,6 +14,7 @@ const leaveGroup = SocketClient('leaveGroup');
 const getGroupListener = once(getGroup.response);
 const loadPosts = SocketClient('getPosts');
 const markPostAsDeleted = SocketClient('deletePost');
+const deleteGroup = SocketClient('deleteGroup');
 const loadComments = SocketClient('getComments');
 const loadMetadataForReviewAttachedToPostOrCommentSocket = SocketClient('work');
 const getSinglePosts = SocketClient('getSinglePosts');
@@ -246,6 +247,33 @@ export function groupFormUploadProgress(e) {
     progress: Math.floor((e.loaded / e.total) * 100)
   };
 }
+
+export function asyncGroupDelete(id) {
+  return function(dispatch) {
+    dispatch(groupDelete());
+    deleteGroup.request({
+      id
+    });
+    const event = deleteGroup.response(response => {
+      dispatch(groupDeleted(response));
+      event.off();
+    });
+  };
+}
+
+export function groupDelete() {
+  return {
+    type: types.GROUP_DELETE
+  };
+}
+
+export function groupDeleted(response) {
+  return {
+    type: types.GROUP_DELETED,
+    response
+  };
+}
+
 
 export function asyncGroupFollow(enableFollow, groupId, profileId) {
   return function(dispatch) {

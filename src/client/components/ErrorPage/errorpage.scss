@@ -2,36 +2,5 @@
 @import 'tools';
 
 .error-page--error-splash {
-
-  background: $carnation;
-
-  @include min-screen($tablet) {
-    background-image: url(/splat.svg);
-    background-repeat: no-repeat;
-    background-position: 15% 100px;
-    -webkit-background-size: 15vw;
-    background-size: 150px;
-    min-height: 40vh;
-    margin: 0px;
-    padding-top: 50px;
-    padding-left: 40%;
-    padding-right: 10%;
-    padding-bottom: 10vh;
-  }
-
-  @include max-screen($tablet - 1px) {
-    padding-top: 50px;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-bottom: 10vh;
-  }
-
-  h2{
-    color: white;
-    font-size: 2.0rem;
-  }
-
-  p {
-    color: white;
-  }
+  @include errorbox();
 }

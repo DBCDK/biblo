@@ -78,3 +78,8 @@
     width: 24px;
   }
 }
+
+
+.group-is-deleted {
+  @include errorbox('/group.svg');
+}

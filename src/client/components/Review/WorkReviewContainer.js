@@ -112,6 +112,8 @@ export class WorkReviewContainer extends React.Component {
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
             title={work.dcTitleFull}
+            titleSeries={work.titleSeries}
+            descriptionSeries={work.descriptionSeries}
             displayType={work.workType}
             creator={work.creator}
             abstract={work.abstract}

@@ -146,7 +146,8 @@ GroupForm.propTypes = {
   submit: React.PropTypes.func.isRequired,
   checkIfGroupNameExistsAction: React.PropTypes.func.isRequired,
   checkedNames: React.PropTypes.object,
-  defaultValues: React.PropTypes.object
+  defaultValues: React.PropTypes.object,
+  delete: React.PropTypes.func
 };
 
 GroupForm.defaultProps = {

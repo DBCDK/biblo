@@ -21,7 +21,7 @@ const DeleteGroupTransform = {
 
       return this.callServiceClient('community', 'deleteGroup', params);
     }
-    // If user is not logged in return an error
+
     return Promise.reject(new Error('user not logged in'));
   },
 
@@ -29,7 +29,9 @@ const DeleteGroupTransform = {
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method deleteGroup failed');
     }
+
     return JSON.parse(response.body);
+
   }
 };
 

@@ -36,7 +36,7 @@ export class GroupEditContainer extends React.Component {
 
   closeDeleteModal() {
     if (this.props.group.deleted) {
-      window.location = `/grupper/${this.props.group.id}`
+      window.location = `/grupper/${this.props.group.id}`;
     }
     else {
       this.props.uiActions.closeModalWindow();
@@ -48,13 +48,14 @@ export class GroupEditContainer extends React.Component {
     if (!this.props.ui.modal.isOpen) {
       return;
     }
+
     return (
-      <ModalWindow onClose={this.closeDeleteModal.bind(this)} title={`Slet gruppe`}>
+      <ModalWindow onClose={this.closeDeleteModal.bind(this)} title="Slet gruppe">
         <div className="group-delete">
           <div className="group-delete--image">
             <img className="coverimage" src={this.props.group.image} alt={this.props.group.name}/>
           </div>
-          {(this.props.group.deleted) &&
+          {(this.props.group.deleted.success) &&
           <div className="group-delete--deleted">
             <h3>Gruppen er slettet</h3>
             <a className="group-delete--done" href="#" onClick={this.closeDeleteModal.bind(this)}>OK</a>
@@ -62,9 +63,17 @@ export class GroupEditContainer extends React.Component {
           <div>
             <h3 className="group-delete--text">Er du sikker på du vil slette gruppen:</h3>
             <div className="group-delete--title">{this.props.group.name}</div>
-            <a className="group-delete--cancel" href="#" onClick={this.closeDeleteModal.bind(this)}>Fortryd</a>
-            <a className="group-delete--confirm" href="#"
-               onClick={this.props.actions.asyncGroupDelete.bind(null, this.props.group.id)}>Ja, slet gruppen</a>
+            {this.props.group.deleted.error &&
+            <div className={"message error shakeit"}>
+              Du kan ikke slette gruppen
+            </div>
+            ||
+            <div>
+              <a className="group-delete--cancel" href="#" onClick={this.closeDeleteModal.bind(this)}>Fortryd</a>
+              <a className="group-delete--confirm" href="#"
+                 onClick={this.props.actions.asyncGroupDelete.bind(null, this.props.group.id)}>Ja, slet gruppen</a>
+            </div>
+            }
           </div>
           }</div>
       </ModalWindow>);
@@ -101,7 +110,9 @@ GroupEditContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
-  group: React.PropTypes.object.isRequired
+  group: React.PropTypes.object.isRequired,
+  ui: React.PropTypes.object.isRequired,
+  uiActions: React.PropTypes.object.isRequired
 };
 
 /**

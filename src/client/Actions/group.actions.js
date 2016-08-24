@@ -252,26 +252,25 @@ export function asyncGroupDelete(id) {
   return function(dispatch) {
     dispatch(groupDelete());
     deleteGroup.request({
-      id,
+      id
     });
     const event = deleteGroup.response(response => {
       dispatch(groupDeleted(response));
       event.off();
     });
-  }
+  };
 }
 
 export function groupDelete() {
   return {
-    type: types.GROUP_DELETE,
-    success
+    type: types.GROUP_DELETE
   };
 }
 
-export function groupDeleted(success) {
+export function groupDeleted(response) {
   return {
     type: types.GROUP_DELETED,
-    success
+    response
   };
 }
 

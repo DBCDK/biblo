@@ -11,6 +11,7 @@ Usage:
     text: 'biblo.dk er mega sejt!', 
     title: 'Velkommen!',
     showTitle: false,
+    imageSrc: 'http://i.imgur.com/ls2fKsP.jpg'
     backgroundColor: '#FF00FF',
     backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg'
   }

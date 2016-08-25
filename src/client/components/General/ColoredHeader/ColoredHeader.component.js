@@ -4,22 +4,26 @@ import Icon from '../Icon/Icon.component.js';
 
 import './colored-header.scss';
 
-function ColoredHeader({color = null, text = 'Test tekst.', iconGlyph=null, title='title'}) {
-
-  // Use inline styles to simplify radically.
-  let style = {
-    color: color
-  };
+export default function ColoredHeader(props) {
+  const styles = {};  // Use inline styles to let widget overrule default styles.
+  styles.color = props.color;
+  styles.backgroundColor = props.backgroundImageUrl ? 'transparent' : props.backgroundColor;
+  styles.backgroundImage = props.backgroundImageUrl ? 'url(' + props.backgroundImageUrl + ')' : null;
+  const title = props.title || 'title';
 
   return (
-    <div className="colored-header" style={style}>
+    <div className="colored-header" style={styles}>
       <div className="colored-header--iconcontainer">
-        <Icon className="icon" height={100} width={100} glyph={iconGlyph}/>
+        {props.imageSrc &&
+        <img src={props.imageSrc} height={120} width={120} alt="{title}"/>
+        ||
+        <Icon className="icon" height={100} width={100} glyph={props.iconGlyph}/>
+        }
       </div>
       <div className="colored-header--description">
         <div className="colored-header--text">
           <h2>{title}</h2>
-          {text}
+          {props.text || 'Test tekst'}
         </div>
       </div>
     </div>
@@ -32,7 +36,8 @@ ColoredHeader.propTypes = {
   color: React.PropTypes.string,
   iconGlyph: React.PropTypes.any,
   text: React.PropTypes.string,
-  title: React.PropTypes.string
+  title: React.PropTypes.string,
+  imageSrc: React.PropTypes.string,
+  backgroundColor: React.PropTypes.string,
+  backgroundImageUrl: React.PropTypes.string
 };
-
-export default ColoredHeader;

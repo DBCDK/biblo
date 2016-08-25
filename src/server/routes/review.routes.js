@@ -127,6 +127,7 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
     const params = {
       id: req.body.id,
       pid: req.body.pid,
+      created: req.body.created,
       worktype: req.body.worktype,
       imageRemoveId: req.body.imageRemoveId,
       content: sanitize(req.body.content, {allowedTags: []}) || ' ',

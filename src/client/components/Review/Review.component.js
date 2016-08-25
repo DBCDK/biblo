@@ -497,6 +497,7 @@ export default class Review extends UploadMedia {
                   <input type="hidden" name="worktype" value={this.state.worktype || ''}/>
                   <input type="hidden" name="rating" value={this.state.rating || ''}/>
                   <input type="hidden" name="libraryid" value={libraryId || ''}/>
+                  {this.state.created && <input type="hidden" name="created" value={this.state.created} />}
 
                   {this.state.attachment.image && this.state.attachment.image.data &&
                   <div className='review-add--preview-image'>

@@ -10,7 +10,7 @@ import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 
 import './_frontpage.scss';
 
-export default class FrontpageContainer extends React.Component {
+class FrontpageContainer extends React.Component {
   render() {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>

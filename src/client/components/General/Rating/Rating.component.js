@@ -61,5 +61,3 @@ Rating.defaultProps = {
   onChange: null,
   pid: ''
 };
-
-export default Rating;

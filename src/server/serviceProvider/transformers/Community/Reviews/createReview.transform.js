@@ -10,13 +10,7 @@ const CreateReviewTransform = {
 
     if (user.profileId === parseInt(query.reviewownerid, 10) || user.profile.profile.isModerator) {
 
-      let created;
-      if (!query.id) {
-        created = new Date().toUTCString();
-      }
-      else {
-        created = query.created;
-      }
+      const created = query.id ? query.created : new Date().toUTCString();
 
       return this.callServiceClient('community', 'createReview', {
         id: query.id || null,

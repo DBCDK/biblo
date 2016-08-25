@@ -21,7 +21,7 @@ const getUserFeedTransform = {
     return Promise.all(
       groups
         .filter(group => {
-          if (!seenGroups[group.groupid]) {
+          if (group.group && !group.group.markedAsDeleted && !seenGroups[group.groupid]) {
             seenGroups[group.groupid] = true;
             return true;
           }
@@ -179,7 +179,9 @@ const getUserFeedTransform = {
     });
 
     const profileResponse = JSON.parse(response[2].body || '{}');
-    profileResponse.groups = response[5];
+    profileResponse.groups = response[5].map((group) => {
+      return groupParser(group);
+    });
     const profile = profileParser(profileResponse, true, false);
 
     let count = {

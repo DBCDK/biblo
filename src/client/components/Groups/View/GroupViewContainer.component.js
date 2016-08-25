@@ -80,6 +80,13 @@ export class GroupViewContainer extends React.Component {
         </PageLayout>
       );
     }
+    if (this.props.group.markedAsDeleted) {
+      return (
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
+          <div className="error">Gruppen er slettet</div>
+        </PageLayout>
+      );
+    }
 
     const modal = (this.props.ui.modal.isOpen) ? <ModalWindow
       onClose={() => {
@@ -93,7 +100,7 @@ export class GroupViewContainer extends React.Component {
         profileState={this.props.profile}>
         {modal}
         <div className='group'>
-          <GroupHeader uri={this.props.group.image || ''}/>
+          <GroupHeader uri={this.props.group.imageSquare || ''}/>
           {this.props.group.isClosed &&
           <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           }

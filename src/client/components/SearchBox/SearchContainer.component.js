@@ -159,5 +159,5 @@ SearchContainer.displayName = 'SearchContainer';
 SearchContainer.propTypes = {
   search: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
-  searchPlaceholder: React.PropTypes.string.isRequired
+  searchPlaceholder: React.PropTypes.string
 };

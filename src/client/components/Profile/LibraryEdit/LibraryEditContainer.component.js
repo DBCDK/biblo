@@ -12,7 +12,7 @@ import * as searchActions from '../../../Actions/search.actions';
 
 import './LibraryEditContainer.component.scss';
 
-export default class LibraryEditContainer extends React.Component {
+class LibraryEditContainer extends React.Component {
   constructor() {
     super();
 

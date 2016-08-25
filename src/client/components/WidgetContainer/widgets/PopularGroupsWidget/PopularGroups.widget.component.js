@@ -44,7 +44,7 @@ export class PopularGroupsWidget extends AbstractWidget {
         href={`/grupper/${group.id}`}
       >
         <div className="popular-groups-widget--group-image-container">
-          <img src={group.image} />
+          <img src={group.imageSquare} />
         </div>
 
         <div className="popular-groups-widget--group-name-container">

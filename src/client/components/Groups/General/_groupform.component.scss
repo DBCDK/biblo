@@ -4,8 +4,8 @@
   @include container;
 
   background-color: $white;
-  margin: 5px;
-  padding: 15px;
+  margin: 2em 1em;
+  padding: 1em;
   max-width: 610px;
   margin-left: auto;
   margin-right: auto;
@@ -16,30 +16,19 @@
   font-weight: 600;
 
   .group-image-upload {
-    margin: 10px;
+    margin: 1em;
   }
 
-  .group-name-field {
-    width: 99%;
-
-    input {
-      width: 99%;
-    }
+  .group-form--moderation {
+    text-align: right;
   }
 
-  .group-description-field {
-    width: 99%;
-
-    textarea {
-      width: 99%;
-      max-width: 99%;
-    }
-  }
-
-  .group-form-submit-button {
-    width: 98%;
+  textarea, input {
+    width: 100%;
   }
 }
+
+
 
 .progressbar--message {
   margin: 10px auto;

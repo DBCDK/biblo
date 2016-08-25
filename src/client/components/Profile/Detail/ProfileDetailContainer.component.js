@@ -387,30 +387,23 @@ export class ProfileDetailContainer extends React.Component {
 
   renderCampaignBadge (campaign, isMyProfile) {
     const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-
     let logo;
     if (campaign.logos.svg) {
-      logo = (<img src ={campaign.logos.svg} className='svg' width={80}/>);
+      logo = (<img src={campaign.logos.svg} className='svg' width={80}/>);
     }
     else {
       logo = (<img src={campaign.logos.small} width={80}/>);
     }
 
+    let badge;
     if (isMyProfile) {
-      return (
-        <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
-        <a href={downloadUrl}>
-          {logo}
-        </a>
-      </span>
-      );
+      badge = (<a href={downloadUrl}>{logo}</a>);
+    }
+    else {
+      badge = logo;
     }
 
-    return (
-      <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
-        {logo}
-      </span>
-      );
+    return (<span className="p-detail--diploma " key={`campaign_${campaign.id}`}>{badge}</span>);
   }
 
   renderGroupButton (userProfile, groupsModalContent, modalTitle, isMyProfile, size) {

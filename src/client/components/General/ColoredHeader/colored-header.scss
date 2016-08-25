@@ -21,7 +21,7 @@
   .colored-header--description {
     @include span(20 last);
 
-    @include min-screen($tablet){
+    @include min-screen($tablet) {
       @include span(19);
     }
 

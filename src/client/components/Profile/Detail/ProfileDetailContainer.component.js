@@ -375,34 +375,35 @@ export class ProfileDetailContainer extends React.Component {
     return tabs;
   }
 
-  renderCampaignBadges (campaigns) {
+  renderCampaignBadges (campaigns, isMyProfile) {
     let campaignDiplomaButtons = null;
     if (campaigns) {
       campaignDiplomaButtons = campaigns.map(campaign => {
-        return this.renderCampaignBadge(campaign);
+        return this.renderCampaignBadge(campaign, isMyProfile);
       });
     }
     return campaignDiplomaButtons;
   }
 
-  renderCampaignBadge (campaign) {
+  renderCampaignBadge (campaign, isMyProfile) {
     const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-
     let logo;
     if (campaign.logos.svg) {
-      logo = (<img src ={campaign.logos.svg} className='svg' width={80}/>);
+      logo = (<img src={campaign.logos.svg} className='svg' width={80}/>);
     }
     else {
       logo = (<img src={campaign.logos.small} width={80}/>);
     }
 
-    return (
-      <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
-        <a href={downloadUrl}>
-          {logo}
-        </a>
-      </span>
-    );
+    let badge;
+    if (isMyProfile) {
+      badge = (<a href={downloadUrl}>{logo}</a>);
+    }
+    else {
+      badge = logo;
+    }
+
+    return (<span className="p-detail--diploma " key={`campaign_${campaign.id}`}>{badge}</span>);
   }
 
   renderGroupButton (userProfile, groupsModalContent, modalTitle, isMyProfile, size) {
@@ -463,11 +464,7 @@ export class ProfileDetailContainer extends React.Component {
 
     const campaigns = this.props.feed.campaigns;
 
-    let campaignDiplomaButtons = null;
-    if (isMyProfile) {
-      campaignDiplomaButtons = this.renderCampaignBadges(campaigns);
-    }
-
+    let campaignDiplomaButtons = this.renderCampaignBadges(campaigns, isMyProfile);
     const modal = this.getModal();
 
     // include edit button when user views her own page.

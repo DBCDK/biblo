@@ -44,5 +44,14 @@ export async function getUserContributedCampaigns (req, profileId) {
       }
     });
   }));
+
+  contributedCampaigns = contributedCampaigns.sort(
+    (a, b) => {
+      return (
+        a.endDate < b.endDate
+      );
+    }
+  );
+
   return contributedCampaigns;
 }

@@ -8,8 +8,10 @@ const CreateReviewTransform = {
       this.callServiceClient('community', 'removeImage', {imageId: query.imageRemoveId});
     }
 
-
     if (user.profileId === parseInt(query.reviewownerid, 10) || user.profile.profile.isModerator) {
+
+      const created = query.id ? query.created : new Date().toUTCString();
+
       return this.callServiceClient('community', 'createReview', {
         id: query.id || null,
         libraryid: query.libraryid,
@@ -17,7 +19,7 @@ const CreateReviewTransform = {
         content: query.content,
         worktype: query.worktype,
         rating: query.rating,
-        created: query.created || (new Date().toUTCString()),
+        created,
         modified: (new Date().toUTCString()),
         reviewownerid: query.reviewownerid || user.profileId,  // assume that reviewowner is allready set when moderated
         video: query.video

@@ -11,7 +11,7 @@ import * as searchActions from '../../../Actions/search.actions';
 
 import './profileEditContainer.component.scss';
 
-export default class ProfileEditContainer extends React.Component {
+class ProfileEditContainer extends React.Component {
   profileEditSubmit(event, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName) {
     const actions = this.props.actions;
     const profile = this.props.profile;

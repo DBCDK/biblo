@@ -21,7 +21,7 @@ export class ErrorPageContainer extends React.Component {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
         <div className='error-page--error-splash'>
-          <h2>UPS...</h2>
+          <h1>UPS...</h1>
           <p>Du har ramt en side der ikke findes. Gå tilbage til den foregående side eller brug menuen til at komme
             videre.</p>
           <p>{statusCode} {messages[statusCode]}</p>

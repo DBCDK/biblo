@@ -83,7 +83,11 @@ export class GroupViewContainer extends React.Component {
     if (this.props.group.markedAsDeleted) {
       return (
         <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
-          <div className="error">Gruppen er slettet</div>
+          <div className='group-is-deleted'>
+            <h1>Gruppen findes ikke længere</h1>
+            <p>Den gruppe du forsøger at komme ind på, findes ikke længere</p>
+            <p><a href="/grupper">Du kan se alle de andre grupper her</a></p>
+          </div>
         </PageLayout>
       );
     }

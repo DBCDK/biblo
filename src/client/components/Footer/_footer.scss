@@ -13,12 +13,9 @@
     list-style: none;
   }
 
-  a:hover {
-    color: lighten($melrose, 10%);
-
-    h2 {
-      color: lighten($melrose, 10%);
-    }
+  a.navbar--link {
+    @extend %fredoka-header;
+    line-height: 2em;
   }
 }
 

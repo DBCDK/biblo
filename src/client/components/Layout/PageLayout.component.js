@@ -23,12 +23,12 @@ export default class PageLayout extends React.Component {
   render() {
     return (
       <div className="container">
-        <NavBar searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} />
+        <NavBar {...this.props} />
         <div className="content">
           {this.props.children}
         </div>
         <CookieWarningContainer />
-        <Footer />
+        <Footer globalState={this.props.globalState} />
         <Konami />
       </div>
     );
@@ -39,5 +39,6 @@ PageLayout.propTypes = {
   children: PropTypes.any.isRequired,
   profileState: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired
 };

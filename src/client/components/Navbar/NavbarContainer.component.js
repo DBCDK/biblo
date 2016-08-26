@@ -11,6 +11,7 @@ import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
 
+import parseJsonData from '../../Utils/parseJsonData';
 import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
 
 
@@ -26,11 +27,13 @@ import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 import './scss/navbar.scss';
 
 let image = {shouldDisplay: false};
+let globalContent = {};
 if (typeof window !== 'undefined') {
   let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
   if (data && data.innerHTML && data.innerHTML.length > 0) {
     image = JSON.parse(data.innerHTML);
   }
+  globalContent = parseJsonData('globalContent', 'globalContent');
 }
 
 export default class NavbarContainer extends React.Component {
@@ -125,6 +128,8 @@ export default class NavbarContainer extends React.Component {
   }
 
   render() {
+    const mainMenu = this.props.globalState.menu && this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+
     return (
       <div className="navbar" >
         <div className="navbar--container" >
@@ -134,7 +139,7 @@ export default class NavbarContainer extends React.Component {
                 <a className='bibloLogo' href={DET_SKER_PAGE} >
                   <Icon icon="profile" width={100} height={30} glyph={bibloSvg} />
                 </a></li>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
+              {mainMenu}
             </ul>
           </div>
 
@@ -147,7 +152,7 @@ export default class NavbarContainer extends React.Component {
         <NavbarMobileMenu active={this.state.active.menu} type='menu' >
           <div>
             <ul>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
+              {mainMenu}
             </ul>
           </div>
         </NavbarMobileMenu>
@@ -171,5 +176,6 @@ NavbarContainer.displayName = 'NavbarContainer';
 NavbarContainer.propTypes = {
   profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };

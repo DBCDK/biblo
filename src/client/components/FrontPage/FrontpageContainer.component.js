@@ -13,8 +13,8 @@ import './_frontpage.scss';
 class FrontpageContainer extends React.Component {
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
-        <WidgetContainer
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+      <WidgetContainer
           widgetLocationName="FrontPageContent"
           widgetActions={this.props.widgetActions}
           widgetState={this.props.widgetState} />
@@ -29,7 +29,8 @@ FrontpageContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   widgetState: React.PropTypes.object.isRequired,
-  widgetActions: React.PropTypes.object.isRequired
+  widgetActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -38,7 +39,8 @@ export default connect(
     return {
       profileState: state.profileReducer,
       widgetState: state.widgetReducer,
-      searchState: state.searchReducer
+      searchState: state.searchReducer,
+      globalState: state.globalReducer,
     };
   },
 

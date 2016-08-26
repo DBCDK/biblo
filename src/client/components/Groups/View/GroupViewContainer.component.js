@@ -75,14 +75,14 @@ export class GroupViewContainer extends React.Component {
   render() {
     if (this.props.group.error) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}>
-          <div className="error">{this.props.group.error}</div>
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+        <div className="error">{this.props.group.error}</div>
         </PageLayout>
       );
     }
     if (this.props.group.markedAsDeleted) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
           <div className='group-is-deleted'>
             <h1>Gruppen findes ikke længere</h1>
             <p>Den gruppe du forsøger at komme ind på, findes ikke længere</p>
@@ -101,7 +101,10 @@ export class GroupViewContainer extends React.Component {
       <PageLayout
         searchState={this.props.searchState}
         searchActions={this.props.searchActions}
-        profileState={this.props.profile}>
+        profileState={this.props.profile}
+        globalState={this.props.globalState}
+
+      >
         {modal}
         <div className='group'>
           <GroupHeader uri={this.props.group.imageSquare || ''}/>
@@ -195,7 +198,8 @@ GroupViewContainer.propTypes = {
   uiActions: React.PropTypes.object,
   coverImageActions: React.PropTypes.object.isRequired,
   coverImages: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object
+  ui: React.PropTypes.object,
+  globalState: React.PropTypes.object
 };
 
 GroupViewContainer.defaultProps = {
@@ -214,7 +218,8 @@ export default connect(
       profile: state.profileReducer,
       group: state.groupViewReducer,
       coverImages: state.coverImageReducer,
-      ui: state.uiReducer
+      ui: state.uiReducer,
+      globalState: state.globalReducer
     };
   },
 

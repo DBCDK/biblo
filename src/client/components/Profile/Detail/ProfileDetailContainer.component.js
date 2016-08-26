@@ -493,8 +493,7 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
-                  profileState={this.props.profile}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
         {modal}
         <div className="p-detail--badge-container">
           <div className="p-detail--diploma-wrapper">
@@ -545,7 +544,8 @@ ProfileDetailContainer.propTypes = {
   coverImages: React.PropTypes.object.isRequired,
   coverImageActions: React.PropTypes.object.isRequired,
   works: React.PropTypes.object.isRequired,
-  workActions: React.PropTypes.object.isRequired
+  workActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 ProfileDetailContainer.defaultProps = {
@@ -567,7 +567,8 @@ export default connect(
       ui: state.uiReducer,
       reviews: state.reviewReducer,
       coverImages: state.coverImageReducer,
-      works: state.workReducer
+      works: state.workReducer,
+      globalState: state.globalReducer
     };
   },
 

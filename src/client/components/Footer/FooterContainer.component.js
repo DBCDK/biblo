@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {propTypes} from 'react';
 import * as hyperlinks from '../../Constants/hyperlinks.constants';
 import './_footer.scss';
 
+import NavbarLink from '../Navbar/NavbarLink.component'
 import Icon from '../General/Icon/Icon.component';
 import bibloSvg from './../Navbar/svg/biblo_negative.svg';
 
 
 export default class FooterContainer extends React.Component {
   render() {
+    const mainMenu = this.props.globalState.menu && this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+
     return (
       <div className="footer--container">
         <div className="footer--coloumns-container">
@@ -18,11 +21,7 @@ export default class FooterContainer extends React.Component {
                   <Icon icon="profile" width={100} height={30} glyph={bibloSvg}/>
                 </a>
               </li>
-              <li>
-                <a href={hyperlinks.GROUP_OVERVIEW}>
-                  <h2>GRUPPER</h2>
-                </a>
-              </li>
+              {mainMenu}
             </ul>
           </div>
 
@@ -55,5 +54,9 @@ export default class FooterContainer extends React.Component {
     );
   }
 }
+
+FooterContainer.propTypes = {
+  globalState: React.PropTypes.object.isRequired
+};
 
 FooterContainer.displayName = 'FooterContainer';

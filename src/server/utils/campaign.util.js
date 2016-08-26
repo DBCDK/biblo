@@ -1,4 +1,4 @@
-export function getContributions(req, campaign, profileId) {
+export async function getContributions(req, campaign, profileId) {
   const contributions = {group: {data: [], postsCount: 0}, review: {data: [], reviewsCount: 0}};
 
   if (campaign.type === 'group' && campaign.group && campaign.group.id) {
@@ -21,37 +21,55 @@ export function getContributions(req, campaign, profileId) {
     });
   }
 
-  const getCampaignReviewsParams = {
-    campaignId: campaign.id,
-    wheres: [
-      {reviewownerid: profileId}
-    ]
-  };
+  if (campaign.type === 'review') {
+    const getCampaignReviewsParams = {
+      campaignId: campaign.id,
+      wheres: [
+        {reviewownerid: profileId}
+      ]
+    };
 
-  return req.callServiceProvider('getCampaignReviews', getCampaignReviewsParams).then(reviews => {
-    contributions.review = reviews[0];
-    return contributions;
-  });
+    return req.callServiceProvider('getCampaignReviews', getCampaignReviewsParams).then(reviews => {
+      contributions.review = reviews[0];
+      return contributions;
+    });
+  }
+
+  throw 'wrong campaign'; // group id missing?
 }
 
 export async function getUserContributedCampaigns (req, profileId) {
   let contributedCampaigns = [];
+
   let campaigns = (await req.callServiceProvider('getAllCampaigns', {}))[0].body;
-  await Promise.all(campaigns.map(campaign => {
-    return getContributions(req, campaign, profileId).then(contributions => {
-      if (contributions.review.data.length > 0 || contributions.group.data.length > 0) {
-        contributedCampaigns.push(campaign);
-      }
-    });
-  }));
+  const logger = req.app.get('logger');
 
-  contributedCampaigns = contributedCampaigns.sort(
-    (a, b) => {
-      return (
-        a.endDate < b.endDate
+  return new Promise((resolve, reject) => {
+    let promises = [];
+    campaigns.map(campaign => {
+      promises.push(
+        getContributions(req, campaign, profileId).then(contributions => {
+          if (contributions && contributions.review.data.length > 0 || contributions.group.data.length > 0) {
+            contributedCampaigns.push(campaign);
+          }
+        }).catch((err)=> {
+          logger.error('getting contributions from group failed. missing group id?:', err);
+        })
       );
-    }
-  );
+    });
 
-  return contributedCampaigns;
+    Promise.all(promises).then(function () {
+      contributedCampaigns = contributedCampaigns.sort(
+        (a, b) => {
+          return (
+            a.endDate < b.endDate
+          );
+        }
+      );
+      resolve(contributedCampaigns);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+
 }

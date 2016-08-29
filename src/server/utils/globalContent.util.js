@@ -22,10 +22,11 @@ let globalContentWrapper = {
  * @private
  */
 function fetchGlobalContent(req) {
-  return req.callServiceProvider('getGlobalContent', 'main').then(response => {
+  return Promise.all([req.callServiceProvider('getGlobalContent', 'main'), req.callServiceProvider('getGlobalContent', 'footer')]).then(response => {
     const globalContent = {
       menu: {
-        main: response[0]
+        main: response[0][0],
+        footer: response[1][0]
       }
     };
     globalContentWrapper = {

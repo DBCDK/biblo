@@ -12,11 +12,6 @@
   ul {
     list-style: none;
   }
-
-  a.navbar--link {
-    @extend %fredoka-header;
-    line-height: 2em;
-  }
 }
 
 .footer--left-coloumn {
@@ -67,4 +62,13 @@
   text-align: center;
   font-size: 9pt;
   color: white;
+}
+
+.footer--main-menu a {
+  @extend %fredoka-header;
+  line-height: 2em;
+}
+
+.footer--sub-menu a {
+  color: white
 }

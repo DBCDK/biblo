@@ -26,6 +26,9 @@ block append footerscripts
   if profile
       script(id='JSONDATA_USER_PROFILE', type='application/json') !{profile}
 
+  if globalContent
+      script(id='globalContent', type='application/json') !{globalContent}
+
   if profileImage
       script(id='JSONDATA_USER_PROFILE_IMAGE', type='application/json') !{profileImage}
 

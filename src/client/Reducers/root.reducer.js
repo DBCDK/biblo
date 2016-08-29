@@ -18,6 +18,7 @@ import reviewReducer from './review.reducer';
 import widgetReducer from './widget.reducer';
 import workReducer from './work.reducer';
 import coverImageReducer from './coverImages.reducer';
+import globalReducer from './globalContent.reducer';
 
 const rootReducer = combineReducers({
   agencyReducer,
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   reviewReducer,
   widgetReducer,
   coverImageReducer,
-  workReducer
+  workReducer,
+  globalReducer
 });
 
 export default rootReducer;

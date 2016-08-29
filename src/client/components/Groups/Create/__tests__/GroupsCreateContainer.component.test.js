@@ -51,6 +51,7 @@ describe('Test group create container', () => {
         groupActions={actions}
         uiActions={uiActions}
         profileState={{}}
+        globalState={{}}
         />
     );
 

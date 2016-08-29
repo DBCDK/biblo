@@ -61,7 +61,8 @@ class ProfileEditContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+
         <div className="profile-edit--container">
           <h1 className="profile-edit--title">{form_title}</h1>
           <div className="profile-edit--form-component-container-container">
@@ -103,6 +104,7 @@ class ProfileEditContainer extends React.Component {
 ProfileEditContainer.displayName = 'ProfileEditContainer';
 ProfileEditContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   profile: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
@@ -119,7 +121,8 @@ export default connect(
     return {
       searchState: state.searchReducer,
       profile: state.profileReducer,
-      entitySuggest: state.entitySuggestReducer
+      entitySuggest: state.entitySuggestReducer,
+      globalState: state.globalReducer
     };
   },
 

@@ -44,6 +44,7 @@ describe('GroupsContainer component tests', () => {
     const comp = TestUtils.renderIntoDocument(
       <GroupsContainer
         searchState={searchState}
+        globalState={{}}
         searchActions={searchActions}
         data={data}
         actions={actions}

@@ -96,11 +96,8 @@ export class WorkContainer extends React.Component {
     });
 
     return (
-      <PageLayout
-        searchState={this.props.searchState}
-        searchActions={this.props.searchActions}
-        profileState={this.props.profile}>
-        {this.props.ui.modal.isOpen &&
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+      {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
             this.props.ui.modal.children
@@ -217,7 +214,8 @@ WorkContainer.propTypes = {
   profile: React.PropTypes.object,
   entitySuggest: React.PropTypes.object.isRequired,
   libraryActions: React.PropTypes.object.isRequired,
-  profileActions: React.PropTypes.object.isRequired
+  profileActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -228,7 +226,8 @@ export default connect(
       workState: state.workReducer,
       ui: state.uiReducer,
       profile: state.profileReducer,
-      entitySuggest: state.entitySuggestReducer
+      entitySuggest: state.entitySuggestReducer,
+      globalState: state.globalReducer
     };
   },
 

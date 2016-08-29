@@ -10,6 +10,8 @@ import {createStore} from 'redux';
 import {wrapComponentInProvider} from '../../client/App';
 import rootReducer from '../../client/Reducers/root.reducer';
 
+import getGlobalContent from '../utils/globalContent.util';
+
 /**
  * Sets the config object to a prop on the request object.
  * @param {Object}req
@@ -186,3 +188,22 @@ export function renderComponent(req, res, next) {
 
   next();
 }
+
+
+/**
+ * Get global content from admin system.
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @constructor
+ */
+export function GetMenus(req, res, next) {
+
+  getGlobalContent(req, (globalContent) => {
+    req.writeToReduxStateTree('globalReducer', globalContent);
+    res.locals.globalContent = JSON.stringify({globalContent});
+    next();
+  });
+}
+

@@ -46,7 +46,7 @@ import expressSession from 'express-session';
 import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
-import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession, renderComponent, ConfigurationMiddleware} from './server/middlewares/data.middleware';
+import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession, renderComponent, ConfigurationMiddleware, GetMenus} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
 // Queue processors
@@ -334,6 +334,7 @@ module.exports.run = function (worker) {
   app.use(ensureProfileImage);
   app.use(reduxStateMiddleware);
   app.use(renderComponent);
+  app.use(GetMenus);
 
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.
@@ -344,6 +345,7 @@ module.exports.run = function (worker) {
 
     next();
   });
+
 
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
   app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);

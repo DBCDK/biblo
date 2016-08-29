@@ -81,9 +81,8 @@ export class GroupEditContainer extends React.Component {
 
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
-                  profileState={this.props.profileState}>
-        <BackButton />
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+      <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
         <GroupForm
           changeImageAction={this.props.actions.asyncChangeImage}
@@ -112,7 +111,8 @@ GroupEditContainer.propTypes = {
   actions: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired
+  uiActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 /**
@@ -125,7 +125,8 @@ export default connect(
       profileState: state.profileReducer,
       searchState: state.searchReducer,
       group: state.groupEditReducer,
-      ui: state.uiReducer
+      ui: state.uiReducer,
+      globalState: state.globalReducer
     };
   },
 

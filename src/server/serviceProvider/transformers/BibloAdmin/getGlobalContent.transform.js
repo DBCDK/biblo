@@ -22,7 +22,7 @@ const getGlobalContentTransform = {
   },
 
   responseTransform(response) {
-    if (response.statusCode == 200) {
+    if (response.statusCode === 200) {
 
       return JSON.parse(response.body).map(element => {
         return {
@@ -30,14 +30,14 @@ const getGlobalContentTransform = {
           url: element.link.url.uri,
           description: element.link.description,
           id: element.link.meta_data.entity_id
-        }
+        };
       });
     }
 
     return {
       error: 'cannot get menu',
       statusCode: response.statusCode
-    }
+    };
   }
 };
 

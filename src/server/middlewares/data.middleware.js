@@ -10,7 +10,7 @@ import {createStore} from 'redux';
 import {wrapComponentInProvider} from '../../client/App';
 import rootReducer from '../../client/Reducers/root.reducer';
 
-import getGlobalContent from '../utils/globalContent.util'
+import getGlobalContent from '../utils/globalContent.util';
 
 /**
  * Sets the config object to a prop on the request object.

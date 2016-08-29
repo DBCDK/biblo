@@ -101,7 +101,7 @@ export class SearchResultContainer extends React.Component {
 
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
       <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
 
         {

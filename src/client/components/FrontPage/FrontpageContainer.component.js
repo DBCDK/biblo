@@ -40,7 +40,7 @@ export default connect(
       profileState: state.profileReducer,
       widgetState: state.widgetReducer,
       searchState: state.searchReducer,
-      globalState: state.globalReducer,
+      globalState: state.globalReducer
     };
   },
 

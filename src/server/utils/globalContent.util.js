@@ -1,8 +1,26 @@
+/**
+ * @file
+ * Helpers for fetching data for the global content as menus.
+ */
+
+/**
+ * Contains fetched content.
+ *
+ * @type {{reloadTime: number, globalContent: {}}}
+ */
 let globalContentWrapper = {
   reloadTime: 0,
   globalContent: {}
 };
 
+
+/**
+ * Fetches global content from admin
+ *
+ * @param req
+ * @returns {*}
+ * @private
+ */
 function fetchGlobalContent(req) {
   return req.callServiceProvider('getGlobalContent', 'main').then(response => {
     const globalContent = {
@@ -17,11 +35,16 @@ function fetchGlobalContent(req) {
   });
 }
 
-
+/**
+ * Get global content and saves in local variable
+ *
+ * @param req
+ * @param cb
+ */
 export default async function getGlobalContent(req, cb) {
 
   // First time content is loaded, wait for it to finish
-  if (globalContentWrapper.reloadTime == 0) {
+  if (globalContentWrapper.reloadTime === 0) {
     await fetchGlobalContent(req);
   }
   // Update content every minut, but do it async.
@@ -30,5 +53,3 @@ export default async function getGlobalContent(req, cb) {
   }
   cb(globalContentWrapper.globalContent);
 }
-
-

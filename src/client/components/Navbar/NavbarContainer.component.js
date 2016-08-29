@@ -10,13 +10,11 @@ import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
-
-import parseJsonData from '../../Utils/parseJsonData';
 import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
 
 
 // Constants
-import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
+import {DET_SKER_PAGE, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
 // SVG's
 import bibloSvg from './svg/biblo_negative.svg';
@@ -27,13 +25,11 @@ import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 import './scss/navbar.scss';
 
 let image = {shouldDisplay: false};
-let globalContent = {};
 if (typeof window !== 'undefined') {
   let data = document.getElementById('JSONDATA_USER_PROFILE_IMAGE');
   if (data && data.innerHTML && data.innerHTML.length > 0) {
     image = JSON.parse(data.innerHTML);
   }
-  globalContent = parseJsonData('globalContent', 'globalContent');
 }
 
 export default class NavbarContainer extends React.Component {

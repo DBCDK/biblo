@@ -75,14 +75,14 @@ export class GroupViewContainer extends React.Component {
   render() {
     if (this.props.group.error) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
         <div className="error">{this.props.group.error}</div>
         </PageLayout>
       );
     }
     if (this.props.group.markedAsDeleted) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
           <div className='group-is-deleted'>
             <h1>Gruppen findes ikke længere</h1>
             <p>Den gruppe du forsøger at komme ind på, findes ikke længere</p>

@@ -11,6 +11,20 @@ import NavbarContainer from '../NavbarContainer.component.js';
 
 describe('Test NavbarContainer Component', () => {
   const emptyObj = {};
+  const globalState = {
+    menu: {
+      main: [{
+        title: 'Grupper',
+        url: '/grupper',
+        id: 1
+      }],
+      footer: [{
+        title: 'help',
+        url: '/help',
+        id: 1
+      }]
+    }
+  };
 
   it('Assert className navbar--container', () => {
     const render = TestUtils.createRenderer();
@@ -45,15 +59,6 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    const globalState = {
-      menu: {
-        main: [{
-          title: 'Grupper',
-          url: '/grupper',
-          id: 1
-        }]
-      }
-    };
     const component = $(<NavbarContainer profileState={{}} searchState={searchState} searchActions={{}} globalState={globalState}/>).render();
     const menuItems = component.find('.navbar--link');
     assert.equal(menuItems[0].innerHTML, globalState.menu.main[0].title, 'Found menu item');
@@ -72,16 +77,6 @@ describe('Test NavbarContainer Component', () => {
       initialQuery: '',
       query: '',
       isLoadingResults: false
-    };
-
-    const globalState = {
-      menu: {
-        main: [{
-          title: 'Grupper',
-          url: '/grupper',
-          id: 1
-        }]
-      }
     };
 
     let dom = TestUtils.renderIntoDocument(

@@ -124,7 +124,12 @@ export default class NavbarContainer extends React.Component {
   }
 
   render() {
-    const mainMenu = this.props.globalState.menu && this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+    const menus = {};
+
+    if (this.props.globalState.menu) {
+      menus.main = this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+      menus.footer = this.props.globalState.menu.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+    }
 
     return (
       <div className="navbar" >
@@ -135,7 +140,7 @@ export default class NavbarContainer extends React.Component {
                 <a className='bibloLogo' href={DET_SKER_PAGE} >
                   <Icon icon="profile" width={100} height={30} glyph={bibloSvg} />
                 </a></li>
-              {mainMenu}
+              {menus.main}
             </ul>
           </div>
 
@@ -147,8 +152,11 @@ export default class NavbarContainer extends React.Component {
         </div>
         <NavbarMobileMenu active={this.state.active.menu} type='menu' >
           <div>
-            <ul>
-              {mainMenu}
+            <ul className="navbar--mobile-main-menu">
+              {menus.main}
+            </ul>
+            <ul className="navbar--mobile-sub-menu">
+              {menus.footer}
             </ul>
           </div>
         </NavbarMobileMenu>

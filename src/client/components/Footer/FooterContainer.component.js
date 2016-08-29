@@ -59,4 +59,8 @@ FooterContainer.propTypes = {
   globalState: React.PropTypes.object.isRequired
 };
 
+FooterContainer.defaultProps = {
+  globalState: {}
+};
+
 FooterContainer.displayName = 'FooterContainer';

@@ -175,3 +175,7 @@ NavbarContainer.propTypes = {
   globalState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
 };
+
+NavbarContainer.defaultProps = {
+  globalState: {}
+};

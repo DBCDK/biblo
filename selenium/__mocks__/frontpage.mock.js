@@ -2,6 +2,12 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function frontpage(times) {
+  nock('http://admin-stg.biblo.dk:80', {encodedQueryParams: true})
+    .get('/menu/main')
+    .times(times)
+    .query({"_format":"json"})
+    .reply(200, [{"link":{"url":{"external":false,"uri":""},"title":"Grupper","description":"Se alle grupper","enabled":true,"weight":"0","options":{"fragment":"grupper"},"meta_data":{"entity_id":"4"},"provider":"menu_link_content"},"subtree":[],"depth":1,"options":[]}]);
+
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/fileContainers/uxdev-biblo-content-frontpage/download/frontpage_content.json')
     .times(times)

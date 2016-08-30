@@ -1,10 +1,7 @@
 import React from 'react';
-import * as hyperlinks from '../../Constants/hyperlinks.constants';
 import './_footer.scss';
 
 import NavbarLink from '../Navbar/NavbarLink.component';
-import Icon from '../General/Icon/Icon.component';
-import bibloSvg from './../Navbar/svg/biblo_negative.svg';
 
 
 export default class FooterContainer extends React.Component {

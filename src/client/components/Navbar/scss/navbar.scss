@@ -23,7 +23,7 @@
 }
 
 .navbar--menu {
-  @include span(10);
+  width: 100%;
   .bibloLogo {
     display: block;
   }
@@ -54,18 +54,21 @@
 }
 
 .navbar--icons {
-  @include span(10 last);
+  position:absolute;
+  right: 1em;
+  top: 0;
   padding-top: 20px;
   text-align: right;
+  @include max-screen($tablet) {
+    margin-right: 43px;
+  }
+
   a {
     margin-left: 10px;
     &:first-child {
       margin-left: 0;
     }
   }
-}
-
-.navbar--icons {
   .navbar--link {
     display: inline-block;
     width: 35px;

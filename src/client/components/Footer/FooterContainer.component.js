@@ -21,11 +21,6 @@ export default class FooterContainer extends React.Component {
         <div className="footer--coloumns-container">
           <div className="footer--left-coloumn">
             <ul className="footer--main-menu">
-              <li>
-                <a className='bibloLogo' href={hyperlinks.DET_SKER_PAGE}>
-                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg}/>
-                </a>
-              </li>
               {menus.main}
             </ul>
           </div>

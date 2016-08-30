@@ -5,13 +5,14 @@
     display: none;
   }
   z-index: 102;
-  position: relative;
+  position: absolute;
   vertical-align: text-top;
   padding-top: 12px;
   display: inline-block;
   height: 30px;
   width: 33px;
   cursor: pointer;
+  top: 25px;
 
   span, span:before, span:after {
     border-radius: 1px;
@@ -37,8 +38,9 @@
   }
 
   &.is-active {
-    top: 0px;
-    right: 0px;
+    top: 25px;
+    right: 1em;
+    position: fixed;
 
     span {
       background: rgba(255, 255, 255, 0);

@@ -6,10 +6,12 @@
   position: fixed;
   width: 100%;
   z-index: 101;
-  top: -400px;
+  top: -500px;
   left: 0;
   overflow: hidden;
   box-shadow: #B5B5B5 0px 1px 2px;
+
+
   &.is-active {
     top: 0;
   }
@@ -21,6 +23,10 @@
   }
   &.profile {
     background-color: $carnation;
+    a {
+      @extend %fredoka-header;
+      color: white;
+    }
     @include min-screen($tablet + 1) {
       position: absolute;
       width: auto;

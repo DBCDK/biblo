@@ -22,10 +22,8 @@ export class FactBoxWidget extends AbstractWidget {
 
     return (
       <div className="fact-box-widget">
-        <p className="fact-box--title">
-          <strong dangerouslySetInnerHTML={{__html: factboxTitle}} />
-        </p>
-        <div className="fact-box--content" dangerouslySetInnerHTML={{__html: factboxContent}} />
+        <h3 dangerouslySetInnerHTML={{__html: factboxTitle}}/>
+        <div className="fact-box--content" dangerouslySetInnerHTML={{__html: factboxContent}}/>
       </div>
     );
   }

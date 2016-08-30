@@ -7,6 +7,8 @@ import Youtube from 'react-youtube';
 import ExtractYoutubeID from '../../../../Utils/extractYoutubeID';
 import {isEqual} from 'lodash';
 
+import './ContentPageEmbeddedVideo.widget.component.scss';
+
 export class ContentPageEmbeddedVideoWidget extends Component {
   shouldComponentUpdate(nextProps) {
     // We only care about the widgetConfig

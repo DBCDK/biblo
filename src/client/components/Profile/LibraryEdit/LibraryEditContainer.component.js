@@ -48,8 +48,8 @@ class LibraryEditContainer extends React.Component {
     );
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile}>
-        <div className="profile-library-edit--container">
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+      <div className="profile-library-edit--container">
           <div className="profile-library-edit--form-component-container-container">
             <div className="profile-library-edit--form-component-container">
               <div className="profile-library-edit--profile-image-container">
@@ -93,7 +93,8 @@ LibraryEditContainer.propTypes = {
   profile: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   libraryActions: React.PropTypes.object.isRequired,
-  entitySuggest: React.PropTypes.object.isRequired
+  entitySuggest: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 /**
@@ -105,7 +106,8 @@ export default connect(
     return {
       searchState: state.searchReducer,
       profile: state.profileReducer,
-      entitySuggest: state.entitySuggestReducer
+      entitySuggest: state.entitySuggestReducer,
+      globalState: state.globalReducer
     };
   },
 

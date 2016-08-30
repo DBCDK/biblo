@@ -12,14 +12,6 @@
   ul {
     list-style: none;
   }
-
-  a:hover {
-    color: lighten($melrose, 10%);
-
-    h2 {
-      color: lighten($melrose, 10%);
-    }
-  }
 }
 
 .footer--left-coloumn {
@@ -70,4 +62,13 @@
   text-align: center;
   font-size: 9pt;
   color: white;
+}
+
+.footer--main-menu a {
+  @extend %fredoka-header;
+  line-height: 2em;
+}
+
+.footer--sub-menu a {
+  color: white
 }

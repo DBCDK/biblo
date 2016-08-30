@@ -13,8 +13,8 @@ import * as widgetActions from '../../Actions/widget.actions';
 export class PreviewPage extends React.Component {
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
-        <WidgetContainer
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+      <WidgetContainer
           widgetLocationName="previewPage"
           widgetState={this.props.widgetState}
           widgetActions={this.props.widgetActions} />
@@ -29,7 +29,8 @@ PreviewPage.propTypes = {
   widgetState: React.PropTypes.object.isRequired,
   widgetActions: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  searchActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -38,7 +39,8 @@ export default connect(
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
-      widgetState: state.widgetReducer
+      widgetState: state.widgetReducer,
+      globalState: state.globalReducer
     };
   },
 

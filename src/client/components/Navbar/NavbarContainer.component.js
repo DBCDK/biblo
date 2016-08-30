@@ -10,12 +10,11 @@ import NavbarToggle from './NavbarToggle.component.js';
 import NavbarMobileMenu from './NavbarMobileMenu.component.js';
 import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
-
 import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
 
 
 // Constants
-import {DET_SKER_PAGE, GROUP_OVERVIEW, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
+import {DET_SKER_PAGE, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
 // SVG's
 import bibloSvg from './svg/biblo_negative.svg';
@@ -125,6 +124,13 @@ export default class NavbarContainer extends React.Component {
   }
 
   render() {
+    const menus = {};
+
+    if (this.props.globalState.menu) {
+      menus.main = this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+      menus.footer = this.props.globalState.menu.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+    }
+
     return (
       <div className="navbar" >
         <div className="navbar--container" >
@@ -134,7 +140,7 @@ export default class NavbarContainer extends React.Component {
                 <a className='bibloLogo' href={DET_SKER_PAGE} >
                   <Icon icon="profile" width={100} height={30} glyph={bibloSvg} />
                 </a></li>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
+              {menus.main}
             </ul>
           </div>
 
@@ -146,8 +152,11 @@ export default class NavbarContainer extends React.Component {
         </div>
         <NavbarMobileMenu active={this.state.active.menu} type='menu' >
           <div>
-            <ul>
-              <li><NavbarLink value='Grupper' url={GROUP_OVERVIEW} /></li>
+            <ul className="navbar--mobile-main-menu">
+              {menus.main}
+            </ul>
+            <ul className="navbar--mobile-sub-menu">
+              {menus.footer}
             </ul>
           </div>
         </NavbarMobileMenu>
@@ -171,5 +180,10 @@ NavbarContainer.displayName = 'NavbarContainer';
 NavbarContainer.propTypes = {
   profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired
+};
+
+NavbarContainer.defaultProps = {
+  globalState: {}
 };

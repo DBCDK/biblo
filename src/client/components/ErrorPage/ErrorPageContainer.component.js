@@ -19,7 +19,7 @@ export class ErrorPageContainer extends React.Component {
     };
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
         <div className='error-page--error-splash'>
           <h1>UPS...</h1>
           <p>Du har ramt en side der ikke findes. Gå tilbage til den foregående side eller brug menuen til at komme
@@ -35,7 +35,8 @@ ErrorPageContainer.displayName = 'ErrorPageContainer';
 ErrorPageContainer.propTypes = {
   profileState: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  searchActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -43,7 +44,8 @@ export default connect(
   (state) => {
     return {
       profileState: state.profileReducer,
-      searchState: state.searchReducer
+      searchState: state.searchReducer,
+      globalState: state.globalReducer
     };
   },
 

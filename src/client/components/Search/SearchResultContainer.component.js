@@ -101,11 +101,8 @@ export class SearchResultContainer extends React.Component {
 
   render() {
     return (
-      <PageLayout
-        searchState={this.props.search}
-        searchActions={this.props.searchActions}
-        profileState={this.props.profileState}>
-        <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
+      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+      <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
 
         {
           this.shouldRenderMaterialResults() &&
@@ -137,7 +134,8 @@ SearchResultContainer.displayName = 'SearchResultContainer';
 SearchResultContainer.propTypes = {
   profileState: React.PropTypes.object.isRequired,
   search: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  searchActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 /**
@@ -148,7 +146,8 @@ export default connect(
   (state) => {
     return {
       profileState: state.profileReducer,
-      search: state.searchReducer
+      search: state.searchReducer,
+      globalState: state.globalReducer
     };
   },
 

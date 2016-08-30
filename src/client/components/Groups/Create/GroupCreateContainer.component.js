@@ -43,8 +43,8 @@ export class GroupCreateContainer extends React.Component {
 
     return (
       <div>
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState}>
-          <div className="group-create">
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+        <div className="group-create">
             <BackButton />
             <h1>Opret gruppe</h1>
             <GroupForm
@@ -70,7 +70,8 @@ GroupCreateContainer.propTypes = {
   searchState: React.PropTypes.object.isRequired,
   searchActions: React.PropTypes.object.isRequired,
   group: React.PropTypes.object.isRequired,
-  groupActions: React.PropTypes.object.isRequired
+  groupActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 /**
@@ -82,7 +83,8 @@ export default connect(
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
-      group: state.groupCreateReducer
+      group: state.groupCreateReducer,
+      globalState: state.globalReducer
     };
   },
 

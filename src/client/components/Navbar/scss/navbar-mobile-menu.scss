@@ -2,7 +2,7 @@
 
 .navbar-mobile-menu {
   @include single-transition(top, 400ms, ease-in-out, null);
-  background-color: $melrose;
+  background-color: black;
   position: fixed;
   width: 100%;
   z-index: 101;
@@ -44,8 +44,15 @@
   li {
     margin-bottom: 10px;
   }
+}
+
+.navbar--mobile-main-menu {
+  margin-bottom: 3em;
   a {
     @extend %fredoka-header;
-    @include hover-transition((color: white));
   }
+}
+.navbar--mobile-sub-menu a {
+  color: white;
+  text-transform: uppercase;
 }

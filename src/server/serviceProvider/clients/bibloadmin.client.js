@@ -29,6 +29,14 @@ let callBibloAdmin = function callBibloAdmin(user, password, method, req) {
   ));
 };
 
+function getMenu(endpoint, {name}) {
+  const options = {
+    url: `${endpoint}/menu/${name}?_format=json`
+  };
+
+  return callBibloAdmin('get', options);
+}
+
 /**
  * Gets content from contentpage in json format.
  * @param endpoint
@@ -86,7 +94,8 @@ export default function BibloAdminClient(config = null) {
 
   return {
     getContentPage: getContentPage.bind(null, config.endpoint),
-    getCampaigns: getCampaigns.bind(null, config.endpoint)
+    getCampaigns: getCampaigns.bind(null, config.endpoint),
+    getMenu: getMenu.bind(null, config.endpoint)
   };
 }
 

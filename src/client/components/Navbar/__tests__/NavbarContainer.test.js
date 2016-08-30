@@ -5,11 +5,26 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import {assert} from 'chai';
+import $ from 'teaspoon';
 
 import NavbarContainer from '../NavbarContainer.component.js';
 
 describe('Test NavbarContainer Component', () => {
   const emptyObj = {};
+  const globalState = {
+    menu: {
+      main: [{
+        title: 'Grupper',
+        url: '/grupper',
+        id: 1
+      }],
+      footer: [{
+        title: 'help',
+        url: '/help',
+        id: 1
+      }]
+    }
+  };
 
   it('Assert className navbar--container', () => {
     const render = TestUtils.createRenderer();
@@ -18,6 +33,7 @@ describe('Test NavbarContainer Component', () => {
         profileState={emptyObj}
         searchState={emptyObj}
         searchActions={emptyObj}
+        globalState={{}}
       />
     );
 
@@ -26,6 +42,26 @@ describe('Test NavbarContainer Component', () => {
     const result = rendered.props.className;
     const expected = 'navbar';
     assert.equal(result, expected, 'Found className navbar');
+  });
+
+  it('Assert main menu is rendered', () => {
+    const searchState = {
+      isSearchBoxVisible: false,
+      groupSearchResults: [],
+      groupSearchResultsPending: true,
+      materialSearchResults: [],
+      materialSearchResultsPending: true,
+      workSuggestions: {},
+      workSuggestionsPending: false,
+      selectedWorkSuggestion: -1,
+      initialQuery: '',
+      query: '',
+      isLoadingResults: false
+    };
+
+    const component = $(<NavbarContainer profileState={{}} searchState={searchState} searchActions={{}} globalState={globalState}/>).render();
+    const menuItems = component.find('.navbar--link');
+    assert.equal(menuItems[0].innerHTML, globalState.menu.main[0].title, 'Found menu item');
   });
 
   it('Assert hide unhide menu', (done) => {
@@ -48,6 +84,7 @@ describe('Test NavbarContainer Component', () => {
         searchState={searchState}
         profileState={emptyObj}
         searchActions={emptyObj}
+        globalState={globalState}
       />
     );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
@@ -86,6 +123,7 @@ describe('Test NavbarContainer Component', () => {
       searchState={searchState}
       profileState={emptyObj}
       searchActions={emptyObj}
+      globalState={{}}
     />
     );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');

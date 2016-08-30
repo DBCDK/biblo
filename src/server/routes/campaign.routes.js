@@ -82,50 +82,47 @@ function generatePDFFromHTML(html, baseUrl) {
  * @param {Object}res
  * @param {Function}next
  */
-async function getCampaignPDF(req, res, next) {
-  try {
-    const baseUrl = `http://localhost:${req.app.get('port')}`;
-    const campaignId = req.params[0];
-    const campaign = (await req.callServiceProvider('getCampaign', {id: campaignId}))[0].body;
-    const profile = req.session.passport.user.profile.profile;
-    profile.displayName = twemoji.parse(profile.displayName);
-    if (profile.birthday) {
-      profile.age = computeAge(new Date(profile.birthday));
-    }
+async function getCampaignHTML(req) {
+  const campaignId = req.params[0];
+  const campaign = (await req.callServiceProvider('getCampaign', {id: campaignId}))[0].body;
+  const profile = req.session.passport.user.profile.profile;
+  profile.displayName = twemoji.parse(profile.displayName);
+  if (profile.birthday) {
+    profile.age = computeAge(new Date(profile.birthday));
+  }
 
-    const contributions = await getContributions(req, campaign, profile.id);
-    const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
-    const works = {};
-    await Promise.all(contributions.review.data.map(review => {
-      return req.callServiceProvider('work', {pids: [review.pid]}).then(work => {
-        work = work[0].data[0];
+  const contributions = await getContributions(req, campaign, profile.id);
+  const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
+  const works = {};
+  await Promise.all(contributions.review.data.map(review => {
+    return req.callServiceProvider('work', {pids: [review.pid]}).then(work => {
+      work = work[0].data[0];
 
-        if (!work.coverUrl) {
-          work.coverUrl = `/images/cover/${work.workType}.png`;
-        }
+      if (!work.coverUrl) {
+        work.coverUrl = `/images/cover/${work.workType}.png`;
+      }
 
-        (work.collection || []).forEach(pid => {
-          works[pid] = work;
-        });
+      (work.collection || []).forEach(pid => {
+        works[pid] = work;
       });
-    }));
+    });
+  }));
 
-    const reactMarkup = renderToStaticMarkup(
-      <CampaignCertificate
-        campaign={campaign}
-        profile={profile}
-        library={library}
-        contributions={contributions}
-        works={works}
-        />
-    );
-    const html = `
+  const reactMarkup = renderToStaticMarkup(
+    <CampaignCertificate
+      campaign={campaign}
+      profile={profile}
+      library={library}
+      contributions={contributions}
+      works={works}
+    />
+  );
+  return `
       <!DOCTYPE html>
       <html>
         <head>
           <title>Kampagne bevis</title>
           <link rel="stylesheet" type="text/css" href="/css/campaigncertificate.css">
-          <link rel="stylesheet" type="text/css" href="/css/groupdetail.css">
         </head>
         <body>
           <div class="content">
@@ -133,7 +130,23 @@ async function getCampaignPDF(req, res, next) {
           </div>
         </body>
       </html>`;
+}
 
+
+CampaignRoutes.get(/^\/bevis\/([0-9]+).html/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
+  try {
+  const html = await getCampaignHTML(req);
+  res.send(html);
+  } catch (e) {
+    console.log(e);
+  }
+
+});
+
+CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
+  const baseUrl = `http://localhost:${req.app.get('port')}`;
+  try {
+    const html = await getCampaignHTML(req, res);
     const pdfStream = (await generatePDFFromHTML(html, baseUrl));
     res.set('Content-Type', 'application/pdf');
     pdfStream.pipe(res);
@@ -141,9 +154,7 @@ async function getCampaignPDF(req, res, next) {
   catch (err) {
     next(err);
   }
-}
-
-CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, getCampaignPDF);
+});
 
 
 export default CampaignRoutes;

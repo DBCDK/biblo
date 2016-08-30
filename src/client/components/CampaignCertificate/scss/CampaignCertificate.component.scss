@@ -1,7 +1,31 @@
 @import 'tools';
+@import 'global';
 
 .fullwidth {
   width: 100%;
+}
+
+.content {
+  max-width: 600px;
+  margin: auto;
+}
+
+.profile {
+  text-align: center;
+  .image {
+    @include profileImage(80px);
+    display: inline-block;
+  }
+  .name {
+    margin-top: 0;
+    font-weight: 900;
+  }
+}
+
+.material--count {
+  font-size: 30px;
+  font-weight: 900;
+  color: $turquoise;
 }
 
 .pagebreak {
@@ -10,7 +34,7 @@
 
 .frontpage--campaign-logo {
   margin: auto;
-  height: 140px;
+  height: 120px;
   display: block;
 }
 
@@ -43,20 +67,15 @@
 }
 
 .frontpage--biblo-approves--logo {
-  height: 45px;
-  margin-bottom: 10px;
-  padding: 55px;
-
+  text-align: right;
+  padding: 30px 0;
   img {
-    height: 45px;
-    position: absolute;
-    right: 5px;
+    height: 40px;
   }
 }
 
 .review-frontpage--person-data {
   margin: auto;
-  border-spacing: 15px;
   width: 500px;
   text-align: left;
   margin-bottom: 55px;

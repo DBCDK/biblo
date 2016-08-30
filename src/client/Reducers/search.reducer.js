@@ -74,7 +74,7 @@ if (typeof window !== 'undefined') {
   if (urlParams.materialer) {
     const materialFilters = urlParams.materialer.split(',');
     for (const i in materialFilters) { // eslint-disable-line guard-for-in
-      if (materialFilters[i]) {
+      if (materialFilters[i] && initialState.filters.materialFilters[materialFilters[i]]) {
         initialState.filters.materialFilters[materialFilters[i]].enabled = true;
       }
     }

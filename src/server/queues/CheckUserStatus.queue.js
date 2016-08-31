@@ -2,6 +2,49 @@
  * @file: In this file we check user status.
  */
 
+import {includes, flatMap} from 'lodash';
+
+/**
+ * Filtering the given userMessages.
+ *
+ * If an item is found in userMessages but not in userStatus it will be removed from userMessages and requested
+ * 'markAsDeleted' through the serviceProvider.
+ *
+ * @param {*} userMessages
+ * @param {*} userStatus
+ * @param {Object} serviceProvider
+ * @returns {Array.<*>}
+ */
+export function filterItems(userMessages, userStatus, serviceProvider) {
+  // Flatten the object to ensure it is iteratable
+  const userStatusFlattened = flatMap(userStatus);
+
+  // Iterate the userMessages coming from DynamoDB
+  return userMessages.Items.filter((item) => {
+    let keepItem = true;
+
+    if ((item.orderId || item.loanId) && !item.markAsDeleted) {
+      const id = item.orderId || item.loanId;
+      let wasFound = false;
+
+      // Iterate the userStatusFlattened and check if the current item.id is present
+      userStatusFlattened.forEach((userStatusItem) => {
+        if (includes(userStatusItem, id)) {
+          wasFound = true;
+        }
+      });
+
+      // If the current item.id is not found remove it from the userMessages object and mark it as deleted in DynamoDB
+      if (!wasFound) {
+        serviceProvider.trigger('deleteUserMessage', item);
+        keepItem = false;
+      }
+    }
+
+    return keepItem;
+  });
+}
+
 export function processUserStatusCheck(job, done) {
   return new Promise((resolve, reject) => { // eslint-disable-line consistent-return
     const app = job.app;
@@ -10,8 +53,7 @@ export function processUserStatusCheck(job, done) {
     const logger = app.get('logger');
 
     if (
-      !job.data || !job.data.favoriteLibrary || !job.data.favoriteLibrary.libraryId ||
-      !job.data.favoriteLibrary.pincode || !job.data.favoriteLibrary.loanerId || !job.data.userId
+      !job.data || !job.data.favoriteLibrary || !job.data.favoriteLibrary.libraryId || !job.data.favoriteLibrary.pincode || !job.data.favoriteLibrary.loanerId || !job.data.userId
     ) {
       return reject(new Error('Required props were not found, try add more data!'));
     }
@@ -40,8 +82,12 @@ export function processUserStatusCheck(job, done) {
       const readyItemsOrderIds = [];
       const registeredTransactions = [];
 
+      // Remove userstatus items from userMessages ig they are no longer present in userStatus and mark them as deleted in Dynamo
+      userMessages.Items = filterItems(userMessages, userStatus, serviceProvider);
+
       // First we check our messages to ensure we don't create duplicates
       userMessages.Items.forEach((Item) => {
+
         // Messages for user status orders
         if (Item.messageType === 'type-orderIsReady' && Item.orderId && Item.orderId.length > 0) {
           readyItemsOrderIds.push(Item.orderId);

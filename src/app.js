@@ -249,7 +249,7 @@ module.exports.run = function (worker) {
    * Helper method to remember the required
    * @param {Number|String} userId
    * @param {String} messageType
-   * @param {PlainObject} message
+   * @param {Object} message
    */
   function userMessageAdd(userId, messageType, message) {
     return userMessageQueue.add({userId, messageType, message});

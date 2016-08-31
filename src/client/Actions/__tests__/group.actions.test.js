@@ -68,6 +68,9 @@ describe('test group actions', () => {
         // restore filereader support
         window.FileReader = _fileReader;
         done();
+      })
+      .catch(() => {
+        console.error('Promise was rejected');
       });
   });
 });

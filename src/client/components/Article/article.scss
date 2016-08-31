@@ -1,6 +1,7 @@
 @import 'tools';
 
 .article {
+  padding: 1em;
   @include container();
   img {
     width: 100%;
@@ -23,8 +24,8 @@
 
 .article-factbox {
 
-  background: $light-gray;
-  margin-top: 10px;
+  background: $soft-purple;
+  padding: 1em;
   display: block;
   border-radius: 5px;
   margin-bottom: 10px;

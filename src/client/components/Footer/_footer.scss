@@ -4,6 +4,7 @@
   @include span(24);
   background-color: $black;
   position: relative;
+  padding: 1em;
 }
 
 .footer--coloumns-container {
@@ -11,6 +12,8 @@
 
   ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
   }
 }
 

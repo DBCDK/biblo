@@ -29,7 +29,7 @@ const getContentPageTransform = {
       ContentPageLeft.unshift({
         widgetName: 'ContentPageTextWidget',
         widgetConfig: {
-          content: `<h2>${contentResponse.title}</h2>`
+          content: `<h1>${contentResponse.title}</h1>`
         }
       });
     }
@@ -44,7 +44,7 @@ const getContentPageTransform = {
       SectionPage.unshift({
         widgetName: 'ContentPageTextWidget',
         widgetConfig: {
-          content: `<h2>${contentResponse.title}</h2>`
+          content: `<h1>${contentResponse.title}</h1>`
         }
       });
     }

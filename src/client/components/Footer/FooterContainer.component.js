@@ -1,10 +1,7 @@
 import React from 'react';
-import * as hyperlinks from '../../Constants/hyperlinks.constants';
 import './_footer.scss';
 
 import NavbarLink from '../Navbar/NavbarLink.component';
-import Icon from '../General/Icon/Icon.component';
-import bibloSvg from './../Navbar/svg/biblo_negative.svg';
 
 
 export default class FooterContainer extends React.Component {
@@ -21,11 +18,6 @@ export default class FooterContainer extends React.Component {
         <div className="footer--coloumns-container">
           <div className="footer--left-coloumn">
             <ul className="footer--main-menu">
-              <li>
-                <a className='bibloLogo' href={hyperlinks.DET_SKER_PAGE}>
-                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg}/>
-                </a>
-              </li>
               {menus.main}
             </ul>
           </div>

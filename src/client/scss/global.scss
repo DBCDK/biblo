@@ -3,6 +3,10 @@
 @import "extends/shakeit";
 
 
+/* Makes border-box properties */
+@include border-box-sizing;
+
+
 html, body {
   -webkit-tap-highlight-color: transparent;
 }

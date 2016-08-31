@@ -21,6 +21,23 @@ function getTags(work) {
   return tags;
 }
 
+/**
+ * Change ereolen.dk til ereolengo.dk.
+ *
+ * @param onlineAccess
+ * @returns {*}
+ */
+function parseOnlineAccess (onlineAccess) {
+  if (typeof onlineAccess === 'string') {
+    return onlineAccess.replace('ereolen.dk', 'ereolengo.dk');
+  }
+  else if (typeof onlineAccess === 'object') {
+    return onlineAccess.map(element => element.replace('ereolen.dk', 'ereolengo.dk'));
+  }
+
+  return null;
+}
+
 export default function parseWork(work) {
   work.dcTitle = work.dcTitle ? work.dcTitle[0] : '';
   work.dcTitleFull = work.dcTitleFull ? work.dcTitleFull[0] : '';
@@ -31,7 +48,7 @@ export default function parseWork(work) {
   work.workType = (work.workType) ? work.workType[0] : 'other';
   work.coverUrl = (work.coverUrlFull) ? 'https:' + work.coverUrlFull[0] : '/images/covers/' + work.workType + '.png';
   work.extent = (work.extent) ? work.extent[0] : '';
-
+  work.hasOnlineAccess = parseOnlineAccess(work.hasOnlineAccess);
   work.tags = getTags(work);
   work.subjectDK5 = (work.subjectDK5) ? work.subjectDK5[0] : '';
   work.subjectDK5Text = (work.subjectDK5Text) ? work.subjectDK5Text[0] : '';

@@ -28,7 +28,8 @@ describe('Unittest methods in work.parser.js', () => {
         case 'actors':
         case 'publisher':
         case 'ageRecommended':
-        case 'ageAllowed': {
+        case 'ageAllowed':
+        case 'hasOnlineAccess': {
           assert.isNull(item);
           break;
         }
@@ -142,5 +143,14 @@ describe('Unittest methods in work.parser.js', () => {
     };
     const result = parseWork(Object.assign({}, work));
     assert.equal(result.ageAllowed, work.audienceMedieraad[0]);
+  });
+
+  it('Should return onlineAccess with ereolengo', () => {
+    const work = {
+      hasOnlineAccess: ['https://ereolen.dk/test1', 'http://ereolen.dk/test2']
+    };
+    const expected = ['https://ereolengo.dk/test1', 'http://ereolengo.dk/test2'];
+    const result = parseWork(Object.assign({}, work));
+    assert.deepEqual(result.hasOnlineAccess, expected);
   });
 });

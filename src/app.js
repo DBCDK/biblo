@@ -281,11 +281,10 @@ module.exports.run = function (worker) {
 
   redisInstance.client.on('error', function () {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.', {
-        host: config.get('Redis.host'),
-        port: config.get('Redis.port'),
-        prefix: APP_NAME + '_session_'
-      }
-    );
+      host: config.get('Redis.host'),
+      port: config.get('Redis.port'),
+      prefix: APP_NAME + '_session_'
+    });
   });
 
   const sessionMiddleware = expressSession({

@@ -26,7 +26,8 @@ let initialState = {
     groups: {},
     groupLoading: true,
     postsLoading: true,
-    isLoading: true
+    isLoading: true,
+    postsCount: 0
   },
   PopularGroupsWidget: {
     groups: [],
@@ -120,6 +121,8 @@ export default function widgetReducer(state = initialState, action = {}) {
             LatestGroupPostsWidget.posts[groupId] = [];
           }
 
+          // Need postsCount to trigger rendering, since the posts array, is copied as a reference by assignToEmpty()
+          LatestGroupPostsWidget.postsCount++;
           LatestGroupPostsWidget.posts[groupId].push(post);
         });
       }

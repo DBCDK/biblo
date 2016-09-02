@@ -270,6 +270,7 @@ module.exports.run = function (worker) {
   app.set('userStatusCheckQueue', userStatusCheckQueue);
   app.set('checkForNewQuarantinesQueue', checkForNewQuarantinesQueue);
   app.set('addedCommentQueue', addedCommentQueue);
+  app.set('statics', path.resolve(__dirname, '../'));
 
   const redisStore = RedisStore(expressSession);
 

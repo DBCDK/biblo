@@ -1,7 +1,31 @@
 @import 'tools';
+@import 'global';
 
 .fullwidth {
   width: 100%;
+}
+
+.content {
+  max-width: 600px;
+  margin: auto;
+}
+
+.profile {
+  text-align: center;
+  .image {
+    @include profileImage(80px);
+    display: inline-block;
+  }
+  .name {
+    margin-top: 0;
+    font-weight: 900;
+  }
+}
+
+.material--count {
+  font-size: 30px;
+  font-weight: 900;
+  color: $turquoise;
 }
 
 .pagebreak {
@@ -10,7 +34,7 @@
 
 .frontpage--campaign-logo {
   margin: auto;
-  height: 140px;
+  height: 120px;
   display: block;
 }
 
@@ -38,30 +62,30 @@
   }
 }
 
-.frontpage--username > span, .frontpage--biblo-approves--logo {
-  border-bottom: dotted 2px;
+.frontpage--header {
+  border-bottom: dotted 1px;
+  margin-bottom: 30px;
+}
+
+.frontpage--info {
+
 }
 
 .frontpage--biblo-approves--logo {
-  height: 45px;
-  margin-bottom: 10px;
-  padding: 55px;
-
+  text-align: right;
+  padding: 30px 0;
   img {
-    height: 45px;
-    position: absolute;
-    right: 5px;
+    height: 40px;
   }
 }
 
 .review-frontpage--person-data {
+  border-spacing: 15px 5px;
   margin: auto;
-  border-spacing: 15px;
-  width: 500px;
   text-align: left;
   margin-bottom: 55px;
   text-overflow: ellipsis;
-  font-size: 10pt;
+  font-size: 14px;
 
   tr {
     td {
@@ -69,8 +93,8 @@
     }
 
     td:nth-child(2), td:nth-child(4) {
-      width: 250px;
-      border-bottom: dotted 2px;
+      width: 300px;
+      border-bottom: dotted 1px;
     }
   }
 }
@@ -102,25 +126,13 @@
   }
 }
 
-.contribution--post-container, .contribution--reivew-container {
-  font-size: 12pt;
-  page-break-inside: avoid;
-  border-top: solid $light-gray 1px;
-  border-bottom: solid $light-gray 1px;
+.contribution {
 
   .emoji {
     width: 5px;
   }
 
-  .post--content {
-    margin: 10px;
-    padding: 10px;
-    background-color: $light-gray;
-    border-radius: 10px;
-    display: inline-block;
-  }
-
-  .review--cover-image {
+  .cover-image {
     display: inline-block;
     max-height: 130px;
     max-width: 280px;
@@ -131,5 +143,39 @@
       max-height: 130px;
       max-width: 280px;
     }
+  }
+
+  .profile-image {
+
+  }
+}
+
+
+.review-contributions {
+  margin-top: 40px;
+}
+
+#pageHeader {
+  font-weight: 900;
+  font-size: 14px;
+
+  .profile-image {
+    @include profileImage(50px);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+  }
+}
+
+#pageFooter {
+  text-align: right;
+  img {
+    width: 150px;
+  }
+}
+#pageFooter-first {
+  text-align: center;
+  img {
+    height: 45px;
   }
 }

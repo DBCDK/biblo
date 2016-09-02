@@ -53,7 +53,8 @@ const getFullProfileTransform = {
       body.image.url = {
         small: '/billede/' + body.image.id + '/small',
         medium: '/billede/' + body.image.id + '/medium',
-        large: '/billede/' + body.image.id + '/large'
+        large: '/billede/' + body.image.id + '/large',
+        square: '/billede/' + body.image.id + '/small-square'
       };
     }
     else {
@@ -61,7 +62,8 @@ const getFullProfileTransform = {
         url: {
           small: '/no_profile.png',
           medium: '/no_profile.png',
-          large: '/no_profile.png'
+          large: '/no_profile.png',
+          square: '/no_profile.png',
         }
       };
     }

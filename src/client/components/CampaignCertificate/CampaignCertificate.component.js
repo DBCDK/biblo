@@ -240,7 +240,7 @@ export class CampaignCertificate extends Component {
     });
   }
 
-  renderReviewContributions(contributions, works) {
+  renderReviewContributions(contributions, works, campaign) {
     const reviews = contributions.review.data;
     return reviews.map(review => {
       const work = works[review.pid] || {};
@@ -259,21 +259,18 @@ export class CampaignCertificate extends Component {
 
       return (
         <div key={`review_${review.id}`} className="contribution">
-          <div>
-            <span dangerouslySetInnerHTML={{__html: review.campaign.campaignName}}/>
-            <span> d. {dateString} </span>
-          </div>
-
-          <div className="review--work">
-            <span>{work.dcTitle} {creator}</span>
-          </div>
 
           <div className="cover-image">
             <img src={work.coverUrl}/>
           </div>
-
+          <div className="work">
+            <span>{work.dcTitle} {creator}</span>
+          </div>
           <div className="post--content">
             {reviewContent}
+          </div>
+          <div className="campaign-logo">
+            <img src={campaign.logos.medium}/>
           </div>
         </div>
       );
@@ -304,7 +301,7 @@ export class CampaignCertificate extends Component {
         </div>
 
         <div className="review-contributions">
-          {this.renderReviewContributions(contributions, works)}
+          {this.renderReviewContributions(contributions, works, campaign)}
         </div>
 
       </div>

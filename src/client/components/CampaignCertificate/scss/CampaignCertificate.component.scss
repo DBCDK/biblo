@@ -127,22 +127,44 @@
 }
 
 .contribution {
+  display: table;
+  width: 100%;
+  font-size: 10px;
+  margin-bottom: 40px;
+  img {
+    width: 100%;
+  }
 
-  .emoji {
+  & > * {
+    display: table-cell;
+    vertical-align: top;
+  }
+  & > * + * {
+    padding-left: 2em;
+  }
+
+    .emoji {
     width: 5px;
   }
 
+  .work {
+    width: 140px;
+  }
+  .campaign-logo img {
+    width: 50px;
+  }
   .cover-image {
-    display: inline-block;
-    max-height: 130px;
-    max-width: 280px;
-    margin: 10px;
-    padding: 10px;
-
     img {
-      max-height: 130px;
-      max-width: 280px;
+      width: 100px;
     }
+  }
+
+  .post--content {
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   .profile-image {
@@ -154,6 +176,9 @@
 .review-contributions {
   margin-top: 40px;
 }
+
+
+// Header and Footer elements
 
 #pageHeader {
   font-weight: 900;

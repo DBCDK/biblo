@@ -17,6 +17,14 @@ export class CampaignCertificate extends Component {
     this.getPageHeader.bind(this);
   }
 
+  getPreloadedImages() {
+    return (
+      <div className="preload">
+        <img src="/images/biblo_logo_godkendt-af.png"/>
+      </div>
+    );
+  }
+
   getFirstPageHeader() {
     const styles = {
       width: '100%'
@@ -38,7 +46,7 @@ export class CampaignCertificate extends Component {
 
     return (
       <div id="pageFooter-first">
-
+        <img src="/images/biblo_logo_godkendt-af.png"/>
       </div>
     );
   }
@@ -57,22 +65,30 @@ export class CampaignCertificate extends Component {
     return (
       <div id="pageHeader">
         {styles}
+        <img src="file:///Users/svi/www/biblo/static/images/biblo_logo_godkendt-af.png"/>
+        <img src={"http://localhost:8080" + profile.image.url.square}/>
         Anmeldelser af <span dangerouslySetInnerHTML={{__html: profile.displayName}}/> fra {branchShortName}
       </div>
     );
   }
 
-  getPageFooter() {
-    // The pdf renderer does not support urls to images in footers or headers.
-    // Therefore we use a base64 encoded image.
-    const styles = {
-      position: 'absolute',
-      right: 0,
-      width: '150px'
-    };
 
+  renderHeaderAndFooter(profile, branchShortName, baseurl, basepath) {
+  console.log(`${basepath}/images/biblo_logo_godkendt-af.png`);
     return (
-      <div id="pageFooter" style={{position: 'relative'}}>
+      <div>
+        <div id="pageHeader-first">
+        </div>
+        <div id="pageHeader">
+          <img className="profile-image" src={baseurl + profile.image.url.square}/>
+          <span className="profile-name"><span dangerouslySetInnerHTML={{__html: profile.displayName}}/> fra {branchShortName}</span>
+        </div>
+        <div id="pageFooter">
+          <img src={`${basepath}/static/images/biblo_logo_læs-løspå-biblo.png`}/>
+        </div>
+        <div id="pageFooter-first">
+          <img src={`${basepath}/static/images/biblo_logo_portrait.png`}/>
+        </div>
       </div>
     );
   }
@@ -80,13 +96,15 @@ export class CampaignCertificate extends Component {
   renderGroupFrontPage(profile, campaign, branchShortName, contributions) {
     return (
       <div className="review-campaign--frontpage">
+        <img src={`${baseurl}/images/biblo_logo_godkendt-af.png`}/>
+
         <img src={campaign.logos.medium} className="frontpage--campaign-logo"/>
 
         <h1>KAMPAGNEBEVIS</h1>
         <p>Biblo erklærer hermed at</p>
 
         <div className="frontpage--username">
-          <img src={profile.img.url.small} />
+          <img src={profile.img.url.small}/>
           <h3 dangerouslySetInnerHTML={{__html: profile.displayName}}/>
         </div>
 
@@ -134,29 +152,30 @@ export class CampaignCertificate extends Component {
 
     return (
       <div className="review-campaign--frontpage">
-        <img src={campaign.logos.medium} className="frontpage--campaign-logo"/>
+        <div className="frontpage--header">
 
-        <h1>Kampagnebevis</h1>
-        <p>Biblo erklærer hermed at</p>
+          <img src={campaign.logos.medium} className="frontpage--campaign-logo"/>
 
-        <div className="profile">
-          <div className="image" style={{backgroundImage: `url(${profile.image.url.large})`}}>
-            <img src={profile.image.url.square} />
+          <h1>Diplom</h1>
+          <p>Biblo erklærer hermed at</p>
+
+          <div className="profile">
+            <div className="image" >
+              <img src={profile.image.url.square}/>
+            </div>
+            <h3 className="name" dangerouslySetInnerHTML={{__html: profile.displayName}}/>
           </div>
-          <h3 className="name" dangerouslySetInnerHTML={{__html: profile.displayName}}/>
-        </div>
 
-        <div>har læst og anmeldt</div>
-        <div className="material--count">
-          {contributions.review.reviewsCount}
-        </div>
-        <div>bøger til {campaign.campaignName}</div>
+          <div>har læst og anmeldt</div>
+          <div className="material--count">
+            {contributions.review.reviewsCount}
+          </div>
+          <div>bøger til {campaign.campaignName}</div>
 
-        <div className="frontpage--biblo-approves--logo">
-          <img src="/images/biblo_logo_godkendt-af.png"/>
+          <div className="frontpage--biblo-approves--logo">
+            <img src="/images/biblo_logo_godkendt-af.png"/>
+          </div>
         </div>
-        <br />
-
         <table className="review-frontpage--person-data">
           <tbody>
           <tr className="first-row">
@@ -239,7 +258,7 @@ export class CampaignCertificate extends Component {
       const dateString = `${cDate.getDate()}/${cDate.getMonth() + 1}/${cDate.getFullYear()}`;
 
       return (
-        <div key={`review_${review.id}`} className="contribution--reivew-container">
+        <div key={`review_${review.id}`} className="contribution">
           <div>
             <span dangerouslySetInnerHTML={{__html: review.campaign.campaignName}}/>
             <span> d. {dateString} </span>
@@ -249,7 +268,7 @@ export class CampaignCertificate extends Component {
             <span>{work.dcTitle} {creator}</span>
           </div>
 
-          <div className="review--cover-image">
+          <div className="cover-image">
             <img src={work.coverUrl}/>
           </div>
 
@@ -262,6 +281,8 @@ export class CampaignCertificate extends Component {
   }
 
   render() {
+    const baseurl = this.props.baseurl;
+    const basepath = this.props.basepath;
     const profile = this.props.profile;
     const campaign = this.props.campaign;
     const library = this.props.library;
@@ -272,18 +293,11 @@ export class CampaignCertificate extends Component {
 
     return (
       <div>
-        {this.getFirstPageHeader()}
-        {this.getPageHeader(profile, campaign, branchShortName)}
-        {this.getFirstPageFooter()}
-        {this.getPageFooter()}
+        {this.renderHeaderAndFooter(profile, branchShortName, baseurl, basepath)}
 
         {isGroupCampaign ?
           this.renderGroupFrontPage(profile, campaign, branchShortName, contributions) :
           this.renderReviewFrontPage(profile, campaign, branchShortName, contributions)}
-
-        <div className="pagebreak">
-          <img className="fullwidth" src="/bort.png"/>
-        </div>
 
         <div className="group-contributions">
           {this.renderGroupContributions(contributions, profile)}

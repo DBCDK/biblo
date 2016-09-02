@@ -58,7 +58,7 @@ function generatePDFFromHTML(html, baseUrl) {
       height: '10mm'
     },
     footer: {
-      height: '20mm'
+      height: '20mm',
     },
     margin: '1cm',
     phantomArgs
@@ -83,6 +83,8 @@ function generatePDFFromHTML(html, baseUrl) {
  * @param {Function}next
  */
 async function getCampaignHTML(req) {
+  const baseurl = `http://localhost:${req.app.get('port')}`;
+  const basepath = `file://${req.app.get('statics')}`;
   const campaignId = req.params[0];
   const campaign = (await req.callServiceProvider('getCampaign', {id: campaignId}))[0].body;
   const profile = req.session.passport.user.profile.profile;
@@ -110,6 +112,8 @@ async function getCampaignHTML(req) {
 
   const reactMarkup = renderToStaticMarkup(
     <CampaignCertificate
+      baseurl={baseurl}
+      basepath={basepath}
       campaign={campaign}
       profile={profile}
       library={library}
@@ -122,7 +126,8 @@ async function getCampaignHTML(req) {
       <html>
         <head>
           <title>Kampagne bevis</title>
-          <link rel="stylesheet" type="text/css" href="/css/campaigncertificate.css">
+          <link rel="stylesheet" type="text/css" href="${baseurl}/css/campaigncertificate.css">
+          <link rel="stylesheet" type="text/css" href="${basepath}/public/css/campaigncertificate.css">
         </head>
         <body>
           <div class="content">
@@ -144,10 +149,10 @@ CampaignRoutes.get(/^\/bevis\/([0-9]+).html/, ensureAuthenticated, ensureUserHas
 });
 
 CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
-  const baseUrl = `http://localhost:${req.app.get('port')}`;
+  const baseurl = `http://localhost:${req.app.get('port')}`;
   try {
     const html = await getCampaignHTML(req, res);
-    const pdfStream = (await generatePDFFromHTML(html, baseUrl));
+    const pdfStream = (await generatePDFFromHTML(html, baseurl));
     res.set('Content-Type', 'application/pdf');
     pdfStream.pipe(res);
   }
@@ -155,6 +160,5 @@ CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHas
     next(err);
   }
 });
-
 
 export default CampaignRoutes;

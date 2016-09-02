@@ -89,7 +89,7 @@ export default function groupEditReducer(state = initialState, action) {
     case types.GROUP_DELETED:
       return assignToEmpty(state, {
         deleted: {
-          success: action.response.group && true || false,
+          success: action.response.markedAsDeleted && true || false,
           error: action.response.error && true || false,
           inProgress: false
         }

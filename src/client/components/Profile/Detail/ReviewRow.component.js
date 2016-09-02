@@ -100,9 +100,9 @@ export default class ReviewRow extends React.Component {
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
     return (
-      <div className="review--content--videoplayer" >
-        <a title={content} href={`/materiale/${pid}`} className="compact-review--video--container" >
-          <img src={videoImageSrc} />
+      <div className="review--content--videoplayer">
+        <a title={content} href={`/materiale/${pid}`} className="compact-review--video--container">
+          <img src={videoImageSrc}/>
         </a>
       </div>
     );
@@ -124,28 +124,28 @@ export default class ReviewRow extends React.Component {
     const isLikedByActiveUser = likes.includes(activeUser.id);
 
     return (
-      <div className="review--container" >
-        <div className="review--header" >
-          <div className="review--material--cover" >
-            <img src={coverUrl} alt={title} />
+      <div className="review--container">
+        <div className="review--header">
+          <div className="review--material--cover">
+            <img src={coverUrl} alt={title}/>
           </div>
-          <div className="review--data" >
-            <span className="review--data--material-title" ><a href={`/materiale/${review.pid}`} >{title}</a></span>
-            <div className="ratings" >
-              <Rating rating={review.rating} />
+          <div className="review--data">
+            <span className="review--data--material-title"><a href={`/materiale/${review.pid}`}>{title}</a></span>
+            <div className="ratings">
+              <Rating rating={review.rating}/>
             </div>
           </div>
         </div>
 
-        <div className="review--content--container" >
+        <div className="review--content--container">
           { video &&
           <div className="review--content">{video}</div>
-            ||
-          <div className="review--content" dangerouslySetInnerHTML={{__html: content}} /> // eslint-disable-line react/no-danger
+          ||
+          <div className="review--content" dangerouslySetInnerHTML={{__html: content}}/> // eslint-disable-line react/no-danger
           }
-          <div className="review--content--actions" >
-            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
-            <div className="review--content--actions--likebutton" >
+          <div className="review--content--actions">
+            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)}/>
+            <div className="review--content--actions--likebutton">
               <LikeButton
                 active={true}
                 isLikedByCurrentUser={isLikedByActiveUser}
@@ -157,8 +157,8 @@ export default class ReviewRow extends React.Component {
           </div>
         </div>
         {review.campaign && review.campaign.logos &&
-        <div className="review--content--campaign" >
-          <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42} />
+        <div className="review--content--campaign">
+          <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42}/>
         </div>
         }
       </div>

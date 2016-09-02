@@ -91,16 +91,17 @@ export default class ReviewRow extends React.Component {
    *
    * @param video {Object}
    * @param pid {string}
+   * @param content {string}
    * @return {XML}
    */
-  getVideoContainer(video, pid) {
+  getVideoContainer(video, pid, content) {
     const resolution = video.resolutions.slice(-1)[0];
     const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
     return (
       <div className="review--content--videoplayer" >
-        <a href={`/materiale/${pid}`} className="compact-review--video--container" >
+        <a title={content} href={`/materiale/${pid}`} className="compact-review--video--container" >
           <img src={videoImageSrc} />
         </a>
       </div>
@@ -113,12 +114,11 @@ export default class ReviewRow extends React.Component {
     const title = this.getTitle();
     const review = this.props.review;
     const likes = this.state.likes;
-    const video = review.video ? this.getVideoContainer(review.video, review.pid) : null;
-
     let content = review.content ? review.content : '';
     if (content.length > 200) {
       content = content.slice(0, 197) + '...';
     }
+    const video = review.video ? this.getVideoContainer(review.video, review.pid, content) : null;
     content = content.split(/\r+\n/).join('<br />');
 
     const isLikedByActiveUser = likes.includes(activeUser.id);
@@ -138,8 +138,10 @@ export default class ReviewRow extends React.Component {
         </div>
 
         <div className="review--content--container" >
-          {
-          <div className="review--content" dangerouslySetInnerHTML={{__html: video && video || content}} /> // eslint-disable-line react/no-danger
+          { video &&
+          <div className="review--content">{video}</div>
+            ||
+          <div className="review--content" dangerouslySetInnerHTML={{__html: content}} /> // eslint-disable-line react/no-danger
           }
           <div className="review--content--actions" >
             <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />

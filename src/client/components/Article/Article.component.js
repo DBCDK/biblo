@@ -67,7 +67,8 @@ export class Article extends React.Component {
       <PageLayout
         searchState={this.props.searchState}
         searchActions={this.props.searchActions}
-        profileState={this.props.profileState}>
+        profileState={this.props.profileState}
+        globalState={this.props.globalState}>
         {content}
       </PageLayout>
     );
@@ -80,7 +81,8 @@ Article.propTypes = {
   widgetState: React.PropTypes.object.isRequired,
   widgetActions: React.PropTypes.object.isRequired,
   searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  searchActions: React.PropTypes.object.isRequired,
+  globalState: React.PropTypes.object.isRequired
 };
 
 export default connect(
@@ -89,7 +91,8 @@ export default connect(
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
-      widgetState: state.widgetReducer
+      widgetState: state.widgetReducer,
+      globalState: state.globalReducer
     };
   },
 

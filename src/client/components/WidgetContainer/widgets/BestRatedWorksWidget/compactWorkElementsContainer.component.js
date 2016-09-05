@@ -22,7 +22,7 @@ export class CompactWorkElementsContainer extends Component {
 
     let spinner = <span />;
 
-    if (this.props.isLoading) {
+    if (this.props.isLoading || elements.length === 0) {
       spinner = (
         <div className="compact-works--spinner-container">
           <Icon glyph={spinnerSvg} height={150} width={150}/>

@@ -17,13 +17,13 @@ export class CampaignCertificate extends Component {
     super(props);
   }
 
-  renderHeaderAndFooter(profile, branchShortName, baseurl, basepath) {
+  renderHeaderAndFooter(profile, branchShortName, type, baseurl, basepath) {
     return (
       <div>
         <div id="pageHeader-first">
         </div>
         <div id="pageHeader">
-          <img className="profile-image" src={baseurl + profile.image.url.square}/>
+          {type !== 'group' && <img className="profile-image" src={baseurl + profile.image.url.square}/> || ''}
           <span className="profile-name"><span
             dangerouslySetInnerHTML={{__html: profile.displayName}}/> fra {branchShortName}</span>
         </div>
@@ -38,6 +38,8 @@ export class CampaignCertificate extends Component {
   }
 
   renderFrontPage(profile, campaign, branchShortName, contributions) {
+
+    const dimplomaText = campaign.type === 'group' && 'bidrag til' || 'anmeldelser til';
 
     return (
       <div className="frontpage">
@@ -54,23 +56,11 @@ export class CampaignCertificate extends Component {
             </div>
             <h3 className="name" dangerouslySetInnerHTML={{__html: profile.displayName}}/>
           </div>
-
-          {campaign.type !== 'group' &&
-          <div>
-            <div>har oprettet</div>
-            <div className="count">
-              {contributions.group.postsCount}
-            </div>
-            <div>indlæg til {campaign.campaignName}</div>
+          <div>har lavet</div>
+          <div className="count">
+            {campaign.type === 'group' && contributions.group.postsCount || contributions.review.reviewsCount}
           </div>
-          ||
-          <div>
-            <div>har læst og anmeldt</div>
-            <div className="count">
-              {contributions.review.reviewsCount}
-            </div>
-            <div>bøger til {campaign.campaignName}</div>
-          </div>}
+          <div>{dimplomaText} {campaign.campaignName}</div>
           <div className="frontpage--biblo-approves-logo">
             <img src="/images/biblo_logo_godkendt-af.png"/>
           </div>
@@ -115,7 +105,7 @@ export class CampaignCertificate extends Component {
         <div className="video-image--wrapper">
           {renderVideoGroupPost(contribution)}
           <img className="overlay" src="/images/video_thumbnail_overlay.png"/>
-      </div>);
+        </div>);
     }
     else if (contribution.image) {
       content = (<img src={contribution.image}/>);
@@ -193,7 +183,7 @@ export class CampaignCertificate extends Component {
 
     return (
       <div>
-        {this.renderHeaderAndFooter(profile, branchShortName, baseurl, basepath)}
+        {this.renderHeaderAndFooter(profile, branchShortName, campaign.type, baseurl, basepath)}
         {this.renderFrontPage(profile, campaign, branchShortName, contributions)}
 
         <div className="group-contributions">

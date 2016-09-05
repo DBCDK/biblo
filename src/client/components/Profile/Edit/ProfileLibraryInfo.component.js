@@ -12,7 +12,8 @@ export class ProfileLibraryInfo extends React.Component {
 
     this.state = {
       selected: -1,
-      visible: false
+      visible: false,
+      hideLoanerId: true
     };
   }
 
@@ -154,12 +155,17 @@ export class ProfileLibraryInfo extends React.Component {
         <InputField
           error={this.props.errorObj.loanerId}
           onChangeFunc={this.props.loanerIdChangeFunc}
-          type="text"
+          type={this.state.hideLoanerId && 'password' || 'text'}
           name="loanerId"
           title="Dit lånernummer"
           placeholder="Lånernummer"
+          defaultValue={this.props.favoriteLibrary.loanerId}
           required={this.props.requireAll}
+          autocomplete="off"
         />
+        <div className="library--hide-loanerid">
+          <label><input type="checkbox" defaultChecked={this.state.hideLoanerId} onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}/> Skjul lånernummer</label>
+        </div>
 
         <InputField
           error={this.props.errorObj.pincode}
@@ -168,7 +174,9 @@ export class ProfileLibraryInfo extends React.Component {
           name="pincode"
           title="Din pinkode"
           placeholder="Pinkode"
+          defaultValue={this.props.favoriteLibrary.pincode}
           required={this.props.requireAll}
+          autocomplete="off"
         />
       </div>
     );

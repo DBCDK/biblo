@@ -28,8 +28,8 @@ export default class ProfileForm extends React.Component {
       search: props.search,
       birthday: props.birthday,
       fullName: props.fullName,
-      loanerId: '',
-      pincode: ''
+      loanerId: (props.favoriteLibrary || {}).loanerId || '',
+      pincode: (props.favoriteLibrary || {}).pincode || ''
     };
   }
 

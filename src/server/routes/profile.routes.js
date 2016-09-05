@@ -153,11 +153,11 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, a
     // fetch library details and attach to favorite library
     if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
       const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;
-      fullProfile.favoriteLibrary = {
+      fullProfile.favoriteLibrary = Object.assign({}, fullProfile.favoriteLibrary, {
         libraryId: agency.agencyId,
         libraryName: getAgencyName(agency), // see github #22
         libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
-      };
+      });
     }
 
     res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});

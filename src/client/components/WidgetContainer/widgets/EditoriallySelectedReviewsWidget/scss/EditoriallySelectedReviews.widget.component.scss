@@ -4,6 +4,11 @@
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
+
+  .editorially-selected-reviews-widget--spinner-container {
+    text-align: center;
+    padding-top: 50px;
+  }
 }
 
 .editorial-reviews--review {
@@ -146,6 +151,7 @@
 
   .icon {
     fill: #938ee9;
-    margin-bottom:-1px;
+    margin-bottom: -1px;
   }
+
 }

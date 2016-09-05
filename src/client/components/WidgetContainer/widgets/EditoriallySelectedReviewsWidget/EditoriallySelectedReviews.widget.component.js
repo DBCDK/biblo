@@ -13,6 +13,7 @@ import Icon from '../../../General/Icon/Icon.component';
 
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
 import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
+import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg'
 
 import './scss/EditoriallySelectedReviews.widget.component.scss';
 
@@ -121,6 +122,10 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
             {this.state.expanded ? ' VIS FÆRRE' : ' VIS FLERE'}
           </a>
           <hr />
+        </div>
+          ||
+        <div className="editorially-selected-reviews-widget--spinner-container">
+          <Icon glyph={spinnerSvg} height={150} width={150}/>
         </div>
         }
       </div>

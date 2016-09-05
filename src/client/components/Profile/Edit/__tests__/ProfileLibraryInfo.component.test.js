@@ -7,11 +7,13 @@ import React from 'react';
 import {assert} from 'chai';
 import sinon from 'sinon';
 import sd from 'skin-deep';
+import $ from 'teaspoon';
 
 import {ProfileLibraryInfo} from '../ProfileLibraryInfo.component';
 
 describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
-  const noop = () => {};
+  const noop = () => {
+  };
   const emptyObj = {};
 
   /**
@@ -105,7 +107,8 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
 
     const event = {
       key: 'Enter',
-      preventDefault: () => {}
+      preventDefault: () => {
+      }
     };
 
     instance.state.selected = 0;
@@ -131,5 +134,39 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
 
     instance.arrowKeyPressed(true);
     assert.equal(instance.state.selected, 0);
+  });
+
+  it('Should toggle loanerId password field', () => {
+    const libraryInfo = $(<ProfileLibraryInfo
+      favoriteLibrary={emptyObj}
+      unselectLibraryFunction={noop}
+      searchAction={noop}
+      libraryId={''}
+      loanerIdChangeFunc={noop}
+      pincodeChangeFunc={noop}
+      searchElements={searchElements}
+    />).render();
+    assert.equal('password', libraryInfo.find('input[name=loanerId]')[0].type);
+    libraryInfo.find('input[type=checkbox]').trigger('click');
+    assert.equal('text', libraryInfo.find('input[name=loanerId]')[0].type);
+    libraryInfo.find('input[type=checkbox]').trigger('click');
+    assert.equal('password', libraryInfo.find('input[name=loanerId]')[0].type);
+
+
+  });
+
+  it('Should toggle loanerId password field', () => {
+    const libraryInfo = $(<ProfileLibraryInfo
+      favoriteLibrary={{loanerId: 1234123412, pincode: 1234}}
+      unselectLibraryFunction={noop}
+      searchAction={noop}
+      libraryId={'DK-1234'}
+      loanerIdChangeFunc={noop}
+      pincodeChangeFunc={noop}
+      searchElements={searchElements}
+    />).render();
+    assert.equal('1234123412', libraryInfo.find('input[name=loanerId]')[0].value);
+    assert.equal('1234', libraryInfo.find('input[name=pincode]')[0].value);
+    assert.equal('DK-1234', libraryInfo.find('input[name=libraryId]')[0].value);
   });
 });

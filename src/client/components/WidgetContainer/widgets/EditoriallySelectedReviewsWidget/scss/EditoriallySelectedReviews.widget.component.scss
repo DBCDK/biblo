@@ -64,8 +64,8 @@
   }
 
   .editorial-reviews--review--cover-image {
-    width: 133px;
-    height: 200px;
+    max-width: 133px;
+    max-height: 200px;
 
     img {
       object-fit: cover;
@@ -89,6 +89,7 @@
     margin: 0;
     text-overflow: ellipsis;
     display: none;
+    text-align: left;
 
     @include min-screen($tablet) {
       display: block;
@@ -126,7 +127,7 @@
 
 .editorially-selected-reviews-widget--show-more-button--container {
   text-align: center;
-  margin-top: 15px;
+  padding: 15px 0 15px 0;
 
   hr {
     visibility: hidden;
@@ -138,9 +139,7 @@
   font-family: $header-font;
   color: $black;
   padding: 5px;
-  margin: 20px;
-  margin-top: 15px;
-  margin-bottom: 30px;
+  margin: 15px 20px 30px 20px;
   border: #e2e2ed solid 1px;
   border-radius: 5px;
   background-color: #FFFFFF;

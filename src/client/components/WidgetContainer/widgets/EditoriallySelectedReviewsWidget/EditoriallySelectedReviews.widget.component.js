@@ -47,6 +47,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       skip: 0,
       limit: reviewIds.length,
       where: {
+        markedAsDeleted: null,
         or: reviewIds.map(id => ({id}))
       },
       limitReviewContent: maxChars
@@ -105,11 +106,13 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
   render() {
     const reviews = this.state.reviews.slice(0, this.state.expanded && this.state.reviews.length || 2);
     const works = this.props.widgetReducerProp.works;
+    const showMoreButton = reviews.length > 0 && Object.keys(works).length > 0;
 
     return (
       <div className="editorially-selected-reviews-widget">
         {reviews.map(review => this.renderReview(review, works[review.pid]))}
 
+        {showMoreButton &&
         <div className="editorially-selected-reviews-widget--show-more-button--container">
           <a
             className="editorially-selected-reviews-widget--show-more-button"
@@ -119,6 +122,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
           </a>
           <hr />
         </div>
+        }
       </div>
     );
   }

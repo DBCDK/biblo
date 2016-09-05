@@ -5,11 +5,8 @@
 
 import express from 'express';
 
-import {pick, find, filter} from 'lodash';
-
 import {config} from '@dbcdk/biblo-config';
 import twemoji from 'twemoji';
-import Logger from 'dbc-node-logger';
 import pdf from 'html-pdf';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
@@ -25,7 +22,6 @@ import {
 } from '../middlewares/auth.middleware';
 
 const CampaignRoutes = express.Router();
-const logger = new Logger();
 const proxy = config.get('Proxy.http_proxy');
 
 /**
@@ -55,10 +51,10 @@ function generatePDFFromHTML(html, baseUrl) {
     format: 'A4',
     base: baseUrl,
     header: {
-      height: '10mm'
+      height: '25mm'
     },
     footer: {
-      height: '20mm',
+      height: '20mm'
     },
     margin: '1cm',
     phantomArgs
@@ -137,18 +133,7 @@ async function getCampaignHTML(req) {
       </html>`;
 }
 
-
-CampaignRoutes.get(/^\/bevis\/([0-9]+).html/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
-  try {
-  const html = await getCampaignHTML(req);
-  res.send(html);
-  } catch (e) {
-    console.log(e);
-  }
-
-});
-
-CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
+CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async(req, res, next) => {
   const baseurl = `http://localhost:${req.app.get('port')}`;
   try {
     const html = await getCampaignHTML(req, res);

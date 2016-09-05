@@ -63,7 +63,7 @@ const getFullProfileTransform = {
           small: '/no_profile.png',
           medium: '/no_profile.png',
           large: '/no_profile.png',
-          square: '/no_profile.png',
+          square: '/no_profile.png'
         }
       };
     }

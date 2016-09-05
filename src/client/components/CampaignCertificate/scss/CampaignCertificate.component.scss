@@ -1,85 +1,64 @@
 @import 'tools';
 @import 'global';
 
-.fullwidth {
-  width: 100%;
-}
 
+// General
 .content {
-  max-width: 600px;
+  max-width: 500px;
   margin: auto;
-}
-
-.profile {
-  text-align: center;
-  .image {
-    @include profileImage(80px);
-    display: inline-block;
-  }
-  .name {
-    margin-top: 0;
-    font-weight: 900;
-  }
-}
-
-.material--count {
-  font-size: 30px;
-  font-weight: 900;
-  color: $turquoise;
-}
-
-.pagebreak {
-  page-break-after: always;
-}
-
-.frontpage--campaign-logo {
-  margin: auto;
-  height: 120px;
-  display: block;
-}
-
-.review-campaign--frontpage {
-  text-align: center;
-
-  h1 {
-    margin-top: 2px;
-    margin-bottom: 2px;
-    font-size: 45pt;
-  }
 }
 
 .emoji {
   width: 5px;
 }
 
-.frontpage--username > span {
-  font-size: 22pt;
-  min-width: 200px;
-  display: inline-block;
 
+// Frontpage
+.frontpage--header {
+  text-align: center;
+  border-bottom: dotted 1px;
+  margin-bottom: 30px;
   .emoji {
     width: 15px;
   }
+  h1 {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 45pt;
+  }
+  .count {
+    font-size: 30px;
+    font-weight: 900;
+    color: $turquoise;
+  }
+  .profile {
+    text-align: center;
+    .image {
+      @include profileImage(80px);
+      display: inline-block;
+    }
+    .name {
+      margin-top: 0;
+      font-weight: 900;
+    }
+  }
 }
 
-.frontpage--header {
-  border-bottom: dotted 1px;
-  margin-bottom: 30px;
+.frontpage--campaign-logo {
+  margin: auto;
+  height: 100px;
+  display: block;
 }
 
-.frontpage--info {
-
-}
-
-.frontpage--biblo-approves--logo {
+.frontpage--biblo-approves-logo {
   text-align: right;
-  padding: 30px 0;
+  padding: 20px 0;
   img {
     height: 40px;
   }
 }
 
-.review-frontpage--person-data {
+.frontpage--person-data {
   border-spacing: 15px 5px;
   margin: auto;
   text-align: left;
@@ -99,40 +78,21 @@
   }
 }
 
-.compact-group-post-element--video-post {
-  z-index: 6;
-  margin-bottom: 5px;
-  position: relative;
-
-  img {
-    z-index: 7;
-    height: 130px;
-    width: 230px;
-    object-fit: cover;
-    background: url('/video_behandler.png') no-repeat center 0;
-    background-size: cover;
-  }
-
-  .after {
-    z-index: 8;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 230px;
-    height: 130px;
-    color: $white;
-    background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
-    background-size: cover;
-  }
-}
+// Contribution
 
 .contribution {
   display: table;
-  width: 100%;
+  width: 500px;
   font-size: 10px;
-  margin-bottom: 40px;
+  margin: 40px auto;
+  padding-bottom: 40px;
+  page-break-inside: avoid;
+  border-bottom: 1px solid #eeeeee;
   img {
     width: 100%;
+  }
+  h3 {
+    margin: 0;
   }
 
   & > * {
@@ -140,7 +100,7 @@
     vertical-align: top;
   }
   & > * + * {
-    padding-left: 2em;
+    padding-left: 1em;
   }
 
     .emoji {
@@ -148,34 +108,74 @@
   }
 
   .work {
-    width: 140px;
+    width: 125px;
   }
-  .campaign-logo img {
+  .campaign-logo {
     width: 50px;
   }
   .cover-image {
-    img {
-      width: 100px;
-    }
+    width: 75px;
   }
 
   .post--content {
-    width: 100%;
+    width: 250px;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
   }
 
-  .profile-image {
+  .group--title {
+    color: $melrose;
+  }
+  .post--date{
+    color: $light-gray;
+  }
 
+  .rating {
+    display: block;
+    margin-top: 1em;
+    & > * {
+      display: inline;
+    }
+    .star-passive {
+      color: $light-gray;
+    }
+  }
+  .profile-image {
+    @include profileImage(40px);
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+}
+
+.video-image--wrapper {
+  position: relative;
+  .overlay {
+    position: absolute;
+    top: 0;
+    height: 130px;
+    width: 240px;
   }
 }
 
+.compact-group-post-element--video-post {
+  z-index: auto;
+  margin-bottom: 5px;
+  img {
+   height: 130px;
+    width: 240px;
+    object-fit: cover;
+    background: url('/video_behandler.png') no-repeat center 0;
+    background-size: cover;
+  }
 
-.review-contributions {
-  margin-top: 40px;
+  .after {
+    display: none;
+  }
 }
+
 
 
 // Header and Footer elements
@@ -183,9 +183,12 @@
 #pageHeader {
   font-weight: 900;
   font-size: 14px;
+  height: 200px;
+  width: 500px;
+  margin: auto;
 
   .profile-image {
-    @include profileImage(50px);
+    @include profileImage(40px);
     display: inline-block;
     vertical-align: middle;
     margin-right: 20px;

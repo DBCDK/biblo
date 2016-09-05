@@ -11,16 +11,21 @@ const WorkRoutes = express.Router();
  */
 function getAuthenticatedToken(req) {
   const profile = req.session.passport.user.profile.profile;
-  if (req.session.token && req.session.token.expires > Date.now()) {
+  const {libraryId, loanerId, pincode} = profile.favoriteLibrary;
+
+  // #303: We need to validate the user has not changed favourite library details.
+  const validateString = `${loanerId}@${libraryId}:${pincode}`;
+
+  if (req.session.token && req.session.token.expires > Date.now() && req.session.token.validate === validateString) {
     return req.session.token.token;
   }
-  const {libraryId, loanerId, pincode} = profile.favoriteLibrary;
   return req.callServiceProvider('authenticate', {
     userId: loanerId,
     password: pincode,
     libraryId: libraryId
   }).then(response => {
     req.session.token = response[0];
+    req.session.token.validate = validateString;
     req.session.save();
     return req.session.token.token;
   });

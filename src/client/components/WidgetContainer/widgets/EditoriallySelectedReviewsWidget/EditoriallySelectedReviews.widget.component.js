@@ -13,7 +13,7 @@ import Icon from '../../../General/Icon/Icon.component';
 
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
 import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
-import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg'
+import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg';
 
 import './scss/EditoriallySelectedReviews.widget.component.scss';
 

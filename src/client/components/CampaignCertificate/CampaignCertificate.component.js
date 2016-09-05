@@ -116,7 +116,7 @@ export class CampaignCertificate extends Component {
 
   renderGroupContributions(contributions, campaign, profile) {
     const posts = contributions.group.data;
-    return posts.map(post => {
+    return posts.map((post, key) => {
       const group = post.campaign.group;
 
       const cDate = new Date(post.timeCreated || Date.now());
@@ -124,9 +124,9 @@ export class CampaignCertificate extends Component {
 
       return (
         <div key={`post_${post.id}`} className="contribution">
+          <h3 className="contribution--key">{key + 1}.</h3>
           <div className="post--profile">
             <img className="profile-image" src={profile.image.url.square}/>
-
           </div>
           <div className="post--header">
             <h3>Indlæg i <span className="group--title" dangerouslySetInnerHTML={{__html: group.name}}/></h3>
@@ -146,12 +146,12 @@ export class CampaignCertificate extends Component {
 
   renderReviewContributions(contributions, campaign, works) {
     const reviews = contributions.review.data;
-    return reviews.map(review => {
+    return reviews.map((review, key) => {
       const work = works[review.pid] || {};
       const creator = work.workType === 'book' ? `${work.creator}` : '';
       return (
         <div key={`review_${review.id}`} className="contribution">
-
+          <h3 className="contribution--key">{key + 1}.</h3>
           <div className="cover-image">
             <img src={work.coverUrl}/>
           </div>

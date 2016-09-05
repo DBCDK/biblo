@@ -71,11 +71,11 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
           <div className="editorial-reviews--review--left">
             <a className="editorial-reviews--review--profile-image" href={`/profil/${review.owner.id}`}>
-              <img src={review.owner.image} />
+              <img src={review.owner.image}/>
             </a>
 
             <div className="editorial-reviews--review--cover-image">
-              <img src={coverUrl} />
+              <img src={coverUrl}/>
             </div>
           </div>
 
@@ -85,11 +85,11 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
             </h4>
 
             <div className="editorial-reviews--review--rating-container">
-              <Rating pid={review.pid} rating={review.rating} />
+              <Rating pid={review.pid} rating={review.rating}/>
             </div>
 
             <div className="editorial-reviews--review--content">
-              "<span dangerouslySetInnerHTML={{__html: review.html}} />"
+              "<span dangerouslySetInnerHTML={{__html: review.html}}/>"
             </div>
           </div>
 
@@ -100,7 +100,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       );
     }
 
-    return <span key={`review_${review.id}`} />;
+    return <span key={`review_${review.id}`}/>;
   }
 
   render() {

@@ -30,6 +30,7 @@ const materialSvgs = {
   literature: book,
   ebook,
   film,
+  movie: film,
   flag,
   game,
   group,
@@ -59,7 +60,7 @@ export class CompactReviewElement extends Component {
     htmlContent = '“' + htmlContent + '”';
 
     return (
-      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}} ></span>
+      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}}/>
     );
   }
 
@@ -67,30 +68,30 @@ export class CompactReviewElement extends Component {
     const coverUrl = this.props.coverImages[this.props.review.pid] || '/images//covers/other.png';
 
     return (
-      <div className="compact-review--container" >
-        <div className="compact-review--review-author" >
+      <div className="compact-review--container">
+        <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl} ><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a>
+          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}}/></a>
         </div>
 
-        <div className="compact-review--artwork--container" >
-          <a href={ownerProfileUrl} className="compact-review--owner-image--container" >
-            <img src={review.owner.image} />
+        <div className="compact-review--artwork--container">
+          <a href={ownerProfileUrl} className="compact-review--owner-image--container">
+            <img src={review.owner.image}/>
           </a>
-          <a href={workUrl} className="compact-review--cover-image--container" >
+          <a href={workUrl} className="compact-review--cover-image--container">
             <img
               className="compact-review--cover-image"
-              src={coverUrl} />
+              src={coverUrl}/>
           </a>
         </div>
 
-        <div className="compact-review--review-content" >
-          <div className="compact-review--review-content--content" >
-            <Icon glyph={materialSvgs[review.worktype]} width={25} height={25} className="icon compact-review-worktype-icon" />
-            <a href={workUrl} >{this.getTextContent(review.html)}</a>
+        <div className="compact-review--review-content">
+          <div className="compact-review--review-content--content">
+            <Icon glyph={materialSvgs[review.worktype]} width={25} height={25} className="icon compact-review-worktype-icon"/>
+            <a href={workUrl}>{this.getTextContent(review.html)}</a>
           </div>
-          <div className="compact-review--review-content--rating" >
-            <Rating rating={review.rating} pid={review.pid} />
+          <div className="compact-review--review-content--rating">
+            <Rating rating={review.rating} pid={review.pid}/>
           </div>
         </div>
       </div>
@@ -103,22 +104,22 @@ export class CompactReviewElement extends Component {
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
     return (
-      <div className="compact-review--container" >
-        <div className="compact-review--review-author" >
+      <div className="compact-review--container">
+        <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl} ><span dangerouslySetInnerHTML={{__html: review.owner.displayName}} /></a>
+          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}}/></a>
         </div>
 
-        <div className="compact-video-review--container" >
-          <a href={ownerProfileUrl} className="compact-review--owner-image--container" >
-            <img src={review.owner.image} />
+        <div className="compact-video-review--container">
+          <a href={ownerProfileUrl} className="compact-review--owner-image--container">
+            <img src={review.owner.image}/>
           </a>
-          <a href={workUrl} className="compact-review--video--container" >
-            <img src={videoImageSrc} />
-            <span className="after" />
+          <a href={workUrl} className="compact-review--video--container">
+            <img src={videoImageSrc}/>
+            <span className="after"/>
           </a>
-          <div className="compact-review--video-review-content--rating" >
-            <Rating rating={review.rating} pid={review.pid} />
+          <div className="compact-review--video-review-content--rating">
+            <Rating rating={review.rating} pid={review.pid}/>
           </div>
         </div>
       </div>
@@ -139,7 +140,7 @@ export class CompactReviewElement extends Component {
     }
 
     return (
-      <div className="compact-review--container--container" >
+      <div className="compact-review--container--container">
         {reviewContent}
       </div>
     );

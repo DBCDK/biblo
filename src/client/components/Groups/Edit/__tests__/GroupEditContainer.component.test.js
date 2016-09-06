@@ -77,6 +77,7 @@ describe('Test Group Edit Form component', () => {
 
   it('Check modals are rendered', () => {
     Profile.isModerator = true;
+    Group.moderation = {};
     UI.modal = {
       isOpen: true,
       children: 'delete'
@@ -84,17 +85,13 @@ describe('Test Group Edit Form component', () => {
     $root = $(component).render();
 
     assert.equal($root.find('.group-moderation.delete').length, 1);
-    assert.equal($root.find('.group-moderation--text')[0].innerText, 'Er du sikker på du vil slette gruppen:', 'Delete Group is rendered ');
-
     UI.modal.children = 'open';
     $root = $(component).render();
     assert.equal($root.find('.group-moderation.open').length, 1);
-    assert.equal($root.find('.group-moderation--text')[0].innerText, 'Er du sikker på du vil åbne gruppen:', 'Delete Open is rendered ');
 
     UI.modal.children = 'close';
     $root = $(component).render();
     assert.equal($root.find('.group-moderation.close').length, 1);
-    assert.equal($root.find('.group-moderation--text')[0].innerText, 'Er du sikker på du vil lukke gruppen:', 'Delete Open is rendered ');
   });
 
   it('Check moderation action is called', () => {

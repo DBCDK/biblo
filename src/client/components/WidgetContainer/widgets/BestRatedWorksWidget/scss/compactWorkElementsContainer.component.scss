@@ -1,18 +1,17 @@
 @import 'tools';
 
 .compact-works--container {
+  padding:15px;
+
   @include span(24);
-  margin-bottom: 40px;
   -webkit-overflow-scrolling: touch;
 
   &.closed {
-    height: 250px;
     overflow: hidden;
 
     @include max-screen($tablet - 1) {
       overflow-x: scroll;
       display: block;
-      white-space: nowrap;
     }
   }
 

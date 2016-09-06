@@ -13,6 +13,7 @@ import Icon from '../../../General/Icon/Icon.component';
 
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
 import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
+import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg';
 
 import './scss/EditoriallySelectedReviews.widget.component.scss';
 
@@ -47,6 +48,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       skip: 0,
       limit: reviewIds.length,
       where: {
+        markedAsDeleted: null,
         or: reviewIds.map(id => ({id}))
       },
       limitReviewContent: maxChars
@@ -70,11 +72,11 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
           <div className="editorial-reviews--review--left">
             <a className="editorial-reviews--review--profile-image" href={`/profil/${review.owner.id}`}>
-              <img src={review.owner.image} />
+              <img src={review.owner.image}/>
             </a>
 
             <div className="editorial-reviews--review--cover-image">
-              <img src={coverUrl} />
+              <img src={coverUrl}/>
             </div>
           </div>
 
@@ -84,11 +86,11 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
             </h4>
 
             <div className="editorial-reviews--review--rating-container">
-              <Rating pid={review.pid} rating={review.rating} />
+              <Rating pid={review.pid} rating={review.rating}/>
             </div>
 
             <div className="editorial-reviews--review--content">
-              "<span dangerouslySetInnerHTML={{__html: review.html}} />"
+              "<span dangerouslySetInnerHTML={{__html: review.html}}/>"
             </div>
           </div>
 
@@ -99,17 +101,19 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       );
     }
 
-    return <span key={`review_${review.id}`} />;
+    return <span key={`review_${review.id}`}/>;
   }
 
   render() {
     const reviews = this.state.reviews.slice(0, this.state.expanded && this.state.reviews.length || 2);
     const works = this.props.widgetReducerProp.works;
+    const showMoreButton = reviews.length > 0 && Object.keys(works).length > 0;
 
     return (
       <div className="editorially-selected-reviews-widget">
         {reviews.map(review => this.renderReview(review, works[review.pid]))}
 
+        {showMoreButton &&
         <div className="editorially-selected-reviews-widget--show-more-button--container">
           <a
             className="editorially-selected-reviews-widget--show-more-button"
@@ -119,6 +123,11 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
           </a>
           <hr />
         </div>
+          ||
+        <div className="editorially-selected-reviews-widget--spinner-container">
+          <Icon glyph={spinnerSvg} height={150} width={150}/>
+        </div>
+        }
       </div>
     );
   }

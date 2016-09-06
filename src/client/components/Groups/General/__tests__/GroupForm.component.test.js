@@ -17,7 +17,7 @@ describe('Test Group Form component', () => {
 
   it('Check component renders', () => {
     const imageSrc = 'dette er en billedekilde';
-
+    const moderation = 'this is for moderation links';
     const component = (
       <GroupForm
         changeColourAction={noop}
@@ -27,6 +27,7 @@ describe('Test Group Form component', () => {
         submit={noop}
         submitProgress={1}
         checkIfGroupNameExistsAction={noop}
+        moderation={moderation}
       />
     );
 
@@ -34,6 +35,7 @@ describe('Test Group Form component', () => {
     const dmn = ReactDOM.findDOMNode(dm);
 
     expect(dmn.innerHTML).toContain(imageSrc);
+    expect(dmn.innerHTML).toContain(moderation);
   });
 
   it('should trigger group name check asynchronously', (done) => {

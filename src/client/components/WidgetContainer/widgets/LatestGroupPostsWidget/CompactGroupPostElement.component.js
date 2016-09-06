@@ -27,7 +27,7 @@ export function renderVideoGroupPost(post) { // eslint-disable-line react/no-mul
   return (
     <div className="compact-group-post-element--video-post">
       <img src={videoImageSrc} />
-      <span className="after" />
+      <div className="after" />
     </div>
   );
 }

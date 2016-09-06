@@ -27,7 +27,7 @@ export default class Rating extends React.Component {
           key={`label_${id}`}
           className={rating >= i ? 'star-active' : 'star-passive'}
           htmlFor={id}
-          onClick={this.onChange.bind(this, i, rating, name)}
+          onClick={this.onChange.bind(this, i, rating)}
         >
           &#9733;
         </div>

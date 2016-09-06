@@ -1,67 +1,70 @@
 @import 'tools';
+@import 'global';
 
-.fullwidth {
-  width: 100%;
-}
 
-.pagebreak {
-  page-break-after: always;
-}
-
-.frontpage--campaign-logo {
+// General
+.content {
+  max-width: 500px;
   margin: auto;
-  height: 140px;
-  display: block;
-}
-
-.review-campaign--frontpage {
-  text-align: center;
-
-  h1 {
-    margin-top: 2px;
-    margin-bottom: 2px;
-    font-size: 45pt;
-  }
 }
 
 .emoji {
   width: 5px;
 }
 
-.frontpage--username > span {
-  font-size: 22pt;
-  min-width: 200px;
-  display: inline-block;
 
+// Frontpage
+.frontpage--header {
+  text-align: center;
+  border-bottom: dotted 1px;
+  margin-bottom: 30px;
   .emoji {
     width: 15px;
   }
-}
-
-.frontpage--username > span, .frontpage--biblo-approves--logo {
-  border-bottom: dotted 2px;
-}
-
-.frontpage--biblo-approves--logo {
-  height: 45px;
-  margin-bottom: 10px;
-  padding: 55px;
-
-  img {
-    height: 45px;
-    position: absolute;
-    right: 5px;
+  h1 {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 45pt;
+  }
+  .count {
+    font-size: 30px;
+    font-weight: 900;
+    color: $turquoise;
+  }
+  .profile {
+    text-align: center;
+    .image {
+      @include profileImage(80px);
+      display: inline-block;
+    }
+    .name {
+      margin-top: 0;
+      font-weight: 900;
+    }
   }
 }
 
-.review-frontpage--person-data {
+.frontpage--campaign-logo {
   margin: auto;
-  border-spacing: 15px;
-  width: 500px;
+  height: 100px;
+  display: block;
+}
+
+.frontpage--biblo-approves-logo {
+  text-align: right;
+  padding: 20px 0;
+  img {
+    height: 40px;
+  }
+}
+
+.frontpage--person-data {
+  border-spacing: 15px 5px;
+  margin: auto;
   text-align: left;
   margin-bottom: 55px;
   text-overflow: ellipsis;
-  font-size: 10pt;
+  font-size: 14px;
 
   tr {
     td {
@@ -69,67 +72,138 @@
     }
 
     td:nth-child(2), td:nth-child(4) {
-      width: 250px;
-      border-bottom: dotted 2px;
+      width: 300px;
+      border-bottom: dotted 1px;
     }
   }
 }
 
-.compact-group-post-element--video-post {
-  z-index: 6;
-  margin-bottom: 5px;
-  position: relative;
+// Contribution
 
+.contribution {
+  display: table;
+  width: 500px;
+  font-size: 10px;
+  margin: 40px auto;
+  padding-bottom: 40px;
+  page-break-inside: avoid;
+  border-bottom: 1px solid #eeeeee;
   img {
-    z-index: 7;
+    width: 100%;
+  }
+  h3 {
+    margin: 0;
+  }
+
+  & > * {
+    display: table-cell;
+    vertical-align: top;
+  }
+  & > * + * {
+    padding-left: 1em;
+  }
+
+    .emoji {
+    width: 5px;
+  }
+
+  .work {
+    width: 125px;
+  }
+  .campaign-logo {
+    width: 50px;
+  }
+  .cover-image {
+    width: 75px;
+  }
+
+  .post--content {
+    width: 250px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  .group--title {
+    color: $melrose;
+  }
+  .post--date{
+    color: $light-gray;
+  }
+
+  .rating {
+    display: block;
+    margin-top: 1em;
+    & > * {
+      display: inline;
+    }
+    .star-passive {
+      color: $light-gray;
+    }
+  }
+  .profile-image {
+    @include profileImage(40px);
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+}
+
+.video-image--wrapper {
+  position: relative;
+  .overlay {
+    position: absolute;
+    top: 0;
     height: 130px;
-    width: 230px;
+    width: 240px;
+  }
+}
+
+.compact-group-post-element--video-post {
+  z-index: auto;
+  margin-bottom: 5px;
+  img {
+   height: 130px;
+    width: 240px;
     object-fit: cover;
     background: url('/video_behandler.png') no-repeat center 0;
     background-size: cover;
   }
 
   .after {
-    z-index: 8;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 230px;
-    height: 130px;
-    color: $white;
-    background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
-    background-size: cover;
+    display: none;
   }
 }
 
-.contribution--post-container, .contribution--reivew-container {
-  font-size: 12pt;
-  page-break-inside: avoid;
-  border-top: solid $light-gray 1px;
-  border-bottom: solid $light-gray 1px;
 
-  .emoji {
-    width: 5px;
-  }
 
-  .post--content {
-    margin: 10px;
-    padding: 10px;
-    background-color: $light-gray;
-    border-radius: 10px;
+// Header and Footer elements
+
+#pageHeader {
+  font-weight: 900;
+  font-size: 14px;
+  height: 200px;
+  width: 500px;
+  margin: auto;
+
+  .profile-image {
+    @include profileImage(40px);
     display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
   }
+}
 
-  .review--cover-image {
-    display: inline-block;
-    max-height: 130px;
-    max-width: 280px;
-    margin: 10px;
-    padding: 10px;
-
-    img {
-      max-height: 130px;
-      max-width: 280px;
-    }
+#pageFooter {
+  text-align: right;
+  img {
+    width: 150px;
+  }
+}
+#pageFooter-first {
+  text-align: center;
+  img {
+    height: 45px;
   }
 }

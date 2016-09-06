@@ -298,7 +298,7 @@ async function fetchGroupData(params, req, res, update = {}) {
           ]
         }
       }).then((result) => {
-        result[0].id *= -1;
+        result[0].id = Math.abs(result[0].id);
         return Promise.resolve(result);
       });
     }

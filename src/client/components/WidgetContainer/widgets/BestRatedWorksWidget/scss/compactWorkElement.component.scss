@@ -19,8 +19,8 @@
 
   @include max-screen($tablet - 1) {
     overflow: hidden;
-    text-align: center;
-    width: 175px;
+    text-align: right;
+    width: 150px;
   }
 
   @include min-screen($tablet) {

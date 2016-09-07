@@ -73,6 +73,7 @@ export function processUserStatusCheck(job, done) {
       const userStatus = serviceProviderData[0].result;
 
       if (!userStatus) {
+        logger.error('Could not get user status', {user: job.data});
         return reject('Could not get user status');
       }
 

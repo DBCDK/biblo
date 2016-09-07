@@ -30,6 +30,10 @@ describe('test group actions', () => {
         expect(store.getActions()).toEqual(expected);
         xhrMock.restore();
         done();
+      })
+      .catch(() => {
+        console.error('Promise was rejected');
+        done('Promise was rejected');
       });
   });
 
@@ -71,6 +75,7 @@ describe('test group actions', () => {
       })
       .catch(() => {
         console.error('Promise was rejected');
+        done('Promise was rejected');
       });
   });
 });

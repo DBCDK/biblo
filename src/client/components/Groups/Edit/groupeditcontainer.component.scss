@@ -7,40 +7,40 @@
   font-weight: 600;
 }
 
-.group-delete {
+.group-moderation {
   padding: 0 2em 2em;
   @include max-screen($tablet - 1px) {
     padding: 0 1em 1em;
   }
 }
-.group-delete--text {
+.group-moderation--text {
   margin-bottom: 0px;
 }
 
-.group-delete--title {
+.group-moderation--title {
   font-size: 1.11em;
   color: $gray;
   margin-bottom: 2em;
 }
 
-.group-delete--image {
+.group-moderation--image {
   text-align: center;
   img {
     @extend %coverimage;
   }
 }
 
-.group-delete--cancel {
+.group-moderation--cancel {
   @include button($melrose);
   position: absolute;
 }
 
-.group-delete--done {
+.group-moderation--done--button {
   @include button($melrose);
   display: block;
 }
 
-.group-delete--confirm {
+.group-moderation--confirm {
   @include button($carnation);
   display: block;
   margin-left: 140px;
@@ -50,6 +50,12 @@
   }
 }
 
-.group-delete--deleted {
+.group-moderation--done {
   text-align: center;
+}
+
+.group-form--moderation {
+  a {
+    margin-left: 1em;
+  }
 }

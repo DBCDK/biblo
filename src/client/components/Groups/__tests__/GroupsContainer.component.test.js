@@ -53,6 +53,5 @@ describe('GroupsContainer component tests', () => {
     );
     expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent)
       .toEqual('Opret ny gruppePopulære grupperNyeste grupper');
-
   });
 });

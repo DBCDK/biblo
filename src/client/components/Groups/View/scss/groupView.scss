@@ -60,6 +60,9 @@
   h3 {
     @extend %h3-body;
   }
+  .message {
+    margin: 1em;
+  }
 }
 
 .group--follow {

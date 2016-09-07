@@ -34,6 +34,8 @@ import * as searchActions from '../../../Actions/search.actions';
 import * as workActions from '../../../Actions/work.actions';
 import * as coverImageActions from '../../../Actions/coverImage.actions';
 import * as profileActions from '../../../Actions/profile.actions';
+import * as userstatusActions from '../../../Actions/userstatus.actions';
+
 
 // SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
@@ -361,6 +363,8 @@ export class ProfileDetailContainer extends React.Component {
           messages={this.props.profile.userMessages.messages}
           readAction={this.props.profileActions.asyncMarkUserMessageAsRead}
           deleteAction={this.props.profileActions.asyncDeleteUserMessage}
+          renewLoanAction={this.props.userstatusActions.asyncRenewLoan}
+          userstatusState={this.props.userstatusState}
         />
       );
 
@@ -543,6 +547,8 @@ ProfileDetailContainer.propTypes = {
   ui: React.PropTypes.object.isRequired,
   coverImages: React.PropTypes.object.isRequired,
   coverImageActions: React.PropTypes.object.isRequired,
+  userstatusActions: React.PropTypes.object.isRequired,
+  userstatusState: React.PropTypes.object.isRequired,
   works: React.PropTypes.object.isRequired,
   workActions: React.PropTypes.object.isRequired,
   globalState: React.PropTypes.object.isRequired
@@ -568,7 +574,8 @@ export default connect(
       reviews: state.reviewReducer,
       coverImages: state.coverImageReducer,
       works: state.workReducer,
-      globalState: state.globalReducer
+      globalState: state.globalReducer,
+      userstatusState: state.userstatusReducer
     };
   },
 
@@ -584,7 +591,8 @@ export default connect(
       uiActions: bindActionCreators(uiActions, dispatcher),
       coverImageActions: bindActionCreators(coverImageActions, dispatcher),
       profileActions: bindActionCreators(profileActions, dispatcher),
-      workActions: bindActionCreators(workActions, dispatcher)
+      workActions: bindActionCreators(workActions, dispatcher),
+      userstatusActions: bindActionCreators(userstatusActions, dispatcher)
     };
   }
 )(ProfileDetailContainer);

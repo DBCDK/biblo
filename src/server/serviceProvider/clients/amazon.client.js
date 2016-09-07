@@ -75,7 +75,7 @@ function setUserMessageRead(docClient, tableName, {messageType, createdEpoch}) {
 
 /**
  * Soft delete a message.
- * The message is only marked as deleted, but not deleted fro Dynamo.
+ * The message is only marked as deleted, but not removed fro Dynamo.
  *
  * @param docClient
  * @param {String} tableName
@@ -116,7 +116,7 @@ function deleteUserMessage(docClient, tableName, {messageType, createdEpoch}) {
 /**
  * Setting the necessary paramerters for the client to be usable.
  *
- * @param {Object} config Config object with the necessary parameters to use the webservice.
+ * @param {Object} configuration Config object with the necessary parameters to use the webservice.
  */
 export default function AWSClient(configuration = null) {
   if (!configuration) {

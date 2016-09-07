@@ -74,7 +74,9 @@ function setUserMessageRead(docClient, tableName, {messageType, createdEpoch}) {
 }
 
 /**
- *  Delete a message.
+ * Soft delete a message.
+ * The message is only marked as deleted, but not deleted fro Dynamo.
+ *
  * @param docClient
  * @param {String} tableName
  * @param {String} messageType

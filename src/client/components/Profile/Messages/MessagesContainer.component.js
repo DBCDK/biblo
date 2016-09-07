@@ -38,6 +38,8 @@ export default class MessagesContainer extends React.Component {
           message={msg}
           readAction={this.props.readAction}
           deleteAction={this.props.deleteAction}
+          renewLoanAction={this.props.renewLoanAction}
+          userstatusState={this.props.userstatusState}
         />
       );
     });
@@ -71,5 +73,7 @@ MessagesContainer.propTypes = {
   groupState: React.PropTypes.object.isRequired,
   messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   readAction: React.PropTypes.func.isRequired,
-  deleteAction: React.PropTypes.func.isRequired
+  deleteAction: React.PropTypes.func.isRequired,
+  renewLoanAction: React.PropTypes.func.isRequired,
+  userstatusState: React.PropTypes.object.isRequired
 };

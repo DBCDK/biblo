@@ -1,30 +1,39 @@
 @import 'tools';
 
-.content-grid {
-
-  @include min-screen($phone - 1px) {
-    @include container();
-  }
-
-  padding: 30px;
-
-  ul {
-    margin: 0px;
-    padding: 0px;
-    list-style-type: none;
-  }
-
+.content-grid--wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
 }
 
-.content-grid-element {
+.content-grid--element {
+  box-sizing: border-box;
 
-  @include min-screen($phone) {
-    @include gallery(1 of 2);
+  padding: 0 0 1em 1em;
+  &:first-child{
+    padding-left: 0;
   }
 
-  @include min-screen($tablet) {
-    @include gallery(1 of 3);
+  width: 33%;
+  &:nth-child(3+1) {
+    padding-left: 0;
   }
+
+  @include max-screen($tablet) {
+    width: 50%;
+    &:nth-child(2+1) {
+      padding-left: 0;
+    }
+  }
+
+  @include max-screen($phone) {
+    width: 100%;
+    padding-left: 0;
+  }
+
 
   a {
     color: $black;
@@ -32,17 +41,28 @@
 
   h3 {
     font-size: 1rem;
-    margin:0px;
+    margin: 0px;
   }
 
   p {
+    margin-top: 0.25em;
     font-size: 0.8rem;
-    margin-top:3px;
-    margin-bottom:40px;
   }
 
+  .image {
+    position: relative;
+    height: 0;
+    margin-bottom: 0.88889rem;
+    overflow: hidden;
+    padding-bottom: 100%;
+  }
+  .wide {
+    padding-bottom: 56.34%;
+  }
   img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
 }

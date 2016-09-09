@@ -20,7 +20,7 @@ function ContentGrid({items=[]}) {
 
   return (
     <div className="content-grid">
-      <ul>
+      <ul className="content-grid--wrapper">
         {elements}
       </ul>
     </div>

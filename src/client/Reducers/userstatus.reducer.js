@@ -1,8 +1,9 @@
-import {USERSTATUS_RENEW_LOAN} from '../Constants/action.constants';
+import {USERSTATUS_RENEW_LOAN, USERSTATUS_GET_STATUS} from '../Constants/action.constants';
 import assignToEmpty from '../Utils/assign';
 
 const initialState = {
-  renewLoan: {}
+  renewLoan: {},
+  userStatus: {}
 };
 
 export default function userstatusReducer(state = initialState, action = {}) {
@@ -19,6 +20,14 @@ export default function userstatusReducer(state = initialState, action = {}) {
         error: response.error,
         userStatusError: response.userstatusError
       };
+
+      return newState;
+    }
+
+    case USERSTATUS_GET_STATUS: {
+      const response = action.response;
+      const newState = assignToEmpty(state, {});
+      console.log(response);
 
       return newState;
     }

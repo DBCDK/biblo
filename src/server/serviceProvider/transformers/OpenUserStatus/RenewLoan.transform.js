@@ -1,4 +1,5 @@
 import logger from 'dbc-node-logger';
+import {parseGetUserStatusResponse} from '../../parsers/userstatus.parser';
 
 const RenewLoanTransform = {
   event() {
@@ -22,7 +23,7 @@ const RenewLoanTransform = {
     return Promise.reject('user not logged in');
   },
 
-  responseTransform(response, params) {
+  responseTransform(response) {
     const result = {
       loanId: response.loanId,
       message: null,
@@ -50,18 +51,6 @@ const RenewLoanTransform = {
         message: 'Error when parsing response from OpenUserStatus',
         error: err.message || err
       };
-    }
-
-    if (!result.error) {
-      console.log('getUserStatus');
-      // TODO mmj create parser that parses responses from OpenUserStatus, implement it here and in GetUserStatus.transform.js
-      /*
-      this.trigger('getUserStatus', {
-       agencyId: connection.request.session.passport.user.profile.profile.favoriteLibrary.libraryId,
-       userId: connection.request.session.passport.user.profile.profile.favoriteLibrary.loanerId,
-       pinCode: connection.request.session.passport.user.profile.profile.favoriteLibrary.pincode
-       });
-       */
     }
 
     return result;

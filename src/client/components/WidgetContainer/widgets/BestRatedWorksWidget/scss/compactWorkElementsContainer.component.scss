@@ -7,11 +7,14 @@
   -webkit-overflow-scrolling: touch;
 
   &.closed {
+    height: 250px;
+    padding: 0;
     overflow: hidden;
 
     @include max-screen($tablet - 1) {
       overflow-x: scroll;
       display: block;
+      white-space: nowrap;
     }
   }
 

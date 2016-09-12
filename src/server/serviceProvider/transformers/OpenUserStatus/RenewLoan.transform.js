@@ -1,5 +1,4 @@
 import logger from 'dbc-node-logger';
-import {parseGetUserStatusResponse} from '../../parsers/userstatus.parser';
 
 const RenewLoanTransform = {
   event() {

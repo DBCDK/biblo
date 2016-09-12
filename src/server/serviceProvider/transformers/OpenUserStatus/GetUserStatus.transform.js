@@ -9,7 +9,11 @@ const GetUserStatusTransform = {
     let favouriteLibrary = false;
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
-      if (passport.user.profile.profile.favoriteLibrary.libraryId && passport.user.profile.profile.favoriteLibrary.loanerId && passport.user.profile.profile.favoriteLibrary.pincode) {
+      if (
+        passport.user.profile.profile.favoriteLibrary.libraryId &&
+        passport.user.profile.profile.favoriteLibrary.loanerId &&
+        passport.user.profile.profile.favoriteLibrary.pincode
+      ) {
         favouriteLibrary = {
           agencyId: connection.request.session.passport.user.profile.profile.favoriteLibrary.libraryId,
           userId: connection.request.session.passport.user.profile.profile.favoriteLibrary.loanerId,
@@ -22,7 +26,6 @@ const GetUserStatusTransform = {
   },
 
   requestTransform(event, {agencyId, userId, pinCode}, connection) {
-    console.log('GetUserStatusTransform :: request');
     let params;
 
     if ((!agencyId || !userId || !pinCode) && this.getFavouriteLibrary(connection)) {
@@ -40,7 +43,6 @@ const GetUserStatusTransform = {
   },
 
   responseTransform(response) {
-    console.log('GetUserStatusTransform :: response');
     return parseGetUserStatusResponse(response);
   }
 

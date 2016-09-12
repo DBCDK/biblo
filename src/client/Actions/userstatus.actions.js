@@ -32,7 +32,6 @@ export function asyncRenewLoan(id) {
 }
 
 function getUserStatus(response) {
-  console.log('getUserStatus', response);
   return {
     type: USERSTATUS_GET_STATUS,
     response
@@ -40,7 +39,6 @@ function getUserStatus(response) {
 }
 
 export function getUserStatusAsync({agencyId = null, userId = null, pinCode = null}) {
-  console.log('getUserStatusAsync');
   return (dispatch) => {
     getUserStatusListener((response) => dispatch(getUserStatus(response)));
 

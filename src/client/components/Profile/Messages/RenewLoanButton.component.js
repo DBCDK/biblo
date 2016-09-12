@@ -6,6 +6,7 @@
 
 // Libraries
 import React from 'react';
+import moment from 'moment';
 
 // Components
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
@@ -24,6 +25,7 @@ export default class RenewLoanButton extends React.Component {
     this.state = {
       pending: false,
       succes: null,
+      loan: null,
       renewLoanState: {
         error: null,
         message: null,
@@ -40,12 +42,31 @@ export default class RenewLoanButton extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Update the components state but only if it's relevant for this particular component
     if (nextProps.userstatusState.renewLoan[this.props.loanId]) {
+      const loan = this.getLoan(nextProps.userstatusState.userStatus);
       this.setState({
         renewLoanState: nextProps.userstatusState.renewLoan[this.props.loanId],
         pending: false,
-        success: !nextProps.userstatusState.renewLoan[this.props.loanId].error
+        success: !nextProps.userstatusState.renewLoan[this.props.loanId].error,
+        loan: loan
       });
     }
+  }
+
+  /**
+   *
+   */
+  getLoan(userstatus) {
+    let loan = null;
+
+    if (userstatus.loans) {
+      userstatus.loans.forEach((l) => {
+        if (l.loanId === this.props.loanId) {
+          loan = l;
+        }
+      });
+    }
+
+    return loan;
   }
 
   handleClick(e) {
@@ -66,18 +87,42 @@ export default class RenewLoanButton extends React.Component {
     return buttonText;
   }
 
+  /**
+   * Return an appropriate message to the user dependeing on the answer got from OpenUserStatus
+   *
+   * @returns {string}
+   * @see http://openuserstatus.addi.dk/1.4.1/openuserstatus.xsd -- renewLoanErrorType
+   */
   getErrorMessage() {
     switch (this.state.renewLoanState.message) {
       case 'Item not renewable':
         return 'Du kan ikke låne bogen igen';
+      case 'Maximum renewals exceeded':
+        return 'Materialet kan ikke genlånes';
+      case 'Renewal not allowed - item has outstanding requests':
+        return 'Materialet kan ikke genlånes da det er reserveret til en anden bruger';
       default:
         console.error('Uncaught error message from OpenUserStatus', this.state.renewLoanState); // eslint-disable-line no-console
         return '';
     }
   }
 
+  getTimeToDueDate() {
+    let str = '';
+    if (this.state.loan && this.state.success) {
+      const diff = moment(this.state.loan.dateDue).diff(moment(), 'days');
+      const daysString = diff === 0 ?
+        'i dag' :
+      (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
+      str = `Du skal nu aflevere ${daysString}`;
+    }
+
+    return str;
+  }
+
   render() {
     const buttonText = this.getButtonText();
+    const timeToDueDate = this.getTimeToDueDate();
 
     let content = '';
     const msg = this.state.error ?
@@ -88,7 +133,8 @@ export default class RenewLoanButton extends React.Component {
       content = <span className="renew-loan-button--msg--error">{this.getErrorMessage()}</span>;
     }
     else if (this.state.success) {
-      content = <span className="renew-loan-button--msg--success">Du har lånt {this.props.materialTitle} igen.</span>;
+      content =
+        <span className="renew-loan-button--msg--success">Du har lånt {this.props.materialTitle} igen. {timeToDueDate}</span>;
     }
     else {
       content = (

@@ -27,7 +27,12 @@ export default function userstatusReducer(state = initialState, action = {}) {
     case USERSTATUS_GET_STATUS: {
       const response = action.response;
       const newState = assignToEmpty(state, {});
-      console.log(response);
+      if ((response.errors && response.errors.length) || !response.result) {
+        console.error('Error in response from OpenUserStatus', response); // eslint-disable-line
+      }
+      else {
+        newState.userStatus = assignToEmpty(response.result, {});
+      }
 
       return newState;
     }

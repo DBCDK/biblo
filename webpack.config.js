@@ -14,7 +14,7 @@ module.exports = [{
     profileeditlibrary: './src/client/components/Profile/LibraryEdit/index.js',
     profiledetail: './src/client/components/Profile/Detail/index.js',
     frontpage: './src/client/components/FrontPage/index.js',
-    article: './src/client/components/Article/index.js',
+    contentpage: './src/client/components/ContentPage/index.js',
     groups: './src/client/components/Groups/index.js',
     search: './src/client/components/Search/index.js',
     error: './src/client/components/ErrorPage/index.js',

@@ -40,15 +40,6 @@ const getContentPageTransform = {
   getSectionLocations(contentResponse) {
     const SectionPage = contentResponse.field_content || [];
 
-    if (contentResponse.title) {
-      SectionPage.unshift({
-        widgetName: 'ContentPageTextWidget',
-        widgetConfig: {
-          content: `<h1>${contentResponse.title}</h1>`
-        }
-      });
-    }
-
     return {SectionPage};
   },
 

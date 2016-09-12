@@ -12,7 +12,7 @@ import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
 
-import './article.scss';
+import './contentPage.scss';
 
 const articleData = parseJsonData('JSONDATA', 'articleData');
 
@@ -26,12 +26,13 @@ export class Article extends React.Component {
             widgetState={this.props.widgetState}
             widgetActions={this.props.widgetActions}/>
         </div>
+        {this.props.widgetState.widgetLocations.ContentPageFactBox.length &&
         <div className='article-factbox'>
           <WidgetContainer
             widgetLocationName="ContentPageFactBox"
             widgetState={this.props.widgetState}
             widgetActions={this.props.widgetActions}/>
-        </div>
+        </div> || ''}
 
         <WidgetContainer
           widgetLocationName="SectionPage"

@@ -43,8 +43,8 @@ ContentRoutes.get('/:id', (req, res) => {
         const articleData = JSON.parse(str);
         res.locals.title = `${articleData.title} - Biblo.dk`;
         res.render('page', {
-          css: ['/css/article.css'],
-          js: ['/js/article.js'],
+          css: ['/css/contentpage.css'],
+          js: ['/js/contentpage.js'],
           jsonData: [JSON.stringify({
             articleData: articleData
           })]
@@ -70,8 +70,8 @@ export async function wildCardRoute(req, res, next) {
       res.locals.title = `${contentObject.title} - Biblo.dk`;
 
       res.render('page', {
-        css: ['/css/article.css'],
-        js: ['/js/article.js'],
+        css: ['/css/contentpage.css'],
+        js: ['/js/contentpage.js'],
         jsonData: [JSON.stringify({contentPageData: contentObject})]
       });
     }

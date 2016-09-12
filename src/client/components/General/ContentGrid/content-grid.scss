@@ -11,27 +11,22 @@
 
 .content-grid--element {
   box-sizing: border-box;
+  margin-bottom: 2em;
+  width: 100%;
 
-  padding: 0 0 1em 1em;
-  &:first-child{
-    padding-left: 0;
-  }
-
-  width: 33%;
-  &:nth-child(3+1) {
-    padding-left: 0;
-  }
-
-  @include max-screen($tablet) {
+  @include screen($phone, $tablet) {
     width: 50%;
-    &:nth-child(2+1) {
-      padding-left: 0;
+    &:nth-child(2n) {
+      padding-left: 1em;
     }
   }
 
-  @include max-screen($phone) {
-    width: 100%;
-    padding-left: 0;
+  @include min-screen($tablet) {
+    width: 33%;
+    padding-left: 1em;
+    &:nth-child(3n + 1) {
+      padding-left: 0em;
+    }
   }
 
 
@@ -41,7 +36,7 @@
 
   h3 {
     font-size: 1rem;
-    margin: 0px;
+    margin-bottom: 0;
   }
 
   p {
@@ -63,5 +58,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  a:hover h3{
+    text-decoration: underline;
   }
 }

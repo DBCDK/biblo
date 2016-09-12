@@ -14,12 +14,14 @@ export default function userstatusReducer(state = initialState, action = {}) {
       const response = action.response;
       const newState = assignToEmpty(state, {});
 
-      const loanId = response.loanId;
-      newState.renewLoan[loanId] = {
-        message: response.message,
-        error: response.error,
-        userStatusError: response.userstatusError
-      };
+      if (response.loanId) {
+        const loanId = response.loanId;
+        newState.renewLoan[loanId] = {
+          message: response.message,
+          error: response.error,
+          userstatusError: response.userstatusError
+        };
+      }
 
       return newState;
     }

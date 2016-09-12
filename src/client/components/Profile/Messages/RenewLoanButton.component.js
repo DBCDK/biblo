@@ -29,7 +29,7 @@ export default class RenewLoanButton extends React.Component {
       renewLoanState: {
         error: null,
         message: null,
-        userStatusError: false
+        userstatusError: false
       }
     };
   }
@@ -53,7 +53,11 @@ export default class RenewLoanButton extends React.Component {
   }
 
   /**
+   * Get the loan from userstatus with a loanId mathcing the loanId given through props.
+   * If none is founs null is returned.
    *
+   * @param {object} userstatus;
+   * @return {object|null} loan
    */
   getLoan(userstatus) {
     let loan = null;
@@ -69,6 +73,11 @@ export default class RenewLoanButton extends React.Component {
     return loan;
   }
 
+  /**
+   * Clickhandler function. Handling clicks on the button represented by this component.
+   *
+   * @param {__React.SyntheticEvent} e
+   */
   handleClick(e) {
     e.preventDefault();
     if (!this.state.pending) {
@@ -77,6 +86,11 @@ export default class RenewLoanButton extends React.Component {
     }
   }
 
+  /**
+   * Sets the text on the button. If state.pending is true a spinner will replace the text.
+   *
+   * @return {string}
+   */
   getButtonText() {
     let buttonText = 'Lån igen';
 
@@ -107,6 +121,11 @@ export default class RenewLoanButton extends React.Component {
     }
   }
 
+  /**
+   * Calculates number of days until a given material should be retured and constructs a string based on that.
+   *
+   * @return {string} str
+   */
   getTimeToDueDate() {
     let str = '';
     if (this.state.loan && this.state.success) {
@@ -129,7 +148,7 @@ export default class RenewLoanButton extends React.Component {
       <span className="renew-loan-button--try-again-msg">Der skete en fejl. Prøv igen.</span> :
       null;
 
-    if (this.state.renewLoanState.userStatusError) {
+    if (this.state.renewLoanState.userstatusError) {
       content = <span className="renew-loan-button--msg--error">{this.getErrorMessage()}</span>;
     }
     else if (this.state.success) {

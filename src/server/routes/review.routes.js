@@ -95,8 +95,7 @@ ReviewRoutes.get('/:id', async function(req, res, next) {
 
     const work = workResult.data[0];
 
-    let title = work.dcTitle && Array.isArray(work.dcTitle) ? `${work.dcTitle[0]} - Biblo.dk` : 'Biblo.dk';
-    res.locals.title = `Anmeldelse af ${title} - Biblo.dk`;
+    res.locals.title = 'Anmeldelse af ' + (work.dcTitle ? work.dcTitle : 'Titel mangler') + ' - Biblo.dk';
     res.render('page', {
       css: ['/css/review.css'],
       js: ['/js/review.js'],

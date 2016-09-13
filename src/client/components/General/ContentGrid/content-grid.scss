@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   margin: 0px;
+  margin-left: -1em;
   padding: 0px;
   list-style-type: none;
 }
@@ -13,20 +14,14 @@
   box-sizing: border-box;
   margin-bottom: 2em;
   width: 100%;
+  padding-left: 1em;
 
   @include screen($phone, $tablet) {
     width: 50%;
-    &:nth-child(2n) {
-      padding-left: 1em;
-    }
   }
 
   @include min-screen($tablet) {
     width: 33%;
-    padding-left: 1em;
-    &:nth-child(3n + 1) {
-      padding-left: 0em;
-    }
   }
 
 

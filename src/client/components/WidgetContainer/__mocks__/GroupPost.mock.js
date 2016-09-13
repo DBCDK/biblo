@@ -14,6 +14,17 @@ export const singleGroupPostMock = {
   groupid: '136',
   attachedReviewId: '0',
   commentsCount: '0',
+  group: {
+    name: 'Awesome mennesker:)',
+    description: 'Kun for awesome mennesker.',
+    colour: 'blue',
+    timeCreated: '2016-03-17T12:32:07.000Z',
+    timeClosed: null,
+    markedAsDeleted: false,
+    id: 6,
+    groupownerid: 41,
+    campaignGroupFK: null
+  },
   owner: {
     raw: {
       description: 'afasda',

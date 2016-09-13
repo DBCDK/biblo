@@ -136,6 +136,7 @@ export const GOT_GROUPS = 'listGroupsResponse';
 export const GOT_REVIEWS = 'getReviewsResponse';
 export const GOT_WORKS = 'workResponse';
 export const GOT_WORKS_FROM_REVIEWS = 'getWorkFromReviewIdsResponse';
+export const GOT_LATEST_POSTS = 'getLatestPostsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';

@@ -1,0 +1,31 @@
+@import 'tools';
+
+.latests-posts-show-more-button--container {
+  text-align: center;
+
+  hr {
+    visibility: hidden;
+  }
+}
+
+.latests-posts-show-more-button--container > a {
+  cursor: pointer;
+  font-family: $header-font;
+  color: $black;
+  padding: 5px;
+  margin: 20px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  border: #e2e2ed solid 1px;
+  border-radius: 5px;
+  background-color: $white;
+
+  @include max-screen($tablet) {
+    display: none;
+  }
+
+  .icon {
+    fill: $melrose;
+    margin-bottom:-1px;
+  }
+}

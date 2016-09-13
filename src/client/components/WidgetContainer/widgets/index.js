@@ -16,6 +16,7 @@ import {FactBoxWidget} from './FactBoxWidget/FactBox.widget.component';
 import {PopularGroupsWidget} from './PopularGroupsWidget/PopularGroups.widget.component.js';
 import {EditoriallySelectedReviewsWidget} from './EditoriallySelectedReviewsWidget/EditoriallySelectedReviews.widget.component';
 import {EditoriallySelectedMaterialsWidget} from './EditoriallySelectedMaterialsWidget/EditoriallySelectedMaterials.widget.component';
+import {LatestPostsWidget} from './LatestPostsWidget/LatestPosts.widget.component';
 
 const widgetComponents = {
   FactBoxWidget,
@@ -31,7 +32,8 @@ const widgetComponents = {
   LatestGroupPostsWidget,
   PopularGroupsWidget,
   EditoriallySelectedReviewsWidget,
-  EditoriallySelectedMaterialsWidget
+  EditoriallySelectedMaterialsWidget,
+  LatestPostsWidget
 };
 
 export default widgetComponents;

@@ -5,6 +5,8 @@
 /* eslint-disable react/no-danger */
 
 import React, {PropTypes} from 'react';
+import Icon from '../../../General/Icon/Icon.component';
+import groupSvg from '../../../General/Icon/svg/functions/group.svg';
 import './scss/CompactGroupPostElement.component.scss';
 
 function renderTextGroupPost(post) {
@@ -32,7 +34,7 @@ export function renderVideoGroupPost(post) { // eslint-disable-line react/no-mul
   );
 }
 
-export function CompactGroupPostElement({post}) { // eslint-disable-line react/no-multi-comp
+export function CompactGroupPostElement({post, groupName, groupHref, elementHref}) { // eslint-disable-line react/no-multi-comp
   let postBody;
   let postType;
   if (post.video) {
@@ -48,8 +50,15 @@ export function CompactGroupPostElement({post}) { // eslint-disable-line react/n
     postBody = renderTextGroupPost(post);
   }
 
+  let groupNameTag = '';
+  if (groupName) {
+    groupNameTag = (
+      <a href={groupHref} className="cgp--group-link"><Icon glyph={groupSvg} /> {groupName}</a>
+    );
+  }
+
   return (
-    <span className={`compact-group-post-element--container ${postType}--post`}>
+    <a className={`compact-group-post-element--container ${postType}--post`} href={elementHref}>
       <p className="compact-group-post-element--author">
         Af: <a dangerouslySetInnerHTML={{__html: post.owner.displayName}} href={`/profil/${post.owner.id}`} />
       </p>
@@ -59,11 +68,15 @@ export function CompactGroupPostElement({post}) { // eslint-disable-line react/n
       <a href={`/grupper/${post.groupid}/${post.id}`}>
         {postBody}
       </a>
-    </span>
+      {groupNameTag}
+    </a>
   );
 }
 
 CompactGroupPostElement.displayName = 'CompactGroupPostElement';
 CompactGroupPostElement.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  groupName: PropTypes.string,
+  groupHref: PropTypes.string,
+  elementHref: PropTypes.string
 };

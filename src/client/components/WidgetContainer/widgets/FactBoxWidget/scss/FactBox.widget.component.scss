@@ -1,0 +1,29 @@
+@import 'tools';
+
+.ContentPageFactBox--generic-widget-container {
+  .FactBoxWidget--wrapper {
+    @include min-screen($tablet) {
+      @include span(last 2 of 5);
+    }
+
+    @include max-screen($tablet - 1px) {
+      @include span(5 of 5);
+    }
+  }
+}
+
+.SectionPage--generic-widget-container {
+  @include min-screen($tablet) {
+    .fact-box--content {
+      column-count: 2;
+    }
+  }
+}
+
+.FactBoxWidget--wrapper {
+  background: $soft-purple;
+  padding: 1em;
+  display: block;
+  margin-bottom: 10px;
+}
+

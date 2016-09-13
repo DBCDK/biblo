@@ -14,7 +14,8 @@ RoundedButton.propTypes = {
   clickFunction: React.PropTypes.func,
   href: React.PropTypes.string,
   compact: React.PropTypes.bool,
-  className: React.PropTypes.string
+  className: React.PropTypes.string,
+  target: React.PropTypes.string
 };
 
 RoundedButton.defaultProps = {

@@ -17,7 +17,7 @@ const ReviewRoutes = express.Router();
  * Get information about a single review
  * (Gets the associated work info as well)
  */
-ReviewRoutes.get('/:id', async function(req, res, next) {
+ReviewRoutes.get('/:id', async function (req, res, next) {
   let id = decodeURIComponent(req.params.id);
   let limit = 1;
 
@@ -116,7 +116,7 @@ ReviewRoutes.get('/:id', async function(req, res, next) {
 /**
  * Post a review
  */
-ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handlePostReview (req, res, next) {
+ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handlePostReview(req, res, next) {
   try {
     const profile = req.session.passport.user.profile.profile;
     const logger = req.app.get('logger');
@@ -146,10 +146,10 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
     }
 
     if (
-        createReviewResponse.status === 500 &&
-        createReviewResponse.data &&
-        createReviewResponse.data.error &&
-        createReviewResponse.data.error.message === 'Eksisterende anmeldelse') {
+      createReviewResponse.status === 500 &&
+      createReviewResponse.data &&
+      createReviewResponse.data.error &&
+      createReviewResponse.data.error.message === 'Eksisterende anmeldelse') {
       // find the existing review id from an existing review of a pid for the given review owner id
       const existingReviewResponse = (await req.callServiceProvider('getReviews', ({
         markedAsDeleted: null, pid: params.pid, reviewownerid: params.reviewownerid

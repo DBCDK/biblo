@@ -29,6 +29,10 @@ let initialState = {
     isLoading: true,
     postsCount: 0
   },
+  LatestPostsWidget: {
+    posts: [],
+    postsLoading: true
+  },
   PopularGroupsWidget: {
     groups: [],
     isLoading: true
@@ -174,6 +178,15 @@ export default function widgetReducer(state = initialState, action = {}) {
 
       return assignToEmpty(state, {
         EditoriallySelectedReviewsWidget
+      });
+    }
+
+    case types.GOT_LATEST_POSTS: {
+      return assignToEmpty(state, {
+        LatestPostsWidget: {
+          posts: action.data,
+          postsLoading: false
+        }
       });
     }
 

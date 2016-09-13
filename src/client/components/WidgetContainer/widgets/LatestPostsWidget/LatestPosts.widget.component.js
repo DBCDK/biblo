@@ -40,7 +40,7 @@ export class LatestPostsWidget extends AbstractWidget {
         groupHref={`/grupper/${post.group.id}`}
         elementHref={`/grupper/post/${post.id}`}
       />
-    )
+    );
   }
 
   renderShowMoreButton() {
@@ -55,7 +55,7 @@ export class LatestPostsWidget extends AbstractWidget {
 
   render() {
     if (this.props.widgetReducerProp.postsLoading) {
-      return <span>Indlæser...</span>
+      return <span>Indlæser...</span>;
     }
 
     const postsToLoad = this.state.postsExpanded ? this.props.widgetConfig.postsToLoad || 15 : 3;

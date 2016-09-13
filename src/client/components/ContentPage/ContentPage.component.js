@@ -26,13 +26,12 @@ export class Article extends React.Component {
             widgetState={this.props.widgetState}
             widgetActions={this.props.widgetActions}/>
         </div>
-        {this.props.widgetState.widgetLocations.ContentPageFactBox.length &&
         <div className='article-factbox'>
           <WidgetContainer
             widgetLocationName="ContentPageFactBox"
             widgetState={this.props.widgetState}
             widgetActions={this.props.widgetActions}/>
-        </div> || ''}
+        </div>
 
         <WidgetContainer
           widgetLocationName="SectionPage"

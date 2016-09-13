@@ -1,9 +1,9 @@
 import React from 'react';
 import './_roundedbutton.a.component.scss';
 
-const RoundedButton = ({clickFunction, href, buttonText, compact, className}) => {
+const RoundedButton = ({clickFunction, href, buttonText, compact, className, target=''}) => {
   return (
-    <a className={(compact ? 'rounded-button--compact' : 'rounded-button') + className} onClick={clickFunction} href={href}>{buttonText}</a>
+    <a className={(compact ? 'rounded-button--compact' : 'rounded-button') + className} target={target} onClick={clickFunction} href={href}>{buttonText}</a>
   );
 };
 

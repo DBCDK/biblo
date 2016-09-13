@@ -1,4 +1,9 @@
-import logger from 'dbc-node-logger';
+/**
+ * @file
+ * Transform handling renewal of one loan.
+ * THe transform will only handle renewal of one single loan although the service aceppts requests for renewal of
+ * several loans at once.
+ */
 
 const RenewLoanTransform = {
   event() {
@@ -34,8 +39,7 @@ const RenewLoanTransform = {
       const userStatusResponse = response['ous:renewLoanResponse']['ous:renewLoanStatus'][0];
 
       // Setting loanId to match what came from OpenUserStatus
-      const loanId = userStatusResponse['ous:loanId'][0];
-      result.loanId = loanId;
+      result.loanId = userStatusResponse['ous:loanId'][0];
 
       // Check if an error was returned form OpenUserStatus
       if (userStatusResponse['ous:renewLoanError']) {
@@ -44,7 +48,7 @@ const RenewLoanTransform = {
       }
     }
     catch (err) {
-      logger.error('Error when parsing response from OpenUserStatus', err);
+      this.logger.error('Error when parsing response from OpenUserStatus', err);
 
       result.error = {
         message: 'Error when parsing response from OpenUserStatus',

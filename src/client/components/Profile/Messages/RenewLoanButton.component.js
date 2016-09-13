@@ -173,7 +173,7 @@ export default class RenewLoanButton extends React.Component {
   }
 }
 
-RenewLoanButton.PropTypes = {
+RenewLoanButton.propTypes = {
   className: React.PropTypes.string,
   loanId: React.PropTypes.string.isRequired,
   renewLoanAction: React.PropTypes.func.isRequired,

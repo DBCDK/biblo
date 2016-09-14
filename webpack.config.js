@@ -13,7 +13,6 @@ module.exports = [{
     profileedit: './src/client/components/Profile/Edit/index.js',
     profileeditlibrary: './src/client/components/Profile/LibraryEdit/index.js',
     profiledetail: './src/client/components/Profile/Detail/index.js',
-    frontpage: './src/client/components/FrontPage/index.js',
     contentpage: './src/client/components/ContentPage/index.js',
     groups: './src/client/components/Groups/index.js',
     search: './src/client/components/Search/index.js',

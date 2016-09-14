@@ -1,6 +1,0 @@
-/**
- * @file
- */
-
-describe('Test frontpage', () => {
-});

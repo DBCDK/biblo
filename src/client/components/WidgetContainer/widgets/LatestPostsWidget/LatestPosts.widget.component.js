@@ -63,7 +63,7 @@ export class LatestPostsWidget extends AbstractWidget {
     const showMore = this.renderShowMoreButton();
 
     return (
-      <div className="">
+      <div className="latest-post--container">
         {posts}
         {showMore}
       </div>

@@ -1,5 +1,13 @@
 @import 'tools';
 
+.latest-post--container {
+  @include max-screen($tablet) {
+    overflow-x: scroll;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
 .latests-posts-show-more-button--container {
   text-align: center;
 
@@ -26,6 +34,6 @@
 
   .icon {
     fill: $melrose;
-    margin-bottom:-1px;
+    margin-bottom: -1px;
   }
 }

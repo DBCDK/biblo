@@ -35,11 +35,13 @@ export default class RenewLoanButton extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps.userstatusState);
     // Component should only update if anything new has happend
     return !!nextProps.userstatusState.renewLoan[this.props.loanId] || JSON.stringify(this.state) !== JSON.stringify(nextState);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     // Update the components state but only if it's relevant for this particular component
     if (nextProps.userstatusState.renewLoan[this.props.loanId]) {
       const loan = this.getLoan(nextProps.userstatusState.userStatus);
@@ -62,7 +64,7 @@ export default class RenewLoanButton extends React.Component {
   getLoan(userstatus) {
     let loan = null;
 
-    if (userstatus.loans) {
+    if (userstatus.loans && Array.isArray(userstatus.loans)) {
       userstatus.loans.forEach((l) => {
         if (l.loanId === this.props.loanId) {
           loan = l;
@@ -140,11 +142,12 @@ export default class RenewLoanButton extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     const buttonText = this.getButtonText();
     const timeToDueDate = this.getTimeToDueDate();
 
     let content = '';
-    const msg = this.state.error ?
+    const msg = this.state.renewLoanState.error ?
       <span className="renew-loan-button--try-again-msg">Der skete en fejl. Prøv igen.</span> :
       null;
 

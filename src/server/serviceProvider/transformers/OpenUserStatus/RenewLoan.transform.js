@@ -10,12 +10,12 @@ const RenewLoanTransform = {
     return 'renewLoan';
   },
 
-  requestTransform(event, {id}, connection) {
+  requestTransform(event, {loanId}, connection) {
     if (connection.request.session.passport) {
       const favouriteLibrary = connection.request.session.passport.user.profile.profile.favoriteLibrary;
       const params = {
         agencyId: favouriteLibrary.libraryId,
-        loanId: id,
+        loanId: loanId,
         userId: favouriteLibrary.loanerId,
         userPincode: favouriteLibrary.pincode
 
@@ -27,7 +27,7 @@ const RenewLoanTransform = {
     return Promise.reject('user not logged in');
   },
 
-  responseTransform(response) {
+  responseTransform(response, {loanId, createdEpoch}, connection) {
     const result = {
       loanId: response.loanId,
       message: null,
@@ -54,6 +54,35 @@ const RenewLoanTransform = {
         message: 'Error when parsing response from OpenUserStatus',
         error: err.message || err
       };
+    }
+
+    if (!result.error && !result.userstatusError) {
+      const userId = connection.request.session.passport.user.profileId;
+      this.callServiceClient('aws', 'hardDeleteUserMessage', {
+        userId: userId,
+        createdEpoch: createdEpoch,
+        messageType: 'type-orderExpiresSoon'
+      })
+        .then((res) => {
+          this.logger.info('Message was successfully deleted from DynamoDB', {
+            response: res,
+            params: {
+              userId: userId,
+              createdEpoch: createdEpoch,
+              messageType: 'type-orderExpiresSoon'
+            }
+          });
+        })
+        .catch((e) => {
+          this.logger.error('An error occured while deleting a message from DynamoDB', {
+            error: e,
+            params: {
+              userId: userId,
+              createdEpoch: createdEpoch,
+              messageType: 'type-orderExpiresSoon'
+            }
+          });
+        });
     }
 
     return result;

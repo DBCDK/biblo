@@ -114,6 +114,41 @@ function deleteUserMessage(docClient, tableName, {messageType, createdEpoch}) {
 }
 
 /**
+ * Completely removes an item from AWS Dynamo
+ *
+ * @param docClient
+ * @param {String} tableName
+ * @param {String} userId
+ * @param {String} messageType
+ * @param {Number} createdEpoch
+ */
+function hardDeleteUserMessage(docClient, tableName, {userId, messageType, createdEpoch}) {
+  return new Promise((resolve, reject) => {
+    if (!(userId && messageType && createdEpoch)) {
+      reject('Not enough parameters! Please ensure userId and messageParams is set.');
+    }
+
+    const parameters = {
+      TableName: tableName,
+      ExpectedAttributeValue: `userId EQ user_${userId}`,
+      Key: {
+        messageType: messageType.indexOf('type-') === 0 ? messageType : `type-${messageType}`,
+        createdEpoch
+      }
+    };
+
+    docClient.delete(parameters, (err, data) => {
+      if (err || !data) {
+        reject(err || 'No data found!');
+      }
+      else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  *
  * @param {Object} configuration Config object with the necessary parameters to use the webservice.
@@ -160,6 +195,7 @@ export default function AWSClient(configuration = null) {
   return {
     setUserMessageRead: setUserMessageRead.bind(null, docClient, tableName),
     getUserMessages: getUserMessages.bind(null, docClient, tableName),
-    deleteUserMessage: deleteUserMessage.bind(null, docClient, tableName)
+    deleteUserMessage: deleteUserMessage.bind(null, docClient, tableName),
+    hardDeleteUserMessage: hardDeleteUserMessage.bind(null, docClient, tableName)
   };
 }

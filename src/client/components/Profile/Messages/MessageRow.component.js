@@ -149,6 +149,7 @@ export default class MessageRow extends React.Component {
           renewLoanAction={this.props.renewLoanAction}
           userstatusState={this.props.userstatusState}
           materialTitle={this.state.message.title}
+          messageCreatedEpoch={this.state.message.createdEpoch}
         />
       </div>
     );

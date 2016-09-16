@@ -20,14 +20,14 @@ function renewLoan(response) {
   };
 }
 
-export function asyncRenewLoan(id) {
+export function asyncRenewLoan({loanId, createdEpoch}) {
   return (dispatch) => {
     renewLoanListener((response) => {
       dispatch(getUserStatusAsync({})); // eslint-disable-line
       dispatch(renewLoan(response));
     });
 
-    renewLoanSocket.request({id: id});
+    renewLoanSocket.request({loanId: loanId, createdEpoch: createdEpoch});
   };
 }
 

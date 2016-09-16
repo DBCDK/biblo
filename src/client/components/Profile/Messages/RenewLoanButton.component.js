@@ -35,13 +35,11 @@ export default class RenewLoanButton extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextProps.userstatusState);
     // Component should only update if anything new has happend
     return !!nextProps.userstatusState.renewLoan[this.props.loanId] || JSON.stringify(this.state) !== JSON.stringify(nextState);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     // Update the components state but only if it's relevant for this particular component
     if (nextProps.userstatusState.renewLoan[this.props.loanId]) {
       const loan = this.getLoan(nextProps.userstatusState.userStatus);
@@ -84,7 +82,8 @@ export default class RenewLoanButton extends React.Component {
     e.preventDefault();
     if (!this.state.pending) {
       this.setState({pending: true, success: null});
-      this.props.renewLoanAction(this.props.loanId);
+      const params = {loanId: this.props.loanId, createdEpoch: this.props.messageCreatedEpoch};
+      this.props.renewLoanAction(params);
     }
   }
 
@@ -114,7 +113,7 @@ export default class RenewLoanButton extends React.Component {
       case 'Item not renewable':
         return 'Du kan ikke låne bogen igen';
       case 'Maximum renewals exceeded':
-        return 'Materialet kan ikke genlånes';
+        return 'Materialet kan ikke genlånes flere gange';
       case 'Renewal not allowed - item has outstanding requests':
         return 'Materialet kan ikke genlånes da det er reserveret til en anden bruger';
       default:
@@ -142,7 +141,6 @@ export default class RenewLoanButton extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const buttonText = this.getButtonText();
     const timeToDueDate = this.getTimeToDueDate();
 
@@ -181,7 +179,8 @@ RenewLoanButton.propTypes = {
   loanId: React.PropTypes.string.isRequired,
   renewLoanAction: React.PropTypes.func.isRequired,
   userstatusState: React.PropTypes.object.isRequired,
-  materialTitle: React.PropTypes.string.isRequired
+  materialTitle: React.PropTypes.string.isRequired,
+  messageCreatedEpoch: React.PropTypes.number.isRequired
 };
 
 RenewLoanButton.defaultProps = {

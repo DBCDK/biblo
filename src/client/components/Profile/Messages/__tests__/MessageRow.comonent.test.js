@@ -27,6 +27,8 @@ describe('Testing the MessageRow Component', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const rendered = tree.getRenderOutput();
@@ -47,6 +49,8 @@ describe('Testing the MessageRow Component', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const rendered = tree.getRenderOutput();
@@ -65,6 +69,8 @@ describe('Testing the MessageRow Component', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();
@@ -87,6 +93,8 @@ describe('Testing the MessageRow Component', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();
@@ -121,6 +129,8 @@ describe('Testing the getMessageImage method', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();
@@ -144,6 +154,8 @@ describe('Testing the getMessageImage method', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();
@@ -167,6 +179,8 @@ describe('Testing the getMessageImage method', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();
@@ -213,6 +227,8 @@ describe('Testing the getMessageImage method', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();
@@ -236,6 +252,8 @@ describe('Testing the getMessageImage method', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();

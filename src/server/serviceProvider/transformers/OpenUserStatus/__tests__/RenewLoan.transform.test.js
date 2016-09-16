@@ -11,6 +11,26 @@ import RenewLoanTransform from '../RenewLoan.transform';
 import renewLoanMock from '../mocks/renewload.mock.json';
 
 describe('Testing the RenewLoan Transform', () => {
+  const connection = {
+    request: {
+      session: {
+        passport: {
+          user: {
+            profile: {
+              profile: {
+                favoriteLibrary: {
+                  libraryId: '012345',
+                  loanerId: '0123456789',
+                  pincode: '0123'
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
   it('Should return event implemented by this transform', () => {
     const expected = 'renewLoan';
     const result = RenewLoanTransform.event();
@@ -51,29 +71,8 @@ describe('Testing the RenewLoan Transform', () => {
   });
 
   it('Should return with a call to RenewLoanTransform.callServiceClient', () => {
-    const connection = {
-      request: {
-        session: {
-          passport: {
-            user: {
-              profile: {
-                profile: {
-                  favoriteLibrary: {
-                    libraryId: '012345',
-                    loanerId: '0123456789',
-                    pincode: '0123'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    };
-
     const expectedParams = {
       agencyId: '012345',
-      loanId: 'abcdef',
       userId: '0123456789',
       userPincode: '0123'
     };
@@ -102,7 +101,7 @@ describe('Testing the RenewLoan Transform', () => {
     const response = renewLoanMock.success.response;
     const expected = renewLoanMock.success.result;
 
-    const result = RenewLoanTransform.responseTransform(response);
+    const result = RenewLoanTransform.responseTransform(response, {loanId: 'ABCDEFGHIJKLMNOPQRSTU'}, connection);
     assert.equal(JSON.stringify(result), JSON.stringify(expected));
   });
 
@@ -110,7 +109,7 @@ describe('Testing the RenewLoan Transform', () => {
     const response = renewLoanMock.maxrenewals.response;
     const expected = renewLoanMock.maxrenewals.result;
 
-    const result = RenewLoanTransform.responseTransform(response);
+    const result = RenewLoanTransform.responseTransform(response, {loanId: 'ABCDEFGHIJKLMNOPQRSTU'}, connection);
     assert.equal(JSON.stringify(result), JSON.stringify(expected));
   });
 
@@ -122,7 +121,7 @@ describe('Testing the RenewLoan Transform', () => {
 
     const spy = sinon.spy(RenewLoanTransform.logger, 'error');
 
-    const result = RenewLoanTransform.responseTransform(response);
+    const result = RenewLoanTransform.responseTransform(response, {loanId: 'ABCDEFGHIJKLMNOPQRSTU'}, connection);
 
     const expected = 'Error when parsing response from OpenUserStatus';
     assert.equal(result.error.message, expected);

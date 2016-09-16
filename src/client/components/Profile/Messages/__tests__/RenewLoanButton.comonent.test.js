@@ -25,6 +25,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={'title'}
         renewLoanAction={noop}
         userstatusState={newUserstatusState}
+        messageCreatedEpoch={0}
       />
     );
 
@@ -57,6 +58,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={'title'}
         renewLoanAction={noop}
         userstatusState={{}}
+        messageCreatedEpoch={0}
       />
     );
 
@@ -76,6 +78,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={'title'}
         renewLoanAction={noop}
         userstatusState={{}}
+        messageCreatedEpoch={0}
       />
     );
 
@@ -96,6 +99,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={'title'}
         renewLoanAction={noop}
         userstatusState={{}}
+        messageCreatedEpoch={0}
       />
     );
 
@@ -116,6 +120,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={'title'}
         renewLoanAction={noop}
         userstatusState={{}}
+        messageCreatedEpoch={0}
       />
     );
 
@@ -135,6 +140,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={'title'}
         renewLoanAction={renewLoanAction}
         userstatusState={{}}
+        messageCreatedEpoch={0}
       />
     );
 
@@ -157,6 +163,7 @@ describe('Testing the RenewLoanButton Component', () => {
         materialTitle={materialTitle}
         renewLoanAction={() => {}}
         userstatusState={{}}
+        messageCreatedEpoch={0}
       />
     );
 

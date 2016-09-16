@@ -56,7 +56,7 @@ const RenewLoanTransform = {
       };
     }
 
-    if (!result.error && !result.userstatusError) {
+    if (!result.error && !result.userstatusError && createdEpoch) {
       const userId = connection.request.session.passport.user.profileId;
       this.callServiceClient('aws', 'hardDeleteUserMessage', {
         userId: userId,

@@ -6,40 +6,39 @@
 // Libraries
 import express from 'express';
 import passport from 'passport';
-import request from 'request';
 import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
 
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 // React components
-import FrontpageContainer from '../../client/components/FrontPage/FrontpageContainer.component';
+import ContentpageContainer from '../../client/components/ContentPage/ContentPage.component';
 
 const MainRoutes = express.Router();
 
-MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, (req, res, next) => {
-  const frontPageBucket = config.get('Biblo.frontPageBucket');
-  const bibloCSUrl = config.get('CommunityService.endpoint');
-  const settingsUrl = `${bibloCSUrl}api/fileContainers/${frontPageBucket}/download/frontpage_content.json`;
+MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
+  try {
+    const contentObject = (await req.callServiceProvider('getContentPage', '/frontpage'))[0].body;
 
-  request.get(settingsUrl, (e, d) => {
-    if (e) {
-      return next(e);
+    if (contentObject.message && contentObject.message.indexOf('No route found for') > -1) {
+      throw new Error('Frontpage could not be found in admin');
     }
+    else {
+      res.locals.title = 'Biblo';
 
-    // Parse the widget data from S3
-    const resp = JSON.parse(d.body);
+      req.writeToReduxStateTree('widgetReducer', contentObject);
+      req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: (req.query.logout === '1')});
+      req.renderComponent(ContentpageContainer);
 
-    // Write it into the state tree, and render the component.
-    req.writeToReduxStateTree('widgetReducer', {widgetLocations: resp});
-    req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: (req.query.logout === '1')});
-    req.renderComponent(FrontpageContainer);
-
-    return res.render('page', {
-      css: ['/css/frontpage.css', '/css/search.css'],
-      js: ['/js/frontpage.js']
-    });
-  });
+      return res.render('page', {
+        css: ['/css/contentpage.css'],
+        js: ['/js/contentpage.js']
+      });
+    }
+  }
+  catch (err) {
+    next(err);
+  }
 });
 
 MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',

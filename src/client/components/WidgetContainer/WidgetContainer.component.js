@@ -106,11 +106,13 @@ class WidgetContainer extends Component {
       });
 
       // Finally we render the array of widgets relevant to this position.
-      return (
-        <div className={`${this.props.widgetLocationName}--generic-widget-container`}>
-          {widgets}
-        </div>
-      );
+      if (widgets.length > 0) {
+        return (
+          <div className={`${this.props.widgetLocationName}--generic-widget-container`}>
+            {widgets}
+          </div>
+        );
+      }
     }
 
     // This renders if no widgets were found for this position

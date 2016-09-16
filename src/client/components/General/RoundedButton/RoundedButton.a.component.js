@@ -1,19 +1,14 @@
 import React from 'react';
 import './_roundedbutton.a.component.scss';
 
-const RoundedButton = ({clickFunction, href, buttonText, compact, className}) => {
-
+const RoundedButton = ({clickFunction, href, buttonText, compact, className, target=''}) => {
   // If first character in className is not a white prepend a whitespace to ensure classes are not concatenated in one single string
   if (className && className[0] !== ' ') {
     className = ' ' + className;
   }
 
   return (
-    <a
-      className={(compact ? 'rounded-button--compact' : 'rounded-button') + className}
-      onClick={clickFunction}
-      href={href}>{buttonText}
-    </a>
+    <a className={(compact ? 'rounded-button--compact' : 'rounded-button') + className} target={target} onClick={clickFunction} href={href}>{buttonText}</a>
   );
 };
 
@@ -24,7 +19,8 @@ RoundedButton.propTypes = {
   clickFunction: React.PropTypes.func,
   href: React.PropTypes.string,
   compact: React.PropTypes.bool,
-  className: React.PropTypes.string
+  className: React.PropTypes.string,
+  target: React.PropTypes.string
 };
 
 RoundedButton.defaultProps = {

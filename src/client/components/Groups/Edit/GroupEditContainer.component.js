@@ -14,6 +14,7 @@ import * as uiActions from '../../../Actions/ui.actions';
 import './groupeditcontainer.component.scss';
 
 export class GroupEditContainer extends React.Component {
+
   groupFormSubmit(event, name, description) {
     const actions = this.props.actions;
     const group = this.props.group;
@@ -34,8 +35,8 @@ export class GroupEditContainer extends React.Component {
     }
   }
 
-  closeDeleteModal() {
-    if (this.props.group.deleted) {
+  closeModal() {
+    if (this.props.group.moderation.success) {
       window.location = `/grupper/${this.props.group.id}`;
     }
     else {
@@ -43,46 +44,97 @@ export class GroupEditContainer extends React.Component {
     }
   }
 
-  renderDeleteModal() {
-
+  renderModerationModal() {
     if (!this.props.ui.modal.isOpen) {
       return;
     }
 
+    const modals = {
+      open: {
+        title: 'Åben gruppe',
+        texts: {
+          confirm: 'Er du sikker på du vil åbne gruppen:',
+          button: 'Ja, åben gruppen',
+          done: 'Gruppen er åben',
+          error: 'Du kan ikke åbne gruppen'
+        },
+        action: this.props.actions.asyncGroupToggleClose.bind(null, this.props.group.id, false)
+      },
+      close: {
+        title: 'Luk gruppe',
+        texts: {
+          confirm: 'Er du sikker på du vil lukke gruppen:',
+          button: 'Ja, luk gruppen',
+          done: 'Gruppen er lukket',
+          error: 'Du kan ikke lukke gruppen'
+        },
+        action: this.props.actions.asyncGroupToggleClose.bind(null, this.props.group.id, true)
+      },
+      delete: {
+        title: 'Slet gruppe',
+        texts: {
+          confirm: 'Er du sikker på du vil slette gruppen:',
+          button: 'Ja, slet gruppen',
+          done: 'Gruppen er slettet',
+          error: 'Du kan ikke slette gruppen'
+        },
+        action: this.props.actions.asyncGroupDelete.bind(null, this.props.group.id)
+      }
+    };
+
+    const type = this.props.ui.modal.children;
+    const {title, texts, action} = modals[type];
+    const close = () => this.closeModal();
+
     return (
-      <ModalWindow onClose={this.closeDeleteModal.bind(this)} title="Slet gruppe">
-        <div className="group-delete">
-          <div className="group-delete--image">
+      <ModalWindow onClose={close} title={title}>
+        <div className={`group-moderation ${type}`}>
+          <div className="group-moderation--image">
             <img className="coverimage" src={this.props.group.image} alt={this.props.group.name}/>
           </div>
-          {(this.props.group.deleted.success) &&
-          <div className="group-delete--deleted">
-            <h3>Gruppen er slettet</h3>
-            <a className="group-delete--done" href="#" onClick={this.closeDeleteModal.bind(this)}>OK</a>
+          {(this.props.group.moderation.success) &&
+          <div className="group-moderation--done">
+            <h3>{texts.done}</h3>
+            <a className="group-moderation--done--button" href="#" onClick={close}>OK</a>
           </div> ||
           <div>
-            <h3 className="group-delete--text">Er du sikker på du vil slette gruppen:</h3>
-            <div className="group-delete--title">{this.props.group.name}</div>
-            {this.props.group.deleted.error &&
+            <h3 className="group-moderation--text">{texts.confirm}</h3>
+            <div className="group-moderation--title">{this.props.group.name}</div>
+            {this.props.group.moderation.error &&
             <div className={"message error shakeit"}>
-              Du kan ikke slette gruppen
+              {texts.error}
             </div>
             ||
             <div>
-              <a className="group-delete--cancel" href="#" onClick={this.closeDeleteModal.bind(this)}>Fortryd</a>
-              <a className="group-delete--confirm" href="#"
-                 onClick={this.props.actions.asyncGroupDelete.bind(null, this.props.group.id)}>Ja, slet gruppen</a>
+              <a className="group-moderation--cancel" href="#" onClick={close}>Fortryd</a>
+              <a className="group-moderation--confirm" href="#"
+                 onClick={action}>{texts.button}</a>
             </div>
             }
           </div>
           }</div>
-      </ModalWindow>);
+      </ModalWindow>
+    );
+  }
+
+  renderModerationButtons() {
+    const action = this.props.uiActions.openModalWindow.bind(this);
+    return (
+      <div className="group-form--moderation">
+        <a href="#delete" onClick={ () => action('delete') }>Slet gruppen</a>
+        {this.props.group.timeClosed &&
+        <a href="#close" onClick={() => action('open')}>Åben gruppe</a> ||
+        <a href="#close" onClick={() => action('close')}>luk gruppe</a>
+        }
+      </div>
+    );
   }
 
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
-      <BackButton />
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
+                  profileState={this.props.profileState} globalState={this.props.globalState}>
+        <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
         <GroupForm
           changeImageAction={this.props.actions.asyncChangeImage}
@@ -91,13 +143,13 @@ export class GroupEditContainer extends React.Component {
           submitState={this.props.group.UI.submitState}
           submitProgress={this.props.group.UI.submitProgress}
           submit={this.groupFormSubmit.bind(this)}
-          delete={this.props.profileState.isModerator && this.props.uiActions.openModalWindow}
           defaultValues={{
             'group-name': this.props.group.raw.name,
             'group-description': this.props.group.raw.description
           }}
+          moderation={this.props.profileState.isModerator && this.renderModerationButtons() || ''}
         />
-        {this.renderDeleteModal()}
+        {this.renderModerationModal()}
       </PageLayout>
     );
   }

@@ -12,7 +12,7 @@ import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
 
-import './article.scss';
+import './contentPage.scss';
 
 const articleData = parseJsonData('JSONDATA', 'articleData');
 

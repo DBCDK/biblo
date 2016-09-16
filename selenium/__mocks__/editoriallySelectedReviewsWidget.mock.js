@@ -5,7 +5,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/count')
     .times(times)
-    .query({"access_token": "", "where": "{\"or\":[{\"id\":3},{\"id\":4},{\"id\":5}]}"})
+    .query({"access_token": "", "where": "{\"markedAsDeleted\":null,\"or\":[{\"id\":3},{\"id\":4},{\"id\":5}]}"})
     .reply(200, {"count": 3});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
@@ -75,7 +75,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":3,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"or\":[{\"id\":3},{\"id\":4},{\"id\":5}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":3,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"markedAsDeleted\":null,\"or\":[{\"id\":3},{\"id\":4},{\"id\":5}]}}"})
     .reply(200, [{
       "pid": "870970-basis:24695751",
       "libraryid": "714700",

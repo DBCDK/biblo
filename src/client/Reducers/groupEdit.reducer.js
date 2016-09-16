@@ -16,7 +16,7 @@ let initialState = {
     submitProgress: 0
   },
   errors: [],
-  deleted: {}
+  moderation: {}
 };
 
 initialState = assignToEmpty(initialState, parseJsonData('JSONDATA', 'groupData'));
@@ -86,10 +86,25 @@ export default function groupEditReducer(state = initialState, action) {
         })
       });
 
+    case types.GROUP_MODERATION_PROGRESS:
+      return assignToEmpty(state, {
+        moderation: {
+          inProgress: true
+        }
+      });
     case types.GROUP_DELETED:
       return assignToEmpty(state, {
-        deleted: {
-          success: action.response.markedAsDeleted && true || false,
+        moderation: {
+          success: action.response.id && true || false,
+          error: action.response.error && true || false,
+          inProgress: false
+        }
+      });
+
+    case types.GROUP_TOGGLE_CLOSED:
+      return assignToEmpty(state, {
+        moderation: {
+          success: action.response.id && true || false,
           error: action.response.error && true || false,
           inProgress: false
         }

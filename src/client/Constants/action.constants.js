@@ -46,8 +46,9 @@ export const GROUP_FORM_UPLOAD_FAILED = 'GROUP_FORM_UPLOAD_FAILED';
 export const GROUP_FORM_UPLOAD_CANCELED = 'GROUP_FORM_UPLOAD_CANCELED';
 export const GROUP_FORM_UPLOAD_PROGRESS = 'GROUP_FORM_UPLOAD_PROGRESS';
 export const GROUP_FORM_HAS_SUBMITTED = 'GROUP_FORM_HAS_SUBMITTED';
-export const GROUP_DELETE = 'GROUP_DELETE';
+export const GROUP_MODERATION_PROGRESS = 'GROUP_MODATION_PROGRESS';
 export const GROUP_DELETED = 'GROUP_DELETED';
+export const GROUP_TOGGLE_CLOSED = 'GROUP_TOGGLE_CLOSED';
 export const GROUP_FOLLOW = 'GROUP_FOLLOW';
 export const GROUP_MEMBERS_EXPAND = 'GROUP_MEMBERS_EXPAND';
 export const GROUP_MEMBERS_LOADING = 'GROUP_MEMBERS_LOADING';
@@ -139,6 +140,7 @@ export const GOT_GROUPS = 'listGroupsResponse';
 export const GOT_REVIEWS = 'getReviewsResponse';
 export const GOT_WORKS = 'workResponse';
 export const GOT_WORKS_FROM_REVIEWS = 'getWorkFromReviewIdsResponse';
+export const GOT_LATEST_POSTS = 'getLatestPostsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';

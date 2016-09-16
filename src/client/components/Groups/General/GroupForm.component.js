@@ -126,9 +126,7 @@ export default class GroupForm extends React.Component {
           <div className={'group-form-submit-button'}>
             {submitArea}
           </div>
-          <div className="group-form--moderation">
-            {this.props.delete && <a href="#delete" onClick={this.props.delete}>Slet gruppe</a> || null }
-          </div>
+          {this.props.moderation}
         </form>
       </div>
     );
@@ -147,7 +145,7 @@ GroupForm.propTypes = {
   checkIfGroupNameExistsAction: React.PropTypes.func.isRequired,
   checkedNames: React.PropTypes.object,
   defaultValues: React.PropTypes.object,
-  delete: React.PropTypes.func
+  moderation: React.PropTypes.any
 };
 
 GroupForm.defaultProps = {

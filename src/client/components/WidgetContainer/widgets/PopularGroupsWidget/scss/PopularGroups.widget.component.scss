@@ -81,6 +81,13 @@
   background-color: $white;
   display: inline-block;
 
+  @include max-screen($tablet - 1) {
+    overflow: hidden;
+    padding-left: 15px;
+    width: initial;
+    vertical-align: top;
+  }
+
   @include min-screen($tablet) {
     @include span(3.865 of 24);
     @include squish(2.5%, 2%);

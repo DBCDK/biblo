@@ -181,7 +181,10 @@ export default function searchReducer(state = initialState, action = {}) {
     }
 
     case types.SEARCH_QUERY_HAS_CHANGED: {
-      return assignToEmpty(state, {query: action.q});
+      return assignToEmpty(state, {
+        query: action.q,
+        selectedWorkSuggestion: -1
+      });
     }
 
     case types.SEARCH: {

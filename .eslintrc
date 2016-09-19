@@ -16,6 +16,8 @@
   ],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
+    // react
+    "react/no-find-dom-node": 1,
     // Possible Errors
     "comma-dangle": [
       2

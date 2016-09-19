@@ -4,6 +4,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 import Icon from '../../General/Icon/Icon.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import RenewLoanButton from './RenewLoanButton.component';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 
 // SVG
@@ -139,14 +140,46 @@ export default class MessageRow extends React.Component {
     }
   }
 
+  getRenewLoanButton() {
+    return (
+      <div>
+        <RenewLoanButton
+          className="message-row--renew-loan-button"
+          loanId={this.state.message.loanId}
+          renewLoanAction={this.props.renewLoanAction}
+          userstatusState={this.props.userstatusState}
+          materialTitle={this.state.message.title}
+          messageCreatedEpoch={this.state.message.createdEpoch}
+        />
+      </div>
+    );
+  }
+
   getMessageContent() {
     switch (this.state.message.type) {
       case 'type-orderExpiresSoon': {
         const diff = moment(this.state.message.dateDue).diff(moment(), 'days');
-        const string = diff === 0 ? 'i dag' : (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
-        const dateString = diff < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
+        const string = diff === 0 ?
+          'i dag' :
+        (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
 
-        return (<span>{dateString}</span>);
+        const dateString = diff < 0 ?
+        'Skulle være afleveret for ' + string + ' siden' :
+        'Skal afleveres senest ' + string;
+
+        let renewLoanBtn = null;
+        if (diff < 0 && this.state.message.loanId) {
+          renewLoanBtn = this.getRenewLoanButton();
+        }
+
+        return (
+          <div>
+          <span>
+            {dateString}
+           </span>
+            {renewLoanBtn}
+          </div>
+        );
       }
 
       case 'type-orderIsReady': {
@@ -343,5 +376,7 @@ MessageRow.propTypes = {
   groupState: React.PropTypes.object.isRequired,
   message: React.PropTypes.object.isRequired,
   readAction: React.PropTypes.func.isRequired,
-  deleteAction: React.PropTypes.func.isRequired
+  deleteAction: React.PropTypes.func.isRequired,
+  renewLoanAction: React.PropTypes.func.isRequired,
+  userstatusState: React.PropTypes.object.isRequired
 };

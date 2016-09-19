@@ -1,0 +1,53 @@
+{
+  "success": {
+    "response": {
+      "ous:renewLoanResponse": {
+        "$": {
+          "xmlns:ous": "http://oss.dbc.dk/ns/openuserstatus",
+          "xmlns": "http://oss.dbc.dk/ns/openuserstatus"
+        },
+        "ous:renewLoanStatus": [
+          {
+            "ous:loanId": [
+              "ABCDEFGHIJKLMNOPQRSTU"
+            ]
+          }
+        ]
+      },
+      "loanId": "ABCDEFGHIJKLMNOPQRSTU"
+    },
+    "result": {
+      "loanId": "ABCDEFGHIJKLMNOPQRSTU",
+      "message": null,
+      "userstatusError": false,
+      "error": null
+    }
+  },
+  "maxrenewals": {
+    "response": {
+      "ous:renewLoanResponse": {
+        "$": {
+          "xmlns:ous": "http://oss.dbc.dk/ns/openuserstatus",
+          "xmlns": "http://oss.dbc.dk/ns/openuserstatus"
+        },
+        "ous:renewLoanStatus": [
+          {
+            "ous:loanId": [
+              "ABCDEFGHIJKLMNOPQRSTU"
+            ],
+            "ous:renewLoanError": [
+              "Maximum renewals exceeded"
+            ]
+          }
+        ]
+      },
+      "loanId": "ABCDEFGHIJKLMNOPQRSTU"
+    },
+    "result": {
+      "loanId": "ABCDEFGHIJKLMNOPQRSTU",
+      "message": "Maximum renewals exceeded",
+      "userstatusError": true,
+      "error": null
+    }
+  }
+}

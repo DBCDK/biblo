@@ -33,6 +33,7 @@ describe('Testing the SearchResultContainer component', () => {
         search={search}
         searchActions={searchActions}
         profileState={{}}
+        globalState={{}}
       />
     );
 
@@ -63,6 +64,7 @@ describe('Testing the SearchResultContainer component', () => {
         search={search}
         searchActions={searchActions}
         profileState={{}}
+        globalState={{}}
       />
     );
 
@@ -92,6 +94,7 @@ describe('Testing the SearchResultContainer component', () => {
         search={search}
         searchActions={searchActions}
         profileState={{}}
+        globalState={{}}
       />
     );
 
@@ -124,6 +127,7 @@ describe('Testing the SearchResultContainer component', () => {
         search={search}
         searchActions={searchActions}
         profileState={{}}
+        globalState={{}}
       />
     );
 
@@ -160,6 +164,7 @@ describe('Testing the SearchResultContainer component', () => {
         search={search}
         searchActions={searchActions}
         profileState={{}}
+        globalState={{}}
       />
     );
 

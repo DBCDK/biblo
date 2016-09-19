@@ -1,8 +1,8 @@
 @import 'tools';
 
 .p-detail--badge-container {
-  background: linear-gradient(180deg, #d784e7 70%, $white 30%);
-  height: 350px;
+  background: linear-gradient(180deg, #d784e7 82%, $white 30%);
+  height: 300px;
   padding: 0px;
   display: block;
 }
@@ -107,15 +107,22 @@
 /* profile details */
 .p-detail--image-container {
   height: 0px;
-  img {
+
+  .p-detail--image-crop {
     position: relative;
-    top: -275px;
+    top: -225px;
     display: block;
     margin: 0 auto;
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    filter: drop-shadow(2px 2px 5px #666);
+    overflow: hidden;
+
+    img {
+      max-width: 200px;
+      max-height: 200px;
+      filter: drop-shadow(2px 2px 5px #666);
+    }
   }
 }
 

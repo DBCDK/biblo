@@ -54,22 +54,6 @@ describe('Testing the RenewLoan Transform', () => {
     });
   });
 
-  it('Should return promise that rejects', (done) => {
-    const _connection = {
-      request: {
-        session: {
-          passport: null
-        }
-      }
-    };
-
-    const requestTransformResponse = RenewLoanTransform.requestTransform('renewLoan', {id: null}, _connection);
-    requestTransformResponse.catch((err) => {
-      assert.equal(err, 'user not logged in');
-      done();
-    });
-  });
-
   it('Should return with a call to RenewLoanTransform.callServiceClient', () => {
     const expectedParams = {
       agencyId: '012345',

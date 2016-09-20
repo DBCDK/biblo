@@ -131,12 +131,15 @@ export class ProfileLibraryInfo extends React.Component {
 
   getLoanerIdInputFieldClassName() {
     let classname = '';
-    if (Modernizr && Modernizr.touch && this.state.hideLoanerId) {
-      console.log('we\'re on a touch device');
+    if (this.isTouchDevice() && this.state.hideLoanerId) {
       classname = 'library--form-area--hide-value-mobile';
     }
 
     return classname;
+  }
+
+  isTouchDevice() {
+    return (typeof Modernizr !== 'undefined' && Modernizr.touch); // eslint-disable-line no-undef
   }
 
   render() {
@@ -166,7 +169,7 @@ export class ProfileLibraryInfo extends React.Component {
           <InputField
             error={this.props.errorObj.loanerId}
             onChangeFunc={this.props.loanerIdChangeFunc}
-            type={this.state.hideLoanerId && !Modernizr.touch && 'password' || 'tel'}
+            type={this.state.hideLoanerId && !this.isTouchDevice() && 'password' || 'tel'}
             name="loanerId"
             title="Dit lånernummer"
             placeholder="Lånernummer"
@@ -175,7 +178,14 @@ export class ProfileLibraryInfo extends React.Component {
             autocomplete="off"
           />
           <div className="library--hide-loanerid">
-            <label><input type="checkbox" defaultChecked={this.state.hideLoanerId} onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}/> Skjul lånernummer</label>
+            <label>
+              <input
+                type="checkbox"
+                defaultChecked={this.state.hideLoanerId}
+                onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}
+              />
+              Skjul lånernummer
+            </label>
           </div>
         </div>
 

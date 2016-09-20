@@ -148,7 +148,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
     />).render();
     assert.equal('password', libraryInfo.find('input[name=loanerId]')[0].type);
     libraryInfo.find('input[type=checkbox]').trigger('click');
-    assert.equal('text', libraryInfo.find('input[name=loanerId]')[0].type);
+    assert.equal('tel', libraryInfo.find('input[name=loanerId]')[0].type);
     libraryInfo.find('input[type=checkbox]').trigger('click');
     assert.equal('password', libraryInfo.find('input[name=loanerId]')[0].type);
 

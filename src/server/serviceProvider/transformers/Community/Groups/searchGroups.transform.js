@@ -18,12 +18,14 @@ const SearchGroupsTransform = {
   },
 
   responseTransform(response) {
-    let body = JSON.parse(response.body);
-    body.hits = body.hits.map((data) => {
+    const body = JSON.parse(response.body);
+    if (!body || !Array.isArray(body.hits)) {
+      throw new Error('Unexpected response from biblocs.');
+    }
+
+    return body.hits.map((data) => {
       return (groupParser(data._source));
     });
-
-    return body.hits;
   }
 };
 

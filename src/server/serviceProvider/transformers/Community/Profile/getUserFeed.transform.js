@@ -28,21 +28,44 @@ const getUserFeedTransform = {
 
           return false;
         })
-        .map(group => this.callServiceClient('community', 'countPosts', {
-          where: {
-            markedAsDeleted: null,
-            groupid: group.groupid,
-            timeCreated: {
-              gte: group.visited
-            },
-            postownerid: {
-              neq: userId
+        .map(group => Promise.all([
+          this.callServiceClient('community', 'countPosts', {
+            where: {
+              markedAsDeleted: null,
+              groupid: group.groupid,
+              timeCreated: {
+                gte: group.visited
+              },
+              postownerid: {
+                neq: userId
+              }
             }
-          }
-        }).then(pCount => {
+          }),
+          this.callServiceClient('community', 'getPosts', {
+            filter: {
+              where: {
+                markedAsDeleted: null,
+                groupid: group.groupid
+              },
+              order: 'id DESC',
+              limit: 1,
+              fields: {
+                timeCreated: true
+              }
+            }
+          })
+        ]).then(postsResponse => {
+          const pCount = postsResponse[0];
           const postsSinceLast = JSON.parse(pCount.body).count;
-          return Object.assign(group.group, {postsSinceLast});
-        })));
+          const latestPost = (JSON.parse(postsResponse[1].body)[0] || {});
+          return Object.assign(group.group, {postsSinceLast, latestPost: latestPost.timeCreated || '2016-03-16T21:06:51.000Z'});
+        }))
+    ).then(enrichedGroups => {
+      return enrichedGroups.sort((a, b) => {
+        // Sort the groups by date of the latest post.
+        return new Date(b.latestPost) - new Date(a.latestPost);
+      });
+    });
   },
 
   /**

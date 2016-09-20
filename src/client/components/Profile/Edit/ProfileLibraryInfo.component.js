@@ -129,6 +129,16 @@ export class ProfileLibraryInfo extends React.Component {
     return null;
   }
 
+  getLoanerIdInputFieldClassName() {
+    let classname = '';
+    if (Modernizr && Modernizr.touch && this.state.hideLoanerId) {
+      console.log('we\'re on a touch device');
+      classname = 'library--form-area--hide-value-mobile';
+    }
+
+    return classname;
+  }
+
   render() {
     const libraryDescription = this.getLibraryDescription();
     const searchField = this.getSearchField();
@@ -152,19 +162,21 @@ export class ProfileLibraryInfo extends React.Component {
           />
         </div>
 
-        <InputField
-          error={this.props.errorObj.loanerId}
-          onChangeFunc={this.props.loanerIdChangeFunc}
-          type={this.state.hideLoanerId && 'password' || 'text'}
-          name="loanerId"
-          title="Dit lånernummer"
-          placeholder="Lånernummer"
-          defaultValue={this.props.favoriteLibrary.loanerId}
-          required={this.props.requireAll}
-          autocomplete="off"
-        />
-        <div className="library--hide-loanerid">
-          <label><input type="checkbox" defaultChecked={this.state.hideLoanerId} onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}/> Skjul lånernummer</label>
+        <div className={this.getLoanerIdInputFieldClassName()}>
+          <InputField
+            error={this.props.errorObj.loanerId}
+            onChangeFunc={this.props.loanerIdChangeFunc}
+            type={this.state.hideLoanerId && !Modernizr.touch && 'password' || 'tel'}
+            name="loanerId"
+            title="Dit lånernummer"
+            placeholder="Lånernummer"
+            defaultValue={this.props.favoriteLibrary.loanerId}
+            required={this.props.requireAll}
+            autocomplete="off"
+          />
+          <div className="library--hide-loanerid">
+            <label><input type="checkbox" defaultChecked={this.state.hideLoanerId} onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}/> Skjul lånernummer</label>
+          </div>
         </div>
 
         <InputField

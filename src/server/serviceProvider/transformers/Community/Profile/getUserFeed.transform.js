@@ -61,7 +61,7 @@ const getUserFeedTransform = {
           return Object.assign(group.group, {postsSinceLast, latestPost: latestPost.timeCreated || '2016-03-16T21:06:51.000Z'});
         }))
     ).then(enrichedGroups => {
-      return enrichedGroups.sort((a,b) => {
+      return enrichedGroups.sort((a, b) => {
         // Sort the groups by date of the latest post.
         return new Date(b.latestPost) - new Date(a.latestPost);
       });

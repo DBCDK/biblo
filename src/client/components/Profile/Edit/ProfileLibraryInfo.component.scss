@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'PaswordFont';
+  src:  url('/fonts/PasswordFont.ttf') format('truetype');
+}
+
 .library-search-area {
   .search-area--dropdown {
     margin: 0;
@@ -10,4 +15,11 @@
 .library--hide-loanerid {
   margin-top: 0.5em;
   text-align: right;
+}
+
+.library--form-area--hide-value-mobile {
+  input {
+    font-size: 16pt;
+    font-family: 'PaswordFont';
+  }
 }

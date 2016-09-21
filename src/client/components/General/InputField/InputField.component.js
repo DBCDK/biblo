@@ -26,6 +26,7 @@ export class InputField extends React.Component {
             autoComplete={this.props.autocomplete}
             lang="da"
             data-date-format={this.props.dateFormat}
+            pattern={this.props.pattern}
           />
           {this.props.error}
         </label>
@@ -46,7 +47,8 @@ InputField.propTypes = {
   required: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
   autocomplete: React.PropTypes.string,
-  dateFormat: React.PropTypes.string
+  dateFormat: React.PropTypes.string,
+  pattern: React.PropTypes.string
 };
 
 InputField.defaultProps = {
@@ -59,5 +61,6 @@ InputField.defaultProps = {
   type: 'text',
   required: false,
   disabled: false,
-  autocomplete: 'on'
+  autocomplete: 'on',
+  pattern: '*'
 };

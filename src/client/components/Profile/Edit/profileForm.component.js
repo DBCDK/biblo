@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import autosize from 'autosize';
 import {isEmpty} from 'lodash';
 import dateformat from '../../../Utils/dateInputPolyfill/dateformat';
@@ -36,7 +35,7 @@ export default class ProfileForm extends React.Component {
   componentDidMount() {
     autosize(this.refs.description);
 
-    const elem = ReactDOM.findDOMNode(this.refs['profile-form']);
+    const elem = this.refs['profile-form'];
     elem.onsubmit = (e) => {
       const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
       this.props.submit(

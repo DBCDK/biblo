@@ -95,7 +95,9 @@ export class WorkDetail extends React.Component {
     }
 
     return (
-      <BorrowButton {...this.props} {...{collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
+      <div className="work-detail--button-wrapper">
+        <BorrowButton {...this.props} {...{collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
+      </div>
     );
   }
 
@@ -157,12 +159,8 @@ export class WorkDetail extends React.Component {
           </div>
 
           <div className='work-detail--action-buttons'>
-            <div className="work-detail--button-wrapper">
-              {this.renderBorrowerButton(physical, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
-              </div>
-            <div className="work-detail--button-wrapper">
-              {this.renderBorrowerButton(online, <span className="at-icon">@</span>, 'Lån på eReolen', 'Gå til eReolen', 'Læs nu på eReolen', 'online')}
-              </div>
+            {this.renderBorrowerButton(physical, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
+            {this.renderBorrowerButton(online, <span className="at-icon">@</span>, 'Lån på eReolen', 'Gå til eReolen', 'Læs nu på eReolen', 'online')}
             <div className="work-detail--button-wrapper">{reviewButton}</div>
           </div>
         </div>

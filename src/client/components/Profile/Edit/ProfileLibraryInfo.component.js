@@ -169,13 +169,14 @@ export class ProfileLibraryInfo extends React.Component {
           <InputField
             error={this.props.errorObj.loanerId}
             onChangeFunc={this.props.loanerIdChangeFunc}
-            type={this.state.hideLoanerId && !this.isTouchDevice() && 'password' || 'tel'}
+            type={this.state.hideLoanerId && !this.isTouchDevice() && 'password' || 'number'}
             name="loanerId"
             title="Dit lånernummer"
             placeholder="Lånernummer"
             defaultValue={this.props.favoriteLibrary.loanerId}
             required={this.props.requireAll}
             autocomplete="off"
+            pattern="[0-9]*"
           />
           <div className="library--hide-loanerid">
             <label>
@@ -189,17 +190,20 @@ export class ProfileLibraryInfo extends React.Component {
           </div>
         </div>
 
-        <InputField
-          error={this.props.errorObj.pincode}
-          onChangeFunc={this.props.pincodeChangeFunc}
-          type="password"
-          name="pincode"
-          title="Din pinkode"
-          placeholder="Pinkode"
-          defaultValue={this.props.favoriteLibrary.pincode}
-          required={this.props.requireAll}
-          autocomplete="off"
-        />
+        <div className={this.getLoanerIdInputFieldClassName()}>
+          <InputField
+            error={this.props.errorObj.pincode}
+            onChangeFunc={this.props.pincodeChangeFunc}
+            type={!this.isTouchDevice() && 'password' || 'number'}
+            name="pincode"
+            title="Din pinkode"
+            placeholder="Pinkode"
+            defaultValue={this.props.favoriteLibrary.pincode}
+            required={this.props.requireAll}
+            autocomplete="off"
+            pattern="[0-9]*"
+          />
+        </div>
       </div>
     );
   }

@@ -27,7 +27,7 @@ function getTags(work) {
  * @param onlineAccess
  * @returns {*}
  */
-function parseOnlineAccess (onlineAccess) {
+function parseOnlineAccess(onlineAccess) {
   if (typeof onlineAccess === 'string') {
     return onlineAccess.replace('ereolen.dk', 'ereolengo.dk');
   }
@@ -36,6 +36,12 @@ function parseOnlineAccess (onlineAccess) {
   }
 
   return null;
+}
+
+export function parseSeries(work) {
+  return work.collectionDetails.filter((item) => {
+    return item.accessType[0] === 'physical' && /^bog\s\(bind \d\)/ig.test(item.type);
+  });
 }
 
 export default function parseWork(work) {
@@ -57,6 +63,7 @@ export default function parseWork(work) {
   work.publisher = (work.publisher) ? work.publisher[0] : null;
   work.ageRecommended = (work.audienceAge) ? work.audienceAge : null;
   work.ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
+  work.series = (work.type && /^bog\s\(bind \d\)/ig.test(work.type)) ? parseSeries(work) : null; // RegExp: https://regex101.com/r/qL7cO5/2
 
   return work;
 }

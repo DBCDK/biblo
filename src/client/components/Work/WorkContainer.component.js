@@ -11,6 +11,7 @@ import ModalWindow from '../General/ModalWindow/ModalWindow.component.js';
 import {WorkDetail} from './Detail/WorkDetail.component.js';
 import {WorkHeader} from './Header/WorkHeader.component.js';
 import {MoreInfo} from './MoreInfo/MoreInfo.component.js';
+import {SeriesDisplay} from './SeriesDisplay/SeriesDisplay.component';
 
 import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
@@ -83,8 +84,22 @@ export class WorkContainer extends React.Component {
     }
   }
 
+  getSeriesDisplay(work) {
+    let seriesDisplay = null;
+    if (work.series && work.series.length) {
+      const seriesTitle = work.series[0].title[0];
+      seriesDisplay = (
+        <div className="work--moreinfo">
+          <SeriesDisplay series={work.series} seriesTitle={seriesTitle} />
+        </div>
+      );
+    }
+    return seriesDisplay;
+  }
+
   render() {
     const work = this.props.workState.work;               // the work collection from the service provider
+    const seriesDisplay = this.getSeriesDisplay(work);
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
     let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
@@ -96,8 +111,8 @@ export class WorkContainer extends React.Component {
     });
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
-      {this.props.ui.modal.isOpen &&
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
+        {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
             this.props.ui.modal.children
@@ -173,6 +188,8 @@ export class WorkContainer extends React.Component {
               expand={this.props.reviewActions.asyncShowWorkReviews}
             />
           </div>
+
+          {seriesDisplay}
 
           <div className="work--moreinfo">
             <MoreInfo

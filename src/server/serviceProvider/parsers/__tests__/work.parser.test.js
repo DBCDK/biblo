@@ -29,6 +29,7 @@ describe('Unittest methods in work.parser.js', () => {
         case 'publisher':
         case 'ageRecommended':
         case 'ageAllowed':
+        case 'series':
         case 'hasOnlineAccess': {
           assert.isNull(item);
           break;

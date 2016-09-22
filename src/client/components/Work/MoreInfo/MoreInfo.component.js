@@ -14,7 +14,6 @@ const MORE_INFO_TYPES = {
   publisher: 'Udgiver',
   director: 'Instruktør',
   actors: 'Medvirkende',
-  series: 'Serie',
   tags: 'Emne',
   year: 'Udgivet i',
   dk5: 'DK5',
@@ -181,7 +180,6 @@ MoreInfo.displayName = 'MoreInfo';
 MoreInfo.propTypes = {
   workType: React.PropTypes.string,
   tags: React.PropTypes.array,
-  series: React.PropTypes.string,
   year: React.PropTypes.array,
   dk5: React.PropTypes.string,
   dk5Text: React.PropTypes.string,

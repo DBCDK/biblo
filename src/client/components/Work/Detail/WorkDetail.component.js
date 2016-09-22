@@ -17,6 +17,7 @@ import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music.sv
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
+import houseSvg from '../../General/Icon/svg/functions/house.svg';
 
 const displayTypeSvgs = {
   book: bookSvg,
@@ -55,6 +56,51 @@ export class WorkDetail extends React.Component {
     return {consolidatedTitleSeries: title, consolidatedTitleSeriesQuery: query};
   }
 
+  /**
+   * Split an array of collectionsDetails into an online and physical materials
+   *
+   * @param collectionDetails
+   * @returns {{physical: Array, online: Array}}
+   */
+  splitByAccessType(collectionDetails) {
+    const physical = [];
+    const online = [];
+    collectionDetails.forEach(collection => {
+      if (collection.accessType[0] === 'online') {
+        online.push(collection);
+      }
+      else {
+        physical.push(collection);
+      }
+    });
+
+    return {physical, online};
+  }
+
+  /**
+   * Render a button for loans
+   *
+   * @param collectionDetails
+   * @param buttonIcon
+   * @param buttonTitle
+   * @param modalButtonTitle
+   * @param itemDescription
+   * @param type
+   * @returns {*}
+   */
+  renderBorrowerButton(collectionDetails, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
+
+    if (this.props.ownReview || collectionDetails.length === 0) {
+      return '';
+    }
+
+    return (
+      <div className="work-detail--button-wrapper">
+        <BorrowButton {...this.props} {...{collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
+      </div>
+    );
+  }
+
   render() {
     const coverUrl = this.props.coverUrl;
     const title = this.props.title;
@@ -71,6 +117,8 @@ export class WorkDetail extends React.Component {
 
     const profile = this.props.profile;
     let reviewButton;
+
+    const {physical, online} = this.splitByAccessType(this.props.collectionDetails);
 
     // sd-566: tweak login requirements and button glyph when in full review view
     if (this.props.fullReview) {
@@ -94,7 +142,6 @@ export class WorkDetail extends React.Component {
         />
       );
     }
-
     return (
       <div className='work-detail'>
         <div className='work-detail--main'>
@@ -112,28 +159,9 @@ export class WorkDetail extends React.Component {
           </div>
 
           <div className='work-detail--action-buttons'>
-            {
-              //  sd-566: Do not show borrow button when displaying own review in expanded mode (the user allready borrowed this)
-              !this.props.ownReview && <BorrowButton
-                collectionDetails={this.props.collectionDetails}
-                collection={this.props.collection}
-                workTitle={title}
-                coverUrl={coverUrl}
-                orderState={this.props.orderState}
-                orderMaterialAction={this.props.orderMaterialAction}
-                checkAvailabilityAction={this.props.checkAvailabilityAction}
-                checkAvailabilityResult={this.props.checkAvailabilityResult}
-                checkAvailabilityDone={this.props.checkAvailabilityDone}
-                resetOrderState={this.props.resetOrderState}
-                saveProfileAction={this.props.saveProfileAction}
-                unselectLibraryFunction={this.props.unselectLibraryFunction}
-                searchForLibraryAction={this.props.searchForLibraryAction}
-                librarySearchResults={this.props.librarySearchResults}
-                profile={this.props.profile}
-                getWorkOnlineAccessAction={this.props.getWorkOnlineAccessAction}
-              />
-            }
-            {reviewButton}
+            {this.renderBorrowerButton(physical, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
+            {this.renderBorrowerButton(online, <span className="at-icon">@</span>, 'Lån på eReolen', 'Gå til eReolen', 'Læs nu på eReolen', 'online')}
+            <div className="work-detail--button-wrapper">{reviewButton}</div>
           </div>
         </div>
 

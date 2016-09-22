@@ -3,10 +3,8 @@
 
 .review-button {
   @include button();
-  margin-right: 10px;
-  @include max-screen($tablet - 1px) {
+    padding-left: 0;
+    padding-right: 0;
     display: block;
-    margin-bottom: 5px;
     text-align: center;
-  }
 }

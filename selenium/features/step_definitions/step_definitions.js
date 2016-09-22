@@ -23,6 +23,13 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
+  this.Given(/^a user visits the krigerkattene page$/, function(callback) {
+    this.browser.get(`${BASE_URL}/materiale/870970-basis:29283893`)
+      .then(() => {
+        callback();
+      });
+  });
+
   this.Given(/^a user visits the LegoIndianaJones page$/, function(callback) {
     this.browser.get(`${BASE_URL}/materiale/870970-basis:29186626`)
       .then(() => {
@@ -124,9 +131,9 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.Then(/^text on loan button should be ([a-zæøåA-ZÆØÅ\-]+)/, function(buttonText) {
-    return this.browser.findElement(By.className('work-detail--order-button')).then((menu) => {
-      menu.getText().then((text) => {
+  this.Then(/^text on loan button should be ([a-zæøåA-ZÆØÅ\ \-]+)/, function(buttonText) {
+    return this.browser.findElement(By.className('button-text')).then((element) => {
+      element.getText().then((text) => {
         assert.strictEqual(text, buttonText);
       });
     });

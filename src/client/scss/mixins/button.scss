@@ -18,12 +18,8 @@
   svg {
     fill: $color;
     margin-right: 10px;
-    @include max-screen($tablet - 1px) {
-      padding-right: 5px;
-    }
     position: relative;
     display: inline-block;
-    top: 2px;
   }
   @include hover-transition((background: $background), 200ms, $lighten, $hoverColor);
   @include no-selection();

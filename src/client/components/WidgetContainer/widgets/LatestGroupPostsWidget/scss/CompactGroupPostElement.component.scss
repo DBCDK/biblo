@@ -4,10 +4,17 @@
   display: inline-table;
   width: 300px;
   height: 200px;
-  padding: 20px;
+  @include screen($tablet, $desktop) {
+    width: calc(50% - 2em);
+  }
+
+  @include min-screen($desktop) {
+    width: calc(33% - 2em);
+  }
+  padding: 1em;
   padding-top: 0;
   position: relative;
-  margin: 20px;
+  margin: 1em;
   background-color: $white;
   vertical-align: top;
 }

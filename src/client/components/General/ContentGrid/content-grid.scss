@@ -1,30 +1,10 @@
 @import 'tools';
 
 .content-grid--wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  margin: 0px;
-  margin-left: -1em;
-  padding: 0px;
-  list-style-type: none;
+  @extend %content-grid;
 }
 
 .content-grid--element {
-  box-sizing: border-box;
-  margin-bottom: 2em;
-  width: 100%;
-  padding-left: 1em;
-
-  @include screen($phone, $tablet) {
-    width: 50%;
-  }
-
-  @include min-screen($tablet) {
-    width: 33%;
-  }
-
-
   a {
     color: $black;
   }

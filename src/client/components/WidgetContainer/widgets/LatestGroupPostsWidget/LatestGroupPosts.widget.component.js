@@ -115,7 +115,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     const groupId = this.props.widgetConfig.group;
     const widgetGroup = this.props.widgetReducerProp.groups[groupId];
     const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
-    const shouldDisplayShowMoreButton = widgetPosts.length < widgetGroup.postsCount;
+    const shouldDisplayShowMoreButton = widgetGroup.postsCount && widgetPosts.length < widgetGroup.postsCount;
 
     const showMoreButton = this.renderShowMoreButton(shouldDisplayShowMoreButton);
     const campaignLogo = this.renderCampaignLogo(widgetGroup);

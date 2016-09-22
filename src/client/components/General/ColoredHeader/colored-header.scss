@@ -1,7 +1,8 @@
 @import 'tools';
 
 .colored-header {
-  @include clearfix();
+  @include container();
+  margin: -1em -1em 1em -1em;
   background-color: $turquoise;
   padding-bottom: 20px;
 
@@ -35,4 +36,8 @@
       width: 80%;
     }
   }
+}
+
+.widget--title--generic.ColoredHeaderWidget {
+  display: none;
 }

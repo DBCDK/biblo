@@ -1,0 +1,30 @@
+@import '../settings/breakpoints';
+
+%content-grid {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0px;
+  margin-left: -1em;
+  padding: 0px;
+  list-style-type: none;
+
+  & > * {
+    box-sizing: border-box;
+    margin-bottom: 2em;
+    width: 100%;
+    padding-left: 2em;
+
+    @include max-screen($phone) {
+      padding-left: 1em;
+    }
+
+    @include screen($tablet, $desktop) {
+      width: 50%;
+    }
+
+    @include min-screen($desktop) {
+      width: 33%;
+    }
+  }
+}

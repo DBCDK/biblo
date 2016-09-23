@@ -36,7 +36,6 @@ import * as coverImageActions from '../../../Actions/coverImage.actions';
 import * as profileActions from '../../../Actions/profile.actions';
 import * as userstatusActions from '../../../Actions/userstatus.actions';
 
-
 // SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -85,13 +84,18 @@ export class ProfileDetailContainer extends React.Component {
         {this.state.groups.map((group) => {
           return (
             <div key={`group_${group.id}`} className="groups-modal--group">
-              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast} followers={false} />
-              {isMyProfile ?
-                <Follow active={group.following}
-                        onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
-                        showLoginLink={false}
-                        text={group.following && 'Følger' || 'Følg gruppen'}/> : ''}
-                 </div>
+              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast || 0} followers={false}/>
+              {
+                isMyProfile ?
+                  <Follow
+                    active={group.following}
+                    onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
+                    showLoginLink={false}
+                    text={group.following && 'Følger' || 'Følg gruppen'}
+                  />
+                  : ''
+              }
+            </div>
           );
         })}
       </div>
@@ -379,7 +383,7 @@ export class ProfileDetailContainer extends React.Component {
     return tabs;
   }
 
-  renderCampaignBadges (campaigns, isMyProfile) {
+  renderCampaignBadges(campaigns, isMyProfile) {
     let campaignDiplomaButtons = null;
     if (campaigns) {
       campaignDiplomaButtons = campaigns.map(campaign => {
@@ -389,7 +393,7 @@ export class ProfileDetailContainer extends React.Component {
     return campaignDiplomaButtons;
   }
 
-  renderCampaignBadge (campaign, isMyProfile) {
+  renderCampaignBadge(campaign, isMyProfile) {
     const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
     let logo;
     if (campaign.logos.svg) {
@@ -410,19 +414,20 @@ export class ProfileDetailContainer extends React.Component {
     return (<span className="p-detail--diploma " key={`campaign_${campaign.id}`}>{badge}</span>);
   }
 
-  renderGroupButton (userProfile, groupsModalContent, modalTitle, isMyProfile, size) {
+  renderGroupButton(userProfile, groupsModalContent, modalTitle, isMyProfile, size) {
     return (
-        <a href="#!Grupper" onClick={() => {
-          this.props.uiActions.openModalWindow(groupsModalContent, modalTitle);
-        }}>
-          <div className="p-detail--group-button">
-            <Icon glyph={grupperSvg} width={size} height={size}/><div>Grupper</div>
-          </div>
-          {isMyProfile && userProfile.postsInGroups &&
-          <div className="p-detail--total-posts-since-last">
-            {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
-          </div> || null}
-        </a>
+      <a href="#!Grupper" onClick={() => {
+        this.props.uiActions.openModalWindow(groupsModalContent, modalTitle);
+      }}>
+        <div className="p-detail--group-button">
+          <Icon glyph={grupperSvg} width={size} height={size}/>
+          <div>Grupper</div>
+        </div>
+        {isMyProfile && userProfile.postsInGroups &&
+        <div className="p-detail--total-posts-since-last">
+          {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
+        </div> || null}
+      </a>
     );
   }
 
@@ -499,17 +504,17 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
         {modal}
         <div className="p-detail--badge-container">
           <div className="p-detail--diploma-wrapper">
-             <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
-           </div>
-           <div className="p-detail--buttons-wrapper">
-             <div className="p-detail--buttons-container">
-               {this.renderGroupButton(userProfile, groupsModalContent, groupsModalTitle, isMyProfile, 40)}
-             </div>
-           </div>
+            <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
+          </div>
+          <div className="p-detail--buttons-wrapper">
+            <div className="p-detail--buttons-container">
+              {this.renderGroupButton(userProfile, groupsModalContent, groupsModalTitle, isMyProfile, 40)}
+            </div>
+          </div>
         </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">

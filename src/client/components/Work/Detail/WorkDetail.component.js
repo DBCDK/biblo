@@ -6,7 +6,7 @@ import React from 'react';
 import './WorkDetail.component.scss';
 
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
-import ReviewButton from '../../Review/ReviewButton.js';
+import {ReviewButton} from '../../Review/ReviewButton.js';
 import BorrowButton from '../BorrowButton/BorrowButton.component';
 import Icon from '../../General/Icon/Icon.component.js';
 

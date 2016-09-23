@@ -9,19 +9,19 @@
 
 /* campaign diplomas */
 .p-detail--diploma-wrapper {
-  display:  inline-block;
+  display: inline-block;
   @include min-screen($desktop) {
     width: 50%;
   }
 }
 
 .p-detail--diploma-container {
-   height: 50px;
+  height: 50px;
 
-   @include min-screen($desktop) {
-     padding-right: 150px;
-     height: 220px;
-   }
+  @include min-screen($desktop) {
+    padding-right: 150px;
+    height: 220px;
+  }
 }
 
 .p-detail--diploma {
@@ -40,10 +40,7 @@
   }
 
   img {
-    filter: drop-shadow(2px 2px 0 white)
-    drop-shadow(-2px 2px 0 white)
-    drop-shadow(2px -2px 0 white)
-    drop-shadow(-2px -2px 0 white);
+    filter: drop-shadow(2px 2px 0 white) drop-shadow(-2px 2px 0 white) drop-shadow(2px -2px 0 white) drop-shadow(-2px -2px 0 white);
   }
 }
 
@@ -51,7 +48,7 @@
 .p-detail--buttons-wrapper {
   display: none;
   @include min-screen($desktop) {
-    display:  inline-block;
+    display: inline-block;
   }
 }
 
@@ -61,6 +58,7 @@
     position: relative;
   }
 }
+
 .p-detail--buttons-container--mobile {
   position: relative;
   display: inline-block;
@@ -87,7 +85,7 @@
   border-color: #f2f2f2;
 }
 
-.p-detail--total-posts-since-last, .groups-modal--posts-since-last{
+.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
   @include bubble($governor-bay);
   position: absolute;
   color: white;

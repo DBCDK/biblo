@@ -434,7 +434,7 @@ export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
-      image: userProfile && userProfile.image && userProfile.image.medium || '/no_profile.png'
+      image: userProfile && userProfile.image && userProfile.image.smallSquare || '/no_profile.png'
     });
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
@@ -531,7 +531,6 @@ export class ProfileDetailContainer extends React.Component {
       </PageLayout>
     );
   }
-
 }
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
@@ -568,7 +567,10 @@ ProfileDetailContainer.defaultProps = {
 /**
  * Connect the redux state and actions to container props
  */
-export default connect(
+export
+default
+
+connect(
   // Map redux state to props
   (state) => {
     return {
@@ -583,7 +585,8 @@ export default connect(
       works: state.workReducer,
       globalState: state.globalReducer,
       userstatusState: state.userstatusReducer
-    };
+    }
+      ;
   },
 
   // Map actions to props

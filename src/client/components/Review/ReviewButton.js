@@ -7,7 +7,6 @@ import Login from '../General/Login/Login.component.js';
 import './ReviewButton.scss';
 
 export class ReviewButton extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -15,11 +14,7 @@ export class ReviewButton extends React.Component {
     };
   }
 
-  loginRequired () {
-    return this.props.loginRequired;
-  }
-
-  handleClick () {
+  handleClick() {
     if (this.props.profile.userIsLoggedIn || !this.props.loginRequired) {
       this.props.clickFunction();
     }
@@ -30,27 +25,14 @@ export class ReviewButton extends React.Component {
     }
   }
 
-  getIcon () {
-    let icon;
-    if (this.props.glyph) {
-      icon = (<Icon glyph={this.props.glyph}/>);
-    }
-    else {
-      icon = (<span/>);
-    }
-    return icon;
-  }
-
   render() {
-    let {
-      editText
-      }= this.props;
-
     if (this.state.loginPending) {
       return (<Login>Log ind for at skrive en anmeldelse </Login>);
     }
 
-    let icon = this.getIcon();
+    const editText = this.props.editText;
+    const icon = this.props.glyph ? (<Icon glyph={this.props.glyph}/>) : (<span/>);
+
     return (
       <a className="review-button" onClick={this.handleClick.bind(this)}>
        <span>
@@ -59,7 +41,6 @@ export class ReviewButton extends React.Component {
       </a>
     );
   }
-
 }
 
 ReviewButton.displayName = 'ReviewButton';
@@ -74,5 +55,3 @@ ReviewButton.propTypes = {
 ReviewButton.defaultProps = {
   loginRequired: true
 };
-
-export default ReviewButton;

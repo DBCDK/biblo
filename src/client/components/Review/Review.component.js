@@ -145,7 +145,7 @@ export default class Review extends UploadMedia {
   /**
    * choose to overwrite or keep existing review
    */
-  overwriteReview (id) {
+  overwriteReview(id) {
     const content = (
       <div>
         <p>HOV! Du har vist allerede anmeldt den her. Du må kun lave en. Ønsker du at overskrive?</p>
@@ -250,7 +250,7 @@ export default class Review extends UploadMedia {
     return true;
   }
 
-  afterEdit () {
+  afterEdit() {
     this.setState({isEditing: false, isLoading: false});
   }
 
@@ -261,22 +261,20 @@ export default class Review extends UploadMedia {
    * @returns {boolean}
    */
   onSubmit(evt) {
-    if (XMLHttpRequest && FormData) {
-      evt.preventDefault();
+    evt.preventDefault();
+    this.setState({isLoading: true});
+
+    if (this.validate() && XMLHttpRequest && FormData) {
+      this.processContent();
+    }
+    else {
+      this.setState({isLoading: false});
     }
 
-    if (this.validate()) {
-      if (XMLHttpRequest && FormData) {
-        this.processContent()
-          .then(() => {
-            this.setState({isLoading: true});
-          });
-      }
-    }
     return false;
   }
 
-  processContent () {
+  processContent() {
     return new Promise((resolve, reject) => {
       this.addContent(this.refs.contentForm, '/anmeldelse/').then((response) => {
         if (response.errors && response.errors.length > 0) {
@@ -312,23 +310,46 @@ export default class Review extends UploadMedia {
     });
   }
 
+  getDeleteButton() {
+    if (this.props.id) {
+      return (<a className="button delete" onClick={() => this.deleteReview()}>
+          <span>Slet</span>
+        </a>
+      );
+    }
+
+    return null;
+  }
+
+  spawnLoginDialog() {
+    const dialog = (
+      <div>
+        <p>Du skal logge ind for at like</p>
+        <RoundedButton
+          href={`/login?destination=${encodeURIComponent(window.location)}`}
+          buttonText="Login"
+          compact={false}
+        />
+      </div>
+    );
+
+    this.props.uiActions.openModalWindow(dialog);
+  }
+
   render() {
     let {
-      errors,
-      pid,
-      content,
-      rating,
-      owner,
-      image,
-      video,
-      profile,
-      created
-      } = this.state;
+          errors,
+          pid,
+          content,
+          rating,
+          owner,
+          image,
+          video,
+          profile,
+          created
+        } = this.state;
 
-    let logo;
-    if (this.props.campaign && this.props.campaign.logos) {
-      logo = this.props.campaign.logos.small;
-    }
+    const logo = (this.props.campaign && this.props.campaign.logos) ? this.props.campaign.logos.small : null;
 
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
@@ -368,29 +389,16 @@ export default class Review extends UploadMedia {
           <div>
             <p>Du skal logge ind for at skrive til moderator</p>
             <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
-                         compact={false}/>
+                           compact={false}/>
           </div>
         );
         this.props.uiActions.openModalWindow(dialog);
       }
     };
 
-    let flagButton = (
-      <TinyButton
-        clickFunction={flagFunction}
-        icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
-      />
-    );
+    const deleteButton = this.getDeleteButton();
 
-    let deleteButton;
-    if (this.props.id) {
-      deleteButton = (<a className="button delete" onClick={() => this.deleteReview()}>
-          <span>Slet</span>
-        </a>
-      );
-    }
-
-    if (this.state.isEditing &&(!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile)) {
+    if (this.state.isEditing && (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile)) {
       return (
         <div className='content-add'>
           <Login>Log ind for at skrive en anmeldelse</Login>
@@ -405,21 +413,13 @@ export default class Review extends UploadMedia {
 
     const youtube = ExtractYoutubeID(content);
     const uniqueId = `upload-media-review-${this.props.id || this.props.parentId}`;
-    const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file && this.state.attachment.video.file.progress === 100 ? 'done' : '';
+    const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file && this.state.attachment.video.file.progress === 100 ?
+      'done' :
+      '';
     const isLikedByCurrentUser = includes(this.props.likes, this.props.profile.id);
-    const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : () => {
-      let dialog = (
-        <div>
-          <p>Du skal logge ind for at like</p>
-          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`}
-                         buttonText="Login"
-                         compact={false}/>
-        </div>
-      );
-      this.props.uiActions.openModalWindow(dialog);
-    };
-    const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {
-    };
+    const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : this.spawnLoginDialog;
+
+    const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {};
 
     const likeButton = (
       <LikeButton
@@ -431,13 +431,7 @@ export default class Review extends UploadMedia {
       />
     );
 
-    let ownerimage;
-    if (owner.image.url) {
-      ownerimage = owner.image.url.medium;
-    }
-    else {
-      ownerimage = owner.image;
-    }
+    const ownerimage = owner.image.url ? owner.image.url.medium : owner.image;
 
     const imageCollectionId = this.state.attachment && this.state.attachment.image && this.state.attachment.image.imageCollectionId;
 
@@ -456,15 +450,25 @@ export default class Review extends UploadMedia {
                                                   dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
             <span className='time'>{this.state.isEditing && 'Skriver nu' || TimeToString(created)}</span>
 
-            {logo &&
-            <img className='logo' src={logo}/>
-            }
+            {logo && <img className='logo' src={logo}/>}
+
             <span className='buttons'>
-              {(profile.id === owner.id || profile.isModerator) &&
-              <TinyButton active={this.state.isEditing} clickFunction={() => this.toggleEditing()}
-                          icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>}/>
-              ||
-              flagButton
+              {
+                (profile.id === owner.id || profile.isModerator) &&
+                <TinyButton
+                  active={this.state.isEditing}
+                  clickFunction={() => this.toggleEditing()}
+                  icon={
+                    <Icon glyph={pencilSvg} className="icon edit-post--button"/>
+                  }
+                />
+                ||
+                <TinyButton
+                  clickFunction={flagFunction}
+                  icon={
+                    <Icon glyph={flagSvg} className="icon flag-post--button"/>
+                  }
+                />
               }
             </span>
           </div>
@@ -484,20 +488,23 @@ export default class Review extends UploadMedia {
                 encType="multipart/form-data"
               >
                 <div className='review-add--input'>
-                   <textarea className="review-add--textarea" ref='contentTextarea' name="content"
-                             placeholder='Skriv din anmeldelse her'
-                             value={this.state.content}
-                             onChange={(e) => this.setState({content: e.target.value})}
+                   <textarea
+                     className="review-add--textarea"
+                     ref='contentTextarea'
+                     name="content"
+                     placeholder='Skriv din anmeldelse her'
+                     value={this.state.content}
+                     onChange={(e) => this.setState({content: e.target.value})}
                    />
                   <input type="hidden" name="id" value={this.state.id || ''}/>
                   <input type="hidden" name="reviewownerid" value={this.state.reviewownerid || ''}/>
                   <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId || ''}/>
-                  <input type="hidden" name="imageId" value={imageCollectionId || ''} />
+                  <input type="hidden" name="imageId" value={imageCollectionId || ''}/>
                   <input type="hidden" name="pid" value={this.state.pid || ''}/>
                   <input type="hidden" name="worktype" value={this.state.worktype || ''}/>
                   <input type="hidden" name="rating" value={this.state.rating || ''}/>
                   <input type="hidden" name="libraryid" value={libraryId || ''}/>
-                  {this.state.created && <input type="hidden" name="created" value={this.state.created} />}
+                  {this.state.created && <input type="hidden" name="created" value={this.state.created}/>}
 
                   {this.state.attachment.image && this.state.attachment.image.data &&
                   <div className='review-add--preview-image'>
@@ -533,8 +540,8 @@ export default class Review extends UploadMedia {
                     className='button submit'
                     id='submit-btn'
                     disabled={this.state.attachment.video && this.state.attachment.video.file &&
-                      this.state.attachment.video.file.progress > 0
-                     && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
+                    this.state.attachment.video.file.progress > 0
+                    && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
                   >
                     {(this.state.isLoading) && <Icon glyph={spinner}/>}
                     OK

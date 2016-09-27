@@ -22,6 +22,10 @@ const ListGroupsTransform = {
   },
 
   responseTransform(response) {
+    if (!response) {
+      throw new Error('Empty response from BibloCS, it\'s most likely down!');
+    }
+
     let body = JSON.parse(response.body);
     body = body.map(groupParser);
     return body;

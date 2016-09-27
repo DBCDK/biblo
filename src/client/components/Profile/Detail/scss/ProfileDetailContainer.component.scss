@@ -117,6 +117,7 @@
     img {
       width: inherit;
       height: inherit;
+      object-fit: cover;
       border-radius: 50%;
       overflow: hidden;
       filter: drop-shadow(2px 2px 5px #666);

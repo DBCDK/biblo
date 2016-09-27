@@ -495,7 +495,9 @@ export class ProfileDetailContainer extends React.Component {
 
     else {
       profileImage = (<div className="p-detail--image-container">
-        <img src={userProfile.image} alt={userProfile.displayName}/>
+        <div className="p-detail--image-crop">
+          <img src={userProfile.image} alt={userProfile.displayName}/>
+        </div>
       </div>);
     }
 

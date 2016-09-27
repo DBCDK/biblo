@@ -36,7 +36,6 @@ import * as coverImageActions from '../../../Actions/coverImage.actions';
 import * as profileActions from '../../../Actions/profile.actions';
 import * as userstatusActions from '../../../Actions/userstatus.actions';
 
-
 // SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
 import editSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -85,12 +84,17 @@ export class ProfileDetailContainer extends React.Component {
         {this.state.groups.map((group) => {
           return (
             <div key={`group_${group.id}`} className="groups-modal--group">
-              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast} followers={false}/>
-              {isMyProfile ?
-                <Follow active={group.following}
-                        onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
-                        showLoginLink={false}
-                        text={group.following && 'Følger' || 'Følg gruppen'}/> : ''}
+              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast || 0} followers={false}/>
+              {
+                isMyProfile ?
+                  <Follow
+                    active={group.following}
+                    onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
+                    showLoginLink={false}
+                    text={group.following && 'Følger' || 'Følg gruppen'}
+                  />
+                  : ''
+              }
             </div>
           );
         })}
@@ -502,8 +506,7 @@ export class ProfileDetailContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
-                  profileState={this.props.profile} globalState={this.props.globalState}>
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
         {modal}
         <div className="p-detail--badge-container">
           <div className="p-detail--diploma-wrapper">
@@ -530,7 +533,6 @@ export class ProfileDetailContainer extends React.Component {
       </PageLayout>
     );
   }
-
 }
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
@@ -567,7 +569,10 @@ ProfileDetailContainer.defaultProps = {
 /**
  * Connect the redux state and actions to container props
  */
-export default connect(
+export
+default
+
+connect(
   // Map redux state to props
   (state) => {
     return {
@@ -582,7 +587,8 @@ export default connect(
       works: state.workReducer,
       globalState: state.globalReducer,
       userstatusState: state.userstatusReducer
-    };
+    }
+      ;
   },
 
   // Map actions to props

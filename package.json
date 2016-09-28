@@ -36,9 +36,9 @@
   ],
   "author": "dbcdk",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/DBCDK/biblo/issues"
-  },
+    "bugs": {
+      "url": "https://github.com/DBCDK/biblo/issues"
+    },
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
     "@dbcdk/biblo-config": "^2.3.5",
@@ -125,7 +125,7 @@
     "youtube-link-to-id": "^1.0.2"
   },
   "devDependencies": {
-    "babel-eslint": "^6.0.4",
+    "babel-eslint": "^7.0.0",
     "chai": "^3.2.0",
     "chai-as-promised": "^5.3.0",
     "chromedriver": "^2.19.0",

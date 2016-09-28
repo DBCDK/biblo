@@ -1,38 +1,47 @@
+@import 'tools';
+
 .logout-warning {
   text-align: left;
   padding-left: 4vw;
   padding-right: 4vw;
-  height: 40vh;
+  max-height: 70vh;
 
- .icon-container {
+  .icon-container {
     display: block;
-    margin: 0  auto;
+    margin: 0 auto;
     height: 14vh;
     width: 14vh;
     border-style: solid;
     border-color: #1c94c4;
-    padding: 2vh 2vh 2vh 2vh ;
+    padding: 1.5vh;
   }
 
- .icon {
-   height: 10vh;
-   width:  10vh;
- }
+  .icon {
+    height: 10vh;
+    width: 10vh;
+  }
 
- .header {
-  display: block;
-  font-weight: bold;
-  padding-top: 4vh;
-  padding-bottom: 4vh;
- }
+  .header {
+    display: block;
+    font-weight: bold;
+    padding-top: 4vh;
+    padding-bottom: 4vh;
+    @include max-screen($phone) {
+      padding-top: 1vh;
+      padding-bottom: 1vh;
+    }
+  }
 
- .message {
-   padding-bottom: 4vh;
- }
+  .message {
+    padding-bottom: 4vh;
+    @include max-screen($phone) {
+      padding-bottom: 1vh;
+    }
+  }
 
- .rounded-button {
-   display: block;
-   text-align: center;
+  .rounded-button {
+    display: block;
+    text-align: center;
   }
 }
 

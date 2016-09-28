@@ -89,7 +89,7 @@
     "no-script-url": 2,
     "no-self-compare": 2,
     "no-sequences": 2,
-    "no-unused-expressions": 2,
+    "no-unused-expressions": 1,
     "no-void": 0,
     "no-warning-comments": 0,
     "no-with": 2,

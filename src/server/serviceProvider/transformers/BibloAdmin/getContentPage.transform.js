@@ -54,6 +54,10 @@ const getContentPageTransform = {
       const contentResponse = JSON.parse(response.body) || {};
       const widgetLocations = contentResponse.type === 'article' ? this.getArticleLocations(contentResponse) : this.getSectionLocations(contentResponse);
       data.body = {widgetLocations, title: contentResponse.title};
+
+      if (contentResponse.message) {
+        data.body.message = contentResponse.message;
+      }
     }
     catch (err) {
       data.errors.push(err);

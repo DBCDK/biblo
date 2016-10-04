@@ -61,7 +61,11 @@ export default ContentRoutes;
 
 export async function wildCardRoute(req, res, next) {
   try {
-    const contentObject = (await req.callServiceProvider('getContentPage', req.originalUrl))[0].body;
+    let contentObject = (await req.callServiceProvider('getContentPage', req.originalUrl))[0].body;
+
+    if (req.app.get('env') === 'development' && req.url === '/jsonroute') {
+      contentObject = require('../../../jsonpage.json');
+    }
 
     if (contentObject.message && contentObject.message.indexOf('No route found for') > -1) {
       throw new Error('Content page was requested but not found!');

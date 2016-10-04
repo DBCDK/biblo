@@ -1,0 +1,67 @@
+{
+  "title": "Json page!",
+  "widgetLocations": {
+    "SectionPage": [
+      {
+        "widgetName": "EditoriallySelectedMaterialsWidget",
+        "widgetConfig": {
+          "title": "JEG anbefaler",
+          "pids": [
+            "870970-basis:25641647",
+            "870970-basis:29513252"
+          ],
+          "backgroundColor": "#ffddee",
+          "backgroundImageUrl": "https://biblo.dk/sommerbogen/altomsommerbogen",
+          "showTitle": true
+        }
+      },
+      {
+        "widgetName": "LatestGroupPostsWidget",
+        "widgetConfig": {
+          "displayTitle": "UPLOADET TIL \"SKRIV DIN EGEN HISTORIE\"",
+          "showTitle": true,
+          "backgroundColor": "#91EEFA",
+          "postsToLoad": 3,
+          "group": 136
+        }
+      },
+      {
+        "widgetName": "LatestGroupPostsWidget",
+        "widgetConfig": {
+          "displayTitle": "asd",
+          "showTitle": true,
+          "backgroundColor": "#91EEFA",
+          "postsToLoad": 3,
+          "group": 137
+        }
+      },
+      {
+        "widgetName": "EditoriallySelectedReviewsWidget",
+        "widgetConfig": {
+          "reviewIds": [
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "widgetName": "LatestPostsWidget",
+        "widgetConfig": {
+          "displayTitle": "ret nye inlæg",
+          "showTitle": true,
+          "backgroundColor": "#91EEFA",
+          "postsToLoad": 7
+        }
+      },
+      {
+        "widgetName": "LatestPostsWidget",
+        "widgetConfig": {
+          "displayTitle": "ret nye inlæg",
+          "showTitle": true,
+          "backgroundColor": "#91EEFA",
+          "postsToLoad": 7
+        }
+      }
+    ]
+  }
+}

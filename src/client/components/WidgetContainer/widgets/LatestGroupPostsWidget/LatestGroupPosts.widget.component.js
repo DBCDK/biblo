@@ -79,7 +79,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
   }
 
   renderCampaignLogo(widgetGroup) {
-    const campaignLogoUrl = widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small || null;
+    const campaignLogoUrl = widgetGroup && widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small || null;
     if (campaignLogoUrl) {
       return (
         <span className="latest-group-posts-widget--campaign-logo">
@@ -115,7 +115,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     const groupId = this.props.widgetConfig.group;
     const widgetGroup = this.props.widgetReducerProp.groups[groupId];
     const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
-    const shouldDisplayShowMoreButton = widgetGroup.postsCount && widgetPosts.length < widgetGroup.postsCount;
+    const shouldDisplayShowMoreButton = widgetGroup && widgetGroup.postsCount && widgetPosts.length < widgetGroup.postsCount;
 
     const showMoreButton = this.renderShowMoreButton(shouldDisplayShowMoreButton);
     const campaignLogo = this.renderCampaignLogo(widgetGroup);

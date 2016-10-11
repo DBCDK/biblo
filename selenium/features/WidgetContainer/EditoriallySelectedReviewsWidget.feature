@@ -15,4 +15,4 @@ Feature: Editorially selected reviews widget
     # Make some assertions on the response
     Then page is not error page
      And the editorial-reviews--review selector should contain the following items
-       | thisisthereviewauthor3 anmelder: | thisisareview3 | Hobbyarbejder med hesteskosøm |
+       | thisisthereviewauthor3 anmelder: | thisisareview3 | ★ |

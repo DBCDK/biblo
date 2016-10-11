@@ -1,6 +1,20 @@
 @import '../settings/breakpoints';
 
-%content-grid {
+@mixin scroller($element-size) {
+  height: auto;
+  -webkit-overflow-scrolling: touch;
+  @include max-screen($tablet) {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    & > *:not(span) {
+      flex: 0 0 $element-size;
+      height: auto;
+    }
+  }
+}
+
+
+@mixin content-grid($base-size: 180px) {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -9,22 +23,20 @@
   padding: 0px;
   list-style-type: none;
 
-  & > * {
+  & > *:not(span) {
+    display: block;
     box-sizing: border-box;
-    margin-bottom: 2em;
-    width: 100%;
-    padding-left: 2em;
-
-    @include max-screen($phone) {
-      padding-left: 1em;
-    }
-
-    @include screen($tablet, $desktop) {
-      width: 50%;
-    }
-
-    @include min-screen($desktop) {
-      width: 33%;
-    }
+    margin-bottom: 1em;
+    flex: 1 $base-size;
+    padding-left: 1em;
   }
+}
+
+
+%content-grid {
+  @include content-grid(300px);
+}
+
+%scroller {
+  @include scroller(75%);
 }

@@ -1,22 +1,17 @@
 @import 'tools';
 
 .compact-works--container {
-  padding:15px;
-
-  @include span(24);
-  -webkit-overflow-scrolling: touch;
-
+  @include content-grid(150px);
+  & > * {
+    max-width: 180px;
+  }
+  overflow: hidden;
+  @include scroller(75%);
   &.closed {
     height: 250px;
-    padding: 0;
-    overflow: hidden;
-
-    @include max-screen($tablet - 1) {
-      overflow-x: scroll;
-      display: block;
-      white-space: nowrap;
-    }
+    margin-bottom: 2em;
   }
+
 
   .compact-works--spinner-container {
     text-align: center;

@@ -20,7 +20,7 @@ export class CompactWorkElementsContainer extends Component {
     const elements = this.props.works.map(work => <CompactWorkElement work={work} key={`work-${work.collection[0]}`}/>);
     const classNames = 'compact-works--container' + (this.props.closed ? ' closed' : '');
 
-    let spinner = <span />;
+    let spinner = '';
 
     if (this.props.isLoading || elements.length === 0) {
       spinner = (

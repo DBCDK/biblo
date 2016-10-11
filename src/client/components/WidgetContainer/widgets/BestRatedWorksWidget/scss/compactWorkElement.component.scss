@@ -4,39 +4,19 @@
 * @file
 * Styling of Reviews container on frontpage.
 *
-* This file makes use of the Susy span() function
-* @see https://github.com/oddbird/susy/blob/master/sass/susy/language/susy/_span.scss
 */
 
 .compact-work-element {
-  @include span(8 of 24);
-  @include squish(1%, 2%);
-  float: none;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: inline-block;
-  height: 230px;
 
-  @include max-screen($tablet - 1) {
-    overflow: hidden;
-    text-align: right;
-    width: 150px;
-  }
-
-  @include min-screen($tablet) {
-    @include span(5.64 of 24);
-    @include squish(1%, 1%);
-  }
-
-  @include min-screen($desktop) {
-    @include span(3.68 of 24);
-    @include squish(1%, 1%);
-  }
-
-  .compact-work-element--artwork-container > img {
-    max-height: 200px;
-    max-width: 133px;
-    object-fit: cover;
+  .compact-work-element--artwork-container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      align-self: flex-end;
+    }
   }
 
   .compact-work-element--title-and-worktype--container {
@@ -49,4 +29,6 @@
       }
     }
   }
+
+
 }

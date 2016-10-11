@@ -1,38 +1,9 @@
 @import "tools";
 
-.editorially-selected-materials-widget {
-  text-align: center;
-  margin-top: 10px;
-  padding-bottom: 15px;
-}
-
 .editorially-selected-materials-widget--show-more-button--container {
+  margin-top: 1em;
   text-align: center;
-  margin-top: 15px;
-
-  hr {
-    visibility: hidden;
-  }
-}
-
-.editorially-selected-materials-widget--show-more-button {
-  cursor: pointer;
-  font-family: $header-font;
-  color: $black;
-  padding: 5px;
-  margin: 20px;
-  margin-top: 15px;
-  margin-bottom: 30px;
-  border: #e2e2ed solid 1px;
-  border-radius: 5px;
-  background-color: #FFFFFF;
-
-  @include max-screen($tablet) {
-    display: none;
-  }
-
-  .icon {
-    fill: #938ee9;
-    margin-bottom:-1px;
+  a {
+    @include more-button();
   }
 }

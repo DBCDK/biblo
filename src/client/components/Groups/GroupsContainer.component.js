@@ -25,7 +25,9 @@ export class GroupsContainer extends React.Component {
     const {data, actions} = this.props;
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
-        <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
+        <div className="group-page--header">
+          <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
+        </div>
         <div className="lists">
           <RoundedButton buttonText='Opret ny gruppe' href={CREATE_GROUP_LINK}/>
 

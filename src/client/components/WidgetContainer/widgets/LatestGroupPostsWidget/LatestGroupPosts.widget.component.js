@@ -82,7 +82,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     const campaignLogoUrl = widgetGroup && widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small || null;
     if (campaignLogoUrl) {
       return (
-        <span className="latest-group-posts-widget--campaign-logo">
+        <span className="widget--campaign-logo">
           <img src={campaignLogoUrl} />
         </span>
       );
@@ -98,11 +98,10 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     }
 
     return (
-      <div className="latest-group-posts-widget--show-more-button--container">
+      <div className="latest-group-posts-widget--show-more-button">
         <a className={showMoreButtonClasses} onClick={() => this.loadPosts()}>
           <Icon glyph={plusSvg}/> VIS FLERE
         </a>
-        <hr />
       </div>
     );
   }

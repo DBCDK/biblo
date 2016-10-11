@@ -42,7 +42,7 @@ export class LatestReviewsWidget extends AbstractWidget {
     let campaignLogo = '';
     if (campaignLogoUrl) {
       campaignLogo = (
-        <span className="latest-reviews-widget--campaign-logo">
+        <span className="widget--campaign-logo">
           <img src={campaignLogoUrl} />
         </span>
       );
@@ -76,14 +76,12 @@ export class LatestReviewsWidget extends AbstractWidget {
           {reviews.length === 0 && !this.props.widgetReducerProp.reviewsPending && 'Der er ikke lavet nogen anmeldelser endnu'}
           {reviews}
         </div>
-        <div className="latest-reviews-widget--show-more-button--container">
+        <div className="latest-reviews-widget--show-more-button">
           <a
-            className="latest-reviews-widget--show-more-button"
             onClick={() => this.setState({isClosed: !this.state.isClosed})}>
             <Icon glyph={this.state.isClosed ? plusSvg : minusSvg}/>
             {this.state.isClosed ? ' VIS FLERE' : ' VIS FÆRRE'}
           </a>
-          <hr />
         </div>
       </div>
     );

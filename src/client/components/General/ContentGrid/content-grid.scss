@@ -11,28 +11,19 @@
 
   h3 {
     font-size: 1rem;
-    margin-bottom: 0;
+    margin: 0;
   }
 
   p {
     margin-top: 0.25em;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .image {
-    position: relative;
-    height: 0;
-    overflow: hidden;
-    padding-bottom: 100%;
+    @extend %square;
   }
   .wide {
     padding-bottom: 56.34%;
-  }
-  img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   a:hover h3{

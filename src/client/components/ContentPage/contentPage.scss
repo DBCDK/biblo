@@ -1,7 +1,6 @@
 @import 'tools';
 
 .article {
-  padding: 1em;
   @include container();
   img {
     max-width: 100%;

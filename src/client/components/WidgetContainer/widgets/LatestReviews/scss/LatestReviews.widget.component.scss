@@ -1,62 +1,20 @@
 @import 'tools';
 
 .latest-reviews-widget--reviews-container {
-  @include span(24);
-  margin-bottom: 10px;
-  -webkit-overflow-scrolling: touch;
-
+  @extend %content-grid;
   &.closed {
-    height: 240px;
-    overflow: hidden;
-
-    @include max-screen($tablet) {
-      overflow-x: scroll;
-      display: block;
-      white-space: nowrap;
+    height: 210px;
+    @include min-screen($tablet) {
+      margin-bottom: 2em;
+      overflow: hidden;
     }
-  }
-}
-
-.latest-reviews-widget--show-more-button--container {
-  text-align: center;
-
-  hr {
-    visibility: hidden;
+    @extend %scroller;
   }
 }
 
 .latest-reviews-widget--show-more-button {
-  cursor: pointer;
-  font-family: $header-font;
-  color: $black;
-  padding: 5px;
-  margin: 20px;
-  margin-top: 0;
-  margin-bottom: 30px;
-  border: #e2e2ed solid 1px;
-  border-radius: 5px;
-  background-color: #FFFFFF;
-
-  @include max-screen($tablet) {
-    display: none;
+  text-align: center;
+  a {
+    @include more-button(true);
   }
-
-  .icon {
-    fill: #938ee9;
-    margin-bottom:-1px;
-  }
-}
-
-.latest-reviews-widget--campaign-logo {
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  img {
-    max-height: 40px;
-  }
-}
-
-.LatestReviewsWidget--container {
-  position: relative;
 }

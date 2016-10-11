@@ -28,9 +28,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.state, nextState) ||
-      !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp) ||
-      !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+    return !isEqual(this.state, nextState) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp) || !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,14 +60,8 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       const coverUrl = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
 
       return (
+        <div className="editorial-reviews--review-container">
         <div key={`review_${review.id}`} className="editorial-reviews--review">
-          <a className="editorial-reviews--review--profile-display-name--container" href={`/profil/${review.owner.id}`}>
-              <span
-                className="editorial-reviews--review--profile-display-name"
-                dangerouslySetInnerHTML={{__html: review.owner.displayName}}
-              /> anmelder:
-          </a>
-
           <div className="editorial-reviews--review--left">
             <a className="editorial-reviews--review--profile-image" href={`/profil/${review.owner.id}`}>
               <img src={review.owner.image}/>
@@ -81,6 +73,13 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
           </div>
 
           <div className="editorial-reviews--review--right">
+            <div className="main-content">
+            <a className="editorial-reviews--review--profile-display-name--container" href={`/profil/${review.owner.id}`}>
+              <span
+                className="editorial-reviews--review--profile-display-name"
+                dangerouslySetInnerHTML={{__html: review.owner.displayName}}
+              /> anmelder:
+            </a>
             <h4 className="editorial-reviews--review--work-title">
               {work.dcTitle}
             </h4>
@@ -92,11 +91,15 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
             <div className="editorial-reviews--review--content">
               "<span dangerouslySetInnerHTML={{__html: review.html}}/>"
             </div>
+            </div>
+            <div className="editorial-reviews--read-button">
+              <a href={`/anmeldelse/${review.id}`}>
+                Læs anmeldelsen
+              </a>
+            </div>
           </div>
 
-          <a className="editorial-reviews--review--read-button" href={`/anmeldelse/${review.id}`}>
-            Læs anmeldelsen
-          </a>
+        </div>
         </div>
       );
     }
@@ -111,19 +114,20 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
     return (
       <div className="editorially-selected-reviews-widget">
-        {reviews.map(review => this.renderReview(review, works[review.pid]))}
+        <div className="editorially-selected-reviews-widget-container">
+          {reviews.map(review => this.renderReview(review, works[review.pid]))}
+        </div>
+
 
         {showMoreButton &&
-        <div className="editorially-selected-reviews-widget--show-more-button--container">
+        <div className="editorially-selected-reviews-widget--show-more-button">
           <a
-            className="editorially-selected-reviews-widget--show-more-button"
             onClick={() => this.setState({expanded: !this.state.expanded})}>
             <Icon glyph={this.state.expanded ? minusSvg : plusSvg}/>
             {this.state.expanded ? ' VIS FÆRRE' : ' VIS FLERE'}
           </a>
-          <hr />
         </div>
-          ||
+        ||
         <div className="editorially-selected-reviews-widget--spinner-container">
           <Icon glyph={spinnerSvg} height={150} width={150}/>
         </div>

@@ -14,6 +14,8 @@
 import React, {Component, PropTypes} from 'react';
 import widgetComponents from './widgets';
 
+import './widgetContainer.scss';
+
 class WidgetContainer extends Component {
   getTitle(widgetConfig = {}, classNames = '') {
     let title = <span className="widget--no--title"/>;
@@ -96,7 +98,7 @@ class WidgetContainer extends Component {
           >
             {title}
             <div
-              className={`${widgetName}--wrapper`}
+              className={`${widgetName}--wrapper generic-widget-wrapper`}
               style={widgetStyles}
             >
               {CurrentWidget}

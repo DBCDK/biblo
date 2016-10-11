@@ -1,0 +1,51 @@
+@import "../mixins/profile";
+
+%quote {
+  font-weight: 600;
+  color: #000;
+  word-break: normal;
+  font-size: 1em;
+}
+
+%video-overlay {
+  z-index: 6;
+  margin-bottom: 5px;
+  img {
+    z-index: 7;
+    height: 130px;
+    width: 230px;
+    object-fit: cover;
+    background: url('/video_behandler.png') no-repeat center 0;
+    background-size: cover;
+  }
+  &:after {
+    content: "";
+    z-index: 8;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 230px;
+    height: 130px;
+    color: $white;
+    background: url('/images/video_thumbnail_overlay.png') no-repeat center 0;
+    background-size: cover;
+  }
+}
+
+%widget-profileimage {
+  @include profileImage(45px);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 10;
+}
+
+@mixin line-clamp($lines) {
+  word-break: break-all;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+}

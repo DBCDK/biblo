@@ -75,7 +75,6 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
             {closeButtonContent}
           </a>
           }
-          <hr />
         </div>
 
       </div>

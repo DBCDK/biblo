@@ -71,7 +71,6 @@ export class PopularGroupsWidget extends AbstractWidget {
             <Icon glyph={this.state.expanded ? minusSvg : plusSvg}/>
             {this.state.expanded ? ' VIS FÆRRE' : ' VIS FLERE'}
           </a>
-          <hr />
         </div>
       </div>
     );

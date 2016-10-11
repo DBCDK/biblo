@@ -1,8 +1,10 @@
 @import "tools";
 
+.FullWidthBannerWidget--wrapper.generic-widget-wrapper {
+  padding: 0;
+}
 
 .full-width-banner--image {
-  margin: -1em -1em 1em -1em;
   padding: 10px;
   background-size: cover;
   background-repeat: no-repeat;

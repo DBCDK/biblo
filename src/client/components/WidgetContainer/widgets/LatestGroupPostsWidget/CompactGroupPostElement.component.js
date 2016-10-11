@@ -33,7 +33,7 @@ export function renderVideoGroupPost(post) { // eslint-disable-line react/no-mul
   );
 }
 
-export function CompactGroupPostElement({post, groupName, groupHref, elementHref}) { // eslint-disable-line react/no-multi-comp
+export function CompactGroupPostElement({post, groupName, groupHref}) { // eslint-disable-line react/no-multi-comp
   let postBody;
   let postType;
   if (post.video) {

@@ -6,13 +6,14 @@
     max-width: 180px;
   }
   overflow: hidden;
-  @include scroller(75%);
+  @include scroller(250px);
+
   &.closed {
-    height: 250px;
-    margin-bottom: 2em;
+    @include min-screen($tablet) {
+      height: 250px;
+      margin-bottom: 2em;
+    }
   }
-
-
   .compact-works--spinner-container {
     text-align: center;
     margin-top: 50px;

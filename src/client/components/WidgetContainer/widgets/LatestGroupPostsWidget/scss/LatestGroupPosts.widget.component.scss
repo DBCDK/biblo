@@ -2,6 +2,10 @@
 
 .latest-group-posts--container {
   @extend %content-grid;
+  & > * {
+    max-width: 50%;
+  }
+
   @include min-screen($tablet) {
     margin-bottom: 2em;
     overflow: hidden;

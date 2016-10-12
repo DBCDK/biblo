@@ -74,12 +74,9 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
           <div className="editorial-reviews--review--right">
             <div className="main-content">
-            <a className="editorial-reviews--review--profile-display-name--container" href={`/profil/${review.owner.id}`}>
-              <span
-                className="editorial-reviews--review--profile-display-name"
-                dangerouslySetInnerHTML={{__html: review.owner.displayName}}
-              /> anmelder:
-            </a>
+              <div className="widget-element--author">
+                Af: <a dangerouslySetInnerHTML={{__html: review.owner.displayName}} href={`/profil/${review.owner.id}`}/>
+              </div>
             <h4 className="editorial-reviews--review--work-title">
               {work.dcTitle}
             </h4>

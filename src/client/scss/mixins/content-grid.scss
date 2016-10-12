@@ -3,8 +3,8 @@
 @mixin scroller($element-size) {
   height: auto;
   -webkit-overflow-scrolling: touch;
-  margin-right: -1em;
   @include max-screen($tablet) {
+    margin-right: -1em;
     flex-wrap: nowrap;
     overflow-x: scroll;
     & > *:not(span) {

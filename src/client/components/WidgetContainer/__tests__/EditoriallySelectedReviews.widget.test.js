@@ -40,7 +40,7 @@ describe('Testing of the editorially selected reviews widget', () => {
     expect($root.find('.editorial-reviews--review').length).toEqual(1);
 
     // We expect the owners display name is rendered
-    expect($root.find('.editorial-reviews--review--profile-display-name').unwrap().innerHTML)
+    expect($root.find('.widget-element--author a').unwrap().innerHTML)
       .toEqual('Test Mesteren!');
 
     // We expect a work title

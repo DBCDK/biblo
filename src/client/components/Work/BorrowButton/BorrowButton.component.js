@@ -154,8 +154,11 @@ export default class BorrowButton extends React.Component {
         </div>
         {messageObj.mustSelectItem}
         {this.state.onlineUrl &&
-        <span>
-          <RoundedButton className='onlinelink' href={this.state.onlineUrl} target='_blank' buttonText="HENT ONLINE"/>
+        <span className={`modal-window--${this.props.type}`}>
+          <RoundedButton className='modal-window--borrow-submit-button'
+                         href={this.state.onlineUrl}
+                         target='_blank'
+                         buttonText={this.props.modalButtonTitle} />
           <p className="modal-window--message-under-submit-button">
             Du viderestilles til en anden hjemmeside i et nyt vindue.
           </p>

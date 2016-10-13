@@ -15,9 +15,11 @@ import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/mater
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film.svg';
+import movieSvgNoBorder from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 import houseSvg from '../../General/Icon/svg/functions/house.svg';
+import eReolenlogo from '../../General/Icon/svg/functions/eReolenlogo.svg';
 
 const displayTypeSvgs = {
   book: bookSvg,
@@ -64,17 +66,32 @@ export class WorkDetail extends React.Component {
    */
   splitByAccessType(collectionDetails) {
     const physical = [];
+    const ereolen = [];
+    const ereolen_ebooks = [];
+    const filmstriben = [];
     const online = [];
+
     collectionDetails.forEach(collection => {
       if (collection.accessType[0] === 'online') {
-        online.push(collection);
+        if (collection.workType[0] === 'audiobook') {
+          ereolen.push(collection);
+        }
+        else if (collection.workType[0] === 'book') {
+          ereolen_ebooks.push(collection);
+        }
+        else if (collection.workType[0] === 'movie') {
+          filmstriben.push(collection);
+        }
+        else {
+          online.push(collection);
+        }
       }
       else {
         physical.push(collection);
       }
     });
 
-    return {physical, online};
+    return {physical, online, ereolen, ereolen_ebooks, filmstriben};
   }
 
   /**
@@ -118,7 +135,7 @@ export class WorkDetail extends React.Component {
     const profile = this.props.profile;
     let reviewButton;
 
-    const {physical, online} = this.splitByAccessType(this.props.collectionDetails);
+    const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(this.props.collectionDetails);
 
     // sd-566: tweak login requirements and button glyph when in full review view
     if (this.props.fullReview) {
@@ -160,7 +177,12 @@ export class WorkDetail extends React.Component {
 
           <div className='work-detail--action-buttons'>
             {this.renderBorrowerButton(physical, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
-            {this.renderBorrowerButton(online, <span className="at-icon">@</span>, 'Lån på eReolen', 'Gå til eReolen', 'Læs nu på eReolen', 'online')}
+            {this.renderBorrowerButton(online, <Icon glyph={houseSvg} />, 'Lån online')}
+            {this.renderBorrowerButton(ereolen, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Hør nu på eReolen', 'online')}
+            {this.renderBorrowerButton(ereolen_ebooks, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Læs nu på eReolen', 'online')}
+            {this.renderBorrowerButton(
+              filmstriben, <Icon glyph={movieSvgNoBorder} width={24} height={24} />, 'Lån på filmstriben', 'Gå til filmstriben', 'Se nu på filmstriben', 'online'
+            )}
             <div className="work-detail--button-wrapper">{reviewButton}</div>
           </div>
         </div>

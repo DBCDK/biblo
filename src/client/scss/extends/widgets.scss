@@ -41,7 +41,6 @@
 }
 
 @mixin line-clamp($lines) {
-  word-break: break-all;
   text-align: justify;
   display: -webkit-box;
   -webkit-line-clamp: $lines;

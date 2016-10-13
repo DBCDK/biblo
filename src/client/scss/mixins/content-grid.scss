@@ -4,15 +4,17 @@
   height: auto;
   -webkit-overflow-scrolling: touch;
   @include max-screen($tablet) {
+    margin-right: -1em;
     flex-wrap: nowrap;
     overflow-x: scroll;
     & > *:not(span) {
       flex: 0 0 $element-size;
+      max-width: $element-size;
       height: auto;
+      margin-bottom: 0;
     }
   }
 }
-
 
 @mixin content-grid($base-size: 180px) {
   display: flex;
@@ -38,5 +40,5 @@
 }
 
 %scroller {
-  @include scroller(75%);
+  @include scroller(90%);
 }

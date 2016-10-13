@@ -3,11 +3,16 @@
 .editorially-selected-reviews-widget-container {
   @include content-grid(370px);
   @include scroller(90%);
-
   .editorially-selected-reviews-widget--spinner-container {
     display: block;
     margin: auto;
     padding-top: 50px;
+  }
+}
+
+.editorial-reviews--review-container {
+  @include min-screen(760px) {
+    max-width: 50%;
   }
 }
 

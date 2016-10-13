@@ -2,14 +2,17 @@
 
 .latest-reviews-widget--reviews-container {
   @extend %content-grid;
-  &.closed {
-    height: 210px;
-    @include min-screen($tablet) {
-      margin-bottom: 2em;
+  & > * {
+    max-width: 50%;
+  }
+  @include min-screen($tablet) {
+    margin-bottom: 2em;
+    &.closed {
+      height: 210px;
       overflow: hidden;
     }
-    @extend %scroller;
   }
+  @extend %scroller;
 }
 
 .latest-reviews-widget--show-more-button {

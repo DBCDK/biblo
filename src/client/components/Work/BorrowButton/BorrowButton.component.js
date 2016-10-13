@@ -250,7 +250,7 @@ export default class BorrowButton extends React.Component {
     let modalContent = '';
 
     // User isn't logged in
-    if (!profile.userIsLoggedIn) {
+    if (!profile.userIsLoggedIn && this.props.type !== 'online') {
       modalContent = (
         <div>
           <p>Du skal logge ind for at låne</p>
@@ -261,17 +261,18 @@ export default class BorrowButton extends React.Component {
     }
     // User is logged in, but doesn't have any borrower info
     else if (
+      this.props.type !== 'online' && (
       !profile.favoriteLibrary ||
       (profile.hasOwnProperty('favoriteLibrary') && !(
         profile.favoriteLibrary.hasOwnProperty('libraryId') &&
         profile.favoriteLibrary.hasOwnProperty('loanerId') &&
         profile.favoriteLibrary.hasOwnProperty('pincode')
-      ))
+      )))
     ) {
       modalContent = this.renderLibrarySelector(profile);
     }
     // The users library is invalid, we want them to select a new one.
-    else if (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed) {
+    else if (this.props.type !== 'online' && (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed)) {
       modalContent = this.renderLibrarySelector(profile, true);
     }
     // Currently ordering work

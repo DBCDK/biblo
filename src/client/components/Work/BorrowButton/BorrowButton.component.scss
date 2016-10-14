@@ -118,15 +118,22 @@
   }
 
   .modal-window--borrow-submit-button {
-    @include button($turquoise);
+    @include button($lima);
     text-transform: uppercase;
     width: 100%;
+    text-align: center;
+    margin: 0;
   }
 
   .modal-window--message-under-submit-button {
     color: $gray;
   }
-  .modal-window--online .modal-window--message-under-submit-button {
+
+  .modal-window--online {
+    display: flex;
+  }
+
+  .modal-window--message-under-submit-button {
     display: none;
   }
 

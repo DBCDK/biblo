@@ -24,7 +24,7 @@ export class LatestPostsWidget extends AbstractWidget {
   getNextPage(page) {
     const load = this.props.widgetConfig.postsToLoad || 15;
     this.callServiceProvider('getLatestPosts', {
-      skip: page * (load),
+      skip: page + load,
       limit: load
     });
   }

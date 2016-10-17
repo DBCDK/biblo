@@ -37,7 +37,7 @@ export class LatestReviewsWidget extends AbstractWidget {
     return this.props.widgetActions.asyncGetLatestReviews(
       'id DESC',
       widgetConfig.reviewsToLoad || 15,
-      widgetConfig.campaignId, pageIndex * (widgetConfig.reviewsToLoad || 15)
+      widgetConfig.campaignId, pageIndex + (widgetConfig.reviewsToLoad || 15)
     );
   }
 

@@ -3,10 +3,10 @@
   "widgetLocations": {
     "SectionPage": [
       {
-        "widgetName": "LatestReviewsWidget",
+        "widgetName": "LatestPostsWidget",
         "widgetConfig": {
           "title": "JEG anbefaler",
-          "reviewsToLoad": 5,
+          "postsToLoad": 5,
           "showTitle": true
         }
       }

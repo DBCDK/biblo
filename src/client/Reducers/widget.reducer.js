@@ -183,9 +183,10 @@ export default function widgetReducer(state = initialState, action = {}) {
     }
 
     case types.GOT_LATEST_POSTS: {
+      const posts = state.LatestPostsWidget.posts || [];
       return assignToEmpty(state, {
         LatestPostsWidget: {
-          posts: action.data,
+          posts: posts.concat(action.data),
           postsLoading: false
         }
       });

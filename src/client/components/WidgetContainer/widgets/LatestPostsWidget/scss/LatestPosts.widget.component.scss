@@ -1,39 +1,17 @@
 @import 'tools';
 
 .latest-post--container {
-  @include max-screen($tablet) {
-    overflow-x: scroll;
-    display: block;
-    white-space: nowrap;
-  }
-}
+  .pages--container {
+    @extend %content-grid;
 
-.latests-posts-show-more-button--container {
-  text-align: center;
+    & > * {
+      max-width: 50%;
+    }
 
-  hr {
-    visibility: hidden;
-  }
-}
+    @include min-screen($tablet) {
+      margin-bottom: 2em;
+    }
 
-.latests-posts-show-more-button--container > a {
-  cursor: pointer;
-  font-family: $header-font;
-  color: $black;
-  padding: 5px;
-  margin: 20px;
-  margin-top: 0;
-  margin-bottom: 30px;
-  border: #e2e2ed solid 1px;
-  border-radius: 5px;
-  background-color: $white;
-
-  @include max-screen($tablet) {
-    display: none;
-  }
-
-  .icon {
-    fill: $melrose;
-    margin-bottom: -1px;
+    @extend %scroller;
   }
 }

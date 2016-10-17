@@ -41,7 +41,7 @@ const getTopReviewsTransform = {
               return Promise.reject('Unexpected response in getTopReviews!');
             }
 
-            works = buck.pids.buckets.sort((a,b) => b.pid_score.value - a.pid_score.value).map(pid => pid.key);
+            works = buck.pids.buckets.sort((a, b) => b.pid_score.value - a.pid_score.value).map(pid => pid.key);
           });
         });
       }

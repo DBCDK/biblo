@@ -4,7 +4,8 @@
     "src/app.js",
     "src/server",
     "node_modules",
-    "src/client"
+    "src/client",
+    "jsonpage.json"
   ],
   "ignore": [],
   "env": {

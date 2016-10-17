@@ -25,7 +25,7 @@ export class LatestReviewsWidget extends AbstractWidget {
     this.props.widgetActions.asyncListenForCoverImages();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // If the state updates, the component should update
     // If the props update, we don't care unless it's the widgetReducerProp or widgetState cover images.
     return !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp)

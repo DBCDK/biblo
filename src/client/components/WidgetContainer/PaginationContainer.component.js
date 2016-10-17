@@ -28,7 +28,7 @@ export class PaginationContainer extends Component {
     this.onClosePagination = this.onClosePagination.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     this.setState({loading: false});
   }
 

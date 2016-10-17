@@ -14,7 +14,7 @@
 import React, {Component, PropTypes} from 'react';
 import widgetComponents from './widgets';
 
-import './widgetContainer.scss';
+import './scss/widgetContainer.scss';
 
 class WidgetContainer extends Component {
   getTitle(widgetConfig = {}, classNames = '') {

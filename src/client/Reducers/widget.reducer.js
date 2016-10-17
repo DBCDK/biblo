@@ -66,7 +66,7 @@ export default function widgetReducer(state = initialState, action = {}) {
     case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
       return assignToEmpty(state, {
         LatestReviews: assignToEmpty(state.LatestReviews, {
-          reviews: action.reviews,
+          reviews: state.LatestReviews.reviews.concat(action.reviews),
           reviewsPending: false
         })
       });
@@ -83,7 +83,8 @@ export default function widgetReducer(state = initialState, action = {}) {
     case types.GOT_CAMPAIGN_REVIEWS: {
       const LatestReviews = assignToEmpty(state.LatestReviews, {});
       if (action.data.status === 200) {
-        LatestReviews.campaignReviews[action.data.campaignId] = action.data.data;
+        const campaignReviews = LatestReviews.campaignReviews[action.data.campaignId] || [];
+        LatestReviews.campaignReviews[action.data.campaignId] = campaignReviews.concat(action.data.data);
         LatestReviews.reviewsPending = false;
       }
 

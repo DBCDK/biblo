@@ -1,23 +1,18 @@
 @import 'tools';
 
 .latest-reviews-widget--reviews-container {
-  @extend %content-grid;
-  & > * {
-    max-width: 50%;
-  }
-  @include min-screen($tablet) {
-    margin-bottom: 2em;
-    &.closed {
-      height: 210px;
-      overflow: hidden;
+  .pages--container {
+    @extend %content-grid;
+    & > * {
+      max-width: 50%;
     }
-  }
-  @extend %scroller;
-}
-
-.latest-reviews-widget--show-more-button {
-  text-align: center;
-  a {
-    @include more-button(true);
+    @include min-screen($tablet) {
+      margin-bottom: 2em;
+      &.closed {
+        height: 210px;
+        overflow: hidden;
+      }
+    }
+    @extend %scroller;
   }
 }

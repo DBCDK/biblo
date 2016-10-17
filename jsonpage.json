@@ -3,7 +3,7 @@
   "widgetLocations": {
     "SectionPage": [
       {
-        "widgetName": "LatestReviewsWidget",
+        "widgetName": "PopularGroupsWidget",
         "widgetConfig": {
           "title": "JEG anbefaler",
           "reviewsToLoad": 5,

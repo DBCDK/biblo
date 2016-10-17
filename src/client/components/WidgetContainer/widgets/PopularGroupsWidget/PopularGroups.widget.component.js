@@ -9,9 +9,8 @@ import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
 
 import Icon from '../../../General/Icon/Icon.component';
+import {PaginationContainer} from '../../PaginationContainer.component';
 
-import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
-import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 import groupsSvg from '../../../General/Icon/svg/functions/group.svg';
 
 import './scss/PopularGroups.widget.component.scss';
@@ -19,21 +18,22 @@ import './scss/PopularGroups.widget.component.scss';
 export class PopularGroupsWidget extends AbstractWidget {
   constructor(props) {
     super(props);
-
-    this.state = {
-      expanded: false
-    };
+    this.getNextPage = this.getNextPage.bind(this);
   }
 
   componentDidMount() {
-    const limit = this.props.widgetConfig.groupsToLoad || 20;
-    this.callServiceProvider('listGroups', {order: 'group_pop DESC', limit});
+    this.getNextPage(0);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // If the state updates, the component should update
     // If the props update, we don't care unless it's the widgetReducerProp.
-    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
+    return !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
+  }
+
+  getNextPage(page) {
+    const limit = this.props.widgetConfig.groupsToLoad || 20;
+    this.callServiceProvider('listGroups', {skip: limit * page, order: 'group_pop DESC', limit});
   }
 
   renderGroup(group) {
@@ -55,23 +55,16 @@ export class PopularGroupsWidget extends AbstractWidget {
   }
 
   render() {
-    const expanded = this.state.expanded;
-    const groups = (this.props.widgetReducerProp.groups);
+    const limit = this.props.widgetConfig.groupsToLoad || 20;
+    const groups = (this.props.widgetReducerProp.groups || []).map(group => this.renderGroup(group));
 
     return (
       <div className="popular-groups-widget">
-        <div className={`popular-groups-widget--groups-container  ${!expanded && 'closed'}`}>
-          {groups.map(group => this.renderGroup(group))}
-        </div>
-
-        <div className="popular-groups-widget--show-more-button--container">
-          <a
-            className="popular-groups-widget--show-more-button"
-            onClick={() => this.setState({expanded: !this.state.expanded})}>
-            <Icon glyph={this.state.expanded ? minusSvg : plusSvg}/>
-            {this.state.expanded ? ' VIS FÆRRE' : ' VIS FLERE'}
-          </a>
-        </div>
+        <PaginationContainer
+          nextPageFunction={this.getNextPage}
+          pages={groups}
+          pageIncrements={limit}
+        />
       </div>
     );
   }

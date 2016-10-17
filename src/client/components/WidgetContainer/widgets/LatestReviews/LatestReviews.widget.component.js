@@ -6,11 +6,8 @@ import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
 
+import {PaginationContainer} from '../../PaginationContainer.component';
 import {CompactReviewElement} from './CompactReviewElement.component';
-import Icon from '../../../General/Icon/Icon.component';
-
-import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
-import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 
 import './scss/LatestReviews.widget.component.scss';
 
@@ -20,13 +17,15 @@ export class LatestReviewsWidget extends AbstractWidget {
     this.state = {
       isClosed: true
     };
+
+    this.getNextPage = this.getNextPage.bind(this);
   }
 
   componentDidMount() {
     const widgetConfig = this.props.widgetConfig;
 
     this.callServiceProvider('getCampaign', {id: widgetConfig.campaignId});
-    this.props.widgetActions.asyncGetLatestReviews('id DESC', widgetConfig.reviewsToLoad || 15, widgetConfig.campaignId);
+    this.getNextPage(0);
     this.props.widgetActions.asyncListenForCoverImages();
   }
 
@@ -37,7 +36,17 @@ export class LatestReviewsWidget extends AbstractWidget {
       || !isEqual(nextProps.widgetState.CoverImages, this.props.widgetState.CoverImages);
   }
 
+  getNextPage(pageIndex) {
+    const widgetConfig = this.props.widgetConfig;
+    return this.props.widgetActions.asyncGetLatestReviews(
+      'id DESC',
+      widgetConfig.reviewsToLoad || 15,
+      widgetConfig.campaignId, pageIndex * (widgetConfig.reviewsToLoad || 15)
+    );
+  }
+
   render() {
+    const widgetConfig = this.props.widgetConfig;
     const campaignLogoUrl = this.props.widgetReducerProp.campaign && this.props.widgetReducerProp.campaign.logos && this.props.widgetReducerProp.campaign.logos.small || null;
     let campaignLogo = '';
     if (campaignLogoUrl) {
@@ -49,14 +58,8 @@ export class LatestReviewsWidget extends AbstractWidget {
     }
 
     let reviews = this.props.widgetReducerProp.reviews;
-    let classNames = 'latest-reviews-widget--reviews-container';
-
-    if (this.props.widgetConfig.campaignId) {
-      reviews = this.props.widgetReducerProp.campaignReviews[this.props.widgetConfig.campaignId] || [];
-    }
-
-    if (this.state.isClosed) {
-      classNames += ' closed';
+    if (widgetConfig.campaignId) {
+      reviews = this.props.widgetReducerProp.campaignReviews[widgetConfig.campaignId] || [];
     }
 
     reviews = reviews.map((review) => {
@@ -72,16 +75,15 @@ export class LatestReviewsWidget extends AbstractWidget {
     return (
       <div>
         {campaignLogo}
-        <div className={classNames}>
+        <div className="latest-reviews-widget--reviews-container">
           {reviews.length === 0 && !this.props.widgetReducerProp.reviewsPending && 'Der er ikke lavet nogen anmeldelser endnu'}
-          {reviews}
-        </div>
-        <div className="latest-reviews-widget--show-more-button">
-          <a
-            onClick={() => this.setState({isClosed: !this.state.isClosed})}>
-            <Icon glyph={this.state.isClosed ? plusSvg : minusSvg}/>
-            {this.state.isClosed ? ' VIS FLERE' : ' VIS FÆRRE'}
-          </a>
+
+          <PaginationContainer
+            nextPageFunction={this.getNextPage}
+            pages={reviews}
+            lastPageIndex={0}
+            pageIncrements={widgetConfig.reviewsToLoad}
+          />
         </div>
       </div>
     );

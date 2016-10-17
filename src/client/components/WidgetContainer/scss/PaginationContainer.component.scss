@@ -1,0 +1,28 @@
+@import 'tools';
+
+.pagination-controls--container {
+  text-align: center;
+}
+
+.show-more--pagination--button, .close--pagination--button {
+  @include hover-transition((background: white), 200ms);
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-family: $header-font;
+  font-weight: normal;
+  text-transform: uppercase;
+
+  @include max-screen($tablet) {
+    display: none;
+  }
+
+  .icon {
+    fill: $melrose;
+  }
+}
+
+.pagination-controls--spacer {
+  visibility: hidden;
+}

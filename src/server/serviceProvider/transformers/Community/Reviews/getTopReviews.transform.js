@@ -9,10 +9,14 @@ const getTopReviewsTransform = {
     return 'getTopReviews';
   },
 
-  requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes}) {
+  requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes, offset}) {
     // Get the top works from the community service.
+    if (offset > 0) {
+      offset += 1;
+    }
+
     return this.callServiceClient('community', 'topWorksFromReviews', {
-      size,
+      size: offset || size,
       age,
       ratingParameter,
       countsParameter,

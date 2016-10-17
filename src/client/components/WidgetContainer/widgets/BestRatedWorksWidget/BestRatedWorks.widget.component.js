@@ -6,24 +6,22 @@ import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
 
-import {CompactWorkElementsContainer} from './compactWorkElementsContainer.component';
-import Icon from '../../../General/Icon/Icon.component';
-
-import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
-import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
+import {PaginationContainer} from '../../PaginationContainer.component';
+import {CompactWorkElement} from './compactWorkElement.component';
 
 import './scss/BestRatedWorks.widget.component.scss';
 
 export class BestRatedWorksWidget extends AbstractWidget {
   constructor(props) {
     super(props);
-
-    this.state = {
-      closed: true
-    };
+    this.getNextPage = this.getNextPage.bind(this);
   }
 
   componentWillMount() {
+    this.getNextPage(0);
+  }
+
+  getNextPage(page) {
     const config = this.props.widgetConfig;
     const size = config.size;
     const age = config.age;
@@ -36,7 +34,8 @@ export class BestRatedWorksWidget extends AbstractWidget {
       age,
       ratingParameter,
       countsParameter,
-      worktypes
+      worktypes,
+      offset: page
     });
   }
 
@@ -47,38 +46,19 @@ export class BestRatedWorksWidget extends AbstractWidget {
   }
 
   render() {
-    let closeButtonContent;
-
-    if (this.state.closed) {
-      closeButtonContent = (
-        <span>
-          <Icon glyph={plusSvg}/> VIS FLERE
-        </span>
-      );
-    }
-    else {
-      closeButtonContent = (
-        <span>
-          <Icon glyph={minusSvg}/> VIS FÆRRE
-        </span>
-      );
-    }
-
-    const works = (this.props.widgetReducerProp.works || []).slice(0, this.state.closed ? 6 : this.props.widgetConfig.size);
+    const config = this.props.widgetConfig;
+    const size = config.size;
+    const works = (this.props.widgetReducerProp.works || [])
+      .map(work => <CompactWorkElement work={work} key={`work-${work.collection[0]}`}/>);
 
     return (
       <div className="best-rated-works--widget">
-        <CompactWorkElementsContainer
-          closed={this.state.closed}
-          isLoading={this.props.widgetReducerProp.isLoading}
-          works={works} />
-
-        <div className="best-rated-works--widget--show-more-button--container">
-          <a className="best-rated-works--widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
-            {closeButtonContent}
-          </a>
-          <hr />
-        </div>
+        <PaginationContainer
+          nextPageFunction={this.getNextPage}
+          pages={works}
+          pageIncrements={size}
+          genericLoading={true}
+        />
       </div>
     );
   }

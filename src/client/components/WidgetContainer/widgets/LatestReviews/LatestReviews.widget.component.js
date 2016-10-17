@@ -14,10 +14,6 @@ import './scss/LatestReviews.widget.component.scss';
 export class LatestReviewsWidget extends AbstractWidget {
   constructor(props) {
     super(props);
-    this.state = {
-      isClosed: true
-    };
-
     this.getNextPage = this.getNextPage.bind(this);
   }
 
@@ -29,10 +25,10 @@ export class LatestReviewsWidget extends AbstractWidget {
     this.props.widgetActions.asyncListenForCoverImages();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // If the state updates, the component should update
     // If the props update, we don't care unless it's the widgetReducerProp or widgetState cover images.
-    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp)
+    return !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp)
       || !isEqual(nextProps.widgetState.CoverImages, this.props.widgetState.CoverImages);
   }
 
@@ -41,7 +37,7 @@ export class LatestReviewsWidget extends AbstractWidget {
     return this.props.widgetActions.asyncGetLatestReviews(
       'id DESC',
       widgetConfig.reviewsToLoad || 15,
-      widgetConfig.campaignId, pageIndex * (widgetConfig.reviewsToLoad || 15)
+      widgetConfig.campaignId, pageIndex + (widgetConfig.reviewsToLoad || 15)
     );
   }
 
@@ -83,6 +79,7 @@ export class LatestReviewsWidget extends AbstractWidget {
             pages={reviews}
             lastPageIndex={0}
             pageIncrements={widgetConfig.reviewsToLoad}
+            genericLoading={true}
           />
         </div>
       </div>

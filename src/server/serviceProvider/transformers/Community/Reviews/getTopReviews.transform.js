@@ -9,10 +9,14 @@ const getTopReviewsTransform = {
     return 'getTopReviews';
   },
 
-  requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes}) {
+  requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes, offset}) {
     // Get the top works from the community service.
+    if (offset > 0) {
+      offset += 1;
+    }
+
     return this.callServiceClient('community', 'topWorksFromReviews', {
-      size,
+      size: offset || size,
       age,
       ratingParameter,
       countsParameter,
@@ -24,7 +28,23 @@ const getTopReviewsTransform = {
       }
 
       // Parse out the response from the community service.
-      const works = JSON.parse(topWorksResponse.body);
+      let works = JSON.parse(topWorksResponse.body);
+
+      // Worktypes specified, we need to sort manually.
+      if (worktypes.length > 0) {
+        const aggs = works.aggregations;
+        works = [];
+
+        aggs.worktypes.buckets.forEach(bucket => {
+          bucket.range.buckets.forEach(buck => {
+            if (!Array.isArray(buck.pids.buckets)) {
+              return Promise.reject('Unexpected response in getTopReviews!');
+            }
+
+            works = buck.pids.buckets.sort((a, b) => b.pid_score.value - a.pid_score.value).map(pid => pid.key);
+          });
+        });
+      }
 
       // Validate the response
       if (!Array.isArray(works)) {

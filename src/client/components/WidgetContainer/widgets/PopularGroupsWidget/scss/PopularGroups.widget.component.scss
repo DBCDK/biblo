@@ -23,18 +23,19 @@
   }
 }
 
-.popular-groups-widget--groups-container {
-
-  @include min-screen($tablet) {
-    &.closed {
-      height: 240px;
-      overflow: hidden;
-      margin-bottom: 2em;
-      & > * {
-        min-height: calc(240px - 1em);
+.popular-groups-widget {
+  .pages--container {
+    @include min-screen($tablet) {
+      &.closed {
+        height: 240px;
+        overflow: hidden;
+        margin-bottom: 2em;
+        & > * {
+          min-height: calc(240px - 1em);
+        }
       }
     }
+    @include content-grid(168px);
+    @include scroller(180px);
   }
-  @include content-grid(168px);
-  @include scroller(180px);
 }

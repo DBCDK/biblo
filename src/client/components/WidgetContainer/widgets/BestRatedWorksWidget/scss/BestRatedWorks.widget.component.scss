@@ -1,32 +1,16 @@
 @import 'tools';
 
-.best-rated-works--widget--show-more-button--container {
-  text-align: center;
-  padding: 15px 0 15px 0;
+.best-rated-works--widget {
+  .pages--container {
+    @extend %content-grid;
+    & > * {
+      max-width: 180px;
+    }
 
-  hr {
-    visibility: hidden;
-  }
-}
-
-.best-rated-works--widget--show-more-button {
-  cursor: pointer;
-  font-family: $header-font;
-  color: $black;
-  padding: 5px;
-  margin: 20px;
-  margin-top: 0;
-  margin-bottom: 30px;
-  border: #e2e2ed solid 1px;
-  border-radius: 5px;
-  background-color: #FFFFFF;
-
-  @include max-screen($tablet) {
-    display: none;
-  }
-
-  .icon {
-    fill: #938ee9;
-    margin-bottom:-1px;
+    @include min-screen($tablet) {
+      margin-bottom: 2em;
+      overflow: hidden;
+    }
+    @extend %scroller;
   }
 }

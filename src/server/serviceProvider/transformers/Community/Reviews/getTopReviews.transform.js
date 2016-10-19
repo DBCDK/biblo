@@ -31,7 +31,7 @@ const getTopReviewsTransform = {
       let works = JSON.parse(topWorksResponse.body);
 
       // Worktypes specified, we need to sort manually.
-      if (worktypes.length > 0) {
+      if (worktypes && worktypes.length > 0) {
         const aggs = works.aggregations;
         works = [];
 

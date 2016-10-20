@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
-    "@dbcdk/biblo-config": "^2.3.5",
+    "@dbcdk/biblo-config": "^2.3.7",
     "autolinker": "^1.1.0",
     "autoprefixer": "^6.3.1",
     "autosize": "^3.0.17",

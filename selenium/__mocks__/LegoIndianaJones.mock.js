@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function LegoIndianaJones(times) {
-  nock('http://platform-i01.dbc.dk:8080', {encodedQueryParams: true})
+  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 

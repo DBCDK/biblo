@@ -71,6 +71,12 @@ const getTopReviewsTransform = {
           'workType'
         ]
       })));
+    }).catch(e => {
+      if (e.message) {
+        return e.message;
+      }
+
+      return e;
     });
   },
 

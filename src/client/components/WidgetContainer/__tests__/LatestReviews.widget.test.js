@@ -20,6 +20,7 @@ describe('Test LatestReviews Widget', () => {
       },
       state: {
         LatestReviews: {
+          campaigns: {},
           reviews: []
         }
       }
@@ -40,6 +41,7 @@ describe('Test LatestReviews Widget', () => {
       },
       state: {
         LatestReviews: {
+          campaigns: {},
           reviews: [singleReviewMock]
         }
       }
@@ -66,7 +68,9 @@ describe('Test LatestReviews Widget', () => {
           campaignReviews: {
             1: [singleCampaignReviewMock]
           },
-          campaign: singleCampaignReviewMock.campaign,
+          campaigns: {
+            1: singleCampaignReviewMock.campaign
+          },
           reviewsPending: false
         },
         CoverImages: coverImagesState

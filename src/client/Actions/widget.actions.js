@@ -16,16 +16,17 @@ export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = fals
   }
 
   return dispatch => {
-    getReviewsSocket.responseOnce(res => dispatch(getLatestReviews(sort, limit, res.data)));
+    getReviewsSocket.responseOnce(res => dispatch(getLatestReviews(sort, limit, res.data, res.reviewsCount)));
     getReviewsSocket.request({order: sort, limit, campaignId, skip: offset});
   };
 }
 
-export function getLatestReviews(sort, limit, reviews) {
+export function getLatestReviews(sort, limit, reviews, reviewsCount) {
   return {
     type: types.GET_LATEST_REVIEWS_FOR_WIDGET,
     sort,
-    reviews
+    reviews,
+    reviewsCount
   };
 }
 

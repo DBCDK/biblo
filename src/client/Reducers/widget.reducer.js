@@ -91,7 +91,7 @@ export default function widgetReducer(state = initialState, action = {}) {
 
     case types.GOT_CAMPAIGN_REVIEWS: {
       const LatestReviews = {
-        campaignReviews: {},
+        campaignReviews: {}
       };
 
       if (action.data.status === 200) {

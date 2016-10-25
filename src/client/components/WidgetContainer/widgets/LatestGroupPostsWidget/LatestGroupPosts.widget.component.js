@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
-import VisibilitySensor from 'react-visibility-sensor';
+import {PaginationContainer} from '../../PaginationContainer.component';
 import {isEqual} from 'lodash';
 
 import {CompactGroupPostElement} from './CompactGroupPostElement.component';
@@ -52,30 +52,11 @@ export class LatestGroupPostsWidget extends AbstractWidget {
   }
 
   renderCompactReviewElements(widgetPosts) {
-    let elements = widgetPosts.map(post => {
+    return widgetPosts.map(post => {
       return (
         <CompactGroupPostElement key={`cpe-${post.id}`} post={post} />
       );
     });
-
-    let width = 700;
-    if (typeof window !== 'undefined') {
-      width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    }
-
-    if (width < 600) {
-      elements.splice(
-        elements.length - 1,
-        0,
-        <VisibilitySensor onChange={(vis) => (vis && this.loadPosts())} delayedCall={true}/>
-      );
-    }
-
-    return (
-      <div className="latest-group-posts--container">
-        {elements}
-      </div>
-    );
   }
 
   renderCampaignLogo(widgetGroup) {
@@ -91,21 +72,6 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     return <span />;
   }
 
-  renderShowMoreButton(shouldDisplayShowMoreButton) {
-    let showMoreButtonClasses = 'latest-group-posts-widget--show-more-button';
-    if (!shouldDisplayShowMoreButton) {
-      showMoreButtonClasses += ' hidden';
-    }
-
-    return (
-      <div className="latest-group-posts-widget--show-more-button">
-        <a className={showMoreButtonClasses} onClick={() => this.loadPosts()}>
-          <Icon glyph={plusSvg}/> VIS FLERE
-        </a>
-      </div>
-    );
-  }
-
   render() {
     if (this.props.widgetReducerProp.isLoading) {
       return <span>Loading...</span>;
@@ -114,17 +80,21 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     const groupId = this.props.widgetConfig.group;
     const widgetGroup = this.props.widgetReducerProp.groups[groupId];
     const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
-    const shouldDisplayShowMoreButton = widgetGroup && widgetGroup.postsCount && widgetPosts.length < widgetGroup.postsCount;
 
-    const showMoreButton = this.renderShowMoreButton(shouldDisplayShowMoreButton);
     const campaignLogo = this.renderCampaignLogo(widgetGroup);
     const compactReviewElements = this.renderCompactReviewElements(widgetPosts);
 
     return (
       <div className="latest-group-posts-widget">
         {campaignLogo}
-        {compactReviewElements}
-        {showMoreButton}
+
+        <PaginationContainer
+          nextPageFunction={() => this.loadPosts()}
+          pages={compactReviewElements}
+          pageIncrements={this.props.widgetConfig.postsToLoad}
+          lastPageIndex={widgetGroup.postsCount}
+          genericLoading={false}
+        />
       </div>
     );
   }

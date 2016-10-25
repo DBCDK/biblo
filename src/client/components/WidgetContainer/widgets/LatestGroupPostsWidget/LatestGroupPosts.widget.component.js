@@ -2,16 +2,16 @@
  * @file: Latest group posts widget renders an expandable row of compact post elements.
  */
 
+// Libs
 import React from 'react';
-import {AbstractWidget} from '../../AbstractWidget.component';
-import {PaginationContainer} from '../../PaginationContainer.component';
 import {isEqual} from 'lodash';
 
+// Components
+import {AbstractWidget} from '../../AbstractWidget.component';
+import {PaginationContainer} from '../../PaginationContainer.component';
 import {CompactGroupPostElement} from './CompactGroupPostElement.component';
-import Icon from '../../../General/Icon/Icon.component';
 
-import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
-
+// Styles
 import './scss/LatestGroupPosts.widget.component.scss';
 
 export class LatestGroupPostsWidget extends AbstractWidget {

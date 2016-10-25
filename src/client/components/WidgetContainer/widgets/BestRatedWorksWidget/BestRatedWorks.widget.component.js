@@ -50,6 +50,7 @@ export class BestRatedWorksWidget extends AbstractWidget {
     const size = config.size;
     const works = (this.props.widgetReducerProp.works || [])
       .map(work => <CompactWorkElement work={work} key={`work-${work.collection[0]}`}/>);
+    const morePages = this.props.widgetReducerProp.more ? 0 : works.length;
 
     return (
       <div className="best-rated-works--widget">
@@ -58,6 +59,7 @@ export class BestRatedWorksWidget extends AbstractWidget {
           pages={works}
           pageIncrements={size}
           genericLoading={true}
+          lastPageIndex={morePages}
         />
       </div>
     );

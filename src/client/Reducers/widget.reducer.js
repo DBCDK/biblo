@@ -11,15 +11,17 @@ import * as types from '../Constants/action.constants';
  */
 let initialState = {
   LatestReviews: {
+    reviewsCount: 0,
     reviews: [],
     campaignReviews: {},
-    campaign: {},
+    campaigns: {},
     reviewsPending: true
   },
   CoverImages: {},
   BestRatedWorksWidget: {
     works: [],
-    isLoading: true
+    isLoading: true,
+    more: true
   },
   LatestGroupPostsWidget: {
     posts: {},
@@ -66,6 +68,7 @@ export default function widgetReducer(state = initialState, action = {}) {
     case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
       return assignToEmpty(state, {
         LatestReviews: assignToEmpty(state.LatestReviews, {
+          reviewsCount: action.reviewsCount,
           reviews: state.LatestReviews.reviews.concat(action.reviews),
           reviewsPending: false
         })
@@ -77,26 +80,38 @@ export default function widgetReducer(state = initialState, action = {}) {
     }
 
     case types.GOT_BEST_RATED_WORKS: {
-      return assignToEmpty(state, {BestRatedWorksWidget: {works: action.data.data, isLoading: false}});
+      return assignToEmpty(state, {
+        BestRatedWorksWidget: {
+          works: action.data.data,
+          isLoading: false,
+          more: action.data.more
+        }
+      });
     }
 
     case types.GOT_CAMPAIGN_REVIEWS: {
-      const LatestReviews = assignToEmpty(state.LatestReviews, {});
+      const LatestReviews = {
+        campaignReviews: {}
+      };
+
       if (action.data.status === 200) {
-        const campaignReviews = LatestReviews.campaignReviews[action.data.campaignId] || [];
-        LatestReviews.campaignReviews[action.data.campaignId] = campaignReviews.concat(action.data.data);
+        LatestReviews.campaignReviews[action.data.campaignId] = (state.LatestReviews.campaignReviews[action.data.campaignId] || []).concat(action.data.data);
         LatestReviews.reviewsPending = false;
       }
 
+      if (state.LatestReviews.campaigns[action.data.campaignId]) {
+        state.LatestReviews.campaigns[action.data.campaignId].reviewsCount = action.data.reviewsCount;
+      }
+
       return assignToEmpty(state, {
-        LatestReviews
+        LatestReviews: assignToEmpty(state.LatestReviews, LatestReviews)
       });
     }
 
     case types.GOT_CAMPAIGN: {
-      const LatestReviews = {};
-      if (action.data.statusCode === 200) {
-        LatestReviews.campaign = action.data.body;
+      const LatestReviews = {campaigns: assignToEmpty(state.LatestReviews.campaigns, {})};
+      if (action.data.statusCode === 200 && !LatestReviews.campaigns[action.data.body.id]) {
+        LatestReviews.campaigns[action.data.body.id] = assignToEmpty({reviewsCount: 0}, action.data.body);
       }
 
       return assignToEmpty(state, {

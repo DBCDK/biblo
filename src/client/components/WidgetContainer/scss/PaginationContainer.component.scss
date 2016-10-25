@@ -5,22 +5,9 @@
 }
 
 .show-more--pagination--button, .close--pagination--button {
-  @include hover-transition((background: white), 200ms);
-  padding: 5px;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-family: $header-font;
-  font-weight: normal;
+  @include more-button(true);
   text-transform: uppercase;
-
-  @include max-screen($tablet) {
-    display: none;
-  }
-
-  .icon {
-    fill: $melrose;
-  }
+  margin: 5px;
 }
 
 .pagination-controls--spacer {

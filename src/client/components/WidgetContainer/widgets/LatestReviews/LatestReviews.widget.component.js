@@ -21,7 +21,7 @@ export class LatestReviewsWidget extends AbstractWidget {
     const widgetConfig = this.props.widgetConfig;
 
     this.callServiceProvider('getCampaign', {id: widgetConfig.campaignId});
-    this.getNextPage(0);
+    this.getNextPage(widgetConfig.reviewsToLoad);
     this.props.widgetActions.asyncListenForCoverImages();
   }
 
@@ -37,13 +37,18 @@ export class LatestReviewsWidget extends AbstractWidget {
     return this.props.widgetActions.asyncGetLatestReviews(
       'id DESC',
       widgetConfig.reviewsToLoad || 15,
-      widgetConfig.campaignId, pageIndex + (widgetConfig.reviewsToLoad || 15)
+      widgetConfig.campaignId,
+      pageIndex - widgetConfig.reviewsToLoad
     );
   }
 
   render() {
     const widgetConfig = this.props.widgetConfig;
-    const campaignLogoUrl = this.props.widgetReducerProp.campaign && this.props.widgetReducerProp.campaign.logos && this.props.widgetReducerProp.campaign.logos.small || null;
+    const wrp = this.props.widgetReducerProp;
+    const campaignLogoUrl = wrp.campaigns[widgetConfig.campaignId]
+      && wrp.campaigns[widgetConfig.campaignId].logos &&
+      wrp.campaigns[widgetConfig.campaignId].logos.small || null;
+
     let campaignLogo = '';
     if (campaignLogoUrl) {
       campaignLogo = (
@@ -53,9 +58,14 @@ export class LatestReviewsWidget extends AbstractWidget {
       );
     }
 
-    let reviews = this.props.widgetReducerProp.reviews;
+    let reviewsCount = wrp.reviewsCount;
+    let reviews = wrp.reviews;
     if (widgetConfig.campaignId) {
-      reviews = this.props.widgetReducerProp.campaignReviews[widgetConfig.campaignId] || [];
+      reviews = wrp.campaignReviews[widgetConfig.campaignId] || [];
+
+      if (wrp.campaigns[widgetConfig.campaignId]) {
+        reviewsCount = wrp.campaigns[widgetConfig.campaignId].reviewsCount;
+      }
     }
 
     reviews = reviews.map((review) => {
@@ -72,12 +82,12 @@ export class LatestReviewsWidget extends AbstractWidget {
       <div>
         {campaignLogo}
         <div className="latest-reviews-widget--reviews-container">
-          {reviews.length === 0 && !this.props.widgetReducerProp.reviewsPending && 'Der er ikke lavet nogen anmeldelser endnu'}
+          {reviews.length === 0 && !wrp.reviewsPending && 'Der er ikke lavet nogen anmeldelser endnu'}
 
           <PaginationContainer
             nextPageFunction={this.getNextPage}
             pages={reviews}
-            lastPageIndex={0}
+            lastPageIndex={reviewsCount}
             pageIncrements={widgetConfig.reviewsToLoad}
             genericLoading={true}
           />

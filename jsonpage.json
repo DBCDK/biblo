@@ -3,11 +3,10 @@
   "widgetLocations": {
     "SectionPage": [
       {
-        "widgetName": "LatestGroupPostsWidget",
+        "widgetName": "EditoriallySelectedReviewsWidget",
         "widgetConfig": {
           "title": "JEG anbefaler",
-          "group": 1,
-          "postsToLoad": 3,
+          "reviewIds": [106, 21, 95, 97],
           "showTitle": true
         }
       }

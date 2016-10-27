@@ -22,7 +22,7 @@ export class PopularGroupsWidget extends AbstractWidget {
   }
 
   componentDidMount() {
-    this.getNextPage(0);
+    this.getNextPage(this.props.widgetConfig.groupsToLoad);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -33,7 +33,7 @@ export class PopularGroupsWidget extends AbstractWidget {
 
   getNextPage(page) {
     const limit = this.props.widgetConfig.groupsToLoad || 20;
-    this.callServiceProvider('listGroups', {skip: limit * page, order: 'group_pop DESC', limit});
+    this.callServiceProvider('popularGroups', {skip: page - this.props.widgetConfig.groupsToLoad, limit});
   }
 
   renderGroup(group) {
@@ -66,6 +66,7 @@ export class PopularGroupsWidget extends AbstractWidget {
           nextPageFunction={this.getNextPage}
           pages={groups}
           pageIncrements={limit}
+          lastPageIndex={this.props.widgetReducerProp.count}
         />
       </div>
     );

@@ -75,5 +75,14 @@ describe('Testing of the editorially selected reviews widget', () => {
 
     // And now we display all five elements.
     expect($root.find('.editorial-reviews--review-container').length).toEqual(5);
+
+    // Here we check if all elements are rendered in the correct order.
+    const reviewHtmlIds = $root.find('.editorial-reviews--review-container').children().get().map(elem => {
+      return elem.id;
+    });
+
+    fiveReviewsState.widgetConfig.reviewIds.map((reviewId, idx) => {
+      expect(reviewHtmlIds[idx]).toContain(reviewId);
+    });
   });
 });

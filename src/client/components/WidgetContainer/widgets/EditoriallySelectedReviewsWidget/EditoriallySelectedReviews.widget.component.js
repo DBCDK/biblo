@@ -107,7 +107,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
         return this.renderReview(reviews[reviewId], works[reviews[reviewId].pid], idx);
       }
 
-      return <span className={`review_not_found`} key={`review_${reviewId}_${idx}_not_found`} />;
+      return <span className="review_not_found" key={`review_${reviewId}_${idx}_not_found`} />;
     });
 
     return (

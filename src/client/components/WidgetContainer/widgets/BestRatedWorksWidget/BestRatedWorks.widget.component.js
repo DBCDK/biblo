@@ -46,6 +46,7 @@ export class BestRatedWorksWidget extends AbstractWidget {
   }
 
   render() {
+    const containerId = `best-rated-works--${this.props.widgetIndex}`;
     const config = this.props.widgetConfig;
     const size = config.size;
     const works = (this.props.widgetReducerProp.works || [])
@@ -53,8 +54,9 @@ export class BestRatedWorksWidget extends AbstractWidget {
     const morePages = this.props.widgetReducerProp.more ? 0 : works.length;
 
     return (
-      <div className="best-rated-works--widget">
+      <div className="best-rated-works--widget" id={containerId}>
         <PaginationContainer
+          anchor={containerId}
           nextPageFunction={this.getNextPage}
           pages={works}
           pageIncrements={size}

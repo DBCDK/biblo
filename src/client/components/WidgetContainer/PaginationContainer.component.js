@@ -45,6 +45,10 @@ export class PaginationContainer extends Component {
     this.setState({
       pageNumber: this.props.pageIncrements
     });
+
+    if (this.props.anchor) {
+      document.getElementById(this.props.anchor).scrollIntoView();
+    }
   }
 
   getShowMoreButton() {
@@ -118,7 +122,8 @@ PaginationContainer.propTypes = {
   pages: PropTypes.array.isRequired,
   pageIncrements: PropTypes.number,
   lastPageIndex: PropTypes.number,
-  genericLoading: PropTypes.bool
+  genericLoading: PropTypes.bool,
+  anchor: PropTypes.string
 };
 PaginationContainer.defaultProps = {
   pageIncrements: 1,

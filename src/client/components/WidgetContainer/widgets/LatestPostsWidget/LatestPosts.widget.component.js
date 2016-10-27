@@ -42,12 +42,19 @@ export class LatestPostsWidget extends AbstractWidget {
   }
 
   render() {
+    const htmlId = `latest-post-${this.props.widgetIndex}`;
     const load = this.props.widgetConfig.postsToLoad || 15;
     const posts = this.props.widgetReducerProp.posts.map(this.renderPost);
 
     return (
-      <div className="latest-post--container">
-        <PaginationContainer nextPageFunction={this.getNextPage} pages={posts} pageIncrements={load} genericLoading={true} />
+      <div className="latest-post--container" id={htmlId}>
+        <PaginationContainer
+          anchor={htmlId}
+          nextPageFunction={this.getNextPage}
+          pages={posts}
+          pageIncrements={load}
+          genericLoading={true}
+        />
       </div>
     );
   }

@@ -47,7 +47,7 @@ class WidgetContainer extends Component {
     return styles;
   }
 
-  getComponent(widgetConfig, widgetName) {
+  getComponent(widgetConfig, widgetName, idx) {
     const CurrentWidget = widgetComponents[widgetName];
 
     if (!CurrentWidget) {
@@ -65,7 +65,9 @@ class WidgetContainer extends Component {
         widgetState={this.props.widgetState}
         widgetActions={this.props.widgetActions}
         widgetReducerProp={widgetReducerProp}
-        widgetConfig={widgetConfig}/>
+        widgetConfig={widgetConfig}
+        widgetIndex={idx}
+      />
     );
   }
 
@@ -82,7 +84,7 @@ class WidgetContainer extends Component {
         const widgetName = currentWidgetState.widgetName;
 
         // Get the component
-        const CurrentWidget = this.getComponent(widgetConfig, widgetName);
+        const CurrentWidget = this.getComponent(widgetConfig, widgetName, idx);
 
         // Get a generic title
         const title = this.getTitle(widgetConfig, widgetName);

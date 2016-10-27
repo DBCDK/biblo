@@ -55,12 +55,14 @@ export class PopularGroupsWidget extends AbstractWidget {
   }
 
   render() {
+    const htmlId = `popular-groups-${this.props.widgetIndex}`;
     const limit = this.props.widgetConfig.groupsToLoad || 20;
     const groups = (this.props.widgetReducerProp.groups || []).map(group => this.renderGroup(group));
 
     return (
-      <div className="popular-groups-widget">
+      <div className="popular-groups-widget" id={htmlId}>
         <PaginationContainer
+          anchor={htmlId}
           nextPageFunction={this.getNextPage}
           pages={groups}
           pageIncrements={limit}

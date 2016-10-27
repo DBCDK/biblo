@@ -63,5 +63,8 @@ AbstractWidget.propTypes = {
   widgetReducerProp: PropTypes.any,
 
   // This is the entire state from the widgetReducer.
-  widgetState: PropTypes.object.isRequired
+  widgetState: PropTypes.object.isRequired,
+
+  // This number is set by the widgetContainer to help id determination
+  widgetIndex: PropTypes.number
 };

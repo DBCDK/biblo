@@ -77,7 +77,11 @@ export class PaginationContainer extends Component {
 
   render() {
     const showMoreButton = this.getShowMoreButton();
-    const closeButton = this.getCloseButton();
+    let closeButton = '';
+
+    if (this.state.pageNumber > this.props.pageIncrements) {
+      closeButton = this.getCloseButton();
+    }
 
     let width = 700;
     if (typeof window !== 'undefined') {

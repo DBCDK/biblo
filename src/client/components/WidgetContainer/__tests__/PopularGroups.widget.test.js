@@ -20,7 +20,7 @@ describe('Popular groups widget!', () => {
       }
     });
 
-    expect($root.find('.popular-groups-widget').text()).toEqual(' Vis Flere Luk');
+    expect($root.find('.popular-groups-widget').text()).toEqual(' Vis Flere');
   });
 
   it('should render a group when group is found in state', () => {

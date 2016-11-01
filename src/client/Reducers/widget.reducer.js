@@ -37,7 +37,8 @@ let initialState = {
   },
   PopularGroupsWidget: {
     groups: [],
-    isLoading: true
+    isLoading: true,
+    count: 0
   },
   EditoriallySelectedReviewsWidget: {
     works: {},
@@ -159,7 +160,8 @@ export default function widgetReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         PopularGroupsWidget: {
           isLoading: false,
-          groups: action.data
+          groups: action.data.groups,
+          count: action.data.count
         }
       });
     }

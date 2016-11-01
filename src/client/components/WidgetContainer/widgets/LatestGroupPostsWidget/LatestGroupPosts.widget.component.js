@@ -77,6 +77,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
       return <span>Loading...</span>;
     }
 
+    const htmlId = `latest-group-posts-widget-${this.props.widgetIndex}`;
     const groupId = this.props.widgetConfig.group;
     const widgetGroup = this.props.widgetReducerProp.groups[groupId];
     const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
@@ -85,10 +86,11 @@ export class LatestGroupPostsWidget extends AbstractWidget {
     const compactReviewElements = this.renderCompactReviewElements(widgetPosts);
 
     return (
-      <div className="latest-group-posts-widget">
+      <div className="latest-group-posts-widget" id={htmlId}>
         {campaignLogo}
 
         <PaginationContainer
+          anchor={htmlId}
           nextPageFunction={() => this.loadPosts()}
           pages={compactReviewElements}
           pageIncrements={this.props.widgetConfig.postsToLoad}

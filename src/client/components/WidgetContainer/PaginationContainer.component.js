@@ -45,6 +45,10 @@ export class PaginationContainer extends Component {
     this.setState({
       pageNumber: this.props.pageIncrements
     });
+
+    if (this.props.anchor) {
+      document.getElementById(this.props.anchor).scrollIntoView();
+    }
   }
 
   getShowMoreButton() {
@@ -73,7 +77,11 @@ export class PaginationContainer extends Component {
 
   render() {
     const showMoreButton = this.getShowMoreButton();
-    const closeButton = this.getCloseButton();
+    let closeButton = '';
+
+    if (this.state.pageNumber > this.props.pageIncrements) {
+      closeButton = this.getCloseButton();
+    }
 
     let width = 700;
     if (typeof window !== 'undefined') {
@@ -118,7 +126,8 @@ PaginationContainer.propTypes = {
   pages: PropTypes.array.isRequired,
   pageIncrements: PropTypes.number,
   lastPageIndex: PropTypes.number,
-  genericLoading: PropTypes.bool
+  genericLoading: PropTypes.bool,
+  anchor: PropTypes.string
 };
 PaginationContainer.defaultProps = {
   pageIncrements: 1,

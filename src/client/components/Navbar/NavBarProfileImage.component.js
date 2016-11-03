@@ -9,7 +9,7 @@ export default function NavBarProfileImage({image, onClick, notifications}) {
           <img src={image.url} />
         </div>
       </a>
-    );
+  );
 }
 
 NavBarProfileImage.propTypes = {

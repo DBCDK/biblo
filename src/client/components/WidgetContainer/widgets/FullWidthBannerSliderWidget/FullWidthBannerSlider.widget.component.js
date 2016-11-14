@@ -18,7 +18,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
       timer: null,
       xDown: null,
       yDown: null
-    }
+    };
 
     this.nextSlide = this.nextSlide.bind(this);
     this.previousSlide = this.previousSlide.bind(this);
@@ -35,15 +35,15 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     }
 
     // Preload images to avoid stutter
-    this.props.widgetConfig.images.forEach(image => {
-      let i = document.createElement("img");
-      i.src = image.desktopImageUrl;
+    this.props.widgetConfig.images.forEach(img => {
+      let i = document.createElement('img');
+      i.src = img.desktopImageUrl;
 
-      i = document.createElement("img");
-      i.src = image.tabletImageUrl;
+      i = document.createElement('img');
+      i.src = img.tabletImageUrl;
 
-      i = document.createElement("img");
-      i.src = image.mobileImageUrl;
+      i = document.createElement('img');
+      i.src = img.mobileImageUrl;
     });
   }
 

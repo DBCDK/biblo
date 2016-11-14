@@ -429,7 +429,7 @@ export class ProfileDetailContainer extends React.Component {
   }
 
   renderCampaignBadges(campaigns, isMyProfile) {
-    let campaignDiplomaButtons = null;
+    let campaignDiplomaButtons = <span id="no-campaigns" />;
     if (campaigns) {
       const rows = [];
       campaigns.forEach((campaign, idx) => {

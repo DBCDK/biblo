@@ -5,6 +5,7 @@
   height: 300px;
   padding: 0;
   display: block;
+  position: relative;
 
   @include max-screen($desktop - 1) {
     -webkit-overflow-scrolling: touch;
@@ -135,6 +136,8 @@
   display: none;
   @include min-screen($desktop) {
     display: inline-block;
+    position: absolute;
+    bottom: 50px;
   }
 }
 
@@ -148,7 +151,7 @@
 
 .p-detail--buttons-container--mobile {
   position: relative;
-  display: inline-block;
+  display: block;
   @include min-screen($desktop) {
     display: none;
   }

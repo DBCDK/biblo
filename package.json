@@ -70,7 +70,7 @@
     "dbc-node-logger": "^1.4.11",
     "dbc-node-openagency-client": "^2.0.4",
     "dbc-node-openuserstatus-client": "^2.0.1",
-    "dbc-node-serviceprovider": "^3.0.7",
+    "dbc-node-serviceprovider": "^3.0.8",
     "dbc-node-serviceprovider-socketclient": "^2.3.2",
     "express": "4.14.0",
     "express-session": "1.14.1",

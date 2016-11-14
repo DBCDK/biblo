@@ -3,11 +3,64 @@
   "widgetLocations": {
     "SectionPage": [
       {
-        "widgetName": "EditoriallySelectedReviewsWidget",
+        "widgetName": "FullWidthBannerSliderWidget",
         "widgetConfig": {
-          "title": "JEG anbefaler",
-          "reviewIds": [106, 21, 95, 97],
-          "showTitle": true
+          "backgroundColor": "#FF00FF",
+          "images": [{
+            "title": "And yet another dummy title",
+            "description": "This is a dummy banner description!",
+            "desktopImageUrl": "https://dummyimage.com/1024x200/000/fff&text=a",
+            "tabletImageUrl": "https://dummyimage.com/800x300/000/fff&text=b",
+            "mobileImageUrl": "https://dummyimage.com/600x300/000/fff&text=c",
+            "linkUrl": "https://this.is.a.dummy.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "title": "A dummy title",
+            "description": "This is another dummy banner description!",
+            "desktopImageUrl": "https://dummyimage.com/1024x200/000/fff&text=q",
+            "tabletImageUrl": "https://dummyimage.com/800x300/000/fff&text=r",
+            "mobileImageUrl": "https://dummyimage.com/600x300/000/fff&text=s",
+            "linkUrl": "https://this.is.a.dumme.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "title": "And yet another dummy title",
+            "description": "This is a dummy banner description!",
+            "desktopImageUrl": "https://dummyimage.com/1024x200/000/fff&text=d",
+            "tabletImageUrl": "https://dummyimage.com/800x300/000/fff&text=e",
+            "mobileImageUrl": "https://dummyimage.com/600x300/000/fff&text=f",
+            "linkUrl": "https://this.is.a.dummy.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "title": "A dummy title",
+            "description": "This is another dummy banner description!",
+            "desktopImageUrl": "https://dummyimage.com/1024x200/000/fff&text=g",
+            "tabletImageUrl": "https://dummyimage.com/800x300/000/fff&text=h",
+            "mobileImageUrl": "https://dummyimage.com/600x300/000/fff&text=i",
+            "linkUrl": "https://this.is.a.dumme.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "title": "And yet another dummy title",
+            "description": "This is a dummy banner description!",
+            "desktopImageUrl": "https://dummyimage.com/1024x200/000/fff&text=j",
+            "tabletImageUrl": "https://dummyimage.com/800x300/000/fff&text=k",
+            "mobileImageUrl": "https://dummyimage.com/600x300/000/fff&text=l",
+            "linkUrl": "https://this.is.a.dummy.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "title": "A dummy title",
+            "description": "This is another dummy banner description!",
+            "desktopImageUrl": "https://dummyimage.com/1024x200/000/fff&text=m",
+            "tabletImageUrl": "https://dummyimage.com/800x300/000/fff&text=n",
+            "mobileImageUrl": "https://dummyimage.com/600x300/000/fff&text=o",
+            "linkUrl": "https://this.is.a.dumme.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }]
         }
       }
     ]

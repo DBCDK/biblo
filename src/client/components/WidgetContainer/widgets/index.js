@@ -17,6 +17,7 @@ import {PopularGroupsWidget} from './PopularGroupsWidget/PopularGroups.widget.co
 import {EditoriallySelectedReviewsWidget} from './EditoriallySelectedReviewsWidget/EditoriallySelectedReviews.widget.component';
 import {EditoriallySelectedMaterialsWidget} from './EditoriallySelectedMaterialsWidget/EditoriallySelectedMaterials.widget.component';
 import {LatestPostsWidget} from './LatestPostsWidget/LatestPosts.widget.component';
+import {FullWidthBannerSliderWidget} from './FullWidthBannerSliderWidget/FullWidthBannerSlider.widget.component';
 
 const widgetComponents = {
   FactBoxWidget,
@@ -33,7 +34,8 @@ const widgetComponents = {
   PopularGroupsWidget,
   EditoriallySelectedReviewsWidget,
   EditoriallySelectedMaterialsWidget,
-  LatestPostsWidget
+  LatestPostsWidget,
+  FullWidthBannerSliderWidget
 };
 
 export default widgetComponents;

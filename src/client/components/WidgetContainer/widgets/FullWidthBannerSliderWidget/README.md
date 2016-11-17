@@ -13,6 +13,7 @@ Usage:
     backgroundColor: '#FF00FF',
     backgroundImageUrl: 'http://i.imgur.com/ls2fKsP.jpg',
     images: [{
+      id: 1, // An id to uniquely identify an image
       title: 'And yet another dummy title',
       description: 'This is a dummy banner description!',
       desktopImageUrl: 'https://this.is.a.dumme.link/dummy.desktop.png',
@@ -22,6 +23,7 @@ Usage:
       alt: 'Image alt text',
       TTN: 5000 // TimeToNext [ms]
     }, {
+      id: 2,
       title: 'A dummy title',
       description: 'This is another dummy banner description!',
       desktopImageUrl: 'https://this.is.a.dummy.link/dumme.desktop.png',

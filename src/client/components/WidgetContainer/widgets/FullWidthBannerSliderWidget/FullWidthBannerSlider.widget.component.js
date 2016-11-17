@@ -2,10 +2,18 @@
  * @file: Full width banner slider, shows a bunch of images with some text and a link.
  */
 
+// Libs
 import React from 'react';
+
+// Components
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {FullWidthBannerWidget} from '../FullWidthBannerWidget/FullWidthBanner.widget.component';
+import Icon from '../../../General/Icon/Icon.component';
 
+// SVGs
+import pilSVG from '../../../General/Icon/svg/functions/pil.svg';
+
+// Styles
 import './scss/FullWidthBannerSliderWidget.Component.scss';
 
 const defaultTTN = 5000;
@@ -15,6 +23,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     super(props);
     this.state = {
       image: 0,
+      next: true,
       timer: null,
       xDown: null,
       yDown: null
@@ -95,6 +104,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
 
     this.setState({
       image: nextImage,
+      next: true,
       timer: timer && setTimeout(this.nextSlide, images[nextImage].TTN || defaultTTN)
     });
   }
@@ -111,14 +121,58 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
 
     this.setState({
       image: previousImage,
+      next: false,
       timer: timer && setTimeout(this.nextSlide, images[previousImage].TTN || defaultTTN) // Only set the new timer if it's specified
     });
   }
 
+  getClasses(imgIdx, idx, imagesLength) {
+    let classname = 'full-width-banner--slide--wrapper ';
+
+    if (this.state.next) {
+      if (imgIdx === idx) {
+        classname += 'active';
+      }
+      else if (imgIdx - 1 === idx) {
+        classname += 'prior';
+      }
+      else if (imgIdx === 0 && idx + 1 === imagesLength) {
+        classname += 'prior';
+      }
+      else {
+        classname += 'inactive';
+      }
+
+      return classname;
+    }
+
+    if (imgIdx === idx) {
+      classname += 'active-reverse-animation';
+    }
+    else if (imgIdx + 1 === idx) {
+      classname += 'next-reverse-animation';
+    }
+    else if (idx === 0 && imgIdx + 1 === imagesLength) {
+      classname += 'next-reverse-animation';
+    }
+    else {
+      classname += 'inactive';
+    }
+
+    return classname;
+  }
+
   render() {
     // Create instances of FullWidthBanner for each image
-    const images = this.props.widgetConfig.images.map(image => {
-      return <FullWidthBannerWidget widgetConfig={image} />;
+    const imagesLength = this.props.widgetConfig.images.length;
+    const images = this.props.widgetConfig.images.map((image, idx) => {
+      const imgIdx = this.state.image;
+
+      return (
+        <span className={this.getClasses(imgIdx, idx, imagesLength)} key={`slide_${image.id}`}>
+          <FullWidthBannerWidget widgetConfig={image}/>
+        </span>
+      );
     });
 
     // Create a dot for each image
@@ -126,20 +180,25 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
       const active = idx === this.state.image ? 'active' : 'inactive';
       return (
         <span className={`fwbs--image-indicator ${active}`} key={`${idx}_${active}`}>
-          {idx === this.state.image ? '◉' : '◎'}
+          ●
         </span>
       );
     });
 
     return (
-      <div className="full-width-banner-slider-widget" onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove}>
+      <div className="full-width-banner-slider-widget" onTouchStart={this.handleTouchStart}
+           onTouchMove={this.handleTouchMove}>
         <div className="fwbs--buttons">
-          <span className="fwbs--prev" onClick={() => this.previousSlide(false)}>tilbage</span>
-          <span className="fwbs--next" onClick={() => this.nextSlide(false)}>næste</span>
+          <span className="fwbs--prev fwbs--button" onClick={() => this.previousSlide(false)}>
+            <Icon glyph={pilSVG} width={50} height={50}/>
+          </span>
+          <span className="fwbs--next fwbs--button" onClick={() => this.nextSlide(false)}>
+            <Icon glyph={pilSVG} width={50} height={50}/>
+          </span>
         </div>
 
         <div className="fwbs--image">
-          {images[this.state.image]}
+          {images}
         </div>
 
         <div className="fwbs--dots">

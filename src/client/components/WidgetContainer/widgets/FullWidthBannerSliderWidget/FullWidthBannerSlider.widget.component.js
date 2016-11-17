@@ -126,47 +126,51 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     });
   }
 
+  getClasses(imgIdx, idx, imagesLength) {
+    let classname = 'full-width-banner--slide--wrapper ';
+
+    if (this.state.next) {
+      if (imgIdx === idx) {
+        classname += 'active';
+      }
+      else if (imgIdx - 1 === idx) {
+        classname += 'prior';
+      }
+      else if (imgIdx === 0 && idx + 1 === imagesLength) {
+        classname += 'prior';
+      }
+      else {
+        classname += 'inactive';
+      }
+
+      return classname;
+    }
+
+    if (imgIdx === idx) {
+      classname += 'active-reverse-animation';
+    }
+    else if (imgIdx + 1 === idx) {
+      classname += 'next-reverse-animation';
+    }
+    else if (idx === 0 && imgIdx + 1 === imagesLength) {
+      classname += 'next-reverse-animation';
+    }
+    else {
+      classname += 'inactive';
+    }
+
+    return classname;
+  }
+
   render() {
     // Create instances of FullWidthBanner for each image
     const imagesLength = this.props.widgetConfig.images.length;
     const images = this.props.widgetConfig.images.map((image, idx) => {
-      const next = this.state.next;
       const imgIdx = this.state.image;
 
-      let classname = 'full-width-banner--slide--wrapper ';
-
-      if (this.state.next) {
-        if (imgIdx === idx) {
-          classname += 'active';
-        }
-        else if (imgIdx - 1 === idx) {
-          classname += 'prior';
-        }
-        else if (imgIdx === 0 && idx + 1 === imagesLength) {
-          classname += 'prior';
-        }
-        else {
-          classname += 'inactive';
-        }
-      }
-      else {
-        if (imgIdx === idx) {
-          classname += 'active-reverse-animation';
-        }
-        else if (imgIdx + 1 === idx) {
-          classname += 'next-reverse-animation';
-        }
-        else if (idx === 0 && imgIdx + 1 === imagesLength) {
-          classname += 'next-reverse-animation';
-        }
-        else {
-          classname += 'inactive';
-        }
-      }
-
       return (
-        <span className={classname} key={`slide_${image.id}`}>
-          <FullWidthBannerWidget widgetConfig={image} />
+        <span className={this.getClasses(imgIdx, idx, imagesLength)} key={`slide_${image.id}`}>
+          <FullWidthBannerWidget widgetConfig={image}/>
         </span>
       );
     });
@@ -182,13 +186,14 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     });
 
     return (
-      <div className="full-width-banner-slider-widget" onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove}>
+      <div className="full-width-banner-slider-widget" onTouchStart={this.handleTouchStart}
+           onTouchMove={this.handleTouchMove}>
         <div className="fwbs--buttons">
           <span className="fwbs--prev fwbs--button" onClick={() => this.previousSlide(false)}>
-            <Icon glyph={pilSVG} width={50} height={50} />
+            <Icon glyph={pilSVG} width={50} height={50}/>
           </span>
           <span className="fwbs--next fwbs--button" onClick={() => this.nextSlide(false)}>
-            <Icon glyph={pilSVG} width={50} height={50} />
+            <Icon glyph={pilSVG} width={50} height={50}/>
           </span>
         </div>
 

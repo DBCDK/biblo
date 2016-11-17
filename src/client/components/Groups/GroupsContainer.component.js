@@ -20,8 +20,7 @@ import './GroupsContainer.scss';
 
 export class GroupsContainer extends React.Component {
   render() {
-    const text = 'Her kan du deltage, se hvad andre skriver og uploader. Du kan også lave din egen gruppe - om det du ' +
-      'interesserer dig mest for. Du kan spørge gruppeværterne i alle grupperne om mere information.';
+    const text = 'Her kan du finde alle Biblos grupper. Du kan også lave din egen. Søg efter grupper på den lilla knap øverst på siden.';
     const {data, actions} = this.props;
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >

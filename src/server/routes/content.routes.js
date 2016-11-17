@@ -61,8 +61,7 @@ export default ContentRoutes;
 
 export async function wildCardRoute(req, res, next) {
   try {
-    let contentObject;
-    // let contentObject = (await req.callServiceProvider('getContentPage', req.originalUrl))[0].body;
+    let contentObject = (await req.callServiceProvider('getContentPage', req.originalUrl))[0].body;
 
     if (req.app.get('env') === 'development' && req.url === '/jsonroute') {
       contentObject = require('../../../jsonpage.json');

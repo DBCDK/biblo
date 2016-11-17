@@ -136,8 +136,6 @@ export class WorkDetail extends React.Component {
     let reviewButton;
 
     const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(this.props.collectionDetails);
-
-    // sd-566: tweak login requirements and button glyph when in full review view
     if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton

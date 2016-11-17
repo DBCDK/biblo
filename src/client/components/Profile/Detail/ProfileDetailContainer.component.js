@@ -510,7 +510,7 @@ export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
-      image: userProfile && userProfile.image && userProfile.image.smallSquare || '/no_profile.png'
+      image: userProfile && userProfile.image && userProfile.image.small || '/no_profile.png'
     });
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;

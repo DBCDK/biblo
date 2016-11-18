@@ -18,7 +18,7 @@ export function createQueue(logger, app, queueName, processFunction) {
   const redisHost = config.get('Redis.host');
   const redisPort = config.get('Redis.port');
   const redisPrefix = config.get('Redis.queue_prefix');
-  const genericQueue = Queue(`${redisPrefix}${queueName}`, redisPort, redisHost);
+  const genericQueue = Queue(`${redisPrefix}${queueName}`, `redis://${redisHost}:${redisPort}`, {});
 
   genericQueue.process((job, done) => {
     job.app = app;

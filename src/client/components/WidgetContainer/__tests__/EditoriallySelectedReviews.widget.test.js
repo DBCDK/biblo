@@ -68,13 +68,13 @@ describe('Testing of the editorially selected reviews widget', () => {
 
     // Initially we display two elements
     expect($root.find('.editorially-selected-reviews-widget').length).toEqual(1);
-    expect($root.find('.editorial-reviews--review').length).toEqual(2);
+    expect($root.find('.editorial-reviews--review-container.expanded').length).toEqual(2);
 
     // We click show more
     $root.find('.editorially-selected-reviews-widget--show-more-button a').trigger('click', {});
 
     // And now we display all five elements.
-    expect($root.find('.editorial-reviews--review-container').length).toEqual(5);
+    expect($root.find('.editorial-reviews--review-container.expanded').length).toEqual(5);
 
     // Here we check if all elements are rendered in the correct order.
     const reviewHtmlIds = $root.find('.editorial-reviews--review-container').children().get().map(elem => {

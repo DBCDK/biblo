@@ -14,6 +14,16 @@
   @include min-screen(760px) {
     max-width: 50%;
   }
+
+  @include min-screen($tablet + 1) {
+    & > .editorial-reviews--review {
+      display: none;
+    }
+
+    &.expanded > .editorial-reviews--review {
+      display: flex !important;
+    }
+  }
 }
 
 .editorial-reviews--review {
@@ -24,7 +34,7 @@
   box-shadow: $gray 0 5px 10px;
   display: flex;
   position: relative;
-
+  margin-bottom: 10px;
 }
 
 .editorial-reviews--review--profile-image {
@@ -98,4 +108,8 @@
   a {
     @include more-button();
   }
+}
+
+.EditoriallySelectedReviewsWidget--wrapper {
+  padding-bottom: 0;
 }

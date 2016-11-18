@@ -47,12 +47,13 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
     this.callServiceProvider('getWorkFromReviewIds', {ids: reviewIds});
   }
 
-  renderReview(review = null, work = null, idx = 0) {
+  renderReview(review = null, work = null, idx = 0, hide = false) {
     if (review && work) {
       const coverUrl = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
+      const containerClass = 'editorial-reviews--review-container' + (hide ? '' : ' expanded');
 
       return (
-        <div key={`review_${review.id}_${idx}`} className="editorial-reviews--review-container">
+        <div key={`review_${review.id}_${idx}`} className={containerClass}>
         <div className="editorial-reviews--review" id={`review_${review.id}`}>
           <div className="editorial-reviews--review--left">
             <a className="editorial-reviews--review--profile-image" href={`/profil/${review.owner.id}`}>
@@ -98,13 +99,13 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
   render() {
     const reviews = this.props.widgetReducerProp.reviews;
-    const reviewIds = this.props.widgetConfig.reviewIds.slice(0, this.state.expanded && Object.keys(reviews).length || 2);
+    const reviewIds = this.props.widgetConfig.reviewIds;
     const works = this.props.widgetReducerProp.works;
     const showMoreButton = Object.keys(reviews).length > 0 && Object.keys(works).length > 0;
 
     const reviewElements = reviewIds.map((reviewId, idx) => {
-      if (reviews[reviewId] && works[reviews[reviewId].pid]) {
-        return this.renderReview(reviews[reviewId], works[reviews[reviewId].pid], idx);
+      if (reviews[reviewId] && reviews[reviewId].pid && works[reviews[reviewId].pid]) {
+        return this.renderReview(reviews[reviewId], works[reviews[reviewId].pid], idx, !(this.state.expanded || idx < 2));
       }
 
       return <span className="review_not_found" key={`review_${reviewId}_${idx}_not_found`} />;

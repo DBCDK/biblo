@@ -13,8 +13,10 @@
 @import 'mixins/result-list';
 @import 'mixins/notification-count';
 @import 'mixins/errorbox';
+@import 'mixins/content-grid';
 
 // Extends
 @import "extends/font-styles";
 @import "extends/coverimage";
 @import "extends/video";
+@import "extends/widgets";

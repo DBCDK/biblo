@@ -101,7 +101,7 @@ export class GroupEditContainer extends React.Component {
             <h3 className="group-moderation--text">{texts.confirm}</h3>
             <div className="group-moderation--title">{this.props.group.name}</div>
             {this.props.group.moderation.error &&
-            <div className={"message error shakeit"}>
+            <div className="message error shakeit">
               {texts.error}
             </div>
             ||

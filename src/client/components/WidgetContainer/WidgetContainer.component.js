@@ -14,6 +14,8 @@
 import React, {Component, PropTypes} from 'react';
 import widgetComponents from './widgets';
 
+import './scss/widgetContainer.scss';
+
 class WidgetContainer extends Component {
   getTitle(widgetConfig = {}, classNames = '') {
     let title = <span className="widget--no--title"/>;
@@ -45,7 +47,7 @@ class WidgetContainer extends Component {
     return styles;
   }
 
-  getComponent(widgetConfig, widgetName) {
+  getComponent(widgetConfig, widgetName, idx) {
     const CurrentWidget = widgetComponents[widgetName];
 
     if (!CurrentWidget) {
@@ -63,7 +65,9 @@ class WidgetContainer extends Component {
         widgetState={this.props.widgetState}
         widgetActions={this.props.widgetActions}
         widgetReducerProp={widgetReducerProp}
-        widgetConfig={widgetConfig}/>
+        widgetConfig={widgetConfig}
+        widgetIndex={idx}
+      />
     );
   }
 
@@ -80,7 +84,7 @@ class WidgetContainer extends Component {
         const widgetName = currentWidgetState.widgetName;
 
         // Get the component
-        const CurrentWidget = this.getComponent(widgetConfig, widgetName);
+        const CurrentWidget = this.getComponent(widgetConfig, widgetName, idx);
 
         // Get a generic title
         const title = this.getTitle(widgetConfig, widgetName);
@@ -96,7 +100,7 @@ class WidgetContainer extends Component {
           >
             {title}
             <div
-              className={`${widgetName}--wrapper`}
+              className={`${widgetName}--wrapper generic-widget-wrapper`}
               style={widgetStyles}
             >
               {CurrentWidget}

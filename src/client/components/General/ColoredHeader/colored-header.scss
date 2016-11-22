@@ -1,38 +1,36 @@
 @import 'tools';
 
 .colored-header {
-  @include clearfix();
+  display: flex;
   background-color: $turquoise;
-  padding-bottom: 20px;
 
   .colored-header--iconcontainer {
-    @include span(4);
+    flex-shrink: 1;
+    max-width: calc(100%/6);
+    margin-right: 1em;
     @include max-screen($tablet) {
       display: none;
     }
 
-    align-content: center;
     img, .icon {
-      padding-top: 20px;
-      padding-left: 20px;
       fill: $white
     }
   }
   .colored-header--description {
-    @include span(20 last);
-
-    @include min-screen($tablet) {
-      @include span(19);
-    }
-
+    flex-grow: 1;
     color: $white;
     align-content: center;
-    font-size: 14px;
     .colored-header--text {
       h2 {
+        margin: 0;
+        margin-bottom: 0.5em;
         color: $white;
       }
-      width: 80%;
+      max-width: 600px;
     }
   }
+}
+
+.widget--title--generic.ColoredHeaderWidget {
+  display: none;
 }

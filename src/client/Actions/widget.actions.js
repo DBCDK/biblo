@@ -6,26 +6,27 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const getReviewsSocket = SocketClient('getReviews');
 const getCoverImageSocket = SocketClient('coverImage');
 
-export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = false) {
+export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = false, offset = 0) {
   if (campaignId) {
     return {
       type: types.callServiceProvider,
       event: 'getCampaignReviews',
-      data: {order: sort, campaignId, limit}
+      data: {order: sort, campaignId, limit, skip: offset}
     };
   }
 
   return dispatch => {
-    getReviewsSocket.response(res => dispatch(getLatestReviews(sort, limit, res.data)));
-    getReviewsSocket.request({order: sort, limit, campaignId});
+    getReviewsSocket.responseOnce(res => dispatch(getLatestReviews(sort, limit, res.data, res.reviewsCount)));
+    getReviewsSocket.request({order: sort, limit, campaignId, skip: offset});
   };
 }
 
-export function getLatestReviews(sort, limit, reviews) {
+export function getLatestReviews(sort, limit, reviews, reviewsCount) {
   return {
     type: types.GET_LATEST_REVIEWS_FOR_WIDGET,
     sort,
-    reviews
+    reviews,
+    reviewsCount
   };
 }
 

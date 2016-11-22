@@ -1,0 +1,142 @@
+@import "tools";
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.fwbs--buttons {
+  display: none;
+  position: absolute;
+  width: 100%;
+  min-height: 200px;
+  max-height: 300px;
+  height: 100%;
+
+  @include min-screen($desktop) {
+    display: block;
+  }
+
+  .icon {
+    fill: $black !important;
+    opacity: 0.5;
+  }
+
+  .fwbs--button {
+    position: absolute;
+    margin-top: -25px;
+    top: 50%;
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  .fwbs--prev {
+    left: 10px;
+    transform: rotate(180deg);
+  }
+
+  .fwbs--next {
+    right: 10px;
+  }
+}
+
+.fwbs--image {
+  position: relative;
+  min-height: 200px;
+  max-height: 300px;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+
+  .full-width-banner--slide--wrapper {
+    display: inline-block;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+  }
+
+  .active {
+    visibility: visible;
+    left: 0;
+    z-index: 3;
+    animation: slideInFromRight 0.4s ease;
+  }
+
+  .prior {
+    visibility: visible;
+    z-index: 2;
+    animation: slideOutToLeft 0.4s ease;
+  }
+
+  .active-reverse-animation {
+    visibility: visible;
+    left: 0;
+    z-index: 3;
+    animation: slideInFromLeft 0.4s ease;
+  }
+
+  .next-reverse-animation {
+    visibility: visible;
+    z-index: 2;
+    animation: slideOutToRight 0.4s ease;
+  }
+}
+
+.FullWidthBannerSliderWidget--wrapper {
+  padding: 0 !important;
+}
+
+.fwbs--dots {
+  font-size: 15pt;
+  margin-top: -2em;
+  text-align: center;
+  text-shadow: 1px 1px $gray;
+  color: $light-blueish-gray;
+  z-index: 3;
+  width: 100%;
+  position: absolute;
+
+  .active {
+    color: $white;
+  }
+
+  .fwbs--image-indicator {
+    z-index: 4;
+  }
+}

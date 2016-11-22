@@ -1,0 +1,44 @@
+{
+  "title": "Json page!",
+  "widgetLocations": {
+    "SectionPage": [
+      {
+        "widgetName": "FullWidthBannerSliderWidget",
+        "widgetConfig": {
+          "backgroundColor": "#FF00FF",
+          "images": [{
+            "id": 1,
+            "title": "And yet another dummy title",
+            "description": "This is a dummy banner description!",
+            "desktopImageUrl": "/a.png",
+            "tabletImageUrl": "/a.png",
+            "mobileImageUrl": "/a.png",
+            "linkUrl": "https://this.is.a.dummy.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "id": 2,
+            "title": "A dummy title",
+            "description": "This is another dummy banner description!",
+            "desktopImageUrl": "/b.png",
+            "tabletImageUrl": "/b.png",
+            "mobileImageUrl": "/b.png",
+            "linkUrl": "https://this.is.a.dumme.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }, {
+            "id": 3,
+            "title": "And yet another dummy title",
+            "description": "This is a dummy banner description!",
+            "desktopImageUrl": "/c.png",
+            "tabletImageUrl": "/c.png",
+            "mobileImageUrl": "/c.png",
+            "linkUrl": "https://this.is.a.dummy.link",
+            "TTN": 5000,
+            "alt": "Alternative image alt text"
+          }]
+        }
+      }
+    ]
+  }
+}

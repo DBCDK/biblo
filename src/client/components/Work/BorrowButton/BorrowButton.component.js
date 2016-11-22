@@ -57,7 +57,8 @@ export default class BorrowButton extends React.Component {
 
   componentDidMount() {
     if (this.props.profile.userIsLoggedIn) {
-      this.props.checkAvailabilityAction(this.props.collection);
+      const collections = this.props.collectionDetails.map(collection => collection.pid[0]);
+      this.props.checkAvailabilityAction(collections);
     }
   }
 
@@ -101,6 +102,20 @@ export default class BorrowButton extends React.Component {
   onChange(collectionItem, e) {
     let onlineUrl;
     if (collectionItem.accessType[0] === 'online' && !!collectionItem.hasOnlineAccess) {
+      if (collectionItem.hasOnlineAccess && collectionItem.hasOnlineAccess.length > 1) {
+        collectionItem.hasOnlineAccess = collectionItem.hasOnlineAccess.sort((a, b) => {
+          if (a.indexOf('fjernleje') >= 0) {
+            return -1;
+          }
+
+          if (b.indexOf('fjernleje') >= 0) {
+            return 1;
+          }
+
+          return 0;
+        });
+      }
+
       onlineUrl = collectionItem.hasOnlineAccess[0];
     }
 
@@ -144,6 +159,7 @@ export default class BorrowButton extends React.Component {
                   <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
                     <Icon glyph={materialSvgs[collectionItem.workType]} width={25}
                           height={25}/> {collectionItem.type}
+                          <span className="description">{this.props.itemDescription}</span>
                   </label>
                 </span>
               );
@@ -152,15 +168,18 @@ export default class BorrowButton extends React.Component {
         </div>
         {messageObj.mustSelectItem}
         {this.state.onlineUrl &&
-        <span>
-          <RoundedButton className='onlinelink' href={this.state.onlineUrl} target='_blank' buttonText="HENT ONLINE"/>
+        <span className={`modal-window--${this.props.type}`}>
+          <RoundedButton className='modal-window--borrow-submit-button'
+                         href={this.state.onlineUrl}
+                         target='_blank'
+                         buttonText={this.props.modalButtonTitle} />
           <p className="modal-window--message-under-submit-button">
             Du viderestilles til en anden hjemmeside i et nyt vindue.
           </p>
           </span>
         ||
-        <span>
-          <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
+        <span className={`modal-window--${this.props.type}`}>
+          <input type="submit" value={this.props.modalButtonTitle} className="modal-window--borrow-submit-button"/>
            <p className="modal-window--message-under-submit-button">
              Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
            </p>
@@ -248,7 +267,7 @@ export default class BorrowButton extends React.Component {
     let modalContent = '';
 
     // User isn't logged in
-    if (!profile.userIsLoggedIn) {
+    if (!profile.userIsLoggedIn && this.props.type !== 'online') {
       modalContent = (
         <div>
           <p>Du skal logge ind for at låne</p>
@@ -259,17 +278,18 @@ export default class BorrowButton extends React.Component {
     }
     // User is logged in, but doesn't have any borrower info
     else if (
+      this.props.type !== 'online' && (
       !profile.favoriteLibrary ||
       (profile.hasOwnProperty('favoriteLibrary') && !(
         profile.favoriteLibrary.hasOwnProperty('libraryId') &&
         profile.favoriteLibrary.hasOwnProperty('loanerId') &&
         profile.favoriteLibrary.hasOwnProperty('pincode')
-      ))
+      )))
     ) {
       modalContent = this.renderLibrarySelector(profile);
     }
     // The users library is invalid, we want them to select a new one.
-    else if (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed) {
+    else if (this.props.type !== 'online' && (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed)) {
       modalContent = this.renderLibrarySelector(profile, true);
     }
     // Currently ordering work
@@ -319,11 +339,11 @@ export default class BorrowButton extends React.Component {
     }
 
     return (
-      <ModalWindow onClose={onClose} title="LÅN">
+      <ModalWindow onClose={onClose} title={this.props.buttonTitle}>
         <div className="modal-window--borrow-container">
           <div className="modal-window--work-details">
             <img src={this.props.coverUrl}/>
-            <h3>{this.props.workTitle}</h3>
+            <h3>{this.props.title}</h3>
           </div>
 
           {modalContent}
@@ -339,7 +359,7 @@ export default class BorrowButton extends React.Component {
 
   render() {
     return (
-      <span>
+      <div className="borrow">
         {this.state.displayModal &&
         this.placeOrderModal(
           this.props.collectionDetails,
@@ -349,17 +369,21 @@ export default class BorrowButton extends React.Component {
           this.props.profile,
           this.closeModal.bind(this)
         )}
-        <a className='work-detail--order-button' onClick={() => this.setState({displayModal: true})}>LÅN</a>
-      </span>
+        <a className='borrow--button' onClick={() => this.setState({displayModal: true})}>{this.props.buttonIcon} <span className="button-text">{this.props.buttonTitle}</span></a>
+      </div>
     );
   }
 }
 
 BorrowButton.propTypes = {
-  collection: React.PropTypes.array.isRequired,
+  buttonTitle: React.PropTypes.string.isRequired,
+  modalButtonTitle: React.PropTypes.string.isRequired,
+  buttonIcon: React.PropTypes.any.isRequired,
+  itemDescription: React.PropTypes.string.isRequired,
   collectionDetails: React.PropTypes.array.isRequired,
   coverUrl: React.PropTypes.string.isRequired,
-  workTitle: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string.isRequired,
+  type: React.PropTypes.string.isRequired,
   orderMaterialAction: React.PropTypes.func.isRequired,
   orderState: React.PropTypes.number,
   saveProfileAction: React.PropTypes.func.isRequired,

@@ -20,6 +20,7 @@ describe('Test LatestReviews Widget', () => {
       },
       state: {
         LatestReviews: {
+          campaigns: {},
           reviews: []
         }
       }
@@ -40,6 +41,7 @@ describe('Test LatestReviews Widget', () => {
       },
       state: {
         LatestReviews: {
+          campaigns: {},
           reviews: [singleReviewMock]
         }
       }
@@ -66,14 +68,16 @@ describe('Test LatestReviews Widget', () => {
           campaignReviews: {
             1: [singleCampaignReviewMock]
           },
-          campaign: singleCampaignReviewMock.campaign,
+          campaigns: {
+            1: singleCampaignReviewMock.campaign
+          },
           reviewsPending: false
         },
         CoverImages: coverImagesState
       }
     });
 
-    const campaignLogoSrc = $root.find('.latest-reviews-widget--campaign-logo > img').unwrap().src;
+    const campaignLogoSrc = $root.find('.widget--campaign-logo > img').unwrap().src;
     expect(campaignLogoSrc).toContain(singleCampaignReviewMock.campaign.logos.small);
   });
 });

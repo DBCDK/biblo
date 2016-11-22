@@ -31,7 +31,7 @@ function parseOnlineAccess(onlineAccess) {
   if (typeof onlineAccess === 'string') {
     return onlineAccess.replace('ereolen.dk', 'ereolengo.dk');
   }
-  else if (typeof onlineAccess === 'object') {
+  else if (Array.isArray(onlineAccess)) {
     return onlineAccess.map(element => element.replace('ereolen.dk', 'ereolengo.dk'));
   }
 

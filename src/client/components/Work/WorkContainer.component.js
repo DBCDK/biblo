@@ -49,11 +49,11 @@ export class WorkContainer extends React.Component {
   }
 
   toggleReview() {
-    let profile = this.getProfile();
+    const profile = this.getProfile();
     if (profile.userIsLoggedIn) {
       if (!profile.quarantined) {
         if (this.getOwnReviewId()) {
-          let reviewId = this.getOwnReviewId();
+          const reviewId = this.getOwnReviewId();
           window.location = '/anmeldelse/' + reviewId;
         }
         else {
@@ -102,8 +102,8 @@ export class WorkContainer extends React.Component {
     const seriesDisplay = this.getSeriesDisplay(work);
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
-    let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
-    let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
+    const reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
+    const librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)

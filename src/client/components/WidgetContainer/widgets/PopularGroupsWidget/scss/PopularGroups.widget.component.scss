@@ -13,89 +13,29 @@
 }
 
 .popular-groups-widget--group-image-container {
-  img {
-    width: 175px;
-    height: 175px;
-    object-fit: cover;
-  }
-}
-
-.popular-groups-widget--group-container {
-  margin: 10px;
-  display: block;
+  @extend %square;
 }
 
 .popular-groups-widget--show-more-button--container {
   text-align: center;
-
-  hr {
-    visibility: hidden;
+  a {
+    @include more-button();
   }
 }
 
-.popular-groups-widget--show-more-button {
-  cursor: pointer;
-  font-family: $header-font;
-  color: $black;
-  padding: 5px;
-  margin: 20px;
-  margin-top: 0;
-  margin-bottom: 30px;
-  border: #e2e2ed solid 1px;
-  border-radius: 5px;
-  background-color: #FFFFFF;
-
-  @include max-screen($tablet) {
-    display: none;
-  }
-
-  .icon {
-    fill: #938ee9;
-    margin-bottom:-1px;
-  }
-}
-
-.popular-groups-widget--groups-container {
-  @include span(24);
-  margin-bottom: 10px;
-  -webkit-overflow-scrolling: touch;
-
-  &.closed {
-    height: 250px;
-    overflow: hidden;
-
-    @include max-screen($tablet) {
-      overflow-x: scroll;
-      display: block;
-      white-space: nowrap;
+.popular-groups-widget {
+  .pages--container {
+    @include min-screen($tablet) {
+      &.closed {
+        height: 240px;
+        overflow: hidden;
+        margin-bottom: 2em;
+        & > * {
+          min-height: calc(240px - 1em);
+        }
+      }
     }
-  }
-}
-
-.popular-groups-widget--group-container {
-  @include span(18 of 24);
-  @include squish(1%, 2%);
-  float: none;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background-color: $white;
-  display: inline-block;
-
-  @include max-screen($tablet - 1) {
-    overflow: hidden;
-    padding-left: 15px;
-    width: initial;
-    vertical-align: top;
-  }
-
-  @include min-screen($tablet) {
-    @include span(3.865 of 24);
-    @include squish(2.5%, 2%);
-    float: left;
-    height: 180px;
-  }
-
-  @include min-screen($desktop) {
-    height: 200px;
+    @include content-grid(168px);
+    @include scroller(180px);
   }
 }

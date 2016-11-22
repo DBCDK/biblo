@@ -1,9 +1,9 @@
 @import 'hover-transition';
 @import 'no-selection';
 @import '../settings/colors';
+@import '../settings/fonts';
 @import '../settings/breakpoints';
 @import 'media-queries';
-
 
 @mixin button($background: $melrose, $color: white, $lighten: false, $hoverColor: false) {
   padding: 8px 30px;
@@ -15,16 +15,33 @@
   border: none;
   display: inline-block;
   cursor: pointer;
+  .icon-container {
+    display: inline-block;
+  }
   svg {
+    width: 14px;
+    height: 14px;
     fill: $color;
     margin-right: 10px;
-    @include max-screen($tablet - 1px) {
-      padding-right: 5px;
-    }
     position: relative;
     display: inline-block;
-    top: 2px;
   }
   @include hover-transition((background: $background), 200ms, $lighten, $hoverColor);
   @include no-selection();
+}
+
+@mixin more-button($hide-on-small: true) {
+  @include button(white, black);
+  border: 1px solid #ccc;
+  font-weight: normal;
+  font-family: $header-font;
+  svg {
+    fill: $governor-bay
+  }
+
+  @if ($hide-on-small) {
+    @include max-screen($tablet) {
+      display: none;
+    }
+  }
 }

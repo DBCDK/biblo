@@ -9,10 +9,11 @@ const getTopReviewsTransform = {
     return 'getTopReviews';
   },
 
-  requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes}) {
+  requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes, offset}) {
     // Get the top works from the community service.
+    let more = false;
     return this.callServiceClient('community', 'topWorksFromReviews', {
-      size,
+      size: offset || size,
       age,
       ratingParameter,
       countsParameter,
@@ -24,11 +25,33 @@ const getTopReviewsTransform = {
       }
 
       // Parse out the response from the community service.
-      const works = JSON.parse(topWorksResponse.body);
+      let works = JSON.parse(topWorksResponse.body);
+
+      // Worktypes specified, we need to sort manually.
+      if (worktypes && worktypes.length > 0) {
+        const aggs = works.aggregations;
+        works = [];
+
+        aggs.worktypes.buckets.forEach(bucket => {
+          bucket.range.buckets.forEach(buck => {
+            if (!Array.isArray(buck.pids.buckets)) {
+              return Promise.reject('Unexpected response in getTopReviews!');
+            }
+
+            works = works.concat(buck.pids.buckets);
+          });
+        });
+
+        works = works.sort((a, b) => b.pid_score.value - a.pid_score.value).map(pid => pid.key).slice(0, offset || size);
+      }
 
       // Validate the response
       if (!Array.isArray(works)) {
         return Promise.reject('Unexpected response in getTopReviews!');
+      }
+
+      if (works.length === (offset || size)) {
+        more = true;
       }
 
       // Split the pids into bucket of 20, the maximum openplatform supports
@@ -51,6 +74,17 @@ const getTopReviewsTransform = {
           'workType'
         ]
       })));
+    }).then(works => {
+      return {
+        works: works,
+        more: more
+      };
+    }).catch(e => {
+      if (e.message) {
+        return e.message;
+      }
+
+      return e;
     });
   },
 
@@ -62,7 +96,7 @@ const getTopReviewsTransform = {
       let seenPids = [];
 
       // Create an array containing unique works by filtering out seen pids.
-      data = [].concat.apply([], response
+      data = [].concat.apply([], response.works
         .map(res => JSON.parse(res.body).data))
         .filter(el => {
           const seen = el.collection && (el.collection).filter(pid => seenPids.indexOf(pid) >= 0).length === 0;
@@ -82,6 +116,7 @@ const getTopReviewsTransform = {
     return {
       statusCode: response.statusCode,
       data: data,
+      more: response.more,
       errors: errors
     };
   }

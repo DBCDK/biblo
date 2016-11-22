@@ -40,7 +40,7 @@ describe('Testing of the editorially selected reviews widget', () => {
     expect($root.find('.editorial-reviews--review').length).toEqual(1);
 
     // We expect the owners display name is rendered
-    expect($root.find('.editorial-reviews--review--profile-display-name').unwrap().innerHTML)
+    expect($root.find('.widget-element--author a').unwrap().innerHTML)
       .toEqual('Test Mesteren!');
 
     // We expect a work title
@@ -52,7 +52,7 @@ describe('Testing of the editorially selected reviews widget', () => {
     expect($root.find('.star-passive').length).toEqual(1);
 
     // And we expect to see a read review button.
-    expect($root.find('.editorial-reviews--review--read-button').unwrap().innerHTML)
+    expect($root.find('.editorial-reviews--read-button a').unwrap().innerHTML)
       .toEqual('Læs anmeldelsen');
   });
 
@@ -68,12 +68,21 @@ describe('Testing of the editorially selected reviews widget', () => {
 
     // Initially we display two elements
     expect($root.find('.editorially-selected-reviews-widget').length).toEqual(1);
-    expect($root.find('.editorial-reviews--review').length).toEqual(2);
+    expect($root.find('.editorial-reviews--review-container.expanded').length).toEqual(2);
 
     // We click show more
-    $root.find('.editorially-selected-reviews-widget--show-more-button').trigger('click', {});
+    $root.find('.editorially-selected-reviews-widget--show-more-button a').trigger('click', {});
 
     // And now we display all five elements.
-    expect($root.find('.editorial-reviews--review').length).toEqual(5);
+    expect($root.find('.editorial-reviews--review-container.expanded').length).toEqual(5);
+
+    // Here we check if all elements are rendered in the correct order.
+    const reviewHtmlIds = $root.find('.editorial-reviews--review-container').children().get().map(elem => {
+      return elem.id;
+    });
+
+    fiveReviewsState.widgetConfig.reviewIds.map((reviewId, idx) => {
+      expect(reviewHtmlIds[idx]).toContain(reviewId);
+    });
   });
 });

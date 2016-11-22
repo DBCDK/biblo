@@ -1,5 +1,9 @@
 @import "tools";
 
+.FullWidthBannerWidget--wrapper.generic-widget-wrapper {
+  padding: 0;
+}
+
 .full-width-banner--image {
   padding: 10px;
   background-size: cover;

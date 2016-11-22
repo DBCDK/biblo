@@ -3,36 +3,53 @@
 .p-detail--badge-container {
   background: linear-gradient(180deg, #d784e7 82%, $white 30%);
   height: 300px;
-  padding: 0px;
+  padding: 0;
   display: block;
+  position: relative;
+
+  @include max-screen($desktop - 1) {
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+
+  @include min-screen($desktop) {
+    padding-top: 65px;
+  }
 }
 
 /* campaign diplomas */
 .p-detail--diploma-wrapper {
-  display:  inline-block;
+  display: inline-block;
   @include min-screen($desktop) {
     width: 50%;
   }
 }
 
 .p-detail--diploma-container {
-   height: 50px;
+  @include max-screen($desktop - 1) {
+    width: auto;
+    height: 65px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
 
-   @include min-screen($desktop) {
-     padding-right: 150px;
-     height: 220px;
-   }
+  @include min-screen($desktop) {
+    padding-right: 120px;
+  }
 }
 
 .p-detail--diploma {
   position: relative;
-  padding: 10px;
-  max-height: 80px;
-  max-width: 80px;
-  right: 10px;
+  max-height: 50px;
+  max-width: 50px;
   float: right;
+  margin: 10px;
+
   @include min-screen($desktop) {
-    top: 70%;
+    max-height: 60px;
+    max-width: 60px;
   }
 
   a {
@@ -40,30 +57,101 @@
   }
 
   img {
-    filter: drop-shadow(2px 2px 0 white)
-    drop-shadow(-2px 2px 0 white)
-    drop-shadow(2px -2px 0 white)
-    drop-shadow(-2px -2px 0 white);
+    filter: drop-shadow(2px 2px 0 white) drop-shadow(-2px 2px 0 white) drop-shadow(2px -2px 0 white) drop-shadow(-2px -2px 0 white);
+    max-height: 50px;
+    max-width: 50px;
+
+    @include min-screen($desktop) {
+      max-height: 60px;
+      max-width: 60px;
+    }
   }
+}
+
+.p--detail--campaign-row {
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+
+  @include min-screen($desktop) {
+    &:nth-of-type(1n+3) {
+      display: none;
+    }
+
+    display: block;
+    width: 300px;
+    float: right;
+  }
+}
+
+.p--detail--campaign-row.singular {
+  @include min-screen($desktop) {
+    margin-top: 90px;
+  }
+}
+
+.show-more-campaigns--button {
+  color: $white;
+  width: 70px;
+  height: 70px;
+  margin: 10px;
+  background-color: #d784e7;
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  padding-top: 20px;
+
+  @include min-screen($desktop) {
+    margin-top: 85px;
+    margin-right: calc(50% + 125px);
+    display: inline-block;
+  }
+}
+
+.all-campaigns--campaign-row {
+  padding: 10px;
+
+  img {
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  &:nth-of-type(even) {
+    background-color: $light-blueish-gray;
+  }
+}
+
+.campaign-row--inner {
+}
+
+.campaign-row--inner--text {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* buttons (e.g : group button) */
 .p-detail--buttons-wrapper {
   display: none;
   @include min-screen($desktop) {
-    display:  inline-block;
+    display: inline-block;
+    position: absolute;
+    bottom: 50px;
   }
 }
 
 .p-detail--buttons-container {
   @include min-screen($desktop) {
+    top: -20px;
     padding-left: 120px;
     position: relative;
   }
 }
+
 .p-detail--buttons-container--mobile {
   position: relative;
-  display: inline-block;
+  display: block;
   @include min-screen($desktop) {
     display: none;
   }
@@ -87,7 +175,7 @@
   border-color: #f2f2f2;
 }
 
-.p-detail--total-posts-since-last, .groups-modal--posts-since-last{
+.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
   @include bubble($governor-bay);
   position: absolute;
   color: white;
@@ -113,14 +201,15 @@
     top: -225px;
     display: block;
     margin: 0 auto;
-    border-radius: 50%;
     width: 200px;
     height: 200px;
-    overflow: hidden;
 
     img {
-      max-width: 200px;
-      max-height: 200px;
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+      border-radius: 50%;
+      overflow: hidden;
       filter: drop-shadow(2px 2px 5px #666);
     }
   }

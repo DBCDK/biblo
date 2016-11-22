@@ -6,7 +6,7 @@ import React from 'react';
 import './WorkDetail.component.scss';
 
 import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
-import ReviewButton from '../../Review/ReviewButton.js';
+import {ReviewButton} from '../../Review/ReviewButton.js';
 import BorrowButton from '../BorrowButton/BorrowButton.component';
 import Icon from '../../General/Icon/Icon.component.js';
 
@@ -15,8 +15,11 @@ import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/mater
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game.svg';
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film.svg';
+import movieSvgNoBorder from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
+import houseSvg from '../../General/Icon/svg/functions/house.svg';
+import eReolenlogo from '../../General/Icon/svg/functions/eReolenlogo.svg';
 
 const displayTypeSvgs = {
   book: bookSvg,
@@ -55,6 +58,66 @@ export class WorkDetail extends React.Component {
     return {consolidatedTitleSeries: title, consolidatedTitleSeriesQuery: query};
   }
 
+  /**
+   * Split an array of collectionsDetails into an online and physical materials
+   *
+   * @param collectionDetails
+   * @returns {{physical: Array, online: Array}}
+   */
+  splitByAccessType(collectionDetails) {
+    const physical = [];
+    const ereolen = [];
+    const ereolen_ebooks = [];
+    const filmstriben = [];
+    const online = [];
+
+    collectionDetails.forEach(collection => {
+      if (collection.accessType[0] === 'online') {
+        if (collection.workType[0] === 'audiobook') {
+          ereolen.push(collection);
+        }
+        else if (collection.workType[0] === 'book') {
+          ereolen_ebooks.push(collection);
+        }
+        else if (collection.workType[0] === 'movie') {
+          filmstriben.push(collection);
+        }
+        else {
+          online.push(collection);
+        }
+      }
+      else {
+        physical.push(collection);
+      }
+    });
+
+    return {physical, online, ereolen, ereolen_ebooks, filmstriben};
+  }
+
+  /**
+   * Render a button for loans
+   *
+   * @param collectionDetails
+   * @param buttonIcon
+   * @param buttonTitle
+   * @param modalButtonTitle
+   * @param itemDescription
+   * @param type
+   * @returns {*}
+   */
+  renderBorrowerButton(collectionDetails, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
+
+    if (this.props.ownReview || collectionDetails.length === 0) {
+      return '';
+    }
+
+    return (
+      <div className="work-detail--button-wrapper">
+        <BorrowButton {...this.props} {...{collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
+      </div>
+    );
+  }
+
   render() {
     const coverUrl = this.props.coverUrl;
     const title = this.props.title;
@@ -72,7 +135,7 @@ export class WorkDetail extends React.Component {
     const profile = this.props.profile;
     let reviewButton;
 
-    // sd-566: tweak login requirements and button glyph when in full review view
+    const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(this.props.collectionDetails);
     if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton
@@ -94,7 +157,6 @@ export class WorkDetail extends React.Component {
         />
       );
     }
-
     return (
       <div className='work-detail'>
         <div className='work-detail--main'>
@@ -112,28 +174,14 @@ export class WorkDetail extends React.Component {
           </div>
 
           <div className='work-detail--action-buttons'>
-            {
-              //  sd-566: Do not show borrow button when displaying own review in expanded mode (the user allready borrowed this)
-              !this.props.ownReview && <BorrowButton
-                collectionDetails={this.props.collectionDetails}
-                collection={this.props.collection}
-                workTitle={title}
-                coverUrl={coverUrl}
-                orderState={this.props.orderState}
-                orderMaterialAction={this.props.orderMaterialAction}
-                checkAvailabilityAction={this.props.checkAvailabilityAction}
-                checkAvailabilityResult={this.props.checkAvailabilityResult}
-                checkAvailabilityDone={this.props.checkAvailabilityDone}
-                resetOrderState={this.props.resetOrderState}
-                saveProfileAction={this.props.saveProfileAction}
-                unselectLibraryFunction={this.props.unselectLibraryFunction}
-                searchForLibraryAction={this.props.searchForLibraryAction}
-                librarySearchResults={this.props.librarySearchResults}
-                profile={this.props.profile}
-                getWorkOnlineAccessAction={this.props.getWorkOnlineAccessAction}
-              />
-            }
-            {reviewButton}
+            {this.renderBorrowerButton(physical, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
+            {this.renderBorrowerButton(online, <Icon glyph={houseSvg} />, 'Lån online')}
+            {this.renderBorrowerButton(ereolen, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Hør nu på eReolen', 'online')}
+            {this.renderBorrowerButton(ereolen_ebooks, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Læs nu på eReolen', 'online')}
+            {this.renderBorrowerButton(
+              filmstriben, <Icon glyph={movieSvgNoBorder} width={24} height={24} />, 'Lån på filmstriben', 'Gå til filmstriben', 'Se nu på filmstriben', 'online'
+            )}
+            <div className="work-detail--button-wrapper">{reviewButton}</div>
           </div>
         </div>
 

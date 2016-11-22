@@ -14,6 +14,8 @@ import film from '../../../General/Icon/svg/Materialikon-kvadrat-small/film_no_b
 import game from '../../../General/Icon/svg/Materialikon-kvadrat-small/game_no_border.svg';
 import music from '../../../General/Icon/svg/Materialikon-kvadrat-small/music_no_border.svg';
 import photo from '../../../General/Icon/svg/Materialikon-kvadrat-small/photo.svg';
+import other from '../../../General/Icon/svg/Materialikon-kvadrat-small/other_no_border.svg';
+
 
 const materialSvgs = {
   audiobook,
@@ -23,7 +25,8 @@ const materialSvgs = {
   film,
   game,
   music,
-  photo
+  photo,
+  other
 };
 
 export class CompactWorkElement extends Component {

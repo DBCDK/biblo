@@ -11,15 +11,17 @@ import * as types from '../Constants/action.constants';
  */
 let initialState = {
   LatestReviews: {
+    reviewsCount: 0,
     reviews: [],
     campaignReviews: {},
-    campaign: {},
+    campaigns: {},
     reviewsPending: true
   },
   CoverImages: {},
   BestRatedWorksWidget: {
     works: [],
-    isLoading: true
+    isLoading: true,
+    more: true
   },
   LatestGroupPostsWidget: {
     posts: {},
@@ -35,7 +37,8 @@ let initialState = {
   },
   PopularGroupsWidget: {
     groups: [],
-    isLoading: true
+    isLoading: true,
+    count: 0
   },
   EditoriallySelectedReviewsWidget: {
     works: {},
@@ -66,7 +69,8 @@ export default function widgetReducer(state = initialState, action = {}) {
     case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
       return assignToEmpty(state, {
         LatestReviews: assignToEmpty(state.LatestReviews, {
-          reviews: action.reviews,
+          reviewsCount: action.reviewsCount,
+          reviews: state.LatestReviews.reviews.concat(action.reviews),
           reviewsPending: false
         })
       });
@@ -77,25 +81,38 @@ export default function widgetReducer(state = initialState, action = {}) {
     }
 
     case types.GOT_BEST_RATED_WORKS: {
-      return assignToEmpty(state, {BestRatedWorksWidget: {works: action.data.data, isLoading: false}});
+      return assignToEmpty(state, {
+        BestRatedWorksWidget: {
+          works: action.data.data,
+          isLoading: false,
+          more: action.data.more
+        }
+      });
     }
 
     case types.GOT_CAMPAIGN_REVIEWS: {
-      const LatestReviews = assignToEmpty(state.LatestReviews, {});
+      const LatestReviews = {
+        campaignReviews: {}
+      };
+
       if (action.data.status === 200) {
-        LatestReviews.campaignReviews[action.data.campaignId] = action.data.data;
+        LatestReviews.campaignReviews[action.data.campaignId] = (state.LatestReviews.campaignReviews[action.data.campaignId] || []).concat(action.data.data);
         LatestReviews.reviewsPending = false;
       }
 
+      if (state.LatestReviews.campaigns[action.data.campaignId]) {
+        state.LatestReviews.campaigns[action.data.campaignId].reviewsCount = action.data.reviewsCount;
+      }
+
       return assignToEmpty(state, {
-        LatestReviews
+        LatestReviews: assignToEmpty(state.LatestReviews, LatestReviews)
       });
     }
 
     case types.GOT_CAMPAIGN: {
-      const LatestReviews = {};
-      if (action.data.statusCode === 200) {
-        LatestReviews.campaign = action.data.body;
+      const LatestReviews = {campaigns: assignToEmpty(state.LatestReviews.campaigns, {})};
+      if (action.data.statusCode === 200 && !LatestReviews.campaigns[action.data.body.id]) {
+        LatestReviews.campaigns[action.data.body.id] = assignToEmpty({reviewsCount: 0}, action.data.body);
       }
 
       return assignToEmpty(state, {
@@ -143,7 +160,8 @@ export default function widgetReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         PopularGroupsWidget: {
           isLoading: false,
-          groups: action.data
+          groups: action.data.groups,
+          count: action.data.count
         }
       });
     }
@@ -182,9 +200,10 @@ export default function widgetReducer(state = initialState, action = {}) {
     }
 
     case types.GOT_LATEST_POSTS: {
+      const posts = state.LatestPostsWidget.posts || [];
       return assignToEmpty(state, {
         LatestPostsWidget: {
-          posts: action.data,
+          posts: posts.concat(action.data),
           postsLoading: false
         }
       });

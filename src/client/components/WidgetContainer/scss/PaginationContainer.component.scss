@@ -1,0 +1,24 @@
+@import 'tools';
+
+.pagination-controls--container {
+  text-align: center;
+}
+
+.show-more--pagination--button, .close--pagination--button {
+  @include more-button(true);
+  text-transform: uppercase;
+  margin: 5px;
+}
+
+.pagination-controls--spacer {
+  visibility: hidden;
+}
+
+.small-screen-sensor {
+  width: 1px;
+  height: 1px;
+}
+
+.pagination-controls--spinner {
+  text-align: center;
+}

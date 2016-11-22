@@ -98,8 +98,8 @@ export const singleReviewState = {
 export const fiveReviewsState = {
   widgetConfig: {
     reviewIds: [
-      2,
       3,
+      2,
       4,
       5,
       6

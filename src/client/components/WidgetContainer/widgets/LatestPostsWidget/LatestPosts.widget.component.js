@@ -5,29 +5,27 @@
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 
+import {PaginationContainer} from '../../PaginationContainer.component';
 import {CompactGroupPostElement} from '../LatestGroupPostsWidget/CompactGroupPostElement.component';
-import Icon from '../../../General/Icon/Icon.component';
-
-import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
-import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 
 import './scss/LatestPosts.widget.component.scss';
 
 export class LatestPostsWidget extends AbstractWidget {
   constructor(props) {
     super(props);
-    this.state = {
-      postsExpanded: false
-    };
-
-    this.renderShowMoreButton.bind(this);
+    this.getNextPage = this.getNextPage.bind(this);
   }
 
   componentDidMount() {
     // Start by getting the posts.
+    this.getNextPage(0);
+  }
+
+  getNextPage(page) {
+    const load = this.props.widgetConfig.postsToLoad || 15;
     this.callServiceProvider('getLatestPosts', {
-      skip: 0,
-      limit: this.props.widgetConfig.postsToLoad || 15
+      skip: page + load,
+      limit: load
     });
   }
 
@@ -43,29 +41,20 @@ export class LatestPostsWidget extends AbstractWidget {
     );
   }
 
-  renderShowMoreButton() {
-    const exp = this.state.postsExpanded;
-    return (
-      <div className="latests-posts-show-more-button--container">
-        <a onClick={() => this.setState({postsExpanded: !exp})}><Icon glyph={exp ? minusSvg : plusSvg} /> {exp ? 'VIS FÆRRE' : 'VIS FLERE'}</a>
-        <hr />
-      </div>
-    );
-  }
-
   render() {
-    if (this.props.widgetReducerProp.postsLoading) {
-      return <span>Indlæser...</span>;
-    }
-
-    const postsToLoad = this.state.postsExpanded ? this.props.widgetConfig.postsToLoad || 15 : 3;
-    const posts = this.props.widgetReducerProp.posts.slice(0, postsToLoad).map(this.renderPost);
-    const showMore = this.renderShowMoreButton();
+    const htmlId = `latest-post-${this.props.widgetIndex}`;
+    const load = this.props.widgetConfig.postsToLoad || 15;
+    const posts = this.props.widgetReducerProp.posts.map(this.renderPost);
 
     return (
-      <div className="latest-post--container">
-        {posts}
-        {showMore}
+      <div className="latest-post--container" id={htmlId}>
+        <PaginationContainer
+          anchor={htmlId}
+          nextPageFunction={this.getNextPage}
+          pages={posts}
+          pageIncrements={load}
+          genericLoading={true}
+        />
       </div>
     );
   }

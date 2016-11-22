@@ -2,15 +2,12 @@
 
 .work-detail {
 
-  h1, h2, h3, h4, h5, h6, p {
-    font-family: $body-font;
-    text-transform: none;
-    margin: 0px;
-    color: black;
-  }
-
   .work-detail--title {
+    color: $black;
+    margin: 0;
     overflow: hidden;
+    text-transform: none;
+    font-weight: normal;
   }
 
   .work-detail--title-series {
@@ -29,15 +26,9 @@
     font-size: 0.8rem;
   }
 
-  @include min-screen($desktop) {
-    @include container();
-  }
-
   @include max-screen($desktop - 1px) {
     margin: 0px 15px 0px 15px;
   }
-
-  padding-bottom: 30px;
 
 }
 
@@ -65,13 +56,13 @@
     position: relative;
     left: 100px;
     max-width: 50%;
-    @include span(3 of 5);
+    @include span(16);
   }
 }
 
 .work-detail--secondary {
   @include min-screen($desktop) {
-    @include span(2 of 5 last);
+    @include span(8 last);
   }
 }
 
@@ -80,18 +71,10 @@
   @include max-screen($desktop - 1px) {
     display: none;
   }
-
-  @include min-screen($desktop) {
-
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 100px;
-    padding-right: 20px;
-
-    img {
-      box-shadow: 5px 5px 10px darkgray;
-      width: 190px;
-    }
+  text-align: center;
+  img {
+    box-shadow: 5px 5px 10px darkgray;
+    width: 190px;
   }
 }
 
@@ -128,15 +111,28 @@
 }
 
 .work-detail--action-buttons {
-  margin-top: 20px;
+  margin-top: 1em;
+  margin-left: -1em;
 }
 
-.work-detail--order-button {
-  @include button($lima, white, false, #73f175);
-  margin-right: 10px;
-  @include max-screen($tablet - 1px) {
-    display: block;
-    margin-bottom: 5px;
-    text-align: center;
+.work-detail--button-wrapper {
+  width: 50%;
+  padding-left: 1em;
+  padding-bottom: 1em;
+  display: inline-block;
+  @include max-screen(500px) {
+    width: 100%;
+  }
+  @include screen($desktop, 900px){
+    width: 100%;
+  }
+  .at-icon {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+  }
+  .button-text {
+    display: inline-block;
+    text-align: left;
   }
 }

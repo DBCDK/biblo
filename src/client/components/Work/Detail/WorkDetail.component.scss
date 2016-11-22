@@ -2,12 +2,17 @@
 
 .work-detail {
 
+  .work-detail--title-container {
+    text-align: center;
+  }
+
   .work-detail--title {
     color: $black;
     margin: 0;
     overflow: hidden;
-    text-transform: none;
+    text-transform: capitalize;
     font-weight: normal;
+    display: inline-block;
   }
 
   .work-detail--title-series {
@@ -20,6 +25,12 @@
         color: $dark;
       }
     }
+  }
+
+  .work-detail--multi-volume--title {
+    margin: 0;
+    color: $gray;
+    font-weight: 600;
   }
 
   .work-detail--subheader {
@@ -37,26 +48,17 @@
 }
 
 .work-detail--worktype-icon {
-  position: absolute;
   fill: $melrose;
-
-  @include min-screen($desktop) {
-    top: 5px;
-    left: -60px;
-  }
-
-  @include max-screen($desktop - 1px) {
-    top: -40px;
-    left: 0px;
-  }
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: sub;
 }
 
 .work-detail--main {
   @include min-screen($desktop) {
     position: relative;
-    left: 100px;
-    max-width: 50%;
-    @include span(16);
+    max-width: 70%;
+    margin: auto;
   }
 }
 
@@ -113,6 +115,7 @@
 .work-detail--action-buttons {
   margin-top: 1em;
   margin-left: -1em;
+  text-align: center;
 }
 
 .work-detail--button-wrapper {

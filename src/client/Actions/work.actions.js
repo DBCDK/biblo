@@ -11,7 +11,7 @@ import {once} from 'lodash';
 
 const availabilitySocket = SocketClient('availability');
 const getWorksSocket = SocketClient('work');
-const getWorksListener = once(getWorksSocket.response);
+const seriesDetailsSocket = SocketClient('work');
 
 /**
  * Async method to retreive one or more works associated with the given list of pids
@@ -20,8 +20,7 @@ const getWorksListener = once(getWorksSocket.response);
  */
 export function asyncGetWorks(pids) {
   return (dispatch) => {
-    getWorksListener((response) => dispatch(getWorks(response)));
-
+    getWorksSocket.responseOnce((response) => dispatch(getWorks(response)));
     getWorksSocket.request({pids: pids, fields: ['coverUrlFull', 'dcTitle', 'dcTitleFull', 'pid', 'workType']});
   };
 }
@@ -109,5 +108,19 @@ export function orderWork(response) {
 export function resetOrderState() {
   return {
     type: types.WORK_ORDER_RESET_STATE
+  };
+}
+
+export function asyncGetSeriesDetailsFromPid(pid) {
+  return dispatch => {
+    seriesDetailsSocket.responseOnce(response => dispatch(getSeriesDetailsFromPid(response)));
+    seriesDetailsSocket.request({pids: [pid], fields: ['coverUrlFull', 'pid', 'workType']});
+  };
+}
+
+export function getSeriesDetailsFromPid(response) {
+  return {
+    type: types.GET_SERIES_METADATA,
+    data: response.data[0] || {}
   };
 }

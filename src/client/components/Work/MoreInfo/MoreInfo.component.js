@@ -148,7 +148,12 @@ export class MoreInfo extends React.Component {
       });
     }
 
-    return Object.keys(uniqueMaterialTypes).map((key) => (
+    return Object.keys(uniqueMaterialTypes)
+      .filter(key => {
+        const bindRegex = new RegExp(`${this.props.bind}[^0-9]`);
+        return !this.props.isSeries || bindRegex.test(key.toLowerCase());
+      })
+      .map((key) => (
         <li className={'more-info--material-type'} key={key} >
           <Icon
             width={36}
@@ -191,6 +196,8 @@ MoreInfo.propTypes = {
   actors: React.PropTypes.array,
   lix: React.PropTypes.number,
   extent: React.PropTypes.string,
-  materials: React.PropTypes.array
+  materials: React.PropTypes.array,
+  isSeries: React.PropTypes.bool,
+  bind: React.PropTypes.string
 };
 

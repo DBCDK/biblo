@@ -40,7 +40,7 @@ function parseOnlineAccess(onlineAccess) {
 
 export function parseSeries(work) {
   return work.collectionDetails.filter((item) => {
-    return item.accessType[0] === 'physical' && /^bog\s\(bind \d\)/ig.test(item.type);
+    return item.accessType[0] === 'physical' && /^bog\s\(bind \d+\)/ig.test(item.type);
   });
 }
 
@@ -63,7 +63,7 @@ export default function parseWork(work) {
   work.publisher = (work.publisher) ? work.publisher[0] : null;
   work.ageRecommended = (work.audienceAge) ? work.audienceAge : null;
   work.ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
-  work.series = (work.type && /^bog\s\(bind \d\)/ig.test(work.type)) ? parseSeries(work) : null; // RegExp: https://regex101.com/r/qL7cO5/2
+  work.series = (work.type && /^bog\s\(bind \d+\)/ig.test(work.type)) ? parseSeries(work) : null; // RegExp: https://regex101.com/r/qL7cO5/2
 
   return work;
 }

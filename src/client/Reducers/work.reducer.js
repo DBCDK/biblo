@@ -101,6 +101,19 @@ export default function workReducer(state = initialState, action = {}) {
       });
     }
 
+    case types.GET_SERIES_METADATA: {
+      const workMetadata = {};
+      const work = action.data;
+      workMetadata[work.pid[0]] = {
+        workType: work.workType[0],
+        coverUrl: work.coverUrl
+      };
+
+      return assignToEmpty(state, {
+        workMetadataOrderedByPid: assignToEmpty(state.workMetadataOrderedByPid, workMetadata)
+      });
+    }
+
     default: {
       return state;
     }

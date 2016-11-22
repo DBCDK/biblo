@@ -84,13 +84,13 @@ export class WorkContainer extends React.Component {
     }
   }
 
-  getSeriesDisplay(work) {
+  getSeriesDisplay(work, seriesMetadata, getMetadataAction) {
     let seriesDisplay = null;
     if (work.series && work.series.length) {
       const seriesTitle = work.series[0].title[0];
       seriesDisplay = (
         <div className="work--moreinfo">
-          <SeriesDisplay series={work.series} seriesTitle={seriesTitle} />
+          <SeriesDisplay series={work.series} seriesTitle={seriesTitle} seriesMetadata={seriesMetadata} getMetadataAction={getMetadataAction} />
         </div>
       );
     }
@@ -98,8 +98,14 @@ export class WorkContainer extends React.Component {
   }
 
   render() {
-    const work = this.props.workState.work;               // the work collection from the service provider
-    const seriesDisplay = this.getSeriesDisplay(work);
+    const work = this.props.workState.work; // the work collection from the service provider
+    const isSeries = !!(work.series && work.series.length);
+    const bind = isSeries && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
+    const seriesDisplay = this.getSeriesDisplay(
+      work,
+      this.props.workState.workMetadataOrderedByPid,
+      this.props.workActions.asyncGetSeriesDetailsFromPid
+    );
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
     const reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
@@ -136,6 +142,10 @@ export class WorkContainer extends React.Component {
             tags={work.tags}
             coverUrl={work.coverUrl}
             workType={work.workType}
+            type={work.type[0]}
+            isSeries={isSeries}
+            bind={bind}
+            fullTitle={work.dcTitleFull}
             orderState={this.props.workState.orderState}
             orderMaterialAction={this.props.workActions.asyncOrderWork}
             checkAvailabilityAction={this.props.workActions.asyncCheckAvailability}
@@ -207,6 +217,8 @@ export class WorkContainer extends React.Component {
               workType={work.workType}
               ageRecommended={work.ageRecommended}
               ageAllowed={work.ageAllowed}
+              isSeries={isSeries}
+              bind={bind}
             />
           </div>
         </div>

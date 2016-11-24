@@ -9,7 +9,7 @@ export class SeriesDisplay extends React.Component {
   }
 
   getSeriesItems() {
-    return this.props.series.map((item, index) => {
+    return this.props.series.map(item => {
       const pid = item.pid[0];
       const work = this.props.seriesMetadata[pid] || {};
 

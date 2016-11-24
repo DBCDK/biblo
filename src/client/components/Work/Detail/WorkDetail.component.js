@@ -152,7 +152,6 @@ export class WorkDetail extends React.Component {
   }
 
   render() {
-    const coverUrl = this.props.coverUrl;
     const bind = this.props.bind;
     const title = this.getTitle(this.props.title, this.props.fullTitle, bind, this.props.isSeries);
     const creator = this.props.creator;
@@ -245,6 +244,9 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
+  bind: React.PropTypes.string,
+  fullTitle: React.PropTypes.string.isRequired,
+  isSeries: React.PropTypes.bool,
   collectionDetails: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   editText: React.PropTypes.string.isRequired,

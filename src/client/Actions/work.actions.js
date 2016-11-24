@@ -7,7 +7,6 @@
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import request from 'superagent';
-import {once} from 'lodash';
 
 const availabilitySocket = SocketClient('availability');
 const getWorksSocket = SocketClient('work');

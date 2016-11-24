@@ -53,6 +53,7 @@ const SearchTransform = {
     return this.callServiceClient('openplatform', 'search', {
       q: cqlQuery,
       fields: [
+        'collectionDetails',
         'dcTitle',
         'pid',
         'workType',

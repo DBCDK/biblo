@@ -7,6 +7,7 @@ import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game_no_b
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music_no_border.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other_no_border.svg';
+import seriesSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/ebook_no_border.svg';
 
 import './MaterialSearchResultList.scss';
 
@@ -16,15 +17,13 @@ const displayTypeSvgs = {
   game: gameSvg,
   music: musicSvg,
   movie: movieSvg,
-  other: otherSvg
+  other: otherSvg,
+  series: seriesSvg
 };
 
+const bindRegex = /bind (\d+)/i;
+
 export default class MaterialSearchResultList extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   /**
    * Returns string pointing to appropriate coverimage depending on material type.
    *
@@ -43,12 +42,34 @@ export default class MaterialSearchResultList extends React.Component {
 
   getListElements() {
     return this.props.results.map((result, i) => {
-
       const pid = result.pid[0];
-      const displayType = result.workType[0];
+      let displayType = result.workType[0];
+      let title = result.dcTitle;
       const displayWorkType = (result.workType) ? result.workType[0] : 'other';
       const coverUrl = (result.coverUrlFull) ? 'http:' + result.coverUrlFull[0] : this.displayWorkTypeCover(displayWorkType);
       const workUrl = '/materiale/' + pid;
+
+      if (result.collectionDetails && result.collectionDetails.length > 1) {
+        let bindLow = 0;
+        let bindHigh = 0;
+
+        result.collectionDetails.forEach(collectionItem => {
+          if (bindRegex.test(collectionItem.type)) {
+            const bindNumber = parseInt(bindRegex.exec(collectionItem.type)[1]);
+            if (bindHigh < bindNumber) {
+              bindHigh = bindNumber;
+            }
+            if (!bindLow || bindLow > bindNumber) {
+              bindLow = bindNumber;
+            }
+          }
+        })
+
+        if (bindHigh && bindLow) {
+          title = `${result.dcTitle}: Bind ${bindLow}-${bindHigh}`;
+          displayType = 'series';
+        }
+      }
 
       return (
         <div className="result-item" key={i} >
@@ -59,7 +80,7 @@ export default class MaterialSearchResultList extends React.Component {
             <div className='description' >
               <div className='title' >
                 <Icon glyph={displayTypeSvgs[displayType]} />
-                {result.dcTitle}
+                {title}
               </div>
             </div>
           </a>

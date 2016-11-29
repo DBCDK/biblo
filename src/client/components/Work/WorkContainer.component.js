@@ -176,7 +176,7 @@ export class WorkContainer extends React.Component {
                 uiActions={this.props.uiActions}
                 flagActions={this.props.flagActions}
                 likeActions={this.props.likeActions}
-                pids={work.collection}
+                pids={bindPids}
               />
             }
             {
@@ -186,7 +186,7 @@ export class WorkContainer extends React.Component {
               </Message>
             }
             <ReviewList
-              pids={work.collection}
+              pids={bindPids}
               totalCount={meta.workReviewsTotalCount}
               limit={meta.limit}
               reviews={reviews}

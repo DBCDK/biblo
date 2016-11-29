@@ -43,7 +43,22 @@ SearchRoutes.get('/', async function (req, res, next) {
       materialSearchResults = materialSearchResults[0].data;
     }
 
-    res.locals.title = `${params.q} - Søgning - Biblo.dk`;
+    if (params.q) {
+      res.locals.title = `${params.q} - Søgning - Biblo.dk`;
+    }
+    else if (params.forfatter) {
+      res.locals.title = `${params.forfatter} - Søgning - Biblo.dk`;
+    }
+    else if (params.materialer) {
+      res.locals.title = `${params.materialer} - Søgning - Biblo.dk`;
+    }
+    else if (params.emneord) {
+      res.locals.title = `${params.emneord} - Søgning - Biblo.dk`;
+    }
+    else {
+      res.locals.title = `Søgning - Biblo.dk`;
+    }
+
     res.render('page', {
       css: ['/css/search.css'],
       js: ['/js/search.js'],

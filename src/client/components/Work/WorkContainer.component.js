@@ -101,6 +101,7 @@ export class WorkContainer extends React.Component {
     const work = this.props.workState.work; // the work collection from the service provider
     const isSeries = !!(work.series && work.series.length);
     const bind = isSeries && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
+    const bindPids = isSeries ? work.bind[work.bindId].pid : work.collection;
     const seriesDisplay = this.getSeriesDisplay(
       work,
       this.props.workState.workMetadataOrderedByPid,

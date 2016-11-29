@@ -39,9 +39,41 @@ function parseOnlineAccess(onlineAccess) {
 }
 
 export function parseSeries(work) {
-  return work.collectionDetails.filter((item) => {
-    return item.accessType[0] === 'physical' && /^bog\s\(bind \d+\)/ig.test(item.type);
+  const bindIdRegex = /bind (\d+)/i;
+  const bindId = bindIdRegex.exec(work.type[0]);
+  const bind = {};
+
+  work.collectionDetails.forEach(item => {
+    const bindNumber = bindIdRegex.exec(item.type[0]);
+    if (bindNumber) {
+      if (!bind[bindNumber[1]]) {
+        bind[bindNumber[1]] = {
+          pid: [],
+          type: [],
+          accessType: [],
+          creator: [],
+          language: [],
+          title: [],
+          titleFull: [],
+          workType: []
+        };
+      }
+
+      ['pid', 'type', 'accessType', 'creator', 'language', 'title', 'titleFull', 'workType'].forEach(param => {
+        if (bind[bindNumber[1]][param].indexOf(item[param][0]) < 0) {
+          bind[bindNumber[1]][param].push(item[param][0]);
+        }
+      })
+    }
   });
+
+  return {
+    bind: bind,
+    bindId: bindId ? bindId[1] : null,
+    series: work.collectionDetails.filter((item) => {
+      return item.accessType[0] === 'physical' && /^bog\s\(bind \d+\)/ig.test(item.type);
+    })
+  };
 }
 
 export default function parseWork(work) {
@@ -63,7 +95,7 @@ export default function parseWork(work) {
   work.publisher = (work.publisher) ? work.publisher[0] : null;
   work.ageRecommended = (work.audienceAge) ? work.audienceAge : null;
   work.ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
-  work.series = (work.type && /^bog\s\(bind \d+\)/ig.test(work.type)) ? parseSeries(work) : null; // RegExp: https://regex101.com/r/qL7cO5/2
+  work = (work.type && /^bog\s\(bind \d+\)/ig.test(work.type)) ? Object.assign({}, work, parseSeries(work)) : work;
 
   return work;
 }

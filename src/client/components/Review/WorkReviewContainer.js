@@ -50,9 +50,10 @@ export class WorkReviewContainer extends React.Component {
 
   toggleReview() {
     let profile = this.getProfile();
+    const pid = this.props.workState.work.id || this.props.workState.work.collection[0];
     if (!profile.quarantined) {
       if (window) {
-        window.location = '/materiale/' + this.props.workState.work.collection[0];
+        window.location = '/materiale/' + encodeURIComponent(pid);
       }
     }
     else {
@@ -78,6 +79,9 @@ export class WorkReviewContainer extends React.Component {
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
     const meta = this.props.reviewState.workReviewsMeta;
+    const isSeries = !!(work.series && work.series.length);
+    const bindId = isSeries && work.bindId ? `bind ${work.bindId}` : '';
+    const bindPids = isSeries ? work.bind[work.bindId].pid : work.collection;
 
     let isOwnReview;
     if (reviews.length > 0) {
@@ -109,7 +113,10 @@ export class WorkReviewContainer extends React.Component {
             editText={this.getEditText()}
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
-            title={work.dcTitleFull}
+            title={work.dcTitle}
+            isSeries={isSeries}
+            bind={bindId}
+            fullTitle={work.dcTitleFull}
             titleSeries={work.titleSeries}
             descriptionSeries={work.descriptionSeries}
             displayType={work.workType}
@@ -141,7 +148,7 @@ export class WorkReviewContainer extends React.Component {
           }
           <div className='work--reviewlist'>
             <ReviewList
-              pids={work.collection}
+              pids={bindPids}
               limit={1}
               reviews={reviews}
               worktype={work.workType}

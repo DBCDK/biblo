@@ -7,7 +7,7 @@ import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game_no_b
 import musicSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/music_no_border.svg';
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
 import otherSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/other_no_border.svg';
-import seriesSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/ebook_no_border.svg';
+import seriesSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/materialeikon-bog-flerbindsværk.svg';
 
 import './MaterialSearchResultList.scss';
 

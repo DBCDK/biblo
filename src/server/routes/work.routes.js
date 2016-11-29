@@ -75,7 +75,7 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
 WorkRoutes.get('/:pid', async function (req, res, next) {
   const logger = res.app.get('logger');
   try {
-    let pid = decodeURIComponent(req.params.pid);
+    const pid = decodeURIComponent(req.params.pid);
     let ownReview = {};
     const workResult = (await req.callServiceProvider('work', {pids: [pid]}))[0];
     if (workResult.error) {
@@ -102,10 +102,7 @@ WorkRoutes.get('/:pid', async function (req, res, next) {
     const work = workResult.data[0];
 
     let ownReviewId;
-    let pids = work.collection;
-    if (typeof pids === 'undefined') {
-      pids = [pid];
-    }
+    let pids = [pid];
 
     let profile = {
       userIsLoggedIn: false,

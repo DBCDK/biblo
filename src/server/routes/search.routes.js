@@ -56,7 +56,7 @@ SearchRoutes.get('/', async function (req, res, next) {
       res.locals.title = `${params.emneord} - Søgning - Biblo.dk`;
     }
     else {
-      res.locals.title = `Søgning - Biblo.dk`;
+      res.locals.title = 'Søgning - Biblo.dk';
     }
 
     res.render('page', {

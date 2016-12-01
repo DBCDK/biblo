@@ -63,7 +63,7 @@ export function parseMultiVolume(work) {
         if (bind[bindNumber[1]][param].indexOf(item[param][0]) < 0) {
           bind[bindNumber[1]][param].push(item[param][0]);
         }
-      })
+      });
     }
   });
 

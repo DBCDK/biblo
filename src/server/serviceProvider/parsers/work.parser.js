@@ -38,7 +38,7 @@ function parseOnlineAccess(onlineAccess) {
   return null;
 }
 
-export function parseSeries(work) {
+export function parseMultiVolume(work) {
   const bindIdRegex = /bind (\d+)/i;
   const bindId = bindIdRegex.exec(work.type[0]);
   const bind = {};
@@ -70,7 +70,7 @@ export function parseSeries(work) {
   return {
     bind: bind,
     bindId: bindId ? bindId[1] : null,
-    series: work.collectionDetails.filter((item) => {
+    multivolume: work.collectionDetails.filter((item) => {
       return item.accessType[0] === 'physical' && /^bog\s\(bind \d+\)/ig.test(item.type);
     })
   };
@@ -95,7 +95,7 @@ export default function parseWork(work) {
   work.publisher = (work.publisher) ? work.publisher[0] : null;
   work.ageRecommended = (work.audienceAge) ? work.audienceAge : null;
   work.ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
-  work = (work.type && /^bog\s\(bind \d+\)/ig.test(work.type)) ? Object.assign({}, work, parseSeries(work)) : work;
+  work = (work.type && /^bog\s\(bind \d+\)/ig.test(work.type)) ? Object.assign({}, work, parseMultiVolume(work)) : work;
 
   return work;
 }

@@ -11,7 +11,7 @@ import ModalWindow from '../General/ModalWindow/ModalWindow.component.js';
 import {WorkDetail} from './Detail/WorkDetail.component.js';
 import {WorkHeader} from './Header/WorkHeader.component.js';
 import {MoreInfo} from './MoreInfo/MoreInfo.component.js';
-import {SeriesDisplay} from './SeriesDisplay/SeriesDisplay.component';
+import {MultiVolumeDisplay} from './MultiVolumeDisplay/MultiVolumeDisplay.component';
 
 import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
@@ -84,28 +84,28 @@ export class WorkContainer extends React.Component {
     }
   }
 
-  getSeriesDisplay(work, seriesMetadata, getMetadataAction) {
-    let seriesDisplay = null;
-    if (work.series && work.series.length) {
-      const seriesTitle = work.series[0].title[0];
-      seriesDisplay = (
+  getMultiVolumeDisplay(work, multivolumeMetadata, getMetadataAction) {
+    let multivolumeDisplay = null;
+    if (work.multivolume && work.multivolume.length) {
+      const multivolumeTitle = work.multivolume[0].title[0];
+      multivolumeDisplay = (
         <div className="work--moreinfo">
-          <SeriesDisplay series={work.series} seriesTitle={seriesTitle} seriesMetadata={seriesMetadata} getMetadataAction={getMetadataAction} />
+          <MultiVolumeDisplay multivolume={work.multivolume} multivolumeTitle={multivolumeTitle} multivolumeMetadata={multivolumeMetadata} getMetadataAction={getMetadataAction} />
         </div>
       );
     }
-    return seriesDisplay;
+    return multivolumeDisplay;
   }
 
   render() {
     const work = this.props.workState.work; // the work collection from the service provider
-    const isSeries = !!(work.series && work.series.length);
-    const bind = isSeries && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
-    const bindPids = isSeries ? work.bind[work.bindId].pid : work.collection;
-    const seriesDisplay = this.getSeriesDisplay(
+    const isMultivolume = !!(work.multivolume && work.multivolume.length);
+    const bind = isMultivolume && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
+    const bindPids = isMultivolume ? work.bind[work.bindId].pid : work.collection;
+    const multivolumeDisplay = this.getMultiVolumeDisplay(
       work,
       this.props.workState.workMetadataOrderedByPid,
-      this.props.workActions.asyncGetSeriesDetailsFromPid
+      this.props.workActions.asyncGetMultiVolumeDetailsFromPid
     );
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
@@ -144,7 +144,7 @@ export class WorkContainer extends React.Component {
             coverUrl={work.coverUrl}
             workType={work.workType}
             type={work.type[0]}
-            isSeries={isSeries}
+            isMultivolume={isMultivolume}
             bind={bind}
             fullTitle={work.dcTitleFull}
             orderState={this.props.workState.orderState}
@@ -200,7 +200,7 @@ export class WorkContainer extends React.Component {
             />
           </div>
 
-          {seriesDisplay}
+          {multivolumeDisplay}
 
           <div className="work--moreinfo">
             <MoreInfo
@@ -218,7 +218,7 @@ export class WorkContainer extends React.Component {
               workType={work.workType}
               ageRecommended={work.ageRecommended}
               ageAllowed={work.ageAllowed}
-              isSeries={isSeries}
+              isMultivolume={isMultivolume}
               bind={bind}
             />
           </div>

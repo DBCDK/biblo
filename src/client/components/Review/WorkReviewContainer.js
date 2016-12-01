@@ -79,9 +79,9 @@ export class WorkReviewContainer extends React.Component {
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
     const meta = this.props.reviewState.workReviewsMeta;
-    const isSeries = !!(work.series && work.series.length);
-    const bindId = isSeries && work.bindId ? `bind ${work.bindId}` : '';
-    const bindPids = isSeries ? work.bind[work.bindId].pid : work.collection;
+    const isMultivolume = !!(work.multivolume && work.multivolume.length);
+    const bindId = isMultivolume && work.bindId ? `bind ${work.bindId}` : '';
+    const bindPids = isMultivolume ? work.bind[work.bindId].pid : work.collection;
 
     let isOwnReview;
     if (reviews.length > 0) {
@@ -114,7 +114,7 @@ export class WorkReviewContainer extends React.Component {
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
             title={work.dcTitle}
-            isSeries={isSeries}
+            isMultivolume={isMultivolume}
             bind={bindId}
             fullTitle={work.dcTitleFull}
             titleSeries={work.titleSeries}

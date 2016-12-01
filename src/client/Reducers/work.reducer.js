@@ -101,7 +101,7 @@ export default function workReducer(state = initialState, action = {}) {
       });
     }
 
-    case types.GET_SERIES_METADATA: {
+    case types.GET_MULTIVOLUME_METADATA: {
       const workMetadata = {};
       const work = action.data;
       workMetadata[work.pid[0]] = {

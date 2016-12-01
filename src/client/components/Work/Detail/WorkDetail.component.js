@@ -123,11 +123,11 @@ export class WorkDetail extends React.Component {
    * @param {String}title - dcTitle
    * @param {String}titleFull - dcTitleFull
    * @param {String}displayType´
-   * @param {Boolean}isSeries
+   * @param {Boolean}isMultivolume
    * @returns {String}
    */
-  getTitle(title, titleFull, bind, isSeries) {
-    if (!isSeries) {
+  getTitle(title, titleFull, bind, isMultivolume) {
+    if (!isMultivolume) {
       return title;
     }
 
@@ -138,7 +138,7 @@ export class WorkDetail extends React.Component {
     // Start with dcTitleFull
     let res = lTitleFull;
 
-    // Remove the series title
+    // Remove the multivolume title
     res = res.replace(lTitle, '');
 
     // Remove volume indicator
@@ -153,7 +153,7 @@ export class WorkDetail extends React.Component {
 
   render() {
     const bind = this.props.bind;
-    const title = this.getTitle(this.props.title, this.props.fullTitle, bind, this.props.isSeries);
+    const title = this.getTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
@@ -200,7 +200,7 @@ export class WorkDetail extends React.Component {
               {title}
             </h2>
             {
-              this.props.isSeries &&
+              this.props.isMultivolume &&
               <p className="work-detail--multi-volume--title">{this.props.title} {bind}</p>
             }
             {
@@ -246,7 +246,7 @@ WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
   bind: React.PropTypes.string,
   fullTitle: React.PropTypes.string.isRequired,
-  isSeries: React.PropTypes.bool,
+  isMultivolume: React.PropTypes.bool,
   collectionDetails: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   editText: React.PropTypes.string.isRequired,

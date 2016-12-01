@@ -10,7 +10,7 @@ import request from 'superagent';
 
 const availabilitySocket = SocketClient('availability');
 const getWorksSocket = SocketClient('work');
-const seriesDetailsSocket = SocketClient('work');
+const multiVolumeDetailsSocket = SocketClient('work');
 
 /**
  * Async method to retreive one or more works associated with the given list of pids
@@ -110,16 +110,16 @@ export function resetOrderState() {
   };
 }
 
-export function asyncGetSeriesDetailsFromPid(pid) {
+export function asyncGetMultiVolumeDetailsFromPid(pid) {
   return dispatch => {
-    seriesDetailsSocket.responseOnce(response => dispatch(getSeriesDetailsFromPid(response)));
-    seriesDetailsSocket.request({pids: [pid], fields: ['coverUrlFull', 'pid', 'workType']});
+    multiVolumeDetailsSocket.responseOnce(response => dispatch(getMultiVolumeDetailsFromPid(response)));
+    multiVolumeDetailsSocket.request({pids: [pid], fields: ['coverUrlFull', 'pid', 'workType']});
   };
 }
 
-export function getSeriesDetailsFromPid(response) {
+export function getMultiVolumeDetailsFromPid(response) {
   return {
-    type: types.GET_SERIES_METADATA,
+    type: types.GET_MULTIVOLUME_METADATA,
     data: response.data[0] || {}
   };
 }

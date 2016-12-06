@@ -56,12 +56,13 @@ export default class MaterialSearchResultList extends React.Component {
         result.collectionDetails.forEach(collectionItem => {
           if (bindRegex.test(collectionItem.type)) {
             const bindNumber = parseInt(bindRegex.exec(collectionItem.type)[1], 10);
-            if (bindHigh < bindNumber) {
-              bindHigh = bindNumber;
-            }
-            if (!bindLow || bindLow > bindNumber) {
+
+            if (!bindLow) {
               bindLow = bindNumber;
             }
+
+            bindHigh = Math.max(bindNumber, bindHigh);
+            bindLow = Math.min(bindNumber, bindLow);
           }
         });
 

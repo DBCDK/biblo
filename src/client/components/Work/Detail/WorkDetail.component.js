@@ -154,7 +154,7 @@ export class WorkDetail extends React.Component {
 
   render() {
     const bind = this.props.bind;
-    const title = this.getTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
+    const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 

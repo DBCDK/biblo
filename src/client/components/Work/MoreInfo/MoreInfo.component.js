@@ -14,7 +14,6 @@ const MORE_INFO_TYPES = {
   publisher: 'Udgiver',
   director: 'Instruktør',
   actors: 'Medvirkende',
-  series: 'Serie',
   tags: 'Emne',
   year: 'Udgivet i',
   dk5: 'DK5',
@@ -149,7 +148,12 @@ export class MoreInfo extends React.Component {
       });
     }
 
-    return Object.keys(uniqueMaterialTypes).map((key) => (
+    return Object.keys(uniqueMaterialTypes)
+      .filter(key => {
+        const bindRegex = new RegExp(`${this.props.bind}[^0-9]`);
+        return !this.props.isMultivolume || bindRegex.test(key.toLowerCase());
+      })
+      .map((key) => (
         <li className={'more-info--material-type'} key={key} >
           <Icon
             width={36}
@@ -181,7 +185,6 @@ MoreInfo.displayName = 'MoreInfo';
 MoreInfo.propTypes = {
   workType: React.PropTypes.string,
   tags: React.PropTypes.array,
-  series: React.PropTypes.string,
   year: React.PropTypes.array,
   dk5: React.PropTypes.string,
   dk5Text: React.PropTypes.string,
@@ -193,6 +196,8 @@ MoreInfo.propTypes = {
   actors: React.PropTypes.array,
   lix: React.PropTypes.number,
   extent: React.PropTypes.string,
-  materials: React.PropTypes.array
+  materials: React.PropTypes.array,
+  isMultivolume: React.PropTypes.bool,
+  bind: React.PropTypes.string
 };
 

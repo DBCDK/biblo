@@ -11,6 +11,7 @@ import ModalWindow from '../General/ModalWindow/ModalWindow.component.js';
 import {WorkDetail} from './Detail/WorkDetail.component.js';
 import {WorkHeader} from './Header/WorkHeader.component.js';
 import {MoreInfo} from './MoreInfo/MoreInfo.component.js';
+import {MultiVolumeDisplay} from './MultiVolumeDisplay/MultiVolumeDisplay.component';
 
 import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
@@ -83,8 +84,29 @@ export class WorkContainer extends React.Component {
     }
   }
 
+  getMultiVolumeDisplay(work, multivolumeMetadata, getMetadataAction) {
+    let multivolumeDisplay = null;
+    if (work.multivolume && work.multivolume.length) {
+      const multivolumeTitle = work.multivolume[0].title[0];
+      multivolumeDisplay = (
+        <div className="work--moreinfo">
+          <MultiVolumeDisplay multivolume={work.multivolume} multivolumeTitle={multivolumeTitle} multivolumeMetadata={multivolumeMetadata} getMetadataAction={getMetadataAction} />
+        </div>
+      );
+    }
+    return multivolumeDisplay;
+  }
+
   render() {
-    const work = this.props.workState.work;               // the work collection from the service provider
+    const work = this.props.workState.work; // the work collection from the service provider
+    const isMultivolume = !!(work.multivolume && work.multivolume.length);
+    const bind = isMultivolume && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
+    const bindPids = isMultivolume ? work.bind[work.bindId].pid : work.collection;
+    const multivolumeDisplay = this.getMultiVolumeDisplay(
+      work,
+      this.props.workState.workMetadataOrderedByPid,
+      this.props.workActions.asyncGetMultiVolumeDetailsFromPid
+    );
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
     const meta = this.props.reviewState.workReviewsMeta;
     const reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
@@ -96,8 +118,8 @@ export class WorkContainer extends React.Component {
     });
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
-      {this.props.ui.modal.isOpen &&
+      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
+        {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
             this.props.ui.modal.children
@@ -121,6 +143,10 @@ export class WorkContainer extends React.Component {
             tags={work.tags}
             coverUrl={work.coverUrl}
             workType={work.workType}
+            type={work.type[0]}
+            isMultivolume={isMultivolume}
+            bind={bind}
+            fullTitle={work.dcTitleFull}
             orderState={this.props.workState.orderState}
             orderMaterialAction={this.props.workActions.asyncOrderWork}
             checkAvailabilityAction={this.props.workActions.asyncCheckAvailability}
@@ -150,7 +176,7 @@ export class WorkContainer extends React.Component {
                 uiActions={this.props.uiActions}
                 flagActions={this.props.flagActions}
                 likeActions={this.props.likeActions}
-                pids={work.collection}
+                pids={bindPids}
               />
             }
             {
@@ -160,7 +186,7 @@ export class WorkContainer extends React.Component {
               </Message>
             }
             <ReviewList
-              pids={work.collection}
+              pids={bindPids}
               totalCount={meta.workReviewsTotalCount}
               limit={meta.limit}
               reviews={reviews}
@@ -173,6 +199,8 @@ export class WorkContainer extends React.Component {
               expand={this.props.reviewActions.asyncShowWorkReviews}
             />
           </div>
+
+          {multivolumeDisplay}
 
           <div className="work--moreinfo">
             <MoreInfo
@@ -190,6 +218,8 @@ export class WorkContainer extends React.Component {
               workType={work.workType}
               ageRecommended={work.ageRecommended}
               ageAllowed={work.ageAllowed}
+              isMultivolume={isMultivolume}
+              bind={bind}
             />
           </div>
         </div>

@@ -118,9 +118,43 @@ export class WorkDetail extends React.Component {
     );
   }
 
+  /**
+   * Manipulates the book title based on pre determined rules.
+   * Currently only manipulates multivolume titles.
+   * @param {String}title - dcTitle
+   * @param {String}titleFull - dcTitleFull
+   * @param {String}displayType´
+   * @param {Boolean}isMultivolume
+   * @returns {String}
+   */
+  adjustTitle(title, titleFull, bind, isMultivolume) {
+    if (!isMultivolume) {
+      return title;
+    }
+
+    // Get required info
+    const lTitle = title.toLowerCase();
+    const lTitleFull = titleFull.toLowerCase();
+
+    // Start with dcTitleFull
+    let res = lTitleFull;
+
+    // Remove the multivolume title
+    res = res.replace(lTitle, '');
+
+    // Remove volume indicator
+    res = res.replace(bind, '');
+
+    // Strip special chars and spaces from beginning and end.
+    res = res.replace(/^[^A-Z0-9]+/ig, '');
+    res = res.replace(/[^A-Z0-9]+$/ig, '');
+
+    return res;
+  }
+
   render() {
-    const coverUrl = this.props.coverUrl;
-    const title = this.props.title;
+    const bind = this.props.bind;
+    const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
@@ -157,18 +191,27 @@ export class WorkDetail extends React.Component {
         />
       );
     }
+
     return (
       <div className='work-detail'>
         <div className='work-detail--main'>
-          <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
-          <h2 className='work-detail--title'>{title}</h2>
-          {
-            consolidatedTitleSeries &&
-            <span className="work-detail--title-series">
-              <a href={'/find?q=' + consolidatedTitleSeriesQuery}>{consolidatedTitleSeries}</a>
-            </span>
-          }
-          <span className='work-detail--subheader'>{creator}</span>
+          <div className="work-detail--title-container">
+            <h2 className='work-detail--title'>
+              <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
+              {title}
+            </h2>
+            {
+              this.props.isMultivolume &&
+              <p className="work-detail--multi-volume--title">{this.props.title} {bind}</p>
+            }
+            {
+              consolidatedTitleSeries &&
+              <span className="work-detail--title-series">
+                <a href={'/find?q=' + consolidatedTitleSeriesQuery}>{consolidatedTitleSeries}</a>
+              </span>
+            }
+            <span className='work-detail--subheader'>{creator}</span>
+          </div>
           <div className='work-detail--description'>
             {abstract}
           </div>
@@ -179,20 +222,18 @@ export class WorkDetail extends React.Component {
             {this.renderBorrowerButton(ereolen, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Hør nu på eReolen', 'online')}
             {this.renderBorrowerButton(ereolen_ebooks, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Læs nu på eReolen', 'online')}
             {this.renderBorrowerButton(
-              filmstriben, <Icon glyph={movieSvgNoBorder} width={24} height={24} />, 'Lån på filmstriben', 'Gå til filmstriben', 'Se nu på filmstriben', 'online'
+              filmstriben,
+              <Icon glyph={movieSvgNoBorder} width={24} height={24} />,
+              'Lån på filmstriben',
+              'Gå til filmstriben',
+              'Se nu på filmstriben',
+              'online'
             )}
             <div className="work-detail--button-wrapper">{reviewButton}</div>
           </div>
         </div>
 
         <div className='work-detail--secondary'>
-          {
-            // sd-566: Do not show coverurls when displaying full reviews
-            !this.props.fullReview && <div className='work-detail--large-cover'>
-              <img src={coverUrl}/>
-            </div>
-          }
-
           <ul className='work-detail--material-types'>
             {materialTypeElements}
           </ul>
@@ -204,6 +245,9 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
+  bind: React.PropTypes.string,
+  fullTitle: React.PropTypes.string.isRequired,
+  isMultivolume: React.PropTypes.bool,
   collectionDetails: React.PropTypes.array.isRequired,
   profile: React.PropTypes.object.isRequired,
   editText: React.PropTypes.string.isRequired,

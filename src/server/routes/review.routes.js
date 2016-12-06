@@ -94,6 +94,7 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
     }
 
     const work = workResult.data[0];
+    work.id = pid;
 
     res.locals.title = 'Anmeldelse af ' + (work.dcTitle ? work.dcTitle : 'Titel mangler') + ' - Biblo.dk';
     res.render('page', {

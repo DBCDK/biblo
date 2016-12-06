@@ -128,7 +128,7 @@
     "babel-eslint": "^7.0.0",
     "chai": "^3.2.0",
     "chai-as-promised": "^6.0.0",
-    "chromedriver": "2.25.1",
+    "chromedriver": "2.25.2",
     "cucumber": "^1.0.0",
     "cucumberjs-junitxml": "1.0.0",
     "eslint": "^3.1.0",

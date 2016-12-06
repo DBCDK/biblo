@@ -37,7 +37,7 @@ describe('test group actions', () => {
       });
   });
 
-  it('should test CHANGE_GROUP_IMAGE without file reader support', (done) => {
+  it('should test CHANGE_GROUP_IMAGE without file reader support', () => {
     xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
     // remove filereader support
     const _fileReader = window.FileReader;
@@ -71,11 +71,9 @@ describe('test group actions', () => {
         xhrMock.restore();
         // restore filereader support
         window.FileReader = _fileReader;
-        done();
       })
       .catch(() => {
         console.error('Promise was rejected');
-        done('Promise was rejected');
       });
   });
 });

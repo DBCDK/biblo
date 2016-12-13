@@ -97,7 +97,7 @@ var myStepDefinitionsWrapper = function() {
       return this.click('.log-out-button');
     }).then(() => {
       this.$('#JSONDATA_USER_PROFILE').then((bodyElement) => {
-        return bodyElement.getInnerHtml();
+        return bodyElement.getAttribute('innerHTML');
       }).then(jsonData => {
         const userProfile = JSON.parse(jsonData);
         assert.isFalse(userProfile.profile.userIsLoggedIn);
@@ -120,13 +120,13 @@ var myStepDefinitionsWrapper = function() {
   });
 
   this.Then(/^a cookiewarning should be shown$/, function() {
-    this.browser.isElementPresent(By.className('cookie-warning')).then(isPresent => {
+    return this.present('.cookie-warning').then(isPresent => {
       assert.isTrue(isPresent);
     });
   });
 
   this.Then(/^the cookiewarning should not be displayed$/, function() {
-    this.browser.isElementPresent(By.className('cookie-warning')).then(isPresent => {
+    return this.present('.cookie-warning').then(isPresent => {
       assert.isFalse(isPresent);
     });
   });

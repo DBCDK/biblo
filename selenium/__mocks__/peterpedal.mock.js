@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function peterpedal(times) {
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 
@@ -11,6 +11,7 @@ module.exports = function peterpedal(times) {
       "data": [{
         "dcTitle": ["Peter Pedal"],
         "dcTitleFull": ["Peter Pedal"],
+        "titleSeries": ["Peter-Pedal-bøgerne"],
         "publisher": ["Gyldendal"],
         "extent": ["45 sider"],
         "format": ["alle illustreret i farver"],
@@ -37,6 +38,7 @@ module.exports = function peterpedal(times) {
         "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=05074975&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=cc1fe0998bbb1d9a7086"],
         "dcLanguage": ["Dansk"],
         "accessType": ["physical"],
+        "audienceAge": ["fra 3 år"],
         "audience": ["børnematerialer"],
         "subjectDK5": ["sk"],
         "subjectDK5Text": ["Skønlitteratur"],
@@ -53,19 +55,96 @@ module.exports = function peterpedal(times) {
     });
 
   nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Campaigns')
+    .times(times)
+    .query({"filter": "{\"where\":{\"type\":\"review\"},\"include\":[]}"})
+    .reply(200, [{
+      "campaignName": "Sommerbogen 2016",
+      "startDate": "2016-06-09T20:00:00.044Z",
+      "endDate": "2016-08-21T04:00:00.044Z",
+      "logos": {
+        "svg": "/sommerbogen-logo.svg",
+        "small": "/sommerbogen-logo.png",
+        "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      },
+      "type": "review",
+      "id": 1,
+      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "book", "id": 1}, {
+        "worktype": "audiobook",
+        "id": 7
+      }, {"worktype": "audiobook", "id": 7}, {"worktype": "literature", "id": 10}, {"worktype": "literature", "id": 10}]
+    }, {
+      "campaignName": "Vild Med Film",
+      "startDate": "2016-07-16T22:00:00.000Z",
+      "endDate": "2016-09-30T21:59:59.000Z",
+      "logos": {
+        "small": "http://admin.biblo.dk/sites/default/files/styles/small/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=BjJ1xzJ8",
+        "medium": "http://admin.biblo.dk/sites/default/files/styles/medium/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=emXGcxp5",
+        "large": "http://admin.biblo.dk/sites/default/files/styles/large/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=OyLHdCzn",
+        "svg": "http://admin.biblo.dk/sites/default/files/campaigns/logos/svg/VildmedfilmLOGO%20solid.svg"
+      },
+      "type": "review",
+      "id": 2,
+      "workTypes": [{"worktype": "movie", "id": 6}]
+    }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/count')
     .times(times)
     .query({
       "access_token": "",
-      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:05074975\"},{\"pid\":\"870970-basis:27889654\"}]}]}"
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:05074975\"}]}]}"
     })
-    .reply(200, {"count": 4});
+    .reply(200, {"count": 7});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:05074975\"},{\"pid\":\"870970-basis:27889654\"}]}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:05074975\"}]}]}}"})
     .reply(200, [{
+      "pid": "870970-basis:05074975",
+      "libraryid": "718300",
+      "worktype": "book",
+      "content": "Peter Pedal sidder og spisser morgen mad med sin ven med den gule hat. Manden med den gule hat havde en overraskelse til Peter og overraskelsen var en cykel. Men nu skulle manden med den gule hat på ajbergte. Peter kørte på sin cykel og på vejen møtte han avis drengen og avis drengen spurte om han ikke nok vil dele aviserne ud for ham og det ville Peter rigdig gerne. Men pludselig ville han heller fiske og lave salbåde med avisser nede ved søen. Men han havde glemt af dele aviserne ud. han cyklede vidrer da han var færti med af lave salbåde men ligepluselig kørte han ind i en sten hans dæk bleev flat men manden med den gule hat lavede det og bagefter to de i cirkus.\r\n\r\nkan godt lide dette\r\nMere info",
+      "created": "2016-08-17T13:07:39.000Z",
+      "modified": "2016-08-17T13:07:39.000Z",
+      "rating": 6,
+      "markedAsDeleted": null,
+      "palleid": null,
+      "id": 77470,
+      "reviewownerid": 44486,
+      "likes": [],
+      "owner": {}
+    }, {
+      "pid": "870970-basis:05074975",
+      "libraryid": "726500",
+      "worktype": "book",
+      "content": "jeg giver denne fire stjerner fordi: Peter pedal kommer fra afrika så tog mande med den gule hat peter med til sit land men peter var så nysgerrig derfor kom peter i zoo en zoo vagt var ikke på vagt så tog peter nøglen og lukkede han sig selv ud.",
+      "created": "2016-08-11T15:53:22.000Z",
+      "modified": "2016-08-11T15:53:22.000Z",
+      "rating": 4,
+      "markedAsDeleted": null,
+      "palleid": null,
+      "id": 76464,
+      "reviewownerid": 48591,
+      "likes": [],
+      "owner": {}
+    }, {
+      "pid": "870970-basis:05074975",
+      "libraryid": "755000",
+      "worktype": "book",
+      "content": "den handler om en abe der hedder petter pedal aben er meget nysgerrig og han for en cykel med den gule hat\r\n",
+      "created": "2016-08-11T10:36:25.000Z",
+      "modified": "2016-08-11T10:36:25.000Z",
+      "rating": 4,
+      "markedAsDeleted": null,
+      "palleid": null,
+      "id": 76396,
+      "reviewownerid": 44314,
+      "likes": [],
+      "owner": {}
+    }, {
       "pid": "870970-basis:05074975",
       "libraryid": "726502",
       "worktype": "book",
@@ -124,24 +203,16 @@ module.exports = function peterpedal(times) {
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/Campaigns')
+    .get('/api/imageCollections/5936/download/small')
     .times(times)
-    .query({"filter": "{\"where\":{\"type\":\"review\"},\"include\":[]}"})
-    .reply(200, [{
-      "campaignName": "Sommerbogen 2016",
-      "startDate": "2016-06-09T20:00:00.044Z",
-      "endDate": "2016-08-21T04:00:00.044Z",
-      "logos": {
-        "svg": "/sommerbogen-logo.svg",
-        "small": "/sommerbogen-logo.png",
-        "medium": "/sommerbogen-logo.png",
-        "large": "/sommerbogen-logo.png"
-      },
-      "type": "review",
-      "id": 1,
-      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "audiobook", "id": 7}, {
-        "worktype": "literature",
-        "id": 10
-      }]
-    }]);
+
+    .reply(200, {
+      "container": "uxprod-biblo-imagebucket-small",
+      "name": "815b59a8b708-4aa4-a30b-7b3e4d44e019_small.jpg",
+      "type": "image/jpeg",
+      "url": "https://uxprod-biblo-imagebucket-small.s3-eu-west-1.amazonaws.com/815b59a8b708-4aa4-a30b-7b3e4d44e019_small.jpg",
+      "id": 47573,
+      "resolutionImageFileId": 46797,
+      "resolutionVideoFileId": null
+    });
 };

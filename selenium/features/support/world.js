@@ -34,6 +34,14 @@ function World() {
     return this.$(selector).click();
   };
 
+  this.present = selector => {
+    return this.$(selector).then(result => {
+      return !!result;
+    }).catch(() => {
+      return false;
+    });
+  };
+
   this.setViewportWidth = ({device = null, width = 1024, height = 768}) => {
     if (device) {
       switch (device) { // eslint-disable-line default-case

@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function LegoBatmanMovie(times) {
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 
@@ -15,8 +15,15 @@ module.exports = function LegoBatmanMovie(times) {
         "description": ["Produktion: Warner Premiere (USA), Tt Animation (Storbritannien), 2013", "Af indholdet: Special features"],
         "extent": ["ca. 67 min."],
         "format": ["1 dvd-video"],
-        "collection": ["870970-basis:29992487", "870970-basis:29992460"],
+        "collection": ["870970-basis:52064368", "870970-basis:29992487", "870970-basis:29992460"],
         "collectionDetails": [{
+          "accessType": ["physical"],
+          "pid": ["870970-basis:52064368"],
+          "title": ["Lego Batman - the movie"],
+          "titleFull": ["Lego Batman - the movie : DC super heroes unite"],
+          "type": ["Dvd"],
+          "workType": ["movie"]
+        }, {
           "accessType": ["physical"],
           "pid": ["870970-basis:29992487"],
           "title": ["Lego Batman - the movie"],
@@ -31,9 +38,10 @@ module.exports = function LegoBatmanMovie(times) {
           "type": ["Blu-ray"],
           "workType": ["movie"]
         }],
-        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29992487&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=bb5130d5b55b6f5e1d14"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29992487&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ba18ebbdef1a954c3c8c"],
         "dcLanguage": ["Flere sprog", "Engelsk"],
         "accessType": ["physical"],
+        "audienceAge": ["fra 7 år"],
         "audience": ["børnematerialer"],
         "audienceMedieraad": ["Mærkning: Tilladt for alle men frarådes børn under 7 år"],
         "subjectDK5": ["77.74"],
@@ -51,21 +59,6 @@ module.exports = function LegoBatmanMovie(times) {
     });
 
   nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/reviews/count')
-    .times(times)
-    .query({
-      "access_token": "",
-      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29992487\"},{\"pid\":\"870970-basis:29992460\"}]}]}"
-    })
-    .reply(200, {"count": 0});
-
-  nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/reviews/')
-    .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29992487\"},{\"pid\":\"870970-basis:29992460\"}]}]}}"})
-    .reply(200, []);
-
-  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Campaigns')
     .times(times)
     .query({"filter": "{\"where\":{\"type\":\"review\"},\"include\":[]}"})
@@ -81,9 +74,37 @@ module.exports = function LegoBatmanMovie(times) {
       },
       "type": "review",
       "id": 1,
-      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "audiobook", "id": 7}, {
-        "worktype": "literature",
-        "id": 10
-      }]
+      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "book", "id": 1}, {
+        "worktype": "audiobook",
+        "id": 7
+      }, {"worktype": "audiobook", "id": 7}, {"worktype": "literature", "id": 10}, {"worktype": "literature", "id": 10}]
+    }, {
+      "campaignName": "Vild Med Film",
+      "startDate": "2016-07-16T22:00:00.000Z",
+      "endDate": "2016-09-30T21:59:59.000Z",
+      "logos": {
+        "small": "http://admin.biblo.dk/sites/default/files/styles/small/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=BjJ1xzJ8",
+        "medium": "http://admin.biblo.dk/sites/default/files/styles/medium/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=emXGcxp5",
+        "large": "http://admin.biblo.dk/sites/default/files/styles/large/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=OyLHdCzn",
+        "svg": "http://admin.biblo.dk/sites/default/files/campaigns/logos/svg/VildmedfilmLOGO%20solid.svg"
+      },
+      "type": "review",
+      "id": 2,
+      "workTypes": [{"worktype": "movie", "id": 6}]
     }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/reviews/count')
+    .times(times)
+    .query({
+      "access_token": "",
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29992487\"}]}]}"
+    })
+    .reply(200, {"count": 0});
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/reviews/')
+    .times(times)
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29992487\"}]}]}}"})
+    .reply(200, []);
 };

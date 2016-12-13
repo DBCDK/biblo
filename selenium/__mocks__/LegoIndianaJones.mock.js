@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function LegoIndianaJones(times) {
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 
@@ -58,7 +58,7 @@ module.exports = function LegoIndianaJones(times) {
           "type": ["Xbox 360"],
           "workType": ["game"]
         }],
-        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29186626&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=dbc6d3d045e41804d403"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29186626&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=6d19cc53e815961b6efe"],
         "dcLanguage": ["Flere sprog", "Dansk", "Engelsk", "Tysk", "Fransk", "Spansk", "Italiensk"],
         "accessType": ["physical"],
         "audienceAge": ["Fra 5 år"],
@@ -72,21 +72,6 @@ module.exports = function LegoIndianaJones(times) {
         "date": ["2008"]
       }]
     });
-
-  nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/reviews/count')
-    .times(times)
-    .query({
-      "access_token": "",
-      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"},{\"pid\":\"870970-basis:27312381\"},{\"pid\":\"870970-basis:27364616\"},{\"pid\":\"870970-basis:27312438\"},{\"pid\":\"870970-basis:27312462\"},{\"pid\":\"870970-basis:27312497\"}]}]}"
-    })
-    .reply(200, {"count": 0});
-
-  nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/reviews/')
-    .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"},{\"pid\":\"870970-basis:27312381\"},{\"pid\":\"870970-basis:27364616\"},{\"pid\":\"870970-basis:27312438\"},{\"pid\":\"870970-basis:27312462\"},{\"pid\":\"870970-basis:27312497\"}]}]}}"})
-    .reply(200, []);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Campaigns')
@@ -104,9 +89,37 @@ module.exports = function LegoIndianaJones(times) {
       },
       "type": "review",
       "id": 1,
-      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "audiobook", "id": 7}, {
-        "worktype": "literature",
-        "id": 10
-      }]
+      "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "book", "id": 1}, {
+        "worktype": "audiobook",
+        "id": 7
+      }, {"worktype": "audiobook", "id": 7}, {"worktype": "literature", "id": 10}, {"worktype": "literature", "id": 10}]
+    }, {
+      "campaignName": "Vild Med Film",
+      "startDate": "2016-07-16T22:00:00.000Z",
+      "endDate": "2016-09-30T21:59:59.000Z",
+      "logos": {
+        "small": "http://admin.biblo.dk/sites/default/files/styles/small/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=BjJ1xzJ8",
+        "medium": "http://admin.biblo.dk/sites/default/files/styles/medium/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=emXGcxp5",
+        "large": "http://admin.biblo.dk/sites/default/files/styles/large/public/campaigns/logos/img/VildmedfilmLOGO_no%20background.png?itok=OyLHdCzn",
+        "svg": "http://admin.biblo.dk/sites/default/files/campaigns/logos/svg/VildmedfilmLOGO%20solid.svg"
+      },
+      "type": "review",
+      "id": 2,
+      "workTypes": [{"worktype": "movie", "id": 6}]
     }]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/reviews/count')
+    .times(times)
+    .query({
+      "access_token": "",
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"}]}]}"
+    })
+    .reply(200, {"count": 0});
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/reviews/')
+    .times(times)
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"}]}]}}"})
+    .reply(200, []);
 };

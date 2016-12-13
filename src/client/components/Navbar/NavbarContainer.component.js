@@ -17,7 +17,7 @@ import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
 import {DET_SKER_PAGE, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
 // SVG's
-import bibloSvg from './svg/biblo_negative.svg';
+import bibloSvg from './svg/biblo_logo_100x30.svg';
 import profileSvg from '../General/Icon/svg/knap-ikoner-small/profile.svg';
 import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 

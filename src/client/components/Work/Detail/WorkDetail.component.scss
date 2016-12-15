@@ -9,6 +9,7 @@
   .work-detail--title {
     color: $black;
     margin: 0;
+    margin-left: -46px;
     overflow: hidden;
     text-transform: capitalize;
     font-weight: normal;
@@ -28,9 +29,10 @@
   }
 
   .work-detail--multi-volume--title {
-    margin: 0;
+    margin: -10px 0 5px;
     color: $gray;
     font-weight: 600;
+    text-transform: capitalize;
   }
 
   .work-detail--subheader {
@@ -39,7 +41,7 @@
   }
 
   @include max-screen($desktop - 1px) {
-    margin: 0px 15px 0px 15px;
+    margin: 0 15px 0 15px;
   }
 
 }

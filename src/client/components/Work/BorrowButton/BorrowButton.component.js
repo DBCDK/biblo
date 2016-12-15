@@ -343,7 +343,7 @@ export default class BorrowButton extends React.Component {
         <div className="modal-window--borrow-container">
           <div className="modal-window--work-details">
             <img src={this.props.coverUrl}/>
-            <h3>{this.props.title}</h3>
+            <h3>{this.props.adjustedTitle || this.props.title}</h3>
           </div>
 
           {modalContent}

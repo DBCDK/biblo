@@ -13,6 +13,9 @@
 }
 
 .work--moreinfo {
+  padding-top: 20px;
+  padding-bottom: 50px;
+
   @include min-screen($desktop) {
     @include span(8 last);
     float: left

@@ -72,6 +72,7 @@
     "dbc-node-openuserstatus-client": "^2.0.1",
     "dbc-node-serviceprovider": "^3.0.10",
     "dbc-node-serviceprovider-socketclient": "^2.3.2",
+    "deep-equal": "^1.0.1",
     "express": "4.14.0",
     "express-session": "1.14.2",
     "express-validator": "3.0.0",

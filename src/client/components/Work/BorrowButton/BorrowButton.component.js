@@ -377,6 +377,7 @@ export default class BorrowButton extends React.Component {
 
 BorrowButton.propTypes = {
   buttonTitle: React.PropTypes.string.isRequired,
+  adjustedTitle: React.PropTypes.string,
   modalButtonTitle: React.PropTypes.string.isRequired,
   buttonIcon: React.PropTypes.any.isRequired,
   itemDescription: React.PropTypes.string.isRequired,

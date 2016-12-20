@@ -168,7 +168,7 @@ export default class MessageRow extends React.Component {
         'Skal afleveres senest ' + string;
 
         let renewLoanBtn = null;
-        if (diff < 0 && this.state.message.loanId) {
+        if (diff >= 0 && this.state.message.loanId) {
           renewLoanBtn = this.getRenewLoanButton();
         }
 

@@ -85,7 +85,7 @@
     "moment": "^2.15.0",
     "multer": "^1.2.0",
     "newrelic": "^1.30.3",
-    "node-sass": "^3.10.0",
+    "node-sass": "^4.0.0",
     "nodemon": "^1.10.2",
     "normalize.css": "^5.0.0",
     "object-assign": "^4.1.0",

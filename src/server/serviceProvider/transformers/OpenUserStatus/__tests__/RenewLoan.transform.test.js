@@ -56,7 +56,7 @@ describe('Testing the RenewLoan Transform', () => {
 
   it('Should return with a call to RenewLoanTransform.callServiceClient', () => {
     const expectedParams = {
-      agencyId: '012345',
+      agencyId: 'DK-012345',
       userId: '0123456789',
       userPincode: '0123'
     };

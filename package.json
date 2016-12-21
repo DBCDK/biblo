@@ -163,6 +163,6 @@
     "sinon": "^1.17.2",
     "sinon-as-promised": "^4.0.0",
     "skin-deep": "^0.16.0",
-    "wallaby-webpack": "^0.0.26"
+    "wallaby-webpack": "^0.0.27"
   }
 }

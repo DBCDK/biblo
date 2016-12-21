@@ -4,7 +4,7 @@
 
 // Libs
 import React from 'react';
-import {isEqual} from 'lodash';
+import equal from 'deep-equal';
 
 // Components
 import {AbstractWidget} from '../../AbstractWidget.component';
@@ -26,7 +26,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
   shouldComponentUpdate(nextProps, nextState) {
     // If the state updates, the component should update
     // If the props update, we don't care unless it's the widgetReducerProp.
-    return !isEqual(nextState, this.state) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp);
+    return !equal(nextState, this.state) || !equal(nextProps.widgetReducerProp, this.props.widgetReducerProp);
   }
 
   componentDidMount() {
@@ -79,7 +79,7 @@ export class LatestGroupPostsWidget extends AbstractWidget {
 
     const htmlId = `latest-group-posts-widget-${this.props.widgetIndex}`;
     const groupId = this.props.widgetConfig.group;
-    const widgetGroup = this.props.widgetReducerProp.groups[groupId];
+    const widgetGroup = this.props.widgetReducerProp.groups[groupId] || {};
     const widgetPosts = this.props.widgetReducerProp.posts[groupId] || [];
 
     const campaignLogo = this.renderCampaignLogo(widgetGroup);

@@ -3,8 +3,6 @@
 .more-info {
   @include span(24);
   @include squish(15px);
-  padding-top: 20px;
-  padding-bottom: 50px;
 
   @include min-screen($desktop){
     @include squish(0);

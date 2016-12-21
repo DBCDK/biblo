@@ -1,6 +1,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import equal from 'deep-equal';
 
 import PageLayout from '../Layout/PageLayout.component';
 import Review from '../Review/Review.component';
@@ -31,6 +32,10 @@ export class WorkContainer extends React.Component {
     this.state = {
       reviewVisible: this.props.reviewState.workReviewsVisible || false
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !equal(this.props, nextProps) || !equal(this.state, nextState);
   }
 
   getProfile() {
@@ -89,9 +94,7 @@ export class WorkContainer extends React.Component {
     if (work.multivolume && work.multivolume.length) {
       const multivolumeTitle = work.multivolume[0].title[0];
       multivolumeDisplay = (
-        <div className="work--moreinfo">
-          <MultiVolumeDisplay multivolume={work.multivolume} multivolumeTitle={multivolumeTitle} multivolumeMetadata={multivolumeMetadata} getMetadataAction={getMetadataAction} />
-        </div>
+        <MultiVolumeDisplay multivolume={work.multivolume} multivolumeTitle={multivolumeTitle} multivolumeMetadata={multivolumeMetadata} getMetadataAction={getMetadataAction} />
       );
     }
     return multivolumeDisplay;
@@ -131,6 +134,8 @@ export class WorkContainer extends React.Component {
           <WorkDetail
             collection={work.collection}
             collectionDetails={work.collectionDetails}
+            bindId={work.bindId}
+            bindDetails={work.bind[work.bindId]}
             editText={this.getEditText()}
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}
@@ -200,9 +205,9 @@ export class WorkContainer extends React.Component {
             />
           </div>
 
-          {multivolumeDisplay}
-
           <div className="work--moreinfo">
+            {multivolumeDisplay}
+
             <MoreInfo
               materials={work.collectionDetails}
               lix={work.lix}

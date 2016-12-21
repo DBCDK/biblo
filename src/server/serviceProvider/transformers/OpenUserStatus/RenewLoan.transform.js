@@ -21,6 +21,10 @@ const RenewLoanTransform = {
 
       };
 
+      if (params.agencyId.toLowerCase().indexOf('dk-') !== 0) {
+        params.agencyId = 'DK-' + params.agencyId;
+      }
+
       return this.callServiceClient('openuserstatus', 'renewLoan', params);
     }
 

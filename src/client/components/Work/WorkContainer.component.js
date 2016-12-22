@@ -105,6 +105,7 @@ export class WorkContainer extends React.Component {
     const isMultivolume = !!(work.multivolume && work.multivolume.length);
     const bind = isMultivolume && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
     const bindPids = isMultivolume ? work.bind[work.bindId].pid : work.collection;
+    const bindDetails = isMultivolume ? work.bind[work.bindId] : {};
     const multivolumeDisplay = this.getMultiVolumeDisplay(
       work,
       this.props.workState.workMetadataOrderedByPid,
@@ -135,7 +136,7 @@ export class WorkContainer extends React.Component {
             collection={work.collection}
             collectionDetails={work.collectionDetails}
             bindId={work.bindId}
-            bindDetails={work.bind[work.bindId]}
+            bindDetails={bindDetails}
             editText={this.getEditText()}
             reviewVisible={reviewVisible}
             toggleReview={this.toggleReview.bind(this)}

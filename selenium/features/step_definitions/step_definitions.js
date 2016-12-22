@@ -164,8 +164,8 @@ var myStepDefinitionsWrapper = function() {
     return this.takeScreenshot(filename);
   });
 
-  this.Then(/^wait ([0-9]+) ms$/i, function(timeout, cb) {
-    setTimeout(cb, timeout);
+  this.Then(/^wait ([0-9]+) ms$/i, function(timeout) {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   });
 
   this.Then(/^the page contains: (.*)$/i, function(contained) {

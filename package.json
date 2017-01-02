@@ -59,7 +59,7 @@
     "body-parser": "1.15.2",
     "bull": "^2.0.0",
     "busboy": "^0.2.13",
-    "cache-manager-redis": "^0.3.2",
+    "cache-manager-redis": "^0.4.0",
     "classnames": "^2.2.5",
     "compass-sass-mixins": "^0.12.7",
     "compression": "1.6.2",

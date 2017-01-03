@@ -316,6 +316,7 @@ export default class PostView extends React.Component {
             groupActions={groupActions}
             works={works}
             coverImages={coverImages}
+            deleteAction={commentId => this.props.groupActions.callServiceProvider('deleteComment', {id: commentId})}
           />
           {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments">
@@ -342,6 +343,7 @@ export default class PostView extends React.Component {
               getMoreWorks={getMoreWorks}
               addContentAction={groupActions.addComment}
               autofocus={true}
+              displayAbortButton={true}
             />
             ||
             <a
@@ -389,7 +391,6 @@ PostView.propTypes = {
   getMoreWorks: React.PropTypes.func,
   video: React.PropTypes.object,
   groupIsClosed: React.PropTypes.bool
-
 };
 
 PostView.defaultProps = {

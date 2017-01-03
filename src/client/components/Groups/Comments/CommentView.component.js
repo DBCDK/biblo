@@ -25,6 +25,8 @@ class CommentView extends React.Component {
     this.state = {
       isEditting: false
     };
+
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   toggleEditting() {
@@ -40,9 +42,26 @@ class CommentView extends React.Component {
     );
   }
 
+  deleteComment() {
+    const commentDeleteModalContent = (
+      <div className="comment-delete-modal">
+        Er du sikker på at du vil slette indlægget?
+        <div>
+          <a className="button delete" onClick={() => {
+            this.props.deleteAction(this.props.id);
+            location.reload();
+          }}>Ja!</a>
+          <a className="button" onClick={this.props.uiActions.closeModalWindow}>Nej!</a>
+        </div>
+      </div>
+    );
+
+    this.props.uiActions.openModalWindow(commentDeleteModalContent);
+  }
+
   render() {
     const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions, review, video} = this.props;
-
+    const deleteAction = this.props.deleteAction && this.deleteComment || false;
     const commentFlagModalContent = (
       <CreateFlagDialog
         submitFunction={submitFlagFunction}
@@ -91,9 +110,22 @@ class CommentView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment" getMoreWorks={this.props.getMoreWorks}
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}
-                        addContentAction={groupActions.editComment} coverImages={this.props.coverImages} works={this.props.works} />
+            <ContentAdd
+              redirectTo={`/grupper/${groupId}`}
+              profile={profile}
+              parentId={postId}
+              type="comment"
+              getMoreWorks={this.props.getMoreWorks}
+              abort={() => this.toggleEditting()}
+              text={content}
+              image={image}
+              id={id}
+              autofocus={true}
+              addContentAction={groupActions.editComment}
+              coverImages={this.props.coverImages}
+              works={this.props.works}
+              delete={deleteAction}
+            />
             ||
             <div className="comment--content" >
               {
@@ -141,5 +173,6 @@ CommentView.propTypes = {
   works: React.PropTypes.object.isRequired,
   getMoreWorks: React.PropTypes.func,
   review: React.PropTypes.object,
-  video: React.PropTypes.object
+  video: React.PropTypes.object,
+  deleteAction: React.PropTypes.func
 };

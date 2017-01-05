@@ -10,6 +10,7 @@ import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
+import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 
 import Youtube from 'react-youtube';
 
@@ -43,20 +44,23 @@ class CommentView extends React.Component {
   }
 
   deleteComment() {
-    const commentDeleteModalContent = (
-      <div className="comment-delete-modal">
-        Er du sikker på at du vil slette indlægget?
+    const dialog = (
+      <ConfirmDialog
+        cancelButtonText={'Fortryd'}
+        confirmButtonText={'Slet Indlæg'}
+        cancelFunc={this.props.uiActions.closeModalWindow}
+        confirmFunc={() => {
+          this.props.deleteAction(this.props.id);
+          location.reload();
+        }}
+      >
         <div>
-          <a className="button delete" onClick={() => {
-            this.props.deleteAction(this.props.id);
-            location.reload();
-          }}>Ja!</a>
-          <a className="button" onClick={this.props.uiActions.closeModalWindow}>Nej!</a>
+          <p>Du er ved at slette et indlæg, du selv har skrevet. Er du sikker på du vil slette indlægget?</p>
         </div>
-      </div>
+      </ConfirmDialog>
     );
 
-    this.props.uiActions.openModalWindow(commentDeleteModalContent);
+    this.props.uiActions.openModalWindow(dialog);
   }
 
   render() {

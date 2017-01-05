@@ -1,5 +1,12 @@
 @import 'tools';
 
+.comment, .post {
+  .content-add--actions .button.delete {
+    margin-left: 5px;
+    float: right;
+  }
+}
+
 .content-add {
   margin-bottom: 20px;
 }

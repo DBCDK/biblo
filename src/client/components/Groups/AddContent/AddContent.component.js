@@ -216,6 +216,13 @@ export default class AddContent extends UploadMedia {
         </a>
       );
     }
+    else if (this.props.abort && this.props.displayAbortButton) {
+      deleteButton = (
+        <a className="button delete" onClick={() => this.props.abort()}>
+          <span>Fortryd</span>
+        </a>
+      );
+    }
 
     if (!this.props.profile.userIsLoggedIn || !this.props.profile.hasFilledInProfile) {
       return (
@@ -315,13 +322,12 @@ export default class AddContent extends UploadMedia {
                 <span className="content-add--media-label">Upload</span>
               </label>
 
+              {this.props.type !== 'comment' &&
               <a className="insert-review-button" onClick={this.state.disableInput ? () => {
               } : () => this.setState({showAddReviews: true})}>
                 <img src="/attach_review.png"/>
                 <span className="attach-review-button--text"> Anmeldelse </span>
-              </a>
-
-              {deleteButton}
+              </a>}
             </div>
 
             <button
@@ -339,6 +345,8 @@ export default class AddContent extends UploadMedia {
               {(this.state.isLoading) && <Icon glyph={spinner}/>}
               OK
             </button>
+
+            {deleteButton}
           </div>
         </form>
 
@@ -370,7 +378,8 @@ AddContent.propTypes = {
   id: React.PropTypes.number,
   getMoreWorks: React.PropTypes.func.isRequired,
   works: React.PropTypes.object,
-  coverImages: React.PropTypes.object
+  coverImages: React.PropTypes.object,
+  displayAbortButton: React.PropTypes.bool
 };
 
 AddContent.defaultProps = {
@@ -380,6 +389,7 @@ AddContent.defaultProps = {
   coverImages: {
     pids: {}
   },
+  displayAbortButton: false,
   addContentAction: () => {
     console.error('YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'); // eslint-disable-line
   }

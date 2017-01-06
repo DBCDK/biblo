@@ -98,7 +98,7 @@
     "primus": "^6.0.3",
     "proxy-agent": "^2.0.0",
     "pug": "^2.0.0-beta6",
-    "react": "15.4.1",
+    "react": "15.4.2",
     "react-addons-test-utils": "15.4.1",
     "react-dom": "15.4.1",
     "react-redux": "4.4.6",

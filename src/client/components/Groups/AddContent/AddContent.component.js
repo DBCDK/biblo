@@ -14,6 +14,8 @@ import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
 import videoSvg from '../../General/Icon/svg/functions/video.svg';
+import pdfSvg from '../../General/Icon/svg/functions/pdf.svg';
+import pdfDarkSvg from '../../General/Icon/svg/functions/pdf_dark.svg';
 import close from '../../General/Icon/svg/functions/close.svg';
 import spinner from '../../General/Icon/svg/spinners/loading-spin.svg';
 
@@ -232,8 +234,12 @@ export default class AddContent extends UploadMedia {
       );
     }
 
-    const uniqueId = `upload-media-${this.props.type}-${this.props.id || this.props.parentId}`;
+    let mimetypes = 'image/*,video/*,video/mp4';
+    if (this.props.pdfUploads) {
+      mimetypes += ',application/pdf';
+    }
 
+    const uniqueId = `upload-media-${this.props.type}-${this.props.id || this.props.parentId}`;
     const progressStatusClass = this.state.attachment.video && this.state.attachment.video.file.progress === 100 ? 'done' : '';
 
     let work = {
@@ -242,6 +248,11 @@ export default class AddContent extends UploadMedia {
     };
     if (this.state.attachment && this.state.attachment.review) {
       work = this.props.works[this.state.attachment.review.pid] || work;
+    }
+
+    let pdfLabel = '';
+    if (this.props.pdfUploads) {
+      pdfLabel = (<Icon glyph={pdfSvg}/>);
     }
 
     return (
@@ -256,6 +267,7 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" name="id" value={this.props.id}/>
             <input type="hidden" name="imageId" value={image.imageCollectionId}/>
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
+            <input type="hidden" name="pdfRemoved" value={this.state.attachment.pdf === 'removed'} />
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
             <input type="hidden" name="parentId" value={this.props.parentId}/>
             <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id}/>
@@ -292,14 +304,35 @@ export default class AddContent extends UploadMedia {
               <div className="preview-review--cover-image--container">
                 <img src={this.props.coverImages.pids[this.state.attachment.review.pid]}/>
               </div>
+
               <div className="preview-review--title--container">
                 <p>
                   <strong>{work.title}</strong>
                 </p>
               </div>
+
               <div className="preview-review--remove-btn">
                 <a href="#removeReview" className="content-add--remove-media"
                    onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {review: 'removed'})})}>
+                  <Icon glyph={close}/>
+                </a>
+              </div>
+            </div>}
+
+            {this.state.attachment.pdf && this.state.attachment.pdf !== 'removed' && <div className="preview-pdf">
+              <div className="pdf-image">
+                <Icon glyph={pdfDarkSvg} height={60} width={60} />
+              </div>
+
+              <div className="pdf-title">
+                <p>
+                  <strong>{this.state.attachment.pdf.file && this.state.attachment.pdf.file.name}</strong>
+                </p>
+              </div>
+
+              <div className="pdf--remove-btn">
+                <a href="#removePdf" className="content-add--remove-media"
+                   onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {pdf: 'removed'})})}>
                   <Icon glyph={close}/>
                 </a>
               </div>
@@ -317,6 +350,7 @@ export default class AddContent extends UploadMedia {
           <div className='content-add--actions'>
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
+                {pdfLabel}
                 <Icon glyph={videoSvg}/>
                 <Icon glyph={cameraSvg}/>
                 <span className="content-add--media-label">Upload</span>
@@ -352,7 +386,7 @@ export default class AddContent extends UploadMedia {
 
         <input
           id={uniqueId}
-          accept='image/*,video/*,video/mp4'
+          accept={mimetypes}
           type="file"
           className="content-add--upload-media droppable-media-field--file-input"
           disabled={this.state.disableInput}
@@ -379,7 +413,8 @@ AddContent.propTypes = {
   getMoreWorks: React.PropTypes.func.isRequired,
   works: React.PropTypes.object,
   coverImages: React.PropTypes.object,
-  displayAbortButton: React.PropTypes.bool
+  displayAbortButton: React.PropTypes.bool,
+  pdfUploads: React.PropTypes.bool
 };
 
 AddContent.defaultProps = {

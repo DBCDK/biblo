@@ -51,6 +51,7 @@ const GetPostsTransform = {
         'image', {
           owner: ['image']
         },
+        'pdf',
         'likes',
         {
           relation: 'review',

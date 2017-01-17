@@ -373,6 +373,11 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     params.video = req.session.videoupload;
   }
 
+  if (req.session.pdfUploads && req.body.pdfRemoved !== 'true') {
+    params.pdf = Object.assign({}, req.session.pdfUploads);
+    req.session.pdfUploads = null;
+  }
+
   const amazonConfig = req.config.get('ServiceProvider.aws');
   try {
     const response = (await req.callServiceProvider('createGroupContent', params, {request: req}))[0];

@@ -8,7 +8,7 @@ import path from 'path';
 import redisStore from 'cache-manager-redis';
 
 // import clients
-import CommunityClient from 'dbc-node-community-client';
+import CommunityClient from './clients/community.client';
 import EntitySuggest from 'dbc-node-entitysuggest';
 import OpenAgency from 'dbc-node-openagency-client';
 import OpenPlatformClient from './clients/openplatform.client.js';

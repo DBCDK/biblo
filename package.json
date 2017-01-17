@@ -42,6 +42,7 @@
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
     "@dbcdk/biblo-config": "^2.3.7",
+    "async": "^2.1.4",
     "autolinker": "^1.1.0",
     "autoprefixer": "^6.3.1",
     "autosize": "^3.0.17",
@@ -65,7 +66,6 @@
     "compression": "1.6.2",
     "connect-redis": "3.1.0",
     "css-loader": "0.26.1",
-    "dbc-node-community-client": "^5.1.1",
     "dbc-node-entitysuggest": "^2.0.2",
     "dbc-node-logger": "^1.4.11",
     "dbc-node-openagency-client": "^2.0.4",
@@ -87,6 +87,7 @@
     "multer": "^1.2.0",
     "newrelic": "^1.30.3",
     "node-sass": "^4.0.0",
+    "node-uuid": "^1.4.7",
     "nodemon": "^1.10.2",
     "normalize.css": "^5.0.0",
     "object-assign": "^4.1.0",

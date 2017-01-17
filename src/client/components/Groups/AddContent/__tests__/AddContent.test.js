@@ -159,7 +159,8 @@ describe('Test of AddContent Component', () => {
     expect(ReactDOM.findDOMNode(inputContent[3]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[4]).type).to.be.eql('hidden');
     expect(ReactDOM.findDOMNode(inputContent[5]).type).to.be.eql('hidden');
-    expect(ReactDOM.findDOMNode(inputContent[6]).type).to.be.eql('file');
+    expect(ReactDOM.findDOMNode(inputContent[6]).type).to.be.eql('hidden');
+    expect(ReactDOM.findDOMNode(inputContent[7]).type).to.be.eql('file');
     let submit = TestUtils.findRenderedDOMComponentWithTag(component, 'button');
     expect(submit.type).to.be.eql('submit');
   });

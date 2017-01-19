@@ -6,6 +6,7 @@
 // Libraries
 import express from 'express';
 import passport from 'passport';
+import request from 'request';
 import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
 
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
@@ -86,6 +87,31 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
   catch (err) {
     logger.error('An error occurred while getting image!', {error: err.message});
     res.redirect('/kunne_ikke_finde_billede.png');
+  }
+});
+
+MainRoutes.get('/pdf/:id', async function (req, res) {
+  const logger = req.app.get('logger');
+
+  try {
+    const pdfResult = await req.callServiceProvider('getPDF', {id: req.params.id});
+    const pdfUrl = generateSignedCloudfrontCookie(
+      `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${pdfResult[0].body.container}`)}/${pdfResult[0].body.name}`
+    );
+
+    const expires = /Expires=([0-9]+)/.exec(pdfUrl); // when this url expires, in seconds since 1/1/1970
+
+    setTimeout(() => request.get(pdfUrl).on('response', response => {
+      response.headers['Cache-Control'] = `expires=${Number(expires[1]) - 60}`;
+      response.headers['Content-Type'] = 'application/pdf';
+      response.headers['Content-Disposition'] = `inline; filename="${pdfResult[0].body.name}"`;
+    }).pipe(res), 50);
+
+    logger.info('got pdf url', {url: pdfUrl});
+  }
+  catch (err) {
+    logger.error('An error occurred while getting PDF!', {error: err.message});
+    res.redirect('/error');
   }
 });
 

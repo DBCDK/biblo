@@ -21,6 +21,7 @@ import Youtube from 'react-youtube';
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
+import pdfDarkSvg from '../../General/Icon/svg/functions/pdf_dark.svg';
 
 import {includes} from 'lodash';
 
@@ -195,7 +196,8 @@ export default class PostView extends React.Component {
       getMoreWorks,
       commentRedirect,
       likeActions,
-      groupIsClosed
+      groupIsClosed,
+      pdf
     } = this.props;
 
     const postFlagModalContent = (
@@ -279,6 +281,7 @@ export default class PostView extends React.Component {
               delete={() => this.deletePost()}
               addContentAction={groupActions.editPost}
               coverImages={coverImages}
+              pdfUploads={true}
             />
             ||
             <div className='post--content-wrapper'>
@@ -301,6 +304,20 @@ export default class PostView extends React.Component {
                 youtube &&
                 <div className="post--youtube-container">
                   <Youtube videoId={youtube[0]}/>
+                </div>
+              }
+              {
+                pdf &&
+                <div className="post--attachment--pdf">
+                  <div className="pdf-image">
+                    <Icon glyph={pdfDarkSvg} height={60} width={60} />
+                  </div>
+
+                  <div className="pdf-open--container">
+                    <div className="pdf-open-button">
+                      <a href={`/pdf/${id}`} target="_blank">Åbn PDF'en</a>
+                    </div>
+                  </div>
                 </div>
               }
             </div>
@@ -390,7 +407,8 @@ PostView.propTypes = {
   getCoverImage: React.PropTypes.func.isRequired,
   getMoreWorks: React.PropTypes.func,
   video: React.PropTypes.object,
-  groupIsClosed: React.PropTypes.bool
+  groupIsClosed: React.PropTypes.bool,
+  pdf: React.PropTypes.object
 };
 
 PostView.defaultProps = {

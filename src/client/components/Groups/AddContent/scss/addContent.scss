@@ -149,6 +149,7 @@ progress[value] {
 
   label {
     @include button($athens-gray, $melrose, false);
+    padding: 8px 18px;
     border: 1px solid $light-gray;
   }
   svg {
@@ -320,3 +321,25 @@ progress[value] {
   margin-right: 10px;
 }
 /* END attach review modal window styles */
+
+.preview-pdf {
+  div {
+    display: inline-block;
+  }
+
+  .pdf--remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .pdf-title {
+    margin-right: 40px;
+  }
+
+  display: inline-flex;
+  position: relative;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid $light-gray;
+}

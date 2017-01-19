@@ -7,6 +7,10 @@
     padding: 0 20px;
     border-bottom: 5px solid rgba($dark, 0.15);
   }
+
+  .content-add--actions > a.button.delete {
+    margin-left: 0;
+  }
 }
 
 video {
@@ -162,4 +166,31 @@ video {
   border-radius: 10px;
   background-color: white;
   margin: 15px 0;
+}
+
+.post--attachment--pdf {
+  background-color: $white;
+  border-radius: 5px;
+  padding: 8px;
+
+  .pdf-image {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .pdf-open--container {
+    position: relative;
+  }
+
+  .pdf-open-button {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: -40px;
+
+    a {
+      vertical-align: bottom;
+      @include button();
+    }
+  }
 }

@@ -135,10 +135,16 @@ export class GroupViewContainer extends React.Component {
             <div className='group--post-add'>
               <h2>Skriv i gruppen</h2>
               <PostAdd
-                redirectTo={`/grupper/${this.props.group.id}`} profile={this.props.profile}
+                redirectTo={`/grupper/${this.props.group.id}`}
+                profile={this.props.profile}
                 getMoreWorks={this.props.profileActions.asyncGetUserReviews}
-                addContentAction={this.props.groupActions.addPost} works={this.props.group.works}
-                parentId={this.props.group.id} type="post" coverImages={this.props.coverImages}/>
+                addContentAction={this.props.groupActions.addPost}
+                works={this.props.group.works}
+                parentId={this.props.group.id}
+                type="post"
+                coverImages={this.props.coverImages}
+                pdfUploads={true}
+              />
             </div>
             }
             <div className='group--post-view'>

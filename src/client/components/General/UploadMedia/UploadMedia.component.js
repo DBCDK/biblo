@@ -71,10 +71,57 @@ export default class UploadMedia extends React.Component {
         else if (type === 'video') {
           resolve(this.handleVideo(file, onProgress));
         }
+        else if (file.type === 'application/pdf') {
+          resolve(this.handlePDF(file, onProgress));
+        }
         else {
           reject('filtype ikke understøttet');
         }
       }
+    });
+  }
+
+  /**
+   * Handles pdf uploads.
+   * @param file - This file being uploaded
+   * @param onProgress - Function to signal the progress bar.
+   * @returns {Promise} returns a promise with attachment if success or an error message if rejected.
+   */
+  handlePDF(file, onProgress) {
+    const errorMessage = 'Der er sket en fejl under upload af pdf! Prøv igen senere.';
+
+    return new Promise((resolve, reject) => {
+      file.progress = 0;
+
+      const attachment = {pdf: {file: file}};
+      const form = new FormData();
+      form.append('pdf', file);
+
+      this.xhr = new XMLHttpRequest();
+      this.xhr.open('POST', '/api/uploadpdf');
+      this.xhr.upload.onprogress = e => {
+        if (e.lengthComputable) {
+          const percentage = (e.loaded / e.total) * 100;
+          attachment.pdf.file.progress = percentage;
+          if (onProgress) {
+            onProgress(attachment);
+          }
+        }
+      };
+
+      this.xhr.onerror = () => {
+        return reject(errorMessage);
+      };
+
+      this.xhr.onload = e => {
+        if (e.target.status === 200) {
+          return resolve(attachment);
+        }
+
+        return reject(errorMessage);
+      };
+
+      this.xhr.send(form);
     });
   }
 

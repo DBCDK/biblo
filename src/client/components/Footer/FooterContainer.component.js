@@ -7,10 +7,11 @@ import NavbarLink from '../Navbar/NavbarLink.component';
 export default class FooterContainer extends React.Component {
   render() {
     const menus = {};
+    const menuState = this.props.globalState.menu;
 
-    if (this.props.globalState.menu) {
-      menus.main = this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
-      menus.footer = this.props.globalState.menu.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+    if (menuState && Array.isArray(menuState.main) && Array.isArray(menuState.footer)) {
+      menus.main = menuState.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+      menus.footer = menuState.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
     }
 
     return (

@@ -163,7 +163,7 @@
     "selenium-webdriver": "^3.0.1",
     "sinon": "^1.17.2",
     "sinon-as-promised": "^4.0.0",
-    "skin-deep": "^0.16.0",
+    "skin-deep": "^1.0.0-alpha2",
     "wallaby-webpack": "^0.0.27"
   }
 }

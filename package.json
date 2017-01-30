@@ -75,7 +75,7 @@
     "deep-equal": "^1.0.1",
     "express": "4.14.0",
     "express-session": "1.14.2",
-    "express-validator": "3.1.0",
+    "express-validator": "3.1.2",
     "extract-text-webpack-plugin": "1.0.1",
     "forms": "^1.2.0",
     "helmet": "^3.1.0",
@@ -94,7 +94,7 @@
     "passport": "0.3.2",
     "passport-unilogin": "^1.0.3",
     "path": "^0.12.7",
-    "pmx": "^0.6.4",
+    "pmx": "^1.0.1",
     "postcss-loader": "^1.2.0",
     "primus": "^6.0.3",
     "proxy-agent": "^2.0.0",
@@ -130,7 +130,7 @@
     "babel-eslint": "^7.0.0",
     "chai": "^3.2.0",
     "chai-as-promised": "^6.0.0",
-    "chromedriver": "2.26.0",
+    "chromedriver": "2.26.2",
     "cucumber": "^1.0.0",
     "cucumberjs-junitxml": "1.0.0",
     "eslint": "^3.1.0",
@@ -164,6 +164,6 @@
     "sinon": "^1.17.2",
     "sinon-as-promised": "^4.0.0",
     "skin-deep": "^0.16.0",
-    "wallaby-webpack": "^0.0.26"
+    "wallaby-webpack": "^0.0.28"
   }
 }

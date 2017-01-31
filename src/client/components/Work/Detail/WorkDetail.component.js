@@ -185,7 +185,7 @@ export class WorkDetail extends React.Component {
     let reviewButton;
 
     let collectionDetails = this.props.collectionDetails;
-    if (this.props.isMultivolume) {
+    if (this.props.isMultivolume && this.props.bindDetails) {
       collectionDetails = collectionDetails.filter(coll => {
         return this.props.bindDetails.pid.indexOf(coll.pid[0]) >= 0;
       });

@@ -36,4 +36,10 @@ export const PDFViewComponent = ({pdf, isOwner}) => {
       </div>
     </div>
   );
-}
+};
+
+PDFViewComponent.displayName = 'PDFViewComponent';
+PDFViewComponent.propTypes = {
+  pdf: React.PropTypes.object,
+  isOwner: React.PropTypes.bool
+};

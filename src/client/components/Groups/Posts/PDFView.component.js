@@ -30,7 +30,7 @@ export const PDFViewComponent = ({pdf, isOwner}) => {
 
         <div className="pdf-open--container">
           <div className="pdf-open-button">
-            <a href={`/pdf/${pdf.id}`} target="_blank">Åbn PDF'en</a>
+            <a href={`/pdf/${pdf.postPdfAttachment}`} target="_blank">Åbn PDF'en</a>
           </div>
         </div>
       </div>

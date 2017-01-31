@@ -27,7 +27,7 @@ module.exports = function campaignGroupWithContent(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Posts/')
     .times(times)
-    .query({"filter": "{\"limit\":5,\"skip\":0,\"counts\":\"comments\",\"where\":{\"groupid\":\"2\",\"markedAsDeleted\":null},\"order\":\"timeCreated DESC\",\"include\":[\"image\",{\"owner\":[\"image\"]},\"likes\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
+    .query({"filter": "{\"limit\":5,\"skip\":0,\"counts\":\"comments\",\"where\":{\"groupid\":\"2\",\"markedAsDeleted\":null},\"order\":\"timeCreated DESC\",\"include\":[\"image\",{\"owner\":[\"image\"]},\"pdf\",\"likes\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
     .reply(200, [{
       "title": " ",
       "content": "asdasd",
@@ -300,7 +300,7 @@ module.exports = function campaignGroupWithContent(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Posts/')
     .times(times)
-    .query({"filter": "{\"limit\":5,\"skip\":0,\"counts\":\"comments\",\"where\":{\"groupid\":\"2\",\"markedAsDeleted\":null},\"order\":\"timeCreated DESC\",\"include\":[\"image\",{\"owner\":[\"image\"]},\"likes\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
+    .query({"filter": "{\"limit\":5,\"skip\":0,\"counts\":\"comments\",\"where\":{\"groupid\":\"2\",\"markedAsDeleted\":null},\"order\":\"timeCreated DESC\",\"include\":[\"image\",{\"owner\":[\"image\"]},\"pdf\",\"likes\",{\"relation\":\"review\",\"scope\":{\"include\":[\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}},{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}}]}"})
     .reply(200, [{
       "title": " ",
       "content": "asdasd",

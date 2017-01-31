@@ -15,13 +15,13 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ReviewRow from '../../Profile/Detail/ReviewRow.component';
+import {PDFViewComponent} from './PDFView.component';
 
 import Youtube from 'react-youtube';
 
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
-import pdfDarkSvg from '../../General/Icon/svg/functions/pdf_dark.svg';
 
 import {includes} from 'lodash';
 
@@ -307,18 +307,7 @@ export default class PostView extends React.Component {
                 </div>
               }
               {
-                pdf &&
-                <div className="post--attachment--pdf">
-                  <div className="pdf-image">
-                    <Icon glyph={pdfDarkSvg} height={60} width={60} />
-                  </div>
-
-                  <div className="pdf-open--container">
-                    <div className="pdf-open-button">
-                      <a href={`/pdf/${id}`} target="_blank">Åbn PDF'en</a>
-                    </div>
-                  </div>
-                </div>
+                pdf && <PDFViewComponent pdf={pdf} isOwner={editPostAllowed} />
               }
             </div>
           }

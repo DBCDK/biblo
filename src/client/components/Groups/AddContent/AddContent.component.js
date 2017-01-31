@@ -200,10 +200,19 @@ export default class AddContent extends UploadMedia {
         })
       )
       .catch(
-        errorMsg => this.setState({
-          isLoading: false,
-          errorMsg: errorMsg
-        })
+        errorMsg => {
+          const state = {
+            isLoading: false,
+            errorMsg: errorMsg
+          };
+
+          if (errorMsg === 413) {
+            state.attachment = Object.assign(this.state.attachment, {pdf: null});
+            state.errorMsg = 'Denne PDF er fylder for meget! Den må maks fylde 32 MB.';
+          }
+
+          return this.setState(state);
+        }
       );
   }
 
@@ -267,7 +276,7 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" name="id" value={this.props.id}/>
             <input type="hidden" name="imageId" value={image.imageCollectionId}/>
             <input type="hidden" name="imageRemoved" value={this.state.imageRemoved}/>
-            <input type="hidden" name="pdfRemoved" value={this.state.attachment.pdf === 'removed'} />
+            <input type="hidden" name="pdfRemoved" value={this.state.attachment.pdf === 'removed'}/>
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo}/>
             <input type="hidden" name="parentId" value={this.props.parentId}/>
             <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id}/>
@@ -321,7 +330,7 @@ export default class AddContent extends UploadMedia {
 
             {this.state.attachment.pdf && this.state.attachment.pdf !== 'removed' && <div className="preview-pdf">
               <div className="pdf-image">
-                <Icon glyph={pdfDarkSvg} height={60} width={60} />
+                <Icon glyph={pdfDarkSvg} height={60} width={60}/>
               </div>
 
               <div className="pdf-title">

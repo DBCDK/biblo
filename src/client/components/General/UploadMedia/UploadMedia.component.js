@@ -118,6 +118,10 @@ export default class UploadMedia extends React.Component {
           return resolve(attachment);
         }
 
+        if (e.target.status === 413) {
+          return reject(413);
+        }
+
         return reject(errorMessage);
       };
 

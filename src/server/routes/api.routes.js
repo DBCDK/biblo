@@ -87,9 +87,15 @@ ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
   const pdfBucket = req.config.get('ServiceProvider.aws.buckets.pdfBucket');
   const s3 = req.app.get('s3');
   const logger = req.app.get('logger');
-  let busboy = new Busboy({headers: req.headers});
+  let busboy = new Busboy({headers: req.headers, limits: {fileSize: 32000000}}); // 32 mb
 
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    let limit = false;
+    file.on('limit', function() {
+      limit = true;
+      return res.sendStatus(413);
+    });
+
     const uid = req.session.passport.user.profile.profile.id;
     filename = `${Date.now()}_profile_${uid}.pdf`;
     s3.upload({
@@ -97,6 +103,16 @@ ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
       Key: filename,
       Body: file
     }, (err, data) => {
+      // Limit has been hit!
+      // Delete the file off S3
+      if (limit) {
+        s3.deleteObject({Bucket: pdfBucket, Key: filename}, function () {
+          logger.info('Deleted PDF that was too large.', {Bucket: pdfBucket, Key: filename});
+        });
+
+        return 413;
+      }
+
       if (err) {
         logger.error('An error occurred while uploading pdf to s3', {error: err});
         return res.sendStatus(400);

@@ -12,6 +12,7 @@ const GetPostsTransform = {
       where: {id, markedAsDeleted: null},
       include: [
         'image',
+        'pdf',
         {
           relation: 'review',
           scope: {

@@ -106,7 +106,7 @@
     "react-visibility-sensor": "^3.1.2",
     "react-youtube": "^7.0.1",
     "redux": "3.6.0",
-    "redux-thunk": "2.1.0",
+    "redux-thunk": "2.1.2",
     "request": "^2.72.0",
     "sanitize-html": "^1.13.0",
     "sass-loader": "4.0.2",

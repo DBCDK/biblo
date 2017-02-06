@@ -73,7 +73,7 @@
     "dbc-node-serviceprovider": "^3.0.10",
     "dbc-node-serviceprovider-socketclient": "^2.3.2",
     "deep-equal": "^1.0.1",
-    "express": "4.14.0",
+    "express": "4.14.1",
     "express-session": "1.14.2",
     "express-validator": "3.1.2",
     "extract-text-webpack-plugin": "1.0.1",

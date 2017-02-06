@@ -121,7 +121,7 @@
     "vhost": "3.0.2",
     "walk": "2.3.9",
     "webpack": "^1.13.0",
-    "ws": "^1.1.1",
+    "ws": "^2.0.0",
     "xmldom": "0.1.27",
     "xss-filters": "1.2.7",
     "youtube-link-to-id": "^1.0.2"

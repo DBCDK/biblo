@@ -15,6 +15,7 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ReviewRow from '../../Profile/Detail/ReviewRow.component';
+import {PDFViewComponent} from './PDFView.component';
 
 import Youtube from 'react-youtube';
 
@@ -195,7 +196,8 @@ export default class PostView extends React.Component {
       getMoreWorks,
       commentRedirect,
       likeActions,
-      groupIsClosed
+      groupIsClosed,
+      pdf
     } = this.props;
 
     const postFlagModalContent = (
@@ -279,6 +281,7 @@ export default class PostView extends React.Component {
               delete={() => this.deletePost()}
               addContentAction={groupActions.editPost}
               coverImages={coverImages}
+              pdfUploads={true}
             />
             ||
             <div className='post--content-wrapper'>
@@ -303,6 +306,9 @@ export default class PostView extends React.Component {
                   <Youtube videoId={youtube[0]}/>
                 </div>
               }
+              {
+                pdf && <PDFViewComponent pdf={pdf} isOwner={editPostAllowed} />
+              }
             </div>
           }
           <CommentList
@@ -316,6 +322,7 @@ export default class PostView extends React.Component {
             groupActions={groupActions}
             works={works}
             coverImages={coverImages}
+            deleteAction={commentId => this.props.groupActions.callServiceProvider('deleteComment', {id: commentId})}
           />
           {commentsCount > numberOfCommentsLoaded &&
           <div className="post--load-more-comments">
@@ -342,6 +349,7 @@ export default class PostView extends React.Component {
               getMoreWorks={getMoreWorks}
               addContentAction={groupActions.addComment}
               autofocus={true}
+              displayAbortButton={true}
             />
             ||
             <a
@@ -388,8 +396,8 @@ PostView.propTypes = {
   getCoverImage: React.PropTypes.func.isRequired,
   getMoreWorks: React.PropTypes.func,
   video: React.PropTypes.object,
-  groupIsClosed: React.PropTypes.bool
-
+  groupIsClosed: React.PropTypes.bool,
+  pdf: React.PropTypes.object
 };
 
 PostView.defaultProps = {

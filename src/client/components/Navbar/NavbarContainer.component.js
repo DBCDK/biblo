@@ -17,7 +17,7 @@ import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
 import {DET_SKER_PAGE, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
 // SVG's
-import bibloSvg from './svg/biblo_negative.svg';
+import bibloSvg from './svg/biblo_logo_100x30.svg';
 import profileSvg from '../General/Icon/svg/knap-ikoner-small/profile.svg';
 import searchSvg from '../General/Icon/svg/knap-ikoner-small/search.svg';
 
@@ -125,10 +125,11 @@ export default class NavbarContainer extends React.Component {
 
   render() {
     const menus = {};
+    const menuState = this.props.globalState.menu;
 
-    if (this.props.globalState.menu) {
-      menus.main = this.props.globalState.menu.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
-      menus.footer = this.props.globalState.menu.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+    if (menuState && Array.isArray(menuState.main) && Array.isArray(menuState.footer)) {
+      menus.main = menuState.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+      menus.footer = menuState.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
     }
 
     return (

@@ -10,6 +10,7 @@ import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
+import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 
 import Youtube from 'react-youtube';
 
@@ -25,6 +26,8 @@ class CommentView extends React.Component {
     this.state = {
       isEditting: false
     };
+
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   toggleEditting() {
@@ -40,9 +43,29 @@ class CommentView extends React.Component {
     );
   }
 
+  deleteComment() {
+    const dialog = (
+      <ConfirmDialog
+        cancelButtonText={'Fortryd'}
+        confirmButtonText={'Slet Indlæg'}
+        cancelFunc={this.props.uiActions.closeModalWindow}
+        confirmFunc={() => {
+          this.props.deleteAction(this.props.id);
+          location.reload();
+        }}
+      >
+        <div>
+          <p>Du er ved at slette et indlæg, du selv har skrevet. Er du sikker på du vil slette indlægget?</p>
+        </div>
+      </ConfirmDialog>
+    );
+
+    this.props.uiActions.openModalWindow(dialog);
+  }
+
   render() {
     const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions, review, video} = this.props;
-
+    const deleteAction = this.props.deleteAction && this.deleteComment || false;
     const commentFlagModalContent = (
       <CreateFlagDialog
         submitFunction={submitFlagFunction}
@@ -91,9 +114,22 @@ class CommentView extends React.Component {
           </div>
           {
             this.state.isEditting &&
-            <ContentAdd redirectTo={`/grupper/${groupId}`} profile={profile} parentId={postId} type="comment" getMoreWorks={this.props.getMoreWorks}
-                        abort={() => this.toggleEditting()} text={content} image={image} id={id} autofocus={true}
-                        addContentAction={groupActions.editComment} coverImages={this.props.coverImages} works={this.props.works} />
+            <ContentAdd
+              redirectTo={`/grupper/${groupId}`}
+              profile={profile}
+              parentId={postId}
+              type="comment"
+              getMoreWorks={this.props.getMoreWorks}
+              abort={() => this.toggleEditting()}
+              text={content}
+              image={image}
+              id={id}
+              autofocus={true}
+              addContentAction={groupActions.editComment}
+              coverImages={this.props.coverImages}
+              works={this.props.works}
+              delete={deleteAction}
+            />
             ||
             <div className="comment--content" >
               {
@@ -141,5 +177,6 @@ CommentView.propTypes = {
   works: React.PropTypes.object.isRequired,
   getMoreWorks: React.PropTypes.func,
   review: React.PropTypes.object,
-  video: React.PropTypes.object
+  video: React.PropTypes.object,
+  deleteAction: React.PropTypes.func
 };

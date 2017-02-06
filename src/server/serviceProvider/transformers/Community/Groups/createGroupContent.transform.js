@@ -34,7 +34,8 @@ const CreateGroupContent = {
       uid: user.profileId,
       ownerid: query.ownerid || user.profileId,
       accessToken: user.id,
-      video: query.video || null
+      video: query.video || null,
+      pdf: query.pdf || null
     }).then(response => {
       if (query.imageId) {
         imageCollectionQuery[imageCollectionField] = response.body.id;

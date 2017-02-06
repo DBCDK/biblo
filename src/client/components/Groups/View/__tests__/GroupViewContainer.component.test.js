@@ -89,7 +89,9 @@ describe('Test GroupView Component', () => {
       works: {},
       parentId: 1,
       type: 'post',
-      coverImages: {}
+      coverImages: {},
+      displayAbortButton: false,
+      pdfUploads: true
     });
     assert.equal(tree.subTree('.group--post-view').textIn('h2'), '0 brugere skriver');
 

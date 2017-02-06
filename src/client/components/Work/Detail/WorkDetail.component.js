@@ -3,9 +3,9 @@
  */
 
 import React from 'react';
+import equal from 'deep-equal';
 import './WorkDetail.component.scss';
 
-import MaterialButton from '../../General/MaterialButton/MaterialButton.component.js';
 import {ReviewButton} from '../../Review/ReviewButton.js';
 import BorrowButton from '../BorrowButton/BorrowButton.component';
 import Icon from '../../General/Icon/Icon.component.js';
@@ -31,6 +31,27 @@ const displayTypeSvgs = {
 };
 
 export class WorkDetail extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const props = [
+      'bind', 'fullTitle', 'collectionDetails', 'profile', 'abstract', 'title', 'creator', 'titleSeries',
+      'descriptionSeries', 'displayType', 'collection', 'coverUrl', 'orderState', 'checkAvailabilityResult',
+      'checkAvailabilityDone', 'librarySearchResults', 'fullReview', 'ownReview'
+    ];
+
+    let shouldRender = false;
+    props.forEach(prop => {
+      if (typeof this.props[prop] === 'object' && !equal(this.props[prop], nextProps[prop])) {
+        shouldRender = true;
+        return shouldRender;
+      }
+      else if (this.props[prop] !== nextProps[prop]) {
+        shouldRender = true;
+        return shouldRender;
+      }
+    });
+
+    return shouldRender;
+  }
 
   clipTailOnMatch(text, match) {
     if (text.indexOf(match) > 0) {
@@ -105,15 +126,14 @@ export class WorkDetail extends React.Component {
    * @param type
    * @returns {*}
    */
-  renderBorrowerButton(collectionDetails, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
-
+  renderBorrowerButton(collectionDetails, adjustedTitle, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
     if (this.props.ownReview || collectionDetails.length === 0) {
       return '';
     }
 
     return (
       <div className="work-detail--button-wrapper">
-        <BorrowButton {...this.props} {...{collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
+        <BorrowButton {...this.props} {...{adjustedTitle, collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
       </div>
     );
   }
@@ -159,17 +179,19 @@ export class WorkDetail extends React.Component {
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
     const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(this.props.titleSeries, this.props.descriptionSeries);
-    const materialTypes = [];
-
-    const materialTypeElements = materialTypes.map((materialType, i) => (
-      <li key={i}><MaterialButton materialType={materialType} active={true}/></li>));
-
     const abstract = this.props.abstract;
 
     const profile = this.props.profile;
     let reviewButton;
 
-    const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(this.props.collectionDetails);
+    let collectionDetails = this.props.collectionDetails;
+    if (this.props.isMultivolume && this.props.bindDetails) {
+      collectionDetails = collectionDetails.filter(coll => {
+        return this.props.bindDetails.pid.indexOf(coll.pid[0]) >= 0;
+      });
+    }
+
+    const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(collectionDetails);
     if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton
@@ -202,7 +224,7 @@ export class WorkDetail extends React.Component {
             </h2>
             {
               this.props.isMultivolume &&
-              <p className="work-detail--multi-volume--title">{this.props.title} {bind}</p>
+              <p className="work-detail--multi-volume--title">{this.props.title}: {bind}</p>
             }
             {
               consolidatedTitleSeries &&
@@ -217,10 +239,10 @@ export class WorkDetail extends React.Component {
           </div>
 
           <div className='work-detail--action-buttons'>
-            {this.renderBorrowerButton(physical, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
-            {this.renderBorrowerButton(online, <Icon glyph={houseSvg} />, 'Lån online')}
-            {this.renderBorrowerButton(ereolen, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Hør nu på eReolen', 'online')}
-            {this.renderBorrowerButton(ereolen_ebooks, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Læs nu på eReolen', 'online')}
+            {this.renderBorrowerButton(physical, title, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
+            {this.renderBorrowerButton(online, title, <Icon glyph={houseSvg} />, 'Lån online')}
+            {this.renderBorrowerButton(ereolen, title, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Hør nu på eReolen', 'online')}
+            {this.renderBorrowerButton(ereolen_ebooks, title, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Læs nu på eReolen', 'online')}
             {this.renderBorrowerButton(
               filmstriben,
               <Icon glyph={movieSvgNoBorder} width={24} height={24} />,
@@ -232,12 +254,6 @@ export class WorkDetail extends React.Component {
             <div className="work-detail--button-wrapper">{reviewButton}</div>
           </div>
         </div>
-
-        <div className='work-detail--secondary'>
-          <ul className='work-detail--material-types'>
-            {materialTypeElements}
-          </ul>
-        </div>
       </div>
     );
   }
@@ -246,6 +262,7 @@ export class WorkDetail extends React.Component {
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
   bind: React.PropTypes.string,
+  bindId: React.PropTypes.string,
   fullTitle: React.PropTypes.string.isRequired,
   isMultivolume: React.PropTypes.bool,
   collectionDetails: React.PropTypes.array.isRequired,
@@ -270,9 +287,10 @@ WorkDetail.propTypes = {
   searchForLibraryAction: React.PropTypes.func.isRequired,
   saveProfileAction: React.PropTypes.func.isRequired,
   librarySearchResults: React.PropTypes.array.isRequired,
-  fullReview: React.PropTypes.bool, // are we expanding the current review? (e.g. only one at the screen) sd-566
-  ownReview: React.PropTypes.bool,   // is this the users own review sd-566
-  getWorkOnlineAccessAction: React.PropTypes.func.isRequired // sd-554 : First hasOnlineAccess url if it exists
+  fullReview: React.PropTypes.bool,
+  ownReview: React.PropTypes.bool,
+  getWorkOnlineAccessAction: React.PropTypes.func.isRequired,
+  bindDetails: React.PropTypes.object
 };
 
 WorkDetail.defaultProps = {

@@ -162,8 +162,9 @@ progress[value] {
 
 .content-add--media-label {
   pointer-events: none;
-  @include max-screen($desktop - 1px) {
-    display: none;
+  display: none;
+  @include min-screen($tablet) {
+    display: inline;
   }
 }
 

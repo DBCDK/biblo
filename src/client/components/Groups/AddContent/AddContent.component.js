@@ -259,9 +259,11 @@ export default class AddContent extends UploadMedia {
       work = this.props.works[this.state.attachment.review.pid] || work;
     }
 
+    let uploadButtonLabel = 'Billede / Video';
     let pdfLabel = '';
     if (this.props.pdfUploads) {
       pdfLabel = (<Icon glyph={pdfSvg}/>);
+      uploadButtonLabel = 'Billede / Video / PDF';
     }
 
     return (
@@ -360,9 +362,8 @@ export default class AddContent extends UploadMedia {
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
                 {pdfLabel}
-                <Icon glyph={videoSvg}/>
                 <Icon glyph={cameraSvg}/>
-                <span className="content-add--media-label">Upload</span>
+                <span className="content-add--media-label">{uploadButtonLabel}</span>
               </label>
 
               {this.props.type !== 'comment' &&

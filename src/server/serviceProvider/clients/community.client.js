@@ -1405,6 +1405,18 @@ function getPostPdf(endpoint, {id}) {
 }
 
 /**
+ * Remove pdf from post
+ * @param {string} endpoint
+ * @param {number} pdfId
+ */
+function removePdf(endpoint, {pdfId}) {
+  return promiseRequest('del', {
+    url: `${endpoint}api/files/${pdfId}`,
+    json: true
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -1477,6 +1489,7 @@ module.exports = function CommunityClient(logger, config = null) {
     getCampaign: getCampaign.bind(null, config.endpoint),
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
-    getPostPdf: getPostPdf.bind(null, config.endpoint)
+    getPostPdf: getPostPdf.bind(null, config.endpoint),
+    removePdf: removePdf.bind(null, config.endpoint)
   };
 };

@@ -20,8 +20,14 @@ const CreateGroupContent = {
       imageCollectionField = 'commentImageCollection';
     }
 
+    // Fire and forget for image delete.
     if (query.removeImage) {
       this.callServiceClient('community', 'removeImage', {imageId: query.removeImage});
+    }
+
+    // Fire and forget for pdf delete.
+    if (query.removePdf) {
+      this.callServiceClient('community', 'removePdf', {pdfId: query.removePdf});
     }
 
     return this.callServiceClient('community', method, {
@@ -54,7 +60,7 @@ const CreateGroupContent = {
 
       const filter = {
         where: {id: query.id},
-        include: ['image']
+        include: ['image', 'pdf']
       };
       const method = query.type === 'post' && 'getPosts' || 'getComments';
       return this.callServiceClient('community', method, {filter: filter}).then(response => {
@@ -73,6 +79,7 @@ const CreateGroupContent = {
         query.ownerId = ownerId;
         query.timeCreated = post.timeCreated;
         query.removeImage = query.imageRemoved && post.image.id || false;
+        query.removePdf = query.pdfRemoved && post.pdf && post.pdf.id || false;
         return query;
       });
     });

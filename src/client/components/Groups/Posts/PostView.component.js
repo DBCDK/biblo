@@ -276,6 +276,7 @@ export default class PostView extends React.Component {
               abort={() => this.toggleEditting()}
               text={content}
               image={image}
+              pdf={pdf}
               id={id}
               works={works}
               delete={() => this.deletePost()}

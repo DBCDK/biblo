@@ -366,6 +366,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     imageId: req.body.imageId,
     id: req.body.id,
     imageRemoved: req.body.imageRemoved === 'true' || false,
+    pdfRemoved: req.body.pdfRemoved === 'true',
     attachedReviewId: req.body.attachedReview === 'removed' ? null : req.body.attachedReview // this nulls the value in the db if "removed" is set.
   };
 

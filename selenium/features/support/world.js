@@ -17,6 +17,8 @@ function postToPreview(widgetConfig) {
   i.setAttribute('value', widgetConfig);
   f.appendChild(i);
 
+  document.body.appendChild(f);
+
   callback();
   f.submit();
 }

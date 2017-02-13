@@ -13,7 +13,6 @@ import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
-import videoSvg from '../../General/Icon/svg/functions/video.svg';
 import pdfSvg from '../../General/Icon/svg/functions/pdf.svg';
 import pdfDarkSvg from '../../General/Icon/svg/functions/pdf_dark.svg';
 import close from '../../General/Icon/svg/functions/close.svg';
@@ -43,7 +42,8 @@ export default class AddContent extends UploadMedia {
       attachment: {
         image: imageAttachment,
         video: null,
-        review: null
+        review: null,
+        pdf: props.pdf || null
       },
       imageRemoved: false,
       errorMsg: null,
@@ -259,9 +259,11 @@ export default class AddContent extends UploadMedia {
       work = this.props.works[this.state.attachment.review.pid] || work;
     }
 
+    let uploadButtonLabel = 'Billede / Video';
     let pdfLabel = '';
     if (this.props.pdfUploads) {
       pdfLabel = (<Icon glyph={pdfSvg}/>);
+      uploadButtonLabel = 'Billede / Video / PDF';
     }
 
     return (
@@ -335,7 +337,7 @@ export default class AddContent extends UploadMedia {
 
               <div className="pdf-title">
                 <p>
-                  <strong>{this.state.attachment.pdf.file && this.state.attachment.pdf.file.name}</strong>
+                  <strong>{this.state.attachment.pdf.file && this.state.attachment.pdf.file.name || this.state.attachment.pdf.name}</strong>
                 </p>
               </div>
 
@@ -360,9 +362,8 @@ export default class AddContent extends UploadMedia {
             <div className='content-add--media'>
               <label htmlFor={uniqueId}>
                 {pdfLabel}
-                <Icon glyph={videoSvg}/>
                 <Icon glyph={cameraSvg}/>
-                <span className="content-add--media-label">Upload</span>
+                <span className="content-add--media-label">{uploadButtonLabel}</span>
               </label>
 
               {this.props.type !== 'comment' &&
@@ -418,6 +419,7 @@ AddContent.propTypes = {
   type: React.PropTypes.string.isRequired,
   text: React.PropTypes.string,
   image: React.PropTypes.string,
+  pdf: React.PropTypes.object,
   id: React.PropTypes.number,
   getMoreWorks: React.PropTypes.func.isRequired,
   works: React.PropTypes.object,

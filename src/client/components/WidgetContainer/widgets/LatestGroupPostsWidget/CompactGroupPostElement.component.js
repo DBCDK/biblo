@@ -21,6 +21,17 @@ function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
   );
 }
 
+function renderPDFGroupPost(post) { // eslint-disable-line react/no-multi-comp
+  return (
+    <div className="compact-group-post-element--pdf-post">
+      <img src="/images/materialtypes/pdf.png" alt="Indlæg med PDF" />
+      <div className="pdf-post--text-content">
+        "<span dangerouslySetInnerHTML={{__html: post.html}}/>"
+      </div>
+    </div>
+  );
+}
+
 export function renderVideoGroupPost(post) { // eslint-disable-line react/no-multi-comp
   const resolution = post.video.resolutions.slice(-1)[0];
   const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
@@ -43,6 +54,10 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
   else if (post.image) {
     postType = 'image';
     postBody = renderImageGroupPost(post);
+  }
+  else if (post.pdf) {
+    postType = 'pdf';
+    postBody = renderPDFGroupPost(post);
   }
   else {
     postType = 'text';

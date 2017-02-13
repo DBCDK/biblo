@@ -14,6 +14,23 @@
   }
 }
 
+.compact-group-post-element--pdf-post {
+  img {
+    max-height: 135px;
+  }
+
+  .pdf-post--text-content {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 5px;
+    color: $black;
+    font-weight: 600;
+    max-height: 140px;
+    max-width: 175px;
+    overflow: hidden;
+  }
+}
+
 .widget-element--main {
   height: 160px;
 }

@@ -405,5 +405,7 @@ PostView.defaultProps = {
   campaign: {
     logos: {}
   },
-  comments: []
+  comments: [],
+  profile: {},
+  owner: {}
 };

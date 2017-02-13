@@ -15,6 +15,7 @@ const GetLatestPostsTransform = {
       include: [
         'likes',
         'group',
+        'pdf',
         'image', {
           owner: ['image']
         },

@@ -12,10 +12,6 @@
       margin-bottom: 2em;
     }
 
-    .widget-element--content.quote {
-      max-height: 140px;
-    }
-
     @extend %scroller;
   }
 }

@@ -71,6 +71,11 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
     );
   }
 
+  let quoteClasses = 'widget-element--content quote';
+  if (post.content && post.content.length > 150) {
+    quoteClasses += ' long';
+  }
+
   return (
     <div className={`widget-element compact-group-post-element--container ${postType}--post`}>
       <div className="compact-group-post-element">
@@ -81,7 +86,7 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
           <a href={`/profil/${post.owner.id}`} className="widget-element--profileimage">
             <img src={post.owner.image}/>
           </a>
-          <a href={`/grupper/${post.groupid}/${post.id}`} className="widget-element--content quote">
+          <a href={`/grupper/${post.groupid}/${post.id}`} className={quoteClasses}>
             {postBody}
           </a>
           {groupNameTag}

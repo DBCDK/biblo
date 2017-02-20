@@ -56,8 +56,6 @@
   .widget-element--content {
     @include line-clamp(6);
     @extend %quote;
-
-    max-height: 140px;
   }
 
   .widget-element--profileimage {

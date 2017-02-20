@@ -20,9 +20,12 @@ export default class Tabs extends React.Component {
 
   onClicked(index) {
     this.setState({selected: index});
+    const from = Object.assign({}, this.props.tabs[this.state.selected], {content: {}});
+    const to = Object.assign({}, this.props.tabs[index], {content: {}});
+
     newrelicWrapper.addPageAction('Tab was clicked', {
-      from_tab: this.props.tabs[this.state.selected],
-      to_tab: this.props.tabs[index]
+      from_tab: from,
+      to_tab: to
     });
   }
 

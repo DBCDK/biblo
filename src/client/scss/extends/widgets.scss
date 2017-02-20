@@ -5,6 +5,22 @@
   color: #000;
   word-break: normal;
   font-size: 1em;
+  position: relative;
+
+  &.long {
+    z-index: 1;
+
+    &:after {
+      position: absolute;
+      content: "...";
+      background-color: $white;
+      z-index: 2;
+      bottom: 2px;
+      right: 0;
+      width: 16px;
+      height: 1.2em;
+    }
+  }
 }
 
 %video-overlay {
@@ -40,11 +56,12 @@
   z-index: 10;
 }
 
-@mixin line-clamp($lines) {
+@mixin line-clamp($lines, $lineheight: 1.2, $fontsize: 18px) {
   text-align: justify;
-  display: -webkit-box;
-  -webkit-line-clamp: $lines;
+  display: block;
+  position: relative;
   overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
+  line-height: $lineheight;
+  max-height: $fontsize * $lineheight * $lines;
+  font-size: $fontsize;
 }

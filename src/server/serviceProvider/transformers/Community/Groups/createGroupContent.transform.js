@@ -58,11 +58,17 @@ const CreateGroupContent = {
         return Promise.reject(new Error('user is quarantined'));
       }
 
+      let method = 'getComments';
       const filter = {
         where: {id: query.id},
-        include: ['image', 'pdf']
+        include: ['image']
       };
-      const method = query.type === 'post' && 'getPosts' || 'getComments';
+
+      if (query.type === 'post') {
+        method = 'getPosts';
+        filter.include.push('pdf');
+      }
+
       return this.callServiceClient('community', method, {filter: filter}).then(response => {
         const post = JSON.parse(response.body)[0];
         if (!post) {

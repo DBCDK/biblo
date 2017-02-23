@@ -102,7 +102,7 @@
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.1",
     "react-dom": "15.4.2",
-    "react-redux": "5.0.0",
+    "react-redux": "5.0.3",
     "react-visibility-sensor": "^3.1.2",
     "react-youtube": "^7.0.1",
     "redux": "3.6.0",

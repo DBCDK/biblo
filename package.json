@@ -65,7 +65,7 @@
     "compass-sass-mixins": "^0.12.7",
     "compression": "1.6.2",
     "connect-redis": "3.1.0",
-    "css-loader": "0.26.1",
+    "css-loader": "0.26.2",
     "dbc-node-entitysuggest": "^2.0.2",
     "dbc-node-logger": "^1.4.11",
     "dbc-node-openagency-client": "^2.0.4",

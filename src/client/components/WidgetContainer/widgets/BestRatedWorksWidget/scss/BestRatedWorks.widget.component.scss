@@ -2,7 +2,7 @@
 
 .best-rated-works--widget {
   .pages--container {
-    @extend %content-grid;
+    @include content-grid(180px);
     & > * {
       max-width: 180px;
     }

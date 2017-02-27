@@ -1,7 +1,7 @@
 @import 'tools';
 
 .compact-works--container {
-  @include content-grid(150px);
+  @include content-grid(180px);
   & > * {
     max-width: 180px;
   }

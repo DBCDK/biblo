@@ -22,7 +22,8 @@ export class SearchResultContainer extends React.Component {
     };
 
     if (typeof window !== 'undefined') {
-      this.state.isGroupSearch = window.location.search.indexOf('type=group') >= 0;
+      // Were still in the constructor, so it's okay.
+      this.state.isGroupSearch = window.location.search.indexOf('type=group') >= 0; // eslint-disable-line react/no-direct-mutation-state
     }
 
     this.loadMoreMaterialResults = this.loadMoreMaterialResults.bind(this);

@@ -57,8 +57,13 @@ const SuggestTransform = {
     }
 
     suggestResponse.data = suggestResponse.data.slice(0, total).map(suggestion => {
+      let additional = '';
+      if (suggestion.type === 'group') {
+        additional += '&type=group';
+      }
+
       suggestion.str = suggestion.str.replace('Ꜳ', 'Aa').replace('ꜳ', 'aa');
-      suggestion.href = `/find?q=${encodeURIComponent(suggestion.str)}`;
+      suggestion.href = `/find?q=${encodeURIComponent(suggestion.str)}${additional}`;
       return suggestion;
     });
 

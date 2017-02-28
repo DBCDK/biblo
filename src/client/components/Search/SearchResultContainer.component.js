@@ -16,6 +16,15 @@ export class SearchResultContainer extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isGroupSearch: false
+    };
+
+    if (typeof window !== 'undefined') {
+      this.state.isGroupSearch = window.location.search.indexOf('type=group') >= 0;
+    }
+
     this.loadMoreMaterialResults = this.loadMoreMaterialResults.bind(this);
     this.loadMoreGroupResults = this.loadMoreGroupResults.bind(this);
   }
@@ -100,30 +109,37 @@ export class SearchResultContainer extends React.Component {
   }
 
   render() {
+    const results = [];
+    if (this.shouldRenderMaterialResults()) {
+      results.push((
+        <div key="material-search-results">
+          <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
+          <div className="search-result-show-more-button">
+            {this.renderVisFlereMaterialButton(this.props.search)}
+          </div>
+        </div>
+      ));
+    }
+
+    if (this.shouldRenderGroupResults()) {
+      results.push((
+        <div key="group-search-results">
+          <GroupSearchResultList results={this.props.search.groupSearchResults}/>
+          <div className="search-result-show-more-button">
+            {this.renderVisFlereGroupButton(this.props.search)}
+          </div>
+        </div>
+      ));
+    }
+
+    if (this.state.isGroupSearch) {
+      results.reverse();
+    }
+
     return (
       <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
       <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
-
-        {
-          this.shouldRenderMaterialResults() &&
-          <div>
-            <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
-            <div className="search-result-show-more-button">
-              {this.renderVisFlereMaterialButton(this.props.search)}
-            </div>
-          </div>
-        }
-
-        {
-          this.shouldRenderGroupResults() &&
-          <div>
-            <GroupSearchResultList results={this.props.search.groupSearchResults}/>
-            <div className="search-result-show-more-button">
-              {this.renderVisFlereGroupButton(this.props.search)}
-            </div>
-          </div>
-        }
-
+        {results}
       </PageLayout>
     );
   }

@@ -146,7 +146,7 @@
     "karma": "^1.1.2",
     "karma-cli": "1.0.1",
     "karma-coverage": "^1.1.1",
-    "karma-jsdom-launcher": "^5.0.0",
+    "karma-jsdom-launcher": "^6.0.0",
     "karma-junit-reporter": "^1.0.0",
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.3",

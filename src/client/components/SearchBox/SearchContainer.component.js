@@ -81,6 +81,7 @@ export default class SearchContainer extends React.Component {
 
   clearSearchBox() {
     this.setState({query: ''});
+    this.refs.searchFieldReference.focus();
   }
 
   submitInput(e) {

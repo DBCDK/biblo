@@ -1,5 +1,7 @@
 # Biblo
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/DBCDK/biblo.svg)](https://greenkeeper.io/)
+
 [![GitHub tag](https://img.shields.io/github/tag/DBCDK/biblo.svg?style=flat-square)](https://github.com/DBCDK/biblo)
 [![David](https://img.shields.io/david/DBCDK/biblo.svg?style=flat-square)](https://david-dm.org/DBCDK/biblo#info=dependencies)
 [![David](https://img.shields.io/david/dev/DBCDK/biblo.svg?style=flat-square)](https://david-dm.org/DBCDK/biblo#info=devDependencies)

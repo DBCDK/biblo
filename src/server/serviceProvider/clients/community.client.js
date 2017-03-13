@@ -682,7 +682,7 @@ function createComment(endpoint, params) {
  * @param id
  */
 function deleteComment(endpoint, {id}) {
-  request.put({
+  return promiseRequest('put', {
     url: `${endpoint}api/Comments`,
     json: true,
     body: {

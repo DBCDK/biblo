@@ -259,6 +259,7 @@ export default class AddContent extends UploadMedia {
       work = this.props.works[this.state.attachment.review.pid] || work;
     }
 
+    let containerClasses = 'content-add';
     let uploadButtonLabel = 'Billede / Video';
     let pdfLabel = '';
     if (this.props.pdfUploads) {
@@ -266,8 +267,13 @@ export default class AddContent extends UploadMedia {
       uploadButtonLabel = 'Billede / Video / PDF';
     }
 
+    if (this.props.editing) {
+      uploadButtonLabel = '';
+      containerClasses += ' editing';
+    }
+
     return (
-      <div className='content-add'>
+      <div className={containerClasses}>
         {this.state.showAddReviews && this.renderAddReviewModal()}
 
         <form method="POST" action={this.state.target}
@@ -341,9 +347,8 @@ export default class AddContent extends UploadMedia {
                 </p>
               </div>
 
-              <div className="pdf--remove-btn">
-                <a href="#removePdf" className="content-add--remove-media"
-                   onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {pdf: 'removed'})})}>
+              <div className="pdf--remove-btn" onClick={() => this.setState({attachment: Object.assign(this.state.attachment, {pdf: 'removed'})})}>
+                <a href="#removePdf" className="content-add--remove-media">
                   <Icon glyph={close}/>
                 </a>
               </div>
@@ -425,7 +430,8 @@ AddContent.propTypes = {
   works: React.PropTypes.object,
   coverImages: React.PropTypes.object,
   displayAbortButton: React.PropTypes.bool,
-  pdfUploads: React.PropTypes.bool
+  pdfUploads: React.PropTypes.bool,
+  editing: React.PropTypes.bool
 };
 
 AddContent.defaultProps = {
@@ -438,5 +444,6 @@ AddContent.defaultProps = {
   displayAbortButton: false,
   addContentAction: () => {
     console.error('YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'); // eslint-disable-line
-  }
+  },
+  editing: false
 };

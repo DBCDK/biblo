@@ -283,6 +283,7 @@ export default class PostView extends React.Component {
               addContentAction={groupActions.editPost}
               coverImages={coverImages}
               pdfUploads={true}
+              editing={true}
             />
             ||
             <div className='post--content-wrapper'>

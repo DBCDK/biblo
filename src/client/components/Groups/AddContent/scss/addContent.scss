@@ -345,3 +345,7 @@ progress[value] {
   padding: 5px;
   border: 1px solid $light-gray;
 }
+
+.editing .attach-review-button--text {
+  display: none;
+}

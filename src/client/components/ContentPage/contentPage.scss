@@ -20,3 +20,7 @@
     @include span(5 of 5);
   }
 }
+
+.generic-widget-container.ContentPageTextWidget--container, .generic-widget-container.ContentPageImageWidget--container {
+  margin-bottom: 0;
+}

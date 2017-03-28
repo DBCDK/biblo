@@ -13,7 +13,7 @@ export class ColoredHeaderWidget extends Component {
   }
 
   render() {
-    const {color, iconGlyph, text, title, imageSrc, backgroundColor, backgroundImageUrl} = this.props.widgetConfig;
+    const {color, iconGlyph, text, title, imageSrc, backgroundColor} = this.props.widgetConfig;
 
     return (
       <ColoredHeader
@@ -23,7 +23,6 @@ export class ColoredHeaderWidget extends Component {
         title={title}
         imageSrc={imageSrc}
         backgroundColor={backgroundColor}
-        backgroundImageUrl={backgroundImageUrl}
       />
     );
   }

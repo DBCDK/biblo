@@ -6,9 +6,10 @@ const WorkTransform = {
   },
 
   requestTransform(event, {pids, fields = null}, connection) { // eslint-disable-line no-unused-vars
+    const pidsCopy = [].concat(pids);
     const workRequests = [];
-    while (pids.length > 0) {
-      workRequests.push(pids.splice(0, 20));
+    while (pidsCopy.length > 0) {
+      workRequests.push(pidsCopy.splice(0, 20));
     }
 
     return Promise.all(
@@ -68,7 +69,7 @@ const WorkTransform = {
       }
     });
 
-    const body = {};
+    const body = {statusCode: 200};
     body.requestedPids = query.pids;
     body.data = data.map(workParser);
     return body;

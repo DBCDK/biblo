@@ -24,7 +24,7 @@ jdk:
 
 script:
 - "npm run $TEST_SUITE"
-- sonar-scanner -Dsonar.sources=./src
+- sonar-scanner -Dsonar.sources=./src -Dsonar.projectKey="${TRAVIS_REPO_SLUG////-}:travis" -Dsonar.projectName="${TRAVIS_REPO_SLUG////-}"
 
 addons:
   sonarqube:

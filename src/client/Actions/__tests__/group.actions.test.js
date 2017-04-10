@@ -32,7 +32,6 @@ describe('test group actions', () => {
         done();
       })
       .catch(() => {
-        console.error('Promise was rejected');
         done('Promise was rejected');
       });
   });
@@ -71,9 +70,6 @@ describe('test group actions', () => {
         xhrMock.restore();
         // restore filereader support
         window.FileReader = _fileReader;
-      })
-      .catch(() => {
-        console.error('Promise was rejected');
       });
   });
 });

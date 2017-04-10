@@ -81,6 +81,6 @@ export async function wildCardRoute(req, res, next) {
     }
   }
   catch (err) {
-    next(err);
+    next();
   }
 }

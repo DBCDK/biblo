@@ -5,7 +5,7 @@ const pickupAgencyList = {
   },
 
   requestTransform(event, query) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('openagency', 'getAgencyBranches', {
+    return this.callServiceClient('cached/standard/openagency', 'getAgencyBranches', {
       id: [query.agencyId]
     });
   },

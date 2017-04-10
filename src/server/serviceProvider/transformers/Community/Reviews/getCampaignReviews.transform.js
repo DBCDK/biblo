@@ -6,7 +6,7 @@ const GetReviewTransform = {
   },
 
   requestTransform(event, {skip, limit, order='created DESC', campaignId, wheres = []}) {
-    return this.callServiceClient('community', 'getCampaign', {id: campaignId}).then(campaignResponse => {
+    return this.callServiceClient('cached/standard/community', 'getCampaign', {id: campaignId}).then(campaignResponse => {
       const campaign = campaignResponse.body;
       const startDate = campaign.startDate;
       const endDate = campaign.endDate;
@@ -51,8 +51,8 @@ const GetReviewTransform = {
       };
 
       return Promise.all([
-        this.callServiceClient('community', 'countReviews', {where: params.filter.where}),
-        this.callServiceClient('community', 'getReviews', params),
+        this.callServiceClient('cached/standard/community', 'countReviews', {where: params.filter.where}),
+        this.callServiceClient('cached/standard/community', 'getReviews', params),
         Promise.resolve([campaign])
       ]);
     });

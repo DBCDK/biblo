@@ -15,7 +15,7 @@ const AvailabilityTransform = {
       }
     }
 
-    return this.callServiceClient('openplatform', 'availability', {
+    return this.callServiceClient('cached/standard/openplatform', 'availability', {
       libraryId: request.agencyId,
       userId: request.agencyId,
       pids: request.pids,

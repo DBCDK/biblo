@@ -29,14 +29,15 @@ import OpenUserStatus from 'dbc-node-openuserstatus-client';
 function registerServiceClient(provider, config, clientCache, clientName, client) {
   const clientConfig = config.get(`ServiceProvider.${clientName}`);
   const methods = client(clientConfig);
-  const cache = clientConfig.cache || null;
-  if (cache) {
-    const cacheTime = config.get(cache);
-    provider.registerServiceClient(clientName, clientCache(methods, cacheTime));
-  }
-  else {
-    provider.registerServiceClient(clientName, methods);
-  }
+
+  // Setup cached methods (to allow more granularity in caching).
+  const cacheTimes = config.get('CacheTimes');
+  Object.keys(cacheTimes).forEach(cacheTime => {
+    provider.registerServiceClient(`cached/${cacheTime}/${clientName}`, clientCache(methods, cacheTimes[cacheTime]));
+  });
+
+  // Setup uncached method.
+  provider.registerServiceClient(clientName, methods);
 }
 
 /**

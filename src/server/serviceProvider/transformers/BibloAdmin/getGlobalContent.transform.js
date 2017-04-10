@@ -18,7 +18,7 @@ const getGlobalContentTransform = {
    * @returns {Promise}
    */
   requestTransform(event, name) {
-    return this.callServiceClient('bibloadmin', 'getMenu', {name});
+    return this.callServiceClient('cached/short/bibloadmin', 'getMenu', {name});
   },
 
   responseTransform(response) {

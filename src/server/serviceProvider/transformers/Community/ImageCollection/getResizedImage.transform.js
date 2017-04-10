@@ -19,7 +19,7 @@ const getResizedImageTransform = {
    * @returns {Promise}
    */
   requestTransform(event, {id, size}) {
-    return this.callServiceClient('community', 'getResizedImage', {id, size});
+    return this.callServiceClient('cached/short/community', 'getResizedImage', {id, size});
   },
 
   /**

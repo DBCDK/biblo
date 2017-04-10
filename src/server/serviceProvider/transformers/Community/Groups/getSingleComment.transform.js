@@ -58,8 +58,8 @@ const GetSingleCommentsTransform = {
     };
 
     return Promise.all([
-      this.callServiceClient('community', 'getComments', {id, filter: commentFilter}),
-      this.callServiceClient('bibloadmin', 'getCampaigns')
+      this.callServiceClient('cached/standard/community', 'getComments', {id, filter: commentFilter}),
+      this.callServiceClient('cached/standard/bibloadmin', 'getCampaigns')
     ]);
   },
 

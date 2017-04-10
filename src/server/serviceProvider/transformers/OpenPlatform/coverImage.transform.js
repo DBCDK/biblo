@@ -6,7 +6,7 @@ const CoverImageTransform = {
   },
 
   requestTransform(event, {pid}, connection) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('openplatform', 'work', {
+    return this.callServiceClient('cached/standard/openplatform', 'work', {
       pids: [pid],
       fields: [
         'coverUrlFull',

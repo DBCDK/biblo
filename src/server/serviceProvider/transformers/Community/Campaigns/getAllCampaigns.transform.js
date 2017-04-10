@@ -15,8 +15,8 @@ const getAllCampaignsTransform = {
    */
   requestTransform() {
     return Promise.all([
-      this.callServiceClient('community', 'getReviewCampaigns'),
-      this.callServiceClient('community', 'getGroupCampaigns')
+      this.callServiceClient('cached/short/community', 'getReviewCampaigns'),
+      this.callServiceClient('cached/short/community', 'getGroupCampaigns')
     ]);
   },
 

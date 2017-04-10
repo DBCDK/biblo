@@ -5,7 +5,7 @@ const findSuggestedLibrary = {
   },
 
   requestTransform(event, query) {
-    return this.callServiceClient('entitysuggest', 'getLibrarySuggestions', {
+    return this.callServiceClient('cached/extended/entitysuggest', 'getLibrarySuggestions', {
       query: query
     });
   },

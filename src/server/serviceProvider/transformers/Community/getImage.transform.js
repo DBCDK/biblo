@@ -18,7 +18,7 @@ const getImageTransform = {
    * @returns {Promise}
    */
   requestTransform(event, id) {
-    return this.callServiceClient('community', 'getImage', {id});
+    return this.callServiceClient('cached/standard/community', 'getImage', {id});
   },
 
   /**

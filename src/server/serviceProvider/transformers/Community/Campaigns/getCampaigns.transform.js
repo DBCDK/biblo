@@ -15,10 +15,10 @@ const getContentPageTransform = {
    */
   requestTransform(event, type) {
     if (type === 'group') {
-      return this.callServiceClient('community', 'getGroupCampaigns');
+      return this.callServiceClient('cached/short/community', 'getGroupCampaigns');
     }
 
-    return this.callServiceClient('community', 'getReviewCampaigns');
+    return this.callServiceClient('cached/short/community', 'getReviewCampaigns');
   },
 
   /**

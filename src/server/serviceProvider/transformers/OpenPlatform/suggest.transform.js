@@ -7,18 +7,18 @@ const SuggestTransform = {
 
   requestTransform(event, {q}) {
     return Promise.all([
-      this.callServiceClient('openplatform', 'suggest', {
+      this.callServiceClient('cached/standard/openplatform', 'suggest', {
         q: q,
         type: 'creator',
         limit: 6
       }),
-      this.callServiceClient('openplatform', 'suggest', {
+      this.callServiceClient('cached/standard/openplatform', 'suggest', {
         q: q,
         type: 'title',
         limit: 6,
         fields: ['term', 'pid']
       }),
-      this.callServiceClient('community', 'groupSuggest', {q})
+      this.callServiceClient('cached/standard/community', 'groupSuggest', {q})
     ]);
   },
 

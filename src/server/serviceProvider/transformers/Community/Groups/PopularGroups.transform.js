@@ -7,7 +7,7 @@ const ListGroupsTransform = {
 
   requestTransform(event, {skip = 0, limit = 15, order = 'group_pop DESC'}) { // eslint-disable-line no-unused-vars
     return Promise.all([
-      this.callServiceClient('community', 'listGroups', {
+      this.callServiceClient('cached/standard/community', 'listGroups', {
         filter: {
           limit: limit,
           skip: skip,
@@ -17,7 +17,7 @@ const ListGroupsTransform = {
           }]
         }
       }),
-      this.callServiceClient('community', 'countGroups', {where: {markedAsDeleted: false}})
+      this.callServiceClient('cached/standard/community', 'countGroups', {where: {markedAsDeleted: false}})
     ]).catch(err => {
       if (err.message) {
         return err.message;

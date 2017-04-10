@@ -8,7 +8,7 @@ const getWorkFromReviewIdsTransform = {
   },
 
   requestTransform(event, {ids}) {
-    return this.callServiceClient('community', 'getReviews', {
+    return this.callServiceClient('cached/standard/community', 'getReviews', {
       filter: {
         where: {
           or: ids.map(id => ({id}))
@@ -16,7 +16,7 @@ const getWorkFromReviewIdsTransform = {
       }
     }).then(reviewsResponse => {
       const reviews = reviewsResponse.body;
-      return Promise.all(reviews.map(review => this.callServiceClient('openplatform', 'work', {
+      return Promise.all(reviews.map(review => this.callServiceClient('cached/standard/openplatform', 'work', {
         pids: [review.pid],
         fields: [
           'collection',

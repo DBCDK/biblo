@@ -5,7 +5,7 @@ const getLibraryDetails = {
   },
 
   requestTransform(event, query) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('openagency', 'getOpenAgency', {
+    return this.callServiceClient('cached/standard/openagency', 'getOpenAgency', {
       id: [query.agencyId]
     });
   },

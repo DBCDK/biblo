@@ -31,7 +31,7 @@ const GetPostsTransform = {
       where: {postid: post.id}
     };
 
-    return this.callServiceClient('community', 'getComments', {id: post.id, filter: commentFilter})
+    return this.callServiceClient('cached/standard/community', 'getComments', {id: post.id, filter: commentFilter})
       .then(response => {
         post.comments = JSON.parse(response.body);
         post.numberOfCommentsLoaded = skip + limit;
@@ -91,8 +91,8 @@ const GetPostsTransform = {
 
     return Promise.all([
       this.callServiceClient('community', 'getPosts', {id, filter: postFilter}),
-      this.callServiceClient('community', 'getReviewCampaigns'),
-      this.callServiceClient('community', 'getGroupCampaigns')
+      this.callServiceClient('cached/standard/community', 'getReviewCampaigns'),
+      this.callServiceClient('cached/standard/community', 'getGroupCampaigns')
     ]);
   },
 

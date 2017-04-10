@@ -54,8 +54,9 @@ const GetCommentsTransform = {
     };
 
     return Promise.all([
-      this.callServiceClient('community', 'getComments', {id, filter: commentFilter}),
-      this.callServiceClient('bibloadmin', 'getCampaigns')
+      this.callServiceClient('cached/standard/community', 'getComments', {id, filter: commentFilter}),
+      this.callServiceClient('cached/standard/community', 'getReviewCampaigns'),
+      this.callServiceClient('cached/standard/community', 'getGroupCampaigns')
     ]);
   },
 
@@ -64,7 +65,8 @@ const GetCommentsTransform = {
       throw new Error('Call to community service, with method getComments failed');
     }
 
-    const comments = JSON.parse(response[0].body).map(comment => parseComment(comment, response[1]));
+    const campaigns = response[1].concat(response[2].body);
+    const comments = JSON.parse(response[0].body).map(comment => parseComment(comment, campaigns));
     return comments;
   }
 };

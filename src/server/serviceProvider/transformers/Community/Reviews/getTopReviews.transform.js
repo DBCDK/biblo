@@ -12,7 +12,7 @@ const getTopReviewsTransform = {
   requestTransform(event, {size, age, ratingParameter, countsParameter, worktypes, offset}) {
     // Get the top works from the community service.
     let more = false;
-    return this.callServiceClient('community', 'topWorksFromReviews', {
+    return this.callServiceClient('cached/standard/community', 'topWorksFromReviews', {
       size: offset || size,
       age,
       ratingParameter,
@@ -65,7 +65,7 @@ const getTopReviewsTransform = {
       });
 
       // Send the requests in parrallel
-      return Promise.all(pidBuckets.map(pids => this.callServiceClient('openplatform', 'work', {
+      return Promise.all(pidBuckets.map(pids => this.callServiceClient('cached/standard/openplatform', 'work', {
         pids: pids,
         fields: [
           'dcTitle',

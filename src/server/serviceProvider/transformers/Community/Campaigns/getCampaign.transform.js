@@ -14,7 +14,7 @@ const getContentPageTransform = {
    * @returns {Promise}
    */
   requestTransform(event, {id, filter={}}) {
-    return this.callServiceClient('community', 'getCampaign', {id, filter});
+    return this.callServiceClient('cached/short/community', 'getCampaign', {id, filter});
   },
 
   /**

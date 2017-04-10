@@ -6,7 +6,7 @@ const ListGroupsTransform = {
   },
 
   requestTransform(event, {skip=0, limit=15, order='id DESC'}) { // eslint-disable-line no-unused-vars
-    return this.callServiceClient('community',
+    return this.callServiceClient('cached/short/community',
       'listGroups', {
         filter: {
           limit: limit,

@@ -1,19 +1,37 @@
 language: node_js
 sudo: false
 dist: trusty
+
 cache:
   bundler: true
   directories:
   - node_modules
+  - '$HOME/.sonar/cache'
+
 branches:
   only:
   - master
+
 before_install:
 - npm config set //registry.npmjs.org/:_authToken $NPM_KEY
+
 env:
 - TEST_SUITE=lint
 - TEST_SUITE=test
-script: "npm run $TEST_SUITE"
+
+jdk:
+  - oraclejdk8
+
+script:
+- "npm run $TEST_SUITE"
+- sonar-scanner -Dsonar.sources=./src
+
+addons:
+  sonarqube:
+    organization: "dbcdk-jph"
+    token:
+      secure: "AICH8y5RufcPd/Tsw05GKEZ0oSgUbOOkR9SiCGNxc4RJ5LBdMXyzOjwy0OeBvbpjrudQVj+itGNpToDVVXsFQUxu1immeX873i2gfvDV9TV/LQqv/p53weaIdPojeaYB3cS+ZcBG53NlHADZ2FZ8e9xwbXc2b2V+1sR6TBAKDDpSjXjU/Nzb3OMCh7kC/mFaxjpMINOcxQ9fT3rG9TGxMpjIToV0WBrj8ICwJhXUg7R8M1RvR0llzFLZdX7QsVk9SrF/MaH9dKerrMxHDlp82xjRZTEmA4j/1WaHVWUwH98u615O98Ds7Nfokj41wB/fFsz+D5+3m98zk8A+lyeq5ZZAJPIP8d8wyPl5xcJv/8/vq5DubOPIWQLuJvTWIBRJ8d81gj1rUNqdsKa7mGvFfRM8ZRpDoP7KOvRcU/r5aAmpedOi2EO1G1rNqBQryrtkKJsrLCn/EYjxkd4eb4qYx5BW2Xyye1BI0iGQXm3mgJgfiDgGX7G1vcP8GHwjZmdwmG3FHVXGAypeiTZf12AAh5DMwF7Og/pxKc7PoiADX9bNJQVku2XAiNPjW6RbcpMh6fU2Fn6zwdWujBtrqZBZic5f40UTk8E47CJEk6YOs279r7wmEW2EOQdWf4aWHG/a5wTPiWc52QTszVDCScvP7zCrbYI5m8a3k8OXZOIl36E="
+
 notifications:
   slack:
     secure: uXvdxzx6MnwBFkR3EFa/0DeBvVS1SZl/85UN58lWcHU7d8BjY6Kfhd8qAQ/lINIPyK3wHE0wMgtFkee+wcAskt04XOYiFZvWZIFbY3Eej+AVN6DCqpv8im7NXsh4m5DmAqJ3ktU6pH8+I1w6eGU2Rl3mZ/c7EDJquLJUOeMF7SVEHqSofxIuWDady1ErMmgMQjKjrutkxzvhJcG1kW7b445BWKGWQo7g6i7BV5M5nMcUJItD0urMbLLRn/pMCZ/7am87FckSaeXsIcLolkyzQQqImbN4/rBF4lnoQfH3N8a5yyGLaxu898KBe0FnTxYLeYONfAtJn/DKIsCvg8pNlp7AfXWjBifrbJ7K5fcevOzCSRrmFNiiyXFDD2+qqtkyLaMvgov1HNv8DavfRIAVXVAZRwrohaaoc7Ti+qBQVIGuBIP238h9jFi/wLjqAIGnu0/FSAk1+WkOYyBCt3DA1dEPmPu6UNd7bKwwNbjsriJqUQ4nX9wCIjngH3gS1u0YzY6mQxmB4ehgTdCm5HRFPQ8nUPK3O1nvPwkKs2HVLQD5OAHscSWUX1r7uJyjfgiJcBpE9tUkZbuNuf7A8/TLwVQymJ2ita+oyjf9BcZ3CgQ26NLUp5eAPyIMyXzKGbCwoa0y1lBoZ5pAHBsHfL9KqhF99VRRHYGZkIg4RbAkPJI=

@@ -18,26 +18,24 @@ function shuffle(array) {
 }
 
 export default class GroupMembersBox extends React.Component {
-
   constructor(props) {
     super(props);
+    this.state = {membersCopy: []};
+  }
+
+  componentDidMount() {
+    let membersCopy = this.props.members.slice();
+    membersCopy = shuffle(membersCopy);
+
+    // mark owner and add to members
+    const owner = Object.assign({}, this.props.owner, {isOwner: true});
+    membersCopy.unshift(owner);
+    this.setState({membersCopy});
   }
 
   render() {
-    let {owner, onExpand, isExpanded, isLoadingMembers} = this.props;
-    // shuffle members and store in state as a copy
-    let membersCopy;
-    if (!this.state) {
-      membersCopy = this.props.members.slice();
-      membersCopy = shuffle(membersCopy);
-      // mark owner and add to members
-      owner.isOwner = true;
-      membersCopy.unshift(owner);
-      this.setState({membersCopy});
-    }
-    else {
-      membersCopy = this.state.membersCopy;
-    }
+    const {onExpand, isExpanded, isLoadingMembers} = this.props;
+    const membersCopy = this.state.membersCopy;
 
     // if not expanded then show only the top 9 members
     let visibleMembers = (!isExpanded) ? membersCopy.slice(0, 9) : membersCopy;

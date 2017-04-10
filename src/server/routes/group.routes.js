@@ -292,9 +292,45 @@ async function fetchGroupData(params, req, res, update = {}) {
         id: params.postid,
         filter: {
           include: [
-            'image', 'likes',
+            'image',
+            'pdf',
+            'likes',
             {owner: ['image']},
-            {comments: [{owner: ['image']}, 'image']}
+            {comments: [{owner: ['image']}, 'image']},
+            {
+              relation: 'review',
+              scope: {
+                include: [
+                  'image',
+                  {
+                    relation: 'video',
+                    scope: {
+                      include: [
+                        {
+                          relation: 'resolutions',
+                          scope: {
+                            include: ['video']
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              relation: 'video',
+              scope: {
+                include: [
+                  {
+                    relation: 'resolutions',
+                    scope: {
+                      include: ['video']
+                    }
+                  }
+                ]
+              }
+            }
           ]
         }
       }).then((result) => {

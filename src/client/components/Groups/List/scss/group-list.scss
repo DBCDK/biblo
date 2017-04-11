@@ -31,7 +31,6 @@
 }
 
 .group--tile {
-
   @include min-screen($desktop) {
     @include gallery(1 of 5);
     margin-bottom: gutter(20);
@@ -67,11 +66,11 @@
 
   @include max-screen($phone) {
     max-width: 172px;
-    max-height: 172px;
     @include gallery(1 of 2);
     margin-bottom: gutter(10);
-    padding-bottom: 30px;
-    padding-right: 0px;
+    padding-bottom: 0;
+    padding-right: 0;
+
     .coverimage {
       width: 40vw;
       height: 40vw;

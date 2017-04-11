@@ -157,13 +157,16 @@ export class WorkDetail extends React.Component {
     const lTitleFull = titleFull.toLowerCase();
 
     // Start with dcTitleFull
-    let res = lTitleFull;
+    let lRes = lTitleFull;
+    let res = titleFull;
 
     // Remove the multivolume title
-    res = res.replace(lTitle, '');
+    res = res.slice(lRes.indexOf(lTitle) + lTitle.length);
+    lRes = lRes.slice(lRes.indexOf(lTitle) + lTitle.length);
 
     // Remove volume indicator
-    res = res.replace(bind, '');
+    res = res.slice(lRes.indexOf(bind) + bind.length);
+    lRes = lRes.slice(lRes.indexOf(bind) + bind.length);
 
     // Strip special chars and spaces from beginning and end.
     res = res.replace(/^[^A-Z0-9]+/ig, '');

@@ -31,7 +31,7 @@ const GetPostsTransform = {
       where: {postid: post.id}
     };
 
-    return this.callServiceClient('cached/standard/community', 'getComments', {id: post.id, filter: commentFilter})
+    return this.callServiceClient('community', 'getComments', {id: post.id, filter: commentFilter})
       .then(response => {
         post.comments = JSON.parse(response.body);
         post.numberOfCommentsLoaded = skip + limit;

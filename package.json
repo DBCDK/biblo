@@ -109,7 +109,7 @@
     "redux-thunk": "2.2.0",
     "request": "^2.72.0",
     "sanitize-html": "^1.13.0",
-    "sass-loader": "4.0.2",
+    "sass-loader": "4.1.0",
     "sass-mediaqueries": "^1.6.1",
     "socketcluster": "^5.0.14",
     "superagent": "^3.1.0",

@@ -57,7 +57,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.14.0",
     "babel-runtime": "^6.5.0",
-    "body-parser": "1.16.0",
+    "body-parser": "1.16.1",
     "bull": "^2.0.0",
     "busboy": "^0.2.13",
     "cache-manager-redis": "^0.3.2",

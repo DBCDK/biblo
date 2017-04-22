@@ -76,7 +76,7 @@
     "express": "4.14.1",
     "express-session": "1.14.2",
     "express-validator": "3.1.2",
-    "extract-text-webpack-plugin": "1.0.1",
+    "extract-text-webpack-plugin": "2.0.0",
     "forms": "^1.2.0",
     "helmet": "^3.1.0",
     "html-pdf": "^2.1.0",

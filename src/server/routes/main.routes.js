@@ -9,6 +9,9 @@ import passport from 'passport';
 import request from 'request';
 import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
 
+import cacheManager from 'cache-manager';
+import redisStore from 'cache-manager-redis';
+
 import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 
@@ -16,6 +19,25 @@ import {fullProfileOnSession} from '../middlewares/data.middleware';
 import ContentpageContainer from '../../client/components/ContentPage/ContentPage.component';
 
 const MainRoutes = express.Router();
+const cache = cacheManager.caching({
+  store: redisStore,
+  host: config.get('Redis.host'),
+  port: config.get('Redis.port'),
+  ttl: config.get('CacheTimes.extended'),
+  db: 2
+});
+
+function getFromCache(key) {
+  return new Promise((resolve, reject) => {
+    cache.get(key, function cacheCallback(err, result) {
+      if (err) {
+        return reject(err);
+      }
+
+      return resolve(result);
+    });
+  });
+}
 
 MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, async (req, res, next) => {
   try {
@@ -73,9 +95,19 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
   const logger = req.app.get('logger');
 
   try {
-    const imageResults = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
+    const cacheKey = `imageCache_${req.params.id}_${req.params.size}`;
+    let imageResult = await getFromCache(cacheKey);
+    if (!imageResult) {
+      imageResult = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
+
+      if (imageResult[0].body.correctSize) {
+        cache.set(cacheKey, imageResult);
+      }
+    }
+
+    const image = imageResult[0].body;
     const imageUrl = generateSignedCloudfrontCookie(
-      `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${imageResults[0].body.container}`)}/${imageResults[0].body.name}`
+      `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${image.container}`)}/${image.name}`
     );
 
     let expires = /Expires=([0-9]+)/.exec(imageUrl); // when this url expires, in seconds since 1/1/1970

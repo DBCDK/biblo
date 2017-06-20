@@ -60,7 +60,7 @@ export function parseMultiVolume(work) {
       }
 
       ['pid', 'type', 'accessType', 'creator', 'language', 'title', 'titleFull', 'workType'].forEach(param => {
-        if (bind[bindNumber[1]][param].indexOf(item[param][0]) < 0) {
+        if (item[param] && bind[bindNumber[1]][param].indexOf(item[param][0]) < 0) {
           bind[bindNumber[1]][param].push(item[param][0]);
         }
       });

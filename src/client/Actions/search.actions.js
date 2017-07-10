@@ -14,6 +14,11 @@ const searchGroups = SocketClient('searchGroups');
 const searchGroupListener = once(searchGroups.response);
 
 export function loadedMoreMaterialResults(res) {
+  if (!res.data) {
+    console.error("didn't get data?", res);
+    res.data = [];
+  }
+
   return {
     type: types.LOADED_MORE_MATERIAL_RESULTS,
     results: res.data

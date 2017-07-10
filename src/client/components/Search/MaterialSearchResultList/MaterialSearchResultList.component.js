@@ -42,7 +42,7 @@ export default class MaterialSearchResultList extends React.Component {
 
   getListElements() {
     return this.props.results.map((result, i) => {
-      if (typeof results === 'undefined' || !result) {
+      if (typeof result === 'undefined' || !result) {
         return (
           <span className="result--undefined" />
         );

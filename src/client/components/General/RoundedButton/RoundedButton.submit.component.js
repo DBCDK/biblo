@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_roundedbutton.submit.component.scss';
 
 const RoundedButtonSubmit = ({clickFunction, buttonText, disabled}) => {
@@ -16,9 +17,9 @@ const RoundedButtonSubmit = ({clickFunction, buttonText, disabled}) => {
 RoundedButtonSubmit.displayName = 'RoundedButton.submit.component';
 
 RoundedButtonSubmit.propTypes = {
-  buttonText: React.PropTypes.string.isRequired,
-  clickFunction: React.PropTypes.func,
-  disabled: React.PropTypes.bool
+  buttonText: PropTypes.string.isRequired,
+  clickFunction: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 RoundedButtonSubmit.defaultProps = {

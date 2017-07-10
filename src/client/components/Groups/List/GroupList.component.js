@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GroupViewTile from '../View/GroupViewTile.component.js';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 
@@ -53,15 +54,15 @@ export default class GroupList extends React.Component {
 }
 
 GroupList.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  groups: React.PropTypes.array.isRequired,
-  groupActions: React.PropTypes.array,
-  delta: React.PropTypes.number,
-  skip: React.PropTypes.number,
-  limit: React.PropTypes.number,
-  isLoading: React.PropTypes.bool,
-  followOn: React.PropTypes.bool,
-  expand: React.PropTypes.func
+  title: PropTypes.string.isRequired,
+  groups: PropTypes.array.isRequired,
+  groupActions: PropTypes.array,
+  delta: PropTypes.number,
+  skip: PropTypes.number,
+  limit: PropTypes.number,
+  isLoading: PropTypes.bool,
+  followOn: PropTypes.bool,
+  expand: PropTypes.func
 };
 
 GroupList.displayName = 'GroupList';

@@ -3,6 +3,7 @@
 import './scss/PostView.scss';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString.js';
 import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
 import AddContent from '../AddContent/AddContent.component';
@@ -373,33 +374,33 @@ export default class PostView extends React.Component {
 
 PostView.displayName = 'PostView';
 PostView.propTypes = {
-  campaign: React.PropTypes.object,
-  commentsCount: React.PropTypes.number,
-  commentRedirect: React.PropTypes.string,
-  comments: React.PropTypes.array,
-  content: React.PropTypes.string,
-  html: React.PropTypes.string,
-  flagActions: React.PropTypes.object.isRequired,
-  groupActions: React.PropTypes.object,
-  groupId: React.PropTypes.number,
-  id: React.PropTypes.number,
-  image: React.PropTypes.string,
-  likes: React.PropTypes.array,
-  loadingComments: React.PropTypes.bool,
-  owner: React.PropTypes.object,
-  profile: React.PropTypes.object.isRequired,
-  timeCreated: React.PropTypes.string,
-  uiActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  numberOfCommentsLoaded: React.PropTypes.number,
-  review: React.PropTypes.object,
-  works: React.PropTypes.object.isRequired,
-  coverImages: React.PropTypes.object.isRequired,
-  getCoverImage: React.PropTypes.func.isRequired,
-  getMoreWorks: React.PropTypes.func,
-  video: React.PropTypes.object,
-  groupIsClosed: React.PropTypes.bool,
-  pdf: React.PropTypes.object
+  campaign: PropTypes.object,
+  commentsCount: PropTypes.number,
+  commentRedirect: PropTypes.string,
+  comments: PropTypes.array,
+  content: PropTypes.string,
+  html: PropTypes.string,
+  flagActions: PropTypes.object.isRequired,
+  groupActions: PropTypes.object,
+  groupId: PropTypes.number,
+  id: PropTypes.number,
+  image: PropTypes.string,
+  likes: PropTypes.array,
+  loadingComments: PropTypes.bool,
+  owner: PropTypes.object,
+  profile: PropTypes.object.isRequired,
+  timeCreated: PropTypes.string,
+  uiActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  numberOfCommentsLoaded: PropTypes.number,
+  review: PropTypes.object,
+  works: PropTypes.object.isRequired,
+  coverImages: PropTypes.object.isRequired,
+  getCoverImage: PropTypes.func.isRequired,
+  getMoreWorks: PropTypes.func,
+  video: PropTypes.object,
+  groupIsClosed: PropTypes.bool,
+  pdf: PropTypes.object
 };
 
 PostView.defaultProps = {

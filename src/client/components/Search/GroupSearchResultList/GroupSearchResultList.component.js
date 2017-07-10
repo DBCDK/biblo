@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './GroupSearchResultList.scss';
 
@@ -58,5 +59,5 @@ export default class GroupSearchResultList extends React.Component {
 GroupSearchResultList.displayName = 'GroupSearchResultList';
 
 GroupSearchResultList.propTypes = {
-  results: React.PropTypes.array.isRequired
+  results: PropTypes.array.isRequired
 };

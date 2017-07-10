@@ -1,6 +1,7 @@
 import './click-overlay.scss';
 import ClassNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Adds a transparent overlay that can be used to catch clickevent outside an overlay box

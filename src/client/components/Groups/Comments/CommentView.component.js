@@ -3,6 +3,7 @@
 import './scss/comment-view.scss';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString.js';
 import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
@@ -160,23 +161,23 @@ class CommentView extends React.Component {
 }
 
 CommentView.propTypes = {
-  id: React.PropTypes.number,
-  postId: React.PropTypes.number,
-  groupId: React.PropTypes.number,
-  content: React.PropTypes.string,
-  html: React.PropTypes.string,
-  image: React.PropTypes.string,
-  timeCreated: React.PropTypes.string,
-  profile: React.PropTypes.object,
-  owner: React.PropTypes.object,
-  submitFlagFunction: React.PropTypes.func.isRequired,
-  timestamp: React.PropTypes.string,
-  groupActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  coverImages: React.PropTypes.object.isRequired,
-  works: React.PropTypes.object.isRequired,
-  getMoreWorks: React.PropTypes.func,
-  review: React.PropTypes.object,
-  video: React.PropTypes.object,
-  deleteAction: React.PropTypes.func
+  id: PropTypes.number,
+  postId: PropTypes.number,
+  groupId: PropTypes.number,
+  content: PropTypes.string,
+  html: PropTypes.string,
+  image: PropTypes.string,
+  timeCreated: PropTypes.string,
+  profile: PropTypes.object,
+  owner: PropTypes.object,
+  submitFlagFunction: PropTypes.func.isRequired,
+  timestamp: PropTypes.string,
+  groupActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  coverImages: PropTypes.object.isRequired,
+  works: PropTypes.object.isRequired,
+  getMoreWorks: PropTypes.func,
+  review: PropTypes.object,
+  video: PropTypes.object,
+  deleteAction: PropTypes.func
 };

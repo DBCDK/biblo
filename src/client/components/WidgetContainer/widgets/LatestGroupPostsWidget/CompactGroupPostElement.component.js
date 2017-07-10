@@ -4,7 +4,8 @@
 
 /* eslint-disable react/no-danger */
 
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../../General/Icon/Icon.component';
 import groupSvg from '../../../General/Icon/svg/functions/group.svg';
 import './scss/CompactGroupPostElement.component.scss';

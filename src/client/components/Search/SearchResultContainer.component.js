@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -149,10 +150,10 @@ export class SearchResultContainer extends React.Component {
 SearchResultContainer.displayName = 'SearchResultContainer';
 
 SearchResultContainer.propTypes = {
-  profileState: React.PropTypes.object.isRequired,
-  search: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  profileState: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 /**

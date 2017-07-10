@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
 
@@ -70,9 +71,9 @@ export default class GroupMembersBox extends React.Component {
 
 GroupMembersBox.displayName = 'GroupMembersBox';
 GroupMembersBox.propTypes = {
-  onExpand: React.PropTypes.func.isRequired,
-  isExpanded: React.PropTypes.bool.isRequired,
-  members: React.PropTypes.array.isRequired,
-  owner: React.PropTypes.object.isRequired,
-  isLoadingMembers: React.PropTypes.bool
+  onExpand: PropTypes.func.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  members: PropTypes.array.isRequired,
+  owner: PropTypes.object.isRequired,
+  isLoadingMembers: PropTypes.bool
 };

@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import equal from 'deep-equal';
 import './WorkDetail.component.scss';
 
@@ -175,13 +176,35 @@ export class WorkDetail extends React.Component {
     return res;
   }
 
+  renderSeriesTitles(titles, descriptionSeries) {
+    if (!titles) {
+      return <span className="not--series" />;
+    }
+
+    return titles.map(titleSeries => {
+      const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(titleSeries, descriptionSeries);
+      if (consolidatedTitleSeries) {
+        return (
+          <span className="work-detail--title-series">
+            <a key={`title-series--${consolidatedTitleSeries}`} href={'/find?serie=' + consolidatedTitleSeriesQuery}>
+              {consolidatedTitleSeries}
+            </a>
+          </span>
+        );
+      }
+
+      return <span key={`fail-${Date.now()}`} className="match--failed" />;
+    });
+  }
+
   render() {
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
-    const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(this.props.titleSeries, this.props.descriptionSeries);
+    // const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(this.props.titleSeries, this.props.descriptionSeries);
+    const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
 
     const profile = this.props.profile;
@@ -229,12 +252,7 @@ export class WorkDetail extends React.Component {
               this.props.isMultivolume &&
               <p className="work-detail--multi-volume--title">{this.props.title}: {bind}</p>
             }
-            {
-              consolidatedTitleSeries &&
-              <span className="work-detail--title-series">
-                <a href={'/find?q=' + consolidatedTitleSeriesQuery}>{consolidatedTitleSeries}</a>
-              </span>
-            }
+            {seriesTitles}
             <span className='work-detail--subheader'>{creator}</span>
           </div>
           <div className='work-detail--description'>
@@ -264,36 +282,36 @@ export class WorkDetail extends React.Component {
 
 WorkDetail.displayName = 'WorkDetail';
 WorkDetail.propTypes = {
-  bind: React.PropTypes.string,
-  bindId: React.PropTypes.string,
-  fullTitle: React.PropTypes.string.isRequired,
-  isMultivolume: React.PropTypes.bool,
-  collectionDetails: React.PropTypes.array.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  editText: React.PropTypes.string.isRequired,
-  toggleReview: React.PropTypes.func.isRequired,
-  abstract: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired,
-  creator: React.PropTypes.string.isRequired,
-  titleSeries: React.PropTypes.string.isRequired,
-  descriptionSeries: React.PropTypes.string.isRequired,
-  displayType: React.PropTypes.string.isRequired,
-  collection: React.PropTypes.array.isRequired,
-  coverUrl: React.PropTypes.string.isRequired,
-  orderState: React.PropTypes.number,
-  orderMaterialAction: React.PropTypes.func.isRequired,
-  checkAvailabilityAction: React.PropTypes.func.isRequired,
-  checkAvailabilityResult: React.PropTypes.object,
-  checkAvailabilityDone: React.PropTypes.bool,
-  resetOrderState: React.PropTypes.func.isRequired,
-  unselectLibraryFunction: React.PropTypes.func.isRequired,
-  searchForLibraryAction: React.PropTypes.func.isRequired,
-  saveProfileAction: React.PropTypes.func.isRequired,
-  librarySearchResults: React.PropTypes.array.isRequired,
-  fullReview: React.PropTypes.bool,
-  ownReview: React.PropTypes.bool,
-  getWorkOnlineAccessAction: React.PropTypes.func.isRequired,
-  bindDetails: React.PropTypes.object
+  bind: PropTypes.string,
+  bindId: PropTypes.string,
+  fullTitle: PropTypes.string.isRequired,
+  isMultivolume: PropTypes.bool,
+  collectionDetails: PropTypes.array.isRequired,
+  profile: PropTypes.object.isRequired,
+  editText: PropTypes.string.isRequired,
+  toggleReview: PropTypes.func.isRequired,
+  abstract: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  creator: PropTypes.string.isRequired,
+  titleSeries: PropTypes.string.isRequired,
+  descriptionSeries: PropTypes.string.isRequired,
+  displayType: PropTypes.string.isRequired,
+  collection: PropTypes.array.isRequired,
+  coverUrl: PropTypes.string.isRequired,
+  orderState: PropTypes.number,
+  orderMaterialAction: PropTypes.func.isRequired,
+  checkAvailabilityAction: PropTypes.func.isRequired,
+  checkAvailabilityResult: PropTypes.object,
+  checkAvailabilityDone: PropTypes.bool,
+  resetOrderState: PropTypes.func.isRequired,
+  unselectLibraryFunction: PropTypes.func.isRequired,
+  searchForLibraryAction: PropTypes.func.isRequired,
+  saveProfileAction: PropTypes.func.isRequired,
+  librarySearchResults: PropTypes.array.isRequired,
+  fullReview: PropTypes.bool,
+  ownReview: PropTypes.bool,
+  getWorkOnlineAccessAction: PropTypes.func.isRequired,
+  bindDetails: PropTypes.object
 };
 
 WorkDetail.defaultProps = {

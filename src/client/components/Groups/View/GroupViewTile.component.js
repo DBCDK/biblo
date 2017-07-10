@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './scss/group-tile.scss';
 
@@ -50,9 +51,9 @@ export default class GroupViewTile extends React.Component {
 }
 
 GroupViewTile.propTypes = {
-  group: React.PropTypes.object.isRequired,
-  postsSinceLast: React.PropTypes.number,
-  followers: React.PropTypes.bool
+  group: PropTypes.object.isRequired,
+  postsSinceLast: PropTypes.number,
+  followers: PropTypes.bool
 };
 
 GroupViewTile.displayName = 'GroupViewTile';

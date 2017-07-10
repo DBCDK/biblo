@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {debounce} from 'lodash';
 
 import Message from '../../General/Message/Message.component';
@@ -41,11 +42,11 @@ export default function DisplayNameField({defaultValue, errors, onChangeFunc, ch
 DisplayNameField.displayName = 'DisplayNameField';
 
 DisplayNameField.propTypes = {
-  defaultValue: React.PropTypes.string.isRequired,
-  errors: React.PropTypes.object.isRequired,
-  onChangeFunc: React.PropTypes.func.isRequired,
-  checkDisplayNameFunction: React.PropTypes.func.isRequired,
-  displayNameExists: React.PropTypes.bool
+  defaultValue: PropTypes.string.isRequired,
+  errors: PropTypes.object.isRequired,
+  onChangeFunc: PropTypes.func.isRequired,
+  checkDisplayNameFunction: PropTypes.func.isRequired,
+  displayNameExists: PropTypes.bool
 };
 
 DisplayNameField.defaultProps = {

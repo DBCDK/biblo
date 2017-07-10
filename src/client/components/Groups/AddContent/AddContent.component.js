@@ -1,5 +1,6 @@
 import autosize from 'autosize';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Classnames from 'classnames';
 import isSiteOpen from '../../../Utils/openingHours.js';
 
@@ -414,24 +415,24 @@ export default class AddContent extends UploadMedia {
 
 AddContent.displayName = 'AddContent';
 AddContent.propTypes = {
-  abort: React.PropTypes.func,
-  delete: React.PropTypes.func,
-  addContentAction: React.PropTypes.func.isRequired,
-  autofocus: React.PropTypes.bool,
-  profile: React.PropTypes.object.isRequired,
-  parentId: React.PropTypes.number.isRequired,
-  redirectTo: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-  text: React.PropTypes.string,
-  image: React.PropTypes.string,
-  pdf: React.PropTypes.object,
-  id: React.PropTypes.number,
-  getMoreWorks: React.PropTypes.func.isRequired,
-  works: React.PropTypes.object,
-  coverImages: React.PropTypes.object,
-  displayAbortButton: React.PropTypes.bool,
-  pdfUploads: React.PropTypes.bool,
-  editing: React.PropTypes.bool
+  abort: PropTypes.func,
+  delete: PropTypes.func,
+  addContentAction: PropTypes.func.isRequired,
+  autofocus: PropTypes.bool,
+  profile: PropTypes.object.isRequired,
+  parentId: PropTypes.number.isRequired,
+  redirectTo: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  text: PropTypes.string,
+  image: PropTypes.string,
+  pdf: PropTypes.object,
+  id: PropTypes.number,
+  getMoreWorks: PropTypes.func.isRequired,
+  works: PropTypes.object,
+  coverImages: PropTypes.object,
+  displayAbortButton: PropTypes.bool,
+  pdfUploads: PropTypes.bool,
+  editing: PropTypes.bool
 };
 
 AddContent.defaultProps = {

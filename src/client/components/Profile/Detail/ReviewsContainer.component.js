@@ -4,6 +4,7 @@
 
 // Libraries
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import ReviewRow from './ReviewRow.component';
@@ -97,9 +98,9 @@ export default class ReviewsContainer extends React.Component {
 
 ReviewsContainer.displayName = 'ReviewsContainer';
 ReviewsContainer.propTypes = {
-  activeUser: React.PropTypes.object.isRequired,
-  getWorksAction: React.PropTypes.func.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.array.isRequired,
-  worksMetadata: React.PropTypes.object.isRequired
+  activeUser: PropTypes.object.isRequired,
+  getWorksAction: PropTypes.func.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  reviews: PropTypes.array.isRequired,
+  worksMetadata: PropTypes.object.isRequired
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './searchdropdown.component.scss';
 
@@ -46,8 +47,8 @@ export class SearchDropDown extends React.Component {
 
 SearchDropDown.displayName = 'SearchDropDown';
 SearchDropDown.propTypes = {
-  visible: React.PropTypes.bool,
-  selected: React.PropTypes.number,
+  visible: PropTypes.bool,
+  selected: PropTypes.number,
   elements: (props, propName) => { // eslint-disable-line consistent-return
     const prop = props[propName];
     if (!Array.isArray(prop)) {

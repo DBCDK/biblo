@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -191,21 +192,21 @@ export class GroupViewContainer extends React.Component {
 }
 
 GroupViewContainer.propTypes = {
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  id: React.PropTypes.number,
-  profile: React.PropTypes.object.isRequired,
-  group: React.PropTypes.object.isRequired,
-  error: React.PropTypes.string,
-  profileActions: React.PropTypes.object,
-  groupActions: React.PropTypes.object,
-  flagActions: React.PropTypes.object,
-  likeActions: React.PropTypes.object,
-  uiActions: React.PropTypes.object,
-  coverImageActions: React.PropTypes.object.isRequired,
-  coverImages: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object,
-  globalState: React.PropTypes.object
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  id: PropTypes.number,
+  profile: PropTypes.object.isRequired,
+  group: PropTypes.object.isRequired,
+  error: PropTypes.string,
+  profileActions: PropTypes.object,
+  groupActions: PropTypes.object,
+  flagActions: PropTypes.object,
+  likeActions: PropTypes.object,
+  uiActions: PropTypes.object,
+  coverImageActions: PropTypes.object.isRequired,
+  coverImages: PropTypes.object.isRequired,
+  ui: PropTypes.object,
+  globalState: PropTypes.object
 };
 
 GroupViewContainer.defaultProps = {

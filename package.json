@@ -98,6 +98,7 @@
     "pmx": "^1.0.1",
     "postcss-loader": "^1.2.0",
     "primus": "^6.0.3",
+    "prop-types": "^15.5.10",
     "proxy-agent": "^2.0.0",
     "pug": "^2.0.0-beta6",
     "react": "15.5.0",

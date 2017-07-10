@@ -6,6 +6,7 @@
 
 // Libs
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
@@ -613,29 +614,29 @@ export class ProfileDetailContainer extends React.Component {
 
 ProfileDetailContainer.displayName = 'ProfileDetailContainer';
 ProfileDetailContainer.propTypes = {
-  agencies: React.PropTypes.object.isRequired,
-  agencyActions: React.PropTypes.object.isRequired,
-  feed: React.PropTypes.object.isRequired,
-  feedActions: React.PropTypes.object.isRequired,
-  flagActions: React.PropTypes.object.isRequired,
-  group: React.PropTypes.object.isRequired,
-  groupActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  profileActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  reviews: React.PropTypes.object.isRequired,
-  selectedTab: React.PropTypes.number,
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object.isRequired,
-  coverImages: React.PropTypes.object.isRequired,
-  coverImageActions: React.PropTypes.object.isRequired,
-  userstatusActions: React.PropTypes.object.isRequired,
-  userstatusState: React.PropTypes.object.isRequired,
-  works: React.PropTypes.object.isRequired,
-  workActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  agencies: PropTypes.object.isRequired,
+  agencyActions: PropTypes.object.isRequired,
+  feed: PropTypes.object.isRequired,
+  feedActions: PropTypes.object.isRequired,
+  flagActions: PropTypes.object.isRequired,
+  group: PropTypes.object.isRequired,
+  groupActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  reviews: PropTypes.object.isRequired,
+  selectedTab: PropTypes.number,
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
+  coverImages: PropTypes.object.isRequired,
+  coverImageActions: PropTypes.object.isRequired,
+  userstatusActions: PropTypes.object.isRequired,
+  userstatusState: PropTypes.object.isRequired,
+  works: PropTypes.object.isRequired,
+  workActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 ProfileDetailContainer.defaultProps = {

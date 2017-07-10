@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../General/Icon/Icon.component.js';
 import pdfDarkSvg from '../../General/Icon/svg/functions/pdf_dark.svg';
 
@@ -40,6 +41,6 @@ export const PDFViewComponent = ({pdf, isOwner}) => {
 
 PDFViewComponent.displayName = 'PDFViewComponent';
 PDFViewComponent.propTypes = {
-  pdf: React.PropTypes.object,
-  isOwner: React.PropTypes.bool
+  pdf: PropTypes.object,
+  isOwner: PropTypes.bool
 };

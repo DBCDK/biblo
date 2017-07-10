@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './WorkHeader.component.scss';
 
@@ -22,5 +23,5 @@ export class WorkHeader extends React.Component {
 
 WorkHeader.displayName = 'WorkHeader';
 WorkHeader.propTypes = {
-  coverUrl: React.PropTypes.string.isRequired
+  coverUrl: PropTypes.string.isRequired
 };

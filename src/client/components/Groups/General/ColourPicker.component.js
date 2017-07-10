@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {ColourPickerItem} from './ColourPickerItem.component';
 
@@ -37,11 +38,11 @@ const ColourPicker = ({baseName, colours, disabled, onChangeFunction, wrapInForm
 ColourPicker.displayName = 'ColourPicker';
 
 ColourPicker.propTypes = {
-  baseName: React.PropTypes.string,
-  colours: React.PropTypes.array,
-  disabled: React.PropTypes.bool,
-  onChangeFunction: React.PropTypes.func,
-  wrapInForm: React.PropTypes.bool
+  baseName: PropTypes.string,
+  colours: PropTypes.array,
+  disabled: PropTypes.bool,
+  onChangeFunction: PropTypes.func,
+  wrapInForm: PropTypes.bool
 };
 
 ColourPicker.defaultProps = {

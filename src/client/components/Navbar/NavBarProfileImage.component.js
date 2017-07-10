@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import './scss/navbar-profile-image.scss';
 
 export default function NavBarProfileImage({image, onClick, notifications}) {
@@ -14,8 +15,8 @@ export default function NavBarProfileImage({image, onClick, notifications}) {
 
 NavBarProfileImage.propTypes = {
   notifications: PropTypes.number,
-  image: React.PropTypes.object,
-  onClick: React.PropTypes.func
+  image: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 NavBarProfileImage.defaultProps = {

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -25,12 +26,12 @@ export class PreviewPage extends React.Component {
 
 PreviewPage.displayName = 'PreviewPage';
 PreviewPage.propTypes = {
-  profileState: React.PropTypes.object.isRequired,
-  widgetState: React.PropTypes.object.isRequired,
-  widgetActions: React.PropTypes.object.isRequired,
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  profileState: PropTypes.object.isRequired,
+  widgetState: PropTypes.object.isRequired,
+  widgetActions: PropTypes.object.isRequired,
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 export default connect(

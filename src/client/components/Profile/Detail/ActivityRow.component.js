@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString';
 
 import Icon from '../../General/Icon/Icon.component.js';
@@ -65,12 +66,12 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
 }
 
 ActivityRow.propTypes = {
-  children: React.PropTypes.any,
-  date: React.PropTypes.string,
-  answerFunction: React.PropTypes.func,
-  likes: React.PropTypes.array,
-  title: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
+  children: PropTypes.any,
+  date: PropTypes.string,
+  answerFunction: PropTypes.func,
+  likes: PropTypes.array,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
   ])
 };

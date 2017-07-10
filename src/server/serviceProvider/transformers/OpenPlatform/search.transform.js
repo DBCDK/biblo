@@ -1,3 +1,4 @@
+import workParser from '../../parsers/work.parser';
 
 const type2Cql = {
   book: 'term.worktype="literature"',
@@ -53,6 +54,10 @@ const SearchTransform = {
       topLevelCql.push(`phrase.titleSeries="${seriesTitle}"`);
     }
 
+    if (fields && fields.indexOf('workType') < 0) {
+      fields.push('workType');
+    }
+
     const cqlQuery = topLevelCql.map((cql) => '('+cql+')').join(' AND ');
 
     return this.callServiceClient('cached/standard/openplatform', 'search', {
@@ -72,6 +77,19 @@ const SearchTransform = {
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
     const ret = JSON.parse(response.body);
+    ret.data = (ret.data || []).map(work => {
+      if (work.coverUrlFull && work.coverUrlFull.length > 0) {
+        work.coverUrl = work.coverUrlFull[0];
+      }
+      else if (work.workType) {
+        work.coverUrl = `/images/covers/${work.workType}.png`;
+      }
+      else {
+        work.coverUrl = '/images/covers/other.png';
+      }
+
+      return work;
+    });
     ret.q = query;
     return ret;
   }

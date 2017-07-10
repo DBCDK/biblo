@@ -9,7 +9,7 @@ import {once, filter} from 'lodash';
 
 const searchClient = SocketClient('search');
 const searchClientListener = once(searchClient.response);
-const searchSeriesListener = searchClient.response;
+const searchSeriesListener = once(searchClient.response);
 
 const searchGroups = SocketClient('searchGroups');
 const searchGroupListener = once(searchGroups.response);

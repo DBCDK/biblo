@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../scss/MultivolumeDisplay.component.scss';
 
 export class MultiVolumeDisplay extends React.Component {
@@ -37,8 +38,8 @@ export class MultiVolumeDisplay extends React.Component {
 }
 
 MultiVolumeDisplay.propTypes = {
-  multivolume: React.PropTypes.array.isRequired,
-  multivolumeTitle: React.PropTypes.string.isRequired,
-  getMetadataAction: React.PropTypes.func.isRequired,
-  multivolumeMetadata: React.PropTypes.object.isRequired
+  multivolume: PropTypes.array.isRequired,
+  multivolumeTitle: PropTypes.string.isRequired,
+  getMetadataAction: PropTypes.func.isRequired,
+  multivolumeMetadata: PropTypes.object.isRequired
 };

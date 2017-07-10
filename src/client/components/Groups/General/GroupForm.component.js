@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {debounce} from 'lodash';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
@@ -136,16 +137,16 @@ export default class GroupForm extends React.Component {
 GroupForm.displayName = 'GroupForm';
 
 GroupForm.propTypes = {
-  changeImageAction: React.PropTypes.func.isRequired,
-  errors: React.PropTypes.array.isRequired,
-  groupImageSrc: React.PropTypes.string.isRequired,
-  submitState: React.PropTypes.string,
-  submitProgress: React.PropTypes.number.isRequired,
-  submit: React.PropTypes.func.isRequired,
-  checkIfGroupNameExistsAction: React.PropTypes.func.isRequired,
-  checkedNames: React.PropTypes.object,
-  defaultValues: React.PropTypes.object,
-  moderation: React.PropTypes.any
+  changeImageAction: PropTypes.func.isRequired,
+  errors: PropTypes.array.isRequired,
+  groupImageSrc: PropTypes.string.isRequired,
+  submitState: PropTypes.string,
+  submitProgress: PropTypes.number.isRequired,
+  submit: PropTypes.func.isRequired,
+  checkIfGroupNameExistsAction: PropTypes.func.isRequired,
+  checkedNames: PropTypes.object,
+  defaultValues: PropTypes.object,
+  moderation: PropTypes.any
 };
 
 GroupForm.defaultProps = {

@@ -13,12 +13,12 @@ const SearchTransform = {
     return 'search';
   },
 
-  requestTransform(event, {q, forfatter, materialer, emneord, limit, offset, rankSort}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {q, seriesTitle, forfatter, materialer, emneord, limit, offset, rankSort, fields}, connection) { // eslint-disable-line no-unused-vars
 
     offset = (offset) ? offset : 0;
     rankSort = (rankSort) ? rankSort : 'rank_frequency';
 
-    let topLevelCql = [];
+    const topLevelCql = [];
 
     // for now all queries are phrase queries
     if (q) {
@@ -48,11 +48,16 @@ const SearchTransform = {
       topLevelCql.push(subjectCql);
     }
 
+    if (typeof seriesTitle === 'string') {
+      seriesTitle = seriesTitle.replace('&', '&amp;');
+      topLevelCql.push(`phrase.titleSeries="${seriesTitle}"`);
+    }
+
     const cqlQuery = topLevelCql.map((cql) => '('+cql+')').join(' AND ');
 
     return this.callServiceClient('cached/standard/openplatform', 'search', {
       q: cqlQuery,
-      fields: [
+      fields: fields || [
         'collectionDetails',
         'dcTitle',
         'pid',
@@ -66,7 +71,9 @@ const SearchTransform = {
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
-    return JSON.parse(response.body);
+    const ret = JSON.parse(response.body);
+    ret.q = query;
+    return ret;
   }
 };
 

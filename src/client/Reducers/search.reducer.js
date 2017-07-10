@@ -36,7 +36,9 @@ let initialState = {
     },
     subjectFilters: [],
     creatorFilters: []
-  }
+  },
+  seriesResults: {},
+  moreSeriesResults: false
 };
 
 
@@ -217,6 +219,20 @@ export default function searchReducer(state = initialState, action = {}) {
       };
 
       return filtersResetState;
+    }
+
+    case types.QUERY_SERIES: {
+      let results = assignToEmpty(state.seriesResults, {});
+      if (!results[action.seriesTitle]) {
+        results[action.seriesTitle] = [];
+      }
+
+      results[action.seriesTitle] = results[action.seriesTitle].concat(action.seriesResults);
+
+      return assignToEmpty(state, {
+        seriesResults: assignToEmpty(state.seriesResults, results),
+        moreSeriesResults: results[action.seriesTitle].length === action.limit
+      });
     }
 
     default: {

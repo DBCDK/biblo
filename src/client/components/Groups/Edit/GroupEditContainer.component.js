@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -157,14 +158,14 @@ export class GroupEditContainer extends React.Component {
 
 GroupEditContainer.displayName = 'GroupEditContainer';
 GroupEditContainer.propTypes = {
-  profileState: React.PropTypes.object.isRequired,
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  group: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  profileState: PropTypes.object.isRequired,
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  group: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 /**

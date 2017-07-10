@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/book_no_border.svg';
@@ -98,6 +99,6 @@ export default class SearchFilters extends React.Component {
 SearchFilters.displayName = 'SearchFilters';
 
 SearchFilters.propTypes = {
-  search: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  search: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired
 };

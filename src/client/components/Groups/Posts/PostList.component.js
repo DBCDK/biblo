@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PostView from './PostView.component.js';
 
 export function PostList({
@@ -45,19 +46,19 @@ export function PostList({
 
 PostList.displayName = 'PostList';
 PostList.propTypes = {
-  campaign: React.PropTypes.object,
-  posts: React.PropTypes.array.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  groupId: React.PropTypes.number.isRequired,
-  groupActions: React.PropTypes.object.isRequired,
-  flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  works: React.PropTypes.object,
-  getMoreWorks: React.PropTypes.func,
-  coverImages: React.PropTypes.object.isRequired,
-  getCoverImage: React.PropTypes.func.isRequired,
-  groupIsClosed: React.PropTypes.bool
+  campaign: PropTypes.object,
+  posts: PropTypes.array.isRequired,
+  profile: PropTypes.object.isRequired,
+  groupId: PropTypes.number.isRequired,
+  groupActions: PropTypes.object.isRequired,
+  flagActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  works: PropTypes.object,
+  getMoreWorks: PropTypes.func,
+  coverImages: PropTypes.object.isRequired,
+  getCoverImage: PropTypes.func.isRequired,
+  groupIsClosed: PropTypes.bool
 };
 
 PostList.defaultProps = {

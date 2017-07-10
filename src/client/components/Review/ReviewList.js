@@ -2,6 +2,7 @@
  * @file: Create a simple list of reviews. Initially written for the review list for the work page.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
 import './ReviewList.scss';
@@ -58,20 +59,20 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
 }
 
 ReviewList.propTypes = {
-  totalCount: React.PropTypes.number,
-  reviews: React.PropTypes.array.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  reviewActions: React.PropTypes.object.isRequired,
-  flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  expand: React.PropTypes.func,
-  delta: React.PropTypes.number,
-  skip: React.PropTypes.number,
-  limit: React.PropTypes.number,
-  pids: React.PropTypes.array,
-  isLoading: React.PropTypes.bool,
-  ownReview: React.PropTypes.bool
+  totalCount: PropTypes.number,
+  reviews: PropTypes.array.isRequired,
+  profile: PropTypes.object.isRequired,
+  reviewActions: PropTypes.object.isRequired,
+  flagActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  expand: PropTypes.func,
+  delta: PropTypes.number,
+  skip: PropTypes.number,
+  limit: PropTypes.number,
+  pids: PropTypes.array,
+  isLoading: PropTypes.bool,
+  ownReview: PropTypes.bool
 };
 
 ReviewList.defaultProps = {

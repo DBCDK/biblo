@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_footer.scss';
 
 import NavbarLink from '../Navbar/NavbarLink.component';
@@ -43,7 +44,7 @@ export default class FooterContainer extends React.Component {
 }
 
 FooterContainer.propTypes = {
-  globalState: React.PropTypes.object.isRequired
+  globalState: PropTypes.object.isRequired
 };
 
 FooterContainer.defaultProps = {

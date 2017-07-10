@@ -2,6 +2,7 @@
  * @file this file is for displaying a single review at a time.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -169,22 +170,22 @@ export class WorkReviewContainer extends React.Component {
 
 WorkReviewContainer.displayName = 'WorkReviewContainer';
 WorkReviewContainer.propTypes = {
-  searchState: React.PropTypes.object.isRequired,
-  reviewState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  reviewActions: React.PropTypes.object.isRequired,
-  flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object,
-  worktype: React.PropTypes.string,
-  workActions: React.PropTypes.object.isRequired,
-  workState: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object,
-  entitySuggest: React.PropTypes.object.isRequired,
-  libraryActions: React.PropTypes.object.isRequired,
-  profileActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  searchState: PropTypes.object.isRequired,
+  reviewState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  reviewActions: PropTypes.object.isRequired,
+  flagActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  ui: PropTypes.object,
+  worktype: PropTypes.string,
+  workActions: PropTypes.object.isRequired,
+  workState: PropTypes.object.isRequired,
+  profile: PropTypes.object,
+  entitySuggest: PropTypes.object.isRequired,
+  libraryActions: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 export default connect(

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './tiny-button.scss';
 
@@ -19,9 +20,9 @@ const TinyButton = ({icon, clickFunction, active}) => {
 TinyButton.displayName = 'TinyButton.component';
 
 TinyButton.propTypes = {
-  clickFunction: React.PropTypes.func,
-  icon: React.PropTypes.element.isRequired,
-  active: React.PropTypes.bool
+  clickFunction: PropTypes.func,
+  icon: PropTypes.element.isRequired,
+  active: PropTypes.bool
 };
 
 TinyButton.defaultProps = {

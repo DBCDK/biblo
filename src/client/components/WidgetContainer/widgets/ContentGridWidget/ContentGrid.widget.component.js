@@ -2,7 +2,8 @@
  * @file: ContentGrid Widget, renders a content grid based on the react component of the same name.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import ContentGrid from '../../../General/ContentGrid/ContentGrid.component';
 import {isEqual} from 'lodash';
 

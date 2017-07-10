@@ -2,6 +2,7 @@
  * @file Handle reviews of works. Uploads media like in the groups.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import TimeToString from '../../Utils/timeToString.js';
 import ExtractYoutubeID from '../../Utils/extractYoutubeID';
@@ -612,32 +613,32 @@ export default class Review extends UploadMedia {
 
 Review.displayName = 'Review';
 Review.propTypes = {
-  owner: React.PropTypes.object,                        // for profile image in view
-  profile: React.PropTypes.object.isRequired,           // for editing, flagging, liking
-  id: React.PropTypes.number,
-  pid: React.PropTypes.string.isRequired,
-  pids: React.PropTypes.array,                          // from openplatform work endpoint (optional)
-  reviewownerid: React.PropTypes.number,
-  logo: React.PropTypes.string,
-  isEditing: React.PropTypes.bool,
-  worktype: React.PropTypes.string,                     // term.workType (underværksniveau)
-  content: React.PropTypes.string,
-  rating: React.PropTypes.number,
-  reviewActions: React.PropTypes.object.isRequired,
-  timeCreated: React.PropTypes.string,
-  image: React.PropTypes.string,
-  video: React.PropTypes.object,
-  flagActions: React.PropTypes.object,
-  likes: React.PropTypes.array,
-  likeActions: React.PropTypes.object,
-  uiActions: React.PropTypes.object.isRequired,
-  errors: React.PropTypes.array,
-  modified: React.PropTypes.any,
-  created: React.PropTypes.any,
-  abort: React.PropTypes.any,
-  parentId: React.PropTypes.any,
-  imageId: React.PropTypes.number,
-  toggleReview: React.PropTypes.func,
-  ownReview: React.PropTypes.bool
+  owner: PropTypes.object,                        // for profile image in view
+  profile: PropTypes.object.isRequired,           // for editing, flagging, liking
+  id: PropTypes.number,
+  pid: PropTypes.string.isRequired,
+  pids: PropTypes.array,                          // from openplatform work endpoint (optional)
+  reviewownerid: PropTypes.number,
+  logo: PropTypes.string,
+  isEditing: PropTypes.bool,
+  worktype: PropTypes.string,                     // term.workType (underværksniveau)
+  content: PropTypes.string,
+  rating: PropTypes.number,
+  reviewActions: PropTypes.object.isRequired,
+  timeCreated: PropTypes.string,
+  image: PropTypes.string,
+  video: PropTypes.object,
+  flagActions: PropTypes.object,
+  likes: PropTypes.array,
+  likeActions: PropTypes.object,
+  uiActions: PropTypes.object.isRequired,
+  errors: PropTypes.array,
+  modified: PropTypes.any,
+  created: PropTypes.any,
+  abort: PropTypes.any,
+  parentId: PropTypes.any,
+  imageId: PropTypes.number,
+  toggleReview: PropTypes.func,
+  ownReview: PropTypes.bool
 };
 

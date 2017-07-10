@@ -6,6 +6,7 @@
 
 // Libraries
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 // Components
@@ -175,12 +176,12 @@ export default class RenewLoanButton extends React.Component {
 }
 
 RenewLoanButton.propTypes = {
-  className: React.PropTypes.string,
-  loanId: React.PropTypes.string.isRequired,
-  renewLoanAction: React.PropTypes.func.isRequired,
-  userstatusState: React.PropTypes.object.isRequired,
-  materialTitle: React.PropTypes.string.isRequired,
-  messageCreatedEpoch: React.PropTypes.number.isRequired
+  className: PropTypes.string,
+  loanId: PropTypes.string.isRequired,
+  renewLoanAction: PropTypes.func.isRequired,
+  userstatusState: PropTypes.object.isRequired,
+  materialTitle: PropTypes.string.isRequired,
+  messageCreatedEpoch: PropTypes.number.isRequired
 };
 
 RenewLoanButton.defaultProps = {

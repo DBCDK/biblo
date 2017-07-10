@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './content-grid.scss';
@@ -19,10 +20,10 @@ function ContentGridElement({title, text='', url=null, imageUrl=null}) {
 ContentGridElement.displayName = 'ContentGridElement';
 
 ContentGridElement.propTypes = {
-  title: React.PropTypes.string,
-  text: React.PropTypes.string,
-  url: React.PropTypes.string,
-  imageUrl: React.PropTypes.string
+  title: PropTypes.string,
+  text: PropTypes.string,
+  url: PropTypes.string,
+  imageUrl: PropTypes.string
 };
 
 export default ContentGridElement;

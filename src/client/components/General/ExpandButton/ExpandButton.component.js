@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon.component.js';
 import plusSvg from '../Icon/svg/functions/plus.svg';
 import spinnerSvg from '../Icon/svg/spinners/loading-spin.svg';
@@ -24,7 +25,7 @@ export default function ExpandButton({text, onClick, isLoading}) { // eslint-dis
 }
 
 ExpandButton.propTypes = {
-  text: React.PropTypes.string,
-  onClick: React.PropTypes.func,
-  isLoading: React.PropTypes.bool
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+  isLoading: PropTypes.bool
 };

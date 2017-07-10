@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import MessageRow from './MessageRow.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
@@ -67,13 +68,13 @@ export default class MessagesContainer extends React.Component {
 
 MessagesContainer.displayName = 'MessagesContainer';
 MessagesContainer.propTypes = {
-  agencies: React.PropTypes.object.isRequired,
-  agencyActions: React.PropTypes.object.isRequired,
-  groupActions: React.PropTypes.object.isRequired,
-  groupState: React.PropTypes.object.isRequired,
-  messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  readAction: React.PropTypes.func.isRequired,
-  deleteAction: React.PropTypes.func.isRequired,
-  renewLoanAction: React.PropTypes.func.isRequired,
-  userstatusState: React.PropTypes.object.isRequired
+  agencies: PropTypes.object.isRequired,
+  agencyActions: PropTypes.object.isRequired,
+  groupActions: PropTypes.object.isRequired,
+  groupState: PropTypes.object.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  readAction: PropTypes.func.isRequired,
+  deleteAction: PropTypes.func.isRequired,
+  renewLoanAction: PropTypes.func.isRequired,
+  userstatusState: PropTypes.object.isRequired
 };

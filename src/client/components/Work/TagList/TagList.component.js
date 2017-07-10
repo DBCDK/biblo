@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import tagSvg from '../../General/Icon/svg/functions/tag.svg';
@@ -27,5 +28,5 @@ export class TagList extends React.Component {
 
 TagList.displayName = 'TagList';
 TagList.propTypes = {
-  tags: React.PropTypes.array.isRequired
+  tags: PropTypes.array.isRequired
 };

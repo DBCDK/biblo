@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './icon.scss';
 
 /**
@@ -35,9 +36,9 @@ export default function Icon({glyph, svgLink, width = 16, height = 16, className
 }
 
 Icon.propTypes = {
-  glyph: React.PropTypes.any,
-  svgLink: React.PropTypes.string,
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
-  className: React.PropTypes.string
+  glyph: PropTypes.any,
+  svgLink: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  className: PropTypes.string
 };

@@ -11,7 +11,8 @@
  *
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import widgetComponents from './widgets';
 
 import './scss/widgetContainer.scss';

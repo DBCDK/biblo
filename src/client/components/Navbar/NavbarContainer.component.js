@@ -1,5 +1,6 @@
 // Libs
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import SearchContainer from '../SearchBox/SearchContainer.component.js';
@@ -179,10 +180,10 @@ export default class NavbarContainer extends React.Component {
 NavbarContainer.displayName = 'NavbarContainer';
 
 NavbarContainer.propTypes = {
-  profileState: React.PropTypes.object.isRequired,
-  searchState: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired
+  profileState: PropTypes.object.isRequired,
+  searchState: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired
 };
 
 NavbarContainer.defaultProps = {

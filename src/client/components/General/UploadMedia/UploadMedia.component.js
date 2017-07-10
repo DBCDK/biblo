@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Base class for media uploads
@@ -262,13 +263,13 @@ export default class UploadMedia extends React.Component {
 
 UploadMedia.displayName = 'UploadMedia';
 UploadMedia.propTypes = {
-  abort: React.PropTypes.func,
-  delete: React.PropTypes.func,
-  addContentAction: React.PropTypes.func.isRequired,
-  autofocus: React.PropTypes.bool,
-  profile: React.PropTypes.object.isRequired,
-  type: React.PropTypes.string.isRequired,
-  text: React.PropTypes.string,
-  image: React.PropTypes.string,
-  id: React.PropTypes.number
+  abort: PropTypes.func,
+  delete: PropTypes.func,
+  addContentAction: PropTypes.func.isRequired,
+  autofocus: PropTypes.bool,
+  profile: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  text: PropTypes.string,
+  image: PropTypes.string,
+  id: PropTypes.number
 };

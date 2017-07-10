@@ -2,7 +2,8 @@
  * @file: ContentPageImageWidget, made to render images on content pages.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {isEqual} from 'lodash';
 
 export class ContentPageImageWidget extends Component {

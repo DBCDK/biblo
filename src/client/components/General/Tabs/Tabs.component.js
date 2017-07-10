@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as newrelicWrapper from '../../../Utils/newrelicWrapper';
 
 import Icon from '../../General/Icon/Icon.component';
@@ -90,9 +91,9 @@ export default class Tabs extends React.Component {
 }
 
 Tabs.propTypes = {
-  selected: React.PropTypes.number,
-  tabs: React.PropTypes.arrayOf(React.PropTypes.object),
-  counter: React.PropTypes.number
+  selected: PropTypes.number,
+  tabs: PropTypes.arrayOf(PropTypes.object),
+  counter: PropTypes.number
 };
 
 Tabs.defaultProps = {

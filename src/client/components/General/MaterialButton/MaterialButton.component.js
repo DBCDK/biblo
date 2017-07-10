@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon.component.js';
 import './MaterialButton.component.scss';
 
@@ -31,8 +32,8 @@ const MaterialButton = ({materialType='book', active=false}) => {
 
 MaterialButton.displayName = 'MaterialButton';
 MaterialButton.propTypes = {
-  active: React.PropTypes.bool.isRequired,
-  materialType: React.PropTypes.string.isRequired
+  active: PropTypes.bool.isRequired,
+  materialType: PropTypes.string.isRequired
 };
 
 export default MaterialButton;

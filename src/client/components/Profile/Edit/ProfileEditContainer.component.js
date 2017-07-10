@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -103,13 +104,13 @@ class ProfileEditContainer extends React.Component {
 
 ProfileEditContainer.displayName = 'ProfileEditContainer';
 ProfileEditContainer.propTypes = {
-  searchState: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  libraryActions: React.PropTypes.object.isRequired,
-  entitySuggest: React.PropTypes.object.isRequired
+  searchState: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  libraryActions: PropTypes.object.isRequired,
+  entitySuggest: PropTypes.object.isRequired
 };
 
 /**

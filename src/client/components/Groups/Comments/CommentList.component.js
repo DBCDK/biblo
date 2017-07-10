@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CommentView from './CommentView.component';
 
 export function CommentList({
@@ -27,15 +28,15 @@ export function CommentList({
 }
 
 CommentList.propTypes = {
-  comments: React.PropTypes.array.isRequired,
-  submitFlagFunction: React.PropTypes.func.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  groupActions: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  works: React.PropTypes.object.isRequired,
-  coverImages: React.PropTypes.object.isRequired,
-  getMoreWorks: React.PropTypes.func,
-  groupId: React.PropTypes.any,
-  postId: React.PropTypes.any,
-  deleteAction: React.PropTypes.func
+  comments: PropTypes.array.isRequired,
+  submitFlagFunction: PropTypes.func.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  groupActions: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  works: PropTypes.object.isRequired,
+  coverImages: PropTypes.object.isRequired,
+  getMoreWorks: PropTypes.func,
+  groupId: PropTypes.any,
+  postId: PropTypes.any,
+  deleteAction: PropTypes.func
 };

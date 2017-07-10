@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import equal from 'deep-equal';
@@ -13,6 +14,7 @@ import {WorkDetail} from './Detail/WorkDetail.component.js';
 import {WorkHeader} from './Header/WorkHeader.component.js';
 import {MoreInfo} from './MoreInfo/MoreInfo.component.js';
 import {MultiVolumeDisplay} from './MultiVolumeDisplay/MultiVolumeDisplay.component';
+import {SeriesDisplay} from './SeriesDisplay/SeriesDisplay.component';
 
 import * as reviewActions from '../../Actions/review.actions';
 import * as flagActions from '../../Actions/flag.actions.js';
@@ -209,6 +211,14 @@ export class WorkContainer extends React.Component {
           <div className="work--moreinfo">
             {multivolumeDisplay}
 
+            {work.titleSeries.length > 0 &&
+              <SeriesDisplay
+                work={work}
+                seriesResults={this.props.searchState.seriesResults}
+                moreSeriesResults={this.props.searchState.moreSeriesResults}
+                searchAction={this.props.searchActions.asyncQuerySeries}
+              />}
+
             <MoreInfo
               materials={work.collectionDetails}
               lix={work.lix}
@@ -236,22 +246,22 @@ export class WorkContainer extends React.Component {
 
 WorkContainer.displayName = 'WorkContainer';
 WorkContainer.propTypes = {
-  searchState: React.PropTypes.object.isRequired,
-  reviewState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  reviewActions: React.PropTypes.object.isRequired,
-  flagActions: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  uiActions: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object,
-  worktype: React.PropTypes.string,
-  workActions: React.PropTypes.object.isRequired,
-  workState: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object,
-  entitySuggest: React.PropTypes.object.isRequired,
-  libraryActions: React.PropTypes.object.isRequired,
-  profileActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  searchState: PropTypes.object.isRequired,
+  reviewState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  reviewActions: PropTypes.object.isRequired,
+  flagActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  ui: PropTypes.object,
+  worktype: PropTypes.string,
+  workActions: PropTypes.object.isRequired,
+  workState: PropTypes.object.isRequired,
+  profile: PropTypes.object,
+  entitySuggest: PropTypes.object.isRequired,
+  libraryActions: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 export default connect(

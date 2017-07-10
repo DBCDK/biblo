@@ -2,6 +2,7 @@
  *  @file handle actions and flow state related to reviews
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../General/Icon/Icon.component.js';
 import Login from '../General/Login/Login.component.js';
 import './ReviewButton.scss';
@@ -45,11 +46,11 @@ export class ReviewButton extends React.Component {
 
 ReviewButton.displayName = 'ReviewButton';
 ReviewButton.propTypes = {
-  editText: React.PropTypes.string,
-  clickFunction: React.PropTypes.func,
-  profile: React.PropTypes.object,
-  glyph: React.PropTypes.string,
-  loginRequired: React.PropTypes.bool
+  editText: PropTypes.string,
+  clickFunction: PropTypes.func,
+  profile: PropTypes.object,
+  glyph: PropTypes.string,
+  loginRequired: PropTypes.bool
 };
 
 ReviewButton.defaultProps = {

@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import Rating from '../../General/Rating/Rating.component';
@@ -169,8 +170,8 @@ export default class ReviewRow extends React.Component {
 ReviewRow.displayName = 'ReviewRow';
 
 ReviewRow.propTypes = {
-  activeUser: React.PropTypes.object.isRequired,
-  metadata: React.PropTypes.object.isRequired,
-  likeActions: React.PropTypes.object.isRequired,
-  review: React.PropTypes.object.isRequired
+  activeUser: PropTypes.object.isRequired,
+  metadata: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  review: PropTypes.object.isRequired
 };

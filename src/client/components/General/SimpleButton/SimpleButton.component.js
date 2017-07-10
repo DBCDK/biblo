@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // sass
 import './SimpleButton.component.scss';
@@ -18,8 +19,8 @@ export default class SimpleButton extends React.Component {
 SimpleButton.displayName = 'SimpleButton';
 
 SimpleButton.propTypes = {
-  text: React.PropTypes.string,
-  onClick: React.PropTypes.func
+  text: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 SimpleButton.defaultProps = {

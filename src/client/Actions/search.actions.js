@@ -9,6 +9,7 @@ import {once, filter} from 'lodash';
 
 const searchClient = SocketClient('search');
 const searchClientListener = once(searchClient.response);
+const searchSeriesListener = searchClient.response;
 
 const searchGroups = SocketClient('searchGroups');
 const searchGroupListener = once(searchGroups.response);
@@ -153,5 +154,25 @@ export function searchQueryHasChanged(q) {
   return {
     type: types.SEARCH_QUERY_HAS_CHANGED,
     q
+  };
+}
+
+export function asyncQuerySeries({seriesTitle, offset = 0, limit = 20, fields = ['pid'], sort = 'solr_numberInSeries_ascending'}) {
+  return dispatch => {
+    searchSeriesListener(res => {
+      dispatch(querySeries(res, seriesTitle, offset, limit));
+    });
+
+    searchClient.request({seriesTitle, offset, limit, fields, rankSort: sort});
+  };
+}
+
+export function querySeries(res, seriesTitle, offset, limit) {
+  return {
+    type: types.QUERY_SERIES,
+    seriesResults: res.data || [],
+    seriesTitle: res.q.seriesTitle,
+    offset,
+    limit
   };
 }

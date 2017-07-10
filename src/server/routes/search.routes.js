@@ -13,6 +13,7 @@ SearchRoutes.get('/', async function (req, res, next) {
     const params = {
       q: (req.query.q) ? decodeURIComponent(req.query.q) : null,
       grupper: parseInt(req.query.grupper, 10),
+      seriesTitle: (req.query.serie) ? decodeURIComponent(req.query.serie) : null,
       forfatter: (req.query.forfatter) ? decodeURIComponent(req.query.forfatter) : null,
       materialer: (req.query.materialer) ? decodeURIComponent(req.query.materialer) : null,
       emneord: (req.query.emneord) ? decodeURIComponent(req.query.emneord) : null,

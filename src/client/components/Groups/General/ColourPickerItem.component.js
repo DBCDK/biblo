@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export function ColourPickerItem({colourName, disabled, inputName, onChangeFunction}) {
   return (
@@ -24,8 +25,8 @@ export function ColourPickerItem({colourName, disabled, inputName, onChangeFunct
 
 ColourPickerItem.displayName = 'ColourPickerItem';
 ColourPickerItem.propTypes = {
-  colourName: React.PropTypes.string.isRequired,
-  disabled: React.PropTypes.bool.isRequired,
-  inputName: React.PropTypes.string.isRequired,
-  onChangeFunction: React.PropTypes.func.isRequired
+  colourName: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  inputName: PropTypes.string.isRequired,
+  onChangeFunction: PropTypes.func.isRequired
 };

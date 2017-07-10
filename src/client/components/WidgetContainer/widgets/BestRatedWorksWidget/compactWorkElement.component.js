@@ -2,7 +2,8 @@
  * @file: Compact work element, displays a work in a compact way.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../../General/Icon/Icon.component';
 
 import './scss/compactWorkElement.component.scss';

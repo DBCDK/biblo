@@ -3,6 +3,7 @@
  * Creates a binary 'Like' button
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import './like-button.scss';
 import Icon from '../Icon/Icon.component.js';
 import heartSvg from '../Icon/svg/functions/heart.svg';
@@ -27,9 +28,9 @@ export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = 
 }
 
 LikeButton.propTypes = {
-  usersWhoLikeThis: React.PropTypes.any,
-  isLikedByCurrentUser: React.PropTypes.bool,
-  active: React.PropTypes.bool,
-  likeFunction: React.PropTypes.func,
-  unlikeFunction: React.PropTypes.func
+  usersWhoLikeThis: PropTypes.any,
+  isLikedByCurrentUser: PropTypes.bool,
+  active: PropTypes.bool,
+  likeFunction: PropTypes.func,
+  unlikeFunction: PropTypes.func
 };

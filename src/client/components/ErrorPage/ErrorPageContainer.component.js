@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -33,10 +34,10 @@ export class ErrorPageContainer extends React.Component {
 
 ErrorPageContainer.displayName = 'ErrorPageContainer';
 ErrorPageContainer.propTypes = {
-  profileState: React.PropTypes.object.isRequired,
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  globalState: React.PropTypes.object.isRequired
+  profileState: PropTypes.object.isRequired,
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired
 };
 
 export default connect(

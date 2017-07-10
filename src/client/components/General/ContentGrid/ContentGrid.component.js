@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ContentGridElement from './ContentGridElement.component.js';
 
@@ -30,7 +31,7 @@ function ContentGrid({items=[]}) {
 ContentGrid.displayName = 'ContentGrid';
 
 ContentGrid.propTypes = {
-  items: React.PropTypes.array
+  items: PropTypes.array
 };
 
 export default ContentGrid;

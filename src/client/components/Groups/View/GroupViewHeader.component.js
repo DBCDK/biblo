@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './scss/groupViewHeader.scss';
 
@@ -12,5 +13,5 @@ export default function GroupHeader({uri}) {
 }
 
 GroupHeader.propTypes = {
-  uri: React.PropTypes.string.isRequired
+  uri: PropTypes.string.isRequired
 };

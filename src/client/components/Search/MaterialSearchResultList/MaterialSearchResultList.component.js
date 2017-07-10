@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/book_no_border.svg';
@@ -114,5 +115,5 @@ export default class MaterialSearchResultList extends React.Component {
 
 MaterialSearchResultList.displayName = 'MaterialSearchResultList';
 MaterialSearchResultList.propTypes = {
-  results: React.PropTypes.array.isRequired
+  results: PropTypes.array.isRequired
 };

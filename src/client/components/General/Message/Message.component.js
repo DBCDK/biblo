@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../../General/Icon/Icon.component';
 
 // svgs
@@ -19,7 +20,7 @@ export default function Message({children, type, onClose}) {
 }
 
 Message.propTypes = {
-  children: React.PropTypes.any.isRequired,
-  onClose: React.PropTypes.func,
-  type: React.PropTypes.string.isRequired
+  children: PropTypes.any.isRequired,
+  onClose: PropTypes.func,
+  type: PropTypes.string.isRequired
 };

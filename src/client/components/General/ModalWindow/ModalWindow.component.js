@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../Icon/Icon.component';
 import closeSvg from '../Icon/svg/functions/close.svg';

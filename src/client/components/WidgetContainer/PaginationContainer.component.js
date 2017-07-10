@@ -2,7 +2,8 @@
  * @file: This file implements the pagination container, which abstracts pagination away
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import VisibilitySensor from 'react-visibility-sensor';
 import Icon from '../General/Icon/Icon.component';

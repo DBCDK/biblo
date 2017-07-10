@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {InputField} from '../../General/InputField/InputField.component';
 import {SearchDropDown} from '../../SearchBox/SearchDropDown/SearchDropDown.component.js';
@@ -210,16 +211,16 @@ export class ProfileLibraryInfo extends React.Component {
 }
 
 ProfileLibraryInfo.propTypes = {
-  errorObj: React.PropTypes.object,
-  favoriteLibrary: React.PropTypes.object.isRequired,
-  unselectLibraryFunction: React.PropTypes.func.isRequired,
-  search: React.PropTypes.string,
-  searchAction: React.PropTypes.func.isRequired,
-  searchElements: React.PropTypes.array,
-  libraryId: React.PropTypes.string.isRequired,
-  loanerIdChangeFunc: React.PropTypes.func.isRequired,
-  pincodeChangeFunc: React.PropTypes.func.isRequired,
-  requireAll: React.PropTypes.bool
+  errorObj: PropTypes.object,
+  favoriteLibrary: PropTypes.object.isRequired,
+  unselectLibraryFunction: PropTypes.func.isRequired,
+  search: PropTypes.string,
+  searchAction: PropTypes.func.isRequired,
+  searchElements: PropTypes.array,
+  libraryId: PropTypes.string.isRequired,
+  loanerIdChangeFunc: PropTypes.func.isRequired,
+  pincodeChangeFunc: PropTypes.func.isRequired,
+  requireAll: PropTypes.bool
 };
 
 ProfileLibraryInfo.defaultProps = {

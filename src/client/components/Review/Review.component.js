@@ -133,7 +133,7 @@ export default class Review extends UploadMedia {
           this.props.uiActions.closeModalWindow();
         }}
         confirmFunc={() => {
-          this.props.reviewActions.asyncDeleteWorkReview(this.props.id, this.state.pids);
+          this.props.reviewActions.asyncDeleteWorkReview(this.props.id, this.state.pids, this.props.pid);
           this.setState({id: null, text: '', attachment: {}});
           this.props.uiActions.closeModalWindow();
         }}
@@ -371,17 +371,17 @@ export default class Review extends UploadMedia {
       });
     }
 
-    const reviewFlagModalContent = (
+    const reviewFlagModalContent = this.state.id ? (
       <CreateFlagDialog
         submitFunction={this.submitReviewFlag}
         onClose={this.props.uiActions.closeModalWindow}
         contentType={'review'}
         contentId={this.state.id}
       />
-    );
+    ) : null;
 
     const flagFunction = () => {
-      if (profile.userIsLoggedIn) {
+      if (profile.userIsLoggedIn && this.state.id) {
         this.props.uiActions.openModalWindow(reviewFlagModalContent);
       }
       else {

@@ -32,6 +32,28 @@ const CreateReviewTransform = {
         }
 
         return response;
+      }).then(response => {
+        return Promise.all([response, this.callServiceClient('cached/standard/openplatform', 'work', {
+          pids: [query.pid],
+          fields: [
+            'subjectDBCS',
+            'subjectGenre'
+          ]
+        })]);
+      }).then(responses => {
+        const work = JSON.parse(responses[1].body).data[0];
+        const subjects = work.subjectDBCS || [];
+        const genres = work.subjectGenre || [];
+        const promises = [responses[0]];
+        if (genres.length) {
+          promises.push(this.callServiceClient('community', 'addGenres', {reviewId: responses[0].body.id, genres: genres.join(',')}));
+        }
+        if (subjects.length) {
+          promises.push(this.callServiceClient('community', 'addSubjects', {reviewId: responses[0].body.id, subjects: subjects.join(',')}));
+        }
+        return Promise.all(promises);
+      }).then(responses => {
+        return responses[0];
       });
     }
     return {};

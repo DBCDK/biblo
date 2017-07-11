@@ -80,7 +80,7 @@ export class SeriesDisplay extends Component {
         if (typeof book.titleSeries[idx] === 'string') {
           const ed = editionRegex.exec(book.titleSeries[idx]);
           if (ed && ed.length > 0) {
-            bookTitle = `Bog ${ed[1]}`;
+            bookTitle = `${ed[1]}. Bog`;
           }
         }
 

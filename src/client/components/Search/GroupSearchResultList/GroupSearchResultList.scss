@@ -6,6 +6,10 @@
     @include squish(10px);
   }
 
+  .group-search--results.empty {
+    margin-bottom: 2em;
+  }
+
   .result-item {
     @include result-list();
     @include min-screen($tablet){

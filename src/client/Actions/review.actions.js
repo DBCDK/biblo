@@ -53,11 +53,11 @@ export function createWorkReview(review) {
   };
 }
 
-export function asyncDeleteWorkReview(reviewId, pids) {
+export function asyncDeleteWorkReview(reviewId, pids, pid) {
   let skip=0, limit = 10;
   return function (dispatch) {
     dispatch(deleteReview(reviewId));
-    deleteReviewClient.request({id: reviewId});
+    deleteReviewClient.request({id: reviewId, pid: pid});
     const event = deleteReviewClient.response(() => {
       if (pids) {
         dispatch(asyncShowWorkReviews(pids, skip, limit, null));

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './VisFlereButton.component.scss';
 import Icon from '../Icon/Icon.component';
 import plusSvg from '../Icon/svg/functions/plus.svg';
@@ -23,6 +24,6 @@ export default function VisFlereButton({onClick, isLoading}) {
 
 VisFlereButton.displayName = 'VisFlereButton';
 VisFlereButton.propTypes = {
-  onClick: React.PropTypes.func,
-  isLoading: React.PropTypes.bool
+  onClick: PropTypes.func,
+  isLoading: PropTypes.bool
 };

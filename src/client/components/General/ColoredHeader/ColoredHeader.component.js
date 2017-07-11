@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../Icon/Icon.component.js';
 
@@ -33,11 +34,11 @@ export default function ColoredHeader(props) {
 ColoredHeader.displayName = 'ColoredHeader';
 
 ColoredHeader.propTypes = {
-  color: React.PropTypes.string,
-  iconGlyph: React.PropTypes.any,
-  text: React.PropTypes.string,
-  title: React.PropTypes.string,
-  imageSrc: React.PropTypes.string,
-  backgroundColor: React.PropTypes.string,
-  backgroundImageUrl: React.PropTypes.string
+  color: PropTypes.string,
+  iconGlyph: PropTypes.any,
+  text: PropTypes.string,
+  title: PropTypes.string,
+  imageSrc: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  backgroundImageUrl: PropTypes.string
 };

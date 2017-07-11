@@ -2,7 +2,8 @@
  * @file: ContentPageEmbeddedVideoWidget embeds videos from vimeo and youtube onto content pages.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Youtube from 'react-youtube';
 import ExtractYoutubeID from '../../../../Utils/extractYoutubeID';
 import {isEqual} from 'lodash';

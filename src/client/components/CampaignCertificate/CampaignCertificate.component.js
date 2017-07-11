@@ -5,12 +5,12 @@
 /* eslint-disable max-len */
 /* eslint-disable react/no-danger */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {renderVideoGroupPost} from '../WidgetContainer/widgets/LatestGroupPostsWidget/CompactGroupPostElement.component';
 import '../Groups/Posts/PostView.component';
 import './scss/CampaignCertificate.component.scss';
 import Rating from '../General/Rating/Rating.component';
-
 
 export class CampaignCertificate extends Component {
   constructor(props) {

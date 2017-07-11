@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import Icon from '../General/Icon/Icon.component.js';
@@ -158,7 +159,7 @@ export default class SearchContainer extends React.Component {
 SearchContainer.displayName = 'SearchContainer';
 
 SearchContainer.propTypes = {
-  search: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  searchPlaceholder: React.PropTypes.string
+  search: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  searchPlaceholder: PropTypes.string
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autosize from 'autosize';
 import {isEmpty} from 'lodash';
 import dateformat from '../../../Utils/dateInputPolyfill/dateformat';
@@ -203,26 +204,26 @@ export default class ProfileForm extends React.Component {
 
 ProfileForm.displayName = 'ProfileForm';
 ProfileForm.propTypes = {
-  changeImageAction: React.PropTypes.func.isRequired,
-  errors: React.PropTypes.array.isRequired,
-  profileImageSrc: React.PropTypes.string.isRequired,
-  submitState: React.PropTypes.string,
-  submitProgress: React.PropTypes.number,
-  submit: React.PropTypes.func.isRequired,
-  phone: React.PropTypes.string,
-  displayName: React.PropTypes.string,
-  description: React.PropTypes.string,
-  email: React.PropTypes.string,
-  favoriteLibrary: React.PropTypes.object,
-  searchAction: React.PropTypes.func.isRequired,
-  searchElements: React.PropTypes.array.isRequired,
-  librarySearchDisabled: React.PropTypes.bool,
-  unselectLibraryFunction: React.PropTypes.func.isRequired,
-  search: React.PropTypes.string,
-  fullName: React.PropTypes.string,
-  birthday: React.PropTypes.string,
-  checkDisplayNameFunction: React.PropTypes.func.isRequired,
-  displayNameExists: React.PropTypes.bool
+  changeImageAction: PropTypes.func.isRequired,
+  errors: PropTypes.array.isRequired,
+  profileImageSrc: PropTypes.string.isRequired,
+  submitState: PropTypes.string,
+  submitProgress: PropTypes.number,
+  submit: PropTypes.func.isRequired,
+  phone: PropTypes.string,
+  displayName: PropTypes.string,
+  description: PropTypes.string,
+  email: PropTypes.string,
+  favoriteLibrary: PropTypes.object,
+  searchAction: PropTypes.func.isRequired,
+  searchElements: PropTypes.array.isRequired,
+  librarySearchDisabled: PropTypes.bool,
+  unselectLibraryFunction: PropTypes.func.isRequired,
+  search: PropTypes.string,
+  fullName: PropTypes.string,
+  birthday: PropTypes.string,
+  checkDisplayNameFunction: PropTypes.func.isRequired,
+  displayNameExists: PropTypes.bool
 };
 
 ProfileForm.defaultProps = {

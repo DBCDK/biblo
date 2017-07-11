@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../Icon/Icon.component.js';
 
@@ -85,10 +86,10 @@ export default class DroppableImageField extends React.Component {
 
 DroppableImageField.displayName = 'DroppableImageField';
 DroppableImageField.propTypes = {
-  imageSrc: React.PropTypes.string,
-  onFile: React.PropTypes.func.isRequired,
-  fieldName: React.PropTypes.string.isRequired,
-  overlayText: React.PropTypes.string
+  imageSrc: PropTypes.string,
+  onFile: PropTypes.func.isRequired,
+  fieldName: PropTypes.string.isRequired,
+  overlayText: PropTypes.string
 };
 
 DroppableImageField.defaultProps = {

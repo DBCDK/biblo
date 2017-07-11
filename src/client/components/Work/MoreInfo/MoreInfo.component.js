@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../../General/Icon/Icon.component.js';
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/book_no_border.svg';
@@ -183,21 +184,21 @@ export class MoreInfo extends React.Component {
 
 MoreInfo.displayName = 'MoreInfo';
 MoreInfo.propTypes = {
-  workType: React.PropTypes.string,
-  tags: React.PropTypes.array,
-  year: React.PropTypes.array,
-  dk5: React.PropTypes.string,
-  dk5Text: React.PropTypes.string,
-  languages: React.PropTypes.array,
-  ageRecommended: React.PropTypes.array,
-  ageAllowed: React.PropTypes.string,
-  publisher: React.PropTypes.string,
-  director: React.PropTypes.string,
-  actors: React.PropTypes.array,
-  lix: React.PropTypes.number,
-  extent: React.PropTypes.string,
-  materials: React.PropTypes.array,
-  isMultivolume: React.PropTypes.bool,
-  bind: React.PropTypes.string
+  workType: PropTypes.string,
+  tags: PropTypes.array,
+  year: PropTypes.array,
+  dk5: PropTypes.string,
+  dk5Text: PropTypes.string,
+  languages: PropTypes.array,
+  ageRecommended: PropTypes.array,
+  ageAllowed: PropTypes.string,
+  publisher: PropTypes.string,
+  director: PropTypes.string,
+  actors: PropTypes.array,
+  lix: PropTypes.number,
+  extent: PropTypes.string,
+  materials: PropTypes.array,
+  isMultivolume: PropTypes.bool,
+  bind: PropTypes.string
 };
 

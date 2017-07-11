@@ -2,7 +2,8 @@
  * @file: Full width banner, developed for, and tested on, the front page of biblo.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {debounce, isEqual} from 'lodash';
 import './scss/FullWidthBannerWidget.component.scss';
 

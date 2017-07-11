@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 
 import './create-flag-dialog.scss';
 
@@ -139,8 +139,8 @@ export default class CreateFlagDialog extends React.Component {
 CreateFlagDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   submitFunction: PropTypes.func.isRequired,
-  contentType: React.PropTypes.oneOf(['post', 'comment', 'review']).isRequired,
-  contentId: React.PropTypes.number.isRequired
+  contentType: PropTypes.oneOf(['post', 'comment', 'review']).isRequired,
+  contentId: PropTypes.number.isRequired
 };
 
 CreateFlagDialog.defaultProps = {

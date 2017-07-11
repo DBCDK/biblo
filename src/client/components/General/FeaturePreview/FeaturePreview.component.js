@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Hides a feature behind a debug flag.
@@ -17,7 +18,7 @@ export default function FeaturePreview({show = false, previewKey = 'debugMode', 
 }
 
 FeaturePreview.propTypes = {
-  show: React.PropTypes.bool,
-  previewKey: React.PropTypes.string,
-  children: React.PropTypes.any.isRequired
+  show: PropTypes.bool,
+  previewKey: PropTypes.string,
+  children: PropTypes.any.isRequired
 };

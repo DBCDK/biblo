@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -43,12 +44,12 @@ export class GroupsContainer extends React.Component {
 
 GroupsContainer.displayName = 'GroupsContainer';
 GroupsContainer.propTypes = {
-  profileState: React.PropTypes.object.isRequired,
-  searchState: React.PropTypes.object.isRequired,
-  searchActions: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object,
-  data: React.PropTypes.object,
-  globalState: React.PropTypes.object
+  profileState: PropTypes.object.isRequired,
+  searchState: PropTypes.object.isRequired,
+  searchActions: PropTypes.object.isRequired,
+  actions: PropTypes.object,
+  data: PropTypes.object,
+  globalState: PropTypes.object
 };
 
 export default connect(

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ClassNames from 'classnames';
 import Icon from '../Icon/Icon.component.js';
 
@@ -36,8 +37,8 @@ export default function Follow({active, text, onClick, showLoginLink}) {
 }
 
 Follow.propTypes = {
-  text: React.PropTypes.string,
-  onClick: React.PropTypes.func,
-  active: React.PropTypes.bool,
-  showLoginLink: React.PropTypes.bool
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+  active: PropTypes.bool,
+  showLoginLink: PropTypes.bool
 };

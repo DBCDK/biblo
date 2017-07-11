@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './confirm-dialog.scss';
 
@@ -19,11 +20,11 @@ function ConfirmDialog({cancelFunc=() => {}, confirmFunc=()=>{}, children='...',
 ConfirmDialog.displayName = 'ConfirmDialog';
 
 ConfirmDialog.propTypes = {
-  cancelFunc: React.PropTypes.func.isRequired,
-  confirmFunc: React.PropTypes.func.isRequired,
-  cancelButtonText: React.PropTypes.string.isRequired,
-  confirmButtonText: React.PropTypes.string.isRequired,
-  children: React.PropTypes.any.isRequired
+  cancelFunc: PropTypes.func.isRequired,
+  confirmFunc: PropTypes.func.isRequired,
+  cancelButtonText: PropTypes.string.isRequired,
+  confirmButtonText: PropTypes.string.isRequired,
+  children: PropTypes.any.isRequired
 };
 
 export default ConfirmDialog;

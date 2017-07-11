@@ -4,7 +4,7 @@ import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.comp
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';
 import Konami from '../General/Konami/Konami.component';
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 
 if (typeof window !== 'undefined' && window.FastClick) {
   window.addEventListener('load', () => {

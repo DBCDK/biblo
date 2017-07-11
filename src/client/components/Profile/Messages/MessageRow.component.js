@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -370,13 +371,13 @@ export default class MessageRow extends React.Component {
 
 MessageRow.displayName = 'MessageRow';
 MessageRow.propTypes = {
-  agencies: React.PropTypes.object.isRequired,
-  agencyActions: React.PropTypes.object.isRequired,
-  groupActions: React.PropTypes.object.isRequired,
-  groupState: React.PropTypes.object.isRequired,
-  message: React.PropTypes.object.isRequired,
-  readAction: React.PropTypes.func.isRequired,
-  deleteAction: React.PropTypes.func.isRequired,
-  renewLoanAction: React.PropTypes.func.isRequired,
-  userstatusState: React.PropTypes.object.isRequired
+  agencies: PropTypes.object.isRequired,
+  agencyActions: PropTypes.object.isRequired,
+  groupActions: PropTypes.object.isRequired,
+  groupState: PropTypes.object.isRequired,
+  message: PropTypes.object.isRequired,
+  readAction: PropTypes.func.isRequired,
+  deleteAction: PropTypes.func.isRequired,
+  renewLoanAction: PropTypes.func.isRequired,
+  userstatusState: PropTypes.object.isRequired
 };

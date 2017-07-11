@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './_roundedbutton.a.component.scss';
 
 const RoundedButton = ({clickFunction, href, buttonText, compact, className, target=''}) => {
@@ -15,12 +16,12 @@ const RoundedButton = ({clickFunction, href, buttonText, compact, className, tar
 RoundedButton.displayName = 'RoundedButton.a.component';
 
 RoundedButton.propTypes = {
-  buttonText: React.PropTypes.any.isRequired,
-  clickFunction: React.PropTypes.func,
-  href: React.PropTypes.string,
-  compact: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  target: React.PropTypes.string
+  buttonText: PropTypes.any.isRequired,
+  clickFunction: PropTypes.func,
+  href: PropTypes.string,
+  compact: PropTypes.bool,
+  className: PropTypes.string,
+  target: PropTypes.string
 };
 
 RoundedButton.defaultProps = {

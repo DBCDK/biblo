@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './inputfield.component.scss';
 
@@ -37,18 +38,18 @@ export class InputField extends React.Component {
 
 InputField.displayName = 'InputField';
 InputField.propTypes = {
-  defaultValue: React.PropTypes.string,
-  error: React.PropTypes.any,
-  onChangeFunc: React.PropTypes.func.isRequired,
-  type: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  autocomplete: React.PropTypes.string,
-  dateFormat: React.PropTypes.string,
-  pattern: React.PropTypes.string
+  defaultValue: PropTypes.string,
+  error: PropTypes.any,
+  onChangeFunc: PropTypes.func.isRequired,
+  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  autocomplete: PropTypes.string,
+  dateFormat: PropTypes.string,
+  pattern: PropTypes.string
 };
 
 InputField.defaultProps = {

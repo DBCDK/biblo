@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Rating.scss';
 
@@ -50,9 +51,9 @@ export default class Rating extends React.Component {
 Rating.displayName = 'Rating.component';
 
 Rating.propTypes = {
-  rating: React.PropTypes.number,
-  onChange: React.PropTypes.func,
-  pid: React.PropTypes.string
+  rating: PropTypes.number,
+  onChange: PropTypes.func,
+  pid: PropTypes.string
 };
 
 Rating.defaultProps = {

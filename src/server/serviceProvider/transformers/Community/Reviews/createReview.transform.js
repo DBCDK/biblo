@@ -44,7 +44,7 @@ const CreateReviewTransform = {
         const work = JSON.parse(responses[1].body).data[0];
         const subjects = work.subjectDBCS || [];
         const genres = work.subjectGenre || [];
-        const promises = [responses[0]];
+        const promises = [responses[0], this.invalidateCache(`*Reviews*${query.pid}*`)];
         if (genres.length) {
           promises.push(this.callServiceClient('community', 'addGenres', {reviewId: responses[0].body.id, genres: genres.join(',')}));
         }

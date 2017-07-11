@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ProgressBar({completed, color, height, children}) {
   completed = completed < 0 ? 0 : completed;
@@ -27,10 +28,10 @@ function ProgressBar({completed, color, height, children}) {
 ProgressBar.displayName = 'ProgressBar';
 
 ProgressBar.propTypes = {
-  completed: React.PropTypes.number,
-  color: React.PropTypes.string,
-  height: React.PropTypes.string,
-  children: React.PropTypes.any
+  completed: PropTypes.number,
+  color: PropTypes.string,
+  height: PropTypes.string,
+  children: PropTypes.any
 };
 
 ProgressBar.defaultProps = {

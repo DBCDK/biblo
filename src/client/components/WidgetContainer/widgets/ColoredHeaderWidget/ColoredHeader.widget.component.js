@@ -2,7 +2,8 @@
  * @file: ColoredHeaderWidget renders a header text with a background colour.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import ColoredHeader from '../../../General/ColoredHeader/ColoredHeader.component';
 import {isEqual} from 'lodash';
 

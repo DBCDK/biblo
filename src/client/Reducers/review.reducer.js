@@ -50,6 +50,10 @@ export default function reviewReducer(state = initialState, action = {}) {
     case types.DELETE_WORK_REVIEW: {
       let reviewsAfterDelete = [...state.workReviews];
       reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
+        if (!review.reviewId) {
+          return false;
+        }
+
         return (review.reviewId !== action.reviewId);
       });
 

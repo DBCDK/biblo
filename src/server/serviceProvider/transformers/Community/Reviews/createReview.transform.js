@@ -24,14 +24,17 @@ const CreateReviewTransform = {
         reviewownerid: query.reviewownerid || user.profileId,  // assume that reviewowner is allready set when moderated
         video: query.video
       }).then(response => {
-        if (query.imageId) {
-          return this.callServiceClient('community', 'updateImageCollection', {
-            id: query.imageId,
-            reviewImageCollection: response.body.id
-          }).then(() => response);
-        }
+        return this.invalidateCache(`*Reviews*${query.pid}*`)
+          .then(() => {
+            if (query.imageId) {
+              return this.callServiceClient('community', 'updateImageCollection', {
+                id: query.imageId,
+                reviewImageCollection: response.body.id
+              }).then(() => response);
+            }
 
-        return response;
+            return response;
+          });
       });
     }
     return {};

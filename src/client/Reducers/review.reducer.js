@@ -49,9 +49,7 @@ export default function reviewReducer(state = initialState, action = {}) {
 
     case types.DELETE_WORK_REVIEW: {
       let reviewsAfterDelete = [...state.workReviews];
-      console.log(action.reviewId);
       reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
-        console.log(review.reviewId);
         if (!review.reviewId) {
           return false;
         }
@@ -65,7 +63,6 @@ export default function reviewReducer(state = initialState, action = {}) {
         ownReviewId = state.workReviewsMeta.ownReviewId;
       }
 
-      console.log('reviewsAfterDelete: ', reviewsAfterDelete);
       return assignToEmpty(state, {
         workReviewsMeta: assignToEmpty(state.workReviewsMeta, {
           workReviewsTotalCount: state.workReviewsTotalCount - 1,

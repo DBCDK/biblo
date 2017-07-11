@@ -48,7 +48,7 @@ class CommentView extends React.Component {
     const dialog = (
       <ConfirmDialog
         cancelButtonText={'Fortryd'}
-        confirmButtonText={'Slet Kommentar'}
+        confirmButtonText={'Slet kommentar'}
         cancelFunc={this.props.uiActions.closeModalWindow}
         confirmFunc={() => {
           this.props.deleteAction(this.props.id);

@@ -98,7 +98,9 @@ export class SeriesDisplay extends Component {
         <div className='more-info' key={clippedSeriesTitle}>
           <div className="more-info--header">Alle bøger i serien {clippedSeriesTitle}</div>
           {results}
-          {displayMoreResults && <ExpandButton text="Vis Flere" onClick={() => this.onShowMore(clippedSeriesTitle)} />}
+          <div className="buttons">
+            {displayMoreResults && <ExpandButton text="Vis Flere" onClick={() => this.onShowMore(clippedSeriesTitle)} />}
+          </div>
         </div>
       );
     });

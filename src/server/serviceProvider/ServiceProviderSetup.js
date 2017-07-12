@@ -40,6 +40,34 @@ function registerServiceClient(provider, config, clientCache, clientName, client
   provider.registerServiceClient(clientName, methods);
 }
 
+const statusRegex = /"status[Code]*":([0-9]+)/i;
+function isCacheableValue(value) {
+  const statusCode = typeof value === 'string' && statusRegex.exec(value);
+  if (statusCode) {
+    return parseInt(statusCode[1], 10) < 400;
+  }
+
+  if (typeof value === 'object' && !Array.isArray(value) && value) {
+    if (Array.isArray(value.errors) && value.errors.length > 0) {
+      return false;
+    }
+
+    if (Array.isArray(value.error) && value.error.length > 0) {
+      return false;
+    }
+
+    if (value.error && !Array.isArray(value.error)) {
+      return false;
+    }
+
+    if (value.errors && !Array.isArray(value.errors)) {
+      return false;
+    }
+  }
+
+  return typeof value !== 'undefined' && !!value;
+}
+
 /**
  * Method for initializing all service clients and transforms
  *
@@ -57,7 +85,8 @@ export default function initProvider(config, logger, sockets) {
     host: config.get('Redis.host'), // default value
     port: config.get('Redis.port'), // default value
     db: config.get('Redis.db'),
-    ttl: config.get('CacheTimes.standard')
+    ttl: config.get('CacheTimes.standard'),
+    isCacheableValue
   };
 
   const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));

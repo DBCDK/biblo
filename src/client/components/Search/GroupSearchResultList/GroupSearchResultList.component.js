@@ -48,7 +48,7 @@ export default class GroupSearchResultList extends React.Component {
       <div className='group-search--result-container'>
         <h2>I grupperne:</h2>
         <hr/>
-        <div className="group-search--results">
+        <div className={`group-search--results ${listElements.length ? 'results' : 'empty'}`}>
           {result}
         </div>
       </div>

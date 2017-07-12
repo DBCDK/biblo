@@ -57,7 +57,7 @@ export class SeriesDisplay extends Component {
         return (
           <div className="work-detail--series-display--edition-container" key={`${clippedSeriesTitle}_sd_${book.pid[0]}_${idx}`}>
             <a href={`/materiale/${book.pid[0]}`}>
-              <img src={book.coverUrlFull[0]} />
+              {(book.coverUrlFull && Array.isArray(book.coverUrlFull)) && <img src={book.coverUrlFull[0]} />}
               <p>{bookTitle}</p>
             </a>
           </div>

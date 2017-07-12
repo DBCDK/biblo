@@ -1,3 +1,4 @@
+import {validateId} from './../../../../utils/validateId.util';
 
 const DeleteReviewTransform = {
 
@@ -6,7 +7,6 @@ const DeleteReviewTransform = {
   },
 
   requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
-
     if (connection.request.session.passport) {
       // If user is logged in create the post
       const passport = connection.request.session.passport;
@@ -15,7 +15,16 @@ const DeleteReviewTransform = {
         accessToken: passport.user.id
       };
 
-      return this.callServiceClient('community', 'markReviewAsDeleted', params);
+      const pid = validateId(query.pid);
+
+      return this.callServiceClient('community', 'markReviewAsDeleted', params)
+        .then(() => {
+          if (pid.type === 'pid') {
+            return this.invalidateCache(`*Reviews*${query.pid}*`);
+          }
+
+          return Promise.resolve();
+        });
     }
     // If user is not logged in return an error
     return Promise.reject(new Error('user not logged in'));

@@ -27,7 +27,8 @@ export class SeriesDisplay extends Component {
     };
 
     clippedTitle.forEach(title => {
-      this.state.offset[title] = 0;
+      // We are still in the constructor, the state has not been committed yet.
+      this.state.offset[title] = 0; // eslint-disable-line react/no-direct-mutation-state
     });
 
     this.requestTitle = this.requestTitle.bind(this);
@@ -68,7 +69,7 @@ export class SeriesDisplay extends Component {
 
   onShowMore(title) {
     const offset = Object.assign({}, this.state.offset);
-    offset[title] = offset[title] + this.state.limit;
+    offset[title] += this.state.limit;
     this.setState({offset}, () => this.requestTitle(title));
   }
 

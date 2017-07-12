@@ -1,5 +1,3 @@
-import workParser from '../../parsers/work.parser';
-
 const type2Cql = {
   book: 'term.worktype="literature"',
   game: 'term.worktype="game"',

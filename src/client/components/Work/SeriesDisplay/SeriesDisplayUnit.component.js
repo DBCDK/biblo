@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export function SeriesDisplayUnit({pid, coverUrl, bookTitle}) {
   return (
@@ -19,3 +20,9 @@ export function SeriesDisplayUnit({pid, coverUrl, bookTitle}) {
     </div>
   );
 }
+
+SeriesDisplayUnit.propTypes = {
+  pid: PropTypes.string.isRequired,
+  coverUrl: PropTypes.string.isRequired,
+  bookTitle: PropTypes.string.isRequired
+};

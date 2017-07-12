@@ -1416,6 +1416,20 @@ function removePdf(endpoint, {pdfId}) {
   });
 }
 
+function addSubjects(endpoint, {reviewId, subjects}) {
+  return promiseRequest('post', {
+    url: `${endpoint}api/reviews/addSubject?reviewId=${reviewId}&subject=${encodeURIComponent(subjects)}`,
+    json: true
+  });
+}
+
+function addGenres(endpoint, {reviewId, genres}) {
+  return promiseRequest('post', {
+    url: `${endpoint}api/reviews/addGenre?reviewId=${reviewId}&genre=${encodeURIComponent(genres)}`,
+    json: true
+  });
+}
+
 /**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
@@ -1490,6 +1504,8 @@ module.exports = function CommunityClient(logger, config = null) {
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
     getPostPdf: getPostPdf.bind(null, config.endpoint),
-    removePdf: removePdf.bind(null, config.endpoint)
+    removePdf: removePdf.bind(null, config.endpoint),
+    addSubjects: addSubjects.bind(null, config.endpoint),
+    addGenres: addGenres.bind(null, config.endpoint)
   };
 };

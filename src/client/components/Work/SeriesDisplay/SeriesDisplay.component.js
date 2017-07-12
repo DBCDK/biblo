@@ -5,7 +5,6 @@ import '../scss/MultivolumeDisplay.component.scss';
 import '../scss/SeriesDisplay.component.scss';
 
 import {SeriesDisplayUnit} from './SeriesDisplayUnit.component';
-import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import Icon from '../../General/Icon/Icon.component';
 import closeSvg from '../../General/Icon/svg/functions/close.svg';
 import plusSvg from '../../General/Icon/svg/functions/plus.svg';

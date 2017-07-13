@@ -7,9 +7,11 @@ import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
 import './ReviewList.scss';
 
-export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
+export default function ReviewList({
+  totalCount, reviews = [], profile = {}, uiActions = null,
   reviewActions = null, flagActions = null,
-  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview}) {
+  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview
+}) {
 
   let hasMore = false;
   if (totalCount > reviews.length) {
@@ -21,7 +23,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
     expandButton = (
       <ExpandButton className="reviews-showmore" text="VIS FLERE"
                     isLoading={isLoading}
-                    onClick={()=> expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
+                    onClick={() => expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
     );
   }
 
@@ -31,6 +33,12 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
   }
   if (totalCount > 1) {
     reviewsCountText = (<div className='reviewsCount'>{totalCount} anmeldelser</div>);
+  }
+
+  let autoplayVideo = false;
+  if (typeof window !== 'undefined' && reviews.length === 1) {
+    const review = reviews[0];
+    autoplayVideo = document.location.pathname.indexOf(`anmeldelse/${review.id}`) !== -1;
   }
 
   return (
@@ -48,6 +56,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
           likeActions={likeActions}
           pids={pids}
           ownReview={ownReview}
+          autoplayVideo={autoplayVideo}
         />))
         || 'Der er ikke skrevet nogen anmeldelser'
       }

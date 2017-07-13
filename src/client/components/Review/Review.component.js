@@ -572,8 +572,8 @@ export default class Review extends UploadMedia {
                 type="file"
                 className="review-add--upload-media droppable-media-field--file-input"
                 onChange={event => this.readInput(event, (attachment) => this.setState({attachment: attachment}))
-                  .then(attachment=>this.setState({attachment: attachment}))
-                  .catch(errorMsg=>this.setState({errorMsg: errorMsg}))
+                  .then(attachment => this.setState({attachment: attachment}))
+                  .catch(errorMsg => this.setState({errorMsg: errorMsg}))
                 }
                 ref="fileInput"
               />
@@ -582,7 +582,7 @@ export default class Review extends UploadMedia {
             ||
             <div className='review--content-wrapper'>
               {
-                <p className='review--content' dangerouslySetInnerHTML={{__html: this.props.html}}/> // eslint-disable-line
+                <p className='review--content' dangerouslySetInnerHTML={{__html: this.props.html}}/> // eslint-disable-line8
               }
               {
                 (image || this.state.attachment.image && this.state.attachment.image.data) &&
@@ -593,7 +593,9 @@ export default class Review extends UploadMedia {
                 </div>
               }
               {
-                video && video.resolutions && video.resolutions.length ? getVideoPlayer(video) : null
+                video && video.resolutions && video.resolutions.length ?
+                  getVideoPlayer(video, this.props.autoplayVideo) :
+                  null
               }
               {
                 youtube &&
@@ -610,9 +612,9 @@ export default class Review extends UploadMedia {
     /* eslint-enable react/no-danger */
   }
 }
-
 Review.displayName = 'Review';
 Review.propTypes = {
+  autoplayVideo: PropTypes.bool.isRequired,
   owner: PropTypes.object,                        // for profile image in view
   profile: PropTypes.object.isRequired,           // for editing, flagging, liking
   id: PropTypes.number,

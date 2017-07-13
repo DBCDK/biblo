@@ -181,11 +181,11 @@ export class WorkDetail extends React.Component {
       return <span className="not--series" />;
     }
 
-    return titles.map(titleSeries => {
+    return titles.map((titleSeries, key) => {
       const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(titleSeries, descriptionSeries);
       if (consolidatedTitleSeries) {
         return (
-          <span className="work-detail--title-series">
+          <span className="work-detail--title-series" key={key}>
             <a key={`title-series--${consolidatedTitleSeries}`} href={'/find?serie=' + consolidatedTitleSeriesQuery}>
               {consolidatedTitleSeries}
             </a>

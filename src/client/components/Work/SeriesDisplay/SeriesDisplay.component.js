@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import equal from 'deep-equal';
 import '../scss/MultivolumeDisplay.component.scss';
+import '../scss/SeriesDisplay.component.scss';
 
-import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {SeriesDisplayUnit} from './SeriesDisplayUnit.component';
+import Icon from '../../General/Icon/Icon.component';
+import closeSvg from '../../General/Icon/svg/functions/close.svg';
+import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 
 const workFields = [
   'pid',
@@ -42,8 +45,8 @@ export class SeriesDisplay extends Component {
     });
   }
 
-  shouldComponentUpdate(nextProps) {
-    return !equal(nextProps.seriesResults, this.props.seriesResults);
+  shouldComponentUpdate(nextProps, nextState) {
+    return !equal(nextProps.seriesResults, this.props.seriesResults) || !equal(this.state, nextState);
   }
 
   clipSeriesTitle(titleSeries) {
@@ -73,10 +76,18 @@ export class SeriesDisplay extends Component {
     this.setState({offset}, () => this.requestTitle(title));
   }
 
+  onClose(title) {
+    const offset = Object.assign({}, this.state.offset);
+    offset[title] = 0;
+    this.setState({offset});
+  }
+
   render() {
     const seriesBox = this.state.clippedSeriesTitle.map((clippedSeriesTitle, idx) => {
       const displayMoreResults = (this.props.seriesResults[clippedSeriesTitle] || []).length % this.state.limit === 0;
-      const results = (this.props.seriesResults[clippedSeriesTitle] || []).map(book => {
+      const displayCloseButton = this.state.offset[clippedSeriesTitle] > 0;
+      const amountToDisplay = this.state.offset[clippedSeriesTitle] + this.state.limit;
+      const results = (this.props.seriesResults[clippedSeriesTitle] || []).slice(0, amountToDisplay).map(book => {
         let bookTitle = book.dcTitle[0];
         if (typeof book.titleSeries[idx] === 'string') {
           const ed = editionRegex.exec(book.titleSeries[idx]);
@@ -100,7 +111,16 @@ export class SeriesDisplay extends Component {
           <div className="more-info--header">Alle bøger i serien {clippedSeriesTitle}</div>
           {results}
           <div className="buttons">
-            {displayMoreResults && <ExpandButton text="Vis Flere" onClick={() => this.onShowMore(clippedSeriesTitle)} />}
+            {displayMoreResults &&
+              <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
+                <Icon glyph={plusSvg} />VIS FLERE
+              </span>
+            }
+            {displayCloseButton &&
+              <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
+                <Icon glyph={closeSvg} />LUK
+              </span>
+            }
           </div>
         </div>
       );

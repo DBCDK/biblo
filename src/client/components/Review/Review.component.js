@@ -582,7 +582,7 @@ export default class Review extends UploadMedia {
             ||
             <div className='review--content-wrapper'>
               {
-                <p className='review--content' dangerouslySetInnerHTML={{__html: this.props.html}}/> // eslint-disable-line8
+                <p className='review--content' dangerouslySetInnerHTML={{__html: this.props.html}}/> // eslint-disable-line
               }
               {
                 (image || this.state.attachment.image && this.state.attachment.image.data) &&

@@ -27,7 +27,7 @@ import MainRoutes from './server/routes/main.routes.js';
 import GroupRoutes from './server/routes/group.routes';
 import SearchRoutes from './server/routes/search.routes';
 import WorkRoutes from './server/routes/work.routes';
-import ReviewRoutes from './server/routes/review.routes';
+import {ReviewRoutes, ReviewsRoutes} from './server/routes/review.routes';
 import ProfileRoutes from './server/routes/profile.routes';
 import CampaignRoutes from './server/routes/campaign.routes';
 import ContentRoutes from './server/routes/content.routes';
@@ -353,6 +353,7 @@ module.exports.run = function (worker) {
 
 
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
+  app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
   app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
   app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);
   app.use('/profil', fullProfileOnSession, ProfileRoutes);

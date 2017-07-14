@@ -6,7 +6,7 @@ Feature: Display of metadata related to a specific material
     Given a user visits the peterpedal page
     And the cookiewarning has been closed
     Then the MoreInfo box should be present
-    And the more-info selector should contain the following items
+    And the work--moreinfo > .more-info selector should contain the following items
       | Emne | Udgivet i | DK5 | Opstilling | Sprog | Omfang |
 
   Scenario: The More Info box is showed on the games materialpages
@@ -23,6 +23,3 @@ Feature: Display of metadata related to a specific material
     Then the MoreInfo box should be present
     And the more-info selector should contain the following items
       | Instruktør | Emne | Udgivet i | DK5 | Opstilling | Sprog | Tilladt for | Omfang |
-
-
-

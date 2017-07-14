@@ -114,7 +114,7 @@
     "sanitize-html": "^1.13.0",
     "sass-loader": "4.0.2",
     "sass-mediaqueries": "^1.6.1",
-    "socketcluster": "^5.0.14",
+    "socketcluster": "5.0.14",
     "superagent": "^3.1.0",
     "susy": "^2.2.11",
     "svg-inline-loader": "^0.7.0",

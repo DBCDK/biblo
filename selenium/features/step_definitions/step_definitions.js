@@ -189,9 +189,9 @@ var myStepDefinitionsWrapper = function() {
   });
 
   this.Then(/^the MoreInfo box should be present$/, function() {
-    return this.browser.findElement(By.className('more-info--header')).then((menu) => {
-      menu.getText().then((text) => assert.equal(text, 'Mere info'));
-    });
+    return this.$('.work--moreinfo > .more-info > .more-info--header')
+               .then(header => header.getText())
+               .then(headerText => assert.equal(headerText, 'Mere info'));
   });
 
   this.Then(/^the (.*) selector should contain the following items$/, function(selector, data) {

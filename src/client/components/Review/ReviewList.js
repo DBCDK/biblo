@@ -21,7 +21,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
     expandButton = (
       <ExpandButton className="reviews-showmore" text="VIS FLERE"
                     isLoading={isLoading}
-                    onClick={()=> expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
+                    onClick={() => expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}/>
     );
   }
 
@@ -31,6 +31,12 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
   }
   if (totalCount > 1) {
     reviewsCountText = (<div className='reviewsCount'>{totalCount} anmeldelser</div>);
+  }
+
+  let autoplayVideo = false;
+  if (typeof window !== 'undefined' && reviews.length === 1) {
+    const review = reviews[0];
+    autoplayVideo = document.location.pathname.indexOf(`anmeldelse/${review.id}`) !== -1;
   }
 
   let highlightSection = <span className="no--highlight" />;
@@ -79,6 +85,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
           likeActions={likeActions}
           pids={pids}
           ownReview={ownReview}
+          autoplayVideo={autoplayVideo}
         />))
         || 'Der er ikke skrevet nogen anmeldelser'
       }

@@ -114,6 +114,7 @@ export class WorkContainer extends React.Component {
       this.props.workActions.asyncGetMultiVolumeDetailsFromPid
     );
     const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
+    const highlightedReview = this.props.reviewState.highlightedReview;
     const meta = this.props.reviewState.workReviewsMeta;
     const reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
     const librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
@@ -122,6 +123,11 @@ export class WorkContainer extends React.Component {
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
       };
     });
+
+    let isOwnReview = false;
+    if (reviews.length > 0) {
+      isOwnReview = (meta.ownReviewId === highlightedReview.id);
+    }
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
@@ -167,6 +173,7 @@ export class WorkContainer extends React.Component {
             unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
             getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
+            ownReview={isOwnReview}
           />
 
           <div className='work--reviewlist'>
@@ -198,6 +205,7 @@ export class WorkContainer extends React.Component {
               totalCount={meta.workReviewsTotalCount}
               limit={meta.limit}
               reviews={reviews}
+              highlightedReview={highlightedReview}
               worktype={work.workType}
               profile={this.props.profile}
               reviewActions={this.props.reviewActions}

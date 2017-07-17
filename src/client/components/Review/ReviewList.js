@@ -8,7 +8,7 @@ import ExpandButton from '../General/ExpandButton/ExpandButton.component';
 import './ReviewList.scss';
 
 export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
-  reviewActions = null, flagActions = null,
+  reviewActions = null, flagActions = null, highlightedReview = null,
   likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview}) {
 
   let hasMore = false;
@@ -33,9 +33,40 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
     reviewsCountText = (<div className='reviewsCount'>{totalCount} anmeldelser</div>);
   }
 
+  let highlightSection = <span className="no--highlight" />;
+  if (highlightedReview.id) {
+    if (totalCount > 1) {
+      reviewsCountText = (<div className='reviewsCount'>Se de {totalCount} andre anmeldelser</div>);
+    }
+    else if (totalCount === 1) {
+      reviewsCountText = (<div className='reviewsCount'>Se den anden anmeldelse</div>);
+    }
+
+    highlightSection = (
+      <div className="highlight-section">
+        <h2 className="review-list--header">
+          <div className="reviewsCount">Anmeldelse af {highlightedReview.owner.displayName}</div>
+        </h2>
+        <Review
+          {...highlightedReview}
+          profile={profile}
+          likes={highlightedReview.likes}
+          uiActions={uiActions}
+          reviewActions={reviewActions}
+          flagActions={flagActions}
+          likeActions={likeActions}
+          pids={pids}
+          ownReview={ownReview}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className='review-list'>
-      <h2>{reviewsCountText}</h2>
+      {highlightSection}
+
+      <h2 className="review-list--header">{reviewsCountText}</h2>
       {
         reviews
         && reviews.map((item) => (<Review
@@ -72,7 +103,8 @@ ReviewList.propTypes = {
   limit: PropTypes.number,
   pids: PropTypes.array,
   isLoading: PropTypes.bool,
-  ownReview: PropTypes.bool
+  ownReview: PropTypes.bool,
+  highlightedReview: PropTypes.object
 };
 
 ReviewList.defaultProps = {

@@ -20,6 +20,8 @@ const ReviewRoutes = express.Router();
 ReviewRoutes.get('/:id', async function (req, res, next) {
   let id = decodeURIComponent(req.params.id);
   let limit = 1;
+  const reviewsLimit = 10;
+  const skip = 0;
 
   const logger = res.app.get('logger');
   try {
@@ -66,6 +68,18 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
       next(workResult.error);
     }
 
+    const reviewWhere = {
+      id: {neq: id},
+      markedAsDeleted: null,
+      pid
+    };
+
+    const reviewsResult = (await req.callServiceProvider('getReviews', {
+      where: reviewWhere,
+      skip: skip,
+      limit: reviewsLimit
+    }))[0];
+
     let ownReviewId;
     if (req.isAuthenticated()) {
       let profile = req.session.passport.user.profile.profile;
@@ -96,15 +110,25 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
     const work = workResult.data[0];
     work.id = pid;
 
+    let highlightedReview;
+    if (reviewResult.data && reviewResult.data.length) {
+      highlightedReview = reviewResult.data[0];
+    }
+
     res.locals.title = 'Anmeldelse af ' + (work.dcTitle ? work.dcTitle : 'Titel mangler') + ' - Biblo.dk';
     res.render('page', {
       css: ['/css/review.css'],
       js: ['/js/review.js'],
       jsonData: [JSON.stringify({
         work: work, // this is the associated work info
-        workReviews: reviewResult.data,
+        workReviews: reviewsResult.data,
+        highlightedReview: highlightedReview,
         workReviewsMeta: {
-          ownReviewId: ownReviewId
+          skip: skip,
+          limit: reviewsLimit,
+          ownReviewId: ownReviewId,
+          workReviewsTotalCount: reviewsResult.reviewsCount,
+          reviewPage: true
         }
       })]
     });

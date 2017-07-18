@@ -148,7 +148,7 @@ export class WorkDetail extends React.Component {
    * @returns {*}
    */
   renderBorrowerButton(collectionDetails, adjustedTitle, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
-    if (this.props.ownReview || collectionDetails.length === 0) {
+    if (collectionDetails.length === 0) {
       return '';
     }
 
@@ -241,9 +241,9 @@ export class WorkDetail extends React.Component {
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
-    // const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(this.props.titleSeries, this.props.descriptionSeries);
     const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
+    const ownReview = this.props.ownReview;
 
     const profile = this.props.profile;
     let reviewButton;
@@ -256,7 +256,7 @@ export class WorkDetail extends React.Component {
     }
 
     const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(collectionDetails);
-    if (this.props.fullReview) {
+    if (this.props.fullReview && !ownReview) {
       reviewButton = (
         <ReviewButton
           editText={this.props.editText}
@@ -266,7 +266,7 @@ export class WorkDetail extends React.Component {
         />
       );
     }
-    else {
+    else if (!ownReview) {
       reviewButton = (
         <ReviewButton
           editText={this.props.editText}
@@ -276,6 +276,9 @@ export class WorkDetail extends React.Component {
           profile={profile}
         />
       );
+    }
+    else {
+      reviewButton = <span className="on-own-review" />;
     }
 
     return (

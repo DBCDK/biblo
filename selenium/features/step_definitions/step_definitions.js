@@ -16,7 +16,7 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
-  this.Given(/^a user visits material ([0-9-]+[a-z]+:[0-9]+)$/i, function (pid) {
+  this.Given(/^a user visits material ([\d-]+[a-z]+:\d+)$/i, function (pid) {
     return this.browser.get(`${BASE_URL}/materiale/${pid}`);
   });
 
@@ -143,7 +143,7 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/i, function(mockName, times) {
+  this.When(/^mock ([a-zA-Z\-]+) is loaded (\d+) times$/i, function(mockName, times) {
     return this.loadMock(mockName, times);
   });
 
@@ -168,7 +168,7 @@ var myStepDefinitionsWrapper = function() {
     return this.takeScreenshot(filename);
   });
 
-  this.Then(/^wait ([0-9]+) ms$/i, function(timeout) {
+  this.Then(/^wait (\d+) ms$/i, function(timeout) {
     return new Promise(resolve => setTimeout(resolve, timeout));
   });
 
@@ -182,7 +182,7 @@ var myStepDefinitionsWrapper = function() {
     return this.browser.get(`${BASE_URL}/indhold/om-biblo`);
   });
 
-  this.When(/^a user visits group ([0-9]+)$/, function(groupId) {
+  this.When(/^a user visits group (\d+)$/, function(groupId) {
     return this.browser.get(`${BASE_URL}/grupper/${groupId}`);
   });
 
@@ -217,10 +217,18 @@ var myStepDefinitionsWrapper = function() {
     return this.present(selector).then(isPresent => assert.isFalse(isPresent));
   });
 
-  this.When(/^the page is scrolled ([0-9]+) times$/, function (times) {
+  this.When(/^the page is scrolled (\d+) times$/, function (times) {
     times = parseInt(times, 10);
     const keys = Array(times * 2).fill(1).map((i, idx) => (idx % 2 === 0) ? Key.PAGE_DOWN : Key.NULL);
     return this.$('body').sendKeys(...keys);
+  });
+
+  this.Given(/^A user visits review (\d+)$/i, function (reviewId) {
+    return this.browser.get(`${BASE_URL}/anmeldelse/${reviewId}`);
+  });
+
+  this.Then(/^the highlight header contains (.+)$/, function (contained) {
+    return this.$('.highlight-section > .review-list--header').getText().then(text => assert.equal(contained, text));
   });
 };
 

@@ -256,7 +256,7 @@ export class WorkDetail extends React.Component {
     }
 
     const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(collectionDetails);
-    if (this.props.fullReview && !ownReview) {
+    if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton
           editText={this.props.editText}
@@ -266,7 +266,7 @@ export class WorkDetail extends React.Component {
         />
       );
     }
-    else if (!ownReview) {
+    else {
       reviewButton = (
         <ReviewButton
           editText={this.props.editText}
@@ -276,9 +276,6 @@ export class WorkDetail extends React.Component {
           profile={profile}
         />
       );
-    }
-    else {
-      reviewButton = <span className="on-own-review" />;
     }
 
     return (

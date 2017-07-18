@@ -31,8 +31,9 @@ const proxy = config.get('Proxy.http_proxy');
  * @return {number}
  */
 function computeAge(birthday) {
-  const now = new Date(Date.now());
-  const isPastBirthday = birthday.getMonth() + '' + birthday.getDay() < now.getMonth() + '' + now.getDay();
+  const now = new Date();
+  const birthdayThisYear = new Date(now.getFullYear(), birthday.getMonth(), birthday.getDate());
+  const isPastBirthday = now > birthdayThisYear;
   let age = now.getFullYear() - birthday.getFullYear();
   if (!isPastBirthday) {
     age -= 1;

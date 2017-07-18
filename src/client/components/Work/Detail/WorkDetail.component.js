@@ -243,7 +243,6 @@ export class WorkDetail extends React.Component {
 
     const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
-    const ownReview = this.props.ownReview;
 
     const profile = this.props.profile;
     let reviewButton;

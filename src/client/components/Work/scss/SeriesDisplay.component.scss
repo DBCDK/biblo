@@ -1,0 +1,27 @@
+@import 'tools';
+
+.more-info {
+  .buttons {
+    text-align: center;
+
+    .show-more--button {
+      @include more-button();
+      margin: 2px;
+      padding: 6px 10px;
+
+      svg {
+        margin-right: 4px;
+      }
+    }
+
+    .close--button {
+      @include more-button();
+      margin: 2px;
+      padding: 6px 10px;
+
+      svg {
+        margin-right: 4px;
+      }
+    }
+  }
+}

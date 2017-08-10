@@ -11,6 +11,8 @@ import {ReviewButton} from '../../Review/ReviewButton.js';
 import BorrowButton from '../BorrowButton/BorrowButton.component';
 import Icon from '../../General/Icon/Icon.component.js';
 
+import {registerScrollSpy} from '../../../Utils/scrollspy';
+
 import bookSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/book.svg';
 import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/materialikon-uden-kvadrat-lydbog.svg';
 import gameSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/game.svg';
@@ -32,7 +34,25 @@ const displayTypeSvgs = {
 };
 
 export class WorkDetail extends React.Component {
-  shouldComponentUpdate(nextProps) {
+  constructor() {
+    super();
+
+    this.state = {
+      displayTopBar: false
+    };
+
+    this.renderTopBar = this.renderTopBar.bind(this);
+  }
+
+  componentDidMount() {
+    registerScrollSpy(this.refs.workDetail, visible => this.setState({displayTopBar: !visible}));
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.displayTopBar !== nextState.displayTopBar) {
+      return true;
+    }
+
     const props = [
       'bind', 'fullTitle', 'collectionDetails', 'profile', 'abstract', 'title', 'creator', 'titleSeries',
       'descriptionSeries', 'displayType', 'collection', 'coverUrl', 'orderState', 'checkAvailabilityResult',
@@ -128,7 +148,7 @@ export class WorkDetail extends React.Component {
    * @returns {*}
    */
   renderBorrowerButton(collectionDetails, adjustedTitle, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
-    if (this.props.ownReview || collectionDetails.length === 0) {
+    if (collectionDetails.length === 0) {
       return '';
     }
 
@@ -181,11 +201,11 @@ export class WorkDetail extends React.Component {
       return <span className="not--series" />;
     }
 
-    return titles.map(titleSeries => {
+    return titles.map((titleSeries, key) => {
       const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(titleSeries, descriptionSeries);
       if (consolidatedTitleSeries) {
         return (
-          <span className="work-detail--title-series">
+          <span className="work-detail--title-series" key={key}>
             <a key={`title-series--${consolidatedTitleSeries}`} href={'/find?serie=' + consolidatedTitleSeriesQuery}>
               {consolidatedTitleSeries}
             </a>
@@ -197,13 +217,30 @@ export class WorkDetail extends React.Component {
     });
   }
 
+  renderTopBar() {
+    let classes = 'work-detail--top-bar--container ';
+    classes += this.state.displayTopBar ? 'present' : 'not-present';
+    const {title, creator, coverUrl} = this.props;
+
+    return (
+      <div className={classes}>
+        <div className="work-detail--top-bar--inner">
+          <img src={coverUrl} />
+          <div className="text-container">
+            <p className="title">{title}</p>
+            <p className="author">{creator}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
     const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
-    // const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(this.props.titleSeries, this.props.descriptionSeries);
     const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
 
@@ -241,7 +278,8 @@ export class WorkDetail extends React.Component {
     }
 
     return (
-      <div className='work-detail'>
+      <div className='work-detail' ref="workDetail">
+        {this.renderTopBar()}
         <div className='work-detail--main'>
           <div className="work-detail--title-container">
             <h2 className='work-detail--title'>

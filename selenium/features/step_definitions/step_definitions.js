@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var assert = require('chai').assert;
 var config = require('@dbcdk/biblo-config').config;
 var crypto = require('crypto');
-import {By} from 'selenium-webdriver';
+import {By, Key} from 'selenium-webdriver';
 
 var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${config.get('Biblo.port')}`; // eslint-disable-line no-process-env
 
@@ -14,6 +14,10 @@ var myStepDefinitionsWrapper = function() {
       .then(() => {
         callback();
       });
+  });
+
+  this.Given(/^a user visits material ([\d-]+[a-z]+:\d+)$/i, function (pid) {
+    return this.browser.get(`${BASE_URL}/materiale/${pid}`);
   });
 
   this.Given(/^a user visits the peterpedal page$/, function(callback) {
@@ -139,7 +143,7 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded ([0-9]) times$/i, function(mockName, times) {
+  this.When(/^mock ([a-zA-Z\-]+) is loaded (\d+) times$/i, function(mockName, times) {
     return this.loadMock(mockName, times);
   });
 
@@ -164,7 +168,7 @@ var myStepDefinitionsWrapper = function() {
     return this.takeScreenshot(filename);
   });
 
-  this.Then(/^wait ([0-9]+) ms$/i, function(timeout) {
+  this.Then(/^wait (\d+) ms$/i, function(timeout) {
     return new Promise(resolve => setTimeout(resolve, timeout));
   });
 
@@ -178,7 +182,7 @@ var myStepDefinitionsWrapper = function() {
     return this.browser.get(`${BASE_URL}/indhold/om-biblo`);
   });
 
-  this.When(/^a user visits group ([0-9]+)$/, function(groupId) {
+  this.When(/^a user visits group (\d+)$/, function(groupId) {
     return this.browser.get(`${BASE_URL}/grupper/${groupId}`);
   });
 
@@ -203,6 +207,28 @@ var myStepDefinitionsWrapper = function() {
           assert.include(text, item);
         });
       });
+  });
+
+  this.Then(/^the (.+) should be visible$/, function (selector) {
+    return this.present(selector).then(isPresent => assert.isTrue(isPresent));
+  });
+
+  this.Then(/^the (.+) should not be visible$/, function (selector) {
+    return this.present(selector).then(isPresent => assert.isFalse(isPresent));
+  });
+
+  this.When(/^the page is scrolled (\d+) times$/, function (times) {
+    times = parseInt(times, 10);
+    const keys = Array(times * 2).fill(1).map((i, idx) => (idx % 2 === 0) ? Key.PAGE_DOWN : Key.NULL);
+    return this.$('body').sendKeys(...keys);
+  });
+
+  this.Given(/^A user visits review (\d+)$/i, function (reviewId) {
+    return this.browser.get(`${BASE_URL}/anmeldelse/${reviewId}`);
+  });
+
+  this.Then(/^the highlight header contains (.+)$/, function (contained) {
+    return this.$('.highlight-section > .review-list--header').getText().then(text => assert.equal(contained, text));
   });
 };
 

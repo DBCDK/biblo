@@ -5,6 +5,17 @@
     text-transform: none;
     color: black;
   }
+
+  .reviewsCount {
+    border-bottom: $light-blueish-gray 1px solid;
+    color: black;
+    font-family: $body-font;
+    font-size: 1.155em;
+  }
+
+  .review-list--header {
+    margin-top: 20px;
+  }
 }
 
 .reviews--showmore-container {

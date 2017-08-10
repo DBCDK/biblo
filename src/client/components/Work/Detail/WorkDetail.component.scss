@@ -1,6 +1,69 @@
 @import 'tools';
 
+$topBarHeight: 50px;
+
 .work-detail {
+  .work-detail--top-bar--container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $topBarHeight;
+    background-color: $black;
+    z-index: 115;
+    overflow: hidden;
+
+    .text-container {
+      display: inline-block;
+      color: $white;
+      width: 80vw;
+      max-width: 510px;
+      margin-left: 10px;
+      vertical-align: top;
+
+      .title {
+        font-weight: bold;
+      }
+
+      p {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0;
+        font-size: 9pt;
+      }
+    }
+
+    .work-detail--top-bar--inner {
+      margin-top: 10px;
+      width: 100vw;
+      padding-left: 20px;
+
+      @include min-screen($tablet) {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 120px;
+        width: 1024px;
+      }
+    }
+
+    img {
+      height: 30px;
+      display: inline-block;
+    }
+  }
+
+  .work-detail--top-bar--container.not-present {
+    transform: translate(0, -$topBarHeight);
+    transform-origin: top;
+    transition: transform 0.26s ease;
+  }
+
+  .work-detail--top-bar--container.present {
+    transform: translate(0, 0);
+    transform-origin: top;
+    transition: transform 0.26s ease;
+  }
 
   .work-detail--title-container {
     text-align: center;

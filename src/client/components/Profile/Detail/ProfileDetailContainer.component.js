@@ -388,7 +388,7 @@ export class ProfileDetailContainer extends React.Component {
     const campaignRows = campaigns.map(campaign => {
       let logo;
       if (campaign.logos.svg) {
-        logo = (<img src={campaign.logos.svg} className='campaign--row--logo svg' width={60} height={60}/>);
+        logo = (<img src={campaign.logos.svg} className='campaign--row--logo svg' style={{width: '60px', height: '60px'}}/>);
       }
       else {
         logo = (<img src={campaign.logos.small} className='campaign--row--logo' width={80}/>);
@@ -473,7 +473,7 @@ export class ProfileDetailContainer extends React.Component {
   renderCampaignBadge(campaign, isMyProfile) {
     let logo;
     if (campaign.logos.svg) {
-      logo = (<img src={campaign.logos.svg} className='svg' width={60} height={60}/>);
+      logo = (<img src={campaign.logos.svg} className='svg' style={{width: '60px', height: '60px'}}/>);
     }
     else {
       logo = (<img src={campaign.logos.small} width={80}/>);

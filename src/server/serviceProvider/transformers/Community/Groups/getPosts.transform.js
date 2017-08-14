@@ -91,8 +91,8 @@ const GetPostsTransform = {
 
     return Promise.all([
       this.callServiceClient('community', 'getPosts', {id, filter: postFilter}),
-      this.callServiceClient('cached/standard/community', 'getReviewCampaigns'),
-      this.callServiceClient('cached/standard/community', 'getGroupCampaigns')
+      this.callServiceClient('community', 'getReviewCampaigns'),
+      this.callServiceClient('community', 'getGroupCampaigns')
     ]);
   },
 

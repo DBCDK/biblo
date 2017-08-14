@@ -51,8 +51,8 @@ const GetReviewTransform = {
       };
 
       return Promise.all([
-        this.callServiceClient('cached/standard/community', 'countReviews', {where: params.filter.where}),
-        this.callServiceClient('cached/standard/community', 'getReviews', params),
+        this.callServiceClient('community', 'countReviews', {where: params.filter.where}),
+        this.callServiceClient('community', 'getReviews', params),
         Promise.resolve([campaign])
       ]);
     });

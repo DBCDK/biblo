@@ -1430,6 +1430,14 @@ function addGenres(endpoint, {reviewId, genres}) {
   });
 }
 
+function searchReviews(endpoint, {}) {
+  console.log("searching reviews")
+  const query = '*:*';
+  return promiseRequest('get', {
+    url: `${endpoint}api/Reviews/search?limit=10&q=${query}`
+  });
+}
+
 /**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
@@ -1506,6 +1514,7 @@ module.exports = function CommunityClient(logger, config = null) {
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),
-    addGenres: addGenres.bind(null, config.endpoint)
+    addGenres: addGenres.bind(null, config.endpoint),
+    searchReviews: searchReviews.bind(null, config.endpoint)
   };
 };

@@ -2,9 +2,12 @@
 
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
+import {once} from 'lodash';
 
 const getReviewsClient = SocketClient('getReviews');
 const deleteReviewClient = SocketClient('deleteReview');
+
+const getWorksSocket = SocketClient('work');
 
 export function showWorkReviews(response, pids, skip, limit, ownId) {
   return {
@@ -16,6 +19,48 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
     workReviewsTotalCount: response.reviewsCount,
     ownId: ownId
   };
+}
+
+export function showReviewList(skip, limit) {
+  return function (dispatch) {
+
+    // Fetch reviews
+    getReviewsClient.request({skip, limit});
+    const event = getReviewsClient.response(response => {
+      const reviews = response.data;
+      const pids = _.uniq(reviews.map(r => r.pid));
+
+      pids.push('870970-basis:22995154'); // pid with campaign
+
+      // Fetch reviewed works
+      getWorksSocket.request({pids: pids, fields: ['coverUrlThumbnail', 'dcTitle', 'dcTitleFull', 'pid', 'workType']})
+      getWorksSocket.response(workResponse => {
+
+        // map pids to works
+        const pidToWork = {}
+        workResponse.data.forEach(work =>{ pidToWork[work.pid] = work });
+
+        // merge reviews and works
+        const merged = []
+        reviews.forEach(review => {
+          const work = pidToWork[review.pid];
+          console.log('work', work)
+          console.log('review', review);
+          if (work) {
+            merged.push({review, work});
+          }
+        });
+
+        dispatch({
+          type: types.GET_REVIEWS,
+          reviews: merged
+        });
+
+        event.off();
+      });
+    });
+
+  }
 }
 
 export function moreWorkReviewsLoading() {

@@ -10,6 +10,7 @@ import {includes, filter, isArray} from 'lodash';
 const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
 
 const initialState = {};
+initialState.reviewExplorer = {};
 initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
 initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];  // reviews related to a work (known as collecton in the service provider)
 initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];  // metadata about workReviews (ownReviewIdd and totalCount)
@@ -19,6 +20,15 @@ export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
 
   switch (action.type) {
+    case types.GET_REVIEWS: {
+      console.log('getting reviews')
+      return assignToEmpty(state, {
+        reviewExplorer: {
+          reviews: action.reviews
+        }
+      });
+    }
+
     case types.GET_WORK_REVIEWS: {
       return assignToEmpty(state, {
         workReviews: action.reviews.data,

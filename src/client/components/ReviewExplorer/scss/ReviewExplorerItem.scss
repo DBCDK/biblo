@@ -1,0 +1,68 @@
+@import 'tools';
+
+.review-row--container {
+  @include span(24);
+  border-bottom: 3px solid #e7e7ef;
+  padding: 10px 10px;
+  min-height: 80px;
+  height: auto;
+
+  .work--container {
+      @include span(24);
+
+      @include min-screen($desktop) {
+        @include span(8);
+      }
+
+      .work-cover--container {
+        @include span(5);
+        vertical-align:top;
+        margin: 0;
+        img {
+          box-shadow: 5px 5px 10px $gray;
+          max-height: 60px;
+          max-width: 40px;
+        }
+      }
+      .work-description--container {
+        @include span(16);
+        vertical-align:top;
+        margin: 0;
+        h4 {
+          padding:0;
+          margin: 0;
+        }
+        p {
+          padding: 0;
+          margin: 0;
+          color: $gray;
+        }
+      }
+      .campaign--container {
+        @include min-screen($desktop) {
+          display: none;
+        }
+        @include span(3);
+        vertical-align:top;
+        margin: 0;
+        img {
+          padding-right: 10px;
+          max-height: 50px;
+          max-width: 50px;
+        }
+      }
+  }
+
+  .review--container {
+    @include span(24);
+    @include min-screen($desktop) {
+      @include span(15);
+    }
+    .review-text--container {
+      @include span(24);
+    }
+  }
+
+
+
+}

@@ -4,6 +4,7 @@ const CreateGroupContent = {
   },
 
   upsertContent(query, user) {
+
     const imageCollectionQuery = {
       id: query.imageId
     };
@@ -46,6 +47,18 @@ const CreateGroupContent = {
       if (query.imageId) {
         imageCollectionQuery[imageCollectionField] = response.body.id;
         return this.callServiceClient('community', 'updateImageCollection', imageCollectionQuery).then(() => response);
+      }
+
+      if (query.parentId) {
+        if (method === 'createComment') {
+          // Invalidate the group of comments in which this comment was created
+          this.invalidateCache(`getComments*"id":${query.parentId},*`);
+        }
+        else if (method === 'createPost') {
+          // Invalidate the group in which this post was created
+          // Here we need double quotes around parentId
+          this.invalidateCache(`*getGroup*"id":"${query.parentId}"*`);
+        }
       }
 
       return response;

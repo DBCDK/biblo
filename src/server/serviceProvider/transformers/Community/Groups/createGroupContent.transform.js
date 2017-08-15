@@ -43,10 +43,6 @@ const CreateGroupContent = {
       video: query.video || null,
       pdf: query.pdf || null
     }).then(response => {
-      if (query.imageId) {
-        imageCollectionQuery[imageCollectionField] = response.body.id;
-        return this.callServiceClient('community', 'updateImageCollection', imageCollectionQuery).then(() => response);
-      }
 
       if (query.parentId) {
         if (method === 'createComment') {
@@ -58,6 +54,11 @@ const CreateGroupContent = {
           // Here we need double quotes around parentId
           this.invalidateCache(`*getGroup*"id":"${query.parentId}"*`);
         }
+      }
+
+      if (query.imageId) {
+        imageCollectionQuery[imageCollectionField] = response.body.id;
+        return this.callServiceClient('community', 'updateImageCollection', imageCollectionQuery).then(() => response);
       }
 
       return response;

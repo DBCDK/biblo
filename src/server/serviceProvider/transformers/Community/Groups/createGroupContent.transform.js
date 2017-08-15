@@ -4,7 +4,6 @@ const CreateGroupContent = {
   },
 
   upsertContent(query, user) {
-
     const imageCollectionQuery = {
       id: query.imageId
     };

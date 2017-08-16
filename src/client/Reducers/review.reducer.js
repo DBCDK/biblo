@@ -20,12 +20,19 @@ export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
 
   switch (action.type) {
-    case types.GET_REVIEWS: {
-      console.log('getting reviews')
+    case types.GET_GENRES: {
       return assignToEmpty(state, {
-        reviewExplorer: {
+        reviewExplorer: assignToEmpty(state.reviewExplorer, {
+          genres: action.genres
+        })
+      });
+    }
+
+    case types.GET_REVIEWS: {
+      return assignToEmpty(state, {
+        reviewExplorer: assignToEmpty(state.reviewExplorer, {
           reviews: action.reviews
-        }
+        })
       });
     }
 

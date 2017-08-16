@@ -2,12 +2,11 @@
 
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
-import {once} from 'lodash';
 
+const searchReviewsClient = SocketClient('searchReviews');
 const getReviewsClient = SocketClient('getReviews');
+const getGenresClient = SocketClient('getGenres');
 const deleteReviewClient = SocketClient('deleteReview');
-
-const getWorksSocket = SocketClient('work');
 
 export function showWorkReviews(response, pids, skip, limit, ownId) {
   return {
@@ -21,46 +20,57 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
   };
 }
 
-export function showReviewList(skip, limit) {
+export function showReviewList(params, skip, limit) {
+  const WORK_TYPES_MAPPINGS = {
+    'alle typer': '',
+    bøger: ' AND worktype:book',
+    film: ' AND worktype:book',
+    spil: ' AND worktype:book',
+    musik: ' AND worktype:music',
+    tegneserier: ' AND worktype:book'
+  };
+  const REVIEW_TYPES_MAPPINGS = {
+    'alle typer': '',
+    tekst: ' AND !image:* AND !video:*',
+    billede: ' AND image:*',
+    video: ' AND video:*'
+  };
+  const ORDER_MAPPINGS = {
+    nyeste: 'created:desc',
+    'mest likede': 'numLikes:desc',
+    tilfældig: ''
+  };
+
+  const existFilter = '!markedAsDeleted:true';
+  const genre = params.genre === 'alle' ? '' : ` AND genres.title:${params.genre}`;
+  const query = `${existFilter}${genre}${WORK_TYPES_MAPPINGS[params.workType]}${REVIEW_TYPES_MAPPINGS[params.reviewType]}`;
+  const sort = ORDER_MAPPINGS[params.order];
+
   return function (dispatch) {
-
-    // Fetch reviews
-    getReviewsClient.request({skip, limit});
-    const event = getReviewsClient.response(response => {
-      const reviews = response.data;
-      const pids = _.uniq(reviews.map(r => r.pid));
-
-      pids.push('870970-basis:22995154'); // pid with campaign
-
-      // Fetch reviewed works
-      getWorksSocket.request({pids: pids, fields: ['coverUrlThumbnail', 'dcTitle', 'dcTitleFull', 'pid', 'workType']})
-      getWorksSocket.response(workResponse => {
-
-        // map pids to works
-        const pidToWork = {}
-        workResponse.data.forEach(work =>{ pidToWork[work.pid] = work });
-
-        // merge reviews and works
-        const merged = []
-        reviews.forEach(review => {
-          const work = pidToWork[review.pid];
-          console.log('work', work)
-          console.log('review', review);
-          if (work) {
-            merged.push({review, work});
-          }
-        });
-
-        dispatch({
-          type: types.GET_REVIEWS,
-          reviews: merged
-        });
-
-        event.off();
-      });
+    searchReviewsClient.request({
+      elasticQuery: {query, sort}
     });
+    const event = searchReviewsClient.response(response => {
+      dispatch({
+        type: types.GET_REVIEWS,
+        reviews: response.data
+      });
+      event.off();
+    });
+  };
+}
 
-  }
+export function showGenres() {
+  return function (dispatch) {
+    getGenresClient.request({});
+    const event = getGenresClient.response(response => {
+      dispatch({
+        type: types.GET_GENRES,
+        genres: response.data
+      });
+      event.off();
+    });
+  };
 }
 
 export function moreWorkReviewsLoading() {

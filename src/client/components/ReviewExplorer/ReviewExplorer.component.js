@@ -8,6 +8,7 @@ import parseJsonData from '../../Utils/parseJsonData.js';
 import PageLayout from '../Layout/PageLayout.component.js';
 
 import ReviewExplorerItem from './ReviewExplorerItem.js';
+import ReviewExplorerNavigation from './ReviewExplorerNavigation.js';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
@@ -18,7 +19,11 @@ import './scss/ReviewExplorer.component.scss';
 export class ReviewExplorerComponent extends Component {
 
   componentDidMount() {
-    this.props.reviewActions.showReviewList(0, 10);
+    this.props.reviewActions.showGenres();
+  }
+
+  handleNavigationChange(e) {
+    this.props.reviewActions.showReviewList(e, 0, 10);
   }
 
   renderItems(reviews) {
@@ -29,19 +34,24 @@ export class ReviewExplorerComponent extends Component {
           content={entry.review.content}
           coverUrl={entry.work.coverUrlThumbnail ? entry.work.coverUrlThumbnail[0] : entry.work.coverUrl}
           rating={entry.review.rating}
-          campaign={entry.review.campaign}/>
+          campaign={entry.review.campaign}
+          likes={entry.review.likes}
+          profile={this.props.profileState}/>
       );
     });
   }
 
   render() {
     const reviews = this.props.reviewState.reviewExplorer.reviews;
+    const genres = this.props.reviewState.reviewExplorer.genres;
+
     return (
       <PageLayout
         searchState={this.props.searchState}
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}>
+          <ReviewExplorerNavigation genres={genres} onChange={this.handleNavigationChange.bind(this)}/>
           <h1>ANMELDELSER</h1>
           <hr/>
           {reviews && this.renderItems(reviews)}

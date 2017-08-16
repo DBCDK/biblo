@@ -1,0 +1,42 @@
+@import 'tools';
+
+.review-explorer-navigation--wrapper {
+  background: gray;
+  text-align: left;
+  @include min-screen($tablet) {
+    text-align: center;
+  }
+
+}
+.review-explorer-navigation {
+  padding: 20px;
+  color: white;
+  font-size: 22px;
+  display:inline-block;
+
+  &--row {
+    margin: 0.9em 0.5em 0.9em 0em;
+    @include min-screen($tablet) {
+      float: left;
+    }
+  }
+
+  &--dropdown {
+    background: transparent;
+    color: white;
+    border: white 1px solid;
+    border-radius: 4px;
+    padding: 3px 0px 3px 5px;
+    margin: 0px;
+    font-size: 26px;
+    margin-left: .25em;
+    margin-right: .25em;
+  }
+  &--dropdown:active, &--dropdown:hover {
+    background: white;
+    color: green;
+    option {
+      color: black;
+    }
+  }
+}

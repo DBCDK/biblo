@@ -1430,11 +1430,23 @@ function addGenres(endpoint, {reviewId, genres}) {
   });
 }
 
-function searchReviews(endpoint, {}) {
-  console.log("searching reviews")
-  const query = '*:*';
+/**
+ * Get all genres.
+ * @param {String} endpoint
+ * @returns {Promise}
+ */
+function getGenres(endpoint) {
   return promiseRequest('get', {
-    url: `${endpoint}api/Reviews/search?limit=10&q=${query}`
+    url: `${endpoint}api/BibliographicGenres/`
+  });
+}
+
+function searchReviews(endpoint, elasticQuery) {
+  const query = elasticQuery.query || '*:*';
+  const sort = elasticQuery.sort || '';
+
+  return promiseRequest('get', {
+    url: `${endpoint}api/Reviews/search?limit=10&q=${query}&sort=${sort}`
   });
 }
 
@@ -1515,6 +1527,7 @@ module.exports = function CommunityClient(logger, config = null) {
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),
     addGenres: addGenres.bind(null, config.endpoint),
+    getGenres: getGenres.bind(null, config.endpoint),
     searchReviews: searchReviews.bind(null, config.endpoint)
   };
 };

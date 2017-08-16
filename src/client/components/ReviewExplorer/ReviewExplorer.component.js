@@ -38,7 +38,8 @@ export class ReviewExplorerComponent extends Component {
           campaign={entry.review.campaign}
           likes={entry.review.likes}
           profile={this.props.profileState}
-          created={TimeToString(entry.review.created)}/>
+          created={TimeToString(entry.review.created)}
+          campaign={entry.review.campaign}/>
       );
     });
   }

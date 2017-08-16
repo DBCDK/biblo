@@ -11,6 +11,8 @@ export default class ReviewExplorerItem extends React.Component {
 
   render() {
     // console.log("profile", this.props.profile)
+    const logo = (this.props.campaign && this.props.campaign.logos) ? this.props.campaign.logos.small : null;
+
     const likes = this.props.likes || [];
     return (
       <div className="review-row">
@@ -47,9 +49,7 @@ export default class ReviewExplorerItem extends React.Component {
             <Rating rating={this.props.rating} pid={"review.pid"}/>
           </div>
 
-          <img
-            className="review-row-desktop--campaign-image"
-            src="/sommerbogen-logo.png"/>
+          {logo && <img className='review-row-desktop--campaign-image' src={logo}/>}
 
           <div className="review-row--likebutton">
             <LikeButton
@@ -76,5 +76,6 @@ ReviewExplorerItem.propTypes = {
   campaign: PropTypes.object,
   likes: PropTypes.array,
   profile: PropTypes.object,
-  created: PropTypes.string
+  created: PropTypes.string,
+  campaign: PropTypes.object
 };

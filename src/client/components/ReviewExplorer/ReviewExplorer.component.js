@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import TimeToString from '../../Utils/timeToString.js';
 
 import parseJsonData from '../../Utils/parseJsonData.js';
 
@@ -36,7 +37,8 @@ export class ReviewExplorerComponent extends Component {
           rating={entry.review.rating}
           campaign={entry.review.campaign}
           likes={entry.review.likes}
-          profile={this.props.profileState}/>
+          profile={this.props.profileState}
+          created={TimeToString(entry.review.created)}/>
       );
     });
   }

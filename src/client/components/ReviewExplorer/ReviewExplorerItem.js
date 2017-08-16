@@ -20,7 +20,7 @@ export default class ReviewExplorerItem extends React.Component {
 
           <div className="review-row--work-title">
             <h4>{this.props.title}</h4>
-            <p>2 dage siden</p>
+            <p>{this.props.created}</p>
           </div>
 
           <img
@@ -75,5 +75,6 @@ ReviewExplorerItem.propTypes = {
   rating: PropTypes.number,
   campaign: PropTypes.object,
   likes: PropTypes.array,
-  profile: PropTypes.object
+  profile: PropTypes.object,
+  created: PropTypes.string
 };

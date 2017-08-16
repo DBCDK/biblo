@@ -4,15 +4,50 @@ import PropTypes from 'prop-types';
 import Rating from '../General/Rating/Rating.component';
 import LikeButton from '../General/LikeButton/LikeButton.component';
 
+import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
+
 
 import './scss/ReviewExplorerItem.scss';
 
 export default class ReviewExplorerItem extends React.Component {
 
+  spawnLoginDialog() {
+    const dialog = (
+      <div>
+        <p>Du skal logge ind for at like</p>
+        <RoundedButton
+          href={`/login?destination=${encodeURIComponent(window.location)}`}
+          buttonText="Login"
+          compact={false}
+        />
+      </div>
+    );
+
+    this.props.uiActions.openModalWindow(dialog);
+  }
+
+  unlikeReview() {
+    this.props.likeActions.unlikeReview({
+      reviewId: this.props.reviewId,
+      profileId: this.props.profile.id
+    });
+  }
+
+  likeReview() {
+    this.props.likeActions.likeReview({
+      reviewId: this.props.reviewId,
+      profileId: this.props.profile.id
+    });
+  }
+
   render() {
     // console.log("profile", this.props.profile)
+    const profile = this.props.profile;
     const logo = (this.props.campaign && this.props.campaign.logos) ? this.props.campaign.logos.small : null;
-
+    const ownerimage = this.props.owner.image.url ? this.props.owner.image.url.medium : this.props.owner.image;
+    const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : this.spawnLoginDialog;
+    const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {};
+// console.log(this.props.owner)
     const likes = this.props.likes || [];
     return (
       <div className="review-row">
@@ -25,13 +60,13 @@ export default class ReviewExplorerItem extends React.Component {
             <p>{this.props.created}</p>
           </div>
 
-          <img
-            className="review-row-mobile--campaign-image"
-            src="/sommerbogen-logo.png"/>
+          <div className='review-row-mobile--campaign-image'>
+            {logo ? <img src={logo}/> : <div>&nbsp;</div>}
+          </div>
 
           <div className="review-row-desktop--owner-image">
-            <a href="/profil/44400">
-              <img src="/billede/183/small"/>
+            <a href={'/profil/'+this.props.owner.id}>
+              <img src={ownerimage}/>
             </a>
           </div>
 
@@ -40,23 +75,25 @@ export default class ReviewExplorerItem extends React.Component {
           </div>
 
           <div className="review-row-mobile--owner-image">
-            <a href="/profil/44400">
-              <img src="/billede/183/small"/>
+            <a href={'/profil/'+this.props.owner.id}>
+              <img src={ownerimage}/>
             </a>
           </div>
 
           <div className="review-row-mobile--rating">
-            <Rating rating={this.props.rating} pid={"review.pid"}/>
+            <Rating rating={this.props.rating}/>
           </div>
 
-          {logo && <img className='review-row-desktop--campaign-image' src={logo}/>}
+          <div className='review-row-desktop--campaign-image'>
+            {logo ? <img src={logo}/> : <div>&nbsp;</div>}
+          </div>
 
           <div className="review-row--likebutton">
             <LikeButton
-              active={true}
+              active={this.props.profile.userIsLoggedIn}
               isLikedByCurrentUser={likes.includes(this.props.profile.id)}
-              likeFunction={()=>{}}
-              unlikeFunction={()=>{}}
+              likeFunction={likeFunction.bind(this)}
+              unlikeFunction={unlikeFunction.bind(this)}
               usersWhoLikeThis={likes}
               small={true}
             />
@@ -69,6 +106,7 @@ export default class ReviewExplorerItem extends React.Component {
 }
 
 ReviewExplorerItem.propTypes = {
+  reviewId: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
   coverUrl: PropTypes.string,
@@ -77,5 +115,7 @@ ReviewExplorerItem.propTypes = {
   likes: PropTypes.array,
   profile: PropTypes.object,
   created: PropTypes.string,
-  campaign: PropTypes.object
+  owner: PropTypes.object,
+  likeActions: PropTypes.object,
+  uiActions: PropTypes.object
 };

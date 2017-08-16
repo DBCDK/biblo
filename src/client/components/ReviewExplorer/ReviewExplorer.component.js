@@ -14,6 +14,8 @@ import ReviewExplorerNavigation from './ReviewExplorerNavigation.js';
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
 import * as reviewActions from '../../Actions/review.actions';
+import * as likeActions from '../../Actions/like.actions';
+import * as uiActions from '../../Actions/ui.actions';
 
 import './scss/ReviewExplorer.component.scss';
 
@@ -31,6 +33,7 @@ export class ReviewExplorerComponent extends Component {
     return reviews.map((entry, idx) => {
       return (
         <ReviewExplorerItem key={idx}
+          reviewId={entry.review.id}
           title={entry.work.dcTitle}
           content={entry.review.html}
           coverUrl={entry.work.coverUrlThumbnail ? entry.work.coverUrlThumbnail[0] : entry.work.coverUrl}
@@ -39,7 +42,9 @@ export class ReviewExplorerComponent extends Component {
           likes={entry.review.likes}
           profile={this.props.profileState}
           created={TimeToString(entry.review.created)}
-          campaign={entry.review.campaign}/>
+          owner={entry.review.owner}
+          likeActions={this.props.likeActions}
+          uiActions={this.props.uiActions}/>
       );
     });
   }
@@ -74,7 +79,7 @@ export default connect(
       searchState: state.searchReducer,
       widgetState: state.widgetReducer,
       globalState: state.globalReducer,
-      reviewState: state.reviewReducer,
+      reviewState: state.reviewReducer
     };
   },
 
@@ -83,7 +88,9 @@ export default connect(
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       widgetActions: bindActionCreators(widgetActions, dispatch),
-      reviewActions: bindActionCreators(reviewActions, dispatch)
+      reviewActions: bindActionCreators(reviewActions, dispatch),
+      likeActions: bindActionCreators(likeActions, dispatch),
+      uiActions: bindActionCreators(uiActions, dispatch)
     };
   }
 )(ReviewExplorerComponent);

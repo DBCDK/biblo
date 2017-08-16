@@ -100,6 +100,17 @@ export default function reviewReducer(state = initialState, action = {}) {
           }
         }
       });
+
+      state.reviewExplorer.reviews.forEach(r => {
+        const review = r.review;
+        if (review.id === action.reviewId) {
+          const isAlreadyLikedByUser = includes(review.likes, action.profileId);
+          if (!isAlreadyLikedByUser) {
+            review.likes.push(action.profileId);
+          }
+        }
+      });
+
       return assignToEmpty(state, {workReviews: workReviewsCopyLiked});
     }
 
@@ -115,6 +126,19 @@ export default function reviewReducer(state = initialState, action = {}) {
           }
         }
       });
+
+      state.reviewExplorer.reviews.forEach(r => {
+        const review = r.review;
+        if (review.id === action.reviewId) {
+          const isAlreadyLikedByUser = includes(review.likes, action.profileId);
+          if (isAlreadyLikedByUser) {
+            review.likes = filter(review.likes, (id) => {
+              return (id !== action.profileId);
+            });
+          }
+        }
+      });
+
       return assignToEmpty(state, {workReviews: reviewsCopyUnliked});
     }
 

@@ -46,6 +46,10 @@
       @include span(0);
       display: none;
     }
+
+    img {
+      @include span(24);
+    }
   }
 
   &-desktop--campaign-image {
@@ -53,8 +57,11 @@
     display: none;
 
     @include min-screen($tablet) {
-      @include span(1);
+      width: span(1);
       display: inherit;
+    }
+    img {
+      @include span(24);
     }
   }
 

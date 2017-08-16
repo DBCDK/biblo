@@ -66,6 +66,7 @@ const SearchReviewsTransform = {
         palleid: review._source.palleid,
         id: review._source.id,
         reviewownerid: review._source.reviewownerid,
+        owner: review._source.owner,
         likes: review._source.likes
       };
       return parseReview(r, campaigns, 150);

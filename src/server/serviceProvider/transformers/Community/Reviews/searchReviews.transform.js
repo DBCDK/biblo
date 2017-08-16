@@ -68,7 +68,7 @@ const SearchReviewsTransform = {
         reviewownerid: review._source.reviewownerid,
         likes: review._source.likes
       };
-      return parseReview(r, campaigns, 0);
+      return parseReview(r, campaigns, 150);
     }) || [];
 
     reviews.forEach(review => {

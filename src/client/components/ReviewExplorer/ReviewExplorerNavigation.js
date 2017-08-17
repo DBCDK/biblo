@@ -7,10 +7,10 @@ export default class ReviewExplorerNavigation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'genre': 'alle',
-      'workType': 'alle typer',
-      'reviewType': 'alle typer',
-      'order': 'nyeste'
+      genre: 'alle',
+      workType: 'alle typer',
+      reviewType: 'alle typer',
+      order: 'nyeste'
     };
 
     this.props.onChange(Object.assign({}, this.state));
@@ -31,8 +31,8 @@ export default class ReviewExplorerNavigation extends React.Component {
         <select className="review-explorer-navigation--dropdown" onChange={(e) => {
           this.handleChange(id, e.target.value);
         }}>
-          {options.map(o => {
-            return <option>{o}</option>;
+          {options.map((o, idx) => {
+            return <option key={idx}>{o}</option>;
           })}
         </select>
         {appendText}
@@ -58,8 +58,8 @@ export default class ReviewExplorerNavigation extends React.Component {
     );
   }
 }
-
+ReviewExplorerNavigation.displayName = 'ReviewExplorerNavigation';
 ReviewExplorerNavigation.propTypes = {
-  genres: PropTypes.array,
-  onChange: PropTypes.function,
+  genres: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired
 };

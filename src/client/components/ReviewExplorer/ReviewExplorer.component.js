@@ -4,10 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import TimeToString from '../../Utils/timeToString.js';
 
-import parseJsonData from '../../Utils/parseJsonData.js';
-
 import PageLayout from '../Layout/PageLayout.component.js';
-
 import ReviewExplorerItem from './ReviewExplorerItem.js';
 import ReviewExplorerNavigation from './ReviewExplorerNavigation.js';
 
@@ -69,9 +66,21 @@ export class ReviewExplorerComponent extends Component {
       </PageLayout>
     );
   }
-
-
 }
+
+ReviewExplorerComponent.displayName = 'ReviewExplorerComponent';
+ReviewExplorerComponent.propTypes = {
+  searchActions: PropTypes.object.isRequired,
+  widgetActions: PropTypes.object.isRequired,
+  reviewActions: PropTypes.object.isRequired,
+  likeActions: PropTypes.object.isRequired,
+  uiActions: PropTypes.object.isRequired,
+  profileState: PropTypes.object.isRequired,
+  searchState: PropTypes.object.isRequired,
+  widgetState: PropTypes.object.isRequired,
+  globalState: PropTypes.object.isRequired,
+  reviewState: PropTypes.object.isRequired
+};
 
 export default connect(
   // Map redux state to group prop

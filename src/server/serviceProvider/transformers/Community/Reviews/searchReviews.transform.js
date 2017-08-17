@@ -11,7 +11,7 @@ const SearchReviewsTransform = {
     return new Promise((resolve, reject) => {
 
       Promise.all([
-        this.callServiceClient('cached/standard/community', 'searchReviews', elasticQuery),
+        this.callServiceClient('community', 'searchReviews', elasticQuery),
         this.callServiceClient('cached/standard/community', 'getReviewCampaigns')
       ])
       .then(response => {

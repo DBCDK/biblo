@@ -3,7 +3,7 @@ const GetGenresTransform = {
     return 'getGenres';
   },
 
-  requestTransform(event, {}, connection) {
+  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
     return new Promise((resolve, reject) => {
       this.callServiceClient('cached/standard/community', 'getGenres')
       .then((response) => {
@@ -15,7 +15,7 @@ const GetGenresTransform = {
     });
   },
 
-  responseTransform(response, {}) {
+  responseTransform(response) {
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method getGenres failed');
     }

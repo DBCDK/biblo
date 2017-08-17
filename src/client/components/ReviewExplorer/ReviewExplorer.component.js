@@ -44,7 +44,9 @@ export class ReviewExplorerComponent extends Component {
           created={TimeToString(entry.review.created)}
           owner={entry.review.owner}
           likeActions={this.props.likeActions}
-          uiActions={this.props.uiActions}/>
+          uiActions={this.props.uiActions}
+          image={entry.review.image}
+          video={entry.review.video}/>
       );
     });
   }

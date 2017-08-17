@@ -67,7 +67,9 @@ const SearchReviewsTransform = {
         id: review._source.id,
         reviewownerid: review._source.reviewownerid,
         owner: review._source.owner,
-        likes: review._source.likes
+        likes: review._source.likes,
+        image: review._source.image,
+        video: review._source.video
       };
       return parseReview(r, campaigns, 150);
     }) || [];

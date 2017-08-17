@@ -75,6 +75,44 @@
     }
   }
 
+  &-mobile--review-image {
+    @include span(3);
+    margin-top: 5px;
+    img {
+      max-width: 60px;
+      max-height: 60px;
+    }
+    @include min-screen($tablet) {
+      @include span(0);
+      display: none;
+    }
+  }
+
+  &-desktop--review-image {
+    @include span(0);
+    display: none;
+    img {
+      max-width: 60px;
+      max-height: 60px;
+    }
+    @include min-screen($tablet) {
+      @include span(3);
+      display: inline-block;;
+    }
+  }
+
+  &-desktop--review-video {
+    @include span(0);
+    display: none;
+    @include min-screen($tablet) {
+      @include span(3);
+      display: inline-block;
+    }
+    img {
+      @include span(24);
+    }
+  }
+
   &-mobile--rating {
     @include span(9);
     margin-top: 7px;

@@ -5,8 +5,6 @@ import Rating from '../General/Rating/Rating.component';
 import LikeButton from '../General/LikeButton/LikeButton.component';
 
 import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
-import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
-
 
 import './scss/ReviewExplorerItem.scss';
 

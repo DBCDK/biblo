@@ -14,7 +14,7 @@ const upload = multer({storage: multer.memoryStorage()});
 const ReviewRoutes = express.Router();
 const ReviewsRoutes = express.Router();
 
-ReviewsRoutes.get('/', async function (req, res, next) {
+ReviewsRoutes.get('/', async function (req, res) {
   res.render('page', {
     css: ['/css/reviewexplorer.css'],
     js: ['/js/reviewexplorer.js'],

@@ -20,7 +20,7 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
   };
 }
 
-export function showReviewList(params, skip, limit) {
+export function showReviewList(params) {
   const WORK_TYPES_MAPPINGS = {
     'alle typer': '',
     bøger: ' AND worktype:book',

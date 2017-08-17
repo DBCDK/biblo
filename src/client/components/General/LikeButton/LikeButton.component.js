@@ -14,7 +14,8 @@ export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = 
   let text;
   if (small) {
     text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length}</p> : <p/>;
-  } else {
+  }
+  else {
     text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
   }
 

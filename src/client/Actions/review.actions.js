@@ -3,7 +3,9 @@
 import * as types from '../Constants/action.constants';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 
+const searchReviewsClient = SocketClient('searchReviews');
 const getReviewsClient = SocketClient('getReviews');
+const getGenresClient = SocketClient('getGenres');
 const deleteReviewClient = SocketClient('deleteReview');
 
 export function showWorkReviews(response, pids, skip, limit, ownId) {
@@ -15,6 +17,59 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
     limit: limit,
     workReviewsTotalCount: response.reviewsCount,
     ownId: ownId
+  };
+}
+
+export function showReviewList(params) {
+  const WORK_TYPES_MAPPINGS = {
+    'alle typer': '',
+    bøger: ' AND worktype:book',
+    film: ' AND worktype:book',
+    spil: ' AND worktype:book',
+    musik: ' AND worktype:music',
+    tegneserier: ' AND worktype:book'
+  };
+  const REVIEW_TYPES_MAPPINGS = {
+    'alle typer': '',
+    tekst: ' AND !image:* AND !video:*',
+    billede: ' AND image:*',
+    video: ' AND video:*'
+  };
+  const ORDER_MAPPINGS = {
+    nyeste: 'created:desc',
+    'mest likede': 'numLikes:desc',
+    tilfældig: ''
+  };
+
+  const existFilter = '!markedAsDeleted:true';
+  const genre = params.genre === 'alle' ? '' : ` AND genres.title:${params.genre}`;
+  const query = `${existFilter}${genre}${WORK_TYPES_MAPPINGS[params.workType]}${REVIEW_TYPES_MAPPINGS[params.reviewType]}`;
+  const sort = ORDER_MAPPINGS[params.order];
+
+  return function (dispatch) {
+    searchReviewsClient.request({
+      elasticQuery: {query, sort}
+    });
+    const event = searchReviewsClient.response(response => {
+      dispatch({
+        type: types.GET_REVIEWS,
+        reviews: response.data
+      });
+      event.off();
+    });
+  };
+}
+
+export function showGenres() {
+  return function (dispatch) {
+    getGenresClient.request({});
+    const event = getGenresClient.response(response => {
+      dispatch({
+        type: types.GET_GENRES,
+        genres: response.data
+      });
+      event.off();
+    });
   };
 }
 

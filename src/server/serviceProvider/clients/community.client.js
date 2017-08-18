@@ -1431,6 +1431,26 @@ function addGenres(endpoint, {reviewId, genres}) {
 }
 
 /**
+ * Get all genres.
+ * @param {String} endpoint
+ * @returns {Promise}
+ */
+function getGenres(endpoint) {
+  return promiseRequest('get', {
+    url: `${endpoint}api/BibliographicGenres/`
+  });
+}
+
+function searchReviews(endpoint, elasticQuery) {
+  const query = elasticQuery.query || '*:*';
+  const sort = elasticQuery.sort || '';
+
+  return promiseRequest('get', {
+    url: `${endpoint}api/Reviews/search?limit=10&q=${query}&sort=${sort}`
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -1506,6 +1526,8 @@ module.exports = function CommunityClient(logger, config = null) {
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),
-    addGenres: addGenres.bind(null, config.endpoint)
+    addGenres: addGenres.bind(null, config.endpoint),
+    getGenres: getGenres.bind(null, config.endpoint),
+    searchReviews: searchReviews.bind(null, config.endpoint)
   };
 };

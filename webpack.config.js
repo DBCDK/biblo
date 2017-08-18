@@ -22,6 +22,7 @@ module.exports = [{
     groupedit: './src/client/components/Groups/Edit/index.js',
     work: './src/client/components/Work/index.js',
     review: './src/client/components/Review/index.js',
+    reviewexplorer: './src/client/components/ReviewExplorer/index.js',
     preview: './src/client/components/WidgetContainer/index.js',
     campaigncertificate: './src/client/components/CampaignCertificate/CampaignCertificate.component.js'
   },

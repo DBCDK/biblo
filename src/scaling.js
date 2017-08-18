@@ -11,6 +11,7 @@ module.exports = function startSocketCluster(configuration = {}) {
     initController: path.join(__dirname, 'init.js'),
     workerController: path.join(__dirname, 'app.js'),
     wsEngine: 'uws',
-    rebootWorkerOnCrash: config.get('Biblo.rebootWorkers')
+    rebootWorkerOnCrash: config.get('Biblo.rebootWorkers'),
+    killMasterOnSignal: true
   }, configuration));
 };

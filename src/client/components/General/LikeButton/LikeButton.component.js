@@ -9,9 +9,15 @@ import Icon from '../Icon/Icon.component.js';
 import heartSvg from '../Icon/svg/functions/heart.svg';
 import heartFullSvg from '../Icon/svg/functions/heart-full.svg';
 
-export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}, active=false}) {
+export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}, active=false, small = false}) {
 
-  const text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
+  let text;
+  if (small) {
+    text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length}</p> : <p/>;
+  }
+  else {
+    text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
+  }
 
   const glyph = (isLikedByCurrentUser) ? heartFullSvg : heartSvg;
 
@@ -32,5 +38,6 @@ LikeButton.propTypes = {
   isLikedByCurrentUser: PropTypes.bool,
   active: PropTypes.bool,
   likeFunction: PropTypes.func,
-  unlikeFunction: PropTypes.func
+  unlikeFunction: PropTypes.func,
+  small: PropTypes.bool
 };

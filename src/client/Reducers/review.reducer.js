@@ -10,6 +10,7 @@ import {includes, filter, isArray} from 'lodash';
 const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
 
 const initialState = {};
+initialState.reviewExplorer = {};
 initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
 initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];  // reviews related to a work (known as collecton in the service provider)
 initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];  // metadata about workReviews (ownReviewIdd and totalCount)
@@ -19,6 +20,22 @@ export default function reviewReducer(state = initialState, action = {}) {
   Object.freeze(state);
 
   switch (action.type) {
+    case types.GET_GENRES: {
+      return assignToEmpty(state, {
+        reviewExplorer: assignToEmpty(state.reviewExplorer, {
+          genres: action.genres
+        })
+      });
+    }
+
+    case types.GET_REVIEWS: {
+      return assignToEmpty(state, {
+        reviewExplorer: assignToEmpty(state.reviewExplorer, {
+          reviews: action.reviews
+        })
+      });
+    }
+
     case types.GET_WORK_REVIEWS: {
       return assignToEmpty(state, {
         workReviews: action.reviews.data,
@@ -83,6 +100,18 @@ export default function reviewReducer(state = initialState, action = {}) {
           }
         }
       });
+
+      if (state.reviewExplorer.reviews) {
+        state.reviewExplorer.reviews.forEach(r => {
+          const review = r.review;
+          if (review.id === action.reviewId) {
+            const isAlreadyLikedByUser = includes(review.likes, action.profileId);
+            if (!isAlreadyLikedByUser) {
+              review.likes.push(action.profileId);
+            }
+          }
+        });
+      }
       return assignToEmpty(state, {workReviews: workReviewsCopyLiked});
     }
 
@@ -98,6 +127,21 @@ export default function reviewReducer(state = initialState, action = {}) {
           }
         }
       });
+
+      if (state.reviewExplorer.reviews) {
+        state.reviewExplorer.reviews.forEach(r => {
+          const review = r.review;
+          if (review.id === action.reviewId) {
+            const isAlreadyLikedByUser = includes(review.likes, action.profileId);
+            if (isAlreadyLikedByUser) {
+              review.likes = filter(review.likes, (id) => {
+                return (id !== action.profileId);
+              });
+            }
+          }
+        });
+      }
+
       return assignToEmpty(state, {workReviews: reviewsCopyUnliked});
     }
 

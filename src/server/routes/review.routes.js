@@ -12,6 +12,15 @@ import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
 const upload = multer({storage: multer.memoryStorage()});
 const ReviewRoutes = express.Router();
+const ReviewsRoutes = express.Router();
+
+ReviewsRoutes.get('/', async function (req, res) {
+  res.render('page', {
+    css: ['/css/reviewexplorer.css'],
+    js: ['/js/reviewexplorer.js'],
+    jsonData: []
+  });
+});
 
 /**
  * Get information about a single review
@@ -193,4 +202,4 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
   }
 });
 
-export default ReviewRoutes;
+export {ReviewRoutes, ReviewsRoutes};

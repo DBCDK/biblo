@@ -122,6 +122,13 @@
     }
   }
 
+  &-desktop--rating {
+    display: none;
+    @include min-screen($tablet) {
+      display: block;
+    }
+  }
+
   &-mobile--owner-image {
     @include span(2);
     position: relative;

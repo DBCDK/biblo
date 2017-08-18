@@ -24,8 +24,8 @@ export function showReviewList(params) {
   const WORK_TYPES_MAPPINGS = {
     'alle typer': '',
     bøger: ' AND worktype:book',
-    film: ' AND worktype:book',
-    spil: ' AND worktype:book',
+    film: ' AND worktype:movie',
+    spil: ' AND worktype:game',
     musik: ' AND worktype:music',
     tegneserier: ' AND worktype:book'
   };

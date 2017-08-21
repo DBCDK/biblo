@@ -925,22 +925,12 @@ function unlikePost(endpoint, params) {
     const accessToken = params.accessToken;
     const profileId = params.profileId;
     const postId = params.postId;
-    const value = '1'; //  like=1, dislike=-1
 
-    const url = endpoint + 'api/Posts/' + postId + '/likes?access_token=' + accessToken;
-    const likePostBody = {
-      value,
-      profileId
-    };
+    const url = endpoint + 'api/Posts/unlike?access_token=' + accessToken +
+      '&profileId=' + profileId + '&postId=' + postId;
 
-    const requestParams = {
-      url,
-      json: true,
-      body: likePostBody
-    };
-
-    // create like
-    request.del(requestParams, (err, res) => {
+    // delete that like
+    request.del({url}, (err, res) => {
       if (err) {
         reject(err);
       }
@@ -958,22 +948,11 @@ function unlikeReview(endpoint, params) {
     const accessToken = params.accessToken;
     const profileId = params.profileId;
     const reviewId = params.reviewId;
-    const value = '1'; //  like=1, dislike=-1
 
-    const url = endpoint + 'api/reviews/' + reviewId + '/likes?access_token=' + accessToken;
-    const likeReviewBody = {
-      value,
-      profileId
-    };
+    const url = endpoint + 'api/reviews/unlike?access_token=' + accessToken +
+      '&profileId=' + profileId + '&reviewId=' + reviewId;
 
-    const requestParams = {
-      url,
-      json: true,
-      body: likeReviewBody
-    };
-
-    // create like
-    request.del(requestParams, (err, res) => {
+    request.del({url}, (err, res) => {
       if (err) {
         reject(err);
       }

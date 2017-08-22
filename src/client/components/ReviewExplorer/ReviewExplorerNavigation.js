@@ -40,7 +40,7 @@ export default class ReviewExplorerNavigation extends React.Component {
 
   renderDropDown(id, options, prependText, appendText) {
 
-    const width = this.getWidth(this.state[id], 'review-explorer-navigation--dropdown') + 30;
+    const width = this.getWidth(this.state[id], 'review-explorer-navigation--dropdown') + 18;
 
     return (
       <div className="review-explorer-navigation--row">

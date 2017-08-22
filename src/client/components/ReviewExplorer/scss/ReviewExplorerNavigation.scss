@@ -26,15 +26,31 @@
     color: white;
     border: white 1px solid;
     border-radius: 4px;
-    padding: 3px 0px 3px 5px;
+    padding: 3px 0px 3px .5em;
     margin: 0px;
     font-size: 26px;
     margin-left: .25em;
+    margin-right: .25em;
+    -webkit-appearance: none;
+  	-moz-appearance: none;
+  	-o-appearance: none;
+  	appearance: none;
+    outline: none;
     option {
       color: black;
     }
   }
-  &--dropdown:active, &--dropdown:hover {
+
+  select::-ms-expand {
+    background: none; /* remove blue background on ie10/ie11 when selected*/
+    display: none;
+  }
+  select:focus::-ms-value {
+    background: none;
+    color: green;
+  }
+
+  &--dropdown:active, &--dropdown:hover, &--dropdown:focus {
     background: white;
     color: green;
     option {

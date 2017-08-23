@@ -14,7 +14,7 @@ const WorkTransform = {
 
     return Promise.all(
       workRequests.map(
-        pidBucket => this.callServiceClient('cached/standard/openplatform', 'work', {
+        pidBucket => this.callServiceClient('cached/short/openplatform', 'work', {
           pids: pidBucket,
           fields: fields || [
             'dcTitle',

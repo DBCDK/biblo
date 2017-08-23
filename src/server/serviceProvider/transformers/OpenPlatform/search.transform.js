@@ -58,7 +58,7 @@ const SearchTransform = {
 
     const cqlQuery = topLevelCql.map((cql) => '('+cql+')').join(' AND ');
 
-    return this.callServiceClient('cached/standard/openplatform', 'search', {
+    return this.callServiceClient('cached/short/openplatform', 'search', {
       q: cqlQuery,
       fields: fields || [
         'collectionDetails',

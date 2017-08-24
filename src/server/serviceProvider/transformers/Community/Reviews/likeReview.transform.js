@@ -8,7 +8,7 @@ const LikeReviewTransform = {
     // check user is logged in
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
-      const profileId = query.profileId;
+      const profileId = passport.user.profileId;
       const reviewId = query.reviewId;
       const accessToken = passport.user.id;
       return this.callServiceClient('community', 'likeReview', {profileId, reviewId, accessToken});

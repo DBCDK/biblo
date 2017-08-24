@@ -4,8 +4,12 @@ const JoinGroupTransform = {
     return 'joinGroup';
   },
 
-  requestTransform(event, {groupId, profileId}) {
-    return this.callServiceClient('community', 'joinGroup', {groupId, uid: profileId});
+  requestTransform(event, {groupId, profileId}, connection) {
+    const passport = connection.request.session.passport;
+    if (passport) {
+      return this.callServiceClient('community', 'joinGroup', {groupId, uid: passport.user.profileId});
+    }
+    return Promise.reject(new Error('user not logged in'));
   },
 
   responseTransform(response) {

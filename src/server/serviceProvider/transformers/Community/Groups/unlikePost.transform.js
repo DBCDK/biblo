@@ -9,7 +9,7 @@ const UnlikePostTransform = {
     if (connection.request.session.passport) {
 
       const passport = connection.request.session.passport;
-      const profileId = query.profileId;
+      const profileId = passport.user.profileId;
       const postId = query.postId;
       const accessToken = passport.user.id;
       return this.callServiceClient('community', 'unlikePost', {profileId, postId, accessToken});

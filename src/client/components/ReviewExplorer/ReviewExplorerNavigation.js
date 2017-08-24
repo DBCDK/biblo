@@ -24,11 +24,28 @@ export default class ReviewExplorerNavigation extends React.Component {
     this.props.onChange(Object.assign({}, newState));
   }
 
+  // a hack to get the width of the select element
+  getWidth(text, className) {
+    var tmp = document.createElement('div');
+    tmp.className = className;
+    tmp.innerHTML = text;
+    tmp.style.visibility = 'hidden';
+    tmp.style.display = 'inline-block';
+    tmp.style.position = 'absolute';
+    document.body.appendChild(tmp);
+    const width = tmp.clientWidth;
+    document.body.removeChild(tmp);
+    return width;
+  }
+
   renderDropDown(id, options, prependText, appendText) {
+
+    const width = this.getWidth(this.state[id], 'review-explorer-navigation--dropdown') + 18;
+
     return (
       <div className="review-explorer-navigation--row">
         {prependText}
-        <select className="review-explorer-navigation--dropdown" onChange={(e) => {
+        <select style={{width}} className="review-explorer-navigation--dropdown" onChange={(e) => {
           this.handleChange(id, e.target.value);
         }}>
           {options.map((o, idx) => {

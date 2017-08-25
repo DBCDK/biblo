@@ -91,6 +91,14 @@ export default function reviewReducer(state = initialState, action = {}) {
     }
 
     case types.LIKE_WORK_REVIEW: {
+      if (state.highlightedReview &&
+        state.highlightedReview.id === action.reviewId &&
+        !includes(state.highlightedReview.likes, action.profileId)) {
+
+        return assignToEmpty(state, {
+          highlightedReview: assignToEmpty(state.highlightedReview, {likes: [...state.highlightedReview.likes, action.profileId]})
+        });
+      }
       if (state.workReviews.map) {
         const workReviewsCopyLiked = state.workReviews.map(review => {
           if (review.id === action.reviewId && !includes(review.likes, action.profileId)) {
@@ -114,6 +122,13 @@ export default function reviewReducer(state = initialState, action = {}) {
     }
 
     case types.UNLIKE_WORK_REVIEW: {
+      if (state.highlightedReview &&
+        state.highlightedReview.id === action.reviewId) {
+
+        return assignToEmpty(state, {
+          highlightedReview: assignToEmpty(state.highlightedReview, {likes: filter(state.highlightedReview.likes, (id) => (id !== action.profileId))})
+        });
+      }
       if (state.workReviews.map) {
         const reviewsCopyUnliked = state.workReviews.map(review => {
           if (review.id === action.reviewId && includes(review.likes, action.profileId)) {

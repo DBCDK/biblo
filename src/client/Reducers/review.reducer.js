@@ -91,58 +91,49 @@ export default function reviewReducer(state = initialState, action = {}) {
     }
 
     case types.LIKE_WORK_REVIEW: {
-      const workReviewsCopyLiked = [...state.workReviews];
-      workReviewsCopyLiked.forEach(review => {
-        if (review.id === action.reviewId) {
-          const isAlreadyLikedByUser = includes(review.likes, action.profileId);
-          if (!isAlreadyLikedByUser) {
-            review.likes.push(action.profileId);
+      if (state.workReviews.map) {
+        const workReviewsCopyLiked = state.workReviews.map(review => {
+          if (review.id === action.reviewId && !includes(review.likes, action.profileId)) {
+            return assignToEmpty(review, {likes: [...review.likes, action.profileId]});
           }
-        }
-      });
-
-      if (state.reviewExplorer.reviews) {
-        state.reviewExplorer.reviews.forEach(r => {
-          const review = r.review;
-          if (review.id === action.reviewId) {
-            const isAlreadyLikedByUser = includes(review.likes, action.profileId);
-            if (!isAlreadyLikedByUser) {
-              review.likes.push(action.profileId);
-            }
-          }
+          return review;
         });
+        return assignToEmpty(state, {workReviews: workReviewsCopyLiked});
       }
-      return assignToEmpty(state, {workReviews: workReviewsCopyLiked});
+      if (state.reviewExplorer.reviews) {
+        const copy = state.reviewExplorer.reviews.map(r => {
+          const review = r.review;
+          if (review.id === action.reviewId && !includes(review.likes, action.profileId)) {
+            return assignToEmpty(r, {review: assignToEmpty(review, {likes: [action.profileId, ...review.likes]})});
+          }
+          return r;
+        });
+        return assignToEmpty(state, {reviewExplorer: assignToEmpty(state.reviewExplorer, {reviews: copy})});
+      }
+      return state;
     }
 
     case types.UNLIKE_WORK_REVIEW: {
-      const reviewsCopyUnliked = [...state.workReviews];
-      reviewsCopyUnliked.forEach(review => {
-        if (review.id === action.reviewId) {
-          const isAlreadyLikedByUser = includes(review.likes, action.profileId);
-          if (isAlreadyLikedByUser) {
-            review.likes = filter(review.likes, (id) => {
-              return (id !== action.profileId);
-            });
+      if (state.workReviews.map) {
+        const reviewsCopyUnliked = state.workReviews.map(review => {
+          if (review.id === action.reviewId && includes(review.likes, action.profileId)) {
+            return assignToEmpty(review, {likes: filter(review.likes, (id) => (id !== action.profileId))});
           }
-        }
-      });
-
+          return review;
+        });
+        return assignToEmpty(state, {workReviews: reviewsCopyUnliked});
+      }
       if (state.reviewExplorer.reviews) {
-        state.reviewExplorer.reviews.forEach(r => {
+        const copy = state.reviewExplorer.reviews.map(r => {
           const review = r.review;
           if (review.id === action.reviewId) {
-            const isAlreadyLikedByUser = includes(review.likes, action.profileId);
-            if (isAlreadyLikedByUser) {
-              review.likes = filter(review.likes, (id) => {
-                return (id !== action.profileId);
-              });
-            }
+            return assignToEmpty(r, {review: assignToEmpty(review, {likes: filter(review.likes, (id) => (id !== action.profileId))})});
           }
+          return r;
         });
+        return assignToEmpty(state, {reviewExplorer: assignToEmpty(state.reviewExplorer, {reviews: copy})});
       }
-
-      return assignToEmpty(state, {workReviews: reviewsCopyUnliked});
+      return state;
     }
 
     default: {

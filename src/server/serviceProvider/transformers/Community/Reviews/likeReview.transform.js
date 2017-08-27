@@ -11,7 +11,21 @@ const LikeReviewTransform = {
       const profileId = passport.user.profileId;
       const reviewId = query.reviewId;
       const accessToken = passport.user.id;
-      return this.callServiceClient('community', 'likeReview', {profileId, reviewId, accessToken});
+
+      return this.callServiceClient('community', 'likeReview', {profileId, reviewId, accessToken})
+        .then(() => {
+          // Fetch the work pid in order to invalidate cache.
+          // this is cached heavily, since reviewId->pid isn't changing
+          return this.callServiceClient('cached/extended/community', 'getReviews', {filter: {where: {id: reviewId}}});
+        })
+        .then((response) => {
+          // We got to invalidate some cache -
+          // possibly a request made with pid and with reviewId
+          if (response.body && response.body.length > 0) {
+            this.invalidateCache(`*getReviews*"where":{"markedAsDeleted":null,"id":"${reviewId}"}*`);
+            this.invalidateCache(`*getReviews*${response.body[0].pid}*`);
+          }
+        });
     }
     return Promise.reject(new Error('user not logged in'));
   },

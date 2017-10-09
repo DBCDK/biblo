@@ -46,8 +46,7 @@ let initialState = {
     isLoading: true
   },
   EditoriallySelectedMaterialsWidget: {
-    works: [],
-    isLoading: true
+    works: {}
   },
   widgetLocations: {
     ContentPageLeft: [],
@@ -167,7 +166,11 @@ export default function widgetReducer(state = initialState, action = {}) {
     }
 
     case types.GOT_WORKS: {
-      return assignToEmpty(state, {EditoriallySelectedMaterialsWidget: {works: action.data.data, isLoading: false}});
+      const newState = Object.assign({}, state.EditoriallySelectedMaterialsWidget);
+      const identifier = action.data.requestedPids.join();
+      newState.works[identifier] = action.data.data;
+
+      return assignToEmpty(state, {EditoriallySelectedMaterialsWidget: newState});
     }
 
     case types.GOT_REVIEWS: {

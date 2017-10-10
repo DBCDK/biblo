@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   ContentPageEmbeddedVideoShouldRender: {
     "type": "div",

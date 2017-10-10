@@ -89,7 +89,6 @@ describe('Test ContentPages Widgets', () => {
 
     const result = renderer.getRenderOutput();
 
-    expect(result.props.children[0].props.className).toInclude('generic-widget-container');
     expect(JSON.stringify(result)).toEqual(JSON.stringify(snapshot.ContentPageEmbeddedVideoShouldRender));
   });
 });

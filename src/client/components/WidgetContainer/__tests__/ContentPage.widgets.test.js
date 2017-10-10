@@ -6,6 +6,8 @@
 import React from 'react';
 import expect from 'expect';
 import $ from 'teaspoon';
+import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
+import snapshot from './__snapshots__/ContentPage.widgets.test.snapshots.js';
 
 // import components
 import WidgetContainer from '../WidgetContainer.component';
@@ -69,7 +71,7 @@ describe('Test ContentPages Widgets', () => {
 
   it('ContentPageEmbeddedVideo should render', () => {
     const widgetLocationName = 'content-page--video--test-widget-location';
-    let widgetState = {
+    const widgetState = {
       widgetLocations: {}
     };
     const widgetActions = {};
@@ -79,16 +81,15 @@ describe('Test ContentPages Widgets', () => {
       widgetConfig: {type: 'YouTube', src: 'https://www.youtube.com/embed/qZ3fiOctBkE'}
     };
 
-    let component = (
-      <WidgetContainer
-        widgetLocationName={widgetLocationName}
-        widgetState={widgetState}
-        widgetActions={widgetActions} />
-    );
+    const renderer = new ShallowRenderer();
+    renderer.render(<WidgetContainer
+      widgetLocationName={widgetLocationName}
+      widgetState={widgetState}
+      widgetActions={widgetActions} />);
 
-    let $root = $(component).shallowRender();
+    const result = renderer.getRenderOutput();
 
-    const EmbeddedVideoDisplayName = $root.find('.generic-widget-container')['0'].props.children[1].props.children.type.displayName;
-    expect(EmbeddedVideoDisplayName).toEqual('ContentPageEmbeddedVideoWidget');
+    expect(result.props.children[0].props.className).toInclude('generic-widget-container');
+    expect(JSON.stringify(result)).toEqual(JSON.stringify(snapshot.ContentPageEmbeddedVideoShouldRender));
   });
 });

@@ -120,7 +120,7 @@
     "susy": "^2.2.11",
     "svg-inline-loader": "^0.7.0",
     "svg-sprite-loader": "0.0.31",
-    "teaspoon": "^6.1.2",
+    "teaspoon": "6.4.3",
     "twemoji": "^2.1.0",
     "vhost": "3.0.2",
     "walk": "2.3.9",

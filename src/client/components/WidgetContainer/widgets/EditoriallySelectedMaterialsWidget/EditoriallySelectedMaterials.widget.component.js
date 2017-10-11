@@ -38,8 +38,9 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
     const works = nextProps.widgetReducerProp.works[this.state.identifier] ? Object.values(nextProps.widgetReducerProp.works[this.state.identifier]) : [];
     this.setState({works, isLoading: false});
 
-    if (this.state.identifier !== nextProps.widgetConfig.pids.join()) {
-      this.setState({identifier: nextProps.widgetConfig.pids.join()});
+    const identifier = nextProps.widgetConfig.pids.join();
+    if (this.state.identifier !== identifier) {
+      this.setState({identifier: identifier});
     }
   }
 
@@ -48,8 +49,7 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
   }
 
   render() {
-    const identifier = this.props.widgetConfig.pids.join();
-    const works = (this.props.widgetReducerProp.works[identifier] || []).slice(0, this.state.closed ? 6 : (this.state.works.length));
+    const works = (this.props.widgetReducerProp.works[this.state.identifier] || []).slice(0, this.state.closed ? 6 : (this.state.works.length));
 
     let closeButtonContent;
     if (this.state.closed) {

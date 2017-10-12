@@ -22,7 +22,7 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
 
     this.state = {
       closed: true,
-      identifier: props.widgetConfig.pids.join(),
+      identifier: Array.isArray(props.widgetConfig.pids) ? props.widgetConfig.pids.join() : null,
       works: Object.values(props.widgetReducerProp.works),
       isLoading: true
     };
@@ -38,7 +38,7 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
     const works = nextProps.widgetReducerProp.works[this.state.identifier] ? Object.values(nextProps.widgetReducerProp.works[this.state.identifier]) : [];
     this.setState({works, isLoading: false});
 
-    const identifier = nextProps.widgetConfig.pids.join();
+    const identifier = Array.isArray(this.props.widgetConfig.pids) ? this.props.widgetConfig.pids.join() : null;
     if (this.state.identifier !== identifier) {
       this.setState({identifier: identifier});
     }

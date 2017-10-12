@@ -46,7 +46,14 @@ import expressSession from 'express-session';
 import helmet from 'helmet';
 import {GlobalsMiddleware} from './server/middlewares/globals.middleware';
 import {ssrMiddleware} from './server/middlewares/serviceprovider.middleware';
-import {ensureProfileImage, reduxStateMiddleware, fullProfileOnSession, renderComponent, ConfigurationMiddleware, GetMenus} from './server/middlewares/data.middleware';
+import {
+  ensureProfileImage,
+  reduxStateMiddleware,
+  fullProfileOnSession,
+  renderComponent,
+  ConfigurationMiddleware,
+  GetMenus
+} from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
 
 // Queue processors
@@ -280,7 +287,7 @@ module.exports.run = function (worker) {
     prefix: APP_NAME + '_session_'
   });
 
-  redisInstance.client.on('error', function () {
+  redisInstance.client.on('error', function() {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.', {
       host: config.get('Redis.host'),
       port: config.get('Redis.port'),
@@ -351,7 +358,6 @@ module.exports.run = function (worker) {
     next();
   });
 
-
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
   app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
   app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
@@ -370,7 +376,8 @@ module.exports.run = function (worker) {
   // Graceful handling of errors
   app.use((err, req, res, next) => {
     logger.log('error', 'An error occurred! Got following: ' + err, {url: req.url, session: req.session});
-    console.error('error', 'An error occurred! Got following: ' + err.stack, {url: req.url, session: req.session}); // eslint-disable-line no-console
+    console.error('error', 'An error occurred! Got following: ' + err.stack, {url: req.url, session: req.session}); // eslint-disable-line
+                                                                                                                    // no-console
     if (res.headersSent) {
       return next(err);
     }
@@ -392,10 +399,12 @@ module.exports.run = function (worker) {
   if (worker.isLeader) {
     // First we connect to the community service via primus
     const bibloCsUrl = config.get('CommunityService.endpoint');
-    const primus = new (Primus.createSocket({transformer: 'websockets', iknowclusterwillbreakconnections: true}))(bibloCsUrl);
+    const primus = new (Primus.createSocket({
+      transformer: 'websockets', iknowclusterwillbreakconnections: true
+    }))(bibloCsUrl);
 
     // Whenever we get some data from the service, we hit this function
-    primus.on('data', function (data) {
+    primus.on('data', function(data) {
       // We only want to act on objects with events.
       if (typeof data === 'object' && data.event) {
         // Each event has different handlers

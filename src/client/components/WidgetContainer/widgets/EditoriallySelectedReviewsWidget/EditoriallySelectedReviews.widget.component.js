@@ -127,9 +127,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
       this.getShowMoreButton() :
       null;
 
-    const spinner = this.props.widgetReducerProp.isLoading || this.props.widgetReducerProp.isLoading ?
-      this.getSpinner() :
-      null;
+    const spinner = this.props.widgetReducerProp.isLoading ? this.getSpinner() : null;
 
     const reviewElements = reviewIds.map((reviewId, idx) => {
       if (reviews[reviewId] && reviews[reviewId].pid && works[reviews[reviewId].pid]) {

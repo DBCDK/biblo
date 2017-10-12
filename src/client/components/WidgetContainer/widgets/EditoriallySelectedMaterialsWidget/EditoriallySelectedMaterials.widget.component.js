@@ -50,33 +50,26 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
     this.callServiceProvider('work', {pids: this.props.widgetConfig.pids});
   }
 
+  getShowMoreButton(svg, label) {
+    return (
+      <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
+        <span>
+          <Icon glyph={svg} /> {label}
+        </span>
+      </a>
+    );
+  }
+
   render() {
     const works = (this.props.widgetReducerProp.works[this.state.identifier] || []).slice(0, this.state.closed ?
       6 :
       (this.state.works.length));
 
-    let closeButtonContent;
-    if (works.length <= 5) {
-      closeButtonContent = null;
-    }
-    else if (this.state.closed) {
-      closeButtonContent = (
-        <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
-          <span>
-            <Icon glyph={plusSvg} /> VIS FLERE
-          </span>
-        </a>
-
-      );
-    }
-    else {
-      closeButtonContent = (
-        <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
-          <span>
-            <Icon glyph={plusSvg} /> VIS FLERE
-          </span>
-        </a>
-      );
+    let closeButtonContent = null;
+    if (works.length >= 6 && !this.state.isLoading) {
+      const svg = this.state.closed ? plusSvg : minusSvg;
+      const label = this.state.closed ? 'VIS FLERE' : 'VIS FÆRRE';
+      closeButtonContent = this.getShowMoreButton(svg, label);
     }
 
     return (
@@ -87,7 +80,7 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
           works={works} />
 
         <div className="editorially-selected-materials-widget--show-more-button--container">
-          {!this.state.isLoading && {closeButtonContent}}
+          {closeButtonContent}
         </div>
 
       </div>

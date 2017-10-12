@@ -9,7 +9,6 @@ import multer from 'multer';
 import {
   ensureUserHasProfile,
   ensureAuthenticated,
-  redirectBackToOrigin,
   ensureUserHasValidLibrary
 } from '../middlewares/auth.middleware';
 
@@ -371,7 +370,7 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
 
 ProfileRoutes.get(
   ['/:id', '/'],
-  ensureAuthenticated, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary,
+  ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary,
   async function (req, res) {
     let profile;
     let profileId = req.params.id;

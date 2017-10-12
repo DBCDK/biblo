@@ -55,6 +55,7 @@ import {
   GetMenus
 } from './server/middlewares/data.middleware';
 import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
+import {setReturlUrl} from './server/middlewares/retururl.middleware';
 
 // Queue processors
 import {processUserMessage} from './server/queues/UserMessages.queue';
@@ -70,7 +71,7 @@ import {
   commentWasAddedEmitToClientsChangeStreamHandler
 } from './server/serviceProvider/handlers/ChangeStream.handlers';
 
-module.exports.run = function (worker) {
+module.exports.run = function(worker) {
   // Setup
   const BIBLO_CONFIG = config;
   const app = express();
@@ -357,6 +358,8 @@ module.exports.run = function (worker) {
 
     next();
   });
+
+  app.use('*', setReturlUrl({ignoredPaths: ['/billede', '/pdf', '/error', '/login', '/logout', '/?logout']}));
 
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
   app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);

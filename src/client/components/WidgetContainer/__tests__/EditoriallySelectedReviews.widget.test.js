@@ -51,6 +51,9 @@ describe('Testing of the editorially selected reviews widget', () => {
     expect($root.find('.star-active').length).toEqual(5);
     expect($root.find('.star-passive').length).toEqual(1);
 
+    // We should not see a show more button
+    expect($root.find('.editorially-selected-reviews-widget--show-more-button').length).toEqual(0);
+
     // And we expect to see a read review button.
     expect($root.find('.editorial-reviews--read-button a').unwrap().innerHTML)
       .toEqual('Læs anmeldelsen');
@@ -69,6 +72,9 @@ describe('Testing of the editorially selected reviews widget', () => {
     // Initially we display two elements
     expect($root.find('.editorially-selected-reviews-widget').length).toEqual(1);
     expect($root.find('.editorial-reviews--review-container.expanded').length).toEqual(2);
+
+    // We should see a show more button
+    expect($root.find('.editorially-selected-reviews-widget--show-more-button').length).toEqual(1);
 
     // We click show more
     $root.find('.editorially-selected-reviews-widget--show-more-button a').trigger('click', {});

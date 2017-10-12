@@ -35,7 +35,9 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
   }
 
   componentWillReceiveProps(nextProps) {
-    const works = nextProps.widgetReducerProp.works[this.state.identifier] ? Object.values(nextProps.widgetReducerProp.works[this.state.identifier]) : [];
+    const works = nextProps.widgetReducerProp.works[this.state.identifier] ?
+      Object.values(nextProps.widgetReducerProp.works[this.state.identifier]) :
+      [];
     this.setState({works, isLoading: false});
 
     const identifier = nextProps.widgetConfig.pids.join();
@@ -49,21 +51,31 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
   }
 
   render() {
-    const works = (this.props.widgetReducerProp.works[this.state.identifier] || []).slice(0, this.state.closed ? 6 : (this.state.works.length));
+    const works = (this.props.widgetReducerProp.works[this.state.identifier] || []).slice(0, this.state.closed ?
+      6 :
+      (this.state.works.length));
 
     let closeButtonContent;
-    if (this.state.closed) {
+    if (works.length <= 5) {
+      closeButtonContent = null;
+    }
+    else if (this.state.closed) {
       closeButtonContent = (
-        <span>
-        <Icon glyph={plusSvg} /> VIS FLERE
-      </span>
+        <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
+          <span>
+            <Icon glyph={plusSvg} /> VIS FLERE
+          </span>
+        </a>
+
       );
     }
     else {
       closeButtonContent = (
-        <span>
-        <Icon glyph={minusSvg} /> VIS FÆRRE
-      </span>
+        <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
+          <span>
+            <Icon glyph={plusSvg} /> VIS FLERE
+          </span>
+        </a>
       );
     }
 
@@ -75,12 +87,7 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
           works={works} />
 
         <div className="editorially-selected-materials-widget--show-more-button--container">
-          {
-            !this.state.isLoading &&
-            <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
-              {closeButtonContent}
-            </a>
-          }
+          {!this.state.isLoading && {closeButtonContent}}
         </div>
 
       </div>

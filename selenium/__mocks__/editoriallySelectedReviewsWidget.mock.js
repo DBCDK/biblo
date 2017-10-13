@@ -247,7 +247,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
       }
     }]);
 
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 
@@ -260,7 +260,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
       }]
     });
 
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 
@@ -274,7 +274,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
       }]
     });
 
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 

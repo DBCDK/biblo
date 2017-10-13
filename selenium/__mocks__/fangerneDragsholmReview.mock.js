@@ -50,7 +50,7 @@ module.exports = function fangerneDragsholmReview(times) {
       "owner": {}
     }]);
 
-  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 

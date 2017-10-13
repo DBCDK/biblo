@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function editoriallySelectedMaterialsWidget(times) {
-  nock('https://openplatform.dbc.dk', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
 

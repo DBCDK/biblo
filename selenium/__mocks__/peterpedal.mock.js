@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function peterpedal (times) {
-  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
   .post('/v1/work/')
   .times(times)
 
@@ -26,7 +26,7 @@ module.exports = function peterpedal (times) {
   .query({"filter":"{\"where\":{\"type\":\"review\"},\"include\":[]}"})
   .reply(200, [{"campaignName":"Sommerbogen 2016","startDate":"2016-06-09T20:00:00.044Z","endDate":"2016-08-21T04:00:00.044Z","logos":{"svg":"/sommerbogen-logo.svg","small":"/sommerbogen-logo.png","medium":"/sommerbogen-logo.png","large":"/sommerbogen-logo.png"},"type":"review","id":1,"workTypes":[{"worktype":"book","id":1},{"worktype":"audiobook","id":7},{"worktype":"literature","id":10}]}]);
 
-  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
   .post('/v1/search/?q=%28%22%2A%22%29%20AND%20%28phrase.titleSeries%3D%22Peter-Pedal-b%C3%B8gerne%22%29&fields%5B0%5D=pid&fields%5B1%5D=coverUrlFull&fields%5B2%5D=dcTitle&fields%5B3%5D=titleSeries&limit=6&offset=0&sort=solr_numberInSeries_ascending')
   .times(times)
   .reply(200, {"statusCode":200,"data":[{"pid":["870970-basis:05000319"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=05000319&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ce0784207fc2469a4343"],"dcTitle":["Peter Pedal på hospital"],"titleSeries":["Peter-Pedal-bøgerne"]},{"pid":["870970-basis:05074975"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=05074975&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=3dde9d66cea2c25ae810"],"dcTitle":["Peter Pedal"],"titleSeries":["Peter-Pedal-bøgerne"]},{"pid":["870970-basis:21504904"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=21504904&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ab40734e0f66ec4a97b4"],"dcTitle":["Peter Pedal sætter drage op"],"titleSeries":["Peter-Pedal-bøgerne"]},{"pid":["870970-basis:05131499"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=05131499&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=bf8a01837081ff78710e"],"dcTitle":["Peter Pedal hænger i"],"titleSeries":["Peter-Pedal-bøgerne"]}]});

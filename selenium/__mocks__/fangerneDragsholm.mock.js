@@ -2,7 +2,7 @@
 /* eslint-disable */
 const nock = require('nock');
 module.exports = function fangerneDragsholm(times) {
-  nock('https://openplatform.dbc.dk:443', {encodedQueryParams: true})
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/v1/work/')
     .times(times)
     .reply(200, {

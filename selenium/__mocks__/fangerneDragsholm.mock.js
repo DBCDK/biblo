@@ -3,7 +3,7 @@
 const nock = require('nock');
 module.exports = function fangerneDragsholm(times) {
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
     .reply(200, {
       "statusCode": 200,

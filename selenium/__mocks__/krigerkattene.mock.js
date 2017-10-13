@@ -3,7 +3,7 @@
 const nock = require('nock');
 module.exports = function krigerkattene(times) {
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -383,7 +383,7 @@ module.exports = function krigerkattene(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -396,7 +396,7 @@ module.exports = function krigerkattene(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -409,7 +409,7 @@ module.exports = function krigerkattene(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -422,7 +422,7 @@ module.exports = function krigerkattene(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -435,7 +435,7 @@ module.exports = function krigerkattene(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -448,7 +448,7 @@ module.exports = function krigerkattene(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {

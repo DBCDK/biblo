@@ -248,7 +248,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
     }]);
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -261,7 +261,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {
@@ -275,7 +275,7 @@ module.exports = function editoriallySelectedReviewsWidget(times) {
     });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {

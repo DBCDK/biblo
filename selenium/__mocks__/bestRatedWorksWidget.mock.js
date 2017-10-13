@@ -9,7 +9,7 @@ module.exports = function bestRatedWorksWidget(times) {
     .reply(200, ["870970-basis:25915690"]);
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
-    .post('/v1/work/')
+    .post('/work/')
     .times(times)
 
     .reply(200, {

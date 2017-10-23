@@ -17,7 +17,7 @@ const workFields = [
 ];
 
 // Fang det sidste tal efter semikolon.
-const editionRegex = /;.*(\d\d+).*$/;
+const editionRegex = /;\s(\d+).*$/;
 
 export class SeriesDisplay extends Component {
   constructor(props) {
@@ -88,8 +88,6 @@ export class SeriesDisplay extends Component {
       const displayCloseButton = this.state.offset[clippedSeriesTitle] > 0;
       const amountToDisplay = this.state.offset[clippedSeriesTitle] + this.state.limit;
       const results = (this.props.seriesResults[clippedSeriesTitle] || []).slice(0, amountToDisplay).map(book => {
-        console.log(book.dcTitle);
-        console.log('   ', book.titleSeries);
         let bookTitle = book.dcTitle[0];
 
         if (typeof book.titleSeries[idx] === 'string') {
@@ -115,12 +113,12 @@ export class SeriesDisplay extends Component {
           {results}
           <div className="buttons">
             {displayMoreResults &&
-              <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
+            <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
                 <Icon glyph={plusSvg} />VIS FLERE
               </span>
             }
             {displayCloseButton &&
-              <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
+            <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
                 <Icon glyph={closeSvg} />LUK
               </span>
             }

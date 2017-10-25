@@ -110,6 +110,7 @@ export class SeriesDisplay extends Component {
 
         const key = `${clippedSeriesTitle}_sd_${book.pid[0]}`;
 
+        bookTitle = bookTitle.length > 20 ? `${bookTitle.substring(0, 17)}...` : bookTitle;
         return (
           <SeriesDisplayUnit
             key={key}

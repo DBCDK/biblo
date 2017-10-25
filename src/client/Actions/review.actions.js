@@ -42,7 +42,7 @@ export function showReviewList(params) {
   };
 
   const existFilter = '!markedAsDeleted:true';
-  const genre = params.genre === 'alle' ? '' : ` AND genres.title:${params.genre}`;
+  const genre = params.genre === 'alle' ? '' : ` AND genres.title:"${params.genre}"`;
   const query = `${existFilter}${genre}${WORK_TYPES_MAPPINGS[params.workType]}${REVIEW_TYPES_MAPPINGS[params.reviewType]}`;
   const sort = ORDER_MAPPINGS[params.order];
 

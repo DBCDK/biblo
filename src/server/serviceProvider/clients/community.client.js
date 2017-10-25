@@ -1425,7 +1425,7 @@ function searchReviews(endpoint, elasticQuery) {
   const sort = elasticQuery.sort || '';
 
   return promiseRequest('get', {
-    url: `${endpoint}api/Reviews/search?limit=10&q=${query}&sort=${sort}`
+    url: `${endpoint}api/Reviews/search?limit=10&q=${encodeURIComponent(query)}&sort=${encodeURIComponent(sort)}`
   });
 }
 

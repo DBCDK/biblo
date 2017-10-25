@@ -8,11 +8,13 @@
     display: inline-table;
 
     p {
-      font-weight: 600;
+      font-weight: 400;
+      font-size: 0.9rem;
       color: $black;
       margin: 0;
       text-align: center;
       max-width: 90px;
+      word-wrap: break-word;
     }
 
     img {

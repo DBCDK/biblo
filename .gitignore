@@ -21,6 +21,10 @@ public/*
 # ============
 node_modules
 
+# ============
+# TESTS
+# ============
+feature_report.xml
 
 # ============
 # IDEA
@@ -34,5 +38,6 @@ node_modules
 newrelic.config.js
 config.js
 .env
+mmj.env
 
 NODE_ENV_DOCKERFILE

@@ -27,6 +27,13 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
+  this.Given(/^a user visits the tintin page$/, function(callback) {
+    this.browser.get(`${BASE_URL}/materiale/870970-basis:29693544`)
+      .then(() => {
+        callback();
+      });
+  });
+
   this.Given(/^a user visits the krigerkattene page$/, function(callback) {
     this.browser.get(`${BASE_URL}/materiale/870970-basis:29283893`)
       .then(() => {

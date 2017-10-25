@@ -17,21 +17,24 @@ const workFields = [
 ];
 
 // Fang det sidste tal efter semikolon.
-const editionRegex = /;.*(\d+).*$/;
+const editionRegex = /;\s(\d+).*$/;
 
 export class SeriesDisplay extends Component {
   constructor(props) {
-    super();
+    super(props);
     const clippedTitle = this.clipSeriesTitle(props.work.titleSeries || '');
+
     this.state = {
       clippedSeriesTitle: clippedTitle,
       offset: {},
-      limit: 6
+      limit: 6,
+      pager: {}
     };
 
     clippedTitle.forEach(title => {
       // We are still in the constructor, the state has not been committed yet.
       this.state.offset[title] = 0; // eslint-disable-line react/no-direct-mutation-state
+      this.state.pager[title] = 1; // eslint-disable-line react/no-direct-mutation-state
     });
 
     this.requestTitle = this.requestTitle.bind(this);
@@ -64,7 +67,7 @@ export class SeriesDisplay extends Component {
   requestTitle(title) {
     this.props.searchAction({
       seriesTitle: title,
-      limit: this.state.limit,
+      limit: this.state.limit * 3,
       offset: this.state.offset[title],
       fields: workFields
     });
@@ -72,23 +75,32 @@ export class SeriesDisplay extends Component {
 
   onShowMore(title) {
     const offset = Object.assign({}, this.state.offset);
-    offset[title] += this.state.limit;
-    this.setState({offset}, () => this.requestTitle(title));
+    const pager = Object.assign({}, this.state.pager);
+
+    offset[title] += this.state.limit * 3;
+    pager[title] += 1;
+
+    this.setState({offset, pager}, () => this.requestTitle(title));
   }
 
   onClose(title) {
     const offset = Object.assign({}, this.state.offset);
+    const pager = Object.assign({}, this.state.pager);
+
     offset[title] = 0;
-    this.setState({offset});
+    pager[title] = 1;
+
+    this.setState({offset, pager});
   }
 
   render() {
     const seriesBox = this.state.clippedSeriesTitle.map((clippedSeriesTitle, idx) => {
-      const displayMoreResults = (this.props.seriesResults[clippedSeriesTitle] || []).length % this.state.limit === 0;
-      const displayCloseButton = this.state.offset[clippedSeriesTitle] > 0;
-      const amountToDisplay = this.state.offset[clippedSeriesTitle] + this.state.limit;
+      const displayMoreResults = (this.props.seriesResults[clippedSeriesTitle] || []).length > this.state.limit * this.state.pager[clippedSeriesTitle];
+      const displayCloseButton = this.state.pager[clippedSeriesTitle] > 1;
+      const amountToDisplay = this.state.pager[clippedSeriesTitle] * this.state.limit;
       const results = (this.props.seriesResults[clippedSeriesTitle] || []).slice(0, amountToDisplay).map(book => {
         let bookTitle = book.dcTitle[0];
+
         if (typeof book.titleSeries[idx] === 'string') {
           const ed = editionRegex.exec(book.titleSeries[idx]);
           if (ed && ed.length > 0) {
@@ -96,9 +108,12 @@ export class SeriesDisplay extends Component {
           }
         }
 
+        const key = `${clippedSeriesTitle}_sd_${book.pid[0]}`;
+
+        bookTitle = bookTitle.length > 20 ? `${bookTitle.substring(0, 17)}...` : bookTitle;
         return (
           <SeriesDisplayUnit
-            key={`${clippedSeriesTitle}_sd_${book.pid[0]}`}
+            key={key}
             pid={book.pid[0]}
             bookTitle={bookTitle}
             coverUrl={book.coverUrl}
@@ -112,12 +127,12 @@ export class SeriesDisplay extends Component {
           {results}
           <div className="buttons">
             {displayMoreResults &&
-              <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
+            <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
                 <Icon glyph={plusSvg} />VIS FLERE
               </span>
             }
             {displayCloseButton &&
-              <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
+            <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
                 <Icon glyph={closeSvg} />LUK
               </span>
             }

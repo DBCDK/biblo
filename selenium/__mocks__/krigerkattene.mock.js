@@ -385,7 +385,6 @@ module.exports = function krigerkattene(times) {
   nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/work/')
     .times(times)
-
     .reply(200, {
       "statusCode": 200,
       "data": [{
@@ -398,7 +397,6 @@ module.exports = function krigerkattene(times) {
   nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/work/')
     .times(times)
-
     .reply(200, {
       "statusCode": 200,
       "data": [{

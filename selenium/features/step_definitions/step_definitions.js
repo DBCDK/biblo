@@ -20,6 +20,10 @@ var myStepDefinitionsWrapper = function() {
     return this.browser.get(`${BASE_URL}/materiale/${pid}`);
   });
 
+  this.Given(/^a user visits the reviews page with review_id (\d+)$/, function (review_id) {
+    return this.browser.get(`${BASE_URL}/anmeldelse/${review_id}`);
+  });
+
   this.Given(/^a user visits the peterpedal page$/, function(callback) {
     this.browser.get(`${BASE_URL}/materiale/870970-basis:05074975`)
       .then(() => {
@@ -154,7 +158,7 @@ var myStepDefinitionsWrapper = function() {
     return this.loadMock(mockName, times);
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded$/i, function(mockName) {
+  this.When(/^mock ([a-zA-Z\-\_]+) is loaded$/i, function(mockName) {
     return this.loadMock(mockName);
   });
 
@@ -212,6 +216,17 @@ var myStepDefinitionsWrapper = function() {
       .then(text => {
         return items.forEach((item) => {
           assert.include(text, item);
+        });
+      });
+  });
+
+  this.Then(/^the (.*) selector should not contain the following items$/, function(selector, data) {
+    const items = data.raw()[0];
+    return this.$('.' + selector)
+      .then(element => element.getText())
+      .then(text => {
+        return items.forEach((item) => {
+          assert.notInclude(text, item);
         });
       });
   });

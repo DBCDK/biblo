@@ -7,6 +7,8 @@ import TimeToString from '../../Utils/timeToString.js';
 import PageLayout from '../Layout/PageLayout.component.js';
 import ReviewExplorerItem from './ReviewExplorerItem.js';
 import ReviewExplorerNavigation from './ReviewExplorerNavigation.js';
+import Icon from '../General/Icon/Icon.component.js';
+import spinnerSvg from '../General/Icon/svg/spinners/loading-spin.svg';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
@@ -49,8 +51,7 @@ export class ReviewExplorerComponent extends Component {
   }
 
   render() {
-    const reviews = this.props.reviewState.reviewExplorer.reviews;
-    const genres = this.props.reviewState.reviewExplorer.genres;
+    const {isLoading, reviews, genres} = this.props.reviewState.reviewExplorer;
 
     return (
       <PageLayout
@@ -61,6 +62,9 @@ export class ReviewExplorerComponent extends Component {
           <ReviewExplorerNavigation genres={genres} onChange={this.handleNavigationChange.bind(this)}/>
           <h1>ANMELDELSER</h1>
           <hr/>
+          <div className="review-explorer--spinner">
+            {isLoading && <Icon glyph={spinnerSvg} height={50} width={50}/>}
+          </div>
           {reviews && this.renderItems(reviews)}
 
       </PageLayout>

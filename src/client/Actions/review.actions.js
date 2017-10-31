@@ -47,6 +47,9 @@ export function showReviewList(params) {
   const sort = ORDER_MAPPINGS[params.order];
 
   return function (dispatch) {
+    dispatch({
+      type: types.GET_REVIEWS_IS_LOADING
+    });
     searchReviewsClient.request({
       elasticQuery: {query, sort}
     });

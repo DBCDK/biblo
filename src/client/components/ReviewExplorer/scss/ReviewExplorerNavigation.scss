@@ -1,7 +1,9 @@
 @import 'tools';
 
 .review-explorer-navigation--wrapper {
-  background: gray;
+  background-image: url("/images/review_explorer_navigation_background.png");
+  background-size: cover;
+  background-color: gray;
   text-align: left;
   @include min-screen($tablet) {
     text-align: center;

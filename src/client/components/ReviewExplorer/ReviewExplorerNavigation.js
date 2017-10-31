@@ -58,7 +58,9 @@ export default class ReviewExplorerNavigation extends React.Component {
   }
 
   render() {
-    const genres = ['alle'].concat(this.props.genres && this.props.genres.map(g => g.title) || []);
+    const sortedGenres = this.props.genres && this.props.genres.length ? this.props.genres.map(g => g.title) : [];
+    sortedGenres.sort();
+    const genres = ['alle'].concat(sortedGenres);
     const reviewTypes = ['alle typer', 'tekst', 'billede', 'video'];
     const workTypes = ['alle typer', 'bøger', 'film', 'spil', 'musik']; // tegneserier to be added
     const order = ['nyeste', 'mest likede', 'tilfældig'];

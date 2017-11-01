@@ -17,7 +17,7 @@
   display:inline-block;
 
   &--row {
-    margin: 0.9em 0.5em 0.9em 0em;
+
     @include min-screen($tablet) {
       float: left;
     }
@@ -29,10 +29,8 @@
     border: white 1px solid;
     border-radius: 4px;
     padding: 3px 0px 3px .5em;
-    margin: 0px;
+    margin: 0.5em 0.5em 0.5em 0.5em;
     font-size: 26px;
-    margin-left: .25em;
-    margin-right: .25em;
     -webkit-appearance: none;
   	-moz-appearance: none;
   	-o-appearance: none;

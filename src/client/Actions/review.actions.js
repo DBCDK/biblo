@@ -22,7 +22,7 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
 
 export function showReviewList(params) {
   const WORK_TYPES_MAPPINGS = {
-    'alle typer': '',
+    'alt muligt': '',
     bøger: ' AND worktype:book',
     film: ' AND worktype:movie',
     spil: ' AND worktype:game',

@@ -8,7 +8,7 @@ export default class ReviewExplorerNavigation extends React.Component {
     super(props);
     this.state = {
       genre: 'alle',
-      workType: 'alle typer',
+      workType: 'alt muligt',
       reviewType: 'alle typer',
       order: 'nyeste'
     };
@@ -62,15 +62,21 @@ export default class ReviewExplorerNavigation extends React.Component {
     sortedGenres.sort();
     const genres = ['alle'].concat(sortedGenres);
     const reviewTypes = ['alle typer', 'tekst', 'billede', 'video'];
-    const workTypes = ['alle typer', 'bøger', 'film', 'spil', 'musik']; // tegneserier to be added
+    const workTypes = ['alt muligt', 'bøger', 'film', 'spil', 'musik']; // tegneserier to be added
     const order = ['nyeste', 'mest likede', 'tilfældig'];
 
     return (
       <div className="review-explorer-navigation--wrapper">
         <div className="review-explorer-navigation">
-          {this.renderDropDown('genre', genres, 'Vis mig', 'anmeldelser')}
-          {this.renderDropDown('workType', workTypes, 'af', '')}
-          {this.renderDropDown('reviewType', reviewTypes, 'af', '')}
+          {this.renderDropDown('genre',
+            genres,
+            this.state.genre === 'alle' ? 'Vis mig' : 'Vis mig anmeldelser af',
+            this.state.genre === 'alle' ? 'anmeldelser af' : '-')}
+          {this.renderDropDown('workType', workTypes, '', '')}
+          {this.renderDropDown('reviewType',
+            reviewTypes,
+            this.state.reviewType === 'alle typer' ? 'af' : 'lavet som',
+            '')}
           {this.renderDropDown('order', order, 'og vis', '')}
         </div>
       </div>

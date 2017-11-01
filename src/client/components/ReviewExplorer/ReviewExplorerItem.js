@@ -70,62 +70,64 @@ export default class ReviewExplorerItem extends React.Component {
     const likes = this.props.likes || [];
     return (
       <div className="review-row">
+        <a href={'/materiale/'+this.props.pid}>
           <img
             className="review-row--cover-image"
             src={this.props.coverUrl}/>
+        </a>
 
-          <div className="review-row--work-title">
-            <h4>{this.props.title}</h4>
-            <p>{this.props.created}</p>
-            {this.props.image && <div className="review-row-mobile--review-image"><img src={this.props.image}/></div>}
-          </div>
+        <div className="review-row--work-title">
+          <h4>{this.props.title}</h4>
+          <p>{this.props.created}</p>
+          {this.props.image && <div className="review-row-mobile--review-image"><img src={this.props.image}/></div>}
+        </div>
 
-          <div className='review-row-mobile--campaign-image'>
-            {logo ? <img src={logo}/> : <div>&nbsp;</div>}
-          </div>
+        <div className='review-row-mobile--campaign-image'>
+          {logo ? <img src={logo}/> : <div>&nbsp;</div>}
+        </div>
 
-          <div className="review-row-desktop--owner-image">
-            <a href={'/profil/'+this.props.owner.id}>
-              <img src={ownerimage}/>
-            </a>
-          </div>
+        <div className="review-row-desktop--owner-image">
+          <a href={'/profil/'+this.props.owner.id}>
+            <img src={ownerimage}/>
+          </a>
+        </div>
 
-          <div className="review-row--review-text">
-          {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
-            this.getVideoContainer(this.props.video) : null}
-            {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
-            <div>
-              {this.props.content}
-              <div className="review-row-desktop--rating">
-                <Rating rating={this.props.rating}/>
-              </div>
+        <div className="review-row--review-text">
+        {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
+          this.getVideoContainer(this.props.video) : null}
+          {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
+          <div>
+            <a href={'/anmeldelse/'+this.props.reviewId}>{this.props.content}</a>
+            <div className="review-row-desktop--rating">
+              <Rating rating={this.props.rating}/>
             </div>
           </div>
+        </div>
 
-          <div className="review-row-mobile--owner-image">
-            <a href={'/profil/'+this.props.owner.id}>
-              <img src={ownerimage}/>
-            </a>
-          </div>
+        <div className="review-row-mobile--owner-image">
+          <a href={'/profil/'+this.props.owner.id}>
+            <img src={ownerimage}/>
+          </a>
+        </div>
 
-          <div className="review-row-mobile--rating">
-            <Rating rating={this.props.rating}/>
-          </div>
+        <div className="review-row-mobile--rating">
+          <Rating rating={this.props.rating}/>
+        </div>
 
-          <div className='review-row-desktop--campaign-image'>
-            {logo ? <img src={logo}/> : <div>&nbsp;</div>}
-          </div>
+        <div className='review-row-desktop--campaign-image'>
+          {logo ? <img src={logo}/> : <div>&nbsp;</div>}
+        </div>
 
-          <div className="review-row--likebutton">
-            <LikeButton
-              active={this.props.profile.userIsLoggedIn}
-              isLikedByCurrentUser={likes.includes(this.props.profile.id)}
-              likeFunction={likeFunction.bind(this)}
-              unlikeFunction={unlikeFunction.bind(this)}
-              usersWhoLikeThis={likes}
-              small={true}
-            />
-          </div>
+        <div className="review-row--likebutton">
+          <LikeButton
+            active={this.props.profile.userIsLoggedIn}
+            isLikedByCurrentUser={likes.includes(this.props.profile.id)}
+            likeFunction={likeFunction.bind(this)}
+            unlikeFunction={unlikeFunction.bind(this)}
+            usersWhoLikeThis={likes}
+            small={true}
+          />
+        </div>
 
       </div>
     );
@@ -135,6 +137,7 @@ export default class ReviewExplorerItem extends React.Component {
 
 ReviewExplorerItem.propTypes = {
   reviewId: PropTypes.string,
+  pid: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
   coverUrl: PropTypes.string,

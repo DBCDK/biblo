@@ -33,6 +33,7 @@ export class ReviewExplorerComponent extends Component {
       return (
         <ReviewExplorerItem key={idx}
           reviewId={entry.review.id}
+          pid={entry.work.pid}
           title={entry.work.dcTitle}
           content={entry.review.html}
           coverUrl={entry.work.coverUrlThumbnail ? entry.work.coverUrlThumbnail[0] : entry.work.coverUrl}

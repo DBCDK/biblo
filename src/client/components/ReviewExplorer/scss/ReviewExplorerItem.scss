@@ -73,6 +73,10 @@
       @include span(12);
       padding-top: 0px;
     }
+
+    a {
+      color: black;
+    }
   }
 
   &-mobile--review-image {

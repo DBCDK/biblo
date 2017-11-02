@@ -9,13 +9,14 @@ const SearchReviewsTransform = {
 
   requestTransform(event, {elasticQuery}, connection) { // eslint-disable-line no-unused-vars
     return new Promise((resolve, reject) => {
-
       Promise.all([
         this.callServiceClient('community', 'searchReviews', elasticQuery),
         this.callServiceClient('cached/standard/community', 'getReviewCampaigns')
       ])
       .then(response => {
-        const reviews = JSON.parse(response[0].body).hits.hits;
+        const responseParsed = JSON.parse(response[0].body);
+        const total = responseParsed.hits.total;
+        const reviews = responseParsed.hits.hits;
         const campaigns = response[1];
         const pids = _.uniq(reviews.map(review => review._source.pid));
 
@@ -31,7 +32,7 @@ const SearchReviewsTransform = {
         })))
         .then(workResponses => {
           const works = workResponses.map(workResponse => JSON.parse(workResponse.body).data[0]);
-          resolve([reviews, campaigns, works]);
+          resolve([reviews, campaigns, works, total]);
         })
         .catch(err => {
           reject(err);
@@ -48,6 +49,7 @@ const SearchReviewsTransform = {
     let reviews = response[0];
     const campaigns = response[1];
     const works = response[2].map(workParser);
+    const total = response[3];
     const pidToWork = {};
     works.forEach(work =>{
       pidToWork[work.pid] = work;
@@ -86,6 +88,7 @@ const SearchReviewsTransform = {
     return {
       status: 200,
       data: result,
+      total,
       errors: []
     };
   }

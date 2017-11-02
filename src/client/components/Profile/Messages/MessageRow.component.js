@@ -7,6 +7,7 @@ import Icon from '../../General/Icon/Icon.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import RenewLoanButton from './RenewLoanButton.component';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
+import DOMPurify from 'dompurify';
 
 // SVG
 import klarSVG from '../../General/Icon/svg/functions/klar-til-afhentning.svg';
@@ -245,7 +246,7 @@ export default class MessageRow extends React.Component {
       }
 
       case 'type-userWasQuarantined': {
-        const messageContent = this.state.message.reason;
+        const messageContent = typeof window !== 'undefined' ? DOMPurify.sanitize(this.state.message.reason) : '';
 
         /* eslint-disable react/no-danger */
         return (

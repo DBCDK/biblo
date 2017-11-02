@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import DOMPurify from 'dompurify';
 
 import parseJsonData from '../../Utils/parseJsonData.js';
 
@@ -43,13 +44,16 @@ export class Article extends React.Component {
   }
 
   renderAmazonArticle() {
+    const mainContent = typeof window !== 'undefined' ? DOMPurify.sanitize(articleData.mainContent) : '';
+    const factboxContent = typeof window !== 'undefined' ? DOMPurify.sanitize(articleData.factboxContent) : '';
+
     return (
       <div className='article'>
         <div className='article-header'>
           <img src={articleData.headerImageUrl}/>
         </div>
-        <div className='article-main' dangerouslySetInnerHTML={{__html: articleData.mainContent}}></div>
-        <div className='article-factbox' dangerouslySetInnerHTML={{__html: articleData.factboxContent}}></div>
+        <div className='article-main' dangerouslySetInnerHTML={{__html: mainContent}}></div>
+        <div className='article-factbox' dangerouslySetInnerHTML={{__html: factboxContent}}></div>
       </div>
     );
   }

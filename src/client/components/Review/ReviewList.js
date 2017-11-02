@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Review from './Review.component.js';
 import ExpandButton from '../General/ExpandButton/ExpandButton.component';
+import DOMPurify from 'dompurify';
 import './ReviewList.scss';
 
 export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
@@ -48,10 +49,12 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
       reviewsCountText = (<div className='reviewsCount'>Se den anden anmeldelse</div>);
     }
 
+    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(highlightedReview.owner.displayName) : '';
+
     highlightSection = (
       <div className="highlight-section">
         <h2 className="review-list--header">
-          <div className="reviewsCount">Anmeldelse af <span className={'emoji-container'} dangerouslySetInnerHTML={{__html: highlightedReview.owner.displayName}}/></div>
+          <div className="reviewsCount">Anmeldelse af <span className={'emoji-container'} dangerouslySetInnerHTML={{__html: displayname}}/></div>
         </h2>
         <Review
           {...highlightedReview}

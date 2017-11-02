@@ -7,6 +7,7 @@
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
+import DOMPurify from 'dompurify';
 
 import Icon from '../../../General/Icon/Icon.component';
 import {PaginationContainer} from '../../PaginationContainer.component';
@@ -37,6 +38,8 @@ export class PopularGroupsWidget extends AbstractWidget {
   }
 
   renderGroup(group) {
+    const groupName = typeof window !== 'undefined' ? DOMPurify.sanitize(group.name) : '';
+
     return (
       <a
         key={`group_${group.id}`}
@@ -48,7 +51,7 @@ export class PopularGroupsWidget extends AbstractWidget {
         </div>
 
         <div className="popular-groups-widget--group-name-container">
-          <Icon glyph={groupsSvg} /> <span dangerouslySetInnerHTML={{__html: group.name}} />
+          <Icon glyph={groupsSvg} /> <span dangerouslySetInnerHTML={{__html: groupName}} />
         </div>
       </a>
     );

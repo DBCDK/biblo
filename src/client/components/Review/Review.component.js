@@ -30,6 +30,7 @@ import spinner from '../General/Icon/svg/spinners/loading-spin.svg';
 import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
+import DOMPurify from 'dompurify';
 
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
@@ -339,16 +340,16 @@ export default class Review extends UploadMedia {
 
   render() {
     let {
-          errors,
-          pid,
-          content,
-          rating,
-          owner,
-          image,
-          video,
-          profile,
-          created
-        } = this.state;
+      errors,
+      pid,
+      content,
+      rating,
+      owner,
+      image,
+      video,
+      profile,
+      created
+    } = this.state;
 
     const logo = (this.props.campaign && this.props.campaign.logos) ? this.props.campaign.logos.small : null;
 
@@ -390,7 +391,7 @@ export default class Review extends UploadMedia {
           <div>
             <p>Du skal logge ind for at skrive til moderator</p>
             <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
-                           compact={false}/>
+                           compact={false} />
           </div>
         );
         this.props.uiActions.openModalWindow(dialog);
@@ -435,23 +436,27 @@ export default class Review extends UploadMedia {
     const ownerimage = owner.image.url ? owner.image.url.medium : owner.image;
 
     const imageCollectionId = this.state.attachment && this.state.attachment.image && this.state.attachment.image.imageCollectionId;
+    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(owner.displayName) : '';
+    const sanitizedHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.html) : '';
+
 
     /* eslint-disable react/no-danger */
     return (
       <div className='review--wrapper'>
         <div className='review--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={ownerimage || null} alt={owner.displayName}/>
+            <img src={ownerimage || null} alt={owner.displayName} />
           </a>
         </div>
 
         <div className='review'>
           <div className='review--header'>
-            <a href={`/profil/${owner.id}`}><span className='username'
-                                                  dangerouslySetInnerHTML={{__html: owner.displayName}}/></a>
+            <a href={`/profil/${owner.id}`}>
+              <span className='username' dangerouslySetInnerHTML={{__html: displayname}} />
+            </a>
             <span className='time'>{this.state.isEditing && 'Skriver nu' || TimeToString(created)}</span>
 
-            {logo && <img className='logo' src={logo}/>}
+            {logo && <img className='logo' src={logo} />}
 
             <span className='buttons'>
               {
@@ -460,14 +465,14 @@ export default class Review extends UploadMedia {
                   active={this.state.isEditing}
                   clickFunction={() => this.toggleEditing()}
                   icon={
-                    <Icon glyph={pencilSvg} className="icon edit-post--button"/>
+                    <Icon glyph={pencilSvg} className="icon edit-post--button" />
                   }
                 />
                 ||
                 <TinyButton
                   clickFunction={flagFunction}
                   icon={
-                    <Icon glyph={flagSvg} className="icon flag-post--button"/>
+                    <Icon glyph={flagSvg} className="icon flag-post--button" />
                   }
                 />
               }
@@ -475,7 +480,7 @@ export default class Review extends UploadMedia {
           </div>
 
           <Rating ref="rating" pid={pid} rating={rating}
-                  onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null}/>
+                  onChange={(this.state.isEditing) ? this.onRatingChange.bind(this) : null} />
           {errorObj.rating || ''}
           {this.state.isEditing && errorObj.content}
           {
@@ -497,21 +502,21 @@ export default class Review extends UploadMedia {
                      value={this.state.content}
                      onChange={(e) => this.setState({content: e.target.value})}
                    />
-                  <input type="hidden" name="id" value={this.state.id || ''}/>
-                  <input type="hidden" name="reviewownerid" value={this.state.reviewownerid || ''}/>
-                  <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId || ''}/>
-                  <input type="hidden" name="imageId" value={imageCollectionId || ''}/>
-                  <input type="hidden" name="pid" value={this.state.pid || ''}/>
-                  <input type="hidden" name="worktype" value={this.state.worktype || ''}/>
-                  <input type="hidden" name="rating" value={this.state.rating || ''}/>
-                  <input type="hidden" name="libraryid" value={libraryId || ''}/>
-                  {this.state.created && <input type="hidden" name="created" value={this.state.created}/>}
+                  <input type="hidden" name="id" value={this.state.id || ''} />
+                  <input type="hidden" name="reviewownerid" value={this.state.reviewownerid || ''} />
+                  <input type="hidden" name="imageRemoveId" value={this.state.imageRemoveId || ''} />
+                  <input type="hidden" name="imageId" value={imageCollectionId || ''} />
+                  <input type="hidden" name="pid" value={this.state.pid || ''} />
+                  <input type="hidden" name="worktype" value={this.state.worktype || ''} />
+                  <input type="hidden" name="rating" value={this.state.rating || ''} />
+                  <input type="hidden" name="libraryid" value={libraryId || ''} />
+                  {this.state.created && <input type="hidden" name="created" value={this.state.created} />}
 
                   {this.state.attachment.image && this.state.attachment.image.data &&
                   <div className='review-add--preview-image'>
-                    <img src={this.state.attachment.image.data} alt="preview"/>
+                    <img src={this.state.attachment.image.data} alt="preview" />
                     <a href="#removeImage" className="review-add--remove-media" onClick={(e) => this.clearImage(e)}>
-                      <Icon glyph={close}/>
+                      <Icon glyph={close} />
                     </a>
                   </div>
                   }
@@ -522,7 +527,7 @@ export default class Review extends UploadMedia {
                     <div>
                       <span className="preview-video--name">{this.state.attachment.video.file.name}</span>
                       <progress className={progressStatusClass} max="100"
-                                value={this.state.attachment.video.file.progress}/>
+                                value={this.state.attachment.video.file.progress} />
                     </div>
                     }
                   </div>
@@ -544,22 +549,22 @@ export default class Review extends UploadMedia {
                     this.state.attachment.video.file.progress > 0
                     && this.state.attachment.video.file.progress < 100 || this.state.isLoading}
                   >
-                    {(this.state.isLoading) && <Icon glyph={spinner}/>}
+                    {(this.state.isLoading) && <Icon glyph={spinner} />}
                     OK
                   </button>
                   {
                     (this.props.abort || (this.state.attachment.video && this.state.attachment.video.file
-                    && this.state.attachment.video.file.progress > 0
-                    && this.state.attachment.video.file.progress < 100)) &&
+                      && this.state.attachment.video.file.progress > 0
+                      && this.state.attachment.video.file.progress < 100)) &&
                     <input ref="about" type="reset" className='button alert' onClick={this.onAbort.bind(this)}
-                           value="Fortryd"/>
+                           value="Fortryd" />
                   }
                   {deleteButton}
 
                   <div className='review-add--media'>
                     <label htmlFor={uniqueId}>
-                      <Icon glyph={videoSvg}/>
-                      <Icon glyph={cameraSvg}/>
+                      <Icon glyph={videoSvg} />
+                      <Icon glyph={cameraSvg} />
                       <span className="review-add--media-label">Upload</span>
                     </label>
                   </div>
@@ -582,13 +587,13 @@ export default class Review extends UploadMedia {
             ||
             <div className='review--content-wrapper'>
               {
-                <p className='review--content' dangerouslySetInnerHTML={{__html: this.props.html}}/> // eslint-disable-line
+                <p className='review--content' dangerouslySetInnerHTML={{__html: sanitizedHtml}} /> // eslint-disable-line
               }
               {
                 (image || this.state.attachment.image && this.state.attachment.image.data) &&
                 <div className='review--media'>
                   <a href={image && image.replace('medium', 'original')} target="_blank">
-                    <img src={this.state.attachment.image.data} alt="image for review"/>
+                    <img src={this.state.attachment.image.data} alt="image for review" />
                   </a>
                 </div>
               }
@@ -600,7 +605,7 @@ export default class Review extends UploadMedia {
               {
                 youtube &&
                 <div className="review--youtube-container">
-                  <Youtube videoId={youtube[0]}/>
+                  <Youtube videoId={youtube[0]} />
                 </div>
               }
               {likeButton}

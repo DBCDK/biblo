@@ -93,9 +93,11 @@ export default class ReviewExplorerItem extends React.Component {
         </div>
 
         <div className="review-row--review-text">
-        {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
-          this.getVideoContainer(this.props.video) : null}
-          {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
+          <a href={'/anmeldelse/'+this.props.reviewId}>
+            {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
+            this.getVideoContainer(this.props.video) : null}
+            {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
+          </a>
           <div>
             <a href={'/anmeldelse/'+this.props.reviewId}>{this.props.content}</a>
             <div className="review-row-desktop--rating">

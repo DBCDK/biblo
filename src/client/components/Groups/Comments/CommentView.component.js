@@ -12,14 +12,14 @@ import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
+import DOMPurify from 'dompurify';
 
 import Youtube from 'react-youtube';
 
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
-export default
-class CommentView extends React.Component {
+export default class CommentView extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,10 +36,12 @@ class CommentView extends React.Component {
   }
 
   renderReview(review) {
+    const reviewHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(review.html) : '';
+
     return (
       <div key={`comment_review_${review.id}`}>
         <img src={`/images/covers/${review.worktype}.png`} />
-        <span dangerouslySetInnerHTML={{__html: review.html}} />
+        <span dangerouslySetInnerHTML={{__html: reviewHtml}} />
       </div>
     );
   }
@@ -90,6 +92,9 @@ class CommentView extends React.Component {
       );
     }
 
+    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(owner.displayName) : '';
+    const commentContent = typeof window !== 'undefined' ? DOMPurify.sanitize(html) : '';
+
     return (
       <div className='comment-wrapper' id={`comment_${this.props.id}`} >
         <div className='comment-profile-image' >
@@ -100,7 +105,7 @@ class CommentView extends React.Component {
         <div className='comment' >
           <div className='comment--header' >
             <a href={`/profil/${owner.id}`} >
-              <span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} />
+              <span className='username' dangerouslySetInnerHTML={{__html: displayname}} />
             </a>
             <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
           </div>
@@ -134,7 +139,7 @@ class CommentView extends React.Component {
             ||
             <div className="comment--content" >
               {
-                <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
+                <p className='content' dangerouslySetInnerHTML={{__html: commentContent}} /> // eslint-disable-line
               }
               {review && this.renderReview(review)}
               {

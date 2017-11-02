@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import DOMPurify from 'dompurify';
 
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
@@ -16,7 +17,6 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import Message from '../../General/Message/Message.component';
-
 
 // SVG
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -76,14 +76,14 @@ export class GroupViewContainer extends React.Component {
   render() {
     if (this.props.group.error) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
-        <div className="error">{this.props.group.error}</div>
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
+          <div className="error">{this.props.group.error}</div>
         </PageLayout>
       );
     }
     if (this.props.group.markedAsDeleted) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
           <div className='group-is-deleted'>
             <h1>Gruppen findes ikke længere</h1>
             <p>Den gruppe du forsøger at komme ind på, findes ikke længere</p>
@@ -98,6 +98,9 @@ export class GroupViewContainer extends React.Component {
         this.props.uiActions.closeModalWindow();
       }}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
 
+    const groupName = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.group.name) : '';
+    const groupDesc = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.group.description) : '';
+
     return (
       <PageLayout
         searchState={this.props.searchState}
@@ -108,28 +111,29 @@ export class GroupViewContainer extends React.Component {
       >
         {modal}
         <div className='group'>
-          <GroupHeader uri={this.props.group.imageSquare || ''}/>
+          <GroupHeader uri={this.props.group.imageSquare || ''} />
           {this.props.group.isClosed &&
           <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           }
           <div className='group--content'>
             <div className="group--details">
-              <h2 className='group--title' dangerouslySetInnerHTML={{__html: this.props.group.name}}/>
-              <p className='group--description' dangerouslySetInnerHTML={{__html: this.props.group.description}}/>
+              <h2 className='group--title' dangerouslySetInnerHTML={{__html: groupName}} />
+              <p className='group--description' dangerouslySetInnerHTML={{__html: groupDesc}} />
               <div className='group--follow'>
                 <Follow
                   active={this.state.following}
                   onClick={this.toggleFollow}
                   showLoginLink={this.state.showloginToFollowMessage}
-                  text={this.state.following && 'Følger' || 'Følg gruppen'}/>
+                  text={this.state.following && 'Følger' || 'Følg gruppen'} />
               </div>
             </div>
             {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) &&
             <div className="group--actions">
               <TinyButton
                 active={false}
-                clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line no-return-assign
-                icon={<Icon glyph={pencilSvg}/>}/>
+                clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line
+                                                                                                  // no-return-assign
+                icon={<Icon glyph={pencilSvg} />} />
             </div>
             }
             {(!this.props.group.isClosed || this.props.profile.isModerator) &&

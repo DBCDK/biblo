@@ -49,6 +49,10 @@
     background: none;
     color: green;
   }
+  select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+  }
 
   &--dropdown:active, &--dropdown:hover, &--dropdown:focus {
     background: white;

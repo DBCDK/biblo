@@ -17,7 +17,7 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ReviewRow from '../../Profile/Detail/ReviewRow.component';
 import {PDFViewComponent} from './PDFView.component';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 import Youtube from 'react-youtube';
 
@@ -226,8 +226,6 @@ export default class PostView extends React.Component {
     const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
     const addPostAllowed = !groupIsClosed || profile.isModerator;
     const editPostAllowed = (profile.id === owner.id && !groupIsClosed) || profile.isModerator;
-    const displayName = typeof window !== 'undefined' ? DOMPurify.sanitize(owner.displayName) : '';
-    const postContent = typeof window !== 'undefined' ? DOMPurify.sanitize(html) : '';
 
     const likeButton = (
       <LikeButton
@@ -249,7 +247,7 @@ export default class PostView extends React.Component {
         <div className='post'>
           <div className='post--header'>
             <a href={`/profil/${owner.id}`}>
-              <span className='username' dangerouslySetInnerHTML={{__html: displayName}}/>
+              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}}/>
             </a>
             <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons'>
@@ -290,7 +288,7 @@ export default class PostView extends React.Component {
             ||
             <div className='post--content-wrapper'>
               {
-                <p className='post--content' dangerouslySetInnerHTML={{__html: postContent}}/> // eslint-disable-line
+                <p className='post--content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}}/> // eslint-disable-line
               }
               {review && this.renderReview(review, coverImages, works, profile, likeActions)}
               {

@@ -11,7 +11,7 @@ import {renderVideoGroupPost} from '../WidgetContainer/widgets/LatestGroupPostsW
 import '../Groups/Posts/PostView.component';
 import './scss/CampaignCertificate.component.scss';
 import Rating from '../General/Rating/Rating.component';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 
 export class CampaignCertificate extends Component {
   constructor(props) {
@@ -19,8 +19,6 @@ export class CampaignCertificate extends Component {
   }
 
   renderHeaderAndFooter(profile, branchShortName, type, baseurl, basepath) {
-    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(profile.displayName) : '';
-
     return (
       <div>
         <div id="pageHeader-first">
@@ -28,7 +26,7 @@ export class CampaignCertificate extends Component {
         <div id="pageHeader">
           {type !== 'group' && <img className="profile-image" src={baseurl + profile.image.url.square}/> || ''}
           <span className="profile-name"><span
-            dangerouslySetInnerHTML={{__html: displayname}}/> fra {branchShortName}</span>
+            dangerouslySetInnerHTML={{__html: sanitizeHtml(profile.displayName)}}/> fra {branchShortName}</span>
         </div>
         <div id="pageFooter">
           <img src={`${basepath}/static/images/biblo_logo_læs-løspå-biblo.png`}/>
@@ -42,7 +40,6 @@ export class CampaignCertificate extends Component {
 
   renderFrontPage(profile, campaign, branchShortName, contributions) {
     const dimplomaText = campaign.type === 'group' && 'bidrag til' || 'anmeldelser til';
-    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(profile.displayName) : '';
 
     return (
       <div className="frontpage">
@@ -57,7 +54,7 @@ export class CampaignCertificate extends Component {
             <div className="image">
               <img src={profile.image.url.square}/>
             </div>
-            <h3 className="name" dangerouslySetInnerHTML={{__html: displayname}}/>
+            <h3 className="name" dangerouslySetInnerHTML={{__html: sanitizeHtml(profile.displayName)}}/>
           </div>
           <div>har lavet</div>
           <div className="count">
@@ -101,8 +98,7 @@ export class CampaignCertificate extends Component {
   }
 
   renderContributionContent(contribution) {
-    const contributionHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(contribution.html) : '';
-    let content = (<span dangerouslySetInnerHTML={{__html: contributionHtml}}/>);
+    let content = (<span dangerouslySetInnerHTML={{__html: sanitizeHtml(contribution.html)}}/>);
 
     if (contribution.video && contribution.video.resolutions) {
       content = (
@@ -125,7 +121,6 @@ export class CampaignCertificate extends Component {
 
       const cDate = new Date(post.timeCreated || Date.now());
       const dateString = `${cDate.getDate()}/${cDate.getMonth() + 1}/${cDate.getFullYear()}`;
-      const groupName = typeof window !== 'undefined' ? DOMPurify.sanitize(group.name) : '';
 
       return (
         <div key={`post_${post.id}`} className="contribution">
@@ -134,7 +129,7 @@ export class CampaignCertificate extends Component {
             <img className="profile-image" src={profile.image.url.square}/>
           </div>
           <div className="post--header">
-            <h3>Indlæg i <span className="group--title" dangerouslySetInnerHTML={{__html: groupName}}/></h3>
+            <h3>Indlæg i <span className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}}/></h3>
             <div className="post--date">{dateString}</div>
           </div>
 

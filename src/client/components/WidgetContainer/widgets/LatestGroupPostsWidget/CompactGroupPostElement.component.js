@@ -8,13 +8,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../../General/Icon/Icon.component';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 import groupSvg from '../../../General/Icon/svg/functions/group.svg';
 import './scss/CompactGroupPostElement.component.scss';
 
 function renderTextGroupPost(post) {
-  const postHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(post.html) : '';
-  return <span className="text--post"> "<span dangerouslySetInnerHTML={{__html: postHtml}} />"</span>;
+  return <span className="text--post"> "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />"</span>;
 }
 
 function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
@@ -26,13 +25,11 @@ function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
 }
 
 function renderPDFGroupPost(post) { // eslint-disable-line react/no-multi-comp
-  const postHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(post.html) : '';
-
   return (
     <div className="compact-group-post-element--pdf-post">
       <img src="/images/materialtypes/pdf.png" alt="Indlæg med PDF" />
       <div className="pdf-post--text-content">
-        "<span dangerouslySetInnerHTML={{__html: postHtml}} />"
+        "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />"
       </div>
     </div>
   );
@@ -82,14 +79,12 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
     quoteClasses += ' long';
   }
 
-  const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(post.owner.displayName) : '';
-
   return (
     <div className={`widget-element compact-group-post-element--container ${postType}--post`}>
       <div className="compact-group-post-element">
         <div className="widget-element--author">
           Af:
-          <a dangerouslySetInnerHTML={{__html: displayname}} href={`/profil/${post.owner.id}`} />
+          <a dangerouslySetInnerHTML={{__html: sanitizeHtml(post.owner.displayName)}} href={`/profil/${post.owner.id}`} />
         </div>
         <div className="widget-element--main">
           <a href={`/profil/${post.owner.id}`} className="widget-element--profileimage">

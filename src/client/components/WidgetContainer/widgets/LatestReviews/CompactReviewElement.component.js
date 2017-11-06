@@ -6,7 +6,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 import Rating from '../../../General/Rating/Rating.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -59,22 +59,19 @@ export class CompactReviewElement extends Component {
       htmlContent += '...';
     }
 
-    htmlContent = typeof window !== 'undefined' ? DOMPurify.sanitize('“' + htmlContent + '”') : '';
-
     return (
-      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}}/>
+      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: sanitizeHtml('“' + htmlContent + '”')}}/>
     );
   }
 
   renderTextReview(review, ownerProfileUrl, workUrl) {
     const coverUrl = this.props.coverImages[this.props.review.pid] || '/images//covers/other.png';
-    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(review.owner.displayName) : '';
 
     return (
       <div className="compact-review--container">
         <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: displayname}}/></a>
+          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}/></a>
         </div>
 
         <div className="compact-review--artwork--container">
@@ -105,13 +102,12 @@ export class CompactReviewElement extends Component {
     const resolution = review.video.resolutions.slice(-1)[0];
     const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
-    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(review.owner.displayName) : '';
 
     return (
       <div className="compact-review--container">
         <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: displayname}}/></a>
+          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}/></a>
         </div>
 
         <div className="compact-video-review--container">

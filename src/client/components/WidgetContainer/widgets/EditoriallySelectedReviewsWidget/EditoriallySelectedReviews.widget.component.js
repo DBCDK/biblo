@@ -14,7 +14,7 @@ import Icon from '../../../General/Icon/Icon.component';
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
 import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 import './scss/EditoriallySelectedReviews.widget.component.scss';
 
@@ -52,8 +52,6 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
     if (review && work) {
       const coverUrl = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
       const containerClass = 'editorial-reviews--review-container' + (hide ? '' : ' expanded');
-      const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(review.owner.displayName) : '';
-      const reviewHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(review.html) : '';
 
       return (
         <div key={`review_${review.id}_${idx}`} className={containerClass}>
@@ -71,7 +69,8 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
             <div className="editorial-reviews--review--right">
               <div className="main-content">
                 <div className="widget-element--author">
-                  Af:&nbsp;<a dangerouslySetInnerHTML={{__html: displayname}} href={`/profil/${review.owner.id}`} />
+                  Af:&nbsp;
+                  <a dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}} href={`/profil/${review.owner.id}`} />
                 </div>
                 <h4 className="editorial-reviews--review--work-title">
                   {work.dcTitle}
@@ -82,7 +81,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
                 </div>
 
                 <div className="editorial-reviews--review--content">
-                  "<span dangerouslySetInnerHTML={{__html: reviewHtml}} />"
+                  "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />"
                 </div>
               </div>
               <div className="editorial-reviews--read-button">

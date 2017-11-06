@@ -7,7 +7,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {isEqual} from 'lodash';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 export class ContentPageTextWidget extends Component {
   shouldComponentUpdate(nextProps) {
@@ -16,10 +16,8 @@ export class ContentPageTextWidget extends Component {
   }
 
   render() {
-    const content = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.widgetConfig.content) : '';
-
     return (
-      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: content}} />
+      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.widgetConfig.content)}} />
     );
   }
 }

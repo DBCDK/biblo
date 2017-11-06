@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
@@ -98,9 +98,6 @@ export class GroupViewContainer extends React.Component {
         this.props.uiActions.closeModalWindow();
       }}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
 
-    const groupName = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.group.name) : '';
-    const groupDesc = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.group.description) : '';
-
     return (
       <PageLayout
         searchState={this.props.searchState}
@@ -117,8 +114,8 @@ export class GroupViewContainer extends React.Component {
           }
           <div className='group--content'>
             <div className="group--details">
-              <h2 className='group--title' dangerouslySetInnerHTML={{__html: groupName}} />
-              <p className='group--description' dangerouslySetInnerHTML={{__html: groupDesc}} />
+              <h2 className='group--title' dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}} />
+              <p className='group--description' dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.description)}} />
               <div className='group--follow'>
                 <Follow
                   active={this.state.following}

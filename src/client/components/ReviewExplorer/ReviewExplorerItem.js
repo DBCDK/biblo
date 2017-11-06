@@ -23,11 +23,10 @@ export default class ReviewExplorerItem extends React.Component {
     const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
-    return (
-      <div className="review-row-desktop--review-video">
-        <img src={videoImageSrc}/>
-      </div>
-    );
+    return <div className='video-thumbnail'>
+      <img src={videoImageSrc}/>
+      <img className="overlay" src="/images/video_thumbnail_overlay.png"/>
+    </div>;
   }
 
   spawnLoginDialog() {
@@ -79,7 +78,9 @@ export default class ReviewExplorerItem extends React.Component {
         <div className="review-row--work-title">
           <h4>{this.props.title}</h4>
           <p>{this.props.created}</p>
-          {this.props.image && <div className="review-row-mobile--review-image"><img src={this.props.image}/></div>}
+          {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
+          <a href={'/anmeldelse/'+this.props.reviewId}><div className='review-row-mobile--review-video'>{this.getVideoContainer(this.props.video)}</div></a>: null}
+          {this.props.image && <a href={'/anmeldelse/'+this.props.reviewId}><div className="review-row-mobile--review-image"><img src={this.props.image}/></div></a>}
         </div>
 
         <div className='review-row-mobile--campaign-image'>
@@ -95,7 +96,7 @@ export default class ReviewExplorerItem extends React.Component {
         <div className="review-row--review-text">
           <a href={'/anmeldelse/'+this.props.reviewId}>
             {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
-            this.getVideoContainer(this.props.video) : null}
+            <div className='review-row-desktop--review-video'>{this.getVideoContainer(this.props.video)}</div> : null}
             {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
           </a>
           <div>

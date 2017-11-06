@@ -71,19 +71,23 @@ export class ReviewExplorerComponent extends Component {
         profileState={this.props.profileState}
         globalState={this.props.globalState}>
           <ReviewExplorerNavigation genres={genres} onChange={this.handleNavigationChange.bind(this)}/>
-          <h1>{total} ANMELDELSE{total !== 1 && 'R'}</h1>
-          <hr/>
-          <div className="review-explorer--spinner">
-            {isLoading && total === 0 && <Icon glyph={spinnerSvg} height={50} width={50}/>}
+          <div className='review-explorer--main-content'>
+            <h2>{total} ANMELDELSE{total !== 1 && 'R'}</h2>
+            <div className="review-explorer--spinner">
+              {isLoading && total === 0 && <Icon glyph={spinnerSvg} height={50} width={50}/>}
+            </div>
+            {reviews &&
+              <div className='review-explorer--rows'>
+                {this.renderItems(reviews)}
+              </div>}
+            {total > reviews.length && <div>
+              &nbsp;
+              <VisFlereButton
+                onClick={this.handleClickMore.bind(this)}
+                isLoading={isLoading}
+              />
+            </div>}
           </div>
-          {reviews && this.renderItems(reviews)}
-          {total > reviews.length && <div>
-            &nbsp;
-            <VisFlereButton
-              onClick={this.handleClickMore.bind(this)}
-              isLoading={isLoading}
-            />
-          </div>}
 
       </PageLayout>
     );

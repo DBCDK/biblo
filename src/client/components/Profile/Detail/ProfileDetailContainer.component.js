@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 // Components
 import PageLayout from '../../Layout/PageLayout.component';
@@ -197,10 +197,10 @@ export class ProfileDetailContainer extends React.Component {
           );
         }
         case 'post': {
-          let postTitle = typeof window !== 'undefined' ? DOMPurify.sanitize(displayName + ' oprettede et indlæg') : '';
+          let postTitle = `${sanitizeHtml(displayName)} oprettede et indlæg`;
 
           if (activity.group && activity.group.name) {
-            const groupName = typeof window !== 'undefined' ? DOMPurify.sanitize(activity.group.name) : '';
+            const groupName = sanitizeHtml(activity.group.name);
 
             postTitle = (
               <span>
@@ -528,11 +528,9 @@ export class ProfileDetailContainer extends React.Component {
     let desc = '';
 
     if (userProfile.description && userProfile.description.length > 0) {
-      const userDesc = typeof window !== 'undefined' ? DOMPurify.sanitize(userProfile.description) : '';
-
       desc = (
         <p>
-          <span className="profile--description" dangerouslySetInnerHTML={{__html: userDesc}} />
+          <span className="profile--description" dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.description)}} />
         </p>
       );
     }
@@ -588,8 +586,6 @@ export class ProfileDetailContainer extends React.Component {
       </div>);
     }
 
-    const userDisplayName = typeof window !== 'undefined' ? DOMPurify.sanitize(userProfile.displayName) : '';
-
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
         {modal}
@@ -605,7 +601,7 @@ export class ProfileDetailContainer extends React.Component {
         </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userDisplayName}} />
+          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.displayName)}} />
           {editButton}
           {desc}
           <div className="p-detail--buttons-container--mobile">

@@ -30,7 +30,7 @@ import spinner from '../General/Icon/svg/spinners/loading-spin.svg';
 import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
@@ -436,8 +436,6 @@ export default class Review extends UploadMedia {
     const ownerimage = owner.image.url ? owner.image.url.medium : owner.image;
 
     const imageCollectionId = this.state.attachment && this.state.attachment.image && this.state.attachment.image.imageCollectionId;
-    const displayname = typeof window !== 'undefined' ? DOMPurify.sanitize(owner.displayName) : '';
-    const sanitizedHtml = typeof window !== 'undefined' ? DOMPurify.sanitize(this.props.html) : '';
 
 
     /* eslint-disable react/no-danger */
@@ -452,7 +450,7 @@ export default class Review extends UploadMedia {
         <div className='review'>
           <div className='review--header'>
             <a href={`/profil/${owner.id}`}>
-              <span className='username' dangerouslySetInnerHTML={{__html: displayname}} />
+              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
             </a>
             <span className='time'>{this.state.isEditing && 'Skriver nu' || TimeToString(created)}</span>
 
@@ -587,7 +585,7 @@ export default class Review extends UploadMedia {
             ||
             <div className='review--content-wrapper'>
               {
-                <p className='review--content' dangerouslySetInnerHTML={{__html: sanitizedHtml}} /> // eslint-disable-line
+                <p className='review--content' dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.html)}} /> // eslint-disable-line
               }
               {
                 (image || this.state.attachment.image && this.state.attachment.image.data) &&

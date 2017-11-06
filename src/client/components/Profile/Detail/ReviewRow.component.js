@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 // Components
 import Rating from '../../General/Rating/Rating.component';
@@ -104,7 +104,7 @@ export default class ReviewRow extends React.Component {
     return (
       <div className="review--content--videoplayer">
         <a title={content} href={`/materiale/${pid}`} className="compact-review--video--container">
-          <img src={videoImageSrc}/>
+          <img src={videoImageSrc} />
         </a>
       </div>
     );
@@ -122,7 +122,7 @@ export default class ReviewRow extends React.Component {
     }
     const video = review.video ? this.getVideoContainer(review.video, review.pid, content) : null;
     content = content.split(/\r+\n/).join('<br />');
-    const sanitizedContent = typeof window !== 'undefined' ? DOMPurify.sanitize(content) : '';
+    const sanitizedContent = sanitizeHtml(content);
 
     const isLikedByActiveUser = likes.includes(activeUser.id);
 
@@ -130,24 +130,25 @@ export default class ReviewRow extends React.Component {
       <div className="review--container">
         <div className="review--header">
           <div className="review--material--cover">
-            <img src={coverUrl} alt={title}/>
+            <img src={coverUrl} alt={title} />
           </div>
           <div className="review--data">
             <span className="review--data--material-title"><a href={`/materiale/${review.pid}`}>{title}</a></span>
             <div className="ratings">
-              <Rating rating={review.rating}/>
+              <Rating rating={review.rating} />
             </div>
           </div>
         </div>
 
         <div className="review--content--container">
-          { video &&
+          {video &&
           <div className="review--content">{video}</div>
           ||
-          <div className="review--content" dangerouslySetInnerHTML={{__html: sanitizedContent}}/> // eslint-disable-line react/no-danger
+          <div className="review--content" dangerouslySetInnerHTML={{__html: sanitizedContent}} /> // eslint-disable-line
+                                                                                                   // react/no-danger
           }
           <div className="review--content--actions">
-            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)}/>
+            <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
             <div className="review--content--actions--likebutton">
               <LikeButton
                 active={true}
@@ -161,7 +162,7 @@ export default class ReviewRow extends React.Component {
         </div>
         {review.campaign && review.campaign.logos &&
         <div className="review--content--campaign">
-          <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42}/>
+          <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42} />
         </div>
         }
       </div>

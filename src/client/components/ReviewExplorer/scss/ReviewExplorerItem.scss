@@ -3,15 +3,19 @@
 .review-row {
   @include span(24);
   border-bottom: 3px solid #e7e7ef;
-  padding: 10px 10px;
+  padding: 1em 10px;
   min-height: 80px;
   height: auto;
+
+  &:first-child {
+    border-top: 3px solid #e7e7ef;
+  }
 
   &--cover-image {
     @include span(3);
     vertical-align:top;
     margin: 0;
-    box-shadow: 5px 5px 10px $gray;
+    box-shadow: 2px 2px 10px $gray;
 
     @include min-screen($tablet) {
       @include span(1.2);
@@ -22,6 +26,7 @@
     @include span(18);
     vertical-align:top;
     margin: 0;
+    margin-top: -0.3em;
     padding-left: 15px;
     h4 {
       padding:0;
@@ -31,6 +36,7 @@
       padding: 0;
       margin: 0;
       color: $gray;
+      font-size: 16px;
     }
 
     @include min-screen($tablet) {
@@ -73,14 +79,17 @@
       @include span(12);
       padding-top: 0px;
     }
+
+    a {
+      color: black;
+    }
   }
 
   &-mobile--review-image {
-    @include span(3);
     margin-top: 5px;
     img {
-      max-width: 60px;
-      max-height: 60px;
+      max-width: 80px;
+      max-height: 80px;
     }
     @include min-screen($tablet) {
       @include span(0);
@@ -92,11 +101,10 @@
     @include span(0);
     display: none;
     img {
-      max-width: 60px;
-      max-height: 60px;
+      max-width: 120px;
+      max-height: 120px;
     }
     @include min-screen($tablet) {
-      @include span(3);
       display: inline-block;;
     }
   }
@@ -105,11 +113,34 @@
     @include span(0);
     display: none;
     @include min-screen($tablet) {
-      @include span(3);
       display: inline-block;
     }
     img {
       @include span(24);
+    }
+  }
+
+  &-mobile--review-video {
+    margin-top: 5px;
+
+    @include min-screen($tablet) {
+      display: none;
+    }
+  }
+
+  .video-thumbnail {
+    position: relative;
+    margin-right: 0.5em;
+    img {
+      width: 180px;
+      height: 102px;
+    }
+    .overlay {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 180px;
+      height: 102px;
     }
   }
 
@@ -127,6 +158,9 @@
     @include min-screen($tablet) {
       display: block;
     }
+  }
+  .rating {
+    cursor: default;
   }
 
   &-mobile--owner-image {

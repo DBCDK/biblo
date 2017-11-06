@@ -7,6 +7,9 @@ import TimeToString from '../../Utils/timeToString.js';
 import PageLayout from '../Layout/PageLayout.component.js';
 import ReviewExplorerItem from './ReviewExplorerItem.js';
 import ReviewExplorerNavigation from './ReviewExplorerNavigation.js';
+import Icon from '../General/Icon/Icon.component.js';
+import spinnerSvg from '../General/Icon/svg/spinners/loading-spin.svg';
+import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
@@ -16,6 +19,8 @@ import * as uiActions from '../../Actions/ui.actions';
 
 import './scss/ReviewExplorer.component.scss';
 
+const RESULT_SIZE = 10;
+
 export class ReviewExplorerComponent extends Component {
 
   componentDidMount() {
@@ -23,14 +28,22 @@ export class ReviewExplorerComponent extends Component {
   }
 
   handleNavigationChange(e) {
-    this.props.reviewActions.showReviewList(e, 0, 10);
+    this.currentNavigation = e;
+    this.props.reviewActions.showReviewList(e, RESULT_SIZE);
+  }
+
+  handleClickMore() {
+    if (this.currentNavigation) {
+      this.props.reviewActions.showReviewList(this.currentNavigation, this.props.reviewState.reviewExplorer.reviews.length + RESULT_SIZE, true);
+    }
   }
 
   renderItems(reviews) {
-    return reviews.map((entry, idx) => {
+    return reviews.map(entry => {
       return (
-        <ReviewExplorerItem key={idx}
+        <ReviewExplorerItem key={entry.review.id}
           reviewId={entry.review.id}
+          pid={entry.work.pid}
           title={entry.work.dcTitle}
           content={entry.review.html}
           coverUrl={entry.work.coverUrlThumbnail ? entry.work.coverUrlThumbnail[0] : entry.work.coverUrl}
@@ -49,8 +62,7 @@ export class ReviewExplorerComponent extends Component {
   }
 
   render() {
-    const reviews = this.props.reviewState.reviewExplorer.reviews;
-    const genres = this.props.reviewState.reviewExplorer.genres;
+    const {isLoading, reviews, genres, total} = this.props.reviewState.reviewExplorer;
 
     return (
       <PageLayout
@@ -59,9 +71,23 @@ export class ReviewExplorerComponent extends Component {
         profileState={this.props.profileState}
         globalState={this.props.globalState}>
           <ReviewExplorerNavigation genres={genres} onChange={this.handleNavigationChange.bind(this)}/>
-          <h1>ANMELDELSER</h1>
-          <hr/>
-          {reviews && this.renderItems(reviews)}
+          <div className='review-explorer--main-content'>
+            <h2>{total} ANMELDELSE{total !== 1 && 'R'}</h2>
+            <div className="review-explorer--spinner">
+              {isLoading && total === 0 && <Icon glyph={spinnerSvg} height={50} width={50}/>}
+            </div>
+            {reviews &&
+              <div className='review-explorer--rows'>
+                {this.renderItems(reviews)}
+              </div>}
+            {total > reviews.length && <div>
+              &nbsp;
+              <VisFlereButton
+                onClick={this.handleClickMore.bind(this)}
+                isLoading={isLoading}
+              />
+            </div>}
+          </div>
 
       </PageLayout>
     );

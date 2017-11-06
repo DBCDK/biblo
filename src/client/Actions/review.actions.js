@@ -20,9 +20,9 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
   };
 }
 
-export function showReviewList(params) {
+export function showReviewList(params, limit, loadMore) {
   const WORK_TYPES_MAPPINGS = {
-    'alle typer': '',
+    'alt muligt': '',
     bøger: ' AND worktype:book',
     film: ' AND worktype:movie',
     spil: ' AND worktype:game',
@@ -35,25 +35,32 @@ export function showReviewList(params) {
     billede: ' AND image:*',
     video: ' AND video:*'
   };
+
+  // use "id" instead of "created", to avoid "shuffle issues" when reviews have same timestamps
   const ORDER_MAPPINGS = {
-    nyeste: 'created:desc',
-    'mest likede': 'numLikes:desc',
+    nyeste: 'id:desc',
+    'mest likede': 'numLikes:desc,id:desc',
     tilfældig: ''
   };
 
   const existFilter = '!markedAsDeleted:true';
-  const genre = params.genre === 'alle' ? '' : ` AND genres.title:${params.genre}`;
+  const genre = params.genre === 'alle' ? '' : ` AND genres.title:"${params.genre}"`;
   const query = `${existFilter}${genre}${WORK_TYPES_MAPPINGS[params.workType]}${REVIEW_TYPES_MAPPINGS[params.reviewType]}`;
   const sort = ORDER_MAPPINGS[params.order];
 
   return function (dispatch) {
+    dispatch({
+      type: types.GET_REVIEWS_IS_LOADING,
+      loadMore
+    });
     searchReviewsClient.request({
-      elasticQuery: {query, sort}
+      elasticQuery: {query, sort, limit}
     });
     const event = searchReviewsClient.response(response => {
       dispatch({
         type: types.GET_REVIEWS,
-        reviews: response.data
+        reviews: response.data,
+        total: response.total
       });
       event.off();
     });

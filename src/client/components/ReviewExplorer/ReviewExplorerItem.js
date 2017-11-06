@@ -23,11 +23,10 @@ export default class ReviewExplorerItem extends React.Component {
     const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
-    return (
-      <div className="review-row-desktop--review-video">
-        <img src={videoImageSrc}/>
-      </div>
-    );
+    return <div className='video-thumbnail'>
+      <img src={videoImageSrc}/>
+      <img className="overlay" src="/images/video_thumbnail_overlay.png"/>
+    </div>;
   }
 
   spawnLoginDialog() {
@@ -70,62 +69,68 @@ export default class ReviewExplorerItem extends React.Component {
     const likes = this.props.likes || [];
     return (
       <div className="review-row">
+        <a href={'/materiale/'+this.props.pid}>
           <img
             className="review-row--cover-image"
             src={this.props.coverUrl}/>
+        </a>
 
-          <div className="review-row--work-title">
-            <h4>{this.props.title}</h4>
-            <p>{this.props.created}</p>
-            {this.props.image && <div className="review-row-mobile--review-image"><img src={this.props.image}/></div>}
-          </div>
-
-          <div className='review-row-mobile--campaign-image'>
-            {logo ? <img src={logo}/> : <div>&nbsp;</div>}
-          </div>
-
-          <div className="review-row-desktop--owner-image">
-            <a href={'/profil/'+this.props.owner.id}>
-              <img src={ownerimage}/>
-            </a>
-          </div>
-
-          <div className="review-row--review-text">
+        <div className="review-row--work-title">
+          <h4>{this.props.title}</h4>
+          <p>{this.props.created}</p>
           {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
-            this.getVideoContainer(this.props.video) : null}
+          <a href={'/anmeldelse/'+this.props.reviewId}><div className='review-row-mobile--review-video'>{this.getVideoContainer(this.props.video)}</div></a>: null}
+          {this.props.image && <a href={'/anmeldelse/'+this.props.reviewId}><div className="review-row-mobile--review-image"><img src={this.props.image}/></div></a>}
+        </div>
+
+        <div className='review-row-mobile--campaign-image'>
+          {logo ? <img src={logo}/> : <div>&nbsp;</div>}
+        </div>
+
+        <div className="review-row-desktop--owner-image">
+          <a href={'/profil/'+this.props.owner.id}>
+            <img src={ownerimage}/>
+          </a>
+        </div>
+
+        <div className="review-row--review-text">
+          <a href={'/anmeldelse/'+this.props.reviewId}>
+            {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
+            <div className='review-row-desktop--review-video'>{this.getVideoContainer(this.props.video)}</div> : null}
             {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
-            <div>
-              {this.props.content}
-              <div className="review-row-desktop--rating">
-                <Rating rating={this.props.rating}/>
-              </div>
+          </a>
+          <div>
+            <a href={'/anmeldelse/'+this.props.reviewId}>{this.props.content}</a>
+            <div className="review-row-desktop--rating">
+              <Rating rating={this.props.rating}/>
             </div>
           </div>
+        </div>
 
-          <div className="review-row-mobile--owner-image">
-            <a href={'/profil/'+this.props.owner.id}>
-              <img src={ownerimage}/>
-            </a>
-          </div>
+        <div className="review-row-mobile--owner-image">
+          <a href={'/profil/'+this.props.owner.id}>
+            <img src={ownerimage}/>
+          </a>
+        </div>
 
-          <div className="review-row-mobile--rating">
-            <Rating rating={this.props.rating}/>
-          </div>
+        <div className="review-row-mobile--rating">
+          <Rating rating={this.props.rating}/>
+        </div>
 
-          <div className='review-row-desktop--campaign-image'>
-            {logo ? <img src={logo}/> : <div>&nbsp;</div>}
-          </div>
+        <div className='review-row-desktop--campaign-image'>
+          {logo ? <img src={logo}/> : <div>&nbsp;</div>}
+        </div>
 
-          <div className="review-row--likebutton">
-            <LikeButton
-              active={this.props.profile.userIsLoggedIn}
-              isLikedByCurrentUser={likes.includes(this.props.profile.id)}
-              likeFunction={likeFunction.bind(this)}
-              unlikeFunction={unlikeFunction.bind(this)}
-              usersWhoLikeThis={likes}
-              small={true}
-            />
-          </div>
+        <div className="review-row--likebutton">
+          <LikeButton
+            active={this.props.profile.userIsLoggedIn}
+            isLikedByCurrentUser={likes.includes(this.props.profile.id)}
+            likeFunction={likeFunction.bind(this)}
+            unlikeFunction={unlikeFunction.bind(this)}
+            usersWhoLikeThis={likes}
+            small={true}
+          />
+        </div>
 
       </div>
     );
@@ -135,6 +140,7 @@ export default class ReviewExplorerItem extends React.Component {
 
 ReviewExplorerItem.propTypes = {
   reviewId: PropTypes.string,
+  pid: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
   coverUrl: PropTypes.string,

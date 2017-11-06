@@ -15,6 +15,7 @@ const ReviewRoutes = express.Router();
 const ReviewsRoutes = express.Router();
 
 ReviewsRoutes.get('/', async function (req, res) {
+  res.locals.title = 'Anmeldelser - Biblo.dk';
   res.render('page', {
     css: ['/css/reviewexplorer.css'],
     js: ['/js/reviewexplorer.js'],

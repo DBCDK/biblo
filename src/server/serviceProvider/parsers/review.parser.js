@@ -1,5 +1,6 @@
 import parseProfile from './profile.parser';
 import parseText from './text.parser';
+import {uniq} from 'lodash';
 
 export default function parseReview(review, campaigns = [], limitReviewContent) {
   campaigns.forEach(campaign => {
@@ -24,7 +25,7 @@ export default function parseReview(review, campaigns = [], limitReviewContent) 
   review.owner = parseProfile(review.owner, true, 'small');
   review.imageId = review.image && review.image.id; // we currently only allow one image at a time
   review.image = review.image && '/billede/' + review.image.id + '/medium' || null;
-  review.likes = review.likes && review.likes.map(like => like.profileId || []);
+  review.likes = review.likes && uniq(review.likes.map(like => like.profileId)) || [];
   review.html = parseText(content, true, 'break');
 
   return review;

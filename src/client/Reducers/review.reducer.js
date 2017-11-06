@@ -10,7 +10,7 @@ import {includes, filter, isArray} from 'lodash';
 const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
 
 const initialState = {};
-initialState.reviewExplorer = {};
+initialState.reviewExplorer = {isLoading: false, reviews: [], total: 0};
 initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
 initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];  // reviews related to a work (known as collecton in the service provider)
 initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];  // metadata about workReviews (ownReviewIdd and totalCount)
@@ -31,7 +31,19 @@ export default function reviewReducer(state = initialState, action = {}) {
     case types.GET_REVIEWS: {
       return assignToEmpty(state, {
         reviewExplorer: assignToEmpty(state.reviewExplorer, {
-          reviews: action.reviews
+          reviews: action.reviews,
+          total: action.total,
+          isLoading: false
+        })
+      });
+    }
+
+    case types.GET_REVIEWS_IS_LOADING: {
+      return assignToEmpty(state, {
+        reviewExplorer: assignToEmpty(state.reviewExplorer, {
+          isLoading: true,
+          reviews: action.loadMore ? state.reviewExplorer.reviews : [],
+          total: action.loadMore ? state.reviewExplorer.total : 0
         })
       });
     }

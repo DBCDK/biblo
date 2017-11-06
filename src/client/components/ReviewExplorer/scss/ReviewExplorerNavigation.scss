@@ -1,7 +1,9 @@
 @import 'tools';
 
 .review-explorer-navigation--wrapper {
-  background: gray;
+  background-image: url("/images/topbanner-baggrund_v2.jpg");
+  background-size: cover;
+  background-color: gray;
   text-align: left;
   @include min-screen($tablet) {
     text-align: center;
@@ -11,13 +13,14 @@
 .review-explorer-navigation {
   padding: 20px;
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   display:inline-block;
 
   &--row {
-    margin: 0.9em 0.5em 0.9em 0em;
+
     @include min-screen($tablet) {
       float: left;
+      font-size: 22px;
     }
   }
 
@@ -26,18 +29,24 @@
     color: white;
     border: white 1px solid;
     border-radius: 4px;
-    padding: 3px 0px 3px .5em;
-    margin: 0px;
-    font-size: 26px;
-    margin-left: .25em;
-    margin-right: .25em;
+    padding: 3px 10px 3px 10px;
+    margin: 0.4em;
+    font-size: 20px;
     -webkit-appearance: none;
   	-moz-appearance: none;
   	-o-appearance: none;
   	appearance: none;
     outline: none;
+
+    background-image: url("/images/pil-til-select-box.svg");
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 12px;
     option {
       color: black;
+    }
+    @include min-screen($tablet) {
+      font-size: 22px;
     }
   }
 
@@ -48,6 +57,10 @@
   select:focus::-ms-value {
     background: none;
     color: green;
+  }
+  select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
   }
 
   &--dropdown:active, &--dropdown:hover, &--dropdown:focus {

@@ -1423,9 +1423,11 @@ function getGenres(endpoint) {
 function searchReviews(endpoint, elasticQuery) {
   const query = elasticQuery.query || '*:*';
   const sort = elasticQuery.sort || '';
+  const limit = elasticQuery.limit || 10;
+  const from = elasticQuery.from || 0;
 
   return promiseRequest('get', {
-    url: `${endpoint}api/Reviews/search?limit=10&q=${query}&sort=${sort}`
+    url: `${endpoint}api/Reviews/search?from=${from}&limit=${limit}&q=${encodeURIComponent(query)}&sort=${encodeURIComponent(sort)}`
   });
 }
 

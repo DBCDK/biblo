@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import assignToEmpty from '../../../Utils/assign';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 // Components
 import PageLayout from '../../Layout/PageLayout.component';
@@ -85,7 +86,7 @@ export class ProfileDetailContainer extends React.Component {
         {this.state.groups.map((group) => {
           return (
             <div key={`group_${group.id}`} className="groups-modal--group">
-              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast || 0} followers={false}/>
+              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast || 0} followers={false} />
               {
                 isMyProfile ?
                   <Follow
@@ -126,10 +127,10 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
-                  <span dangerouslySetInnerHTML={{__html: title}}/>
+                  <span dangerouslySetInnerHTML={{__html: title}} />
                   <span> i </span>
                   <a href={`/grupper/${activity.post.group.id}`}
-                     dangerouslySetInnerHTML={{__html: activity.post.group.name}}/>
+                     dangerouslySetInnerHTML={{__html: activity.post.group.name}} />
                   <span>:</span>
                 </span>
             );
@@ -196,15 +197,17 @@ export class ProfileDetailContainer extends React.Component {
           );
         }
         case 'post': {
-          let postTitle = displayName + ' oprettede et indlæg';
+          let postTitle = `${sanitizeHtml(displayName)} oprettede et indlæg`;
 
           if (activity.group && activity.group.name) {
+            const groupName = sanitizeHtml(activity.group.name);
+
             postTitle = (
               <span>
-                  <span dangerouslySetInnerHTML={{__html: postTitle}}/>
+                  <span dangerouslySetInnerHTML={{__html: postTitle}} />
                   <span> i </span>
                   <a href={`/grupper/${activity.group.id}`}
-                     dangerouslySetInnerHTML={{__html: activity.group.name}}/>
+                     dangerouslySetInnerHTML={{__html: groupName}} />
                   <span>:</span>
                 </span>
             );
@@ -299,7 +302,7 @@ export class ProfileDetailContainer extends React.Component {
       this.props.feed.count.posts &&
       this.props.feed.count.postsTotal &&
       (this.props.feed.count.posts < this.props.feed.count.postsTotal ||
-      this.props.feed.count.comments < this.props.feed.count.commentsTotal)
+        this.props.feed.count.comments < this.props.feed.count.commentsTotal)
     ) {
       showMore = (
         <VisFlereButton
@@ -326,7 +329,7 @@ export class ProfileDetailContainer extends React.Component {
         {
           (this.props.feed.feed.length > 0) ? activityFeed :
             (
-              <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`}/>
+              <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`} />
             )
         }
         {showMore}
@@ -338,7 +341,7 @@ export class ProfileDetailContainer extends React.Component {
         {
           (reviewsFeed && this.props.reviews.userReviews.length) ? reviewsFeed :
             (
-              <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`}/>
+              <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`} />
             )
         }
       </div>
@@ -388,10 +391,11 @@ export class ProfileDetailContainer extends React.Component {
     const campaignRows = campaigns.map(campaign => {
       let logo;
       if (campaign.logos.svg) {
-        logo = (<img src={campaign.logos.svg} className='campaign--row--logo svg' style={{width: '60px', height: '60px'}}/>);
+        logo = (
+          <img src={campaign.logos.svg} className='campaign--row--logo svg' style={{width: '60px', height: '60px'}} />);
       }
       else {
-        logo = (<img src={campaign.logos.small} className='campaign--row--logo' width={80}/>);
+        logo = (<img src={campaign.logos.small} className='campaign--row--logo' width={80} />);
       }
 
       let inner = (
@@ -473,10 +477,10 @@ export class ProfileDetailContainer extends React.Component {
   renderCampaignBadge(campaign, isMyProfile) {
     let logo;
     if (campaign.logos.svg) {
-      logo = (<img src={campaign.logos.svg} className='svg' style={{width: '60px', height: '60px'}}/>);
+      logo = (<img src={campaign.logos.svg} className='svg' style={{width: '60px', height: '60px'}} />);
     }
     else {
-      logo = (<img src={campaign.logos.small} width={80}/>);
+      logo = (<img src={campaign.logos.small} width={80} />);
     }
 
     let badge;
@@ -497,7 +501,7 @@ export class ProfileDetailContainer extends React.Component {
         this.props.uiActions.openModalWindow(groupsModalContent, modalTitle);
       }}>
         <div className="p-detail--group-button">
-          <Icon glyph={grupperSvg} width={size} height={size}/>
+          <Icon glyph={grupperSvg} width={size} height={size} />
           <div>Grupper</div>
         </div>
         {isMyProfile && userProfile.postsInGroups &&
@@ -526,7 +530,7 @@ export class ProfileDetailContainer extends React.Component {
     if (userProfile.description && userProfile.description.length > 0) {
       desc = (
         <p>
-          <span className="profile--description" dangerouslySetInnerHTML={{__html: userProfile.description}}/>
+          <span className="profile--description" dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.description)}} />
         </p>
       );
     }
@@ -563,12 +567,12 @@ export class ProfileDetailContainer extends React.Component {
         <a href={editLink}>
           <div className='p-detail--edit-button'>
             <Icon className="icon" glyph={editSvg}
-                  width={24} height={24}/></div>
+                  width={24} height={24} /></div>
         </a>);
       profileImage = (<a href={editLink}>
         <div className="p-detail--image-container">
           <div className="p-detail--image-crop">
-            <img src={userProfile.image} alt={userProfile.displayName}/>
+            <img src={userProfile.image} alt={userProfile.displayName} />
           </div>
         </div>
       </a>);
@@ -577,7 +581,7 @@ export class ProfileDetailContainer extends React.Component {
     else {
       profileImage = (<div className="p-detail--image-container">
         <div className="p-detail--image-crop">
-          <img src={userProfile.image} alt={userProfile.displayName}/>
+          <img src={userProfile.image} alt={userProfile.displayName} />
         </div>
       </div>);
     }
@@ -597,7 +601,7 @@ export class ProfileDetailContainer extends React.Component {
         </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: userProfile.displayName}}/>
+          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.displayName)}} />
           {editButton}
           {desc}
           <div className="p-detail--buttons-container--mobile">
@@ -605,7 +609,7 @@ export class ProfileDetailContainer extends React.Component {
           </div>
         </div>
         <div className="p-detail--activity-tabs">
-          <Tabs tabs={tabs} selected={this.props.selectedTab}/>
+          <Tabs tabs={tabs} selected={this.props.selectedTab} />
         </div>
       </PageLayout>
     );
@@ -646,10 +650,7 @@ ProfileDetailContainer.defaultProps = {
 /**
  * Connect the redux state and actions to container props
  */
-export
-default
-
-connect(
+export default connect(
   // Map redux state to props
   (state) => {
     return {

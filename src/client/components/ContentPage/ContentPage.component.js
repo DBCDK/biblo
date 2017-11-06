@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 
 import parseJsonData from '../../Utils/parseJsonData.js';
 
@@ -48,8 +49,8 @@ export class Article extends React.Component {
         <div className='article-header'>
           <img src={articleData.headerImageUrl}/>
         </div>
-        <div className='article-main' dangerouslySetInnerHTML={{__html: articleData.mainContent}}></div>
-        <div className='article-factbox' dangerouslySetInnerHTML={{__html: articleData.factboxContent}}></div>
+        <div className='article-main' dangerouslySetInnerHTML={{__html: sanitizeHtml(articleData.mainContent)}}></div>
+        <div className='article-factbox' dangerouslySetInnerHTML={{__html: sanitizeHtml(articleData.factboxContent)}}></div>
       </div>
     );
   }

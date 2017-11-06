@@ -1,5 +1,6 @@
 /**
- * @file: This file contains the compact group post element, this is meant to be displayed in a grid, and originally constructed for the latest group posts widget.
+ * @file: This file contains the compact group post element, this is meant to be displayed in a grid, and originally
+ *   constructed for the latest group posts widget.
  */
 
 /* eslint-disable react/no-danger */
@@ -7,17 +8,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../../General/Icon/Icon.component';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 import groupSvg from '../../../General/Icon/svg/functions/group.svg';
 import './scss/CompactGroupPostElement.component.scss';
 
 function renderTextGroupPost(post) {
-  return <span className="text--post"> "<span dangerouslySetInnerHTML={{__html: post.html}}/>"</span>;
+  return <span className="text--post"> "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />"</span>;
 }
 
 function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
   return (
     <div className="compact-group-post-element--image-post">
-      <img src={post.image}/>
+      <img src={post.image} />
     </div>
   );
 }
@@ -27,7 +29,7 @@ function renderPDFGroupPost(post) { // eslint-disable-line react/no-multi-comp
     <div className="compact-group-post-element--pdf-post">
       <img src="/images/materialtypes/pdf.png" alt="Indlæg med PDF" />
       <div className="pdf-post--text-content">
-        "<span dangerouslySetInnerHTML={{__html: post.html}}/>"
+        "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />"
       </div>
     </div>
   );
@@ -40,7 +42,7 @@ export function renderVideoGroupPost(post) { // eslint-disable-line react/no-mul
 
   return (
     <div className="compact-group-post-element--video-post">
-      <img src={videoImageSrc}/>
+      <img src={videoImageSrc} />
     </div>
   );
 }
@@ -68,7 +70,7 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
   let groupNameTag = '';
   if (groupName) {
     groupNameTag = (
-      <a href={groupHref} className="cgp--group-link"><Icon glyph={groupSvg}/> {groupName}</a>
+      <a href={groupHref} className="cgp--group-link"><Icon glyph={groupSvg} /> {groupName}</a>
     );
   }
 
@@ -81,11 +83,12 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
     <div className={`widget-element compact-group-post-element--container ${postType}--post`}>
       <div className="compact-group-post-element">
         <div className="widget-element--author">
-          Af: <a dangerouslySetInnerHTML={{__html: post.owner.displayName}} href={`/profil/${post.owner.id}`}/>
+          Af:
+          <a dangerouslySetInnerHTML={{__html: sanitizeHtml(post.owner.displayName)}} href={`/profil/${post.owner.id}`} />
         </div>
         <div className="widget-element--main">
           <a href={`/profil/${post.owner.id}`} className="widget-element--profileimage">
-            <img src={post.owner.image}/>
+            <img src={post.owner.image} />
           </a>
           <a href={`/grupper/${post.groupid}/${post.id}`} className={quoteClasses}>
             {postBody}

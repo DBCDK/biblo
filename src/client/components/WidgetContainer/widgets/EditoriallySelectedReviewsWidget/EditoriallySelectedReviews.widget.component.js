@@ -14,6 +14,7 @@ import Icon from '../../../General/Icon/Icon.component';
 import plusSvg from '../../../General/Icon/svg/functions/plus.svg';
 import minusSvg from '../../../General/Icon/svg/functions/minus.svg';
 import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 import './scss/EditoriallySelectedReviews.widget.component.scss';
 
@@ -68,7 +69,8 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
             <div className="editorial-reviews--review--right">
               <div className="main-content">
                 <div className="widget-element--author">
-                  Af:&nbsp;<a dangerouslySetInnerHTML={{__html: review.owner.displayName}} href={`/profil/${review.owner.id}`} />
+                  Af:&nbsp;
+                  <a dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}} href={`/profil/${review.owner.id}`} />
                 </div>
                 <h4 className="editorial-reviews--review--work-title">
                   {work.dcTitle}
@@ -79,7 +81,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
                 </div>
 
                 <div className="editorial-reviews--review--content">
-                  "<span dangerouslySetInnerHTML={{__html: review.html}} />"
+                  "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />"
                 </div>
               </div>
               <div className="editorial-reviews--read-button">

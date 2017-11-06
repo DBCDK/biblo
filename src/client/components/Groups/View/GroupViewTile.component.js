@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 import './scss/group-tile.scss';
 
@@ -28,15 +29,15 @@ export default class GroupViewTile extends React.Component {
   }
 
   render() {
-    let group = this.props.group;
-    let groupUrl = '/grupper/' + group.id;
+    const group = this.props.group;
+    const groupUrl = '/grupper/' + group.id;
 
     return (<div key={group.id} className="group--tile">
       <a href={groupUrl}>
           <img className="coverimage" src={this.getCoverImageUrl(group)}/>
         <div className="group--title">
           <Icon className="icon" glyph={groupSvg} />
-          <span dangerouslySetInnerHTML={{__html: group.name}}/>
+          <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}}/>
         </div>
       </a>
       {this.props.followers &&

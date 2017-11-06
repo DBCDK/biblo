@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {isEqual} from 'lodash';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 export class ContentPageTextWidget extends Component {
   shouldComponentUpdate(nextProps) {
@@ -16,7 +17,7 @@ export class ContentPageTextWidget extends Component {
 
   render() {
     return (
-      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: this.props.widgetConfig.content}} />
+      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.widgetConfig.content)}} />
     );
   }
 }

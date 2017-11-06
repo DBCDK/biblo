@@ -17,6 +17,7 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ReviewRow from '../../Profile/Detail/ReviewRow.component';
 import {PDFViewComponent} from './PDFView.component';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 import Youtube from 'react-youtube';
 
@@ -221,10 +222,8 @@ export default class PostView extends React.Component {
 
     const youtube = ExtractYoutubeID(content);
     const isLikedByCurrentUser = includes(likes, profile.id);
-    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {
-    };
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {
-    };
+    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
+    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
     const addPostAllowed = !groupIsClosed || profile.isModerator;
     const editPostAllowed = (profile.id === owner.id && !groupIsClosed) || profile.isModerator;
 
@@ -248,7 +247,7 @@ export default class PostView extends React.Component {
         <div className='post'>
           <div className='post--header'>
             <a href={`/profil/${owner.id}`}>
-              <span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}}/>
+              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}}/>
             </a>
             <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons'>
@@ -289,7 +288,7 @@ export default class PostView extends React.Component {
             ||
             <div className='post--content-wrapper'>
               {
-                <p className='post--content' dangerouslySetInnerHTML={{__html: html}}/> // eslint-disable-line
+                <p className='post--content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}}/> // eslint-disable-line
               }
               {review && this.renderReview(review, coverImages, works, profile, likeActions)}
               {

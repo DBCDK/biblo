@@ -12,14 +12,14 @@ import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
 import ContentAdd from '../AddContent/AddContent.component.js';
 import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 import Youtube from 'react-youtube';
 
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
-export default
-class CommentView extends React.Component {
+export default class CommentView extends React.Component {
 
   constructor(props) {
     super(props);
@@ -39,7 +39,7 @@ class CommentView extends React.Component {
     return (
       <div key={`comment_review_${review.id}`}>
         <img src={`/images/covers/${review.worktype}.png`} />
-        <span dangerouslySetInnerHTML={{__html: review.html}} />
+        <span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />
       </div>
     );
   }
@@ -85,30 +85,30 @@ class CommentView extends React.Component {
           clickFunction={() => {
             uiActions.openModalWindow(commentFlagModalContent);
           }}
-          icon={<Icon glyph={flagSvg} className="icon flag-comment--button"/>}
+          icon={<Icon glyph={flagSvg} className="icon flag-comment--button" />}
         />
       );
     }
 
     return (
-      <div className='comment-wrapper' id={`comment_${this.props.id}`} >
-        <div className='comment-profile-image' >
-          <a href={`/profil/${owner.id}`} >
+      <div className='comment-wrapper' id={`comment_${this.props.id}`}>
+        <div className='comment-profile-image'>
+          <a href={`/profil/${owner.id}`}>
             <img className='profile-image' src={owner.image || null} alt={owner.displayName} />
           </a>
         </div>
-        <div className='comment' >
-          <div className='comment--header' >
-            <a href={`/profil/${owner.id}`} >
-              <span className='username' dangerouslySetInnerHTML={{__html: owner.displayName}} />
+        <div className='comment'>
+          <div className='comment--header'>
+            <a href={`/profil/${owner.id}`}>
+              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
             </a>
-            <span className='time' >{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
           </div>
 
-          <div className='comment--actions' >
+          <div className='comment--actions'>
             {(profile.id === owner.id || profile.isModerator) &&
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button"/>} />
+                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button" />} />
             ||
             flagButton
             }
@@ -132,15 +132,15 @@ class CommentView extends React.Component {
               delete={deleteAction}
             />
             ||
-            <div className="comment--content" >
+            <div className="comment--content">
               {
-                <p className='content' dangerouslySetInnerHTML={{__html: html}} /> // eslint-disable-line
+                <p className='content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} /> // eslint-disable-line
               }
               {review && this.renderReview(review)}
               {
                 image &&
-                <div className='media' >
-                  <a href={image.replace('medium', 'original')} target="_blank" ><img src={image} alt="image for post" /></a>
+                <div className='media'>
+                  <a href={image.replace('medium', 'original')} target="_blank"><img src={image} alt="image for post" /></a>
                 </div>
               }
               {
@@ -148,7 +148,7 @@ class CommentView extends React.Component {
               }
               {
                 youtube &&
-                <div className="comment--youtube-container" >
+                <div className="comment--youtube-container">
                   <Youtube videoId={youtube[0]} />
                 </div>
               }

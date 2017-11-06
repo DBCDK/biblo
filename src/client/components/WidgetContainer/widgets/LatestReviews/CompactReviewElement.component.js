@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 import Rating from '../../../General/Rating/Rating.component';
 import Icon from '../../../General/Icon/Icon.component';
@@ -58,10 +59,8 @@ export class CompactReviewElement extends Component {
       htmlContent += '...';
     }
 
-    htmlContent = '“' + htmlContent + '”';
-
     return (
-      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: htmlContent}}/>
+      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: sanitizeHtml('“' + htmlContent + '”')}}/>
     );
   }
 
@@ -72,7 +71,7 @@ export class CompactReviewElement extends Component {
       <div className="compact-review--container">
         <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}}/></a>
+          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}/></a>
         </div>
 
         <div className="compact-review--artwork--container">
@@ -108,7 +107,7 @@ export class CompactReviewElement extends Component {
       <div className="compact-review--container">
         <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: review.owner.displayName}}/></a>
+          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}/></a>
         </div>
 
         <div className="compact-video-review--container">

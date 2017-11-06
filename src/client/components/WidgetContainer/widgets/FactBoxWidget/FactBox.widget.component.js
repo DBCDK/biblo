@@ -7,6 +7,7 @@
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 import './scss/FactBox.widget.component.scss';
 
@@ -22,8 +23,8 @@ export class FactBoxWidget extends AbstractWidget {
 
     return (
       <div className="fact-box-widget">
-        <h3 dangerouslySetInnerHTML={{__html: factboxTitle}}/>
-        <div className="fact-box--content" dangerouslySetInnerHTML={{__html: factboxContent}}/>
+        <h3 dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxTitle)}} />
+        <div className="fact-box--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxContent)}} />
       </div>
     );
   }

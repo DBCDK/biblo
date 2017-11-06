@@ -7,6 +7,7 @@ import Icon from '../../General/Icon/Icon.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import RenewLoanButton from './RenewLoanButton.component';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 // SVG
 import klarSVG from '../../General/Icon/svg/functions/klar-til-afhentning.svg';
@@ -245,15 +246,13 @@ export default class MessageRow extends React.Component {
       }
 
       case 'type-userWasQuarantined': {
-        const messageContent = this.state.message.reason;
-
         /* eslint-disable react/no-danger */
         return (
           <div className="quarantine">
             <div className="quarantine--author">Moderator</div>
 
             <div className="quarantine--message-content">
-              <span dangerouslySetInnerHTML={{__html: messageContent}}/>
+              <span dangerouslySetInnerHTML={{__html: sanitizeHtml(this.state.message.reason)}}/>
             </div>
           </div>
         );

@@ -7,6 +7,7 @@
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
 import {isEqual} from 'lodash';
+import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 import Icon from '../../../General/Icon/Icon.component';
 import {PaginationContainer} from '../../PaginationContainer.component';
@@ -48,7 +49,7 @@ export class PopularGroupsWidget extends AbstractWidget {
         </div>
 
         <div className="popular-groups-widget--group-name-container">
-          <Icon glyph={groupsSvg} /> <span dangerouslySetInnerHTML={{__html: group.name}} />
+          <Icon glyph={groupsSvg} /> <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}} />
         </div>
       </a>
     );

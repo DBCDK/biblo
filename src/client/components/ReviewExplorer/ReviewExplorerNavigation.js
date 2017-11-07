@@ -51,7 +51,7 @@ export default class ReviewExplorerNavigation extends React.Component {
       reviewType: reviewTypes.indexOf(s.reviewType) !== -1 ? s.reviewType : 'alle typer',
       order: orders.indexOf(s.order) !== -1 ? s.order : 'nyeste'
     };
-    if(force || JSON.stringify(this.state) !== JSON.stringify(newState)) {
+    if (force || JSON.stringify(this.state) !== JSON.stringify(newState)) {
       this.setState(newState);
       this.props.onChange(Object.assign({}, newState));
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 
 import Rating from '../General/Rating/Rating.component';
 import LikeButton from '../General/LikeButton/LikeButton.component';
@@ -100,7 +101,7 @@ export default class ReviewExplorerItem extends React.Component {
             {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
           </a>
           <div>
-            <a href={'/anmeldelse/'+this.props.reviewId}>{this.props.content}</a>
+            <a href={'/anmeldelse/'+this.props.reviewId} dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.content)}}/>
             <div className="review-row-desktop--rating">
               <Rating rating={this.props.rating}/>
             </div>

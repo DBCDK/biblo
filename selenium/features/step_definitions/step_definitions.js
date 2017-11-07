@@ -68,6 +68,20 @@ var myStepDefinitionsWrapper = function() {
     callback();
   });
 
+  this.Given(/^a user visits the review explorer page$/, function(callback) {
+    this.browser.get(`${BASE_URL}/anmeldelser`)
+      .then(() => {
+        callback();
+      });
+  });
+
+  this.Given(/^a user visits the review explorer page showing bibelhistorier$/, function(callback) {
+    this.browser.get(`${BASE_URL}/anmeldelser?genre=bibelhistorier`)
+      .then(() => {
+        callback();
+      });
+  });
+
   this.Then(/^pagetitle should be Biblo$/i, function(callback) {
     this.browser.getTitle()
       .then((title) => {
@@ -187,6 +201,12 @@ var myStepDefinitionsWrapper = function() {
     return this.browser.findElement({tagName: 'body'})
       .then(bodyElement => bodyElement.getText())
       .then(bodyText => expect(bodyText).to.contain(contained));
+  });
+
+  this.Then(/^the page does not contain: (.*)$/i, function(contained) {
+    return this.browser.findElement({tagName: 'body'})
+      .then(bodyElement => bodyElement.getText())
+      .then(bodyText => expect(bodyText).to.not.contain(contained));
   });
 
   this.When(/^a user visits the aboutpage$/, function() {

@@ -38,12 +38,12 @@ export default class ReviewExplorerNavigation extends React.Component {
   componentWillUpdate(nextProps) {
     // check if genres has just loaded
     if (nextProps.genres !== this.props.genres) {
-      this.setNavigationState(parseQueryParams(history.location.search), nextProps.genres);
+      this.setNavigationState(parseQueryParams(history.location.search), nextProps.genres, true);
     }
   }
 
   /* Will validate and set navigation state */
-  setNavigationState(s, g) {
+  setNavigationState(s, g, force) {
     const genres = g.map(genre => genre.title);
     const newState = {
       genre: genres.indexOf(s.genre) !== -1 ? s.genre : 'alle',
@@ -51,8 +51,10 @@ export default class ReviewExplorerNavigation extends React.Component {
       reviewType: reviewTypes.indexOf(s.reviewType) !== -1 ? s.reviewType : 'alle typer',
       order: orders.indexOf(s.order) !== -1 ? s.order : 'nyeste'
     };
-    this.setState(newState);
-    this.props.onChange(Object.assign({}, newState));
+    if(force || JSON.stringify(this.state) !== JSON.stringify(newState)) {
+      this.setState(newState);
+      this.props.onChange(Object.assign({}, newState));
+    }
   }
 
   /* Called when user interacts with dropdowns.
@@ -60,7 +62,7 @@ export default class ReviewExplorerNavigation extends React.Component {
   handleNavigationChange(key, value) {
     const s = {};
     s[key] = value;
-    const newState = Object.assign(this.state, s);
+    const newState = Object.assign({}, this.state, s);
     history.push(`/anmeldelser?genre=${newState.genre}&workType=${newState.workType}&reviewType=${newState.reviewType}&order=${newState.order}`);
   }
 

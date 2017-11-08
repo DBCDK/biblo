@@ -136,7 +136,7 @@ module.exports = function campaignGroupWithContent(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Groups/2')
     .times(times)
-    .query({"filter": "{\"counts\":[\"posts\",\"members\"],\"include\":[{\"relation\":\"members\",\"scope\":{\"order\":\"id DESC\",\"include\":[\"image\"]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}},{\"relation\":\"coverImage\"}]}"})
+    .query({"filter": "{\"counts\":[\"posts\",\"members\"],\"include\":[{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}},{\"relation\":\"coverImage\"}]}"})
     .reply(200, {
       "name": "string",
       "description": "string",

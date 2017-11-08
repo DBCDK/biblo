@@ -14,7 +14,6 @@ const GetGroupTransform = {
   },
 
   requestTransform(event, {id}) {
-    console.log('getGroupMembers');
     return this.callServiceClient('community', 'getGroupMembers', {id, filter: {include: 'image'}});
   },
 

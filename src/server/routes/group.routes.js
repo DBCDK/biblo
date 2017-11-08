@@ -285,7 +285,6 @@ function showGroup(groupData, res) {
  * @param {Object} update
  */
 async function fetchGroupData(params, req, res, update = {}) {
-  console.log('fetchGroupData');
   try {
     let postsPromise;
     if (params.postid) {

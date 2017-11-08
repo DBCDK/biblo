@@ -2,8 +2,6 @@
  * @file: This transform gets a group from the community service, if a user is logged in, it also checks if that user is following the group.
  */
 
-import * as _ from 'lodash';
-import parseProfile from '../../../parsers/profile.parser';
 import groupParser from '../../../parsers/group.parser';
 
 const GetGroupTransform = {

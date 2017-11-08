@@ -9,9 +9,10 @@ import {once} from 'lodash';
 
 const joinGroup = SocketClient('joinGroup');
 const getGroup = SocketClient('getGroup');
+const getGroupMembers = SocketClient('getGroupMembers');
 const listGroups = SocketClient('listGroups');
 const leaveGroup = SocketClient('leaveGroup');
-const getGroupListener = once(getGroup.response);
+const getGroupMembersListener = once(getGroupMembers.response);
 const loadPosts = SocketClient('getPosts');
 const markPostAsDeleted = SocketClient('deletePost');
 const deleteGroup = SocketClient('deleteGroup');
@@ -296,7 +297,6 @@ export function groupToggleClosed(response) {
   };
 }
 
-
 export function asyncGroupFollow(enableFollow, groupId, profileId) {
   return function(dispatch) {
     dispatch(groupFollow(enableFollow));
@@ -324,35 +324,27 @@ export function groupFollow(enableFollow) {
   };
 }
 
-export function asyncGroupMembersExpand(expand, groupId) {
-  if (expand) {
-    return (dispatch) => {
-
-      // handle getGroup responses
-      getGroupListener((res) => {
-        dispatch(groupMembersExpand(expand, res.members));
-      });
-
-      // signal that members are loading
-      dispatch(groupMembersLoading());
-
-      // send request for more group members
-      getGroup.request({
-        id: groupId,
-        allMembers: true
-      });
-    };
-  }
-
+export function asyncGetGroupMembers(groupId, ownerId = null) {
   return (dispatch) => {
-    dispatch(groupMembersExpand(expand));
+    // handle getGroupMembers responses
+    getGroupMembersListener((res) => {
+      dispatch(setGroupMembers(res.members));
+    });
+
+    // signal that members are loading
+    dispatch(groupMembersLoading());
+
+    // send request for all group members
+    getGroupMembers.request({
+      id: groupId,
+      ownerId
+    });
   };
 }
 
-export function groupMembersExpand(expand, members = null) {
+export function setGroupMembers(members = null) {
   return {
-    type: types.GROUP_MEMBERS_EXPAND,
-    expand: expand,
+    type: types.SET_GROUP_MEMBERS,
     members: members
   };
 }
@@ -376,6 +368,7 @@ export function asyncShowMorePosts(id, skip, limit) {
     });
   };
 }
+
 export function showMorePosts(posts, numberOfPostsLoaded) {
   return {
     type: types.GROUP_SHOW_MORE_POSTS,

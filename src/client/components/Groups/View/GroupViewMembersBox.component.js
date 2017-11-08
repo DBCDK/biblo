@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
-
+import Icon from '../../General/Icon/Icon.component';
+import spinnerSvg from './../../General/Icon/svg/spinners/loading-spin.svg';
 
 function shuffle(array) {
   let currentIndex = array.length, temporaryValue, randomIndex;
@@ -21,39 +22,60 @@ function shuffle(array) {
 export default class GroupMembersBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {membersCopy: []};
+    this.state = {
+      isExpanded: false,
+      membersCopy: []
+    };
   }
 
   componentDidMount() {
-    let membersCopy = this.props.members.slice();
+    this.setMembers(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setMembers(nextProps);
+  }
+
+  setMembers(props) {
+    let membersCopy = props.members.slice();
     membersCopy = shuffle(membersCopy);
 
     // mark owner and add to members
-    const owner = Object.assign({}, this.props.owner, {isOwner: true});
+    const owner = Object.assign({}, props.owner, {isOwner: true});
     membersCopy.unshift(owner);
     this.setState({membersCopy});
   }
 
+  setExpanded() {
+    const isExpanded = !this.state.isExpanded;
+    this.setState({isExpanded});
+  }
+
   render() {
-    const {onExpand, isExpanded, isLoadingMembers} = this.props;
+    const {isLoadingMembers} = this.props;
     const membersCopy = this.state.membersCopy;
 
     // if not expanded then show only the top 9 members
-    let visibleMembers = (!isExpanded) ? membersCopy.slice(0, 9) : membersCopy;
+    let visibleMembers = (!this.state.isExpanded) ? membersCopy.slice(0, 9) : membersCopy;
 
     const memberImages = visibleMembers.map((member) => {
       const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
-      return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || '/no_profile.png'} alt={member.displayName}/></a>;
+      return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || '/no_profile.png'} alt={member.displayName} /></a>;
     });
 
-    const buttonText = (isExpanded) ? 'Vis færre' : 'Vis alle';
+    const buttonText = (this.state.isExpanded) ? 'Vis færre' : 'Vis alle';
+
+    let loadingMembersMessage = null;
+    if (isLoadingMembers) {
+      loadingMembersMessage = <Icon glyph={spinnerSvg} />;
+    }
 
     // show ExpandButton if there are more than 9 members
     let expandButton = null;
     if (membersCopy.length > 9) {
       expandButton = (
         <div className='members-button'>
-          <ExpandButton isLoading={isLoadingMembers} onClick={onExpand} text={buttonText}/>
+          <ExpandButton isLoading={isLoadingMembers} onClick={this.setExpanded.bind(this)} text={buttonText} />
         </div>
       );
     }
@@ -64,6 +86,7 @@ export default class GroupMembersBox extends React.Component {
           {memberImages}
         </div>
         {expandButton}
+        {loadingMembersMessage}
       </div>
     );
   }
@@ -71,8 +94,6 @@ export default class GroupMembersBox extends React.Component {
 
 GroupMembersBox.displayName = 'GroupMembersBox';
 GroupMembersBox.propTypes = {
-  onExpand: PropTypes.func.isRequired,
-  isExpanded: PropTypes.bool.isRequired,
   members: PropTypes.array.isRequired,
   owner: PropTypes.object.isRequired,
   isLoadingMembers: PropTypes.bool

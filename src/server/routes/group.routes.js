@@ -285,6 +285,7 @@ function showGroup(groupData, res) {
  * @param {Object} update
  */
 async function fetchGroupData(params, req, res, update = {}) {
+  console.log('fetchGroupData');
   try {
     let postsPromise;
     if (params.postid) {
@@ -360,16 +361,19 @@ async function fetchGroupData(params, req, res, update = {}) {
       reviewsPromise = Promise.resolve([{data: [], errors: [], reviewsCount: 0}]);
     }
 
+    console.time('a');
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
       postsPromise,
       reviewsPromise
     ]));
+    console.timeEnd('a');
 
     profile.profile.reviews = response[2][0] || {data: [], reviewsCount: 0};
     res.locals.profile = JSON.stringify(profile);
 
     const group = response[0][0];
+    // console.log(group);
 
     group.posts = Array.isArray(response[1][0]) ? response[1][0] : [response[1][0]];
     group.numberOfPostsLoaded = group.posts.length;

@@ -14,7 +14,6 @@ const defaultState = {
   isFollowing: false,
   isLoadingMembers: false,
   image: '/no_group_image.png',
-  isMembersExpanded: false,
   posts: [],
   works: {},
   comments: {}
@@ -34,7 +33,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
     case types.DELETE_POST: {
       let postsAfterDelete = [...state.posts];
       let postsCount = state.postsCount - 1;
-      postsAfterDelete = filter(postsAfterDelete, (post)=> {
+      postsAfterDelete = filter(postsAfterDelete, (post) => {
         return action.postId !== post.id;
       });
       return assignToEmpty(state, {posts: postsAfterDelete, postsCount: postsCount});
@@ -44,16 +43,16 @@ export default function groupViewReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {isFollowing: action.enableFollow});
     }
 
-    case types.GROUP_MEMBERS_EXPAND: {
+    case types.SET_GROUP_MEMBERS: {
       if (action.members !== null) {
         // update members and transition away from loading state
         return assignToEmpty(state, {
-          isMembersExpanded: action.expand,
           members: action.members,
           isLoadingMembers: false
         });
       }
-      return assignToEmpty(state, {isMembersExpanded: action.expand});
+
+      return state;
     }
 
     case types.GROUP_MEMBERS_LOADING: {
@@ -196,7 +195,9 @@ export default function groupViewReducer(state = initialState, action = {}) {
         if (postIndex >= 0) {
           let commentIds = (newState.posts[postIndex].comments || []).map(comment => comment.id);
           if (commentIds.indexOf(action.comment.id) >= 0) {
-            newState.posts[postIndex].comments = (newState.posts[postIndex].comments || []).map(comment => comment.id === action.comment.id ? action.comment : comment);
+            newState.posts[postIndex].comments = (newState.posts[postIndex].comments || []).map(comment => comment.id === action.comment.id ?
+              action.comment :
+              comment);
           }
           else {
             newState.posts[postIndex].comments.unshift(action.comment);

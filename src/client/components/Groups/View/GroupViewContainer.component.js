@@ -36,13 +36,17 @@ import './scss/groupView.scss';
 export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       following: props.group.isFollowing,
       showloginToFollowMessage: false
     };
 
     this.toggleFollow = this.toggleFollow.bind(this);
-    this.toggleMembersExpanded = this.toggleMembersExpanded.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, this.props.group.owner.id);
   }
 
   componentDidMount() {
@@ -67,10 +71,6 @@ export class GroupViewContainer extends React.Component {
     else {
       this.setState({showloginToFollowMessage: true});
     }
-  }
-
-  toggleMembersExpanded() {
-    this.props.groupActions.asyncGroupMembersExpand(!this.props.group.isMembersExpanded, this.props.group.id);
   }
 
   render() {
@@ -129,7 +129,7 @@ export class GroupViewContainer extends React.Component {
               <TinyButton
                 active={false}
                 clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line
-                                                                                                  // no-return-assign
+                // no-return-assign
                 icon={<Icon glyph={pencilSvg} />} />
             </div>
             }
@@ -182,8 +182,6 @@ export class GroupViewContainer extends React.Component {
           <GroupMembersBox
             members={this.props.group.members}
             owner={this.props.group.owner}
-            onExpand={this.toggleMembersExpanded}
-            isExpanded={this.props.group.isMembersExpanded}
             isLoadingMembers={this.props.group.isLoadingMembers}
           />
         </div>

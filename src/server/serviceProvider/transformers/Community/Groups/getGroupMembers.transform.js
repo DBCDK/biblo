@@ -11,12 +11,12 @@ const GetGroupTransform = {
     return 'getGroupMembers';
   },
 
-  requestTransform(event, {id}) {
-    return this.callServiceClient('community', 'getGroupMembers', {id, filter: {include: 'image'}});
+  requestTransform(event, {id, limit, offset}) {
+    return this.callServiceClient('community', 'getGroupMembers', {id, filter: {include: 'image', limit, offset}});
   },
 
   responseTransform(response, query) {
-    const filteredMembers = query.ownerId ? response.filter(m => m.id !== query.ownerId) : response;
+    const filteredMembers = query.excludedIds ? response.filter(m => !query.excludedIds.includes(m.id)) : response;
     const members = filteredMembers.map((member) => {
       return parseProfile(member, true, 'small');
     });

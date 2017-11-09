@@ -38,7 +38,7 @@ export default class GroupMembersBox extends React.Component {
 
   setMembers(props) {
     let membersCopy = props.members.slice();
-    membersCopy = shuffle(membersCopy);
+    // membersCopy = shuffle(membersCopy);
 
     // mark owner and add to members
     const owner = Object.assign({}, props.owner, {isOwner: true});
@@ -47,6 +47,7 @@ export default class GroupMembersBox extends React.Component {
   }
 
   setExpanded() {
+    this.props.loadMembers();
     const isExpanded = !this.state.isExpanded;
     this.setState({isExpanded});
   }
@@ -67,7 +68,7 @@ export default class GroupMembersBox extends React.Component {
 
     let loadingMembersMessage = null;
     if (isLoadingMembers) {
-      loadingMembersMessage = <Icon glyph={spinnerSvg} />;
+      // loadingMembersMessage = <Icon glyph={spinnerSvg} />;
     }
 
     // show ExpandButton if there are more than 9 members
@@ -96,5 +97,6 @@ GroupMembersBox.displayName = 'GroupMembersBox';
 GroupMembersBox.propTypes = {
   members: PropTypes.array.isRequired,
   owner: PropTypes.object.isRequired,
-  isLoadingMembers: PropTypes.bool
+  isLoadingMembers: PropTypes.bool,
+  loadMembers: PropTypes.func.isRequired
 };

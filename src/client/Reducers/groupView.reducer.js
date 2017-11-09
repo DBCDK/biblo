@@ -16,7 +16,8 @@ const defaultState = {
   image: '/no_group_image.png',
   posts: [],
   works: {},
-  comments: {}
+  comments: {},
+  members: []
 };
 
 const groupData = parseJsonData('JSONDATA', 'groupData');
@@ -47,7 +48,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
       if (action.members !== null) {
         // update members and transition away from loading state
         return assignToEmpty(state, {
-          members: action.members,
+          members: state.members.concat(action.members),
           isLoadingMembers: false
         });
       }

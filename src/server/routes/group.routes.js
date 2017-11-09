@@ -360,13 +360,11 @@ async function fetchGroupData(params, req, res, update = {}) {
       reviewsPromise = Promise.resolve([{data: [], errors: [], reviewsCount: 0}]);
     }
 
-    console.time('a');
     let response = (await Promise.all([
       req.callServiceProvider('getGroup', params),
       postsPromise,
       reviewsPromise
     ]));
-    console.timeEnd('a');
 
     profile.profile.reviews = response[2][0] || {data: [], reviewsCount: 0};
     res.locals.profile = JSON.stringify(profile);

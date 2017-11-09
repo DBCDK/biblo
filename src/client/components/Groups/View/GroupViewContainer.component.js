@@ -46,7 +46,16 @@ export class GroupViewContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, this.props.group.owner.id);
+    const {membersCount} = this.props.group;
+    const limit = 11;
+    const offset = Math.round(Math.random() * (membersCount - limit));
+    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, [this.props.group.owner.id], limit, offset);
+  }
+
+  loadAllMembers() {
+    const excludedIds = this.props.group.members.map(m => m.id);
+    excludedIds.push(this.props.group.owner.id);
+    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, excludedIds);
   }
 
   componentDidMount() {
@@ -183,6 +192,7 @@ export class GroupViewContainer extends React.Component {
             members={this.props.group.members}
             owner={this.props.group.owner}
             isLoadingMembers={this.props.group.isLoadingMembers}
+            loadMembers={this.loadAllMembers.bind(this)}
           />
         </div>
       </PageLayout>

@@ -324,7 +324,7 @@ export function groupFollow(enableFollow) {
   };
 }
 
-export function asyncGetGroupMembers(groupId, ownerId = null) {
+export function asyncGetGroupMembers(groupId, excludedIds = null, limit = null, offset = null) {
   return (dispatch) => {
     // handle getGroupMembers responses
     getGroupMembersListener((res) => {
@@ -337,7 +337,9 @@ export function asyncGetGroupMembers(groupId, ownerId = null) {
     // send request for all group members
     getGroupMembers.request({
       id: groupId,
-      ownerId
+      excludedIds,
+      limit,
+      offset
     });
   };
 }

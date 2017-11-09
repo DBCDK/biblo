@@ -37,6 +37,7 @@ export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
 
+    this.defaultMembersLoadLimit = 21;
     this.state = {
       following: props.group.isFollowing,
       showloginToFollowMessage: false
@@ -47,15 +48,21 @@ export class GroupViewContainer extends React.Component {
 
   componentWillMount() {
     const {membersCount} = this.props.group;
-    const limit = 11;
-    const offset = Math.round(Math.random() * (membersCount - limit));
+    let limit = null;
+    let offset = null;
+    if (membersCount > this.defaultMembersLoadLimit) {
+      limit = this.defaultMembersLoadLimit;
+      offset = Math.round(Math.random() * (membersCount - limit));
+    }
     this.props.groupActions.asyncGetGroupMembers(this.props.group.id, [this.props.group.owner.id], limit, offset);
   }
 
   loadAllMembers() {
-    const excludedIds = this.props.group.members.map(m => m.id);
-    excludedIds.push(this.props.group.owner.id);
-    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, excludedIds);
+    if (this.props.group.membersCount > this.defaultMembersLoadLimit) {
+      const excludedIds = this.props.group.members.map(m => m.id);
+      excludedIds.push(this.props.group.owner.id);
+      this.props.groupActions.asyncGetGroupMembers(this.props.group.id, excludedIds);
+    }
   }
 
   componentDidMount() {

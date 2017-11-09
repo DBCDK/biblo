@@ -2,7 +2,7 @@
  * @file: Entrypoint for all JS
  * Export a function which renders react component in store context.
  */
-
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';

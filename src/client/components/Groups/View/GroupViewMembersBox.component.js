@@ -5,20 +5,6 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
 import Icon from '../../General/Icon/Icon.component';
 import spinnerSvg from './../../General/Icon/svg/spinners/loading-spin.svg';
 
-function shuffle(array) {
-  let currentIndex = array.length, temporaryValue, randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
 export default class GroupMembersBox extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +24,6 @@ export default class GroupMembersBox extends React.Component {
 
   setMembers(props) {
     let membersCopy = props.members.slice();
-    // membersCopy = shuffle(membersCopy);
 
     // mark owner and add to members
     const owner = Object.assign({}, props.owner, {isOwner: true});
@@ -67,9 +52,6 @@ export default class GroupMembersBox extends React.Component {
     const buttonText = (this.state.isExpanded) ? 'Vis færre' : 'Vis alle';
 
     let loadingMembersMessage = null;
-    if (isLoadingMembers) {
-      // loadingMembersMessage = <Icon glyph={spinnerSvg} />;
-    }
 
     // show ExpandButton if there are more than 9 members
     let expandButton = null;

@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
-import Icon from '../../General/Icon/Icon.component';
-import spinnerSvg from './../../General/Icon/svg/spinners/loading-spin.svg';
 
 export default class GroupMembersBox extends React.Component {
   constructor(props) {

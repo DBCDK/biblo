@@ -1,5 +1,3 @@
-'use strict';
-
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var config = require('@dbcdk/biblo-config').config;
@@ -235,9 +233,8 @@ var myStepDefinitionsWrapper = function() {
   });
 
   this.Then(/^the (.*) selector should count (\d+) elements$/, function(selector, elements) {
-    this.browser.findElements(By.css(`.${selector}`))
+    return this.browser.findElements(By.css(`.${selector}`))
       .then(found => {
-        console.log('found: ', found.length);
         return assert.equal(found.length, elements);
       });
   });

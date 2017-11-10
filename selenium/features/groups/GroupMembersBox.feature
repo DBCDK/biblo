@@ -7,4 +7,4 @@ Feature: Group Members Box
     And the cookiewarning has been closed
     Then the group-view-members-box > .member-image selector should count 9 elements
     And when I click the members-button > .expand-button selector
-    Then the group-view-members-box > .member-image selector should count 21 elements
+    Then the group-view-members-box > .member-image selector should count 22 elements

@@ -38,7 +38,7 @@ const GetGroupTransform = {
   },
 
   responseTransform(response) {
-    let body = groupParser(JSON.parse(response[0].body));
+    const body = groupParser(JSON.parse(response[0].body));
     body.isFollowing = response[1] && response[1].statusCode && response[1].statusCode !== 404 || false; // If the status code is 404, the user is not following the group
     body.members = [];
 

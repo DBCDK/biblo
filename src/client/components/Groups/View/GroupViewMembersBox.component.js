@@ -30,7 +30,9 @@ export default class GroupMembersBox extends React.Component {
   }
 
   setExpanded() {
-    this.props.loadMembers();
+    if (this.props.membersCount - 1 > this.state.membersCopy.length) { // all members minus the owner
+      this.props.loadMembers();
+    }
     const isExpanded = !this.state.isExpanded;
     this.setState({isExpanded});
   }
@@ -53,7 +55,7 @@ export default class GroupMembersBox extends React.Component {
 
     // show ExpandButton if there are more than 9 members
     let expandButton = null;
-    if (membersCopy.length > 9) {
+    if (this.props.membersCount > 9) {
       expandButton = (
         <div className='members-button'>
           <ExpandButton isLoading={isLoadingMembers} onClick={this.setExpanded.bind(this)} text={buttonText} />
@@ -78,5 +80,6 @@ GroupMembersBox.propTypes = {
   members: PropTypes.array.isRequired,
   owner: PropTypes.object.isRequired,
   isLoadingMembers: PropTypes.bool,
-  loadMembers: PropTypes.func.isRequired
+  loadMembers: PropTypes.func.isRequired,
+  membersCount: PropTypes.number.isRequired
 };

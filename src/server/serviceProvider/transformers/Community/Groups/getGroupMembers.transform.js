@@ -16,7 +16,12 @@ const GetGroupTransform = {
   },
 
   responseTransform(response, query) {
-    const filteredMembers = query.excludedIds ? response.filter(m => !query.excludedIds.includes(m.id)) : response;
+    let filteredMembers = query.excludedIds ? response.filter(m => !query.excludedIds.includes(m.id)) : response;
+
+    if (query.maxResultsInResponse) {
+      filteredMembers = filteredMembers.slice(0, query.maxResultsInResponse);
+    }
+
     const members = filteredMembers.map((member) => {
       return parseProfile(member, true, 'small');
     });

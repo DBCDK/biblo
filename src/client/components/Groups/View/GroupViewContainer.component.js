@@ -37,7 +37,9 @@ export class GroupViewContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.defaultMembersLoadLimit = 21;
+    this.defaultMembersLoadLimit = 9; // first view is 9 members including the owner
+    this.maxMembersReturned = 8; // we don't want more than 8 memebers for default display
+
     this.state = {
       following: props.group.isFollowing,
       showloginToFollowMessage: false
@@ -54,7 +56,8 @@ export class GroupViewContainer extends React.Component {
       limit = this.defaultMembersLoadLimit;
       offset = Math.round(Math.random() * (membersCount - limit));
     }
-    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, [this.props.group.owner.id], limit, offset);
+
+    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, [this.props.group.owner.id], limit, offset, this.maxMembersReturned);
   }
 
   loadAllMembers() {
@@ -200,6 +203,7 @@ export class GroupViewContainer extends React.Component {
             owner={this.props.group.owner}
             isLoadingMembers={this.props.group.isLoadingMembers}
             loadMembers={this.loadAllMembers.bind(this)}
+            membersCount={this.props.group.membersCount}
           />
         </div>
       </PageLayout>

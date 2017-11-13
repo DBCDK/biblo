@@ -324,7 +324,7 @@ export function groupFollow(enableFollow) {
   };
 }
 
-export function asyncGetGroupMembers(groupId, excludedIds = null, limit = null, offset = null) {
+export function asyncGetGroupMembers(groupId, excludedIds = null, limit = null, offset = null, maxResultsInResponse = null) {
   return (dispatch) => {
     // handle getGroupMembers responses
     getGroupMembersListener((res) => {
@@ -339,7 +339,8 @@ export function asyncGetGroupMembers(groupId, excludedIds = null, limit = null, 
       id: groupId,
       excludedIds,
       limit,
-      offset
+      offset,
+      maxResultsInResponse
     });
   };
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './scss/group-members-box.scss';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component.js';
+import Icon from '../../General/Icon/Icon.component';
+import minusSvg from '../../General/Icon/svg/functions/minus.svg';
 
 export default class GroupMembersBox extends React.Component {
   constructor(props) {
@@ -56,9 +58,11 @@ export default class GroupMembersBox extends React.Component {
     // show ExpandButton if there are more than 9 members
     let expandButton = null;
     if (this.props.membersCount > 9) {
+      const icon = this.state.isExpanded && !isLoadingMembers ? <Icon glyph={minusSvg} /> : null;
+
       expandButton = (
         <div className='members-button'>
-          <ExpandButton isLoading={isLoadingMembers} onClick={this.setExpanded.bind(this)} text={buttonText} />
+          <ExpandButton isLoading={isLoadingMembers} onClick={this.setExpanded.bind(this)} text={buttonText} iconOverride={icon} />
         </div>
       );
     }

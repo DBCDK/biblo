@@ -1,5 +1,6 @@
 /**
- * @file: This transform gets a group from the community service, if a user is logged in, it also checks if that user is following the group.
+ * @file: This transform gets a group from the community service, if a user is logged in, it also checks if that user
+ *   is following the group.
  */
 
 import groupParser from '../../../parsers/group.parser';

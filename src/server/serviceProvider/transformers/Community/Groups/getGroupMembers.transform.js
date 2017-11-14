@@ -5,7 +5,7 @@
 
 import parseProfile from '../../../parsers/profile.parser';
 
-const GetGroupTransform = {
+const GetGroupMembersTransform = {
 
   event() {
     return 'getGroupMembers';
@@ -30,4 +30,4 @@ const GetGroupTransform = {
   }
 };
 
-export default GetGroupTransform;
+export default GetGroupMembersTransform;

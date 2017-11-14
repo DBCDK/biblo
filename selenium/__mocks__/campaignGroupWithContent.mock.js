@@ -101,6 +101,139 @@ module.exports = function campaignGroupWithContent(times) {
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Groups/2/members')
+    .query((actualQueryObject) => true) // return all memebers on all requests as some parameteres are being randomized @see https://github.com/node-nock/nock#specifying-request-query-string
+    .times(times)
+    .reply(200, [{
+      "username": "bobby_hansen",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 2
+    }, {
+      "username": "jona341k",
+      "displayName": "Llama",
+      "favoriteLibrary": {"libraryId": "714700"},
+      "description": "",
+      "email": "",
+      "phone": "",
+      "created": "2016-07-21T13:15:38.943Z",
+      "lastUpdated": "2016-07-21T13:15:38.943Z",
+      "hasFilledInProfile": true,
+      "birthday": null,
+      "fullName": "",
+      "palleid": null,
+      "id": 1
+    }, {
+      "username": "user_3",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 3
+    }, {
+      "username": "user_4",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 4
+    }, {
+      "username": "user_5",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 5
+    }, {
+      "username": "user_6",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 6
+    }, {
+      "username": "user_7",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 7
+    }, {
+      "username": "user_8",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 8
+    }, {
+      "username": "user_9",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 9
+    }
+    ]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%2C%22limit%22%3Anull%2C%22offset%22%3Anull%7D')
     .times(times)
     .reply(200, [{
@@ -488,6 +621,7 @@ module.exports = function campaignGroupWithContent(times) {
       }]
     }]);
 
+  /*
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%7D')
     .times(times)
@@ -520,6 +654,7 @@ module.exports = function campaignGroupWithContent(times) {
       "palleid": null,
       "id": 1
     }]);
+    */
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Campaigns')

@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import {expect, assert} from 'chai';
 import sd from 'skin-deep'; // see http://willcodefor.beer/react-testing-with-shallow-rendering-and-skin-deep/
 import {cloneDeep} from 'lodash';

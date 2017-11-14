@@ -1,5 +1,3 @@
-'use strict';
-
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var config = require('@dbcdk/biblo-config').config;

@@ -1,7 +1,6 @@
 /**
  * @file: In this file we bootstrap the processes created by socketcluster, this is to use nock.
  */
-
 // Require the other init controller so the workers are correctly bootstrapped
 require('../../../src/init.js');
 

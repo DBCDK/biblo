@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 
 import {expect, assert} from 'chai';
 import $ from 'teaspoon';
 
-import 'chai-as-promised';
 import sinon from 'sinon';
-import 'sinon-as-promised';
 
 import AddContent from '../AddContent.component';
 
@@ -58,7 +56,8 @@ describe('Test of AddContent Component', () => {
     TestUtils.findRenderedDOMComponentWithClass(component, 'message');
   });
 
-  it('readInput should be rejected if given filetype is neither image or video', () => {
+  it('readInput should be rejected if given filetype is neither image or video', done => {
+    const expected = 'filtype ikke understøttet';
     let component = TestUtils.renderIntoDocument(
       <AddContent
         profile={profile}
@@ -81,7 +80,10 @@ describe('Test of AddContent Component', () => {
       }
     };
 
-    expect(component.readInput(input)).to.be.rejected; // eslint-disable-line no-unused-expressions
+    component.readInput(input).catch((msg) => {
+      expect(msg).to.be.equal(expected);
+      done();
+    });
   });
 
   it('readInput method should call handleImage method if file is of type image', () => {

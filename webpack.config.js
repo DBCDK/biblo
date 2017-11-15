@@ -3,8 +3,8 @@ var path = require('path');
 var extractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
-var noErrorsPlugin = new webpack.NoErrorsPlugin();
-var extractCss = new extractTextPlugin('../css/[name].css', {allChunks: true});
+var noErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
+var extractCss = new extractTextPlugin({filename: '../css/[name].css', allChunks: true});
 
 module.exports = [{
   name: 'browser',
@@ -30,44 +30,55 @@ module.exports = [{
     path: path.join(__dirname, 'public/js'),
     filename: '[name].js'
   },
+
   resolve: {
-    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')],
-    extensions: ['', '.js']
+    modules: [
+      path.resolve(__dirname, 'src/client/components'),
+      path.resolve(__dirname, 'node_modules')
+    ]
   },
+
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015'],
           plugins: ['transform-runtime', 'transform-async-to-generator']
         }
       },
       {
-        test: /\.(scss|css)$/,
-        loader: extractTextPlugin.extract(
-          // activate source maps via loader query
-          'css?sourceMap' +
-          '!sass?sourceMap' +
-          "&includePaths[]=" + path.resolve(__dirname, "./src/client/scss/") +
-          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-sass-mixins/lib") +
-          "&includePaths[]=" + path.resolve(__dirname, "./node_modules/sass-mediaqueries") +
-          '!postcss-loader'
-        )
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'css-loader?sourceMap'
+          },
+          {
+            loader: 'sass-loader?sourceMap',
+            options: {
+              includePaths: [
+                path.resolve(__dirname, './src/client/scss/'),
+                path.resolve(__dirname, './node_modules/compass-sass-mixins/lib'),
+                path.resolve(__dirname, './node_modules/sass-mediaqueries')
+              ]
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ]
       },
       {
         test: /\.svg$/,
-        loader: 'svg-sprite?' + JSON.stringify({
+        loader: 'svg-sprite-loader?' + JSON.stringify({
           name: '[pathhash]',
           prefixize: true
         })
       }
     ]
   },
-
-  postcss: [autoprefixer({browsers: ['last 2 versions'] }) ],
 
   externals: {
     react: 'React',
@@ -78,7 +89,16 @@ module.exports = [{
   },
 
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        sassLoader: {
+          includePaths: [path.resolve(__dirname, 'src', 'scss')]
+        },
+        context: '/'
+      }
+    }),
     extractCss,
     noErrorsPlugin
   ]
-}];
+}]
+;

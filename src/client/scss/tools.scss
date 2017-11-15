@@ -1,6 +1,6 @@
-@import 'compass';
-@import '~susy/sass/susy';
-@import 'media-queries';
+@import 'compass'; // path is being resolved in webpack.config.js
+@import './../../../node_modules/susy/sass/susy.scss';
+@import 'media-queries'; // path is being resolved in webpack.config.js
 
 // Custom mixins
 @import 'mixins/hover-transition';

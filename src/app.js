@@ -7,7 +7,7 @@
 import {config} from '@dbcdk/biblo-config';
 
 // newrelic needs to be required the es5 way because we only wants to load new relic if specified in config.js
-const newrelic = config.get('NewRelic.enabled') && require('newrelic') || null;
+const newrelic = (config.get('NewRelic.enabled') && require('newrelic')) || null;
 
 // Libraries
 import express from 'express';
@@ -92,8 +92,7 @@ module.exports.run = function(worker) {
     if (config.get('Biblo.showInSearchEngines')) {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /api/');
-    }
-    else {
+    } else {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /');
     }
@@ -103,12 +102,10 @@ module.exports.run = function(worker) {
   app.use((req, res, next) => {
     try {
       next();
-    }
-    catch (err) {
-      logger.error(
-        'An unknown error occurred',
-        {error: (err.message && err.name ? {message: err.message, name: err.name} : err)}
-      );
+    } catch (err) {
+      logger.error('An unknown error occurred', {
+        error: err.message && err.name ? {message: err.message, name: err.name} : err
+      });
     }
   });
 
@@ -157,8 +154,8 @@ module.exports.run = function(worker) {
         const tableDef = {
           TableName: tableName,
           KeySchema: [
-            {AttributeName: 'messageType', KeyType: 'HASH'},  // Partition key
-            {AttributeName: 'createdEpoch', KeyType: 'RANGE'}  // Sort key
+            {AttributeName: 'messageType', KeyType: 'HASH'}, // Partition key
+            {AttributeName: 'createdEpoch', KeyType: 'RANGE'} // Sort key
           ],
           AttributeDefinitions: [
             {AttributeName: 'messageType', AttributeType: 'S'},
@@ -198,14 +195,12 @@ module.exports.run = function(worker) {
         dynamodb.createTable(tableDef, (createTableErr, createTableData) => {
           if (!createTableErr && createTableData) {
             logger.info('Created dynamo table!', createTableData);
-          }
-          else {
+          } else {
             logger.error('Cannot create dynamo table, messages will be disabled!');
           }
         });
       }
-    }
-    else {
+    } else {
       logger.error('Cannot connect to dynamo, messages will be disabled!');
     }
   });
@@ -245,7 +240,7 @@ module.exports.run = function(worker) {
   app.locals.faviconUrl = '/favicon.ico';
 
   // Setup environments
-  const fileHeaders = PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'} || {};
+  const fileHeaders = (PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'}) || {};
 
   // Queue handlers
   const queueCreate = createQueue.bind(null, logger, app);
@@ -352,7 +347,8 @@ module.exports.run = function(worker) {
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.
   app.use((req, res, next) => {
-    if (process.env.GIT_COMMIT) { // eslint-disable-line
+    if (process.env.GIT_COMMIT) {
+      // eslint-disable-line
       res.locals.gitsha = process.env.GIT_COMMIT; // eslint-disable-line
     }
 
@@ -380,19 +376,19 @@ module.exports.run = function(worker) {
   app.use((err, req, res, next) => {
     logger.log('error', 'An error occurred! Got following: ' + err, {url: req.url, session: req.session});
     console.error('error', 'An error occurred! Got following: ' + err.stack, {url: req.url, session: req.session}); // eslint-disable-line
-                                                                                                                    // no-console
+    // no-console
     if (res.headersSent) {
       return next(err);
     }
 
     res.status(500);
-    return res.render('error', {errorData: '{\"statusCode\":500}'});
+    return res.render('error', {errorData: '{"statusCode":500}'});
   });
 
   // Handle 404's
   app.use((req, res) => {
     res.status(404);
-    res.render('error', {errorData: '{\"statusCode\":404}'});
+    res.render('error', {errorData: '{"statusCode":404}'});
   });
 
   // Setting logger -- should be placed after routes
@@ -403,7 +399,8 @@ module.exports.run = function(worker) {
     // First we connect to the community service via primus
     const bibloCsUrl = config.get('CommunityService.endpoint');
     const primus = new (Primus.createSocket({
-      transformer: 'websockets', iknowclusterwillbreakconnections: true
+      transformer: 'websockets',
+      iknowclusterwillbreakconnections: true
     }))(bibloCsUrl);
 
     // Whenever we get some data from the service, we hit this function

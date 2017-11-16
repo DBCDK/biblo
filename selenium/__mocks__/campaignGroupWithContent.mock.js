@@ -101,7 +101,8 @@ module.exports = function campaignGroupWithContent(times) {
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
-    .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%7D')
+    .get('/api/Groups/2/members')
+    .query((actualQueryObject) => true) // return all memebers on all requests as some parameteres are being randomized @see https://github.com/node-nock/nock#specifying-request-query-string
     .times(times)
     .reply(200, [{
       "username": "bobby_hansen",
@@ -131,12 +132,410 @@ module.exports = function campaignGroupWithContent(times) {
       "fullName": "",
       "palleid": null,
       "id": 1
+    }, {
+      "username": "user_3",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 3
+    }, {
+      "username": "user_4",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 4
+    }, {
+      "username": "user_5",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 5
+    }, {
+      "username": "user_6",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 6
+    }, {
+      "username": "user_7",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 7
+    }, {
+      "username": "user_8",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 8
+    }, {
+      "username": "user_9",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 9
+    }
+    ]);
+
+  nock('http://localhost:3000', {encodedQueryParams: true})
+    .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%2C%22limit%22%3Anull%2C%22offset%22%3Anull%7D')
+    .times(times)
+    .reply(200, [{
+      "username": "bobby_hansen",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 2
+    }, {
+      "username": "jona341k",
+      "displayName": "Llama",
+      "favoriteLibrary": {"libraryId": "714700"},
+      "description": "",
+      "email": "",
+      "phone": "",
+      "created": "2016-07-21T13:15:38.943Z",
+      "lastUpdated": "2016-07-21T13:15:38.943Z",
+      "hasFilledInProfile": true,
+      "birthday": null,
+      "fullName": "",
+      "palleid": null,
+      "id": 1
+    }, {
+      "username": "user_3",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 3
+    }, {
+      "username": "user_4",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 4
+    }, {
+      "username": "user_5",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 5
+    }, {
+      "username": "user_6",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 6
+    }, {
+      "username": "user_7",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 7
+    }, {
+      "username": "user_8",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 8
+    }, {
+      "username": "user_9",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 9
+    }, {
+      "username": "user_10",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 10
+    }, {
+      "username": "user_11",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 11
+    }, {
+      "username": "user_12",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 12
+    }, {
+      "username": "user_13",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 13
+    }, {
+      "username": "user_14",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 14
+    }, {
+      "username": "user_15",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 15
+    }, {
+      "username": "user_16",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 16
+    }, {
+      "username": "user_17",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 17
+    }, {
+      "username": "user_18",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 18
+    }, {
+      "username": "user_19",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 19
+    }, {
+      "username": "user_20",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 20
+    }, {
+      "username": "user_21",
+      "displayName": null,
+      "favoriteLibrary": null,
+      "description": null,
+      "email": null,
+      "phone": null,
+      "created": "2016-07-22T09:24:55.650Z",
+      "lastUpdated": "2016-07-22T09:24:55.650Z",
+      "hasFilledInProfile": null,
+      "birthday": null,
+      "fullName": null,
+      "palleid": null,
+      "id": 21
     }]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Groups/2')
     .times(times)
-    .query({"filter": "{\"counts\":[\"posts\",\"members\"],\"include\":[{\"relation\":\"members\",\"scope\":{\"order\":\"id DESC\",\"include\":[\"image\"]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}},{\"relation\":\"coverImage\"}]}"})
+    .query({"filter": "{\"counts\":[\"posts\",\"members\"],\"include\":[{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}},{\"relation\":\"coverImage\"}]}"})
     .reply(200, {
       "name": "string",
       "description": "string",
@@ -146,7 +545,7 @@ module.exports = function campaignGroupWithContent(times) {
       "groupownerid": 1,
       "campaignGroupFK": 2,
       "postsCount": 2,
-      "membersCount": 2,
+      "membersCount": 21,
       "campaign": {
         "campaignName": "fjolle kampagne",
         "startDate": "2016-07-20T00:00:00.000Z",
@@ -222,6 +621,7 @@ module.exports = function campaignGroupWithContent(times) {
       }]
     }]);
 
+  /*
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Groups/2/members?filter=%7B%22include%22%3A%22image%22%7D')
     .times(times)
@@ -254,6 +654,7 @@ module.exports = function campaignGroupWithContent(times) {
       "palleid": null,
       "id": 1
     }]);
+    */
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Campaigns')

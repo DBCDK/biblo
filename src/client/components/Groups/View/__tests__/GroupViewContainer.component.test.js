@@ -44,7 +44,8 @@ describe('Test GroupView Component', () => {
   let groupActions = {
     changeGroupColour: noop,
     asyncChangeImage: noop,
-    addPost: noop
+    addPost: noop,
+    asyncGetGroupMembers: noop
   };
 
   let uiActions = {
@@ -120,7 +121,9 @@ describe('Test GroupView Component', () => {
       groupIsClosed: false
     }];
     group.postsCount = 1;
-    const actions = {};
+    const actions = {
+      asyncGetGroupMembers: () => {}
+    };
 
     const tree = sd.shallowRender(
       <GroupViewContainer

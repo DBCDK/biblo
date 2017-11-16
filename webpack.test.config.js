@@ -13,23 +13,35 @@ var path = require('path');
  */
 module.exports = {
   resolve: {
-    root: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, 'src/server')],
-    extensions: ['', '.js', 'json']
+    alias: {
+      // when several modules specifies the same module but in different verison webpack are not always able to resolve the correct packages, this is solved by aliasing directly to the failing requirement
+      'lodash/array': path.resolve(__dirname, 'node_modules/bill/node_modules/lodash/array'),
+      'lodash/object': path.resolve(__dirname, 'node_modules/bill/node_modules/lodash/object'),
+      'browserify-aes/browser': path.resolve(
+        __dirname,
+        'node_modules/browserify-cipher/node_modules/browserify-aes/browser'
+      )
+    },
+    modules: [
+      path.resolve(__dirname, 'src/client/components'),
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, 'src/server')
+    ],
+    extensions: ['.js', '.json']
   },
 
-  cache: true,
+  cache: false,
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.json$/,
         loader: 'json-loader'
-      }
-    ],
-    preLoaders: [
+      },
       {
+        enforce: 'pre',
         test: /\.js?$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
           presets: ['react', 'es2015'],

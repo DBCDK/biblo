@@ -30,6 +30,7 @@ module.exports = [
       path: path.join(__dirname, 'public/js'),
       filename: '[name].js'
     },
+    cache: true,
 
     resolve: {
       modules: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')]

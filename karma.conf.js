@@ -11,8 +11,7 @@ module.exports = function(config) {
       'tests.utils.webpack.js',
       'tests.server.webpack.js'
     ],
-    proxies: {
-    },
+    proxies: {},
     exclude: [],
     preprocessors: {
       'tests.actions.webpack.js': ['webpack'],

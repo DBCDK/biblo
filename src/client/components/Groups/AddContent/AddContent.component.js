@@ -439,7 +439,7 @@ export default class AddContent extends UploadMedia {
           className="content-add--upload-media droppable-media-field--file-input"
           disabled={this.state.disableInput}
           onChange={this.handleFileChange.bind(this)}
-          ª
+          ref={fileInput => (this.fileInput = fileInput)}
         />
       </div>
     );
@@ -477,7 +477,7 @@ AddContent.defaultProps = {
   displayAbortButton: false,
   addContentAction: () => {
     console.error(
-      'YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'
+      "YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn't happen. Check your props!"
     ); // eslint-disable-line
   },
   editing: false

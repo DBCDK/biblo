@@ -115,10 +115,7 @@
     "no-use-before-define": 2,
     // Stylistic Issues
     "indent": [2, 2, {"SwitchCase": 1}],
-    "brace-style": [
-      2,
-      "stroustrup"
-    ],
+
     "camelcase": 0,
     "comma-spacing": 2,
     "comma-style": 2,

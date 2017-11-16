@@ -40,16 +40,17 @@ export function parseGetUserStatusResponse(response) {
       throw new Error('Error in response from user status!');
     }
 
-    userStatusResp = Array.isArray(userStatusResp['ous:userStatus']) ?
-      userStatusResp['ous:userStatus'][0] :
-      userStatusResp['ous:userStatus'];
+    userStatusResp = Array.isArray(userStatusResp['ous:userStatus'])
+      ? userStatusResp['ous:userStatus'][0]
+      : userStatusResp['ous:userStatus'];
     const now = Date.now();
 
     if (userStatusResp.hasOwnProperty('ous:orderedItems')) {
-      const orders = (Array.isArray(userStatusResp['ous:orderedItems']) ?
-          userStatusResp['ous:orderedItems'][0] :
-          userStatusResp['ous:orderedItems'])['ous:order'] || [];
-      data.result.orders = orders.map((orderRes) => {
+      const orders =
+        (Array.isArray(userStatusResp['ous:orderedItems'])
+          ? userStatusResp['ous:orderedItems'][0]
+          : userStatusResp['ous:orderedItems'])['ous:order'] || [];
+      data.result.orders = orders.map(orderRes => {
         const order = {
           author: '',
           title: '',
@@ -75,7 +76,7 @@ export function parseGetUserStatusResponse(response) {
           'ous:pickUpAgency': 'pickupAgency'
         };
 
-        Object.keys(keysToMap).forEach((prop) => {
+        Object.keys(keysToMap).forEach(prop => {
           if (orderRes.hasOwnProperty(prop)) {
             order[keysToMap[prop]] = Array.isArray(orderRes[prop]) ? orderRes[prop][0] : orderRes[prop];
           }
@@ -84,12 +85,11 @@ export function parseGetUserStatusResponse(response) {
         const orderStatus = order.orderStatus || '';
 
         if (order.pickupDate.length > 0 && order.pickupExpires.length > 0) {
-          const pickupDate = (new Date(order.pickupDate)).getTime();
-          const pickupExpires = (new Date(order.pickupExpires)).getTime();
+          const pickupDate = new Date(order.pickupDate).getTime();
+          const pickupExpires = new Date(order.pickupExpires).getTime();
 
           order.ready = !!(now - pickupDate > 0 && pickupExpires - now > 0);
-        }
-        else if (orderStatus.toLowerCase() === 'available for pickup') {
+        } else if (orderStatus.toLowerCase() === 'available for pickup') {
           order.ready = true;
         }
 
@@ -98,10 +98,11 @@ export function parseGetUserStatusResponse(response) {
     }
 
     if (userStatusResp.hasOwnProperty('ous:loanedItems')) {
-      const loans = (Array.isArray(userStatusResp['ous:loanedItems']) ?
-          userStatusResp['ous:loanedItems'][0] :
-          userStatusResp['ous:loanedItems'])['ous:loan'] || [];
-      data.result.loans = loans.map((loanRes) => {
+      const loans =
+        (Array.isArray(userStatusResp['ous:loanedItems'])
+          ? userStatusResp['ous:loanedItems'][0]
+          : userStatusResp['ous:loanedItems'])['ous:loan'] || [];
+      data.result.loans = loans.map(loanRes => {
         const loan = {
           author: '',
           title: '',
@@ -117,7 +118,7 @@ export function parseGetUserStatusResponse(response) {
           'ous:loanId': 'loanId'
         };
 
-        Object.keys(keysToMap).forEach((prop) => {
+        Object.keys(keysToMap).forEach(prop => {
           if (loanRes.hasOwnProperty(prop)) {
             loan[keysToMap[prop]] = Array.isArray(loanRes[prop]) ? loanRes[prop][0] : loanRes[prop];
           }
@@ -126,9 +127,8 @@ export function parseGetUserStatusResponse(response) {
         if (loan.dateDue && loan.dateDue.length > 0) {
           try {
             const dueDate = new Date(loan.dateDue);
-            loan.expiresSoon = (dueDate.getTime() - 172800000 <= now);
-          }
-          catch (err) {
+            loan.expiresSoon = dueDate.getTime() - 172800000 <= now;
+          } catch (err) {
             data.errors.push('could not parse date.');
           }
         }
@@ -146,7 +146,7 @@ export function parseGetUserStatusResponse(response) {
       data.result.fiscal.totalAmount = `${totalAmount} ${currency}`;
 
       // Individual transactions
-      (fiscals['ous:fiscalTransaction'] || []).forEach((transaction) => {
+      (fiscals['ous:fiscalTransaction'] || []).forEach(transaction => {
         const bill = {
           amount: '',
           currency: '',
@@ -168,11 +168,9 @@ export function parseGetUserStatusResponse(response) {
         data.result.fiscal.transactions.push(bill);
       });
     }
-  }
-  catch (err) {
+  } catch (err) {
     data.errors.push(err.message || err);
   }
 
   return data;
 }
-

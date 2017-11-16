@@ -70,7 +70,7 @@ export default class BorrowButton extends React.Component {
 
     const collectionsObject = {};
     let collectionType;
-    nextProps.collectionDetails.forEach((collectionItem) => {
+    nextProps.collectionDetails.forEach(collectionItem => {
       collectionType = collectionItem.type;
       collectionsObject[collectionType] = collectionItem;
     });
@@ -92,10 +92,12 @@ export default class BorrowButton extends React.Component {
     }
     else {
       this.setState({
-        errors: [{
-          field: 'mustSelectItem',
-          errorMessage: 'Du skal vælge hvad du vil låne, før du trykker OK'
-        }]
+        errors: [
+          {
+            field: 'mustSelectItem',
+            errorMessage: 'Du skal vælge hvad du vil låne, før du trykker OK'
+          }
+        ]
       });
     }
   }
@@ -130,9 +132,9 @@ export default class BorrowButton extends React.Component {
     const messageObj = {};
 
     if (this.state.errors) {
-      this.state.errors.forEach((error) => {
+      this.state.errors.forEach(error => {
         messageObj[error.field] = (
-          <Message type='error'>
+          <Message type="error">
             <span className={`error-${error.field}`}> {error.errorMessage} </span>
           </Message>
         );
@@ -140,52 +142,58 @@ export default class BorrowButton extends React.Component {
     }
 
     let checked;
-    if (Object.keys(collectionsObject).length === 1 && collectionsObject[Object.keys(collectionsObject)[0]].accessType[0] !== 'online') {
+    if (
+      Object.keys(collectionsObject).length === 1 &&
+      collectionsObject[Object.keys(collectionsObject)[0]].accessType[0] !== 'online'
+    ) {
       checked = true;
     }
 
     return (
-      <form action={ORDER_POST_URL} method="POST" onSubmit={(e) => this.submitOrderForm(e)}>
+      <form action={ORDER_POST_URL} method="POST" onSubmit={e => this.submitOrderForm(e)}>
         <h3>Vælg hvad du vil låne</h3>
         <div className="modal-window--borrow--types">
-          {
-            Object.keys(collectionsObject).map((collectionItemKey) => {
-              let collectionItem = collectionsObject[collectionItemKey];
-              return (
-                <span key={collectionItem.pid} className="modal-window--collection-item--container">
-                  <input type="radio" name="mediaType" value={collectionItem.pid}
-                         checked={checked}
-                         id={`${collectionItem.workType}${collectionItem.pid}`}
-                         onChange={this.onChange.bind(this, collectionItem)}/>
-                  <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
-                    <Icon glyph={materialSvgs[collectionItem.workType]} width={25}
-                          height={25}/> {collectionItem.type}
-                          <span className="description">{this.props.itemDescription}</span>
-                  </label>
-                </span>
-              );
-            })
-          }
+          {Object.keys(collectionsObject).map(collectionItemKey => {
+            let collectionItem = collectionsObject[collectionItemKey];
+            return (
+              <span key={collectionItem.pid} className="modal-window--collection-item--container">
+                <input
+                  type="radio"
+                  name="mediaType"
+                  value={collectionItem.pid}
+                  checked={checked}
+                  id={`${collectionItem.workType}${collectionItem.pid}`}
+                  onChange={this.onChange.bind(this, collectionItem)}
+                />
+                <label htmlFor={`${collectionItem.workType}${collectionItem.pid}`}>
+                  <Icon glyph={materialSvgs[collectionItem.workType]} width={25} height={25} /> {collectionItem.type}
+                  <span className="description">{this.props.itemDescription}</span>
+                </label>
+              </span>
+            );
+          })}
         </div>
         {messageObj.mustSelectItem}
-        {this.state.onlineUrl &&
-        <span className={`modal-window--${this.props.type}`}>
-          <RoundedButton className='modal-window--borrow-submit-button'
-                         href={this.state.onlineUrl}
-                         target='_blank'
-                         buttonText={this.props.modalButtonTitle} />
-          <p className="modal-window--message-under-submit-button">
-            Du viderestilles til en anden hjemmeside i et nyt vindue.
-          </p>
+        {(this.state.onlineUrl && (
+          <span className={`modal-window--${this.props.type}`}>
+            <RoundedButton
+              className="modal-window--borrow-submit-button"
+              href={this.state.onlineUrl}
+              target="_blank"
+              buttonText={this.props.modalButtonTitle}
+            />
+            <p className="modal-window--message-under-submit-button">
+              Du viderestilles til en anden hjemmeside i et nyt vindue.
+            </p>
           </span>
-        ||
-        <span className={`modal-window--${this.props.type}`}>
-          <input type="submit" value={this.props.modalButtonTitle} className="modal-window--borrow-submit-button"/>
-           <p className="modal-window--message-under-submit-button">
-             Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
-           </p>
-         </span>
-        }
+        )) || (
+          <span className={`modal-window--${this.props.type}`}>
+            <input type="submit" value={this.props.modalButtonTitle} className="modal-window--borrow-submit-button" />
+            <p className="modal-window--message-under-submit-button">
+              Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
+            </p>
+          </span>
+        )}
       </form>
     );
   }
@@ -212,7 +220,7 @@ export default class BorrowButton extends React.Component {
   }
 
   renderLibrarySelector(profile, libraryIsInvalid) {
-    let message = (<p>Du skal udfylde lånerinformation for at bestille materialer</p>);
+    let message = <p>Du skal udfylde lånerinformation for at bestille materialer</p>;
 
     if (libraryIsInvalid) {
       message = (
@@ -232,10 +240,11 @@ export default class BorrowButton extends React.Component {
             searchAction={this.props.searchForLibraryAction}
             searchElements={this.props.librarySearchResults}
             libraryId={this.state.libraryId}
-            loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
-            pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})}
-            requireAll={true}/>
-          <input type="submit" value="OK" className="modal-window--borrow-submit-button"/>
+            loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
+            pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
+            requireAll={true}
+          />
+          <input type="submit" value="OK" className="modal-window--borrow-submit-button" />
         </form>
       </div>
     );
@@ -243,8 +252,7 @@ export default class BorrowButton extends React.Component {
 
   placeOrderModal(collectionDetails, checkAvailabilityResult, checkAvailabilityDone, orderState, profile, onClose) {
     const collectionsObject = {};
-    collectionDetails.forEach((collectionItem) => {
-
+    collectionDetails.forEach(collectionItem => {
       // get actual url if accessType is online
       if (collectionItem.accessType[0] === 'online') {
         this.props.getWorkOnlineAccessAction([collectionItem.pid[0]]);
@@ -252,7 +260,7 @@ export default class BorrowButton extends React.Component {
 
       if (checkAvailabilityResult[collectionItem.pid[0]] || collectionItem.accessType[0] === 'online') {
         if (collectionsObject[collectionItem.type]) {
-          collectionItem.pid.forEach((p) => {
+          collectionItem.pid.forEach(p => {
             if (collectionsObject[collectionItem.type].pid.indexOf(p) === -1) {
               collectionsObject[collectionItem.type].pid.push(p);
             }
@@ -272,51 +280,56 @@ export default class BorrowButton extends React.Component {
       modalContent = (
         <div>
           <p>Du skal logge ind for at låne</p>
-          <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Login"
-                         compact={false}/>
+          <RoundedButton
+            href={`/login?destination=${encodeURIComponent(window.location)}`}
+            buttonText="Login"
+            compact={false}
+          />
         </div>
       );
     }
-    // User is logged in, but doesn't have any borrower info
     else if (
-      this.props.type !== 'online' && (
-      !profile.favoriteLibrary ||
-      (profile.hasOwnProperty('favoriteLibrary') && !(
-        profile.favoriteLibrary.hasOwnProperty('libraryId') &&
-        profile.favoriteLibrary.hasOwnProperty('loanerId') &&
-        profile.favoriteLibrary.hasOwnProperty('pincode')
-      )))
+      this.props.type !== 'online' &&
+      (!profile.favoriteLibrary ||
+        (profile.hasOwnProperty('favoriteLibrary') &&
+          !(
+            profile.favoriteLibrary.hasOwnProperty('libraryId') &&
+            profile.favoriteLibrary.hasOwnProperty('loanerId') &&
+            profile.favoriteLibrary.hasOwnProperty('pincode')
+          )))
     ) {
+      // User is logged in, but doesn't have any borrower info
       modalContent = this.renderLibrarySelector(profile);
     }
-    // The users library is invalid, we want them to select a new one.
-    else if (this.props.type !== 'online' && (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed)) {
+    else if (
+      this.props.type !== 'online' &&
+      (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed)
+    ) {
+      // The users library is invalid, we want them to select a new one.
       modalContent = this.renderLibrarySelector(profile, true);
     }
-    // Currently ordering work
     else if (orderState === 1) {
-      modalContent = (
-        <p>Bestiller materialet! Vent venligst!</p>
-      );
+      // Currently ordering work
+      modalContent = <p>Bestiller materialet! Vent venligst!</p>;
     }
-    // The order has gone through
     else if (orderState === 2) {
+      // The order has gone through
       modalContent = (
         <div>
           <p>Din bestilling er sendt.</p>
           <p>Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.</p>
-          <RoundedButton clickFunction={onClose} buttonText="PERFEKT" compact={false}/>
+          <RoundedButton clickFunction={onClose} buttonText="PERFEKT" compact={false} />
         </div>
       );
     }
-    // An error occured during order or
-    // CheckAvailability says you can't borrow this work
-    else if (orderState === 3 || checkAvailabilityDone && collectionObjectSize <= 0) {
+    else if (orderState === 3 || (checkAvailabilityDone && collectionObjectSize <= 0)) {
+      // An error occured during order or
+      // CheckAvailability says you can't borrow this work
       modalContent = (
         <div>
           <p>Du kan desværre ikke låne denne bog.</p>
           <p>Prøv at spørge på dit eget bibliotek, om de kan hjælpe dig med at låne den på en anden måde.</p>
-          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false}/>
+          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false} />
         </div>
       );
     }
@@ -324,26 +337,24 @@ export default class BorrowButton extends React.Component {
       modalContent = (
         <div>
           <p>Dine lånerdata er ikke blevet genkendt, gå venligst ind på din profil og ret dem.</p>
-          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false}/>
+          <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false} />
         </div>
       );
     }
-    // Show options filtered to unique types.
     else if (collectionObjectSize > 0) {
+      // Show options filtered to unique types.
       modalContent = this.renderOrderForm(collectionsObject);
     }
-    // CheckAvailability has not returned results yet.
     else {
-      modalContent = (
-        <p>Vent venligst mens vi checker hvilke udgaver du kan låne.</p>
-      );
+      // CheckAvailability has not returned results yet.
+      modalContent = <p>Vent venligst mens vi checker hvilke udgaver du kan låne.</p>;
     }
 
     return (
       <ModalWindow onClose={onClose} title={this.props.buttonTitle}>
         <div className="modal-window--borrow-container">
           <div className="modal-window--work-details">
-            <img src={this.props.coverUrl}/>
+            <img src={this.props.coverUrl} />
             <h3>{this.props.adjustedTitle || this.props.title}</h3>
           </div>
 
@@ -370,7 +381,9 @@ export default class BorrowButton extends React.Component {
           this.props.profile,
           this.closeModal.bind(this)
         )}
-        <a className='borrow--button' onClick={() => this.setState({displayModal: true})}>{this.props.buttonIcon} <span className="button-text">{this.props.buttonTitle}</span></a>
+        <a className="borrow--button" onClick={() => this.setState({displayModal: true})}>
+          {this.props.buttonIcon} <span className="button-text">{this.props.buttonTitle}</span>
+        </a>
       </div>
     );
   }

@@ -12,14 +12,16 @@ import './expand-button.scss';
  * @param text
  * @param onClick
  * @param isLoading
+ * @param iconOverride
  * @returns {XML}
  * @constructor
  */
-export default function ExpandButton({text, onClick, isLoading}) { // eslint-disable-line no-unused-vars
-  const icon = (isLoading) ? <Icon glyph={spinnerSvg} /> : <Icon glyph={plusSvg} />;
+export default function ExpandButton({text, onClick, isLoading, iconOverride}) { // eslint-disable-line no-unused-vars
+  let icon = isLoading ? <Icon glyph={spinnerSvg} /> : <Icon glyph={plusSvg} />;
+
   return (
     <a className='expand-button' onClick={onClick}>
-      {icon}{text}
+      {iconOverride || icon}{text}
     </a>
   );
 }
@@ -27,5 +29,6 @@ export default function ExpandButton({text, onClick, isLoading}) { // eslint-dis
 ExpandButton.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  iconOverride: PropTypes.element
 };

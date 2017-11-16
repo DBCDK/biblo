@@ -370,6 +370,7 @@ async function fetchGroupData(params, req, res, update = {}) {
     res.locals.profile = JSON.stringify(profile);
 
     const group = response[0][0];
+    // console.log(group);
 
     group.posts = Array.isArray(response[1][0]) ? response[1][0] : [response[1][0]];
     group.numberOfPostsLoaded = group.posts.length;

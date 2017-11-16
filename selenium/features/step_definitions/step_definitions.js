@@ -1,12 +1,11 @@
-'use strict';
-
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var config = require('@dbcdk/biblo-config').config;
 var crypto = require('crypto');
 import {By, Key} from 'selenium-webdriver';
 
-var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${config.get('Biblo.port')}`; // eslint-disable-line no-process-env
+var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${config.get('Biblo.port')}`; // eslint-disable-line
+                                                                                           // no-process-env
 
 var myStepDefinitionsWrapper = function() {
   this.Given(/^a user visits the frontpage$/i, function(callback) {
@@ -16,11 +15,11 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
-  this.Given(/^a user visits material ([\d-]+[a-z]+:\d+)$/i, function (pid) {
+  this.Given(/^a user visits material ([\d-]+[a-z]+:\d+)$/i, function(pid) {
     return this.browser.get(`${BASE_URL}/materiale/${pid}`);
   });
 
-  this.Given(/^a user visits the reviews page with review_id (\d+)$/, function (review_id) {
+  this.Given(/^a user visits the reviews page with review_id (\d+)$/, function(review_id) {
     return this.browser.get(`${BASE_URL}/anmeldelse/${review_id}`);
   });
 
@@ -225,8 +224,19 @@ var myStepDefinitionsWrapper = function() {
 
   this.Then(/^the MoreInfo box should be present$/, function() {
     return this.$('.work--moreinfo > .more-info > .more-info--header')
-               .then(header => header.getText())
-               .then(headerText => assert.equal(headerText, 'Mere info'));
+      .then(header => header.getText())
+      .then(headerText => assert.equal(headerText, 'Mere info'));
+  });
+
+  this.Then(/^when I click the (.*) selector$/, function(selector) {
+    return this.click(`.${selector}`);
+  });
+
+  this.Then(/^the (.*) selector should count (\d+) elements$/, function(selector, elements) {
+    return this.browser.findElements(By.css(`.${selector}`))
+      .then(found => {
+        return assert.equal(found.length, elements);
+      });
   });
 
   this.Then(/^the (.*) selector should contain the following items$/, function(selector, data) {
@@ -251,25 +261,25 @@ var myStepDefinitionsWrapper = function() {
       });
   });
 
-  this.Then(/^the (.+) should be visible$/, function (selector) {
+  this.Then(/^the (.+) should be visible$/, function(selector) {
     return this.present(selector).then(isPresent => assert.isTrue(isPresent));
   });
 
-  this.Then(/^the (.+) should not be visible$/, function (selector) {
+  this.Then(/^the (.+) should not be visible$/, function(selector) {
     return this.present(selector).then(isPresent => assert.isFalse(isPresent));
   });
 
-  this.When(/^the page is scrolled (\d+) times$/, function (times) {
+  this.When(/^the page is scrolled (\d+) times$/, function(times) {
     times = parseInt(times, 10);
     const keys = Array(times * 2).fill(1).map((i, idx) => (idx % 2 === 0) ? Key.PAGE_DOWN : Key.NULL);
     return this.$('body').sendKeys(...keys);
   });
 
-  this.Given(/^A user visits review (\d+)$/i, function (reviewId) {
+  this.Given(/^A user visits review (\d+)$/i, function(reviewId) {
     return this.browser.get(`${BASE_URL}/anmeldelse/${reviewId}`);
   });
 
-  this.Then(/^the highlight header contains (.+)$/, function (contained) {
+  this.Then(/^the highlight header contains (.+)$/, function(contained) {
     return this.$('.highlight-section > .review-list--header').getText().then(text => assert.equal(contained, text));
   });
 };

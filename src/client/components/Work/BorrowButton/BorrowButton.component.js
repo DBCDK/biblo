@@ -86,9 +86,11 @@ export default class BorrowButton extends React.Component {
       if (window) {
         window.open(this.state.onlineUrl, '_blank'); // redirect to online access
       }
-    } else if (this.state.selectedPid) {
+    }
+    else if (this.state.selectedPid) {
       this.props.orderMaterialAction(this.state.selectedPid);
-    } else {
+    }
+    else {
       this.setState({
         errors: [
           {
@@ -263,7 +265,8 @@ export default class BorrowButton extends React.Component {
               collectionsObject[collectionItem.type].pid.push(p);
             }
           });
-        } else {
+        }
+        else {
           collectionsObject[collectionItem.type] = collectionItem;
         }
       }
@@ -284,7 +287,8 @@ export default class BorrowButton extends React.Component {
           />
         </div>
       );
-    } else if (
+    }
+    else if (
       this.props.type !== 'online' &&
       (!profile.favoriteLibrary ||
         (profile.hasOwnProperty('favoriteLibrary') &&
@@ -296,16 +300,19 @@ export default class BorrowButton extends React.Component {
     ) {
       // User is logged in, but doesn't have any borrower info
       modalContent = this.renderLibrarySelector(profile);
-    } else if (
+    }
+    else if (
       this.props.type !== 'online' &&
       (profile.favoriteLibrary.temporarilyClosed || !profile.favoriteLibrary.pickupAllowed)
     ) {
       // The users library is invalid, we want them to select a new one.
       modalContent = this.renderLibrarySelector(profile, true);
-    } else if (orderState === 1) {
+    }
+    else if (orderState === 1) {
       // Currently ordering work
       modalContent = <p>Bestiller materialet! Vent venligst!</p>;
-    } else if (orderState === 2) {
+    }
+    else if (orderState === 2) {
       // The order has gone through
       modalContent = (
         <div>
@@ -314,7 +321,8 @@ export default class BorrowButton extends React.Component {
           <RoundedButton clickFunction={onClose} buttonText="PERFEKT" compact={false} />
         </div>
       );
-    } else if (orderState === 3 || (checkAvailabilityDone && collectionObjectSize <= 0)) {
+    }
+    else if (orderState === 3 || (checkAvailabilityDone && collectionObjectSize <= 0)) {
       // An error occured during order or
       // CheckAvailability says you can't borrow this work
       modalContent = (
@@ -324,17 +332,20 @@ export default class BorrowButton extends React.Component {
           <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false} />
         </div>
       );
-    } else if (orderState === 4) {
+    }
+    else if (orderState === 4) {
       modalContent = (
         <div>
           <p>Dine lånerdata er ikke blevet genkendt, gå venligst ind på din profil og ret dem.</p>
           <RoundedButton clickFunction={onClose} buttonText="ØV" compact={false} />
         </div>
       );
-    } else if (collectionObjectSize > 0) {
+    }
+    else if (collectionObjectSize > 0) {
       // Show options filtered to unique types.
       modalContent = this.renderOrderForm(collectionsObject);
-    } else {
+    }
+    else {
       // CheckAvailability has not returned results yet.
       modalContent = <p>Vent venligst mens vi checker hvilke udgaver du kan låne.</p>;
     }
@@ -362,14 +373,14 @@ export default class BorrowButton extends React.Component {
     return (
       <div className="borrow">
         {this.state.displayModal &&
-          this.placeOrderModal(
-            this.props.collectionDetails,
-            this.props.checkAvailabilityResult,
-            this.props.checkAvailabilityDone,
-            this.props.orderState,
-            this.props.profile,
-            this.closeModal.bind(this)
-          )}
+        this.placeOrderModal(
+          this.props.collectionDetails,
+          this.props.checkAvailabilityResult,
+          this.props.checkAvailabilityDone,
+          this.props.orderState,
+          this.props.profile,
+          this.closeModal.bind(this)
+        )}
         <a className="borrow--button" onClick={() => this.setState({displayModal: true})}>
           {this.props.buttonIcon} <span className="button-text">{this.props.buttonTitle}</span>
         </a>

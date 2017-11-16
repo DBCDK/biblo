@@ -94,7 +94,8 @@ export class GroupViewContainer extends React.Component {
       this.setState({
         following: !this.state.following
       });
-    } else {
+    }
+    else {
       this.setState({showloginToFollowMessage: true});
     }
   }
@@ -150,13 +151,13 @@ export class GroupViewContainer extends React.Component {
       >
         {modal}
         <div className="group">
-          <GroupHeader uri={this.props.group.imageSquare || ''} />
+          <GroupHeader uri={this.props.group.imageSquare || ''}/>
           {this.props.group.isClosed && (
             <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           )}
           <div className="group--content">
             <div className="group--details">
-              <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}} />
+              <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}}/>
               <p
                 className="group--description"
                 dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.description)}}
@@ -176,7 +177,7 @@ export class GroupViewContainer extends React.Component {
                   active={false}
                   clickFunction={() => (window.location = `/grupper/${this.props.group.id}/rediger`)} // eslint-disable-line
                   // no-return-assign
-                  icon={<Icon glyph={pencilSvg} />}
+                  icon={<Icon glyph={pencilSvg}/>}
                 />
               </div>
             )}

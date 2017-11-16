@@ -7,7 +7,7 @@ const SearchReviewsTransform = {
     return 'searchReviews';
   },
 
-  requestTransform(event, {elasticQuery}, connection) {
+  requestTransform(event, {elasticQuery}) {
     // eslint-disable-line no-unused-vars
     return new Promise((resolve, reject) => {
       Promise.all([

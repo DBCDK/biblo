@@ -76,9 +76,9 @@ export class WorkReviewContainer extends React.Component {
   }
 
   render() {
-    const work = this.props.workState.work;               // the work collection from the service provider
-    const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
-    let reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
+    const work = this.props.workState.work; // the work collection from the service provider
+    const reviews = this.props.reviewState.workReviews; // the reviews associated with the work
+    let reviewVisible = this.state.reviewVisible; // is the review create area visible or not?
     const meta = this.props.reviewState.workReviewsMeta;
     const isMultivolume = !!(work.multivolume && work.multivolume.length);
     const bindId = isMultivolume && work.bindId ? `bind ${work.bindId}` : '';
@@ -99,7 +99,7 @@ export class WorkReviewContainer extends React.Component {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
 
-      {this.props.ui.modal.isOpen &&
+        {this.props.ui.modal.isOpen &&
         <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
           {
             this.props.ui.modal.children

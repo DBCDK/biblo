@@ -8,7 +8,6 @@ import groupParser from '../../../parsers/group.parser';
  * Get a users feed.
  */
 const getUserFeedTransform = {
-
   /**
    * @return {string}
    */
@@ -28,38 +27,43 @@ const getUserFeedTransform = {
 
           return false;
         })
-        .map(group => Promise.all([
-          this.callServiceClient('community', 'countPosts', {
-            where: {
-              markedAsDeleted: null,
-              groupid: group.groupid,
-              timeCreated: {
-                gte: group.visited
-              },
-              postownerid: {
-                neq: userId
-              }
-            }
-          }),
-          this.callServiceClient('community', 'getPosts', {
-            filter: {
+        .map(group =>
+          Promise.all([
+            this.callServiceClient('community', 'countPosts', {
               where: {
                 markedAsDeleted: null,
-                groupid: group.groupid
-              },
-              order: 'id DESC',
-              limit: 1,
-              fields: {
-                timeCreated: true
+                groupid: group.groupid,
+                timeCreated: {
+                  gte: group.visited
+                },
+                postownerid: {
+                  neq: userId
+                }
               }
-            }
+            }),
+            this.callServiceClient('community', 'getPosts', {
+              filter: {
+                where: {
+                  markedAsDeleted: null,
+                  groupid: group.groupid
+                },
+                order: 'id DESC',
+                limit: 1,
+                fields: {
+                  timeCreated: true
+                }
+              }
+            })
+          ]).then(postsResponse => {
+            const pCount = postsResponse[0];
+            const postsSinceLast = JSON.parse(pCount.body).count;
+            const latestPost = JSON.parse(postsResponse[1].body)[0] || {};
+            return Object.assign(group.group, {
+              postsSinceLast,
+              latestPost: latestPost.timeCreated || '2016-03-16T21:06:51.000Z'
+            });
           })
-        ]).then(postsResponse => {
-          const pCount = postsResponse[0];
-          const postsSinceLast = JSON.parse(pCount.body).count;
-          const latestPost = (JSON.parse(postsResponse[1].body)[0] || {});
-          return Object.assign(group.group, {postsSinceLast, latestPost: latestPost.timeCreated || '2016-03-16T21:06:51.000Z'});
-        }))
+        )
     ).then(enrichedGroups => {
       return enrichedGroups.sort((a, b) => {
         // Sort the groups by date of the latest post.
@@ -96,12 +100,7 @@ const getUserFeedTransform = {
 
       const postsFilter = {
         where: postsWhere,
-        include: [
-          {relation: 'group'},
-          {relation: 'owner', scope: {include: ['image']}},
-          'image',
-          'likes'
-        ],
+        include: [{relation: 'group'}, {relation: 'owner', scope: {include: ['image']}}, 'image', 'likes'],
         limit: 5,
         skip: offset,
         order: 'timeCreated DESC'
@@ -113,14 +112,16 @@ const getUserFeedTransform = {
           {
             relation: 'post',
             scope: {
-              include: [{
-                relation: 'group'
-              }, {
-                relation: 'owner',
-                scope: {
-                  include: ['image']
-                }
-              },
+              include: [
+                {
+                  relation: 'group'
+                },
+                {
+                  relation: 'owner',
+                  scope: {
+                    include: ['image']
+                  }
+                },
                 'image',
                 'likes'
               ]
@@ -146,10 +147,10 @@ const getUserFeedTransform = {
           include: {group: 'coverImage'}
         }).then(groups => this.handleGetMyGroups(groups, userId))
       ])
-        .then((response) => {
+        .then(response => {
           resolve(response);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -161,7 +162,7 @@ const getUserFeedTransform = {
    * @return {Object}
    */
   responseTransform(response, query) {
-    let posts = (JSON.parse(response[0].body) || []).map((post) => {
+    let posts = (JSON.parse(response[0].body) || []).map(post => {
       post.type = 'post';
       post.timeCreated = post.timeCreated || '2016-03-03T12:49:19.000Z';
       post.imageSrc = false;
@@ -177,7 +178,7 @@ const getUserFeedTransform = {
       return postParser(post);
     });
 
-    let comments = (JSON.parse(response[1].body) || []).map((comment) => {
+    let comments = (JSON.parse(response[1].body) || []).map(comment => {
       comment.type = 'comment';
       comment.timeCreated = comment.timeCreated || '2001-01-01T12:00:00.000Z';
       comment.imageSrc = false;
@@ -192,17 +193,16 @@ const getUserFeedTransform = {
 
     let feed = posts.concat(comments);
     feed.sort((a, b) => {
-      if ((new Date(a.timeCreated)) > (new Date(b.timeCreated))) {
+      if (new Date(a.timeCreated) > new Date(b.timeCreated)) {
         return -1;
-      }
-      else if ((new Date(a.timeCreated)) < (new Date(b.timeCreated))) {
+      } else if (new Date(a.timeCreated) < new Date(b.timeCreated)) {
         return 1;
       }
       return 0;
     });
 
     const profileResponse = JSON.parse(response[2].body || '{}');
-    profileResponse.groups = response[5].map((group) => {
+    profileResponse.groups = response[5].map(group => {
       return groupParser(group);
     });
     const profile = profileParser(profileResponse, true, false);

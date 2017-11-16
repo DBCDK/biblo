@@ -129,7 +129,7 @@ export class GroupViewContainer extends React.Component {
               <TinyButton
                 active={false}
                 clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line
-                                                                                                  // no-return-assign
+                // no-return-assign
                 icon={<Icon glyph={pencilSvg} />} />
             </div>
             }

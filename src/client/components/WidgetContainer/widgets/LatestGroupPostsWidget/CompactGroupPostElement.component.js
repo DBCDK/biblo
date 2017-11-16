@@ -13,10 +13,16 @@ import groupSvg from '../../../General/Icon/svg/functions/group.svg';
 import './scss/CompactGroupPostElement.component.scss';
 
 function renderTextGroupPost(post) {
-  return <span className="text--post"> "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />"</span>;
+  return (
+    <span className="text--post">
+      {' '}
+      &quot;<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />&quot;
+    </span>
+  );
 }
 
-function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
+function renderImageGroupPost(post) {
+  // eslint-disable-line react/no-multi-comp
   return (
     <div className="compact-group-post-element--image-post">
       <img src={post.image} />
@@ -24,18 +30,20 @@ function renderImageGroupPost(post) { // eslint-disable-line react/no-multi-comp
   );
 }
 
-function renderPDFGroupPost(post) { // eslint-disable-line react/no-multi-comp
+function renderPDFGroupPost(post) {
+  // eslint-disable-line react/no-multi-comp
   return (
     <div className="compact-group-post-element--pdf-post">
       <img src="/images/materialtypes/pdf.png" alt="Indlæg med PDF" />
       <div className="pdf-post--text-content">
-        "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />"
+        &quot;<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />&quot;
       </div>
     </div>
   );
 }
 
-export function renderVideoGroupPost(post) { // eslint-disable-line react/no-multi-comp
+export function renderVideoGroupPost(post) {
+  // eslint-disable-line react/no-multi-comp
   const resolution = post.video.resolutions.slice(-1)[0];
   const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
   const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
@@ -47,22 +55,20 @@ export function renderVideoGroupPost(post) { // eslint-disable-line react/no-mul
   );
 }
 
-export function CompactGroupPostElement({post, groupName, groupHref}) { // eslint-disable-line react/no-multi-comp
+export function CompactGroupPostElement({post, groupName, groupHref}) {
+  // eslint-disable-line react/no-multi-comp
   let postBody;
   let postType;
   if (post.video) {
     postType = 'video';
     postBody = renderVideoGroupPost(post);
-  }
-  else if (post.image) {
+  } else if (post.image) {
     postType = 'image';
     postBody = renderImageGroupPost(post);
-  }
-  else if (post.pdf) {
+  } else if (post.pdf) {
     postType = 'pdf';
     postBody = renderPDFGroupPost(post);
-  }
-  else {
+  } else {
     postType = 'text';
     postBody = renderTextGroupPost(post);
   }
@@ -70,7 +76,9 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
   let groupNameTag = '';
   if (groupName) {
     groupNameTag = (
-      <a href={groupHref} className="cgp--group-link"><Icon glyph={groupSvg} /> {groupName}</a>
+      <a href={groupHref} className="cgp--group-link">
+        <Icon glyph={groupSvg} /> {groupName}
+      </a>
     );
   }
 
@@ -84,7 +92,10 @@ export function CompactGroupPostElement({post, groupName, groupHref}) { // eslin
       <div className="compact-group-post-element">
         <div className="widget-element--author">
           Af:
-          <a dangerouslySetInnerHTML={{__html: sanitizeHtml(post.owner.displayName)}} href={`/profil/${post.owner.id}`} />
+          <a
+            dangerouslySetInnerHTML={{__html: sanitizeHtml(post.owner.displayName)}}
+            href={`/profil/${post.owner.id}`}
+          />
         </div>
         <div className="widget-element--main">
           <a href={`/profil/${post.owner.id}`} className="widget-element--profileimage">

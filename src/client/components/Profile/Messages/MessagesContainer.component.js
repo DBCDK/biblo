@@ -59,8 +59,8 @@ export default class MessagesContainer extends React.Component {
 
     return (
       <div className="p-detail--messages-container" >
-           {this.getMessages()}
-           {showMoreButton}
+        {this.getMessages()}
+        {showMoreButton}
       </div>
     );
   }

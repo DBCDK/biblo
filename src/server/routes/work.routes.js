@@ -19,16 +19,18 @@ function getAuthenticatedToken(req) {
   if (req.session.token && req.session.token.expires > Date.now() && req.session.token.validate === validateString) {
     return req.session.token.token;
   }
-  return req.callServiceProvider('authenticate', {
-    userId: loanerId,
-    password: pincode,
-    libraryId: libraryId
-  }).then(response => {
-    req.session.token = response[0];
-    req.session.token.validate = validateString;
-    req.session.save();
-    return req.session.token.token;
-  });
+  return req
+    .callServiceProvider('authenticate', {
+      userId: loanerId,
+      password: pincode,
+      libraryId: libraryId
+    })
+    .then(response => {
+      req.session.token = response[0];
+      req.session.token.validate = validateString;
+      req.session.save();
+      return req.session.token.token;
+    });
 }
 
 /**
@@ -42,24 +44,25 @@ function getAuthenticatedToken(req) {
 function placeOrder(req, pids, token) {
   const {fullName, phone, email, favoriteLibrary} = req.session.passport.user.profile.profile;
 
-  return req.callServiceProvider('order', {
-    libraryId: favoriteLibrary.libraryId,
-    pids: pids,
-    name: fullName,
-    phone: phone,
-    email: email,
-    token: token
-  }).then(response => response[0]);
+  return req
+    .callServiceProvider('order', {
+      libraryId: favoriteLibrary.libraryId,
+      pids: pids,
+      name: fullName,
+      phone: phone,
+      email: email,
+      token: token
+    })
+    .then(response => response[0]);
 }
 
-WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
+WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
   const pids = req.body.pid.split(',');
   try {
-    const token = (await getAuthenticatedToken(req));
-    const orderResponse = (await placeOrder(req, pids, token));
+    const token = await getAuthenticatedToken(req);
+    const orderResponse = await placeOrder(req, pids, token);
     res.json(orderResponse);
-  }
-  catch (err) {
+  } catch (err) {
     res.status(400);
     res.json({
       errors: [err.message]
@@ -72,7 +75,7 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function (req, res) {
   }
 });
 
-WorkRoutes.get('/:pid', async function (req, res, next) {
+WorkRoutes.get('/:pid', async function(req, res, next) {
   const logger = res.app.get('logger');
   try {
     const pid = decodeURIComponent(req.params.pid);
@@ -112,14 +115,20 @@ WorkRoutes.get('/:pid', async function (req, res, next) {
     if (req.isAuthenticated()) {
       profile = req.session.passport.user.profile.profile;
       if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryId) {
-        const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
-        profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
-          libraryId: agency.agencyId,
-          libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName).$value,
-          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
-          pickupAllowed: agency.pickupAllowed === '1',
-          temporarilyClosed: agency.temporarilyClosed === '1'
-        });
+        const agency = (await req.callServiceProvider('getLibraryDetails', {
+          agencyId: profile.favoriteLibrary.libraryId
+        }))[0].pickupAgency;
+        profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(
+          profile.favoriteLibrary,
+          {
+            libraryId: agency.agencyId,
+            libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName)
+              .$value,
+            libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
+            pickupAllowed: agency.pickupAllowed === '1',
+            temporarilyClosed: agency.temporarilyClosed === '1'
+          }
+        );
         res.locals.profile = JSON.stringify({
           profile: profile,
           errors: []
@@ -140,11 +149,11 @@ WorkRoutes.get('/:pid', async function (req, res, next) {
 
     let skip = 0;
     let limit = 10;
-    const reviewResponse = (await req.callServiceProvider('getReviews', {
+    const reviewResponse = await req.callServiceProvider('getReviews', {
       pids,
       skip,
       limit
-    }));
+    });
     work.id = pid;
 
     // setting page title
@@ -153,19 +162,20 @@ WorkRoutes.get('/:pid', async function (req, res, next) {
     res.render('page', {
       css: ['/css/work.css'],
       js: ['/js/work.js'],
-      jsonData: [JSON.stringify({
-        work: work,                                            // data about the work identified by the pids
-        workReviews: reviewResponse[0].data,                   // reviews filtered for the specific work
-        workReviewsMeta: {
-          skip: skip,
-          limit: limit,
-          ownReviewId: ownReviewId,                              // review of the work done by the logged in profile
-          workReviewsTotalCount: reviewResponse[0].reviewsCount // count number of total reviews of work
-        }
-      })]
+      jsonData: [
+        JSON.stringify({
+          work: work, // data about the work identified by the pids
+          workReviews: reviewResponse[0].data, // reviews filtered for the specific work
+          workReviewsMeta: {
+            skip: skip,
+            limit: limit,
+            ownReviewId: ownReviewId, // review of the work done by the logged in profile
+            workReviewsTotalCount: reviewResponse[0].reviewsCount // count number of total reviews of work
+          }
+        })
+      ]
     });
-  }
-  catch (err) {
+  } catch (err) {
     next(err);
   }
 });

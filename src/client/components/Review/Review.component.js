@@ -459,11 +459,11 @@ export default class Review extends UploadMedia {
                   icon={<Icon glyph={pencilSvg} className="icon edit-post--button" />}
                 />
               )) || (
-                <TinyButton
-                  clickFunction={flagFunction}
-                  icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
-                />
-              )}
+                  <TinyButton
+                    clickFunction={flagFunction}
+                    icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
+                  />
+                )}
             </span>
           </div>
 
@@ -558,14 +558,14 @@ export default class Review extends UploadMedia {
                       this.state.attachment.video.file &&
                       this.state.attachment.video.file.progress > 0 &&
                       this.state.attachment.video.file.progress < 100)) && (
-                    <input
-                      ref="about"
-                      type="reset"
-                      className="button alert"
-                      onClick={this.onAbort.bind(this)}
-                      value="Fortryd"
-                    />
-                  )}
+                      <input
+                        ref="about"
+                        type="reset"
+                        className="button alert"
+                        onClick={this.onAbort.bind(this)}
+                        value="Fortryd"
+                      />
+                    )}
                   {deleteButton}
 
                   <div className="review-add--media">
@@ -591,28 +591,28 @@ export default class Review extends UploadMedia {
               />
             </div>
           )) || (
-            <div className="review--content-wrapper">
-              {
+              <div className="review--content-wrapper">
+                {
                 <p className="review--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.html)}} /> // eslint-disable-line
-              }
-              {(image || (this.state.attachment.image && this.state.attachment.image.data)) && (
-                <div className="review--media">
-                  <a href={image && image.replace('medium', 'original')} target="_blank">
-                    <img src={this.state.attachment.image.data} alt="image for review" />
-                  </a>
-                </div>
-              )}
-              {video && video.resolutions && video.resolutions.length
-                ? getVideoPlayer(video, this.props.autoplayVideo)
-                : null}
-              {youtube && (
-                <div className="review--youtube-container">
-                  <Youtube videoId={youtube[0]} />
-                </div>
-              )}
-              {likeButton}
-            </div>
-          )}
+                }
+                {(image || (this.state.attachment.image && this.state.attachment.image.data)) && (
+                  <div className="review--media">
+                    <a href={image && image.replace('medium', 'original')} target="_blank">
+                      <img src={this.state.attachment.image.data} alt="image for review" />
+                    </a>
+                  </div>
+                )}
+                {video && video.resolutions && video.resolutions.length
+                  ? getVideoPlayer(video, this.props.autoplayVideo)
+                  : null}
+                {youtube && (
+                  <div className="review--youtube-container">
+                    <Youtube videoId={youtube[0]} />
+                  </div>
+                )}
+                {likeButton}
+              </div>
+            )}
         </div>
       </div>
     );

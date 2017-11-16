@@ -1,10 +1,9 @@
 const LeaveGroupTransform = {
-
   event() {
     return 'leaveGroup';
   },
 
-  requestTransform(event, {groupId, profileId}, connection) {
+  requestTransform(event, {groupId}, connection) {
     const passport = connection.request.session.passport;
     if (passport) {
       return this.callServiceClient('community', 'leaveGroup', {groupId, uid: passport.user.profileId});

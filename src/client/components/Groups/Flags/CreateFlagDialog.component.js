@@ -86,7 +86,7 @@ export default class CreateFlagDialog extends React.Component {
         <p>Vores moderatorer er blevet underrettet om det anmeldte indhold.</p>
         <div className='create-flag-button--button-group' >
           <input className='create-flag-dialog--button--confirm' type='button' value='Luk'
-                 onClick={this.props.onClose} />
+            onClick={this.props.onClose} />
         </div>
       </form>
     );
@@ -123,7 +123,7 @@ export default class CreateFlagDialog extends React.Component {
         <div className='create-flag-button--button-group' >
           <input className='create-flag-dialog--button--confirm' type='button' value='OK' onClick={this.onSubmit} />
           <input className='create-flag-dialog--button--cancel' type='button' value='Fortryd'
-                 onClick={this.props.onClose} />
+            onClick={this.props.onClose} />
         </div>
       </form>
     );

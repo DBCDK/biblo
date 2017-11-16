@@ -363,7 +363,7 @@ export default class PostView extends React.Component {
               Svar
             </a>
           }
-            {likeButton}
+          {likeButton}
           </span>}
         </div>
       </div>

@@ -3,7 +3,7 @@ const GetGenresTransform = {
     return 'getGenres';
   },
 
-  requestTransform(event, query, connection) {
+  requestTransform() {
     // eslint-disable-line no-unused-vars
     return new Promise((resolve, reject) => {
       this.callServiceClient('cached/standard/community', 'getGenres')

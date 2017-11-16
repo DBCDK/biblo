@@ -11,16 +11,16 @@ export function CommentList({
         comments
         && comments.map((item) => (
           <CommentView key={item.id} {...item}
-                       groupId={groupId}
-                       postId={postId}
-                       profile={profile}
-                       works={works}
-                       coverImages={coverImages}
-                       submitFlagFunction={submitFlagFunction}
-                       uiActions={uiActions}
-                       groupActions={groupActions}
-                       getMoreWorks={getMoreWorks}
-                       deleteAction={deleteAction}
+            groupId={groupId}
+            postId={postId}
+            profile={profile}
+            works={works}
+            coverImages={coverImages}
+            submitFlagFunction={submitFlagFunction}
+            uiActions={uiActions}
+            groupActions={groupActions}
+            getMoreWorks={getMoreWorks}
+            deleteAction={deleteAction}
           />))
         || 'Der er ikke skrevet nogen kommentarer til indlægget endnu'
       }

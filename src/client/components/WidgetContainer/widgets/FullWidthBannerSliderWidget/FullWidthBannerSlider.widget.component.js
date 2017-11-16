@@ -187,7 +187,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
 
     return (
       <div className="full-width-banner-slider-widget" onTouchStart={this.handleTouchStart}
-           onTouchMove={this.handleTouchMove}>
+        onTouchMove={this.handleTouchMove}>
         <div className="fwbs--buttons">
           <span className="fwbs--prev fwbs--button" onClick={() => this.previousSlide(false)}>
             <Icon glyph={pilSVG} width={50} height={50}/>

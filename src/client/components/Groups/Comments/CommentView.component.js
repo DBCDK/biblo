@@ -108,7 +108,7 @@ export default class CommentView extends React.Component {
           <div className='comment--actions'>
             {(profile.id === owner.id || profile.isModerator) &&
             <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-                        icon={<Icon glyph={pencilSvg} className="icon edit-comment--button" />} />
+              icon={<Icon glyph={pencilSvg} className="icon edit-comment--button" />} />
             ||
             flagButton
             }

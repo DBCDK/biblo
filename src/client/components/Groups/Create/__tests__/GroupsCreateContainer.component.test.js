@@ -52,7 +52,7 @@ describe('Test group create container', () => {
         uiActions={uiActions}
         profileState={{}}
         globalState={{}}
-        />
+      />
     );
 
     let dm = TestUtils.renderIntoDocument(component);

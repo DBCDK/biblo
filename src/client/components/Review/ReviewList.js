@@ -21,8 +21,8 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
   if (hasMore && expand) {
     expandButton = (
       <ExpandButton className="reviews-showmore" text="VIS FLERE"
-                    isLoading={isLoading}
-                    onClick={() => expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))} />
+        isLoading={isLoading}
+        onClick={() => expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))} />
     );
   }
 

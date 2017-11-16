@@ -163,11 +163,11 @@ export default class MessageRow extends React.Component {
         const diff = moment(this.state.message.dateDue).diff(moment(), 'days');
         const string = diff === 0 ?
           'i dag' :
-        (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
+          (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
 
         const dateString = diff < 0 ?
-        'Skulle være afleveret for ' + string + ' siden' :
-        'Skal afleveres senest ' + string;
+          'Skulle være afleveret for ' + string + ' siden' :
+          'Skal afleveres senest ' + string;
 
         let renewLoanBtn = null;
         if (diff >= 0 && this.state.message.loanId) {
@@ -176,9 +176,9 @@ export default class MessageRow extends React.Component {
 
         return (
           <div>
-          <span>
-            {dateString}
-           </span>
+            <span>
+              {dateString}
+            </span>
             {renewLoanBtn}
           </div>
         );

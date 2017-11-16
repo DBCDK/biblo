@@ -347,8 +347,7 @@ module.exports.run = function(worker) {
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.
   app.use((req, res, next) => {
-    if (process.env.GIT_COMMIT) {
-      // eslint-disable-line
+    if (process.env.GIT_COMMIT) { // eslint-disable-line
       res.locals.gitsha = process.env.GIT_COMMIT; // eslint-disable-line
     }
 

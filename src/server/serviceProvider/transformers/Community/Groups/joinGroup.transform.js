@@ -1,10 +1,9 @@
 const JoinGroupTransform = {
-
   event() {
     return 'joinGroup';
   },
 
-  requestTransform(event, {groupId, profileId}, connection) {
+  requestTransform(event, {groupId}, connection) {
     const passport = connection.request.session.passport;
     if (passport) {
       return this.callServiceClient('community', 'joinGroup', {groupId, uid: passport.user.profileId});

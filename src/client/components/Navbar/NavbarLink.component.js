@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 export default function NavbarLink(props) {
   return (
     <a className={`navbar--link ${props.className}`} href={props.url}
-       onClick={(event) => props.onClick && props.onClick(event)}>{props.value}</a>
+      onClick={(event) => props.onClick && props.onClick(event)}>{props.value}</a>
   );
 }
 

@@ -15,7 +15,7 @@ function ContentGrid({items=[]}) {
         text={e.text}
         url={e.url}
         imageUrl={e.imageUrl}
-        />
+      />
     );
   });
 

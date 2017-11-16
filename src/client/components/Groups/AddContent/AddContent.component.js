@@ -37,6 +37,9 @@ export default class AddContent extends UploadMedia {
       imageAttachment.imageCollectionId = props.image.replace('/billede/', '').replace('/medium', '');
     }
 
+    this.contentTextareaRef = null;
+    this.groupPostFormRef = null;
+
     this.state = {
       text: props.text || '',
       attachment: {
@@ -62,9 +65,9 @@ export default class AddContent extends UploadMedia {
   }
 
   componentDidMount() {
-    autosize(this.refs.contentTextarea);
-    if (this.refs.contentTextarea && this.props.autofocus) {
-      this.refs.contentTextarea.focus();
+    autosize(this.contentTextareaRef);
+    if (this.contentTextareaRef && this.props.autofocus) {
+      this.contentTextareaRef.focus();
     }
   }
 
@@ -283,7 +286,7 @@ export default class AddContent extends UploadMedia {
           action={this.state.target}
           className={this.state.errorMsg ? 'shakeit' : ''}
           id="content_form_component"
-          ref="group-post-form"
+          ref={groupPostForm => (this.groupPostFormRef = groupPostForm)}
           onSubmit={e => this.onSubmit(e)}
         >
           <div className="content-add--input">
@@ -296,7 +299,7 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" name="attachedReview" value={(this.state.attachment.review || {}).id} />
             <textarea
               className="content-add--textarea"
-              ref="contentTextarea"
+              ref={contentTextarea => (this.contentTextareaRef = contentTextarea)}
               name="content"
               placeholder="Gi den gas & hold god tone ;-)"
               value={this.state.text}
@@ -436,7 +439,7 @@ export default class AddContent extends UploadMedia {
           className="content-add--upload-media droppable-media-field--file-input"
           disabled={this.state.disableInput}
           onChange={this.handleFileChange.bind(this)}
-          ref="fileInput"
+          ª
         />
       </div>
     );
@@ -474,7 +477,7 @@ AddContent.defaultProps = {
   displayAbortButton: false,
   addContentAction: () => {
     console.error(
-      "YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn't happen. Check your props!"
+      'YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'
     ); // eslint-disable-line
   },
   editing: false

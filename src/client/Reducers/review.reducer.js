@@ -12,8 +12,8 @@ const userReviewsJson = parseJsonData('JSONDATA', 'userReviews') || [];
 const initialState = {};
 initialState.reviewExplorer = {isLoading: false, reviews: [], total: 0};
 initialState.userReviews = userReviewsJson && isArray(userReviewsJson) ? userReviewsJson : [];
-initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || [];  // reviews related to a work (known as collecton in the service provider)
-initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || [];  // metadata about workReviews (ownReviewIdd and totalCount)
+initialState.workReviews = parseJsonData('JSONDATA', 'workReviews') || []; // reviews related to a work (known as collecton in the service provider)
+initialState.workReviewsMeta = parseJsonData('JSONDATA', 'workReviewsMeta') || []; // metadata about workReviews (ownReviewIdd and totalCount)
 initialState.highlightedReview = parseJsonData('JSONDATA', 'highlightedReview');
 
 export default function reviewReducer(state = initialState, action = {}) {
@@ -79,12 +79,12 @@ export default function reviewReducer(state = initialState, action = {}) {
 
     case types.DELETE_WORK_REVIEW: {
       let reviewsAfterDelete = [...state.workReviews];
-      reviewsAfterDelete = filter(reviewsAfterDelete, (review) => {
+      reviewsAfterDelete = filter(reviewsAfterDelete, review => {
         if (!review.reviewId) {
           return false;
         }
 
-        return (review.reviewId !== action.reviewId);
+        return review.reviewId !== action.reviewId;
       });
 
       // note: we can get here as an admin deleting another users review
@@ -103,12 +103,15 @@ export default function reviewReducer(state = initialState, action = {}) {
     }
 
     case types.LIKE_WORK_REVIEW: {
-      if (state.highlightedReview &&
+      if (
+        state.highlightedReview &&
         state.highlightedReview.id === action.reviewId &&
-        !includes(state.highlightedReview.likes, action.profileId)) {
-
+        !includes(state.highlightedReview.likes, action.profileId)
+      ) {
         return assignToEmpty(state, {
-          highlightedReview: assignToEmpty(state.highlightedReview, {likes: [...state.highlightedReview.likes, action.profileId]})
+          highlightedReview: assignToEmpty(state.highlightedReview, {
+            likes: [...state.highlightedReview.likes, action.profileId]
+          })
         });
       }
       if (state.workReviews.map) {
@@ -134,17 +137,17 @@ export default function reviewReducer(state = initialState, action = {}) {
     }
 
     case types.UNLIKE_WORK_REVIEW: {
-      if (state.highlightedReview &&
-        state.highlightedReview.id === action.reviewId) {
-
+      if (state.highlightedReview && state.highlightedReview.id === action.reviewId) {
         return assignToEmpty(state, {
-          highlightedReview: assignToEmpty(state.highlightedReview, {likes: filter(state.highlightedReview.likes, (id) => (id !== action.profileId))})
+          highlightedReview: assignToEmpty(state.highlightedReview, {
+            likes: filter(state.highlightedReview.likes, id => id !== action.profileId)
+          })
         });
       }
       if (state.workReviews.map) {
         const reviewsCopyUnliked = state.workReviews.map(review => {
           if (review.id === action.reviewId && includes(review.likes, action.profileId)) {
-            return assignToEmpty(review, {likes: filter(review.likes, (id) => (id !== action.profileId))});
+            return assignToEmpty(review, {likes: filter(review.likes, id => id !== action.profileId)});
           }
           return review;
         });
@@ -154,7 +157,9 @@ export default function reviewReducer(state = initialState, action = {}) {
         const copy = state.reviewExplorer.reviews.map(r => {
           const review = r.review;
           if (review.id === action.reviewId) {
-            return assignToEmpty(r, {review: assignToEmpty(review, {likes: filter(review.likes, (id) => (id !== action.profileId))})});
+            return assignToEmpty(r, {
+              review: assignToEmpty(review, {likes: filter(review.likes, id => id !== action.profileId)})
+            });
           }
           return r;
         });

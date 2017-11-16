@@ -32,10 +32,10 @@ export class GroupsContainer extends React.Component {
           <RoundedButton buttonText='Opret ny gruppe' href={CREATE_GROUP_LINK}/>
 
           <GroupList title="Populære grupper" groups={data.popularGroups} limit={data.popularLimit}
-                     isLoading={data.popularLoading} expand={actions.asyncShowGroups.bind(null, 'popular')} actions={actions}/>
+            isLoading={data.popularLoading} expand={actions.asyncShowGroups.bind(null, 'popular')} actions={actions}/>
 
           <GroupList title="Nyeste grupper" groups={data.newGroups} limit={data.newLimit}
-                     isLoading={data.newLoading} expand={actions.asyncShowGroups.bind(null, 'new')} actions={actions}/>
+            isLoading={data.newLoading} expand={actions.asyncShowGroups.bind(null, 'new')} actions={actions}/>
         </div>
       </PageLayout>
     );

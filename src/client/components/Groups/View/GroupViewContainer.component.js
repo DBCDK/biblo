@@ -53,15 +53,23 @@ export class GroupViewContainer extends React.Component {
     let limit = null;
     let offset = null;
     if (membersCount > this.defaultMembersLoadLimit) {
+      // load this.defaultMembersLoadLimit members from the communityservice with a random offset to generate a "new view" on each pageview
       limit = this.defaultMembersLoadLimit;
       offset = Math.round(Math.random() * (membersCount - limit));
     }
 
-    this.props.groupActions.asyncGetGroupMembers(this.props.group.id, [this.props.group.owner.id], limit, offset, this.maxMembersReturned);
+    this.props.groupActions.asyncGetGroupMembers(
+      this.props.group.id,
+      [this.props.group.owner.id],
+      limit,
+      offset,
+      this.maxMembersReturned
+    );
   }
 
   loadAllMembers() {
     if (this.props.group.membersCount > this.defaultMembersLoadLimit) {
+      // as we're loading 9 members when the page is loaded, we don't want to load them again, when the user requests all memebers to be displayed
       const excludedIds = this.props.group.members.map(m => m.id);
       excludedIds.push(this.props.group.owner.id);
       this.props.groupActions.asyncGetGroupMembers(this.props.group.id, excludedIds);
@@ -73,7 +81,7 @@ export class GroupViewContainer extends React.Component {
     this.props.groupActions.asyncListenToGroupForNewContent(this.props.group.id);
 
     if (this.props.profile && this.props.profile.reviews && this.props.profile.reviews.data) {
-      this.props.profile.reviews.data.forEach((review) => {
+      this.props.profile.reviews.data.forEach(review => {
         this.props.coverImageActions.asyncGetCoverImage(review.pid, review.worktype);
         this.props.groupActions.asyncLoadMetadataForReview(review.pid);
       });
@@ -86,8 +94,7 @@ export class GroupViewContainer extends React.Component {
       this.setState({
         following: !this.state.following
       });
-    }
-    else {
+    } else {
       this.setState({showloginToFollowMessage: true});
     }
   }
@@ -95,27 +102,44 @@ export class GroupViewContainer extends React.Component {
   render() {
     if (this.props.group.error) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
+        <PageLayout
+          searchState={this.props.searchState}
+          searchActions={this.props.searchActions}
+          profileState={this.props.profile}
+          globalState={this.props.globalState}
+        >
           <div className="error">{this.props.group.error}</div>
         </PageLayout>
       );
     }
     if (this.props.group.markedAsDeleted) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
-          <div className='group-is-deleted'>
+        <PageLayout
+          searchState={this.props.searchState}
+          searchActions={this.props.searchActions}
+          profileState={this.props.profile}
+          globalState={this.props.globalState}
+        >
+          <div className="group-is-deleted">
             <h1>Gruppen findes ikke længere</h1>
             <p>Den gruppe du forsøger at komme ind på, findes ikke længere</p>
-            <p><a href="/grupper">Du kan se alle de andre grupper her</a></p>
+            <p>
+              <a href="/grupper">Du kan se alle de andre grupper her</a>
+            </p>
           </div>
         </PageLayout>
       );
     }
 
-    const modal = (this.props.ui.modal.isOpen) ? <ModalWindow
-      onClose={() => {
-        this.props.uiActions.closeModalWindow();
-      }}>{this.props.ui.modal.children}</ModalWindow> : null; // eslint-disable-line
+    const modal = this.props.ui.modal.isOpen ? (
+      <ModalWindow
+        onClose={() => {
+          this.props.uiActions.closeModalWindow();
+        }}
+      >
+        {this.props.ui.modal.children}
+      </ModalWindow>
+    ) : null; // eslint-disable-line
 
     return (
       <PageLayout
@@ -123,54 +147,60 @@ export class GroupViewContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profile}
         globalState={this.props.globalState}
-
       >
         {modal}
-        <div className='group'>
+        <div className="group">
           <GroupHeader uri={this.props.group.imageSquare || ''} />
-          {this.props.group.isClosed &&
-          <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
-          }
-          <div className='group--content'>
+          {this.props.group.isClosed && (
+            <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
+          )}
+          <div className="group--content">
             <div className="group--details">
-              <h2 className='group--title' dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}} />
-              <p className='group--description' dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.description)}} />
-              <div className='group--follow'>
+              <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}} />
+              <p
+                className="group--description"
+                dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.description)}}
+              />
+              <div className="group--follow">
                 <Follow
                   active={this.state.following}
                   onClick={this.toggleFollow}
                   showLoginLink={this.state.showloginToFollowMessage}
-                  text={this.state.following && 'Følger' || 'Følg gruppen'} />
+                  text={(this.state.following && 'Følger') || 'Følg gruppen'}
+                />
               </div>
             </div>
-            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) &&
-            <div className="group--actions">
-              <TinyButton
-                active={false}
-                clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line
-                // no-return-assign
-                icon={<Icon glyph={pencilSvg} />} />
-            </div>
-            }
-            {(!this.props.group.isClosed || this.props.profile.isModerator) &&
-            <div className='group--post-add'>
-              <h2>Skriv i gruppen</h2>
-              <PostAdd
-                redirectTo={`/grupper/${this.props.group.id}`}
-                profile={this.props.profile}
-                getMoreWorks={this.props.profileActions.asyncGetUserReviews}
-                addContentAction={this.props.groupActions.addPost}
-                works={this.props.group.works}
-                parentId={this.props.group.id}
-                type="post"
-                coverImages={this.props.coverImages}
-                pdfUploads={true}
-              />
-            </div>
-            }
-            <div className='group--post-view'>
-              <h2
-                className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
+            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) && (
+              <div className="group--actions">
+                <TinyButton
+                  active={false}
+                  clickFunction={() => (window.location = `/grupper/${this.props.group.id}/rediger`)} // eslint-disable-line
+                  // no-return-assign
+                  icon={<Icon glyph={pencilSvg} />}
+                />
+              </div>
+            )}
+            {(!this.props.group.isClosed || this.props.profile.isModerator) && (
+              <div className="group--post-add">
+                <h2>Skriv i gruppen</h2>
+                <PostAdd
+                  redirectTo={`/grupper/${this.props.group.id}`}
+                  profile={this.props.profile}
+                  getMoreWorks={this.props.profileActions.asyncGetUserReviews}
+                  addContentAction={this.props.groupActions.addPost}
+                  works={this.props.group.works}
+                  parentId={this.props.group.id}
+                  type="post"
+                  coverImages={this.props.coverImages}
+                  pdfUploads={true}
+                />
+              </div>
+            )}
+            <div className="group--post-view">
+              <h2 className="group--post-view-header">
+                {this.props.group.postsCount}{' '}
+                {(this.props.group.postsCount === 1 && 'bruger skriver') || 'brugere skriver'}
+              </h2>
               <PostList
                 campaign={this.props.group.campaign}
                 posts={this.props.group.posts}
@@ -186,15 +216,20 @@ export class GroupViewContainer extends React.Component {
                 getMoreWorks={this.props.profileActions.asyncGetUserReviews}
                 groupIsClosed={this.props.group.isClosed}
               />
-              {this.props.group.postsCount > this.props.group.numberOfPostsLoaded &&
-              <div className="expand-wrapper">
-                <ExpandButton
-                  isLoading={this.props.group.loadingPosts}
-                  onClick={() => this.props.groupActions.asyncShowMorePosts(this.props.group.id, this.props.group.numberOfPostsLoaded, 10)}
-                  text="Vis flere"
-                />
-              </div>
-              }
+              {this.props.group.postsCount > this.props.group.numberOfPostsLoaded && (
+                <div className="expand-wrapper">
+                  <ExpandButton
+                    isLoading={this.props.group.loadingPosts}
+                    onClick={() =>
+                      this.props.groupActions.asyncShowMorePosts(
+                        this.props.group.id,
+                        this.props.group.numberOfPostsLoaded,
+                        10
+                      )}
+                    text="Vis flere"
+                  />
+                </div>
+              )}
             </div>
           </div>
           <h2 className="group--memberbox-header">{this.props.group.membersCount} følger gruppen</h2>
@@ -239,7 +274,7 @@ GroupViewContainer.defaultProps = {
  */
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       searchState: state.searchReducer,
       profile: state.profileReducer,
@@ -251,7 +286,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       profileActions: bindActionCreators(profileActions, dispatch),
       searchActions: bindActionCreators(searchActions, dispatch),

@@ -70,7 +70,8 @@ module.exports = [
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
-                plugins: loader => [require('autoprefixer')()] // @see https://github.com/postcss/postcss-loader#plugins
+                sourceMap: true,
+                plugins: () => [require('autoprefixer')()] // @see https://github.com/postcss/postcss-loader#plugins
               }
             }
           ]

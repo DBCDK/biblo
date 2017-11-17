@@ -136,7 +136,7 @@
   "devDependencies": {
     "babel-eslint": "^8.0.2",
     "chai": "^4.1.2",
-    "chromedriver": "^2.33.2",
+    "chromedriver": "2.30.1",
     "cucumber": "^1.0.0",
     "cucumberjs-junitxml": "1.0.0",
     "eslint": "^4.11.0",

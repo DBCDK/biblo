@@ -314,7 +314,8 @@ export default class BorrowButton extends React.Component {
           <RoundedButton clickFunction={onClose} buttonText="PERFEKT" compact={false} />
         </div>
       );
-    } else if (orderState === 3 || (checkAvailabilityDone && collectionObjectSize <= 0)) {      // An error occured during order or
+    } else if (orderState === 3 || (checkAvailabilityDone && collectionObjectSize <= 0)) {
+      // An error occured during order or
       // CheckAvailability says you can't borrow this work
       modalContent = (
         <div>

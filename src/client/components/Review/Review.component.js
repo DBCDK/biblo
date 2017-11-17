@@ -70,6 +70,8 @@ export default class Review extends UploadMedia {
       isLoading: false
     };
 
+    this.contentFormRef = null;
+
     this.clearImage = this.clearImage.bind(this);
     this.submitReviewFlag = this.submitReviewFlag.bind(this);
     this.likeReview = this.likeReview.bind(this);
@@ -237,8 +239,8 @@ export default class Review extends UploadMedia {
     e.preventDefault();
     let attachment = this.state.attachment;
     attachment.image = null;
-    if (this.refs.fileInput.value) {
-      this.refs.fileInput.value = null;
+    if (this.fileInput.value) {
+      this.fileInput.value = null;
       this.setState({
         attachment: attachment,
         imageRemoveId: null
@@ -278,7 +280,7 @@ export default class Review extends UploadMedia {
 
   processContent() {
     return new Promise((resolve, reject) => {
-      this.addContent(this.refs.contentForm, '/anmeldelse/')
+      this.addContent(this.contentFormRef, '/anmeldelse/')
         .then(response => {
           if (response.errors && response.errors.length > 0) {
             this.setState({errorMsg: response.errors[0].errorMessage});
@@ -468,7 +470,6 @@ export default class Review extends UploadMedia {
           </div>
 
           <Rating
-            ref="rating"
             pid={pid}
             rating={rating}
             onChange={this.state.isEditing ? this.onRatingChange.bind(this) : null}
@@ -480,14 +481,13 @@ export default class Review extends UploadMedia {
               <form
                 method="post"
                 action="/anmeldelse/"
-                ref="contentForm"
+                ref={contentForm => (this.contentFormRef = contentForm)}
                 onSubmit={e => this.onSubmit(e)}
                 encType="multipart/form-data"
               >
                 <div className="review-add--input">
                   <textarea
                     className="review-add--textarea"
-                    ref="contentTextarea"
                     name="content"
                     placeholder="Skriv din anmeldelse her"
                     value={this.state.content}
@@ -559,7 +559,6 @@ export default class Review extends UploadMedia {
                       this.state.attachment.video.file.progress > 0 &&
                       this.state.attachment.video.file.progress < 100)) && (
                       <input
-                        ref="about"
                         type="reset"
                         className="button alert"
                         onClick={this.onAbort.bind(this)}
@@ -587,7 +586,7 @@ export default class Review extends UploadMedia {
                   this.readInput(event, attachment => this.setState({attachment: attachment}))
                     .then(attachment => this.setState({attachment: attachment}))
                     .catch(errorMsg => this.setState({errorMsg: errorMsg}))}
-                ref="fileInput"
+                ref={_fileInput => (this.fileInput = _fileInput)}
               />
             </div>
           )) || (

@@ -21,6 +21,9 @@ export default class SearchContainer extends React.Component {
       loading: false,
       searchPlaceholder: ''
     };
+
+    this.searchFieldReferenceRef = null;
+
     this.searchInputChanged = this.searchInputChanged.bind(this);
     this.submitInput = this.submitInput.bind(this);
     this.clearSearchBox = this.clearSearchBox.bind(this);
@@ -32,7 +35,7 @@ export default class SearchContainer extends React.Component {
     window.addEventListener('scroll', function() {
       if (self.state.qChanged) {
         self.setState({qChanged: false});
-        hideKeyboard(ReactDOM.findDOMNode(self.refs.searchFieldReference));
+        hideKeyboard(ReactDOM.findDOMNode(self.searchFieldReferenceRef));
       }
     });
 
@@ -63,7 +66,7 @@ export default class SearchContainer extends React.Component {
   componentDidUpdate() {
     if (this.props.search.setFocusOnSearchBox) {
       this.props.search.setFocusOnSearchBox = false;
-      ReactDOM.findDOMNode(this.refs.searchFieldReference).focus();
+      ReactDOM.findDOMNode(this.searchFieldReferenceRef).focus();
     }
   }
 
@@ -80,7 +83,7 @@ export default class SearchContainer extends React.Component {
 
   clearSearchBox() {
     this.setState({query: ''});
-    this.refs.searchFieldReference.focus();
+    this.searchFieldReferenceRef.focus();
   }
 
   submitInput(e) {
@@ -144,7 +147,7 @@ export default class SearchContainer extends React.Component {
                 onKeyDown={this.submitInput}
                 onBlur={() => this.setState({queryFieldIsActive: false})}
                 onFocus={() => this.setState({queryFieldIsActive: true})}
-                ref="searchFieldReference"
+                ref={searchFieldReference => {this.searchFieldReferenceRef = searchFieldReference;}}
               />
               <span className={clearSearchBoxVisible} onClick={this.clearSearchBox}>
                 ×

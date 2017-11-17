@@ -476,9 +476,9 @@ AddContent.defaultProps = {
   },
   displayAbortButton: false,
   addContentAction: () => {
-    console.error(
-      "YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn't happen. Check your props!"
-    ); // eslint-disable-line
+    console.error( // eslint-disable-line
+      'YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'
+    );
   },
   editing: false
 };

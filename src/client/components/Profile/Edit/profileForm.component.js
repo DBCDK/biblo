@@ -31,12 +31,15 @@ export default class ProfileForm extends React.Component {
       loanerId: (props.favoriteLibrary || {}).loanerId || '',
       pincode: (props.favoriteLibrary || {}).pincode || ''
     };
+
+    this.descriptionRef = null;
+    this.proofileFormRef = null;
   }
 
   componentDidMount() {
-    autosize(this.refs.description);
+    autosize(this.descriptionRef);
 
-    const elem = this.refs['profile-form'];
+    const elem = this.proofileFormRef;
     elem.onsubmit = e => {
       const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
       this.props.submit(
@@ -98,7 +101,7 @@ export default class ProfileForm extends React.Component {
     return (
       <div className={(this.props.errors.length > 0 && ' shakeit') || ''}>
         <div className={'profile-form' + ((this.props.errors.length > 0 && '') || '')}>
-          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form">
+          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref={profileForm => {this.proofileFormRef = profileForm;}}>
             <div className={'profile-image-upload'}>
               <DroppableImageField
                 disabled={disabled}
@@ -130,7 +133,7 @@ export default class ProfileForm extends React.Component {
                     placeholder="Her kan du skrive lidt om dig selv"
                     name="description"
                     defaultValue={this.props.description}
-                    ref="description"
+                    ref={description => {this.descriptionRef = description;}}
                     onChange={e => this.setState({description: e.target.value})}
                   />
                   {errorObj.description || ''}

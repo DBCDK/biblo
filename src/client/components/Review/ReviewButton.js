@@ -36,8 +36,8 @@ export class ReviewButton extends React.Component {
 
     return (
       <a className="review-button" onClick={this.handleClick.bind(this)}>
-       <span>
-         {icon}{editText}
+        <span>
+          {icon}{editText}
         </span>
       </a>
     );

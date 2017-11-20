@@ -18,7 +18,6 @@ const RenewLoanTransform = {
         loanId: loanId,
         userId: favouriteLibrary.loanerId,
         userPincode: favouriteLibrary.pincode
-
       };
 
       if (params.agencyId.toLowerCase().indexOf('dk-') !== 0) {
@@ -31,7 +30,7 @@ const RenewLoanTransform = {
     return Promise.reject('user not logged in');
   },
 
-  responseTransform(response, {loanId, createdEpoch}, connection) {
+  responseTransform(response, {createdEpoch}, connection) {
     const result = {
       loanId: response.loanId,
       message: null,
@@ -67,7 +66,7 @@ const RenewLoanTransform = {
         createdEpoch: createdEpoch,
         messageType: 'type-orderExpiresSoon'
       })
-        .then((res) => {
+        .then(res => {
           this.logger.info('Message was successfully deleted from DynamoDB', {
             response: res,
             params: {
@@ -77,7 +76,7 @@ const RenewLoanTransform = {
             }
           });
         })
-        .catch((e) => {
+        .catch(e => {
           this.logger.error('An error occured while deleting a message from DynamoDB', {
             error: e,
             params: {

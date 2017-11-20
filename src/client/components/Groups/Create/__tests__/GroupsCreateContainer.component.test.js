@@ -6,7 +6,7 @@ import expect from 'expect';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 
 import {GroupCreateContainer} from '../GroupCreateContainer.component';
 
@@ -52,7 +52,7 @@ describe('Test group create container', () => {
         uiActions={uiActions}
         profileState={{}}
         globalState={{}}
-        />
+      />
     );
 
     let dm = TestUtils.renderIntoDocument(component);

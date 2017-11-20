@@ -28,7 +28,6 @@ import * as ProfileActions from '../../Actions/profile.actions';
 import './WorkContainer.scss';
 
 export class WorkContainer extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -49,6 +48,7 @@ export class WorkContainer extends React.Component {
   }
 
   getEditText() {
+
     if (this.getOwnReviewId() && !this.state.reviewVisible) {
       return 'SE DIN ANMELDELSE';
     }
@@ -64,6 +64,7 @@ export class WorkContainer extends React.Component {
           window.location = '/anmeldelse/' + reviewId;
         }
         else {
+
           this.setState({
             reviewVisible: !this.state.reviewVisible
           });
@@ -96,7 +97,12 @@ export class WorkContainer extends React.Component {
     if (work.multivolume && work.multivolume.length) {
       const multivolumeTitle = work.multivolume[0].title[0];
       multivolumeDisplay = (
-        <MultiVolumeDisplay multivolume={work.multivolume} multivolumeTitle={multivolumeTitle} multivolumeMetadata={multivolumeMetadata} getMetadataAction={getMetadataAction} />
+        <MultiVolumeDisplay
+          multivolume={work.multivolume}
+          multivolumeTitle={multivolumeTitle}
+          multivolumeMetadata={multivolumeMetadata}
+          getMetadataAction={getMetadataAction}
+        />
       );
     }
     return multivolumeDisplay;
@@ -105,7 +111,7 @@ export class WorkContainer extends React.Component {
   render() {
     const work = this.props.workState.work; // the work collection from the service provider
     const isMultivolume = !!(work.multivolume && work.multivolume.length);
-    const bind = isMultivolume && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0] || '';
+    const bind = (isMultivolume && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0]) || '';
     const bindPids = isMultivolume ? work.bind[work.bindId].pid : work.collection;
     const bindDetails = isMultivolume ? work.bind[work.bindId] : {};
     const multivolumeDisplay = this.getMultiVolumeDisplay(
@@ -113,11 +119,11 @@ export class WorkContainer extends React.Component {
       this.props.workState.workMetadataOrderedByPid,
       this.props.workActions.asyncGetMultiVolumeDetailsFromPid
     );
-    const reviews = this.props.reviewState.workReviews;   // the reviews associated with the work
+    const reviews = this.props.reviewState.workReviews; // the reviews associated with the work
     const highlightedReview = this.props.reviewState.highlightedReview;
     const meta = this.props.reviewState.workReviewsMeta;
-    const reviewVisible = this.state.reviewVisible;         // is the review create area visible or not?
-    const librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
+    const reviewVisible = this.state.reviewVisible; // is the review create area visible or not?
+    const librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map(suggestion => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
@@ -126,20 +132,21 @@ export class WorkContainer extends React.Component {
 
     let isOwnReview = false;
     if (reviews.length > 0) {
-      isOwnReview = (meta.ownReviewId === highlightedReview.id);
+      isOwnReview = meta.ownReviewId === highlightedReview.id;
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
-        {this.props.ui.modal.isOpen &&
-        <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
-          {
-            this.props.ui.modal.children
-          }
-        </ModalWindow>
-        }
-        <div className='work'>
-          <WorkHeader coverUrl={work.coverUrl}/>
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profile}
+        globalState={this.props.globalState}
+      >
+        {this.props.ui.modal.isOpen && (
+          <ModalWindow onClose={this.props.uiActions.closeModalWindow}>{this.props.ui.modal.children}</ModalWindow>
+        )}
+        <div className="work">
+          <WorkHeader coverUrl={work.coverUrl} />
           <WorkDetail
             collection={work.collection}
             collectionDetails={work.collectionDetails}
@@ -176,11 +183,9 @@ export class WorkContainer extends React.Component {
             ownReview={isOwnReview}
           />
 
-          <div className='work--reviewlist'>
-            {
-              reviewVisible &&
+          <div className="work--reviewlist">
+            {reviewVisible && (
               <Review
-                ref='review'
                 isEditing={true}
                 toggleReview={this.toggleReview.bind(this)}
                 profile={this.props.profile}
@@ -193,13 +198,12 @@ export class WorkContainer extends React.Component {
                 likeActions={this.props.likeActions}
                 pids={bindPids}
               />
-            }
-            {
-              this.state.errorMessage &&
-              <Message type='error'>
+            )}
+            {this.state.errorMessage && (
+              <Message type="error">
                 <span> {this.state.errorMessage} </span>
               </Message>
-            }
+            )}
             <ReviewList
               pids={bindPids}
               totalCount={meta.workReviewsTotalCount}
@@ -219,13 +223,14 @@ export class WorkContainer extends React.Component {
           <div className="work--moreinfo">
             {multivolumeDisplay}
 
-            {work.titleSeries.length > 0 &&
+            {work.titleSeries.length > 0 && (
               <SeriesDisplay
                 work={work}
                 seriesResults={this.props.searchState.seriesResults}
                 moreSeriesResults={this.props.searchState.moreSeriesResults}
                 searchAction={this.props.searchActions.asyncQuerySeries}
-              />}
+              />
+            )}
 
             <MoreInfo
               materials={work.collectionDetails}
@@ -273,7 +278,7 @@ WorkContainer.propTypes = {
 };
 
 export default connect(
-  (state) => {
+  state => {
     return {
       searchState: state.searchReducer,
       reviewState: state.reviewReducer,
@@ -285,7 +290,7 @@ export default connect(
     };
   },
 
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       workActions: bindActionCreators(workActions, dispatch),

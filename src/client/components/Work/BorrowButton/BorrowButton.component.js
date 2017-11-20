@@ -187,13 +187,13 @@ export default class BorrowButton extends React.Component {
             </p>
           </span>
         )) || (
-          <span className={`modal-window--${this.props.type}`}>
-            <input type="submit" value={this.props.modalButtonTitle} className="modal-window--borrow-submit-button" />
-            <p className="modal-window--message-under-submit-button">
+            <span className={`modal-window--${this.props.type}`}>
+              <input type="submit" value={this.props.modalButtonTitle} className="modal-window--borrow-submit-button" />
+              <p className="modal-window--message-under-submit-button">
               Du får besked fra dit bibliotek, når bogen er klar til at du kan hente den.
-            </p>
-          </span>
-        )}
+              </p>
+            </span>
+          )}
       </form>
     );
   }
@@ -373,14 +373,14 @@ export default class BorrowButton extends React.Component {
     return (
       <div className="borrow">
         {this.state.displayModal &&
-        this.placeOrderModal(
-          this.props.collectionDetails,
-          this.props.checkAvailabilityResult,
-          this.props.checkAvailabilityDone,
-          this.props.orderState,
-          this.props.profile,
-          this.closeModal.bind(this)
-        )}
+          this.placeOrderModal(
+            this.props.collectionDetails,
+            this.props.checkAvailabilityResult,
+            this.props.checkAvailabilityDone,
+            this.props.orderState,
+            this.props.profile,
+            this.closeModal.bind(this)
+          )}
         <a className="borrow--button" onClick={() => this.setState({displayModal: true})}>
           {this.props.buttonIcon} <span className="button-text">{this.props.buttonTitle}</span>
         </a>

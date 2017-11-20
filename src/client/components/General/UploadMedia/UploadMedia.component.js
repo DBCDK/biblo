@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
  * use onAbort to cancel uploads
  */
 export default class UploadMedia extends React.Component {
-
   constructor(props) {
     super(props);
+    this.fileInput = null;
   }
 
   /**
@@ -28,7 +28,7 @@ export default class UploadMedia extends React.Component {
       this.xhr = new XMLHttpRequest();
       this.xhr.open('POST', target);
       this.xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      this.xhr.onload = (event) => {
+      this.xhr.onload = event => {
         try {
           const contentResponse = JSON.parse(event.target.response);
 
@@ -102,7 +102,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadpdf');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percentage = (e.loaded / e.total) * 100;
+          const percentage = e.loaded / e.total * 100;
           attachment.pdf.file.progress = percentage;
           if (onProgress) {
             onProgress(attachment);
@@ -145,7 +145,7 @@ export default class UploadMedia extends React.Component {
       const reader = new FileReader();
       const form = new FormData();
 
-      reader.onload = (e) => {
+      reader.onload = e => {
         attachment.image.data = e.target.result;
         onProgress(attachment);
       };
@@ -157,7 +157,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadimage');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percentage = (e.loaded / e.total) * 100;
+          const percentage = e.loaded / e.total * 100;
           attachment.image.file.progress = percentage;
           if (onProgress) {
             onProgress(attachment);
@@ -203,9 +203,9 @@ export default class UploadMedia extends React.Component {
       form.append('video', file);
       this.xhr = new XMLHttpRequest();
       this.xhr.open('POST', '/api/uploadvideo');
-      this.xhr.upload.onprogress = (e) => {
+      this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percentage = (e.loaded / e.total) * 100;
+          const percentage = e.loaded / e.total * 100;
           attachment.video.file.progress = percentage;
           if (onProgress) {
             onProgress(attachment);
@@ -217,7 +217,7 @@ export default class UploadMedia extends React.Component {
         return reject('upload af video fejlede - prøv igen');
       };
 
-      this.xhr.onload = (e) => {
+      this.xhr.onload = e => {
         if (e.target.status === 200) {
           attachment.video.file.progress = 100;
           return resolve(attachment);
@@ -251,8 +251,8 @@ export default class UploadMedia extends React.Component {
     let attachment = this.state.attachment;
     attachment.image = null;
 
-    if (this.refs.fileInput.value) {
-      this.refs.fileInput.value = null;
+    if (this.fileInput.value) {
+      this.fileInput.value = null;
       this.setState({attachment: attachment});
     }
     else {

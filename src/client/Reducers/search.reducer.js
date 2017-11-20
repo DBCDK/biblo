@@ -41,7 +41,6 @@ let initialState = {
   moreSeriesResults: false
 };
 
-
 if (typeof window !== 'undefined') {
   // load JSONDATA payload into initial state
   let jsonData = document.getElementById('JSONDATA');
@@ -66,16 +65,17 @@ if (typeof window !== 'undefined') {
     }
   }
 
-// identify enabled search filters by looking at the url
+  // identify enabled search filters by looking at the url
   const urlParams = parseQueryParams(window.location.href);
 
   if (urlParams.grupper) {
-    initialState.filters.groupFilter = (parseInt(urlParams.grupper, 10) === 1);
+    initialState.filters.groupFilter = parseInt(urlParams.grupper, 10) === 1;
   }
 
   if (urlParams.materialer) {
     const materialFilters = urlParams.materialer.split(',');
-    for (const i in materialFilters) { // eslint-disable-line guard-for-in
+    for (const i in materialFilters) {
+      // eslint-disable-line guard-for-in
       if (materialFilters[i] && initialState.filters.materialFilters[materialFilters[i]]) {
         initialState.filters.materialFilters[materialFilters[i]].enabled = true;
       }
@@ -84,7 +84,6 @@ if (typeof window !== 'undefined') {
   if (urlParams.emneord) {
     initialState.filters.subjectFilters = urlParams.emneord.split(',');
   }
-
 }
 
 export default function searchReducer(state = initialState, action = {}) {
@@ -143,7 +142,7 @@ export default function searchReducer(state = initialState, action = {}) {
           newState.workSuggestions[newState.query][newState.selectedWorkSuggestion].active = false;
         }
 
-        if (newState.selectedWorkSuggestion < (newState.workSuggestions[newState.query].length - 1)) {
+        if (newState.selectedWorkSuggestion < newState.workSuggestions[newState.query].length - 1) {
           newState.selectedWorkSuggestion += 1;
         }
         else {

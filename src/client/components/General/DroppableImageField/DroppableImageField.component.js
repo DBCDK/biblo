@@ -9,6 +9,8 @@ import './_droppableimagefield.component.scss';
 export default class DroppableImageField extends React.Component {
   constructor() {
     super();
+    this.droppableimagefieldinputRef = null;
+    this.droppableImageFieldRef = null;
     this.readFiles.bind(this);
   }
 
@@ -16,9 +18,9 @@ export default class DroppableImageField extends React.Component {
     let self = this;
 
     var div = document.createElement('div');
-    let dropSpot = self.refs.droppableImageField;
+    let dropSpot = this.droppableImageFieldRef;
 
-    if (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) {
+    if ('draggable' in div || ('ondragstart' in div && 'ondrop' in div)) {
       let hoverMessage = document.getElementById('drop-files-here-message');
 
       dropSpot.ondragover = () => {
@@ -31,7 +33,7 @@ export default class DroppableImageField extends React.Component {
         return false;
       };
 
-      dropSpot.ondrop = (e) => {
+      dropSpot.ondrop = e => {
         hoverMessage.className = '';
         e.preventDefault();
         if (e.dataTransfer.files[0].type.indexOf('image/') >= 0) {
@@ -44,10 +46,9 @@ export default class DroppableImageField extends React.Component {
       };
     }
 
-    this.refs.droppableimagefieldinput.onchange = (e) => {
+    this.droppableimagefieldinputRef.onchange = e => {
       this.readFiles((e.srcElement || e.target).files);
     };
-
   }
 
   readFiles(files) {
@@ -61,24 +62,34 @@ export default class DroppableImageField extends React.Component {
   }
 
   handleTouchStart() {
-    this.refs.droppableimagefieldinput.click();
+    this.droppableimagefieldinputRef.click();
   }
-
 
   render() {
     return (
-      <div className="droppable-image-field" id="droppableImageField" ref={'droppableImageField'} onTouchStart={this.handleTouchStart.bind(this)} >
+      <div
+        className="droppable-image-field"
+        id="droppableImageField"
+        ref={droppableImageField => (this.droppableImageFieldRef = droppableImageField)}
+        onTouchStart={this.handleTouchStart.bind(this)}
+      >
         <label>
-          <div className="image-and-plus-button-container" >
+          <div className="image-and-plus-button-container">
             <img src={this.props.imageSrc} />
             <div className="droppable-image-overlay">{this.props.overlayText}</div>
             <Icon glyph={bluePencilSvg} className="upload-plus-button" />
           </div>
-          <input accept='image/*' type="file" className="droppable-image-field--file-input" name={this.props.fieldName} ref="droppableimagefieldinput" />
+          <input
+            accept="image/*"
+            type="file"
+            className="droppable-image-field--file-input"
+            name={this.props.fieldName}
+            ref={droppableimagefieldinput => (this.droppableimagefieldinputRef = droppableimagefieldinput)}
+          />
         </label>
-        <p id='drop-files-here-message' >Smid din fil her.</p>
-        <p id='filereader-fallback-message' >Din file vil blive oploadet når du trykker OK.</p>
-        <p id='wrong-filetype-message' >Du kan kun uploade billeder i dette felt, prøv med en anden fil!</p>
+        <p id="drop-files-here-message">Smid din fil her.</p>
+        <p id="filereader-fallback-message">Din file vil blive oploadet når du trykker OK.</p>
+        <p id="wrong-filetype-message">Du kan kun uploade billeder i dette felt, prøv med en anden fil!</p>
       </div>
     );
   }

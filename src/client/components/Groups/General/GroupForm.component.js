@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {debounce} from 'lodash';
 
@@ -17,6 +16,10 @@ const debouncedCheckGroupName = debounce((groupName, checkIfGroupNameExists) => 
 export default class GroupForm extends React.Component {
   constructor(props) {
     super(props);
+
+    this.refGroupForm = null;
+    this.groupDescriptionArea = null;
+    this.groupNameInput = null;
 
     this.state = {
       errors: props.errors,
@@ -41,11 +44,10 @@ export default class GroupForm extends React.Component {
   }
 
   componentDidMount() {
-    let elem = ReactDOM.findDOMNode(this.refs['group-form']);
-    elem.onsubmit = (e) => this.props.submit(
+    this.refGroupForm.onsubmit = (e) => this.props.submit(
       e,
       this.state.groupName,
-      this.refs.groupDescriptionArea.value
+      this.groupDescriptionArea.value
     );
   }
 
@@ -66,7 +68,7 @@ export default class GroupForm extends React.Component {
     });
 
     let disabled = false;
-    let submitArea = <RoundedButtonSubmit buttonText="OK" disabled={this.state.errors.length > 0}/>;
+    let submitArea = <RoundedButtonSubmit buttonText="OK" disabled={this.state.errors.length > 0} />;
 
     if (this.props.submitState === 'SUBMITTING') {
       disabled = true;
@@ -74,12 +76,15 @@ export default class GroupForm extends React.Component {
     }
     else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;
-      submitArea = (<ProgressBar completed={this.props.submitProgress} height={'35px'}><p className="progressbar--message">Behandler</p></ProgressBar>);
+      submitArea = (<ProgressBar completed={this.props.submitProgress} height={'35px'}>
+        <p className="progressbar--message">Behandler</p></ProgressBar>);
     }
 
     return (
       <div className={'group-form' + (this.props.errors.length > 0 && ' shakeit' || '')}>
-        <form method="POST" encType="multipart/form-data" id="group_form_component" ref="group-form">
+        <form method="POST" encType="multipart/form-data" id="group_form_component" ref={groupForm => {
+          this.refGroupForm = groupForm;
+        }}>
           <div className={'group-image-upload'}>
             <DroppableImageField
               disabled={disabled}
@@ -99,7 +104,6 @@ export default class GroupForm extends React.Component {
               name="group-name"
               required
               placeholder="Find på et gruppenavn"
-              ref={'groupNameInput'}
               value={this.state.groupName}
               onChange={this.groupNameChange.bind(this)}
             />
@@ -117,7 +121,9 @@ export default class GroupForm extends React.Component {
               name="group-description"
               required
               rows="5"
-              ref={'groupDescriptionArea'}
+              ref={groupDescriptionArea => {
+                this.groupDescriptionArea = groupDescriptionArea;
+              }}
               defaultValue={this.props.defaultValues['group-description']}
             />
             {errorObj['group-description'] || ''}

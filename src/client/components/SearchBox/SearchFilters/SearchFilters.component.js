@@ -9,9 +9,7 @@ import audiobookSvg from '../../General/Icon/svg/materialikon-uden-kvadrat/mater
 import movieSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/film_no_border.svg';
 import groupSvg from '../../General/Icon/svg/Materialikon-kvadrat-small/group_no_border.svg';
 
-
 import './SearchFilters.component.scss';
-
 
 const filterIcons = {
   book: {
@@ -32,7 +30,6 @@ const filterIcons = {
 };
 
 export default class SearchFilters extends React.Component {
-
   constructor(props) {
     super(props);
     this.resetFilters = this.resetFilters.bind(this);
@@ -48,10 +45,9 @@ export default class SearchFilters extends React.Component {
   }
 
   render() {
-
     const filters = this.props.search.filters.materialFilters;
     const groupFilter = this.props.search.filters.groupFilter;
-    const filterElements = Object.keys(filterIcons).map((key) => {
+    const filterElements = Object.keys(filterIcons).map(key => {
       const clickFunction = () => {
         this.props.searchActions.toggleMaterialFilter(key);
         this.props.searchActions.search({
@@ -61,11 +57,12 @@ export default class SearchFilters extends React.Component {
           subjects: this.props.search.filters.subjectFilters
         });
       };
-      const activeClass = (filters[key].enabled) ? 'search-filters--button-active' : '';
-      return (<li key={key} className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36}
-                                                                                                              height={36}
-                                                                                                              glyph={filterIcons[key].svg}/>
-      </li>);
+      const activeClass = filters[key].enabled ? 'search-filters--button-active' : '';
+      return (
+        <li key={key} className={'search-filters--button ' + activeClass} onClick={clickFunction}>
+          <Icon width={36} height={36} glyph={filterIcons[key].svg} />
+        </li>
+      );
     });
 
     const clickFunction = () => {
@@ -78,19 +75,20 @@ export default class SearchFilters extends React.Component {
       });
     };
 
-    const activeClass = (groupFilter) ? 'search-filters--button-active' : '';
+    const activeClass = groupFilter ? 'search-filters--button-active' : '';
     let groupFilterButton = (
-      <a className={'search-filters--button ' + activeClass} onClick={clickFunction}><Icon width={36}
-                                                                                           height={36}
-                                                                                           glyph={groupSvg}/>
+      <a className={'search-filters--button ' + activeClass} onClick={clickFunction}>
+        <Icon width={36} height={36} glyph={groupSvg} />
       </a>
     );
 
     return (
-      <ul className='search-filters'>
+      <ul className="search-filters">
         {filterElements}
         {groupFilterButton}
-        <a className='search-filters--reset-button' href='#' onClick={this.resetFilters}>nulstil</a>
+        <a className="search-filters--reset-button" href="#" onClick={this.resetFilters}>
+          nulstil
+        </a>
       </ul>
     );
   }

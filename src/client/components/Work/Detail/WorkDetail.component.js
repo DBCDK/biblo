@@ -37,6 +37,8 @@ export class WorkDetail extends React.Component {
   constructor() {
     super();
 
+    this.workDetailRef = null;
+
     this.state = {
       displayTopBar: false
     };
@@ -45,7 +47,7 @@ export class WorkDetail extends React.Component {
   }
 
   componentDidMount() {
-    registerScrollSpy(this.refs.workDetail, visible => this.setState({displayTopBar: !visible}));
+    registerScrollSpy(this.workDetailRef, visible => this.setState({displayTopBar: !visible}));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -54,9 +56,24 @@ export class WorkDetail extends React.Component {
     }
 
     const props = [
-      'bind', 'fullTitle', 'collectionDetails', 'profile', 'abstract', 'title', 'creator', 'titleSeries',
-      'descriptionSeries', 'displayType', 'collection', 'coverUrl', 'orderState', 'checkAvailabilityResult',
-      'checkAvailabilityDone', 'librarySearchResults', 'fullReview', 'ownReview'
+      'bind',
+      'fullTitle',
+      'collectionDetails',
+      'profile',
+      'abstract',
+      'title',
+      'creator',
+      'titleSeries',
+      'descriptionSeries',
+      'displayType',
+      'collection',
+      'coverUrl',
+      'orderState',
+      'checkAvailabilityResult',
+      'checkAvailabilityDone',
+      'librarySearchResults',
+      'fullReview',
+      'ownReview'
     ];
 
     let shouldRender = false;
@@ -147,14 +164,25 @@ export class WorkDetail extends React.Component {
    * @param type
    * @returns {*}
    */
-  renderBorrowerButton(collectionDetails, adjustedTitle, buttonIcon, buttonTitle, modalButtonTitle = 'Lån', itemDescription = '', type = 'physical') {
+  renderBorrowerButton(
+    collectionDetails,
+    adjustedTitle,
+    buttonIcon,
+    buttonTitle,
+    modalButtonTitle = 'Lån',
+    itemDescription = '',
+    type = 'physical'
+  ) {
     if (collectionDetails.length === 0) {
       return '';
     }
 
     return (
       <div className="work-detail--button-wrapper">
-        <BorrowButton {...this.props} {...{adjustedTitle, collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}} />
+        <BorrowButton
+          {...this.props}
+          {...{adjustedTitle, collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}}
+        />
       </div>
     );
   }
@@ -190,8 +218,8 @@ export class WorkDetail extends React.Component {
     lRes = lRes.slice(lRes.indexOf(bind) + bind.length);
 
     // Strip special chars and spaces from beginning and end.
-    res = res.replace(/^[^A-Z0-9]+/ig, '');
-    res = res.replace(/[^A-Z0-9]+$/ig, '');
+    res = res.replace(/^[^A-Z0-9]+/gi, '');
+    res = res.replace(/[^A-Z0-9]+$/gi, '');
 
     return res;
   }
@@ -202,7 +230,10 @@ export class WorkDetail extends React.Component {
     }
 
     return titles.map((titleSeries, key) => {
-      const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(titleSeries, descriptionSeries);
+      const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(
+        titleSeries,
+        descriptionSeries
+      );
       if (consolidatedTitleSeries) {
         return (
           <span className="work-detail--title-series" key={key}>
@@ -239,7 +270,7 @@ export class WorkDetail extends React.Component {
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
-    const displayType = (this.props.displayType in displayTypeSvgs) ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
+    const displayType = this.props.displayType in displayTypeSvgs ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
 
     const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
@@ -278,30 +309,50 @@ export class WorkDetail extends React.Component {
     }
 
     return (
-      <div className='work-detail' ref="workDetail">
+      <div className="work-detail" ref={workDetail => (this.workDetailRef = workDetail)}>
         {this.renderTopBar()}
-        <div className='work-detail--main'>
+        <div className="work-detail--main">
           <div className="work-detail--title-container">
-            <h2 className='work-detail--title'>
-              <Icon glyph={displayTypeSvgs[displayType]} className='work-detail--worktype-icon' width={36} height={36}/>
+            <h2 className="work-detail--title">
+              <Icon
+                glyph={displayTypeSvgs[displayType]}
+                className="work-detail--worktype-icon"
+                width={36}
+                height={36}
+              />
               {title}
             </h2>
-            {
-              this.props.isMultivolume &&
-              <p className="work-detail--multi-volume--title">{this.props.title}: {bind}</p>
-            }
+            {this.props.isMultivolume && (
+              <p className="work-detail--multi-volume--title">
+                {this.props.title}: {bind}
+              </p>
+            )}
             {seriesTitles}
-            <span className='work-detail--subheader'>{creator}</span>
+            <span className="work-detail--subheader">{creator}</span>
           </div>
-          <div className='work-detail--description'>
-            {abstract}
-          </div>
+          <div className="work-detail--description">{abstract}</div>
 
-          <div className='work-detail--action-buttons'>
+          <div className="work-detail--action-buttons">
             {this.renderBorrowerButton(physical, title, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
             {this.renderBorrowerButton(online, title, <Icon glyph={houseSvg} />, 'Lån online')}
-            {this.renderBorrowerButton(ereolen, title, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Hør nu på eReolen', 'online')}
-            {this.renderBorrowerButton(ereolen_ebooks, title, <Icon glyph={eReolenlogo} />, 'Lån på eReolen GO', 'Gå til eReolen GO', 'Læs nu på eReolen', 'online')}
+            {this.renderBorrowerButton(
+              ereolen,
+              title,
+              <Icon glyph={eReolenlogo} />,
+              'Lån på eReolen GO',
+              'Gå til eReolen GO',
+              'Hør nu på eReolen',
+              'online'
+            )}
+            {this.renderBorrowerButton(
+              ereolen_ebooks,
+              title,
+              <Icon glyph={eReolenlogo} />,
+              'Lån på eReolen GO',
+              'Gå til eReolen GO',
+              'Læs nu på eReolen',
+              'online'
+            )}
             {this.renderBorrowerButton(
               filmstriben,
               <Icon glyph={movieSvgNoBorder} width={24} height={24} />,

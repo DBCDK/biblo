@@ -31,13 +31,16 @@ export default class ProfileForm extends React.Component {
       loanerId: (props.favoriteLibrary || {}).loanerId || '',
       pincode: (props.favoriteLibrary || {}).pincode || ''
     };
+
+    this.descriptionRef = null;
+    this.proofileFormRef = null;
   }
 
   componentDidMount() {
-    autosize(this.refs.description);
+    autosize(this.descriptionRef);
 
-    const elem = this.refs['profile-form'];
-    elem.onsubmit = (e) => {
+    const elem = this.proofileFormRef;
+    elem.onsubmit = e => {
       const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
       this.props.submit(
         e,
@@ -63,7 +66,7 @@ export default class ProfileForm extends React.Component {
   renderSubmitArea(submitState) {
     switch (submitState) {
       case 'SUBMITTING': {
-        return <ProgressBar completed={this.props.submitProgress} height={'43px'}/>;
+        return <ProgressBar completed={this.props.submitProgress} height={'43px'} />;
       }
       case 'UPLOAD_COMPLETE': {
         return (
@@ -73,19 +76,19 @@ export default class ProfileForm extends React.Component {
         );
       }
       case 'SUBMITTED': {
-        return <RoundedButtonSubmit buttonText="GEMT"/>;
+        return <RoundedButtonSubmit buttonText="GEMT" />;
       }
       default: {
-        return <RoundedButtonSubmit buttonText="OK"/>;
+        return <RoundedButtonSubmit buttonText="OK" />;
       }
     }
   }
 
   render() {
     const errorObj = {};
-    this.props.errors.forEach((error) => {
+    this.props.errors.forEach(error => {
       errorObj[error.field] = (
-        <Message type='error'>
+        <Message type="error">
           <span className={error.field}>{error.errorMessage}</span>
         </Message>
       );
@@ -96,9 +99,11 @@ export default class ProfileForm extends React.Component {
     const birthday = !isEmpty(this.props.birthday) ? dateformat(this.props.birthday, 'yyyy-mm-dd') : '';
 
     return (
-      <div className={this.props.errors.length > 0 && ' shakeit' || ''}>
-        <div className={'profile-form' + (this.props.errors.length > 0 && '' || '')}>
-          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref="profile-form">
+      <div className={(this.props.errors.length > 0 && ' shakeit') || ''}>
+        <div className={'profile-form' + ((this.props.errors.length > 0 && '') || '')}>
+          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref={profileForm => {
+            this.proofileFormRef = profileForm;
+          }}>
             <div className={'profile-image-upload'}>
               <DroppableImageField
                 disabled={disabled}
@@ -116,7 +121,7 @@ export default class ProfileForm extends React.Component {
               <DisplayNameField
                 defaultValue={this.props.displayName}
                 errors={errorObj}
-                onChangeFunc={(e) => this.setState({displayName: e.target.value})}
+                onChangeFunc={e => this.setState({displayName: e.target.value})}
                 checkDisplayNameFunction={this.props.checkDisplayNameFunction}
                 displayNameExists={this.props.displayNameExists}
               />
@@ -130,8 +135,10 @@ export default class ProfileForm extends React.Component {
                     placeholder="Her kan du skrive lidt om dig selv"
                     name="description"
                     defaultValue={this.props.description}
-                    ref="description"
-                    onChange={(e) => this.setState({description: e.target.value})}
+                    ref={description => {
+                      this.descriptionRef = description;
+                    }}
+                    onChange={e => this.setState({description: e.target.value})}
                   />
                   {errorObj.description || ''}
                 </label>
@@ -140,7 +147,7 @@ export default class ProfileForm extends React.Component {
               <InputField
                 defaultValue={this.props.email}
                 error={errorObj.email}
-                onChangeFunc={(e) => this.setState({email: e.target.value})}
+                onChangeFunc={e => this.setState({email: e.target.value})}
                 type="email"
                 name="email"
                 title="E-mail (din eller dine forældres)"
@@ -150,7 +157,7 @@ export default class ProfileForm extends React.Component {
               <InputField
                 defaultValue={this.props.phone}
                 error={errorObj.phone}
-                onChangeFunc={(e) => this.setState({phone: e.target.value})}
+                onChangeFunc={e => this.setState({phone: e.target.value})}
                 type="tel"
                 name="phone"
                 title="Mobil (din eller dine forældres)"
@@ -160,7 +167,7 @@ export default class ProfileForm extends React.Component {
               <InputField
                 defaultValue={this.props.fullName}
                 error={errorObj.fullName}
-                onChangeFunc={(e) => this.setState({fullName: e.target.value})}
+                onChangeFunc={e => this.setState({fullName: e.target.value})}
                 type="text"
                 name="fullName"
                 title="Dit rigtige navn"
@@ -170,7 +177,7 @@ export default class ProfileForm extends React.Component {
               <InputField
                 defaultValue={birthday}
                 error={errorObj.birthday}
-                onChangeFunc={(e) => this.setState({birthday: e.target.value})}
+                onChangeFunc={e => this.setState({birthday: e.target.value})}
                 type="date"
                 name="birthday"
                 title="Din fødselsdag"
@@ -178,7 +185,6 @@ export default class ProfileForm extends React.Component {
                 format="dd/mm/yyyy"
                 data-date-format="dd/mm/yyyy"
               />
-
 
               <ProfileLibraryInfo
                 errorObj={errorObj}
@@ -188,12 +194,11 @@ export default class ProfileForm extends React.Component {
                 searchAction={this.props.searchAction}
                 searchElements={this.props.searchElements}
                 libraryId={this.state.libraryId}
-                loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
-                pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})}/>
+                loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
+                pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
+              />
 
-              <div className={'profile-form-submit-button'}>
-                {submitArea}
-              </div>
+              <div className={'profile-form-submit-button'}>{submitArea}</div>
             </div>
           </form>
         </div>

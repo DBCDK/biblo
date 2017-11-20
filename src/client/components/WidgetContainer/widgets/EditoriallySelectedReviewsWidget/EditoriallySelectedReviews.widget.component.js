@@ -28,7 +28,11 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.state, nextState) || !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp) || !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+    return (
+      !isEqual(this.state, nextState) ||
+      !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp) ||
+      !isEqual(nextProps.widgetConfig, this.props.widgetConfig)
+    );
   }
 
   componentDidMount() {
@@ -50,7 +54,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
   renderReview(review = null, work = null, idx = 0, hide = false) {
     if (review && work) {
-      const coverUrl = work.coverUrlFull && work.coverUrlFull[0] || `/images/covers/${work.workType}.png`;
+      const coverUrl = (work.coverUrlFull && work.coverUrlFull[0]) || `/images/covers/${work.workType}.png`;
       const containerClass = 'editorial-reviews--review-container' + (hide ? '' : ' expanded');
 
       return (
@@ -70,27 +74,25 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
               <div className="main-content">
                 <div className="widget-element--author">
                   Af:&nbsp;
-                  <a dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}} href={`/profil/${review.owner.id}`} />
+                  <a
+                    dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}
+                    href={`/profil/${review.owner.id}`}
+                  />
                 </div>
-                <h4 className="editorial-reviews--review--work-title">
-                  {work.dcTitle}
-                </h4>
+                <h4 className="editorial-reviews--review--work-title">{work.dcTitle}</h4>
 
                 <div className="editorial-reviews--review--rating-container">
                   <Rating pid={review.pid} rating={review.rating} />
                 </div>
 
                 <div className="editorial-reviews--review--content">
-                  "<span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />"
+                  &quot;<span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />&quot;
                 </div>
               </div>
               <div className="editorial-reviews--read-button">
-                <a href={`/anmeldelse/${review.id}`}>
-                  Læs anmeldelsen
-                </a>
+                <a href={`/anmeldelse/${review.id}`}>Læs anmeldelsen</a>
               </div>
             </div>
-
           </div>
         </div>
       );
@@ -110,8 +112,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
   getShowMoreButton() {
     return (
       <div className="editorially-selected-reviews-widget--show-more-button">
-        <a
-          onClick={() => this.setState({expanded: !this.state.expanded})}>
+        <a onClick={() => this.setState({expanded: !this.state.expanded})}>
           <Icon glyph={this.state.expanded ? minusSvg : plusSvg} />
           {this.state.expanded ? ' VIS FÆRRE' : ' VIS FLERE'}
         </a>
@@ -124,15 +125,18 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
     const reviewIds = this.props.widgetConfig.reviewIds;
     const works = this.props.widgetReducerProp.works;
 
-    const showMoreButton = Object.keys(reviews).length > 2 ?
-      this.getShowMoreButton() :
-      null;
+    const showMoreButton = Object.keys(reviews).length > 2 ? this.getShowMoreButton() : null;
 
     const spinner = this.props.widgetReducerProp.isLoading ? this.getSpinner() : null;
 
     const reviewElements = reviewIds.map((reviewId, idx) => {
       if (reviews[reviewId] && reviews[reviewId].pid && works[reviews[reviewId].pid]) {
-        return this.renderReview(reviews[reviewId], works[reviews[reviewId].pid], idx, !(this.state.expanded || idx < 2));
+        return this.renderReview(
+          reviews[reviewId],
+          works[reviews[reviewId].pid],
+          idx,
+          !(this.state.expanded || idx < 2)
+        );
       }
 
       return <span className="review_not_found" key={`review_${reviewId}_${idx}_not_found`} />;
@@ -140,9 +144,7 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
 
     return (
       <div className="editorially-selected-reviews-widget">
-        <div className="editorially-selected-reviews-widget-container">
-          {reviewElements}
-        </div>
+        <div className="editorially-selected-reviews-widget-container">{reviewElements}</div>
 
         {spinner}
         {showMoreButton}

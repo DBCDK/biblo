@@ -23,7 +23,6 @@ const options = [
 ];
 
 export default class CreateFlagDialog extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -33,6 +32,8 @@ export default class CreateFlagDialog extends React.Component {
       emphasizeRequiredFields: false
     };
 
+    this.otherCauseTextInputRef = null;
+
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeCause = this.onChangeCause.bind(this);
     this.onSelectTextInput = this.onSelectTextInput.bind(this);
@@ -40,10 +41,10 @@ export default class CreateFlagDialog extends React.Component {
 
   onSubmit() {
     if (this.state.selectedCause === 'andet') {
-      if (this.refs.otherCauseTextInput.value !== '') {
+      if (this.otherCauseTextInputRef.value !== '') {
         // submit free-text cause
         this.props.submitFunction({
-          cause: this.refs.otherCauseTextInput.value,
+          cause: this.otherCauseTextInputRef.value,
           contentId: this.props.contentId
         });
         this.setState({hasBeenSubmitted: true});
@@ -79,34 +80,48 @@ export default class CreateFlagDialog extends React.Component {
   }
 
   render() {
-
     const confirmMessage = (
       <form>
         <h4>Tak for din henvendelse</h4>
         <p>Vores moderatorer er blevet underrettet om det anmeldte indhold.</p>
-        <div className='create-flag-button--button-group' >
-          <input className='create-flag-dialog--button--confirm' type='button' value='Luk'
-                 onClick={this.props.onClose} />
+        <div className="create-flag-button--button-group">
+          <input
+            className="create-flag-dialog--button--confirm"
+            type="button"
+            value="Luk"
+            onClick={this.props.onClose}
+          />
         </div>
       </form>
     );
 
-    const radioButtons = options.map((option) => {
+    const radioButtons = options.map(option => {
       return (
-        <label key={option.key} >
-          <input type='radio' name='cause' value={option.key} onChange={this.onChangeCause} />
+        <label key={option.key}>
+          <input type="radio" name="cause" value={option.key} onChange={this.onChangeCause} />
           {option.text}
         </label>
       );
     });
 
     const radioGroup = (
-      <div className='create-flag-dialog--radio-group' >
+      <div className="create-flag-dialog--radio-group">
         {radioButtons}
-        <label key='optional-field' >
-          <input type='radio' name='cause' value='andet' checked={this.state.selectedCause === 'andet'} onChange={this.onChangeCause} />
+        <label key="optional-field">
+          <input
+            type="radio"
+            name="cause"
+            value="andet"
+            checked={this.state.selectedCause === 'andet'}
+            onChange={this.onChangeCause}
+          />
           Anden forklaring
-          <textArea className='create-flag-dialog--other-cause' ref='otherCauseTextInput' type='text' onFocus={this.onSelectTextInput} />
+          <textArea
+            className="create-flag-dialog--other-cause"
+            ref={otherCauseTextInput => (this.otherCauseTextInputRef = otherCauseTextInput)}
+            type="text"
+            onFocus={this.onSelectTextInput}
+          />
         </label>
       </div>
     );
@@ -115,24 +130,24 @@ export default class CreateFlagDialog extends React.Component {
       <form>
         <h4>Anmeld indhold</h4>
 
-        <p className={(this.state.emphasizeRequiredFields) ? 'create-flag-dialog--required-field--emphasis' : ''} >
+        <p className={this.state.emphasizeRequiredFields ? 'create-flag-dialog--required-field--emphasis' : ''}>
           Hvad er årsagen til at du vil anmelde dette indhold?
         </p>
 
         {radioGroup}
-        <div className='create-flag-button--button-group' >
-          <input className='create-flag-dialog--button--confirm' type='button' value='OK' onClick={this.onSubmit} />
-          <input className='create-flag-dialog--button--cancel' type='button' value='Fortryd'
-                 onClick={this.props.onClose} />
+        <div className="create-flag-button--button-group">
+          <input className="create-flag-dialog--button--confirm" type="button" value="OK" onClick={this.onSubmit} />
+          <input
+            className="create-flag-dialog--button--cancel"
+            type="button"
+            value="Fortryd"
+            onClick={this.props.onClose}
+          />
         </div>
       </form>
     );
 
-    return (
-      <div className="create-flag-dialog" >
-        {(this.state.hasBeenSubmitted) ? confirmMessage : causeForm}
-      </div>
-    );
+    return <div className="create-flag-dialog">{this.state.hasBeenSubmitted ? confirmMessage : causeForm}</div>;
   }
 }
 
@@ -145,7 +160,9 @@ CreateFlagDialog.propTypes = {
 
 CreateFlagDialog.defaultProps = {
   onClose: () => {
-    console.error('YO DEV! You should provide your own onClose method. This is the default being called which shouldn\'t happen. Check your props!'); // eslint-disable-line
+    console.error(
+      'YO DEV! You should provide your own onClose method. This is the default being called which shouldn\'t happen. Check your props!' // eslint-disable-line
+    );
   },
   contentId: -1
 };

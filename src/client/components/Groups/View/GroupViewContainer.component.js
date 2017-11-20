@@ -171,37 +171,34 @@ export class GroupViewContainer extends React.Component {
                 />
               </div>
             </div>
-            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) && (
-              <div className="group--actions">
-                <TinyButton
-                  active={false}
-                  clickFunction={() => (window.location = `/grupper/${this.props.group.id}/rediger`)} // eslint-disable-line
-                  // no-return-assign
-                  icon={<Icon glyph={pencilSvg}/>}
-                />
-              </div>
-            )}
-            {(!this.props.group.isClosed || this.props.profile.isModerator) && (
-              <div className="group--post-add">
-                <h2>Skriv i gruppen</h2>
-                <PostAdd
-                  redirectTo={`/grupper/${this.props.group.id}`}
-                  profile={this.props.profile}
-                  getMoreWorks={this.props.profileActions.asyncGetUserReviews}
-                  addContentAction={this.props.groupActions.addPost}
-                  works={this.props.group.works}
-                  parentId={this.props.group.id}
-                  type="post"
-                  coverImages={this.props.coverImages}
-                  pdfUploads={true}
-                />
-              </div>
-            )}
-            <div className="group--post-view">
-              <h2 className="group--post-view-header">
-                {this.props.group.postsCount}{' '}
-                {(this.props.group.postsCount === 1 && 'bruger skriver') || 'brugere skriver'}
-              </h2>
+            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) &&
+            <div className="group--actions">
+              <TinyButton
+                active={false}
+                clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line
+                // no-return-assign
+                icon={<Icon glyph={pencilSvg} />} />
+            </div>
+            }
+            {(!this.props.group.isClosed || this.props.profile.isModerator) &&
+            <div className='group--post-add'>
+              <h2>Skriv i gruppen</h2>
+              <PostAdd
+                redirectTo={`/grupper/${this.props.group.id}`}
+                profile={this.props.profile}
+                getMoreWorks={this.props.profileActions.asyncGetUserReviews}
+                addContentAction={this.props.groupActions.addPost}
+                works={this.props.group.works}
+                parentId={this.props.group.id}
+                type="post"
+                coverImages={this.props.coverImages}
+                pdfUploads={true}
+              />
+            </div>
+            }
+            <div className='group--post-view'>
+              <h2
+                className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
               <PostList
                 campaign={this.props.group.campaign}
                 posts={this.props.group.posts}

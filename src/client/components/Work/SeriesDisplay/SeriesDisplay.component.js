@@ -9,12 +9,7 @@ import Icon from '../../General/Icon/Icon.component';
 import closeSvg from '../../General/Icon/svg/functions/close.svg';
 import plusSvg from '../../General/Icon/svg/functions/plus.svg';
 
-const workFields = [
-  'pid',
-  'coverUrlFull',
-  'dcTitle',
-  'titleSeries'
-];
+const workFields = ['pid', 'coverUrlFull', 'dcTitle', 'titleSeries'];
 
 // Fang det sidste tal efter semikolon.
 const editionRegex = /;\s(\d+).*$/;
@@ -95,7 +90,9 @@ export class SeriesDisplay extends Component {
 
   render() {
     const seriesBox = this.state.clippedSeriesTitle.map((clippedSeriesTitle, idx) => {
-      const displayMoreResults = (this.props.seriesResults[clippedSeriesTitle] || []).length > this.state.limit * this.state.pager[clippedSeriesTitle];
+      const displayMoreResults =
+        (this.props.seriesResults[clippedSeriesTitle] || []).length >
+        this.state.limit * this.state.pager[clippedSeriesTitle];
       const displayCloseButton = this.state.pager[clippedSeriesTitle] > 1;
       const amountToDisplay = this.state.pager[clippedSeriesTitle] * this.state.limit;
       const results = (this.props.seriesResults[clippedSeriesTitle] || []).slice(0, amountToDisplay).map(book => {
@@ -111,41 +108,30 @@ export class SeriesDisplay extends Component {
         const key = `${clippedSeriesTitle}_sd_${book.pid[0]}`;
 
         bookTitle = bookTitle.length > 20 ? `${bookTitle.substring(0, 17)}...` : bookTitle;
-        return (
-          <SeriesDisplayUnit
-            key={key}
-            pid={book.pid[0]}
-            bookTitle={bookTitle}
-            coverUrl={book.coverUrl}
-          />
-        );
+        return <SeriesDisplayUnit key={key} pid={book.pid[0]} bookTitle={bookTitle} coverUrl={book.coverUrl} />;
       });
 
       return (
-        <div className='more-info' key={clippedSeriesTitle}>
+        <div className="more-info" key={clippedSeriesTitle}>
           <div className="more-info--header">Alle bøger i serien {clippedSeriesTitle}</div>
           {results}
           <div className="buttons">
-            {displayMoreResults &&
-            <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
+            {displayMoreResults && (
+              <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
                 <Icon glyph={plusSvg} />VIS FLERE
               </span>
-            }
-            {displayCloseButton &&
-            <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
+            )}
+            {displayCloseButton && (
+              <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
                 <Icon glyph={closeSvg} />LUK
               </span>
-            }
+            )}
           </div>
         </div>
       );
     });
 
-    return (
-      <div className="series--container">
-        {seriesBox}
-      </div>
-    );
+    return <div className="series--container">{seriesBox}</div>;
   }
 }
 

@@ -10,7 +10,6 @@ import sd from 'skin-deep';
 import {SearchResultContainer} from '../SearchResultContainer.component';
 
 describe('Testing the SearchResultContainer component', () => {
-
   it('should show a moreMaterialsButton when there are more than 19 material results to show', () => {
     const store = {};
     const search = {
@@ -72,7 +71,6 @@ describe('Testing the SearchResultContainer component', () => {
     assert.throws(VisFlereFunc, '#moreMaterialsButton not found in tree');
   });
 
-
   it('shows all lists when not filtering', () => {
     const store = {};
     const search = {
@@ -98,10 +96,15 @@ describe('Testing the SearchResultContainer component', () => {
       />
     );
 
-    assert.isTrue(tree.subTree('MaterialSearchResultList').getRenderOutput().props.results.length === search.materialSearchResults.length,
-           'MaterialSearchResultList was not shown with no filters on');
-    assert.isTrue(tree.subTree('GroupSearchResultList').getRenderOutput().props.results.length === search.groupSearchResults.length,
-            'GroupSearchResultList was not shown with no filters on ');
+    assert.isTrue(
+      tree.subTree('MaterialSearchResultList').getRenderOutput().props.results.length ===
+        search.materialSearchResults.length,
+      'MaterialSearchResultList was not shown with no filters on'
+    );
+    assert.isTrue(
+      tree.subTree('GroupSearchResultList').getRenderOutput().props.results.length === search.groupSearchResults.length,
+      'GroupSearchResultList was not shown with no filters on '
+    );
   });
 
   // "Når Anton trykker på "Grupper"-knappen vises kun resultater fra Grupperne (med mindre han har aktiveret andre filterknapper)."
@@ -131,8 +134,10 @@ describe('Testing the SearchResultContainer component', () => {
       />
     );
 
-    assert.isFalse(tree.subTree('MaterialSearchResultlist'),
-        'material list was shown when material filters are enabled and groupfilter is on');
+    assert.isFalse(
+      tree.subTree('MaterialSearchResultlist'),
+      'material list was shown when material filters are enabled and groupfilter is on'
+    );
   });
 
   // "På samme måde skal "I grupperne"-overskriften og resultater fra grupperne forsvinde, når en af de andre filter-knapper aktiveres."
@@ -168,9 +173,9 @@ describe('Testing the SearchResultContainer component', () => {
       />
     );
 
-    assert.isFalse(tree.subTree('GroupSearchResultlist'),
-      'group list was shown when a material filter is enabled and groupfilter is off');
-
+    assert.isFalse(
+      tree.subTree('GroupSearchResultlist'),
+      'group list was shown when a material filter is enabled and groupfilter is off'
+    );
   });
-
 });

@@ -45,7 +45,7 @@ export class GroupCreateContainer extends React.Component {
     return (
       <div>
         <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
-        <div className="group-create">
+          <div className="group-create">
             <BackButton />
             <h1>Opret gruppe</h1>
             <GroupForm

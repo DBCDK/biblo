@@ -1,4 +1,3 @@
-
 /**
  * Creating ElasticTranscoder jobs at AWS
  *
@@ -8,8 +7,15 @@
  * @param {string} reviewId
  * @param {Object} logger
  */
-export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId,
-                                           reviewId, logger, AMAZON_CONFIG) {
+export function createElasticTranscoderJob(
+  ElasticTranscoder,
+  videoData,
+  postId,
+  commentId,
+  reviewId,
+  logger,
+  AMAZON_CONFIG
+) {
   if (postId && typeof postId !== 'string') {
     postId = postId.toString();
   }
@@ -51,7 +57,7 @@ export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId,
     params.UserMetadata.reviewId = reviewId;
   }
 
-  ElasticTranscoder.createJob(params, (err) => {
+  ElasticTranscoder.createJob(params, err => {
     if (err) {
       logger.error('ElasticTranscoder job creation failed', {error: err, params: params});
     }

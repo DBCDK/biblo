@@ -6,7 +6,7 @@ import Icon from '../Icon/Icon.component.js';
 import './colored-header.scss';
 
 export default function ColoredHeader(props) {
-  const styles = {};  // Use inline styles to let widget overrule default styles.
+  const styles = {}; // Use inline styles to let widget overrule default styles.
   styles.color = props.color;
   styles.backgroundColor = props.backgroundImageUrl ? 'transparent' : props.backgroundColor;
   styles.backgroundImage = props.backgroundImageUrl ? 'url(' + props.backgroundImageUrl + ')' : null;

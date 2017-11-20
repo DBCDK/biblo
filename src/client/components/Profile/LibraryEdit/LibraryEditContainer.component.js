@@ -50,7 +50,7 @@ class LibraryEditContainer extends React.Component {
 
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
-      <div className="profile-library-edit--container">
+        <div className="profile-library-edit--container">
           <div className="profile-library-edit--form-component-container-container">
             <div className="profile-library-edit--form-component-container">
               <div className="profile-library-edit--profile-image-container">

@@ -31,8 +31,6 @@ describe('Testing sanitizeHtml.util', () => {
     const expected = '<img src="src">';
     const result = sanitizeHtml(html);
 
-    console.log('RESRES', result);
-
     expect(result).to.equal(expected);
   });
 

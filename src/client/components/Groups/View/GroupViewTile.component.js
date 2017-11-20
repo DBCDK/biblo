@@ -34,7 +34,7 @@ export default class GroupViewTile extends React.Component {
 
     return (<div key={group.id} className="group--tile">
       <a href={groupUrl}>
-          <img className="coverimage" src={this.getCoverImageUrl(group)}/>
+        <img className="coverimage" src={this.getCoverImageUrl(group)}/>
         <div className="group--title">
           <Icon className="icon" glyph={groupSvg} />
           <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}}/>

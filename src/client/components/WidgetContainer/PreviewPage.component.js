@@ -15,7 +15,7 @@ export class PreviewPage extends React.Component {
   render() {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
-      <WidgetContainer
+        <WidgetContainer
           widgetLocationName="previewPage"
           widgetState={this.props.widgetState}
           widgetActions={this.props.widgetActions} />

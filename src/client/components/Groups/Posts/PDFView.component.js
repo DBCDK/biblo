@@ -5,9 +5,7 @@ import pdfDarkSvg from '../../General/Icon/svg/functions/pdf_dark.svg';
 
 export const PDFViewComponent = ({pdf, isOwner}) => {
   if (!pdf) {
-    return (
-      <span className="pdf-not-found"> </span>
-    );
+    return <span className="pdf-not-found"> </span>;
   }
 
   if (pdf.scans && pdf.scans.length) {
@@ -15,9 +13,7 @@ export const PDFViewComponent = ({pdf, isOwner}) => {
 
     return (
       <div className="pdf-container">
-        <div className="post--attachment--pdf">
-          {message}
-        </div>
+        <div className="post--attachment--pdf">{message}</div>
       </div>
     );
   }
@@ -31,7 +27,9 @@ export const PDFViewComponent = ({pdf, isOwner}) => {
 
         <div className="pdf-open--container">
           <div className="pdf-open-button">
-            <a href={`/pdf/${pdf.postPdfAttachment}`} target="_blank">Åbn PDF'en</a>
+            <a href={`/pdf/${pdf.postPdfAttachment}`} target="_blank">
+              Åbn PDF&apos;en
+            </a>
           </div>
         </div>
       </div>

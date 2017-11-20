@@ -10,7 +10,6 @@ import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
 import './scss/ReviewExplorerItem.scss';
 
 export default class ReviewExplorerItem extends React.Component {
-
   /**
    * Returns a rendered video link
    *
@@ -24,10 +23,12 @@ export default class ReviewExplorerItem extends React.Component {
     const pureFileName = resolution.video.name.substring(0, resolution.video.name.lastIndexOf('.'));
     const videoImageSrc = `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${pureFileName}_thumb_00001.png`;
 
-    return <div className='video-thumbnail'>
-      <img src={videoImageSrc}/>
-      <img className="overlay" src="/images/video_thumbnail_overlay.png"/>
-    </div>;
+    return (
+      <div className="video-thumbnail">
+        <img src={videoImageSrc} />
+        <img className="overlay" src="/images/video_thumbnail_overlay.png" />
+      </div>
+    );
   }
 
   spawnLoginDialog() {
@@ -62,65 +63,76 @@ export default class ReviewExplorerItem extends React.Component {
   render() {
     // console.log("profile", this.props.profile)
     const profile = this.props.profile;
-    const logo = (this.props.campaign && this.props.campaign.logos) ? this.props.campaign.logos.small : null;
+    const logo = this.props.campaign && this.props.campaign.logos ? this.props.campaign.logos.small : null;
     const ownerimage = this.props.owner.image.url ? this.props.owner.image.url.medium : this.props.owner.image;
-    const likeFunction = (profile.userIsLoggedIn) ? this.likeReview : this.spawnLoginDialog;
-    const unlikeFunction = (this.props.profile.userIsLoggedIn) ? this.unlikeReview : () => {};
-// console.log(this.props.owner)
+    const likeFunction = profile.userIsLoggedIn ? this.likeReview : this.spawnLoginDialog;
+    const unlikeFunction = this.props.profile.userIsLoggedIn ? this.unlikeReview : () => {};
+    // console.log(this.props.owner)
     const likes = this.props.likes || [];
     return (
       <div className="review-row">
-        <a href={'/materiale/'+this.props.pid}>
-          <img
-            className="review-row--cover-image"
-            src={this.props.coverUrl}/>
+        <a href={'/materiale/' + this.props.pid}>
+          <img className="review-row--cover-image" src={this.props.coverUrl} />
         </a>
 
         <div className="review-row--work-title">
           <h4>{this.props.title}</h4>
           <p>{this.props.created}</p>
-          {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
-          <a href={'/anmeldelse/'+this.props.reviewId}><div className='review-row-mobile--review-video'>{this.getVideoContainer(this.props.video)}</div></a>: null}
-          {this.props.image && <a href={'/anmeldelse/'+this.props.reviewId}><div className="review-row-mobile--review-image"><img src={this.props.image}/></div></a>}
+          {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ? (
+            <a href={'/anmeldelse/' + this.props.reviewId}>
+              <div className="review-row-mobile--review-video">{this.getVideoContainer(this.props.video)}</div>
+            </a>
+          ) : null}
+          {this.props.image && (
+            <a href={'/anmeldelse/' + this.props.reviewId}>
+              <div className="review-row-mobile--review-image">
+                <img src={this.props.image} />
+              </div>
+            </a>
+          )}
         </div>
 
-        <div className='review-row-mobile--campaign-image'>
-          {logo ? <img src={logo}/> : <div>&nbsp;</div>}
-        </div>
+        <div className="review-row-mobile--campaign-image">{logo ? <img src={logo} /> : <div>&nbsp;</div>}</div>
 
         <div className="review-row-desktop--owner-image">
-          <a href={'/profil/'+this.props.owner.id}>
-            <img src={ownerimage}/>
+          <a href={'/profil/' + this.props.owner.id}>
+            <img src={ownerimage} />
           </a>
         </div>
 
         <div className="review-row--review-text">
-          <a href={'/anmeldelse/'+this.props.reviewId}>
-            {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ?
-            <div className='review-row-desktop--review-video'>{this.getVideoContainer(this.props.video)}</div> : null}
-            {this.props.image && <div className="review-row-desktop--review-image"><img src={this.props.image}/></div>}
+          <a href={'/anmeldelse/' + this.props.reviewId}>
+            {this.props.video && this.props.video.resolutions && this.props.video.resolutions.length ? (
+              <div className="review-row-desktop--review-video">{this.getVideoContainer(this.props.video)}</div>
+            ) : null}
+            {this.props.image && (
+              <div className="review-row-desktop--review-image">
+                <img src={this.props.image} />
+              </div>
+            )}
           </a>
           <div>
-            <a href={'/anmeldelse/'+this.props.reviewId} dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.content)}}/>
+            <a
+              href={'/anmeldelse/' + this.props.reviewId}
+              dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.content)}}
+            />
             <div className="review-row-desktop--rating">
-              <Rating rating={this.props.rating}/>
+              <Rating rating={this.props.rating} />
             </div>
           </div>
         </div>
 
         <div className="review-row-mobile--owner-image">
-          <a href={'/profil/'+this.props.owner.id}>
-            <img src={ownerimage}/>
+          <a href={'/profil/' + this.props.owner.id}>
+            <img src={ownerimage} />
           </a>
         </div>
 
         <div className="review-row-mobile--rating">
-          <Rating rating={this.props.rating}/>
+          <Rating rating={this.props.rating} />
         </div>
 
-        <div className='review-row-desktop--campaign-image'>
-          {logo ? <img src={logo}/> : <div>&nbsp;</div>}
-        </div>
+        <div className="review-row-desktop--campaign-image">{logo ? <img src={logo} /> : <div>&nbsp;</div>}</div>
 
         <div className="review-row--likebutton">
           <LikeButton
@@ -132,11 +144,9 @@ export default class ReviewExplorerItem extends React.Component {
             small={true}
           />
         </div>
-
       </div>
     );
   }
-
 }
 
 ReviewExplorerItem.propTypes = {

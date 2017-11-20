@@ -55,7 +55,7 @@ export class ProfileDetailContainer extends React.Component {
 
     // sd466: allow unfollowed groups to stay on screen during session . Default to following = true on startup
     if (props.feed.profile.groups) {
-      props.feed.profile.groups.map((group) => {
+      props.feed.profile.groups.map(group => {
         group.following = true;
       });
     }
@@ -83,20 +83,24 @@ export class ProfileDetailContainer extends React.Component {
   renderModalContent(isMyProfile) {
     return (
       <div className="groups-modal--container">
-        {this.state.groups.map((group) => {
+        {this.state.groups.map(group => {
           return (
             <div key={`group_${group.id}`} className="groups-modal--group">
-              <GroupViewTile group={group} postsSinceLast={isMyProfile && group.postsSinceLast || 0} followers={false} />
-              {
-                isMyProfile ?
-                  <Follow
-                    active={group.following}
-                    onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
-                    showLoginLink={false}
-                    text={group.following && 'Følger' || 'Følg gruppen'}
-                  />
-                  : ''
-              }
+              <GroupViewTile
+                group={group}
+                postsSinceLast={(isMyProfile && group.postsSinceLast) || 0}
+                followers={false}
+              />
+              {isMyProfile ? (
+                <Follow
+                  active={group.following}
+                  onClick={this.toggleFollow.bind(this, group, this.props.profile.id, isMyProfile)}
+                  showLoginLink={false}
+                  text={(group.following && 'Følger') || 'Følg gruppen'}
+                />
+              ) : (
+                ''
+              )}
             </div>
           );
         })}
@@ -105,11 +109,14 @@ export class ProfileDetailContainer extends React.Component {
   }
 
   getActivityFeed(isMyProfile) {
-    return this.props.feed.feed.map((activity) => {
-      activity.owner = assignToEmpty({
-        id: '',
-        displayName: ''
-      }, activity.owner);
+    return this.props.feed.feed.map(activity => {
+      activity.owner = assignToEmpty(
+        {
+          id: '',
+          displayName: ''
+        },
+        activity.owner
+      );
 
       let displayName = activity.owner.displayName;
 
@@ -127,46 +134,55 @@ export class ProfileDetailContainer extends React.Component {
           if (activity.post && activity.post.group && activity.post.group.name) {
             title = (
               <span>
-                  <span dangerouslySetInnerHTML={{__html: title}} />
-                  <span> i </span>
-                  <a href={`/grupper/${activity.post.group.id}`}
-                     dangerouslySetInnerHTML={{__html: activity.post.group.name}} />
-                  <span>:</span>
-                </span>
+                <span dangerouslySetInnerHTML={{__html: title}} />
+                <span> i </span>
+                <a
+                  href={`/grupper/${activity.post.group.id}`}
+                  dangerouslySetInnerHTML={{__html: activity.post.group.name}}
+                />
+                <span>:</span>
+              </span>
             );
           }
           else {
             title += ' ';
           }
 
-          activity = assignToEmpty({
-            imageSrc: '',
-            id: '',
-            timeCreated: Date.now()
-          }, activity);
+          activity = assignToEmpty(
+            {
+              imageSrc: '',
+              id: '',
+              timeCreated: Date.now()
+            },
+            activity
+          );
 
-          activity.post = assignToEmpty({
-            content: '',
-            id: ''
-          }, activity.post);
+          activity.post = assignToEmpty(
+            {
+              content: '',
+              id: ''
+            },
+            activity.post
+          );
 
-          activity.post.owner = assignToEmpty({
-            displayName: '',
-            id: ''
-          }, activity.post.owner);
+          activity.post.owner = assignToEmpty(
+            {
+              displayName: '',
+              id: ''
+            },
+            activity.post.owner
+          );
 
-          activity.post.group = assignToEmpty({
-            id: '',
-            name: ''
-          }, activity.post.group);
+          activity.post.group = assignToEmpty(
+            {
+              id: '',
+              name: ''
+            },
+            activity.post.group
+          );
 
           return (
-            <ActivityRow
-              likes={[]}
-              imageSrc={activity.imageSrc}
-              key={'comment_' + activity.id}
-              title={title}
-            >
+            <ActivityRow likes={[]} imageSrc={activity.imageSrc} key={'comment_' + activity.id} title={title}>
               <PostView
                 campaign={activity.post.group.campaign}
                 content={activity.post.content}
@@ -204,37 +220,37 @@ export class ProfileDetailContainer extends React.Component {
 
             postTitle = (
               <span>
-                  <span dangerouslySetInnerHTML={{__html: postTitle}} />
-                  <span> i </span>
-                  <a href={`/grupper/${activity.group.id}`}
-                     dangerouslySetInnerHTML={{__html: groupName}} />
-                  <span>:</span>
-                </span>
+                <span dangerouslySetInnerHTML={{__html: postTitle}} />
+                <span> i </span>
+                <a href={`/grupper/${activity.group.id}`} dangerouslySetInnerHTML={{__html: groupName}} />
+                <span>:</span>
+              </span>
             );
           }
           else {
             postTitle += ':';
           }
 
-          activity = assignToEmpty({
-            imageSrc: '',
-            id: '',
-            content: '',
-            timeCreated: Date.now()
-          }, activity);
+          activity = assignToEmpty(
+            {
+              imageSrc: '',
+              id: '',
+              content: '',
+              timeCreated: Date.now()
+            },
+            activity
+          );
 
-          activity.group = assignToEmpty({
-            id: null,
-            name: ''
-          }, activity.group);
+          activity.group = assignToEmpty(
+            {
+              id: null,
+              name: ''
+            },
+            activity.group
+          );
 
           return (
-            <ActivityRow
-              likes={[]}
-              imageSrc={activity.imageSrc}
-              key={'post_' + activity.id}
-              title={postTitle}
-            >
+            <ActivityRow likes={[]} imageSrc={activity.imageSrc} key={'post_' + activity.id} title={postTitle}>
               <PostView
                 campaign={activity.group.campaign}
                 content={activity.content}
@@ -272,13 +288,16 @@ export class ProfileDetailContainer extends React.Component {
   }
 
   getModal() {
-    return (
-      this.props.ui.modal.isOpen ? (
-        <ModalWindow onClose={() => {
+    return this.props.ui.modal.isOpen ? (
+      <ModalWindow
+        onClose={() => {
           this.props.uiActions.closeModalWindow();
-        }} title={this.props.ui.modal.title}>
-          {this.props.ui.modal.children} </ModalWindow>) : null
-    );
+        }}
+        title={this.props.ui.modal.title}
+      >
+        {this.props.ui.modal.children}{' '}
+      </ModalWindow>
+    ) : null;
   }
 
   getReviewsFeed() {
@@ -306,10 +325,11 @@ export class ProfileDetailContainer extends React.Component {
     ) {
       showMore = (
         <VisFlereButton
-          onClick={() => this.props.feedActions.asyncGetUserFeed(
-            this.props.feed.profile.id,
-            Math.max(this.props.feed.count.posts, this.props.feed.count.comments)
-          )}
+          onClick={() =>
+            this.props.feedActions.asyncGetUserFeed(
+              this.props.feed.profile.id,
+              Math.max(this.props.feed.count.posts, this.props.feed.count.comments)
+            )}
         />
       );
     }
@@ -326,24 +346,22 @@ export class ProfileDetailContainer extends React.Component {
 
     const activityPaneContent = (
       <div>
-        {
-          (this.props.feed.feed.length > 0) ? activityFeed :
-            (
-              <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`} />
-            )
-        }
+        {this.props.feed.feed.length > 0 ? (
+          activityFeed
+        ) : (
+          <ActivityRow title={`Her vil du kunne se indlæg og kommentarer skrevet af ${currentUserAddressing}`} />
+        )}
         {showMore}
       </div>
     );
 
     const reviewsPaneContent = (
       <div>
-        {
-          (reviewsFeed && this.props.reviews.userReviews.length) ? reviewsFeed :
-            (
-              <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`} />
-            )
-        }
+        {reviewsFeed && this.props.reviews.userReviews.length ? (
+          reviewsFeed
+        ) : (
+          <ActivityRow title={`Her vil du kunne se anmeldelser skrevet af ${currentUserAddressing}`} />
+        )}
       </div>
     );
 
@@ -392,29 +410,24 @@ export class ProfileDetailContainer extends React.Component {
       let logo;
       if (campaign.logos.svg) {
         logo = (
-          <img src={campaign.logos.svg} className='campaign--row--logo svg' style={{width: '60px', height: '60px'}} />);
+          <img src={campaign.logos.svg} className="campaign--row--logo svg" style={{width: '60px', height: '60px'}} />
+        );
       }
       else {
-        logo = (<img src={campaign.logos.small} className='campaign--row--logo' width={80} />);
+        logo = <img src={campaign.logos.small} className="campaign--row--logo" width={80} />;
       }
 
       let inner = (
         <div className="campaign-row--inner">
           {logo}
 
-          <span className="campaign-row--inner--text">
-            {campaign.campaignName}
-          </span>
+          <span className="campaign-row--inner--text">{campaign.campaignName}</span>
         </div>
       );
 
       if (isMyProfile) {
         const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-        inner = (
-          <a href={downloadUrl}>
-            {inner}
-          </a>
-        );
+        inner = <a href={downloadUrl}>{inner}</a>;
       }
 
       return (
@@ -424,11 +437,7 @@ export class ProfileDetailContainer extends React.Component {
       );
     });
 
-    const campaignsModalContent = (
-      <div>
-        {campaignRows}
-      </div>
-    );
+    const campaignsModalContent = <div>{campaignRows}</div>;
 
     this.props.uiActions.openModalWindow(campaignsModalContent, 'Alle kampagner');
   }
@@ -462,7 +471,11 @@ export class ProfileDetailContainer extends React.Component {
 
       if (campaigns.length > 6) {
         renderedRows.push(
-          <a key="show-more-campaigns" className="show-more-campaigns--button" onClick={this.showAllCampaignsModal.bind(this, campaigns, isMyProfile)}>
+          <a
+            key="show-more-campaigns"
+            className="show-more-campaigns--button"
+            onClick={this.showAllCampaignsModal.bind(this, campaigns, isMyProfile)}
+          >
             Vis alle
           </a>
         );
@@ -477,37 +490,47 @@ export class ProfileDetailContainer extends React.Component {
   renderCampaignBadge(campaign, isMyProfile) {
     let logo;
     if (campaign.logos.svg) {
-      logo = (<img src={campaign.logos.svg} className='svg' style={{width: '60px', height: '60px'}} />);
+      logo = <img src={campaign.logos.svg} className="svg" style={{width: '60px', height: '60px'}} />;
     }
     else {
-      logo = (<img src={campaign.logos.small} width={80} />);
+      logo = <img src={campaign.logos.small} width={80} />;
     }
 
     let badge;
     if (isMyProfile) {
       const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-      badge = (<a href={downloadUrl}>{logo}</a>);
+      badge = <a href={downloadUrl}>{logo}</a>;
     }
     else {
       badge = logo;
     }
 
-    return (<span className="p-detail--diploma " key={`campaign_${campaign.id}`}>{badge}</span>);
+    return (
+      <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
+        {badge}
+      </span>
+    );
   }
 
   renderGroupButton(userProfile, groupsModalContent, modalTitle, isMyProfile, size) {
     return (
-      <a href="#!Grupper" onClick={() => {
-        this.props.uiActions.openModalWindow(groupsModalContent, modalTitle);
-      }}>
+      <a
+        href="#!Grupper"
+        onClick={() => {
+          this.props.uiActions.openModalWindow(groupsModalContent, modalTitle);
+        }}
+      >
         <div className="p-detail--group-button">
           <Icon glyph={grupperSvg} width={size} height={size} />
           <div>Grupper</div>
         </div>
-        {isMyProfile && userProfile.postsInGroups &&
-        <div className="p-detail--total-posts-since-last">
-          {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
-        </div> || null}
+        {(isMyProfile &&
+          userProfile.postsInGroups && (
+            <div className="p-detail--total-posts-since-last">
+              {userProfile.postsInGroups <= 30 ? userProfile.postsInGroups : '30+'}
+            </div>
+          )) ||
+          null}
       </a>
     );
   }
@@ -515,14 +538,14 @@ export class ProfileDetailContainer extends React.Component {
   render() {
     let userProfile = this.props.feed.profile;
     userProfile = assignToEmpty(userProfile, {
-      image: userProfile && userProfile.image && userProfile.image.small || '/no_profile.png'
+      image: (userProfile && userProfile.image && userProfile.image.small) || '/no_profile.png'
     });
 
     const isMyProfile = this.props.profile.id === this.props.feed.profile.id;
     const isLoggedIn = this.props.profile.userIsLoggedIn;
     const displayName = userProfile.raw ? userProfile.raw.displayName : userProfile.displayName;
 
-    const currentUserAddressing = (isMyProfile) ? 'dig' : displayName;
+    const currentUserAddressing = isMyProfile ? 'dig' : displayName;
     const tabs = this.getTabs(currentUserAddressing);
 
     let desc = '';
@@ -530,7 +553,10 @@ export class ProfileDetailContainer extends React.Component {
     if (userProfile.description && userProfile.description.length > 0) {
       desc = (
         <p>
-          <span className="profile--description" dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.description)}} />
+          <span
+            className="profile--description"
+            dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.description)}}
+          />
         </p>
       );
     }
@@ -540,7 +566,7 @@ export class ProfileDetailContainer extends React.Component {
 
     if (this.state.groups && this.state.groups.length > 0) {
       groupsModalContent = this.renderModalContent(isMyProfile);
-      groupsModalTitle = this.state.groups.length > 1 && `${this.state.groups.length} Grupper` || '1 Gruppe';
+      groupsModalTitle = (this.state.groups.length > 1 && `${this.state.groups.length} Grupper`) || '1 Gruppe';
     }
     else {
       groupsModalContent = (
@@ -558,36 +584,46 @@ export class ProfileDetailContainer extends React.Component {
     const modal = this.getModal();
 
     // include edit button when user views her own page.
-    const editLink = this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id) || PROFILE_EDIT;
+    const editLink =
+      (this.props.profile.isModerator && MODERATOR_PROFILE_EDIT(this.props.feed.profile.id)) || PROFILE_EDIT;
 
     let editButton = null;
     let profileImage = null;
     if (isLoggedIn && (isMyProfile || this.props.profile.isModerator)) {
       editButton = (
         <a href={editLink}>
-          <div className='p-detail--edit-button'>
-            <Icon className="icon" glyph={editSvg}
-                  width={24} height={24} /></div>
-        </a>);
-      profileImage = (<a href={editLink}>
+          <div className="p-detail--edit-button">
+            <Icon className="icon" glyph={editSvg} width={24} height={24} />
+          </div>
+        </a>
+      );
+      profileImage = (
+        <a href={editLink}>
+          <div className="p-detail--image-container">
+            <div className="p-detail--image-crop">
+              <img src={userProfile.image} alt={userProfile.displayName} />
+            </div>
+          </div>
+        </a>
+      );
+    }
+    else {
+      profileImage = (
         <div className="p-detail--image-container">
           <div className="p-detail--image-crop">
             <img src={userProfile.image} alt={userProfile.displayName} />
           </div>
         </div>
-      </a>);
-    }
-
-    else {
-      profileImage = (<div className="p-detail--image-container">
-        <div className="p-detail--image-crop">
-          <img src={userProfile.image} alt={userProfile.displayName} />
-        </div>
-      </div>);
+      );
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState}>
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profile}
+        globalState={this.props.globalState}
+      >
         {modal}
         <div className="p-detail--badge-container">
           <div className="p-detail--diploma-wrapper">
@@ -601,7 +637,10 @@ export class ProfileDetailContainer extends React.Component {
         </div>
         {profileImage}
         <div className="p-detail--displayname-description-follow">
-          <p className="p-detail--displayname" dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.displayName)}} />
+          <p
+            className="p-detail--displayname"
+            dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.displayName)}}
+          />
           {editButton}
           {desc}
           <div className="p-detail--buttons-container--mobile">
@@ -652,7 +691,7 @@ ProfileDetailContainer.defaultProps = {
  */
 export default connect(
   // Map redux state to props
-  (state) => {
+  state => {
     return {
       agencies: state.agencyReducer,
       searchState: state.searchReducer,
@@ -665,12 +704,11 @@ export default connect(
       works: state.workReducer,
       globalState: state.globalReducer,
       userstatusState: state.userstatusReducer
-    }
-      ;
+    };
   },
 
   // Map actions to props
-  (dispatcher) => {
+  dispatcher => {
     return {
       agencyActions: bindActionCreators(agencyActions, dispatcher),
       searchActions: bindActionCreators(searchActions, dispatcher),

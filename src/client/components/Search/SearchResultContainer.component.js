@@ -14,7 +14,6 @@ import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component.j
 import './SearchResultContainer.scss';
 
 export class SearchResultContainer extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -51,23 +50,20 @@ export class SearchResultContainer extends React.Component {
 
   shouldRenderMaterialResults() {
     return (
-      !this.isFiltering()                     // display everything when not filtering
-      || (!this.isGroupFilterEnabled()         // do not show material list when group filter is on
-      || this.isMaterialFilterEnabled())       // show material list when material filter is on
+      !this.isFiltering() || // display everything when not filtering
+      (!this.isGroupFilterEnabled() || // do not show material list when group filter is on
+        this.isMaterialFilterEnabled()) // show material list when material filter is on
     );
   }
 
   shouldRenderGroupResults() {
     return (
-      !this.isFiltering()                     // display everything when not filtering
-      || this.isGroupFilterEnabled()           // show group list when group filter is on
+      !this.isFiltering() || this.isGroupFilterEnabled() // display everything when not filtering // show group list when group filter is on
     );
   }
 
   isFiltering() {
-    return (
-      this.isGroupFilterEnabled() || this.isMaterialFilterEnabled()
-    );
+    return this.isGroupFilterEnabled() || this.isMaterialFilterEnabled();
   }
 
   isGroupFilterEnabled() {
@@ -78,33 +74,40 @@ export class SearchResultContainer extends React.Component {
     let materialFilterEnabled = false;
     for (let materialFilter in this.props.search.filters.materialFilters) {
       if (materialFilter) {
-        materialFilterEnabled = materialFilterEnabled || this.props.search.filters.materialFilters[materialFilter].enabled;
+        materialFilterEnabled =
+          materialFilterEnabled || this.props.search.filters.materialFilters[materialFilter].enabled;
       }
     }
     return materialFilterEnabled;
   }
 
   renderVisFlereMaterialButton(search) {
-    if (search.isLoadingMaterialResults ||
-      (search.materialSearchResults.length - search.materialSearchOffset >= search.materialSearchLimit)) {
+    if (
+      search.isLoadingMaterialResults ||
+      search.materialSearchResults.length - search.materialSearchOffset >= search.materialSearchLimit
+    ) {
       return (
         <VisFlereButton
-          id='moreMaterialsButton'
+          id="moreMaterialsButton"
           onClick={this.loadMoreMaterialResults}
-          isLoading={search.isLoadingMaterialResults}/>
+          isLoading={search.isLoadingMaterialResults}
+        />
       );
     }
     return null;
   }
 
   renderVisFlereGroupButton(search) {
-    if (search.isLoadingGroupResults ||
-      (search.groupSearchResults.length - search.groupSearchOffset >= search.groupSearchLimit)) {
+    if (
+      search.isLoadingGroupResults ||
+      search.groupSearchResults.length - search.groupSearchOffset >= search.groupSearchLimit
+    ) {
       return (
         <VisFlereButton
-          id='moreGroupsButton'
+          id="moreGroupsButton"
           onClick={this.loadMoreGroupResults}
-          isLoading={search.isLoadingGroupResults}/>
+          isLoading={search.isLoadingGroupResults}
+        />
       );
     }
     return null;
@@ -113,25 +116,21 @@ export class SearchResultContainer extends React.Component {
   render() {
     const results = [];
     if (this.shouldRenderMaterialResults()) {
-      results.push((
+      results.push(
         <div key="material-search-results">
-          <MaterialSearchResultList results={this.props.search.materialSearchResults}/>
-          <div className="search-result-show-more-button">
-            {this.renderVisFlereMaterialButton(this.props.search)}
-          </div>
+          <MaterialSearchResultList results={this.props.search.materialSearchResults} />
+          <div className="search-result-show-more-button">{this.renderVisFlereMaterialButton(this.props.search)}</div>
         </div>
-      ));
+      );
     }
 
     if (this.shouldRenderGroupResults()) {
-      results.push((
+      results.push(
         <div key="group-search-results">
-          <GroupSearchResultList results={this.props.search.groupSearchResults}/>
-          <div className="search-result-show-more-button">
-            {this.renderVisFlereGroupButton(this.props.search)}
-          </div>
+          <GroupSearchResultList results={this.props.search.groupSearchResults} />
+          <div className="search-result-show-more-button">{this.renderVisFlereGroupButton(this.props.search)}</div>
         </div>
-      ));
+      );
     }
 
     if (this.state.isGroupSearch) {
@@ -139,8 +138,13 @@ export class SearchResultContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.search} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
-      <SearchFilters search={this.props.search} searchActions={this.props.searchActions}/>
+      <PageLayout
+        searchState={this.props.search}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profileState}
+        globalState={this.props.globalState}
+      >
+        <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
         {results}
       </PageLayout>
     );
@@ -161,7 +165,7 @@ SearchResultContainer.propTypes = {
  */
 export default connect(
   // Map redux state to props
-  (state) => {
+  state => {
     return {
       profileState: state.profileReducer,
       search: state.searchReducer,
@@ -170,7 +174,7 @@ export default connect(
   },
 
   // Map actions to props
-  (dispatcher) => {
+  dispatcher => {
     return {
       searchActions: bindActionCreators(searchActions, dispatcher)
     };

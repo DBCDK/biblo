@@ -134,7 +134,7 @@ export default class RenewLoanButton extends React.Component {
       const diff = moment(this.state.loan.dateDue).diff(moment(), 'days');
       const daysString = diff === 0 ?
         'i dag' :
-      (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
+        (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
       str = `Du skal nu aflevere ${daysString}`;
     }
 

@@ -109,7 +109,7 @@ export class GroupEditContainer extends React.Component {
             <div>
               <a className="group-moderation--cancel" href="#" onClick={close}>Fortryd</a>
               <a className="group-moderation--confirm" href="#"
-                 onClick={action}>{texts.button}</a>
+                onClick={action}>{texts.button}</a>
             </div>
             }
           </div>
@@ -134,7 +134,7 @@ export class GroupEditContainer extends React.Component {
   render() {
     return (
       <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
-                  profileState={this.props.profileState} globalState={this.props.globalState}>
+        profileState={this.props.profileState} globalState={this.props.globalState}>
         <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
         <GroupForm

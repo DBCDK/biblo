@@ -38,7 +38,6 @@ export class MoreInfo extends React.Component {
    * @returns {string} iconType
    */
   type2iconType(workType) {
-
     let iconType = otherSvg;
 
     if (workType === 'audiobook') {
@@ -74,8 +73,8 @@ export class MoreInfo extends React.Component {
 
     return (
       <div className="more-info--row" key={key}>
-        <span className="more-info--type" >{type}</span>
-        <span className="more-info--content" >{content}</span>
+        <span className="more-info--type">{type}</span>
+        <span className="more-info--content">{content}</span>
       </div>
     );
   }
@@ -86,7 +85,11 @@ export class MoreInfo extends React.Component {
       return null;
     }
 
-    return tags.map((tag, key) => (<a key={key} href={'/find?emneord=' + tag} >{tag} </a>));
+    return tags.map((tag, key) => (
+      <a key={key} href={'/find?emneord=' + tag}>
+        {tag}{' '}
+      </a>
+    ));
   }
 
   getGenericList(key) {
@@ -94,7 +97,12 @@ export class MoreInfo extends React.Component {
     if (!list) {
       return null;
     }
-    return list.map((item, index) => (<span key={index} >{item}<br /></span>));
+    return list.map((item, index) => (
+      <span key={index}>
+        {item}
+        <br />
+      </span>
+    ));
   }
 
   getMoreInfoElements() {
@@ -102,7 +110,7 @@ export class MoreInfo extends React.Component {
     const keys = Object.keys(MORE_INFO_TYPES);
     const elements = [];
 
-    keys.forEach((key) => {
+    keys.forEach(key => {
       const type = MORE_INFO_TYPES[key];
       let content;
 
@@ -141,7 +149,7 @@ export class MoreInfo extends React.Component {
   getMaterials() {
     const uniqueMaterialTypes = {};
     if (this.props.materials) {
-      this.props.materials.forEach((material) => {
+      this.props.materials.forEach(material => {
         uniqueMaterialTypes[material.type] = {
           type: material.type,
           workType: material.workType
@@ -154,16 +162,12 @@ export class MoreInfo extends React.Component {
         const bindRegex = new RegExp(`${this.props.bind}[^0-9]`);
         return !this.props.isMultivolume || bindRegex.test(key.toLowerCase());
       })
-      .map((key) => (
-        <li className={'more-info--material-type'} key={key} >
-          <Icon
-            width={36}
-            height={36}
-            glyph={this.type2iconType(uniqueMaterialTypes[key].workType[0])} />
+      .map(key => (
+        <li className={'more-info--material-type'} key={key}>
+          <Icon width={36} height={36} glyph={this.type2iconType(uniqueMaterialTypes[key].workType[0])} />
           <span>{uniqueMaterialTypes[key].type[0]}</span>
         </li>
-      )
-    );
+      ));
   }
 
   render() {
@@ -171,12 +175,10 @@ export class MoreInfo extends React.Component {
     const materialTypeElements = this.getMaterials();
 
     return (
-      <div className='more-info' >
-        <div className="more-info--header" >Mere info</div>
+      <div className="more-info">
+        <div className="more-info--header">Mere info</div>
         {moreInfoElements}
-        <ul className='more-info--material-types' >
-          {materialTypeElements}
-        </ul>
+        <ul className="more-info--material-types">{materialTypeElements}</ul>
       </div>
     );
   }
@@ -201,4 +203,3 @@ MoreInfo.propTypes = {
   isMultivolume: PropTypes.bool,
   bind: PropTypes.string
 };
-

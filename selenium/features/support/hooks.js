@@ -14,14 +14,13 @@ let SocketCluster;
 function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
   // First we want to check that everything is defined
   if (!requestEvent || !responseEvent || !SocketCluster) {
-    console.log('Missing properties.', {requestEvent: requestEvent, responseEvent: responseEvent, SocketCluster: SocketCluster});
     return Promise.reject('Missing properties.');
   }
 
   // We return a promise and let cucumber handle it.
   return new Promise((resolve, reject) => {
     // Enable timeout, default timeout is 2 seconds
-    timeout = timeout || 2000;
+    timeout = timeout || 5000;
     const cancelTimeout = setTimeout(reject, timeout);
 
     /**

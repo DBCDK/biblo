@@ -49,14 +49,13 @@ module.exports = [
         },
         {
           test: /\.scss$/,
-          use: [
-            {
-              loader: 'css-loader?sourceMap',
+          use: extractCss.extract({
+            use: [{
+              loader: 'css-loader',
               options: {
                 sourceMap: true
               }
-            },
-            {
+            }, {
               loader: 'sass-loader',
               options: {
                 sourceMap: true, // @see https://github.com/webpack-contrib/sass-loader#source-maps
@@ -66,25 +65,24 @@ module.exports = [
                   path.resolve(__dirname, './node_modules/sass-mediaqueries')
                 ]
               }
-            },
-            {
+            }, {
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
                 sourceMap: true,
                 plugins: () => [require('autoprefixer')()] // @see https://github.com/postcss/postcss-loader#plugins
               }
-            }
-          ]
+            }]
+          })
         },
         {
           test: /\.svg$/,
           loader:
-            'svg-sprite-loader?' +
-            JSON.stringify({
-              name: '[pathhash]',
-              prefixize: true
-            })
+          'svg-sprite-loader?' +
+          JSON.stringify({
+            name: '[pathhash]',
+            prefixize: true
+          })
         }
       ]
     },

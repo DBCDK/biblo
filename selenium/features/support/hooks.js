@@ -14,6 +14,7 @@ let SocketCluster;
 function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
   // First we want to check that everything is defined
   if (!requestEvent || !responseEvent || !SocketCluster) {
+    console.log('Missing properties.', {requestEvent: requestEvent, responseEvent: responseEvent, SocketCluster: SocketCluster});
     return Promise.reject('Missing properties.');
   }
 

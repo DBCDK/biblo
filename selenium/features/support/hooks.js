@@ -1,5 +1,5 @@
 
-require('babel-register')();
+require('babel-register');
 const path = require('path');
 
 let SocketCluster;

@@ -19,8 +19,8 @@ function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
 
   // We return a promise and let cucumber handle it.
   return new Promise((resolve, reject) => {
-    // Enable timeout, default timeout is 2 seconds
-    timeout = timeout || 5000;
+// Enable timeout, default timeout is 10 seconds as CI env tends to hang on first run
+    timeout = timeout || 10000;
     const cancelTimeout = setTimeout(reject, timeout);
 
     /**

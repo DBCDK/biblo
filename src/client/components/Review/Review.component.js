@@ -42,7 +42,8 @@ export default class Review extends UploadMedia {
     let pids;
     if (props.pids && props.length !== 0) {
       pids = props.pids;
-    } else {
+    }
+    else {
       pids = [props.pid];
     }
 
@@ -199,7 +200,8 @@ export default class Review extends UploadMedia {
         field: 'content',
         errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'
       });
-    } else if (
+    }
+    else if (
       (typeof this.state.content === 'undefined' || this.state.content === '') &&
       !(this.state.attachment && this.state.attachment.video)
     ) {
@@ -245,7 +247,8 @@ export default class Review extends UploadMedia {
         attachment: attachment,
         imageRemoveId: null
       });
-    } else {
+    }
+    else {
       this.setState({
         image: null,
         attachment: attachment,
@@ -271,7 +274,8 @@ export default class Review extends UploadMedia {
 
     if (this.validate() && XMLHttpRequest && FormData) {
       this.processContent();
-    } else {
+    }
+    else {
       this.setState({isLoading: false});
     }
 
@@ -285,11 +289,13 @@ export default class Review extends UploadMedia {
           if (response.errors && response.errors.length > 0) {
             this.setState({errorMsg: response.errors[0].errorMessage});
             reject(this.state);
-          } else {
+          }
+          else {
             if (this.props.ownReview) {
               // only show the one review
               this.props.reviewActions.asyncShowReview(response.data.id);
-            } else {
+            }
+            else {
               // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
               this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
             }
@@ -306,7 +312,8 @@ export default class Review extends UploadMedia {
           if (errorMsg === 'Eksisterende anmeldelse') {
             this.overwriteReview(resp.existingReviewId);
             resolve(this.state);
-          } else {
+          }
+          else {
             this.setState({errorMsg: errorMsg});
             reject(this.state);
           }
@@ -377,7 +384,8 @@ export default class Review extends UploadMedia {
     const flagFunction = () => {
       if (profile.userIsLoggedIn && this.state.id) {
         this.props.uiActions.openModalWindow(reviewFlagModalContent);
-      } else {
+      }
+      else {
         let dialog = (
           <div>
             <p>Du skal logge ind for at skrive til moderator</p>

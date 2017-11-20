@@ -80,10 +80,12 @@ export default class AddContent extends UploadMedia {
     if (!isSiteOpen() && !this.props.profile.isModerator) {
       e.preventDefault();
       this.setState({errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'});
-    } else if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
+    }
+    else if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
-    } else if (XMLHttpRequest && FormData) {
+    }
+    else if (XMLHttpRequest && FormData) {
       e.preventDefault();
       this.setState({
         isLoading: true,
@@ -231,7 +233,8 @@ export default class AddContent extends UploadMedia {
           <span>Slet</span>
         </a>
       );
-    } else if (this.props.abort && this.props.displayAbortButton) {
+    }
+    else if (this.props.abort && this.props.displayAbortButton) {
       deleteButton = (
         <a className="button delete" onClick={() => this.props.abort()}>
           <span>Fortryd</span>

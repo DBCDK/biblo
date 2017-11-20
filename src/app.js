@@ -92,7 +92,8 @@ module.exports.run = function(worker) {
     if (config.get('Biblo.showInSearchEngines')) {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /api/');
-    } else {
+    }
+    else {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /');
     }
@@ -102,7 +103,8 @@ module.exports.run = function(worker) {
   app.use((req, res, next) => {
     try {
       next();
-    } catch (err) {
+    }
+    catch (err) {
       logger.error('An unknown error occurred', {
         error: err.message && err.name ? {message: err.message, name: err.name} : err
       });
@@ -195,12 +197,14 @@ module.exports.run = function(worker) {
         dynamodb.createTable(tableDef, (createTableErr, createTableData) => {
           if (!createTableErr && createTableData) {
             logger.info('Created dynamo table!', createTableData);
-          } else {
+          }
+          else {
             logger.error('Cannot create dynamo table, messages will be disabled!');
           }
         });
       }
-    } else {
+    }
+    else {
       logger.error('Cannot connect to dynamo, messages will be disabled!');
     }
   });

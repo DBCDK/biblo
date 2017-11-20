@@ -62,7 +62,8 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
     const token = await getAuthenticatedToken(req);
     const orderResponse = await placeOrder(req, pids, token);
     res.json(orderResponse);
-  } catch (err) {
+  }
+  catch (err) {
     res.status(400);
     res.json({
       errors: [err.message]
@@ -175,7 +176,8 @@ WorkRoutes.get('/:pid', async function(req, res, next) {
         })
       ]
     });
-  } catch (err) {
+  }
+  catch (err) {
     next(err);
   }
 });

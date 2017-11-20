@@ -144,7 +144,8 @@ export default function searchReducer(state = initialState, action = {}) {
 
         if (newState.selectedWorkSuggestion < newState.workSuggestions[newState.query].length - 1) {
           newState.selectedWorkSuggestion += 1;
-        } else {
+        }
+        else {
           newState.selectedWorkSuggestion = 0;
         }
 
@@ -167,7 +168,8 @@ export default function searchReducer(state = initialState, action = {}) {
 
         if (newState.selectedWorkSuggestion > 0) {
           newState.selectedWorkSuggestion -= 1;
-        } else {
+        }
+        else {
           newState.selectedWorkSuggestion = newState.workSuggestions[newState.query].length - 1;
         }
 

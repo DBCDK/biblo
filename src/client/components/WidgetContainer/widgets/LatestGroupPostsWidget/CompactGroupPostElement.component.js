@@ -62,13 +62,16 @@ export function CompactGroupPostElement({post, groupName, groupHref}) {
   if (post.video) {
     postType = 'video';
     postBody = renderVideoGroupPost(post);
-  } else if (post.image) {
+  }
+  else if (post.image) {
     postType = 'image';
     postBody = renderImageGroupPost(post);
-  } else if (post.pdf) {
+  }
+  else if (post.pdf) {
     postType = 'pdf';
     postBody = renderPDFGroupPost(post);
-  } else {
+  }
+  else {
     postType = 'text';
     postBody = renderTextGroupPost(post);
   }

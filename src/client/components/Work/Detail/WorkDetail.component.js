@@ -81,7 +81,8 @@ export class WorkDetail extends React.Component {
       if (typeof this.props[prop] === 'object' && !equal(this.props[prop], nextProps[prop])) {
         shouldRender = true;
         return shouldRender;
-      } else if (this.props[prop] !== nextProps[prop]) {
+      }
+      else if (this.props[prop] !== nextProps[prop]) {
         shouldRender = true;
         return shouldRender;
       }
@@ -102,7 +103,8 @@ export class WorkDetail extends React.Component {
     let title;
     if (titleSeries) {
       query = title = titleSeries;
-    } else if (descriptionSeries) {
+    }
+    else if (descriptionSeries) {
       query = title = descriptionSeries;
       if (query.indexOf(': ') > 0) {
         query = query.substring(query.indexOf(': ') + 2);
@@ -132,14 +134,18 @@ export class WorkDetail extends React.Component {
       if (collection.accessType[0] === 'online') {
         if (collection.workType[0] === 'audiobook') {
           ereolen.push(collection);
-        } else if (collection.workType[0] === 'book') {
+        }
+        else if (collection.workType[0] === 'book') {
           ereolen_ebooks.push(collection);
-        } else if (collection.workType[0] === 'movie') {
+        }
+        else if (collection.workType[0] === 'movie') {
           filmstriben.push(collection);
-        } else {
+        }
+        else {
           online.push(collection);
         }
-      } else {
+      }
+      else {
         physical.push(collection);
       }
     });
@@ -289,7 +295,8 @@ export class WorkDetail extends React.Component {
           profile={profile}
         />
       );
-    } else {
+    }
+    else {
       reviewButton = (
         <ReviewButton
           editText={this.props.editText}

@@ -42,13 +42,17 @@ export class MoreInfo extends React.Component {
 
     if (workType === 'audiobook') {
       iconType = audiobookSvg;
-    } else if (workType === 'book') {
+    }
+    else if (workType === 'book') {
       iconType = bookSvg;
-    } else if (workType === 'game') {
+    }
+    else if (workType === 'game') {
       iconType = gameSvg;
-    } else if (workType === 'movie') {
+    }
+    else if (workType === 'movie') {
       iconType = movieSvg;
-    } else if (workType === 'music') {
+    }
+    else if (workType === 'music') {
       iconType = musicSvg;
     }
     return iconType;

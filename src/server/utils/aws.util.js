@@ -60,7 +60,8 @@ export function createElasticTranscoderJob(
   ElasticTranscoder.createJob(params, err => {
     if (err) {
       logger.error('ElasticTranscoder job creation failed', {error: err, params: params});
-    } else {
+    }
+    else {
       logger.info('ElasticTranscoder job was successfully created', {params: params});
     }
   });

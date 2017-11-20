@@ -42,7 +42,8 @@ export default class UploadMedia extends React.Component {
           if (contentResponse.status === 500 && contentResponse.data && contentResponse.data.error) {
             return reject(contentResponse.data.error);
           }
-        } catch (err) {
+        }
+        catch (err) {
           reject(err);
         }
 
@@ -67,11 +68,14 @@ export default class UploadMedia extends React.Component {
 
         if (type === 'image') {
           resolve(this.handleImage(file, onProgress));
-        } else if (type === 'video') {
+        }
+        else if (type === 'video') {
           resolve(this.handleVideo(file, onProgress));
-        } else if (file.type === 'application/pdf') {
+        }
+        else if (file.type === 'application/pdf') {
           resolve(this.handlePDF(file, onProgress));
-        } else {
+        }
+        else {
           reject('filtype ikke understøttet');
         }
       }
@@ -169,7 +173,8 @@ export default class UploadMedia extends React.Component {
         if (e.target.status === 200) {
           try {
             attachment.image.imageCollectionId = JSON.parse(this.xhr.responseText).id;
-          } catch (err) {
+          }
+          catch (err) {
             return reject(errorMessage);
           }
 
@@ -249,7 +254,8 @@ export default class UploadMedia extends React.Component {
     if (this.fileInput.value) {
       this.fileInput.value = null;
       this.setState({attachment: attachment});
-    } else {
+    }
+    else {
       this.setState({attachment: attachment, imageRemoved: true});
     }
   }

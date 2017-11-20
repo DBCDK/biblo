@@ -143,7 +143,8 @@ export class ProfileDetailContainer extends React.Component {
                 <span>:</span>
               </span>
             );
-          } else {
+          }
+          else {
             title += ' ';
           }
 
@@ -225,7 +226,8 @@ export class ProfileDetailContainer extends React.Component {
                 <span>:</span>
               </span>
             );
-          } else {
+          }
+          else {
             postTitle += ':';
           }
 
@@ -410,7 +412,8 @@ export class ProfileDetailContainer extends React.Component {
         logo = (
           <img src={campaign.logos.svg} className="campaign--row--logo svg" style={{width: '60px', height: '60px'}} />
         );
-      } else {
+      }
+      else {
         logo = <img src={campaign.logos.small} className="campaign--row--logo" width={80} />;
       }
 
@@ -488,7 +491,8 @@ export class ProfileDetailContainer extends React.Component {
     let logo;
     if (campaign.logos.svg) {
       logo = <img src={campaign.logos.svg} className="svg" style={{width: '60px', height: '60px'}} />;
-    } else {
+    }
+    else {
       logo = <img src={campaign.logos.small} width={80} />;
     }
 
@@ -496,7 +500,8 @@ export class ProfileDetailContainer extends React.Component {
     if (isMyProfile) {
       const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
       badge = <a href={downloadUrl}>{logo}</a>;
-    } else {
+    }
+    else {
       badge = logo;
     }
 
@@ -562,7 +567,8 @@ export class ProfileDetailContainer extends React.Component {
     if (this.state.groups && this.state.groups.length > 0) {
       groupsModalContent = this.renderModalContent(isMyProfile);
       groupsModalTitle = (this.state.groups.length > 1 && `${this.state.groups.length} Grupper`) || '1 Gruppe';
-    } else {
+    }
+    else {
       groupsModalContent = (
         <div className="user-feed--groups-modal--text">
           <h2>{userProfile.displayName} følger ingen grupper!</h2>
@@ -600,7 +606,8 @@ export class ProfileDetailContainer extends React.Component {
           </div>
         </a>
       );
-    } else {
+    }
+    else {
       profileImage = (
         <div className="p-detail--image-container">
           <div className="p-detail--image-crop">

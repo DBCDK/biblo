@@ -39,7 +39,8 @@ export default class DroppableImageField extends React.Component {
         if (e.dataTransfer.files[0].type.indexOf('image/') >= 0) {
           document.getElementById('wrong-filetype-message').className = '';
           self.readFiles(e.dataTransfer.files);
-        } else {
+        }
+        else {
           document.getElementById('wrong-filetype-message').className = 'wrong-file';
         }
       };

@@ -195,7 +195,8 @@ const getUserFeedTransform = {
     feed.sort((a, b) => {
       if (new Date(a.timeCreated) > new Date(b.timeCreated)) {
         return -1;
-      } else if (new Date(a.timeCreated) < new Date(b.timeCreated)) {
+      }
+      else if (new Date(a.timeCreated) < new Date(b.timeCreated)) {
         return 1;
       }
       return 0;

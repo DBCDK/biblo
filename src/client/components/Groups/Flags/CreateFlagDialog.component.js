@@ -48,13 +48,16 @@ export default class CreateFlagDialog extends React.Component {
           contentId: this.props.contentId
         });
         this.setState({hasBeenSubmitted: true});
-      } else {
+      }
+      else {
         // free-text field cannot be empty
         this.setState({emphasizeRequiredFields: true});
       }
-    } else if (this.state.selectedCause === null) {
+    }
+    else if (this.state.selectedCause === null) {
       this.setState({emphasizeRequiredFields: true});
-    } else {
+    }
+    else {
       this.props.submitFunction({
         cause: this.state.selectedCause,
         contentId: this.props.contentId

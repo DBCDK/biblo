@@ -1,5 +1,5 @@
 
-require('babel-register')();
+require('babel-register');
 const path = require('path');
 
 let SocketCluster;
@@ -19,8 +19,8 @@ function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
 
   // We return a promise and let cucumber handle it.
   return new Promise((resolve, reject) => {
-    // Enable timeout, default timeout is 2 seconds
-    timeout = timeout || 2000;
+    // Enable timeout, default timeout is 10 seconds as CI env tends to hang on first run
+    timeout = timeout || 10000;
     const cancelTimeout = setTimeout(reject, timeout);
 
     /**
@@ -92,6 +92,7 @@ function hooks() {
     /**
      * loadMock loads a mock by name.
      * @param mockName
+     * @param {number} times
      */
     this.loadMock = (mockName, times = 1) => askSocketClusterWithTimeout({event: 'loadMock', mockName: mockName, times}, `mockWasLoaded-${mockName}`);
 

@@ -24,7 +24,7 @@ function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
     const cancelTimeout = setTimeout(() => {
       reject(`requestEvent timed out after ${timeout}ms`, {requestEvent});
     }, timeout);
-
+    
     /**
      * This is a generic listener for SocketCluster events
      * @param {Int} worker

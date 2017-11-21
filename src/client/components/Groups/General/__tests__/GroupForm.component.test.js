@@ -7,7 +7,7 @@ import expect from 'expect';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
-import $ from 'teaspoon';
+import {mount} from 'enzyme';
 
 import GroupForm from '../GroupForm.component';
 
@@ -57,7 +57,7 @@ describe('Test Group Form component', () => {
     );
 
     // Render and type into the group name input field
-    const $root = $(component).render();
-    $root.find('.group-name--input-field').trigger('change', eventMock);
+    const wrapper = mount(component);
+    wrapper.find('.group-name--input-field').first().simulate('change', eventMock);
   });
 });

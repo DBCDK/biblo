@@ -4,10 +4,8 @@
 
 // import libs
 import React from 'react';
-import expect from 'expect';
-import {assert} from 'chai';
-import $ from 'teaspoon';
-import sd from 'skin-deep';
+import {expect} from 'chai';
+import {mount, shallow} from 'enzyme';
 import assignToEmpty from '../../../../Utils/assign';
 
 // import components
@@ -130,7 +128,7 @@ describe('Test profile detail container (public profile)', () => {
     }
   }];
 
-  it('should render activity rows containing posts, and a comment.', () => {
+  it('should render activity rows containing posts, and a comment', () => {
     const component = (
       <ProfileDetailContainer
         agencies={{}}
@@ -158,12 +156,12 @@ describe('Test profile detail container (public profile)', () => {
       />
     );
 
-    const $root = $(component).render();
+    const wrapper = mount(component);
 
-    const activityRows = $root.find('.activity-row--container > .activity-row');
+    const activityRows = wrapper.find('.activity-row--container > .activity-row');
 
-    expect(activityRows[0].innerHTML).toContain(feedMock.feed[0].html);
-    expect(activityRows[1].outerHTML).toContain(feedMock.feed[1].html);
+    expect(activityRows.at(0).text()).to.include(feedMock.feed[0].html);
+    expect(activityRows.at(1).text()).to.include(feedMock.feed[1].html);
   });
 
   it('should render rows containing an edit link when a moderator is viewing', () => {
@@ -194,12 +192,12 @@ describe('Test profile detail container (public profile)', () => {
       />
     );
 
-    const $root = $(component).render();
-    const postEditButtons = $root.find('.edit-post--button');
-    const commentEditButtons = $root.find('.edit-comment--button');
+    const wrapper = mount(component);
+    const postEditButtons = wrapper.find('.edit-post--button');
+    const commentEditButtons = wrapper.find('.edit-comment--button');
 
-    expect(postEditButtons.length).toEqual(4); // two posts, and two comments with posts wrapped around.
-    expect(commentEditButtons.length).toEqual(2); // two comments.
+    expect(postEditButtons.length).to.equal(4); // two posts, and two comments with posts wrapped around.
+    expect(commentEditButtons.length).to.equal(2); // two comments.
   });
 
   it('should render tabs', () => {
@@ -229,17 +227,17 @@ describe('Test profile detail container (public profile)', () => {
       />
     );
 
-    const $root = $(component).render();
+    const wrapper = mount(component);
 
-    const tabs = $root.find('.p-detail--activity-tabs');
-    expect(tabs[0].innerHTML).toContain('tabs-container');
+    const tabs = wrapper.find('.p-detail--activity-tabs').children();
+    expect(tabs.at(0).html()).to.include('tabs-container');
   });
 
   it('Should render diplomaButtons', () => {
     const _reviews = assignToEmpty(reviews, {userReviews: reviewsMock});
     const _feedMock = assignToEmpty(feedMock, {campaigns: campaignsMock});
 
-    const tree = sd.shallowRender(
+    const wrapper = shallow(
       <ProfileDetailContainer
         agencies={{}}
         agencyActions={{}}
@@ -264,13 +262,13 @@ describe('Test profile detail container (public profile)', () => {
         works={works}
       />);
 
-    assert.isNotFalse(tree.subTree('.p-detail--diploma'), 'Found diploma container');
+    expect(wrapper.find('.p-detail--diploma')).to.have.lengthOf(2);
   });
 
   it('Should not render campaignDiplomaButtons when looking at someone elses profile', () => {
     const _reviews = assignToEmpty(reviews, {userReviews: reviewsMock});
 
-    const tree = sd.shallowRender(
+    const wrapper = shallow(
       <ProfileDetailContainer
         agencies={{}}
         agencyActions={{}}
@@ -295,11 +293,11 @@ describe('Test profile detail container (public profile)', () => {
         works={works}
       />);
 
-    assert.isFalse(tree.subTree('.p-detail--campaign-diploma'), 'Did not find campaign-diploma container as expected');
+    expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
   });
 
   it('Should not render campaignDiplomaButtons when no reviews have been created by user', () => {
-    const tree = sd.shallowRender(
+    const wrapper = shallow(
       <ProfileDetailContainer
         agencies={{}}
         agencyActions={{}}
@@ -324,7 +322,7 @@ describe('Test profile detail container (public profile)', () => {
         works={works}
       />);
 
-    assert.isFalse(tree.subTree('.p-detail--campaign-diploma'), 'Did not find campaign-diploma container as expected');
+    expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
   });
 
   it('Should not render campaignDiplomaButtons when no reviews have been associated with a campaign', () => {
@@ -335,7 +333,7 @@ describe('Test profile detail container (public profile)', () => {
       })
     });
 
-    const tree = sd.shallowRender(
+    const wrapper = shallow(
       <ProfileDetailContainer
         agencies={{}}
         agencyActions={{}}
@@ -360,6 +358,6 @@ describe('Test profile detail container (public profile)', () => {
         works={works}
       />);
 
-    assert.isFalse(tree.subTree('.p-detail--campaign-diploma'), 'Did not find campaign-diploma container as expected');
+    expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
   });
 });

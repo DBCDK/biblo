@@ -1,6 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import {expect, assert} from 'chai';
+import {shallow} from 'enzyme';
 import sd from 'skin-deep'; // see http://willcodefor.beer/react-testing-with-shallow-rendering-and-skin-deep/
 import {cloneDeep} from 'lodash';
 
@@ -47,14 +48,14 @@ describe('Test of Post Components', () => {
   };
 
   it('it should show generate html', () => {
-    const tree = sd.shallowRender(<PostView {...props} />);
+    const wrapper = shallow(<PostView {...props} />);
 
-    expect(tree.subTree('.post--profile-image').subTree('img').getRenderOutput().props.src).to.be.equal(props.owner.image);
-    expect(tree.subTree('.post--profile-image').subTree('img').getRenderOutput().props.alt).to.be.equal(props.owner.displayName);
-    expect(tree.subTree('.username').toString()).to.be.equal(`<span class="username">${props.owner.displayName}</span>`);
-    expect(tree.subTree('.time').text()).to.be.equal('Lige nu');
-    expect(tree.subTree('.post--content').props.dangerouslySetInnerHTML.__html).to.be.equal(props.html);
-    expect(tree.subTree('.post--media').subTree('img').getRenderOutput().props.src).to.be.equal(props.image);
+    expect(wrapper.find('.post--profile-image').find('img').props().src).to.equal(props.owner.image);
+    expect(wrapper.find('.post--profile-image').find('img').props().alt).to.equal(props.owner.displayName);
+    expect(wrapper.find('.username').html()).to.equal(`<span class="username">${props.owner.displayName}</span>`);
+    expect(wrapper.find('.time').text()).to.equal('Lige nu');
+    expect(wrapper.find('.post--content').props().dangerouslySetInnerHTML.__html).to.equal(props.html);
+    expect(wrapper.find('.post--media').find('img').props().src).to.equal(props.image);
   });
 
   it('it should have add comment button', () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import {expect} from 'chai';
+import {shallow} from 'enzyme';
 import sd from 'skin-deep';
 
 import CommentView from '../CommentView.component';
@@ -27,21 +28,20 @@ describe('Test of Comment Components', () => {
   };
 
   it('it should show generate html', () => {
-    const tree = sd.shallowRender(<CommentView {...props} />);
+    const wrapper = shallow(<CommentView {...props} />);
 
-    expect(tree.subTree('.comment-profile-image').subTree('img').getRenderOutput().props.src).to.be.equal(props.owner.image);
-    expect(tree.subTree('.comment-profile-image').subTree('img').getRenderOutput().props.alt).to.be.equal(props.owner.displayName);
-    expect(tree.subTree('.username').toString()).to.be.equal(`<span class="username">${props.owner.displayName}</span>`);
-    expect(tree.subTree('.time').text()).to.be.equal('Lige nu');
-    expect(tree.subTree('.content').props.dangerouslySetInnerHTML.__html).to.be.equal(props.content);
-    expect(tree.subTree('.media').subTree('img').getRenderOutput().props.src).to.be.equal(props.image);
+    expect(wrapper.find('.comment-profile-image').first().find('img').props().src).to.equal(props.owner.image);
+    expect(wrapper.find('.comment-profile-image').first().find('img').props().alt).to.equal(props.owner.displayName);
+    expect(wrapper.find('.username').html()).to.equal(`<span class="username">${props.owner.displayName}</span>`);
+    expect(wrapper.find('.time').text()).to.equal('Lige nu');
+    expect(wrapper.find('.content').props().dangerouslySetInnerHTML.__html).to.equal(props.content);
+    expect(wrapper.find('.media').first().find('img').props().src).to.equal(props.image);
   });
 
   it('it should not show an image', () => {
     props.image = null;
-    const tree = sd.shallowRender(<CommentView {...props} />);
-
-    expect(tree.subTree('.media')).to.be.equal(false);
+    const wrapper = shallow(<CommentView {...props} />);
+    expect(wrapper.find('.media')).to.have.lengthOf(0);
   });
 
   it('it should not show an youtube video', () => {

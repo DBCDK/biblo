@@ -3,12 +3,12 @@
  **/
 
 // import libs
-import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {expect} from 'chai';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 describe('Test FullWidthBannerSlider Widget', () => {
   it('Test empty FullWidthBannerSlider widget can render inside a WidgetContainer', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-FullWidthBannerSlider-location',
       widgetName: 'FullWidthBannerSliderWidget',
       widgetConfig: {
@@ -18,11 +18,11 @@ describe('Test FullWidthBannerSlider Widget', () => {
       }
     });
 
-    expect($root.find('.widget--title--generic').text()).toEqual('empty slider test');
+    expect($root.find('.widget--title--generic').first().text()).to.equal('empty slider test');
   });
 
   it('Test FullWidthBannerSlider widget can render with one image', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-FullWidthBannerSlider-single-pic-location',
       widgetName: 'FullWidthBannerSliderWidget',
       widgetConfig: {
@@ -39,13 +39,13 @@ describe('Test FullWidthBannerSlider Widget', () => {
       }
     });
 
-    expect($root.find('.full-width-banner--image--text--container > h2').text()).toEqual('this is a dummy banner title');
-    expect($root.find('.full-width-banner--image--text--container > p').text()).toEqual('This is a dummy banner description!');
-    expect($root.find('.fwbs--dots').text()).toEqual('●');
+    expect($root.find('.full-width-banner--image--text--container > h2').first().text()).to.equal('this is a dummy banner title');
+    expect($root.find('.full-width-banner--image--text--container > p').first().text()).to.equal('This is a dummy banner description!');
+    expect($root.find('.fwbs--dots').first().text()).to.equal('●');
   });
 
   it('Test FullWidthBannerSlider widget can render with two images', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-FullWidthBannerSlider-two-pics-location',
       widgetName: 'FullWidthBannerSliderWidget',
       widgetConfig: {
@@ -71,17 +71,18 @@ describe('Test FullWidthBannerSlider Widget', () => {
       }
     });
 
-    expect($root.find('.full-width-banner--image--text--container > h2').text()).toEqual('And yet another dummy title');
-    expect($root.find('.full-width-banner--image--text--container > p').text()).toEqual('This is the second dummy banner description!');
 
-    let dots = $root.find('.fwbs--dots').children().get();
-    expect(dots[0].className).toEqual('fwbs--image-indicator active');
-    expect(dots[1].className).toEqual('fwbs--image-indicator inactive');
+    expect(wrapper.find('.full-width-banner--image--text--container > h2').first().text()).to.equal('And yet another dummy title');
+    expect(wrapper.find('.full-width-banner--image--text--container > p').first().text()).to.equal('This is the second dummy banner description!');
 
-    $root.find('.fwbs--next').trigger('click', {});
+    let dots = wrapper.find('.fwbs--dots').children();
+    expect(dots.at(0).props().className).to.equal('fwbs--image-indicator active');
+    expect(dots.at(1).props().className).to.equal('fwbs--image-indicator inactive');
 
-    dots = $root.find('.fwbs--dots').children().get();
-    expect(dots[0].className).toEqual('fwbs--image-indicator inactive');
-    expect(dots[1].className).toEqual('fwbs--image-indicator active');
+    wrapper.find('.fwbs--next').simulate('click');
+
+    dots = wrapper.find('.fwbs--dots').children();
+    expect(dots.at(0).props().className).to.equal('fwbs--image-indicator inactive');
+    expect(dots.at(1).props().className).to.equal('fwbs--image-indicator active');
   });
 });

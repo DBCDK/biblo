@@ -6,8 +6,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import sinon from 'sinon';
-import sd from 'skin-deep';
-import $ from 'teaspoon';
+import {mount, shallow} from 'enzyme';
 
 import {ProfileLibraryInfo} from '../ProfileLibraryInfo.component';
 
@@ -24,7 +23,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
   let searchElements = [];
 
   beforeEach(() => {
-    component = sd.shallowRender(
+    component = shallow(
       <ProfileLibraryInfo
         favoriteLibrary={emptyObj}
         unselectLibraryFunction={noop}
@@ -36,7 +35,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
       />
     );
 
-    instance = component.getMountedInstance();
+    instance = component.instance();
   });
 
   afterEach(() => {
@@ -137,7 +136,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
   });
 
   it('Should toggle loanerId password field', () => {
-    const libraryInfo = $(<ProfileLibraryInfo
+    const wrapper = mount(<ProfileLibraryInfo
       favoriteLibrary={emptyObj}
       unselectLibraryFunction={noop}
       searchAction={noop}
@@ -145,18 +144,17 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
       loanerIdChangeFunc={noop}
       pincodeChangeFunc={noop}
       searchElements={searchElements}
-    />).render();
-    assert.equal('password', libraryInfo.find('input[name=loanerId]')[0].type);
-    libraryInfo.find('input[type=checkbox]').trigger('click');
-    assert.equal('number', libraryInfo.find('input[name=loanerId]')[0].type);
-    libraryInfo.find('input[type=checkbox]').trigger('click');
-    assert.equal('password', libraryInfo.find('input[name=loanerId]')[0].type);
+    />);
 
-
+    assert.equal('password', wrapper.find({name: 'loanerId'}).first().prop('type'));
+    wrapper.find({type: 'checkbox'}).simulate('click');
+    assert.equal('number', wrapper.find({name: 'loanerId'}).first().prop('type'));
+    wrapper.find({type: 'checkbox'}).simulate('click');
+    assert.equal('password', wrapper.find({name: 'loanerId'}).first().prop('type'));
   });
 
   it('Should toggle loanerId password field', () => {
-    const libraryInfo = $(<ProfileLibraryInfo
+    const wrapper = mount(<ProfileLibraryInfo
       favoriteLibrary={{loanerId: 1234123412, pincode: 1234}}
       unselectLibraryFunction={noop}
       searchAction={noop}
@@ -164,9 +162,10 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
       loanerIdChangeFunc={noop}
       pincodeChangeFunc={noop}
       searchElements={searchElements}
-    />).render();
-    assert.equal('1234123412', libraryInfo.find('input[name=loanerId]')[0].value);
-    assert.equal('1234', libraryInfo.find('input[name=pincode]')[0].value);
-    assert.equal('DK-1234', libraryInfo.find('input[name=libraryId]')[0].value);
+    />);
+
+    assert.equal('1234123412', wrapper.find({name: 'loanerId'}).first().prop('defaultValue'));
+    assert.equal('1234', wrapper.find({name: 'pincode'}).first().prop('defaultValue'));
+    assert.equal('DK-1234', wrapper.find({name: 'libraryId'}).first().prop('value'));
   });
 });

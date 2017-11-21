@@ -4,8 +4,8 @@
 
 // import libs
 import React from 'react';
-import expect from 'expect';
-import $ from 'teaspoon';
+import {expect} from 'chai';
+import {mount} from 'enzyme';
 
 // import components
 import WidgetContainer from '../WidgetContainer.component';
@@ -18,22 +18,22 @@ describe('Test generic WidgetContainer', () => {
     };
     const widgetActions = {};
 
-    let component = (
+    const component = (
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
         widgetActions={widgetActions} />
     );
 
-    let $root = $(component).render();
+    const wrapper = mount(component);
+    const text = wrapper.find(`.${widgetLocationName}--generic-widget-container`).first().text();
 
-    const emptyWidgetContainer = $root.find(`.${widgetLocationName}--generic-widget-container`).text();
-    expect(emptyWidgetContainer).toEqual('');
+    expect(text).to.equal('');
   });
 
   it('should render dummy widget', () => {
     const widgetLocationName = 'test-widget-location';
-    let widgetState = {
+    const widgetState = {
       DummyWidget: {},
       widgetLocations: {}
     };
@@ -43,16 +43,17 @@ describe('Test generic WidgetContainer', () => {
 
     widgetState.widgetLocations[widgetLocationName] = {widgetName: 'DummyWidget', widgetConfig: {}};
 
-    let component = (
+    const component = (
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
         widgetActions={widgetActions} />
     );
 
-    let $root = $(component).render();
+    const expected = 'This is a dummy widget!';
+    const wrapper = mount(component);
+    const text = wrapper.find('.dummy-widget').first().text();
 
-    const dummyWidgetContainer = $root.find('.dummy-widget').text();
-    expect(dummyWidgetContainer).toEqual('This is a dummy widget!');
+    expect(text).to.equal(expected);
   });
 });

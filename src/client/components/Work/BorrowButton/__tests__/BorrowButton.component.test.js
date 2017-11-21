@@ -4,8 +4,8 @@
 
 // Libs
 import React from 'react';
-import expect from 'expect';
-import $ from 'teaspoon';
+import {mount} from 'enzyme';
+import {expect} from 'chai';
 
 // Import components
 import BorrowButton from '../BorrowButton.component';
@@ -39,9 +39,12 @@ describe('Test Borrow Button (in work detail)', () => {
       />
     );
 
-    const $root = $(component).render();
-    $root.find('.borrow--button').trigger('click', {});
+    const expected = 'Lydbog (net) (bind 4)';
 
-    expect($root.find('.modal-window--borrow--types')[0].innerHTML).toContain('Lydbog (net) (bind 4)');
+    const wrapper = mount(component);
+    wrapper.find('.borrow--button').simulate('click');
+    const innerHtml = wrapper.find('.modal-window--borrow--types').first().text();
+
+    expect(innerHtml).to.include(expected);
   });
 });

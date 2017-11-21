@@ -21,7 +21,9 @@ function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
   return new Promise((resolve, reject) => {
     // Enable timeout, default timeout is 10 seconds as CI env tends to hang on first run
     timeout = timeout || 10000;
-    const cancelTimeout = setTimeout(reject, timeout);
+    const cancelTimeout = setTimeout(() => {
+      reject(`requestEvent timed out after ${timeout}ms`, {requestEvent});
+    }, timeout);
 
     /**
      * This is a generic listener for SocketCluster events

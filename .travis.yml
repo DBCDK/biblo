@@ -19,9 +19,6 @@ env:
 - TEST_SUITE=lint
 - TEST_SUITE=test
 
-jdk:
-  - oraclejdk8
-
 script:
 - "npm run $TEST_SUITE"
 

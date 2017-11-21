@@ -91,7 +91,7 @@ export default class AddContent extends UploadMedia {
         isLoading: true,
         errorMsg: null
       });
-      let form = this.refs['group-post-form'];
+      let form = this.groupPostFormRef;
       this.addContent(form, e.target.action)
         .then(response => {
           if (form.id.value === '') {
@@ -116,6 +116,7 @@ export default class AddContent extends UploadMedia {
         })
         .catch(response => {
           this.setState({errorMsg: response.errors[0].errorMessage});
+          console.error(response.errors[0]); // eslint-disable-line
         });
     }
   }

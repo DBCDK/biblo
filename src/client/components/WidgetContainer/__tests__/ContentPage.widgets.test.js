@@ -5,7 +5,6 @@
 // import libs
 import React from 'react';
 import {expect} from 'chai';
-import $ from 'teaspoon';
 import {mount} from 'enzyme';
 import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 import snapshot from './__snapshots__/ContentPage.widgets.test.snapshots.js';

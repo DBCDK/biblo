@@ -4,8 +4,9 @@
 
 // import libs
 import React from 'react';
-import expect from 'expect';
+import {expect} from 'chai';
 import $ from 'teaspoon';
+import {mount} from 'enzyme';
 import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 import snapshot from './__snapshots__/ContentPage.widgets.test.snapshots.js';
 
@@ -34,10 +35,10 @@ describe('Test ContentPages Widgets', () => {
         widgetActions={widgetActions} />
     );
 
-    let $root = $(component).render();
+    const wrapper = mount(component);
 
-    const textInnerHTML = $root.find('.content-page--text-widget').props().dangerouslySetInnerHTML.__html;
-    expect(textInnerHTML).toEqual('<h2>Bob er sej!</h2>');
+    const textInnerHTML = wrapper.find('.content-page--text-widget').text();
+    expect(textInnerHTML).to.equal('Bob er sej!');
   });
 
   it('ContentPageImage should render', () => {
@@ -63,10 +64,12 @@ describe('Test ContentPages Widgets', () => {
         widgetActions={widgetActions} />
     );
 
-    let $root = $(component).render();
+    const wrapper = mount(component);
 
-    const renderedImage = $root.find('.content-page--image-widget > img').props();
-    expect(renderedImage).toEqual({alt: 'bob2', src: 'bob', title: 'bob3'});
+    const renderedImage = wrapper.find('.content-page--image-widget').find('img').props();
+    expect(renderedImage.src).to.equal('bob');
+    expect(renderedImage.alt).to.equal('bob2');
+    expect(renderedImage.title).to.equal('bob3');
   });
 
   it('ContentPageEmbeddedVideo should render', () => {
@@ -89,6 +92,6 @@ describe('Test ContentPages Widgets', () => {
 
     const result = renderer.getRenderOutput();
 
-    expect(JSON.stringify(result)).toEqual(JSON.stringify(snapshot.ContentPageEmbeddedVideoShouldRender));
+    expect(JSON.stringify(result)).to.equal(JSON.stringify(snapshot.ContentPageEmbeddedVideoShouldRender));
   });
 });

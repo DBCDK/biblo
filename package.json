@@ -100,7 +100,7 @@
     "passport": "^0.4.0",
     "passport-unilogin": "^2.0.0",
     "path": "^0.12.7",
-    "pmx": "^1.5.4",
+    "pmx": "^1.5.5",
     "postcss-loader": "^2.0.8",
     "primus": "^7.1.0",
     "prop-types": "^15.6.0",

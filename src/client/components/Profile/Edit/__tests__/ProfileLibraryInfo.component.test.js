@@ -155,7 +155,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
 
   it('Should toggle loanerId password field', () => {
     const wrapper = mount(<ProfileLibraryInfo
-      favoriteLibrary={{loanerId: 1234123412, pincode: 1234}}
+      favoriteLibrary={{loanerId: '1234123412', pincode: '1234'}}
       unselectLibraryFunction={noop}
       searchAction={noop}
       libraryId={'DK-1234'}

@@ -52,6 +52,10 @@ describe('Test profile detail container (public profile)', () => {
     asyncGetWorks: noop
   };
 
+  const userstatusActions = {
+    asyncRenewLoan: noop
+  };
+
   const works = {
     workMetadataOrderedByPid: {}
   };
@@ -150,7 +154,8 @@ describe('Test profile detail container (public profile)', () => {
         searchActions={searchActions}
         coverImageActions={coverImageActions}
         coverImages={coverImages}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />
@@ -186,7 +191,8 @@ describe('Test profile detail container (public profile)', () => {
         searchActions={searchActions}
         coverImageActions={coverImageActions}
         coverImages={coverImages}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />
@@ -221,7 +227,8 @@ describe('Test profile detail container (public profile)', () => {
         searchActions={searchActions}
         coverImageActions={coverImageActions}
         coverImages={coverImages}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />
@@ -257,7 +264,8 @@ describe('Test profile detail container (public profile)', () => {
         coverImages={coverImages}
         searchState={searchState}
         searchActions={searchActions}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />);
@@ -288,7 +296,8 @@ describe('Test profile detail container (public profile)', () => {
         coverImages={coverImages}
         searchState={searchState}
         searchActions={searchActions}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />);
@@ -317,7 +326,8 @@ describe('Test profile detail container (public profile)', () => {
         coverImages={coverImages}
         searchState={searchState}
         searchActions={searchActions}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />);
@@ -353,7 +363,8 @@ describe('Test profile detail container (public profile)', () => {
         coverImages={coverImages}
         searchState={searchState}
         searchActions={searchActions}
-        userstatusActions={{}}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
         workActions={workActions}
         works={works}
       />);

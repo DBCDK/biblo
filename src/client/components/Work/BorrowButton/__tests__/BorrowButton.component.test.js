@@ -22,7 +22,7 @@ describe('Test Borrow Button (in work detail)', () => {
       <BorrowButton
         buttonTitle="Lån på eReolen"
         modalButtonTitle="Gå til eReolen"
-        buttonIcon={null}
+        buttonIcon={''}
         itemDescription="Katten Ildpote"
         collectionDetails={collectionDetails}
         coverUrl="http://i.imgur.com/l99Rjc8.jpg"

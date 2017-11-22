@@ -30,7 +30,7 @@ module.exports = {
     extensions: ['.js', '.json']
   },
 
-  cache: false,
+  cache: true,
 
   module: {
     rules: [

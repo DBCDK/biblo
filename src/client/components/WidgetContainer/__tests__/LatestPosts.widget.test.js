@@ -4,13 +4,13 @@
 
 // import libs
 import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 import {singleGroupPostMock} from '../__mocks__/GroupPost.mock';
 
 describe('Test LatestPosts Widget', () => {
   it('Test LatestPosts widget can render inside a WidgetContainer', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-latest-posts-widget-location',
       widgetName: 'LatestPostsWidget',
       widgetConfig: {
@@ -30,7 +30,7 @@ describe('Test LatestPosts Widget', () => {
   });
 
   it('can render a single compact post element', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-latest-posts-widget-location',
       widgetName: 'LatestPostsWidget',
       widgetConfig: {

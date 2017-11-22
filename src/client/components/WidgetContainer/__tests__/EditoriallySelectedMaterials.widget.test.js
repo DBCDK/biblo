@@ -1,12 +1,12 @@
 import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 // import mocks
 import {fivePidState} from '../__mocks__/SelectedMaterials.mock';
 
 describe('Testing of the editorially selected reviews widget', () => {
   it('should render widget', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-editorially-selected-materials-location',
       widgetName: 'EditoriallySelectedMaterialsWidget',
       widgetConfig: fivePidState.widgetConfig,

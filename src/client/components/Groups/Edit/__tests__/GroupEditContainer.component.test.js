@@ -28,7 +28,8 @@ describe('Test Group Edit Form component', () => {
     asyncGroupDelete: sinon.spy(),
     asyncShowGroups: () => {
     },
-    changeImageAction: null
+    changeImageAction: null,
+    asyncChangeImage: () => {}
   };
 
   const UIActions = {
@@ -40,7 +41,8 @@ describe('Test Group Edit Form component', () => {
     id: 9,
     errors: [],
     UI: {
-      imageSrc: '/billede/7/small'
+      imageSrc: '/billede/7/small',
+      submitProgress: 0
     },
     raw: {
       name: 'hep'

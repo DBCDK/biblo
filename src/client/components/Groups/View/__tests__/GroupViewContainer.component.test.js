@@ -23,6 +23,7 @@ describe('Test GroupView Component', () => {
       id: 1
     },
     members: [],
+    membersCount: 7356,
     isMembersExpanded: true
   };
 
@@ -66,6 +67,7 @@ describe('Test GroupView Component', () => {
   it('Group View Component is being rendered', () => {
     const wrapper = shallow(
       <GroupViewContainer
+        globalState={{}}
         group={group}
         profile={profile}
         groupActions={groupActions}
@@ -131,6 +133,7 @@ describe('Test GroupView Component', () => {
 
     const wrapper = shallow(
       <GroupViewContainer
+        globalState={{}}
         group={group}
         profile={profile}
         groupActions={actions}

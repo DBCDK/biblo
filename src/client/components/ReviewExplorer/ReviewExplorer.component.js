@@ -10,6 +10,7 @@ import ReviewExplorerNavigation from './ReviewExplorerNavigation.js';
 import Icon from '../General/Icon/Icon.component.js';
 import spinnerSvg from '../General/Icon/svg/spinners/loading-spin.svg';
 import VisFlereButton from '../General/VisFlereButton/VisFlereButton.component';
+import Message from '../General/Message/Message.component';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
@@ -67,7 +68,7 @@ export class ReviewExplorerComponent extends Component {
   }
 
   render() {
-    const {isLoading, reviews, genres, total} = this.props.reviewState.reviewExplorer;
+    const {isLoading=false, reviews=[], genres=[], total=0, error=false} = this.props.reviewState.reviewExplorer;
 
     return (
       <PageLayout
@@ -84,8 +85,11 @@ export class ReviewExplorerComponent extends Component {
           <div className="review-explorer--spinner">
             {isLoading && total === 0 && <Icon glyph={spinnerSvg} height={50} width={50} />}
           </div>
+          {error && <div className="review-explorer--error"><Message type="error">
+            UPS - Der skete en fejl, prøv igen senere
+          </Message></div>}
           {reviews && <div className="review-explorer--rows">{this.renderItems(reviews)}</div>}
-          {total > reviews.length && (
+          {reviews && total > reviews.length && (
             <div>
               &nbsp;
               <VisFlereButton onClick={this.handleClickMore.bind(this)} isLoading={isLoading} />

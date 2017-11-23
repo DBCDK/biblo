@@ -11,3 +11,10 @@
 .review-explorer--main-content {
   margin: 1em;
 }
+.review-explorer--error {
+  text-align: center;
+  margin: 50px 0;
+  div {
+    display: inline-block;
+  }
+}

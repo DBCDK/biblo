@@ -23,7 +23,7 @@ export function showWorkReviews(response, pids, skip, limit, ownId) {
 export function showReviewList(params, limit, loadMore) {
   const WORK_TYPES_MAPPINGS = {
     'alt muligt': '',
-    bøger: ' AND worktype:book',
+    bøger: ' AND (worktype:book OR worktype:literature)',
     film: ' AND worktype:movie',
     spil: ' AND worktype:game',
     musik: ' AND worktype:music',
@@ -60,7 +60,8 @@ export function showReviewList(params, limit, loadMore) {
       dispatch({
         type: types.GET_REVIEWS,
         reviews: response.data,
-        total: response.total
+        total: response.total,
+        error: typeof response.data === 'undefined'
       });
       event.off();
     });

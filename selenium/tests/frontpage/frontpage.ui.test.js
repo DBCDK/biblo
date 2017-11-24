@@ -1,4 +1,4 @@
-var expect = require('expect');
+import {expect, assert} from 'chai';
 
 export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout}) {
   describe('Front Page tests', function () {
@@ -31,7 +31,7 @@ export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout})
         .findElement({className: 'modal-window--window'})
         .getText()
         .then((modalWindowText) => {
-          expect(modalWindowText).toContain('For at gøre siden så let at bruge som muligt gemmer vi det du laver på sitet i noget, der hedder en cookie.');
+          expect(modalWindowText).to.include('For at gøre siden så let at bruge som muligt gemmer vi det du laver på sitet i noget, der hedder en cookie.');
           done();
         });
     });

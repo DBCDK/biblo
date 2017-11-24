@@ -1432,6 +1432,16 @@ function searchReviews(endpoint, elasticQuery) {
 }
 
 /**
+ * Makes a request to the CommunityService endpoint and returns the response.
+ *
+ * @param {string} endpoint
+ * @return {Promise}
+ */
+function getStatus(endpoint) {
+  return promiseRequest('get', endpoint);
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -1509,6 +1519,7 @@ module.exports = function CommunityClient(logger, config = null) {
     addSubjects: addSubjects.bind(null, config.endpoint),
     addGenres: addGenres.bind(null, config.endpoint),
     getGenres: getGenres.bind(null, config.endpoint),
-    searchReviews: searchReviews.bind(null, config.endpoint)
+    searchReviews: searchReviews.bind(null, config.endpoint),
+    getStatus: getStatus.bind(null, config.endpoint)
   };
 };

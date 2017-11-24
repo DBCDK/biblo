@@ -13,7 +13,6 @@ let globalContentWrapper = {
   globalContent: {}
 };
 
-
 /**
  * Fetches global content from admin
  *

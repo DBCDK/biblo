@@ -2,7 +2,7 @@
  * @file: Tests for the group reducer
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 import groupCreateReducer from '../groupCreate.reducer';
 import * as types from '../../Constants/action.constants';
 import assignToEmpty from '../../Utils/assign';
@@ -38,7 +38,7 @@ describe('Test GroupCreate reducer', () => {
   it('should return initial state, given no state', () => {
     const action = {};
 
-    expect(groupCreateReducer(undefined, action)).toEqual(initialState); // eslint-disable-line no-undefined
+    expect(groupCreateReducer(undefined, action)).to.deep.equal(initialState); // eslint-disable-line no-undefined
   });
 
   it('should test CHANGE_GROUP_IMAGE action', () => {
@@ -59,7 +59,7 @@ describe('Test GroupCreate reducer', () => {
       })
     });
 
-    expect(groupCreateReducer(state, action)).toEqual(expected);
+    expect(groupCreateReducer(state, action)).to.deep.equal(expected);
   });
 
   it('should test SUBMIT_CREATE_GROUP action', () => {
@@ -82,6 +82,6 @@ describe('Test GroupCreate reducer', () => {
       imageFile
     });
 
-    expect(groupCreateReducer(state, action)).toEqual(expected);
+    expect(groupCreateReducer(state, action)).to.deep.equal(expected);
   });
 });

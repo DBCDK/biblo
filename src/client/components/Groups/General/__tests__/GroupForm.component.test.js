@@ -2,7 +2,7 @@
  * @file: Tests for Group Form.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -34,13 +34,13 @@ describe('Test Group Form component', () => {
     const dm = TestUtils.renderIntoDocument(component);
     const dmn = ReactDOM.findDOMNode(dm);
 
-    expect(dmn.innerHTML).toContain(imageSrc);
-    expect(dmn.innerHTML).toContain(moderation);
+    expect(dmn.innerHTML).to.include(imageSrc);
+    expect(dmn.innerHTML).to.include(moderation);
   });
 
   it('should trigger group name check asynchronously', done => {
     const checkGroupNameSpy = groupName => {
-      expect(groupName).toEqual(eventMock.target.value);
+      expect(groupName).to.equal(eventMock.target.value);
       done();
     };
 

@@ -4,7 +4,7 @@
 
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import expect from 'expect';
+import {expect} from 'chai';
 
 import * as actions from '../group.actions';
 import * as types from '../../Constants/action.constants';
@@ -19,15 +19,15 @@ describe('test group actions', () => {
     const imageFile = new Blob(['detteerenbilledfil'], {type: 'image/png'});
 
     const expected = [{
-      imageFile: imageFile,
+      type: types.CHANGE_GROUP_IMAGE,
       imageSrc: 'data:image/png;base64,ZGV0dGVlcmVuYmlsbGVkZmls',
-      type: types.CHANGE_GROUP_IMAGE
+      imageFile: imageFile
     }];
 
     const store = mockStore({}); // set initial state
     store.dispatch(actions.asyncChangeImage(imageFile))
       .then(() => {
-        expect(store.getActions()).toEqual(expected);
+        expect(store.getActions()).to.deep.equal(expected);
         xhrMock.restore();
         done();
       })
@@ -66,7 +66,7 @@ describe('test group actions', () => {
     const store = mockStore({});
     return store.dispatch(actions.asyncChangeImage(imageFile))
       .then(() => {
-        expect(store.getActions()[0]).toEqual(expected);
+        expect(store.getActions()[0]).to.deep.equal(expected);
         xhrMock.restore();
         // restore filereader support
         window.FileReader = _fileReader;

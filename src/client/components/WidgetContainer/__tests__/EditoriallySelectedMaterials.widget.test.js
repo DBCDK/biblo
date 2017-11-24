@@ -1,4 +1,4 @@
-import expect from 'expect';
+import {expect} from 'chai';
 import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 // import mocks
@@ -15,6 +15,6 @@ describe('Testing of the editorially selected reviews widget', () => {
       }
     });
 
-    expect($root.find('.editorially-selected-materials-widget').length).toEqual(1);
+    expect($root.find('.editorially-selected-materials-widget').length).to.equal(1);
   });
 });

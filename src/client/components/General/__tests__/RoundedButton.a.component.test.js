@@ -2,7 +2,7 @@
  * @file: Tests for roundedbutton a.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,11 +17,11 @@ describe('Test rounded button', () => {
     let comp = TestUtils.renderIntoDocument(<div><RoundedButton buttonText={'bob'} clickFunction={callback} /></div>);
     TestUtils.Simulate.click(ReactDOM.findDOMNode(comp).children[0]);
 
-    expect(callback.callCount).toEqual(1);
+    expect(callback.callCount).to.equal(1);
   });
 
   it('Should check buttontext is rendered', () => {
     let comp = TestUtils.renderIntoDocument(<div><RoundedButton buttonText={'bob'} /></div>);
-    expect(ReactDOM.findDOMNode(comp).children[0].innerHTML).toEqual('bob');
+    expect(ReactDOM.findDOMNode(comp).children[0].innerHTML).to.equal('bob');
   });
 });

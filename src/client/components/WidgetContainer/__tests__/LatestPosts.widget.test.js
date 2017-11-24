@@ -3,7 +3,7 @@
  **/
 
 // import libs
-import expect from 'expect';
+import {expect} from 'chai';
 import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 import {singleGroupPostMock} from '../__mocks__/GroupPost.mock';
@@ -26,7 +26,7 @@ describe('Test LatestPosts Widget', () => {
     });
 
     const LatestPostsTitle = $root.find('h2').text();
-    expect(LatestPostsTitle).toEqual('LatestPosts displayTitle Test!');
+    expect(LatestPostsTitle).to.equal('LatestPosts displayTitle Test!');
   });
 
   it('can render a single compact post element', () => {
@@ -45,6 +45,6 @@ describe('Test LatestPosts Widget', () => {
       }
     });
 
-    expect($root.find('.cgp--group-link').text()).toEqual(' Awesome mennesker:)');
+    expect($root.find('.cgp--group-link').text()).to.equal(' Awesome mennesker:)');
   });
 });

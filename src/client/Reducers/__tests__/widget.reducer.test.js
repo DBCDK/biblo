@@ -1,6 +1,6 @@
 import WidgetReducer from '../widget.reducer';
 import {action, actionExpected} from './mocks/widget.reducer.mocks';
-import expect from 'expect';
+import {expect} from 'chai';
 
 describe('Testing widget.reducer', () => {
   it('Should key works in EditoriallySelectedMaterialsWidget by string of pids', () => {
@@ -11,6 +11,6 @@ describe('Testing widget.reducer', () => {
     };
 
     const result = WidgetReducer(initialState, action);
-    expect(JSON.stringify(result)).toEqual(JSON.stringify(actionExpected));
+    expect(JSON.stringify(result)).to.equal(JSON.stringify(actionExpected));
   });
 });

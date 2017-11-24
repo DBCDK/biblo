@@ -3,7 +3,7 @@
  **/
 
 // import libs
-import expect from 'expect';
+import {expect} from 'chai';
 import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 describe('Test BestRatedWorksWidget Widget', () => {
@@ -22,7 +22,7 @@ describe('Test BestRatedWorksWidget Widget', () => {
     });
 
     const LatestReviewsWidget = wrapper.find('h2').first().text();
-    expect(LatestReviewsWidget).toEqual('BestRatedWorksWidget title Test!');
+    expect(LatestReviewsWidget).to.equal('BestRatedWorksWidget title Test!');
   });
 
   it('should render a compactWorkElement when given correct props', () => {
@@ -48,7 +48,7 @@ describe('Test BestRatedWorksWidget Widget', () => {
     });
 
     const innerText = wrapper.find('.compact-work-element').text();
-    expect(innerText).toEqual(` ${workTitle}`);
+    expect(innerText).to.equal(` ${workTitle}`);
   });
 });
 

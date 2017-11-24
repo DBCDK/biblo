@@ -154,7 +154,7 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
 
 function censorConfig(bibloConfig, filtered = {}, key) {
   const keys = ['endpoint', 'port', 'host', 'wsdl', 'smaug', 'uniloginBasePath'];
-  const ignored = ['psqlDs', 'IMAP'];
+  const ignored = ['psqlDs', 'IMAP', 'elasticSearch'];
 
   Object.keys(bibloConfig).forEach(item => {
     if (bibloConfig[item] && typeof bibloConfig[item] === 'object') {
@@ -173,7 +173,8 @@ function censorConfig(bibloConfig, filtered = {}, key) {
 
 MainRoutes.get('/howru', async (req, res) => {
   const redisInstance = req.app.get('redisInstance');
-  const communityResponse = await req.callServiceProvider('howru');
+  const communityResponse = await req.callServiceProvider('howruCommunity');
+  const adminResponse = await req.callServiceProvider('howruAdmin');
 
   const response = {
     ok: true,
@@ -185,6 +186,10 @@ MainRoutes.get('/howru', async (req, res) => {
       {
         service: 'CommunityService',
         ok: communityResponse[0]
+      },
+      {
+        service: 'bibloadmin',
+        ok: adminResponse[0]
       }
     ],
     version: res.locals.gitsha,

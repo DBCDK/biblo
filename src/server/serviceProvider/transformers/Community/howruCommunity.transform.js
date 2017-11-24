@@ -3,28 +3,25 @@
  *   is following the group.
  */
 
-const HowRUTransform = {
+const HowRUCommunity = {
 
   event() {
-    return 'howru';
+    return 'howruCommunity';
   },
 
   async requestTransform() {
-    let ok = false;
     try {
-      await this.callServiceClient('community', 'getStatus');
-      ok = true;
+      return await this.callServiceClient('community', 'getStatus');
     }
     catch (e) {
       console.error(e); // eslint-disable-line
+      return {statusCode: 404};
     }
-
-    return ok;
   },
 
   responseTransform(response) {
-    return response;
+    return response.statusCode >= 200 && response.statusCode < 400;
   }
 };
 
-export default HowRUTransform;
+export default HowRUCommunity;

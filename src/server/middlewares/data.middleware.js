@@ -189,7 +189,6 @@ export function renderComponent(req, res, next) {
   next();
 }
 
-
 /**
  * Get global content from admin system.
  *
@@ -198,12 +197,19 @@ export function renderComponent(req, res, next) {
  * @param next
  * @constructor
  */
-export function GetMenus(req, res, next) {
+export async function GetMenus(req, res, next) {
+  try {
+    await getGlobalContent(req, globalContent => {
+      req.writeToReduxStateTree('globalReducer', globalContent);
+      res.locals.globalContent = JSON.stringify({globalContent});
 
-  getGlobalContent(req, (globalContent) => {
-    req.writeToReduxStateTree('globalReducer', globalContent);
-    res.locals.globalContent = JSON.stringify({globalContent});
-    next();
-  });
+    });
+  }
+  catch (e) {
+    const logger = req.app.get('logger');
+    logger.error('Retrieval of global content failed', e);
+  }
+
+  next();
 }
 

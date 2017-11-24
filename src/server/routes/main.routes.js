@@ -12,7 +12,12 @@ import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
 import cacheManager from 'cache-manager';
 import redisStore from 'cache-manager-redis';
 
-import {setReferer, redirectBackToOrigin, ensureUserHasProfile, ensureUserHasValidLibrary} from '../middlewares/auth.middleware.js';
+import {
+  setReferer,
+  redirectBackToOrigin,
+  ensureUserHasProfile,
+  ensureUserHasValidLibrary
+} from '../middlewares/auth.middleware.js';
 import {fullProfileOnSession} from '../middlewares/data.middleware';
 
 // React components
@@ -91,7 +96,7 @@ MainRoutes.get('/error', (req, res, next) => {
   next(errorMsg);
 });
 
-MainRoutes.get('/billede/:id/:size', async function (req, res) {
+MainRoutes.get('/billede/:id/:size', async function(req, res) {
   const logger = req.app.get('logger');
 
   try {
@@ -122,7 +127,7 @@ MainRoutes.get('/billede/:id/:size', async function (req, res) {
   }
 });
 
-MainRoutes.get('/pdf/:id', async function (req, res) {
+MainRoutes.get('/pdf/:id', async function(req, res) {
   const logger = req.app.get('logger');
 
   try {
@@ -145,6 +150,48 @@ MainRoutes.get('/pdf/:id', async function (req, res) {
     logger.error('An error occurred while getting PDF!', {error: err.message});
     res.redirect('/error');
   }
+});
+
+function censorConfig(bibloConfig, filtered = {}, key) {
+  const keys = ['endpoint', 'port', 'host', 'wsdl', 'smaug', 'uniloginBasePath'];
+  const ignored = ['psqlDs', 'IMAP'];
+
+  Object.keys(bibloConfig).forEach(item => {
+    if (bibloConfig[item] && typeof bibloConfig[item] === 'object') {
+      censorConfig(bibloConfig[item], filtered, item);
+    }
+    else if (keys.includes(item) && !ignored.includes(key)) {
+      if (!filtered[key]) {
+        filtered[key] = {};
+      }
+      filtered[key][item] = bibloConfig[item];
+    }
+  });
+
+  return filtered;
+}
+
+MainRoutes.get('/howru', async (req, res) => {
+  const redisInstance = req.app.get('redisInstance');
+  const communityResponse = await req.callServiceProvider('howru');
+
+  const response = {
+    ok: true,
+    services: [
+      {
+        service: 'redis',
+        ok: redisInstance.client.connected
+      },
+      {
+        service: 'CommunityService',
+        ok: communityResponse[0]
+      }
+    ],
+    version: res.locals.gitsha,
+    env: req.app.locals.env,
+    config: censorConfig(req.app.get('BIBLO_CONFIG'))
+  };
+  res.json(response);
 });
 
 export default MainRoutes;

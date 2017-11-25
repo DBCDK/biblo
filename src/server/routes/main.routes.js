@@ -11,6 +11,7 @@ import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
 
 import cacheManager from 'cache-manager';
 import redisStore from 'cache-manager-redis';
+import {filterConfig} from './../utils/filterConfig.util';
 
 import {
   setReferer,
@@ -151,34 +152,6 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
     res.redirect('/error');
   }
 });
-
-/**
- * Filters away sensitive and unwanted information from given config object
- * TODO mmj extract to util and unittest
- * @param {object} bibloConfig
- * @return {object}
- */
-function filterConfig(bibloConfig) {
-  const filtered = Object.assign({}, bibloConfig);
-  const keys = ['endpoint', 'port', 'host', 'wsdl', 'smaug', 'uniloginBasePath'];
-
-  Object.keys(filtered).forEach(item => {
-    if ((typeof filtered[item] !== 'object' && !keys.includes(item)) || !filtered[item]) {
-      delete filtered[item];
-    }
-    else if (filtered[item] && typeof filtered[item] === 'object') {
-      const _filtered = filterConfig(filtered[item]);
-      if (Object.keys(_filtered).length === 0) {
-        delete filtered[item];
-      }
-      else {
-        filtered[item] = _filtered;
-      }
-    }
-  });
-
-  return filtered;
-}
 
 MainRoutes.get('/howru', async (req, res) => {
   const redisInstance = req.app.get('redisInstance');

@@ -33,7 +33,7 @@ function registerServiceClient(provider, config, clientCache, clientName, client
     clientConfig = config.get(`ServiceProvider.${clientName}`);
   }
   catch (e) {
-    console.warn(`No specific config found for ${clientName}. Falling back to entire ServiceProvider config object`); // eslint-disable-line
+    console.warn(`No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`); // eslint-disable-line
   }
 
   const methods = client(clientConfig);

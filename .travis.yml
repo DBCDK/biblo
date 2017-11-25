@@ -19,18 +19,8 @@ env:
 - TEST_SUITE=lint
 - TEST_SUITE=test
 
-jdk:
-  - oraclejdk8
-
 script:
 - "npm run $TEST_SUITE"
-- sonar-scanner -Dsonar.sources=./src -Dsonar.projectKey="${TRAVIS_REPO_SLUG////-}:travis" -Dsonar.projectName="${TRAVIS_REPO_SLUG////-}"
-
-addons:
-  sonarqube:
-    organization: "dbcdk-jph"
-    token:
-      secure: "ucN1+UEN06K76Op6r56uS3oDSuk0+bs1NfyFGlxAAABMjfE2Jl3dwyANCKz4YOrrR5Zqgl1b6AT7Xddft/HTIRlSERnYjJG2mebyO4vqGB+iArEPfn4lzhA7CZTPc37/UPC6L1aqBIPgle9kvnCesZR950Z85JhwWZtm556aSq9yhEESZWqRnurwDc41UnO0AUog3op5wygijOGgy4V/rd/o4PSCIspB68FR2QUvjlHKqgmcBTA2Gx4N0kOO7Df88Z1SBYLsuTagTU1J0+lRlKsFYGdIN8Zolaj8AK6dm5sVclt44n61VcW6XNA2U/g8AQcjNdAhhqhpOvDVNFty+HTXFc1qV/h1Dwk1dQyxHUaG6I986zRrkqaN+UHubn6KmkfVaI1WH8tsEWrEEFunesJYlW6ZNltW4VImscRyGO8nJI5I3Pe/ytx6fFgNcblwxPXaubO0LDTvHBQ1Z6TjqvnEsKwDC1LzF+VPphMq7Zx+t03JyZwqICaqy8IxvYwRmvQPRe8BIkdB7RisrP6xPlzLZlSXTxeaAlQv8k1tvF9UT9FdJn1aM+xl5Q4BmprZCOAIb+g0N+ekw336hMdndbNsMUoksFThQfIhtXGmcX2KjLXdmgiAfjpd6sh78s2snPvLC9BTafItQ31BDWdBBn3Cge/C8GeBju4rH4SnZ1A="
 
 notifications:
   slack:

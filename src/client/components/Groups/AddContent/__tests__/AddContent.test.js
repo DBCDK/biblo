@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 
 import {expect, assert} from 'chai';
-import $ from 'teaspoon';
+import {mount} from 'enzyme';
 
 import sinon from 'sinon';
 
@@ -307,7 +307,7 @@ describe('Test of AddContent Component', () => {
       id: 1
     };
 
-    let component = (
+    const component = (
       <AddContent
         owner={owner}
         profile={profile}
@@ -320,11 +320,12 @@ describe('Test of AddContent Component', () => {
       />
     );
 
-    let $root = $(component).render();
-    // Can't click the button due to FeaturePreview so emulate click by setting state
-    $root.state('showAddReviews', true);
+    const wrapper = mount(component);
 
-    const reviewsText = $root.find('.attach-review-modal--reviews-container').text();
+    // Can't click the button due to FeaturePreview so emulate click by setting state
+    wrapper.setState({showAddReviews: true});
+
+    const reviewsText = wrapper.find('.attach-review-modal--reviews-container').text();
     assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.');
   });
 
@@ -352,7 +353,7 @@ describe('Test of AddContent Component', () => {
       id: 1
     };
 
-    let component = (
+    const component = (
       <AddContent
         owner={owner}
         profile={profile}
@@ -366,16 +367,16 @@ describe('Test of AddContent Component', () => {
       />
     );
 
-    let $root = $(component).render();
+    const wrapper = mount(component);
     // Can't click the button due to FeaturePreview so emulate click by setting state
-    $root.state('showAddReviews', true);
+    wrapper.setState({showAddReviews: true});
 
-    const radioInputValue = $root.find('.attach-review-modal--radio-btn-input').props().value;
+    const radioInputValue = wrapper.find('.attach-review-modal--radio-btn-input').prop(['value']);
     assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');
 
-    $root.find('.attach-review-modal--radio-btn-input').trigger('change');
-    $root.find('.attach-review-modal--buttons-container > a').trigger('click');
+    wrapper.find('.attach-review-modal--radio-btn-input').first().simulate('change');
+    wrapper.find('.attach-review-modal--buttons-container').first().simulate('click');
 
-    assert.isTrue(!!$root.state().attachment.review);
+    assert.isTrue(!!wrapper.state().attachment.review);
   });
 });

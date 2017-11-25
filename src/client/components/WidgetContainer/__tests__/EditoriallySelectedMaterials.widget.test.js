@@ -1,12 +1,12 @@
-import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {expect} from 'chai';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 // import mocks
 import {fivePidState} from '../__mocks__/SelectedMaterials.mock';
 
 describe('Testing of the editorially selected reviews widget', () => {
   it('should render widget', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-editorially-selected-materials-location',
       widgetName: 'EditoriallySelectedMaterialsWidget',
       widgetConfig: fivePidState.widgetConfig,
@@ -15,6 +15,6 @@ describe('Testing of the editorially selected reviews widget', () => {
       }
     });
 
-    expect($root.find('.editorially-selected-materials-widget').length).toEqual(1);
+    expect($root.find('.editorially-selected-materials-widget').length).to.equal(1);
   });
 });

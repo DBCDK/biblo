@@ -2,7 +2,7 @@
  * @file: Tests for backbutton.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,7 +17,7 @@ describe('Test backbutton', () => {
     let comp = TestUtils.renderIntoDocument(<div><BackButton /></div>);
     TestUtils.Simulate.click(ReactDOM.findDOMNode(comp).children[0]);
 
-    expect(window.history.back.callCount).toEqual(1);
+    expect(window.history.back.callCount).to.equal(1);
 
     window.history.back.restore();
   });

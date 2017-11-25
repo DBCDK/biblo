@@ -4,21 +4,17 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
+import {mount} from 'enzyme';
 import {assert} from 'chai';
 
 import ClickOverlay from '../ClickOverlay.Component.js';
 
 describe('Test ClickOverlay Component', () => {
-
-
-  it('Assert className navbar--container', (done) => {
+  it('Assert className navbar--container', done => {
     const event = sinon.spy(); // eslint-disable-line block-scoped-var, no-undef
-    let dom = TestUtils.renderIntoDocument(<div><ClickOverlay active={true} onClick={event} /></div>);
-    let clickOverlay = ReactDOM.findDOMNode(dom).children[0];
+    const wrapper = mount(<div><ClickOverlay active={true} onClick={event} /></div>);
+    wrapper.children().at(0).simulate('click');
 
-    TestUtils.Simulate.click(clickOverlay);
     setTimeout(() => {
       assert.isTrue(event.called);
       done();

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 import GroupList from '../GroupList.component';
-import expect from 'expect';
+import {expect} from 'chai';
 
 
 describe('Test of GroupList', () => {
@@ -23,6 +23,6 @@ describe('Test of GroupList', () => {
     );
 
     expect(ReactDOM.findDOMNode(comp).textContent)
-      .toEqual('test-titleheste test1 følger'); // we currently expect followers count on screen
+      .to.equal('test-titleheste test1 følger'); // we currently expect followers count on screen
   });
 });

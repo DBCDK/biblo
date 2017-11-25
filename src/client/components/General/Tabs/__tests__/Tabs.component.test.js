@@ -4,6 +4,7 @@
 
 import React from 'react';
 import sd from 'skin-deep';
+import {shallow} from 'enzyme';
 import {assert} from 'chai';
 import Tabs from '../Tabs.component.js';
 
@@ -11,13 +12,13 @@ import {isEmpty} from 'lodash';
 
 describe('Testing the Tabs component', () => {
   it('Should render empty tabs container', () => {
-    const tree = sd.shallowRender(<Tabs />);
+    const wrapper = shallow(<Tabs />);
     const expectedMarkup = '<div class="tabs-container"></div>';
 
-    assert.isTrue(isEmpty(tree.text()), 'tabs container is empty');
-    assert.isFalse(tree.subTree('.tabs'), 'No tabs was found');
-    assert.equal(tree.props.className, 'tabs-container', 'tabs-container class was found');
-    assert.equal(tree.toString(), expectedMarkup, 'Expected markup was rendered');
+    assert.isTrue(isEmpty(wrapper.first().text()), 'tabs container is empty');
+    assert.lengthOf(wrapper.find('.tabs'), 0, 'No tabs was found');
+    assert.equal(wrapper.props().className, 'tabs-container', 'tabs-container class was found');
+    assert.equal(wrapper.html(), expectedMarkup, 'Expected markup was rendered');
   });
 
   it('Should render on tab', () => {

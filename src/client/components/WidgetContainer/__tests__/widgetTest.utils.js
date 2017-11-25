@@ -1,11 +1,11 @@
 // import libs
 import React from 'react';
-import $ from 'teaspoon';
+import {mount} from 'enzyme';
 
 // import components
 import WidgetContainer from '../WidgetContainer.component';
 
-export function renderWidgetWithTeaspoon(params) {
+export function renderWidgetWithEnzyme(params) {
   const widgetLocationName = params.location || 'test-widget-location';
   const widgetState = Object.assign({
     widgetLocations: {}
@@ -30,5 +30,6 @@ export function renderWidgetWithTeaspoon(params) {
       widgetActions={widgetActions} />
   );
 
-  return $(component).render();
+  // return $(component).render();
+  return mount(component);
 }

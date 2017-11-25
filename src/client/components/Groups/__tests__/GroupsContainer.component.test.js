@@ -2,7 +2,7 @@
  * @file: Tests for groups container.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -52,6 +52,6 @@ describe('GroupsContainer component tests', () => {
       />
     );
     expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent)
-      .toEqual('Opret ny gruppePopulære grupperNyeste grupper');
+      .to.equal('Opret ny gruppePopulære grupperNyeste grupper');
   });
 });

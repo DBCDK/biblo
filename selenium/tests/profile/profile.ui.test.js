@@ -1,4 +1,4 @@
-var expect = require('expect');
+import {expect} from 'chai';
 var bibloconfig = require('@dbcdk/biblo-config');
 var crypto = require('crypto');
 
@@ -29,7 +29,7 @@ export function frontPageTests({driverCaps, webdriver, BASE_URL, driverTimeout})
       driver.get(url);
       driver.findElement({tagName: 'body'}).then((bodyElement) => {
         bodyElement.getText().then((text) => {
-          expect(text).toContain('Opret Profil');
+          expect(text).to.contain('Opret Profil');
           done();
         });
       });

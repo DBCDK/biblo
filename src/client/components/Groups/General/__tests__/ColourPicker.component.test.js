@@ -2,7 +2,7 @@
  * @file: Tests for ColourPicker Component.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -21,12 +21,12 @@ describe('Test ColourPicker', () => {
     );
     let dmn = ReactDOM.findDOMNode(comp).children[0];
 
-    expect(dmn.innerHTML).toContain('base_colourPicker_name_colour');
-    expect(dmn.innerHTML).toContain('blueish-green');
-    expect(dmn.innerHTML).toContain('blue');
-    expect(dmn.innerHTML).toContain('red');
-    expect(dmn.innerHTML).toContain('light-purple');
-    expect(dmn.innerHTML).toContain('light-blue');
-    expect(dmn.innerHTML).toContain('yellow');
+    expect(dmn.innerHTML).to.include('base_colourPicker_name_colour');
+    expect(dmn.innerHTML).to.include('blueish-green');
+    expect(dmn.innerHTML).to.include('blue');
+    expect(dmn.innerHTML).to.include('red');
+    expect(dmn.innerHTML).to.include('light-purple');
+    expect(dmn.innerHTML).to.include('light-blue');
+    expect(dmn.innerHTML).to.include('yellow');
   });
 });

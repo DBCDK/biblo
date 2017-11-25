@@ -4,14 +4,13 @@
 
 import React from 'react';
 import sinon from 'sinon';
-import $ from 'teaspoon';
-import assert from 'assert';
+import {mount} from 'enzyme';
+import {expect} from 'chai';
 
 import {GroupEditContainer} from '../GroupEditContainer.component';
 
 describe('Test Group Edit Form component', () => {
 
-  let $root;
   const Profile = {
     isModerator: true
   };
@@ -29,7 +28,8 @@ describe('Test Group Edit Form component', () => {
     asyncGroupDelete: sinon.spy(),
     asyncShowGroups: () => {
     },
-    changeImageAction: null
+    changeImageAction: null,
+    asyncChangeImage: () => {}
   };
 
   const UIActions = {
@@ -41,7 +41,8 @@ describe('Test Group Edit Form component', () => {
     id: 9,
     errors: [],
     UI: {
-      imageSrc: '/billede/7/small'
+      imageSrc: '/billede/7/small',
+      submitProgress: 0
     },
     raw: {
       name: 'hep'
@@ -68,11 +69,12 @@ describe('Test Group Edit Form component', () => {
 
   it('Check Moderation Block is toggled by profile type', () => {
     Profile.isModerator = true;
-    $root = $(component).render();
-    assert.equal($root.find('.group-form--moderation').length, 1);
+    let wrapper = mount(component);
+    expect(wrapper.find('.group-form--moderation')).to.have.lengthOf(1);
+
     Profile.isModerator = false;
-    $root = $(component).render();
-    assert.equal($root.find('.group-form--moderation').length, 0);
+    wrapper = mount(component);
+    expect(wrapper.find('.group-form--moderation')).to.have.lengthOf(0);
   });
 
   it('Check modals are rendered', () => {
@@ -82,16 +84,17 @@ describe('Test Group Edit Form component', () => {
       isOpen: true,
       children: 'delete'
     };
-    $root = $(component).render();
+    let wrapper = mount(component);
 
-    assert.equal($root.find('.group-moderation.delete').length, 1);
+    expect(wrapper.find('.group-moderation.delete')).to.have.lengthOf(1);
+
     UI.modal.children = 'open';
-    $root = $(component).render();
-    assert.equal($root.find('.group-moderation.open').length, 1);
+    wrapper = mount(component);
+    expect(wrapper.find('.group-moderation.open')).to.have.lengthOf(1);
 
     UI.modal.children = 'close';
-    $root = $(component).render();
-    assert.equal($root.find('.group-moderation.close').length, 1);
+    wrapper = mount(component);
+    expect(wrapper.find('.group-moderation.close')).to.have.lengthOf(1);
   });
 
   it('Check moderation action is called', () => {
@@ -102,30 +105,29 @@ describe('Test Group Edit Form component', () => {
     };
 
     // Call delete group action
-    $root = $(component).render();
-    let button = $root.find('.group-moderation--confirm');
-    button.trigger('click');
+    let wrapper = mount(component);
+    let button = wrapper.find('.group-moderation--confirm').first();
+    button.simulate('click');
     let call = Actions.asyncGroupDelete.getCall(0);
-    assert.equal(call.args[0], 9);
+    expect(call.args[0]).to.equal(9);
 
     // Call open group action
     UI.modal.children = 'open';
-    $root = $(component).render();
-    button = $root.find('.group-moderation--confirm');
-    button.trigger('click');
+    wrapper = mount(component);
+    button = wrapper.find('.group-moderation--confirm').first();
+    button.simulate('click');
     call = Actions.asyncGroupToggleClose.getCall(0);
-    assert.equal(call.args[0], 9);
-    assert.equal(call.args[1], false);
+    expect(call.args[0]).to.equal(9);
+    expect(call.args[1]).to.equal(false);
 
     // Call close group action
     UI.modal.children = 'close';
-    $root = $(component).render();
-    button = $root.find('.group-moderation--confirm');
-    button.trigger('click');
+    wrapper = mount(component);
+    button = wrapper.find('.group-moderation--confirm').first();
+    button.simulate('click');
     call = Actions.asyncGroupToggleClose.getCall(1);
-    assert.equal(call.args[0], 9);
-    assert.equal(call.args[1], true);
-
+    expect(call.args[0]).to.equal(9);
+    expect(call.args[1]).to.equal(true);
   });
 
   it('should close modal', () => {
@@ -133,19 +135,21 @@ describe('Test Group Edit Form component', () => {
       isOpen: true,
       children: 'delete'
     };
-    $root = $(component).render();
-    let button = $root.find('.group-moderation--cancel');
-    button.trigger('click');
-    assert.equal(UIActions.closeModalWindow.called, true);
+
+    const wrapper = mount(component);
+    let button = wrapper.find('.group-moderation--cancel').first();
+    button.simulate('click');
+    expect(UIActions.closeModalWindow.called).to.equal(true);
   });
+
   it('On success it should render text', () => {
     UI.modal = {
       isOpen: true,
       children: 'delete'
     };
     Group.moderation.success = true;
-    $root = $(component).render();
-    assert.equal($root.find('.group-moderation--done h3')[0].innerHTML, 'Gruppen er slettet');
+    const wrapper = mount(component);
+    expect(wrapper.find('.group-moderation--done h3').first().text()).to.equal('Gruppen er slettet');
   });
 
   it('On Fail it should render text', () => {
@@ -153,9 +157,11 @@ describe('Test Group Edit Form component', () => {
       isOpen: true,
       children: 'delete'
     };
+
     Group.moderation.success = false;
     Group.moderation.error = true;
-    $root = $(component).render();
-    assert.equal($root.find('.message.error')[0].innerHTML, 'Du kan ikke slette gruppen');
+
+    const wrapper = mount(component);
+    expect(wrapper.find('.message.error').first().text()).to.equal('Du kan ikke slette gruppen');
   });
 });

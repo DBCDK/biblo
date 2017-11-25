@@ -2,12 +2,12 @@
  * @file: Tests for Group Form.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
-import $ from 'teaspoon';
+import {mount} from 'enzyme';
 
 import GroupForm from '../GroupForm.component';
 
@@ -34,13 +34,13 @@ describe('Test Group Form component', () => {
     const dm = TestUtils.renderIntoDocument(component);
     const dmn = ReactDOM.findDOMNode(dm);
 
-    expect(dmn.innerHTML).toContain(imageSrc);
-    expect(dmn.innerHTML).toContain(moderation);
+    expect(dmn.innerHTML).to.include(imageSrc);
+    expect(dmn.innerHTML).to.include(moderation);
   });
 
   it('should trigger group name check asynchronously', done => {
     const checkGroupNameSpy = groupName => {
-      expect(groupName).toEqual(eventMock.target.value);
+      expect(groupName).to.equal(eventMock.target.value);
       done();
     };
 
@@ -57,7 +57,7 @@ describe('Test Group Form component', () => {
     );
 
     // Render and type into the group name input field
-    const $root = $(component).render();
-    $root.find('.group-name--input-field').trigger('change', eventMock);
+    const wrapper = mount(component);
+    wrapper.find('.group-name--input-field').first().simulate('change', eventMock);
   });
 });

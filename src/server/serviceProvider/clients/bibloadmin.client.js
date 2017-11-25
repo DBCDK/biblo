@@ -50,6 +50,14 @@ function getContentPage(endpoint, {slug}) {
   return callBibloAdmin('get', options);
 }
 
+function howru(endpoint) {
+  const options = {
+    url: `${endpoint}`
+  };
+
+  return promiseRequest('get', options);
+}
+
 function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
   const mockCampaignData = [{
     id: 1,
@@ -95,7 +103,8 @@ export default function BibloAdminClient(config = null) {
   return {
     getContentPage: getContentPage.bind(null, config.endpoint),
     getCampaigns: getCampaigns.bind(null, config.endpoint),
-    getMenu: getMenu.bind(null, config.endpoint)
+    getMenu: getMenu.bind(null, config.endpoint),
+    howru: howru.bind(null, config.endpoint)
   };
 }
 

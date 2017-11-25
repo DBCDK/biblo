@@ -18,7 +18,7 @@ const HowRUAdmin = {
    * @returns {Promise}
    */
   async requestTransform() {
-    return this.callServiceClient('bibloadmin', 'getContentPage', {slug: '/frontpage'});
+    return this.callServiceClient('bibloadmin', 'howru');
   },
 
   responseTransform(response) {

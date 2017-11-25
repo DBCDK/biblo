@@ -152,19 +152,28 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
   }
 });
 
-function censorConfig(bibloConfig, filtered = {}, key) {
+/**
+ * Filters away sensitive and unwanted information from given config object
+ * TODO mmj extract to util and unittest
+ * @param {object} bibloConfig
+ * @return {object}
+ */
+function filterConfig(bibloConfig) {
+  const filtered = Object.assign({}, bibloConfig);
   const keys = ['endpoint', 'port', 'host', 'wsdl', 'smaug', 'uniloginBasePath'];
-  const ignored = ['psqlDs', 'IMAP', 'elasticSearch'];
 
-  Object.keys(bibloConfig).forEach(item => {
-    if (bibloConfig[item] && typeof bibloConfig[item] === 'object') {
-      censorConfig(bibloConfig[item], filtered, item);
+  Object.keys(filtered).forEach(item => {
+    if ((typeof filtered[item] !== 'object' && !keys.includes(item)) || !filtered[item]) {
+      delete filtered[item];
     }
-    else if (keys.includes(item) && !ignored.includes(key)) {
-      if (!filtered[key]) {
-        filtered[key] = {};
+    else if (filtered[item] && typeof filtered[item] === 'object') {
+      const _filtered = filterConfig(filtered[item]);
+      if (Object.keys(_filtered).length === 0) {
+        delete filtered[item];
       }
-      filtered[key][item] = bibloConfig[item];
+      else {
+        filtered[item] = _filtered;
+      }
     }
   });
 
@@ -194,7 +203,7 @@ MainRoutes.get('/howru', async (req, res) => {
     ],
     version: res.locals.gitsha,
     env: req.app.locals.env,
-    config: censorConfig(req.app.get('BIBLO_CONFIG'))
+    config: filterConfig(req.app.get('BIBLO_CONFIG'))
   };
   res.json(response);
 });

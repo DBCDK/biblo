@@ -157,6 +157,7 @@ MainRoutes.get('/howru', async (req, res) => {
   const redisInstance = req.app.get('redisInstance');
   const communityResponse = await req.callServiceProvider('howruCommunity');
   const adminResponse = await req.callServiceProvider('howruAdmin');
+  const openPlatformResponse = await req.callServiceProvider('howruOpenPlatform');
 
   const response = {
     ok: true,
@@ -172,6 +173,10 @@ MainRoutes.get('/howru', async (req, res) => {
       {
         service: 'bibloadmin',
         ok: adminResponse[0]
+      },
+      {
+        service: 'openlatform',
+        ok: openPlatformResponse[0]
       }
     ],
     version: res.locals.gitsha,

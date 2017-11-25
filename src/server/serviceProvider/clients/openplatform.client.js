@@ -157,6 +157,14 @@ function suggest(endpoint, params) {
   return callOpenPlatform('get', options);
 }
 
+function howru(endpoint) {
+  const options = {
+    url: `${endpoint}`
+  };
+
+  return callOpenPlatform('get', options);
+}
+
 /**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
@@ -194,6 +202,7 @@ export default function OpenPlatformClient(config = null) {
     work: work.bind(null, config.endpoint),
     order: order.bind(null, config.endpoint),
     authenticate: authenticate.bind(null, config),
-    availability: availability.bind(null, config.endpoint)
+    availability: availability.bind(null, config.endpoint),
+    howru: howru.bind(null, config.endpoint)
   };
 }

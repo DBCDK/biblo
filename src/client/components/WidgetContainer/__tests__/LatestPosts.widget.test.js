@@ -3,14 +3,14 @@
  **/
 
 // import libs
-import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {expect} from 'chai';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 import {singleGroupPostMock} from '../__mocks__/GroupPost.mock';
 
 describe('Test LatestPosts Widget', () => {
   it('Test LatestPosts widget can render inside a WidgetContainer', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-latest-posts-widget-location',
       widgetName: 'LatestPostsWidget',
       widgetConfig: {
@@ -26,11 +26,11 @@ describe('Test LatestPosts Widget', () => {
     });
 
     const LatestPostsTitle = $root.find('h2').text();
-    expect(LatestPostsTitle).toEqual('LatestPosts displayTitle Test!');
+    expect(LatestPostsTitle).to.equal('LatestPosts displayTitle Test!');
   });
 
   it('can render a single compact post element', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const $root = renderWidgetWithEnzyme({
       location: 'test-latest-posts-widget-location',
       widgetName: 'LatestPostsWidget',
       widgetConfig: {
@@ -45,6 +45,6 @@ describe('Test LatestPosts Widget', () => {
       }
     });
 
-    expect($root.find('.cgp--group-link').text()).toEqual(' Awesome mennesker:)');
+    expect($root.find('.cgp--group-link').text()).to.equal(' Awesome mennesker:)');
   });
 });

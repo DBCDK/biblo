@@ -5,7 +5,7 @@ var crypto = require('crypto');
 import {By, Key} from 'selenium-webdriver';
 
 var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${config.get('Biblo.port')}`; // eslint-disable-line
-                                                                                           // no-process-env
+// no-process-env
 
 var myStepDefinitionsWrapper = function() {
   this.Given(/^a user visits the frontpage$/i, function(callback) {
@@ -159,7 +159,7 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.Then(/^text on loan button should be ([a-zæøåA-ZÆØÅ\ \-]+)/, function(buttonText) {
+  this.Then(/^text on loan button should be ([a-zæøåA-ZÆØÅ. -]+)/, function(buttonText) {
     return this.browser.findElement(By.className('button-text')).then((element) => {
       element.getText().then((text) => {
         assert.strictEqual(text, buttonText);
@@ -167,11 +167,11 @@ var myStepDefinitionsWrapper = function() {
     });
   });
 
-  this.When(/^mock ([a-zA-Z\-]+) is loaded (\d+) times$/i, function(mockName, times) {
+  this.When(/^mock ([a-zA-Z-]+) is loaded (\d+) times$/i, function(mockName, times) {
     return this.loadMock(mockName, times);
   });
 
-  this.When(/^mock ([a-zA-Z\-\_]+) is loaded$/i, function(mockName) {
+  this.When(/^mock ([a-zA-Z\-_]+) is loaded$/i, function(mockName) {
     return this.loadMock(mockName);
   });
 

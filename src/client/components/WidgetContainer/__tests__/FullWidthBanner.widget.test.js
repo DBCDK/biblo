@@ -4,8 +4,8 @@
 
 // import libs
 import React from 'react';
-import expect from 'expect';
-import $ from 'teaspoon';
+import {expect} from 'chai';
+import {mount} from 'enzyme';
 
 // import components
 import WidgetContainer from '../WidgetContainer.component';
@@ -37,15 +37,15 @@ describe('Test FullWidthBanner Widget', () => {
         widgetActions={widgetActions} />
     );
 
-    let $root = $(component).render();
+    const wrapper = mount(component);
 
-    const FullWidthBannerWidgetTitle = $root.find('.full-width-banner--image--text--container > h2').text();
-    expect(FullWidthBannerWidgetTitle).toEqual('And yet another dummy title');
+    const FullWidthBannerWidgetTitle = wrapper.find('.full-width-banner--image--text--container > h2').first().text();
+    expect(FullWidthBannerWidgetTitle).to.equal('And yet another dummy title');
 
-    const FullWidthBannerWidgetDescription = $root.find('.full-width-banner--image--text--container > p').text();
-    expect(FullWidthBannerWidgetDescription).toEqual('This is a dummy banner description!');
+    const FullWidthBannerWidgetDescription = wrapper.find('.full-width-banner--image--text--container > p').first().text();
+    expect(FullWidthBannerWidgetDescription).to.equal('This is a dummy banner description!');
 
-    const FullWidthBannerWidgetHref = $root.find('.full-width-banner--href').props().href;
-    expect(FullWidthBannerWidgetHref).toEqual('https://this.is.a.dummy.link');
+    const FullWidthBannerWidgetHref = wrapper.find('.full-width-banner--href').first().props().href;
+    expect(FullWidthBannerWidgetHref).to.equal('https://this.is.a.dummy.link');
   });
 });

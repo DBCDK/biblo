@@ -169,7 +169,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
       const imgIdx = this.state.image;
 
       return (
-        <span className={this.getClasses(imgIdx, idx, imagesLength)} key={`slide_${image.id}`}>
+        <span className={this.getClasses(imgIdx, idx, imagesLength)} key={`slide_${image.id}_${image.linkUrl}`}>
           <FullWidthBannerWidget widgetConfig={image}/>
         </span>
       );
@@ -179,7 +179,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     const dots = this.props.widgetConfig.images.map((image, idx) => {
       const active = idx === this.state.image ? 'active' : 'inactive';
       return (
-        <span className={`fwbs--image-indicator ${active}`} key={`${idx}_${active}`}>
+        <span className={`fwbs--image-indicator ${active}`} key={`${idx}_${active}_${Date.now()}`}>
           ●
         </span>
       );

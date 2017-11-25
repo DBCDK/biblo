@@ -2,7 +2,7 @@
  * @file: Tests for ColourPickerItem Component.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -24,7 +24,7 @@ describe('Test ColourPickerItem', () => {
     );
     let dmn = ReactDOM.findDOMNode(comp).children[0];
 
-    expect(dmn.innerHTML).toContain('this_is_a_colour');
-    expect(dmn.innerHTML).toContain('this_is_an_input');
+    expect(dmn.innerHTML).to.include('this_is_a_colour');
+    expect(dmn.innerHTML).to.include('this_is_an_input');
   });
 });

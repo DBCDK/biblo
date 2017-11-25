@@ -26,6 +26,7 @@ describe('Test of Review Component ', () => {
   it('onSubmit method should add an error if content is empty', () => {
     const component = sd.shallowRender(
       <Review
+        autoplayVideo={false}
         isEditing={true}
         toggleReview={noop}
         profile={profile}
@@ -54,6 +55,7 @@ describe('Test of Review Component ', () => {
   it('should add an error if rating is not set', () => {
     const component = sd.shallowRender(
       <Review
+        autoplayVideo={false}
         isEditing={true}
         toggleReview={noop}
         profile={profile}
@@ -78,6 +80,7 @@ describe('Test of Review Component ', () => {
     profile.userIsLoggedIn = false;
     const component = sd.shallowRender(
       <Review
+        autoplayVideo={false}
         isEditing={true}
         toggleReview={noop}
         profile={profile}
@@ -102,6 +105,7 @@ describe('Test of Review Component ', () => {
       profile.userIsLoggedIn = true;
       const component = sd.shallowRender(
         <Review
+          autoplayVideo={false}
           isEditing={true}
           toggleReview={noop}
           profile={profile}

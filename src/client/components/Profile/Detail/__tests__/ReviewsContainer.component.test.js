@@ -5,6 +5,7 @@
 // Libraries
 import React from 'react';
 import sd from 'skin-deep';
+import {shallow} from 'enzyme';
 import {assert} from 'chai';
 import sinon from 'sinon';
 
@@ -24,7 +25,7 @@ describe('Testing the ReviewContainer component', () => {
 
   it('Should render empty div container', () => {
     const expectedHTML = '<div class="reviews-container-component"><div class="reviews-container-component--reviews"></div></div>';
-    const tree = sd.shallowRender(
+    const wrapper = shallow(
       <ReviewsContainer
         reviews={emptyReviews}
         user={user}
@@ -35,7 +36,7 @@ describe('Testing the ReviewContainer component', () => {
       />
     );
 
-    assert.equal(tree.toString(), expectedHTML, 'Found expected HTML');
+    assert.equal(wrapper.html(), expectedHTML, 'Found expected HTML');
   });
 
   it('Should render reviews', () => {

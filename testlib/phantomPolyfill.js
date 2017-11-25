@@ -1,4 +1,3 @@
-'use strict';
 
 if (!Function.prototype.bind) {
   Function.prototype.bind = function(oThis) { // eslint-disable-line
@@ -9,14 +8,14 @@ if (!Function.prototype.bind) {
     }
 
     var aArgs = Array.prototype.slice.call(arguments, 1),
-        fToBind = this,
-        fNOP = function() {},
-        fBound = function() {
-          return fToBind.apply(this instanceof fNOP && oThis
-              ? this
-              : oThis,
-            aArgs.concat(Array.prototype.slice.call(arguments)));
-        };
+      fToBind = this,
+      fNOP = function() {},
+      fBound = function() {
+        return fToBind.apply(this instanceof fNOP && oThis
+          ? this
+          : oThis,
+        aArgs.concat(Array.prototype.slice.call(arguments)));
+      };
 
     // test this.prototype in case of native functions binding:
     if (this.prototype) {

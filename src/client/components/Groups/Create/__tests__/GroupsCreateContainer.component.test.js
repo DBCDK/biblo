@@ -2,7 +2,7 @@
  * @file: Tests for group create container.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -57,6 +57,6 @@ describe('Test group create container', () => {
 
     let dm = TestUtils.renderIntoDocument(component);
     let dmn = ReactDOM.findDOMNode(dm);
-    expect(dmn.innerHTML).toContain('Opret gruppe');
+    expect(dmn.innerHTML).to.include('Opret gruppe');
   });
 });

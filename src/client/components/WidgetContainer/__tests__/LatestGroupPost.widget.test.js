@@ -3,15 +3,15 @@
  **/
 
 // import libs
-import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {expect} from 'chai';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 // import mocks
 import {singleGroupPostMock} from '../__mocks__/GroupPost.mock';
 
 describe('Test LatestGroupPosts Widget', () => {
   it('Test LatestGroupPosts widget can render inside a WidgetContainer', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-latest-group-posts-widget-location',
       widgetName: 'LatestGroupPostsWidget',
       widgetConfig: {
@@ -29,12 +29,12 @@ describe('Test LatestGroupPosts Widget', () => {
       }
     });
 
-    const LatestReviewsWidget = $root.find('h2').text();
-    expect(LatestReviewsWidget).toEqual('LatestGroupPostsWidget displayTitle Test!');
+    const LatestReviewsWidget = wrapper.find('h2').first().text();
+    expect(LatestReviewsWidget).to.equal('LatestGroupPostsWidget displayTitle Test!');
   });
 
-  it('Should render a post when given a group with a post.', () => {
-    const $root = renderWidgetWithTeaspoon({
+  it('Should render a post when given a group with a post', () => {
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-latest-group-posts-widget-location',
       widgetName: 'LatestGroupPostsWidget',
       widgetConfig: {
@@ -58,7 +58,7 @@ describe('Test LatestGroupPosts Widget', () => {
       }
     });
 
-    const groupPostContent = $root.find('.compact-group-post-element--container.text--post').unwrap().innerHTML;
-    expect(groupPostContent).toContain(singleGroupPostMock.html);
+    const groupPostContent = wrapper.find('.compact-group-post-element--container.text--post').first().text();
+    expect(groupPostContent).to.include(singleGroupPostMock.html);
   });
 });

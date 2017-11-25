@@ -19,9 +19,11 @@ function askSocketClusterWithTimeout(requestEvent, responseEvent, timeout) {
 
   // We return a promise and let cucumber handle it.
   return new Promise((resolve, reject) => {
-// Enable timeout, default timeout is 10 seconds as CI env tends to hang on first run
+    // Enable timeout, default timeout is 10 seconds as CI env tends to hang on first run
     timeout = timeout || 10000;
-    const cancelTimeout = setTimeout(reject, timeout);
+    const cancelTimeout = setTimeout(() => {
+      reject(`requestEvent timed out after ${timeout}ms`, {requestEvent});
+    }, timeout);
 
     /**
      * This is a generic listener for SocketCluster events
@@ -92,6 +94,7 @@ function hooks() {
     /**
      * loadMock loads a mock by name.
      * @param mockName
+     * @param {number} times
      */
     this.loadMock = (mockName, times = 1) => askSocketClusterWithTimeout({event: 'loadMock', mockName: mockName, times}, `mockWasLoaded-${mockName}`);
 

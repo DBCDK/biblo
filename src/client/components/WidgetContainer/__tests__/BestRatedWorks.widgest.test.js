@@ -3,12 +3,12 @@
  **/
 
 // import libs
-import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {expect} from 'chai';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 
 describe('Test BestRatedWorksWidget Widget', () => {
   it('Test BestRatedWorksWidget can render inside a WidgetContainer', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-best-works-widget-location',
       widgetName: 'BestRatedWorksWidget',
       widgetConfig: {
@@ -21,13 +21,13 @@ describe('Test BestRatedWorksWidget Widget', () => {
       }
     });
 
-    const LatestReviewsWidget = $root.find('h2').text();
-    expect(LatestReviewsWidget).toEqual('BestRatedWorksWidget title Test!');
+    const LatestReviewsWidget = wrapper.find('h2').first().text();
+    expect(LatestReviewsWidget).to.equal('BestRatedWorksWidget title Test!');
   });
 
   it('should render a compactWorkElement when given correct props', () => {
     const workTitle = 'Fisker og båd på Roskilde Fjord';
-    const $root = renderWidgetWithTeaspoon({
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-best-works-widget-location',
       widgetName: 'BestRatedWorksWidget',
       widgetConfig: {
@@ -47,12 +47,8 @@ describe('Test BestRatedWorksWidget Widget', () => {
       }
     });
 
-    let innerText = '';
-    $root
-      .find('.compact-work-element > .compact-work-element--title-and-worktype--container > .compact-work-element--title > :text')
-      .each(node => (innerText = innerText.concat(node)));
-
-    expect(innerText).toEqual(` ${workTitle}`);
+    const innerText = wrapper.find('.compact-work-element').text();
+    expect(innerText).to.equal(` ${workTitle}`);
   });
 });
 

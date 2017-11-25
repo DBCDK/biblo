@@ -5,7 +5,7 @@
 import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import {assert} from 'chai';
-import $ from 'teaspoon';
+import {shallow, mount} from 'enzyme';
 
 import NavbarContainer from '../NavbarContainer.component.js';
 
@@ -27,8 +27,7 @@ describe('Test NavbarContainer Component', () => {
   };
 
   it('Assert className navbar--container', () => {
-    const render = TestUtils.createRenderer();
-    render.render(
+    const wrapper = shallow(
       <NavbarContainer
         profileState={emptyObj}
         searchState={emptyObj}
@@ -37,9 +36,7 @@ describe('Test NavbarContainer Component', () => {
       />
     );
 
-    const rendered = render.getRenderOutput();
-
-    const result = rendered.props.className;
+    const result = wrapper.props().className;
     const expected = 'navbar';
     assert.equal(result, expected, 'Found className navbar');
   });
@@ -59,9 +56,9 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    const component = $(<NavbarContainer profileState={{}} searchState={searchState} searchActions={{}} globalState={globalState}/>).render();
+    const component = mount(<NavbarContainer profileState={{}} searchState={searchState} searchActions={{}} globalState={globalState}/>);
     const menuItems = component.find('.navbar--link');
-    assert.equal(menuItems[0].innerHTML, globalState.menu.main[0].title, 'Found menu item');
+    assert.equal(menuItems.first().text(), globalState.menu.main[0].title, 'Found menu item');
   });
 
   it('Assert hide unhide menu', (done) => {

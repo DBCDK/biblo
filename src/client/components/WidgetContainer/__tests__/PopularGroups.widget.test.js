@@ -2,13 +2,13 @@
  * @file: This file contains tests for the popular groups widget
  */
 
-import expect from 'expect';
-import {renderWidgetWithTeaspoon} from './widgetTest.utils';
+import {expect} from 'chai';
+import {renderWidgetWithEnzyme} from './widgetTest.utils';
 import {singleGroupMock} from '../__mocks__/PopularGroups.mock';
 
 describe('Popular groups widget!', () => {
   it('should render with empty config', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-popular-groups-widget-location',
       widgetName: 'PopularGroupsWidget',
       widgetConfig: {},
@@ -20,11 +20,12 @@ describe('Popular groups widget!', () => {
       }
     });
 
-    expect($root.find('.popular-groups-widget').text()).toEqual(' Vis Flere');
+    const text = wrapper.find('.popular-groups-widget').first().text();
+    expect(text).to.equal(' Vis Flere');
   });
 
   it('should render a group when group is found in state', () => {
-    const $root = renderWidgetWithTeaspoon({
+    const wrapper = renderWidgetWithEnzyme({
       location: 'test-popular-groups-widget-location',
       widgetName: 'PopularGroupsWidget',
       widgetConfig: {},
@@ -36,7 +37,7 @@ describe('Popular groups widget!', () => {
       }
     });
 
-    const renderedGroup = $root.find('.popular-groups-widget--group-container').unwrap().innerHTML;
-    expect(renderedGroup).toContain(singleGroupMock.name);
+    const renderedGroupName = wrapper.find('.popular-groups-widget--group-container').first().text();
+    expect(renderedGroupName).to.include(singleGroupMock.name);
   });
 });

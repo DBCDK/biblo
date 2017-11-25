@@ -18,6 +18,8 @@ describe('Testing the MessageContainer.component', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
 

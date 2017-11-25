@@ -204,6 +204,8 @@ describe('Testing the getMessageImage method', () => {
         groupActions={{}}
         groupState={{}}
         deleteAction={noop}
+        renewLoanAction={noop}
+        userstatusState={{}}
       />
     );
     const instance = tree.getMountedInstance();

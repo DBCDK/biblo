@@ -2,22 +2,18 @@
  * @file: Tests for droppable image field.
  */
 
-import expect from 'expect';
+import {expect} from 'chai';
 
 import React from 'react';
-import TestUtils from 'react-dom/test-utils';
+import {mount} from 'enzyme';
 
 import DroppableImageField from '../DroppableImageField/DroppableImageField.component.js';
 
 describe('Test droppable image field component', () => {
   it('Check component renders', () => {
-    const render = TestUtils.createRenderer();
-    render.render(<DroppableImageField onFile={() => {}} fieldName={'bob'} />);
+    const expected = '<input type="file" accept="image/*" class="droppable-image-field--file-input" name="bob">';
 
-    const rendered = render.getRenderOutput();
-
-    // Check it contains an input which only allows images.
-    expect(rendered.props.children[0].props.children[1].type).toEqual('input');
-    expect(rendered.props.children[0].props.children[1].props.accept).toEqual('image/*');
+    const wrapper = mount(<DroppableImageField onFile={() => {}} fieldName={'bob'} />);
+    expect(wrapper.find('.droppable-image-field--file-input').first().html()).to.equal(expected);
   });
 });

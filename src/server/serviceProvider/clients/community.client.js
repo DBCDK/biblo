@@ -1,4 +1,5 @@
-const request = require('request');
+import {promiseRequest} from './../../utils/promiseRequest.util';
+import request from 'request';
 const uuid = require('node-uuid');
 const http = require('http');
 const url_parser = require('url').parse;
@@ -103,25 +104,6 @@ function changeStreamListener(endpoint, model, callback, logger) {
         response.on('end', retryHandler);
         response.on('error', retryHandler);
       }).on('error', retryHandler);
-    });
-  });
-}
-
-/**
- * A helper function to create a promise which resolves to the http response.
- * @param {String} method - Method to use when executing the request.
- * @param {PlainObject} req - Request object that is passed to the request method.
- * @returns {Promise}
- */
-function promiseRequest(method, req) {
-  return new Promise((resolve, reject) => {
-    request[method](req, (err, httpResponse) => {
-      if (err) {
-        reject(err, httpResponse);
-      }
-      else {
-        resolve(httpResponse);
-      }
     });
   });
 }
@@ -1437,7 +1419,7 @@ function searchReviews(endpoint, elasticQuery) {
  * @param {string} endpoint
  * @return {Promise}
  */
-function getStatus(endpoint) {
+function howru(endpoint) {
   return promiseRequest('get', endpoint);
 }
 
@@ -1520,6 +1502,6 @@ module.exports = function CommunityClient(logger, config = null) {
     addGenres: addGenres.bind(null, config.endpoint),
     getGenres: getGenres.bind(null, config.endpoint),
     searchReviews: searchReviews.bind(null, config.endpoint),
-    getStatus: getStatus.bind(null, config.endpoint)
+    howru: howru.bind(null, config.endpoint)
   };
 };

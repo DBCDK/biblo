@@ -9,12 +9,15 @@ const HowRUOpenPlatform = {
     return 'howruOpenPlatform';
   },
 
-  requestTransform() {
-    return this.callServiceClient('openplatform', 'howru');
+  async requestTransform() {
+    return [
+      await this.callServiceClient('openplatform', 'howru'),
+      await this.callServiceClient('openplatform', 'howruSmaug')
+    ];
   },
 
-  responseTransform(response) {
-    return response.statusCode >= 200 && response.statusCode < 400;
+  responseTransform(responses) {
+    return responses.map(response => response.statusCode >= 200 && response.statusCode < 400);
   }
 };
 

@@ -176,7 +176,11 @@ MainRoutes.get('/howru', async (req, res) => {
       },
       {
         service: 'openlatform',
-        ok: openPlatformResponse[0]
+        ok: openPlatformResponse[0][0]
+      },
+      {
+        service: 'smaug',
+        ok: openPlatformResponse[0][1]
       }
     ],
     version: res.locals.gitsha,

@@ -11,7 +11,7 @@ const HowRUCommunity = {
 
   async requestTransform() {
     try {
-      return await this.callServiceClient('community', 'getStatus');
+      return await this.callServiceClient('community', 'howru');
     }
     catch (e) {
       console.error(e); // eslint-disable-line

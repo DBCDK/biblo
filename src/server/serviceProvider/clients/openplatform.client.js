@@ -1,24 +1,11 @@
-import request from 'request';
+import {promiseRequest} from './../../utils/promiseRequest.util';
+
 /**
  * Map containing anonymous and library authenticated tokens.
  *
  * @type {Map}
  */
 const tokens = new Map();
-
-
-function promiseRequest(method, req) {
-  return new Promise((resolve, reject) => {
-    request[method](req, (err, httpResponse) => {
-      if (err) {
-        reject(err, httpResponse);
-      }
-      else {
-        resolve(httpResponse);
-      }
-    });
-  });
-}
 
 /**
  * Requesting an authenticated access token.
@@ -162,7 +149,15 @@ function howru(endpoint) {
     url: `${endpoint}`
   };
 
-  return callOpenPlatform('get', options);
+  return promiseRequest('get', options);
+}
+
+function howruSmaug(endpoint) {
+  const options = {
+    url: `${endpoint}`
+  };
+
+  return promiseRequest('get', options);
 }
 
 /**
@@ -203,6 +198,7 @@ export default function OpenPlatformClient(config = null) {
     order: order.bind(null, config.endpoint),
     authenticate: authenticate.bind(null, config),
     availability: availability.bind(null, config.endpoint),
-    howru: howru.bind(null, config.endpoint)
+    howru: howru.bind(null, config.endpoint),
+    howruSmaug: howruSmaug.bind(null, config.smaug)
   };
 }

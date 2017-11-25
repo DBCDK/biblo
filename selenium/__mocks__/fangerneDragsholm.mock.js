@@ -218,4 +218,16 @@ module.exports = function fangerneDragsholm(times) {
         "id": 10
       }]
     }]);
+
+  nock('http://uxscrum-i02.dbc.dk:8889', {encodedQueryParams: true})
+    .get('/menu/main')
+    .times(times)
+    .query({"_format":"json"})
+    .reply(200, [{"link":{"url":{"external":false,"uri":"/grupper"},"title":"Grupper","description":"Se alle grupper","enabled":true,"weight":"0","options":[],"meta_data":{"entity_id":"4"},"provider":"menu_link_content"},"subtree":[],"depth":1,"options":[]}]);
+
+  nock('http://uxscrum-i02.dbc.dk:8889', {encodedQueryParams: true})
+    .get('/menu/footer')
+    .times(times)
+    .query({"_format":"json"})
+    .reply(200, [{"link":{"url":{"external":true,"uri":"http://bibliotek.dk"},"title":"Søg på bibliotek.dk","description":null,"enabled":true,"weight":"-50","options":{"external":true},"meta_data":{"entity_id":"2"},"provider":"menu_link_content"},"subtree":[],"depth":1,"options":[]},{"link":{"url":{"external":false,"uri":""},"title":"Læs vores guide til god søgning på nettet","description":null,"enabled":true,"weight":"-49","options":{"fragment":"what-ever"},"meta_data":{"entity_id":"3"},"provider":"menu_link_content"},"subtree":[],"depth":1,"options":[]},{"link":{"url":{"external":true,"uri":"http://google.com"},"title":"Søg på google","description":null,"enabled":true,"weight":"-48","options":{"external":true},"meta_data":{"entity_id":"1"},"provider":"menu_link_content"},"subtree":[],"depth":1,"options":[]}]);
 };

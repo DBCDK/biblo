@@ -82,4 +82,16 @@ module.exports = function sixteen_top_tracks_review(times) {
         "worktype": "literature", "id": 10
       }]
     }]);
+
+  nock('http://platform-i01:8080', {encodedQueryParams: true})
+    .post('/search/?q=%28%22%2A%22%29%20AND%20%28phrase.titleSeries%3D%22CD%20diamond%20series%22%29&fields%5B0%5D=pid&fields%5B1%5D=coverUrlFull&fields%5B2%5D=dcTitle&fields%5B3%5D=titleSeries&fields%5B4%5D=workType&limit=18&offset=0&sort=solr_numberInSeries_ascending')
+    .times(times)
+    .reply(200, {
+      "statusCode": 200,
+      "data": [],
+      "timings": {
+        "total": 107,
+        "external": 100
+      }
+    });
 };

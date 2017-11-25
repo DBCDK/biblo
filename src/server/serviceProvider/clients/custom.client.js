@@ -1,7 +1,7 @@
 import {promiseRequest} from './../../utils/promiseRequest.util';
 
 /**
- * Requesting the WSDL form OpenAgency
+ * Making a GET request against the OpenUserstatus endpoint
  *
  * @param {object} config
  * @return {Promise}
@@ -21,6 +21,16 @@ function howruOpenAgency(config) {
 }
 
 /**
+ * Making a GET request against the EntitySuggest endpoint
+ *
+ * @param {object} config
+ * @return {Promise}
+ */
+function howruEntitySuggest(config) {
+  return promiseRequest('get', `${config.endpoint}/status`);
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -36,6 +46,7 @@ export default function CustomClient(config = null) {
 
   return {
     howruOpenstatus: howruOpenstatus.bind(null, config.openuserstatus),
-    howruOpenAgency: howruOpenAgency.bind(null, config.openagency)
+    howruOpenAgency: howruOpenAgency.bind(null, config.openagency),
+    howruEntitySuggest: howruEntitySuggest.bind(null, config.entitysuggest)
   };
 }

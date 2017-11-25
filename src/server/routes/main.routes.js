@@ -159,7 +159,8 @@ MainRoutes.get('/howru', async (req, res) => {
   const adminResponse = await req.callServiceProvider('howruAdmin');
   const openPlatformResponse = await req.callServiceProvider('howruOpenPlatform');
   const openAgencyResponse = await req.callServiceProvider('howruOpenAgency');
-  const openUserstatus = await req.callServiceProvider('howruOpenAgency');
+  const openUserstatusResponse = await req.callServiceProvider('howruOpenAgency');
+  const entitySuggestResponse = await req.callServiceProvider('howruEntitySuggest');
 
   const response = {
     ok: true,
@@ -190,7 +191,11 @@ MainRoutes.get('/howru', async (req, res) => {
       },
       {
         service: 'openuserstatus',
-        ok: openUserstatus[0]
+        ok: openUserstatusResponse[0]
+      },
+      {
+        service: 'entitysuggest',
+        ok: entitySuggestResponse[0]
       }
     ],
     version: res.locals.gitsha,

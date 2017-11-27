@@ -31,6 +31,12 @@ const SearchReviewsTransform = {
           )
             .then(workResponses => {
               const works = workResponses.map(workResponse => JSON.parse(workResponse.body).data[0]);
+              const openPlatformPids = works.map(w => w.pid[0]);
+              const pidDifference = _.difference(pids, openPlatformPids);
+
+              if (pidDifference.length > 0) {
+                reject(`Could not search reviews. Some pids are missing in openplatform response: ${JSON.stringify(pidDifference)}`);
+              }
               resolve([reviews, campaigns, works, total]);
             })
             .catch(err => {

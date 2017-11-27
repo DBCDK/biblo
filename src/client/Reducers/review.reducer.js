@@ -33,7 +33,8 @@ export default function reviewReducer(state = initialState, action = {}) {
         reviewExplorer: assignToEmpty(state.reviewExplorer, {
           reviews: action.reviews,
           total: action.total,
-          isLoading: false
+          isLoading: false,
+          error: action.error
         })
       });
     }
@@ -42,6 +43,7 @@ export default function reviewReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         reviewExplorer: assignToEmpty(state.reviewExplorer, {
           isLoading: true,
+          error: false,
           reviews: action.loadMore ? state.reviewExplorer.reviews : [],
           total: action.loadMore ? state.reviewExplorer.total : 0
         })

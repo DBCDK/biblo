@@ -7,9 +7,10 @@
 export function filterConfig(bibloConfig) {
   const filtered = Object.assign({}, bibloConfig);
   const keys = ['endpoint', 'port', 'host', 'wsdl', 'smaug', 'uniloginBasePath'];
+  const excludedKeys = ['Email'];
 
   Object.keys(filtered).forEach(item => {
-    if ((typeof filtered[item] !== 'object' && !keys.includes(item)) || !filtered[item]) {
+    if ((typeof filtered[item] !== 'object' && !keys.includes(item)) || !filtered[item] || excludedKeys.includes(item)) {
       delete filtered[item];
     }
     else if (filtered[item] && typeof filtered[item] === 'object') {

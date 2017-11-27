@@ -11,7 +11,7 @@ describe('Testing filerConfig.util', () => {
       bibloadmin: {endpoint: 'endpoint'}, borchk: {wsdl: 'wsdl'}, community: {endpoint: 'endpoint'},
       entitysuggest: {endpoint: 'endpoint', port: 1234}, openplatform: {endpoint: 'endpoint', smaug: 'smaug'},
       openorder: {endpoint: 'endpoint'}, openuserstatus: {endpoint: 'endpoint'}, openagency: {wsdl: 'wsdl'}
-    }, Email: {IMAP: {host: 'host', port: 1234}}
+    }
     };
 
     expect(result).to.deep.equal(expected);

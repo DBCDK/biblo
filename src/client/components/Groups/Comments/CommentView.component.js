@@ -14,8 +14,6 @@ import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
-import Youtube from 'react-youtube';
-
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
@@ -134,7 +132,7 @@ export default class CommentView extends React.Component {
             ||
             <div className="comment--content">
 
-              <p dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} />
+              <p className="comment--content--text" dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} />
 
               {review && this.renderReview(review)}
               {

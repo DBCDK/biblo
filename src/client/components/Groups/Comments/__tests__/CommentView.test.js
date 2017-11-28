@@ -47,13 +47,13 @@ describe('Test of Comment Components', () => {
   it('it should not show an youtube video', () => {
     const tree = sd.shallowRender(<CommentView {...props} />);
 
-    expect(tree.subTree('.comment--youtube-container')).to.be.equal(false);
+    expect(tree.subTree('.comment--video-container')).to.be.equal(false);
   });
 
   it('it should show an youtube video', () => {
     props.content = 'some text containing a youtube link https://youtu.be/D9TpswDIBS8';
     const tree = sd.shallowRender(<CommentView {...props} />);
 
-    expect(tree.subTree('.comment--youtube-container')).to.be.not.equal(false);
+    expect(tree.subTree('.comment--video-container')).to.be.not.equal(false);
   });
 });

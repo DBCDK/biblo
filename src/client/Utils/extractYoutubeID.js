@@ -42,6 +42,8 @@ export function parseStringForVideoUrls(str, returnPlayer) {
     if (returnPlayer) {
       matches.push(
         <ReactPlayer
+          width={'100%'}
+          height={'100%'}
           url={match[0]}
           config={
             {

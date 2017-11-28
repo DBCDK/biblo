@@ -36,6 +36,7 @@ module.exports = [
       modules: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')]
     },
 
+    devtool: 'source-map',
     module: {
       rules: [
         {
@@ -69,7 +70,6 @@ module.exports = [
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
-                sourceMap: true,
                 plugins: () => [require('autoprefixer')()] // @see https://github.com/postcss/postcss-loader#plugins
               }
             }]

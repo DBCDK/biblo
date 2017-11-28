@@ -5,7 +5,7 @@ import './scss/comment-view.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString.js';
-import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
+import {parseStringForVideoUrls} from '../../../Utils/extractYoutubeID';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
@@ -76,7 +76,7 @@ export default class CommentView extends React.Component {
       />
     );
 
-    const youtube = ExtractYoutubeID(content);
+    const videos = parseStringForVideoUrls(content, true);
 
     let flagButton = null;
     if (profile.userIsLoggedIn) {
@@ -133,9 +133,9 @@ export default class CommentView extends React.Component {
             />
             ||
             <div className="comment--content">
-              {
-                <p className='content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} /> // eslint-disable-line
-              }
+
+              <p dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} />
+
               {review && this.renderReview(review)}
               {
                 image &&
@@ -147,10 +147,14 @@ export default class CommentView extends React.Component {
                 video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
               }
               {
-                youtube &&
-                <div className="comment--youtube-container">
-                  <Youtube videoId={youtube[0]} />
-                </div>
+                videos.length >= 1 &&
+                videos.map((embeddedVideo, index) => {
+                  return (
+                    <div key={index} className="comment--video-container">
+                      {embeddedVideo}
+                    </div>
+                  );
+                })
               }
             </div>
           }

@@ -18,7 +18,7 @@ video {
   max-width: 100%;
 }
 
-.post--youtube-container {
+.post--video-container {
   background-color: black;
   position: relative;
   margin-bottom: 10px;
@@ -28,7 +28,7 @@ video {
   overflow: hidden;
 }
 
-.post--youtube-container iframe, .post--youtube-container object, .post--youtube-container embed {
+.post--video-container iframe, .post--video-container object, .post--video-container embed {
   position: absolute;
   top: 0;
   left: 0;

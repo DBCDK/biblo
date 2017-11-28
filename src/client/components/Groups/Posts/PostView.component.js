@@ -304,12 +304,11 @@ export default class PostView extends React.Component {
                 videos.length >= 1 &&
                 videos.map((embeddedVideo, index) => {
                   return (
-                    <div key={index} className="post--youtube-container">
+                    <div key={index} className="post--video-container">
                       {embeddedVideo}
                     </div>
                   );
                 })
-
               }
               {
                 pdf && <PDFViewComponent pdf={pdf} isOwner={editPostAllowed} />

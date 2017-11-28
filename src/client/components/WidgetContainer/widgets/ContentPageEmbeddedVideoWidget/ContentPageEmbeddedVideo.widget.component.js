@@ -4,8 +4,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Youtube from 'react-youtube';
-import ExtractYoutubeID from '../../../../Utils/extractYoutubeID';
+import {parseStringForVideoUrls} from '../../../../Utils/parseStringForVideoUrls';
 import {isEqual} from 'lodash';
 
 import './ContentPageEmbeddedVideo.widget.component.scss';
@@ -20,8 +19,7 @@ export class ContentPageEmbeddedVideoWidget extends Component {
     let video = '';
 
     if (this.props.widgetConfig.type === 'YouTube') {
-      const youtubeId = ExtractYoutubeID(this.props.widgetConfig.src)[0];
-      video = (<Youtube videoId={youtubeId} />);
+      video = parseStringForVideoUrls(this.props.widgetConfig.src, true)[0];
     }
 
     return (

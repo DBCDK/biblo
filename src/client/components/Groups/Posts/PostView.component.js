@@ -5,7 +5,7 @@ import './scss/PostView.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString.js';
-import {parseStringForVideoUrls} from '../../../Utils/extractYoutubeID';
+import {parseStringForVideoUrls} from '../../../Utils/parseStringForVideoUrls';
 import AddContent from '../AddContent/AddContent.component';
 import {CommentList} from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';

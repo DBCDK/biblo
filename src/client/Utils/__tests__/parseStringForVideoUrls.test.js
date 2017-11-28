@@ -3,7 +3,7 @@
  */
 
 import {expect} from 'chai';
-import {parseStringForVideoUrls} from '../extractYoutubeID';
+import {parseStringForVideoUrls} from '../parseStringForVideoUrls';
 
 describe('Testing the parseStringForVideoUrls.js util', () => {
   it('it should return empty array when an empty string is given', () => {

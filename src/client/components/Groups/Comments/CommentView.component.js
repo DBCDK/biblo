@@ -5,7 +5,7 @@ import './scss/comment-view.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString.js';
-import {parseStringForVideoUrls} from '../../../Utils/extractYoutubeID';
+import {parseStringForVideoUrls} from '../../../Utils/parseStringForVideoUrls';
 import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component.js';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';

@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import TimeToString from '../../Utils/timeToString.js';
-import ExtractYoutubeID from '../../Utils/extractYoutubeID';
+import {parseStringForVideoUrls} from '../../Utils/extractYoutubeID';
 import isSiteOpen from '../../Utils/openingHours';
 
 import Message from '../General/Message/Message.component.js';
@@ -20,7 +20,6 @@ import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
 import ConfirmDialog from '../General/ConfirmDialog/ConfirmDialog.component.js';
-import Youtube from 'react-youtube';
 
 import flagSvg from '../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../General/Icon/svg/functions/pencil.svg';
@@ -415,7 +414,7 @@ export default class Review extends UploadMedia {
       libraryId = this.props.profile.favoriteLibrary.libraryId;
     }
 
-    const youtube = ExtractYoutubeID(content);
+    const videos = parseStringForVideoUrls(content, true);
     const uniqueId = `upload-media-review-${this.props.id || this.props.parentId}`;
     const progressStatusClass =
       this.state.attachment.video &&
@@ -612,11 +611,16 @@ export default class Review extends UploadMedia {
                 {video && video.resolutions && video.resolutions.length
                   ? getVideoPlayer(video, this.props.autoplayVideo)
                   : null}
-                {youtube && (
-                  <div className="review--youtube-container">
-                    <Youtube videoId={youtube[0]} />
-                  </div>
-                )}
+                {
+                  videos.length >= 1 &&
+                  videos.map((embeddedVideo, index) => {
+                    return (
+                      <div key={index} className="review--video-container">
+                        {embeddedVideo}
+                      </div>
+                    );
+                  })
+                }
                 {likeButton}
               </div>
             )}

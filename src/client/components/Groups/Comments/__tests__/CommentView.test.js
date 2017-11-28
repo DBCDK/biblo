@@ -34,7 +34,7 @@ describe('Test of Comment Components', () => {
     expect(wrapper.find('.comment-profile-image').first().find('img').props().alt).to.equal(props.owner.displayName);
     expect(wrapper.find('.username').html()).to.equal(`<span class="username">${props.owner.displayName}</span>`);
     expect(wrapper.find('.time').text()).to.equal('Lige nu');
-    expect(wrapper.find('.content').props().dangerouslySetInnerHTML.__html).to.equal(props.content);
+    expect(wrapper.find('.comment--content--text').props().dangerouslySetInnerHTML.__html).to.equal(props.content);
     expect(wrapper.find('.media').first().find('img').props().src).to.equal(props.image);
   });
 

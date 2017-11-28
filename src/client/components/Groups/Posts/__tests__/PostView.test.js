@@ -102,21 +102,21 @@ describe('Test of Post Components', () => {
     });
   });
 
-  describe('Test YouTube related functionality on the PostView.component', () => {
+  describe('Test video related functionality on the PostView.component', () => {
     it('It should render a div with className youtube-container', () => {
       const newProps = cloneDeep(props);
       newProps.content = 'some text including a youtube link: https://youtu.be/kNTnrpL1Uw0';
       const tree = sd.shallowRender(<PostView {...newProps} />);
 
-      assert.isNotFalse(tree.subTree('.post--youtube-container'), 'className youtube-container was found');
+      assert.isNotFalse(tree.subTree('.post--video-container'), 'className youtube-video was found');
     });
 
-    it('It should not render a div with className youtube-container', () => {
+    it('It should not render a div with className video-container', () => {
       const newProps = cloneDeep(props);
       newProps.content = 'some text including zero youtube links';
       const tree = sd.shallowRender(<PostView {...newProps} />);
 
-      assert.isFalse(tree.subTree('.post--youtube-container'), 'className youtube-container was found');
+      assert.isFalse(tree.subTree('.post--video-container'), 'className video-container was found');
     });
   });
 });

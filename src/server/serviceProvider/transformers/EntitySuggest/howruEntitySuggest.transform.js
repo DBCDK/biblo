@@ -10,7 +10,13 @@ const HowRUEntitySuggest = {
   },
 
   async requestTransform() {
-    return this.callServiceClient('custom', 'howruEntitySuggest');
+    try {
+      return await this.callServiceClient('custom', 'howruEntitySuggest');
+    }
+    catch (e) {
+      console.error(e); // eslint-disable-line
+      return {statusCode: 404};
+    }
   },
 
   responseTransform(response) {

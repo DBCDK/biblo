@@ -7,7 +7,7 @@
 export function filterConfig(bibloConfig) {
   const filtered = Object.assign({}, bibloConfig);
   const keys = ['endpoint', 'port', 'host', 'wsdl', 'smaug', 'uniloginBasePath'];
-  const excludedKeys = ['Email'];
+  const excludedKeys = ['Email', 'elasticSearch', 'datasources'];
 
   Object.keys(filtered).forEach(item => {
     if ((typeof filtered[item] !== 'object' && !keys.includes(item)) || !filtered[item] || excludedKeys.includes(item)) {

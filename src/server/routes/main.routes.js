@@ -153,51 +153,66 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
   }
 });
 
-MainRoutes.get('/howru', async (req, res) => {
+async function getServicesStatus(req) {
   const redisInstance = req.app.get('redisInstance');
   const communityResponse = await req.callServiceProvider('howruCommunity');
   const adminResponse = await req.callServiceProvider('howruAdmin');
   const openPlatformResponse = await req.callServiceProvider('howruOpenPlatform');
   const openAgencyResponse = await req.callServiceProvider('howruOpenAgency');
-  const openUserstatusResponse = await req.callServiceProvider('howruOpenAgency');
+  const openUserstatusResponse = await req.callServiceProvider('howruOpenUserStatus');
   const entitySuggestResponse = await req.callServiceProvider('howruEntitySuggest');
 
+  const services = [
+    {
+      service: 'redis',
+      ok: redisInstance.client.connected
+    },
+    {
+      service: 'CommunityService',
+      ok: communityResponse[0]
+    },
+    {
+      service: 'bibloadmin',
+      ok: adminResponse[0]
+    },
+    {
+      service: 'openlatform',
+      ok: openPlatformResponse[0][0]
+    },
+    {
+      service: 'smaug',
+      ok: openPlatformResponse[0][1]
+    },
+    {
+      service: 'openagency',
+      ok: openAgencyResponse[0]
+    },
+    {
+      service: 'openuserstatus',
+      ok: openUserstatusResponse[0]
+    },
+    {
+      service: 'entitysuggest',
+      ok: entitySuggestResponse[0]
+    }
+  ];
+
+  let overallStatus = true;
+  services.forEach(service => {
+    if (service.ok !== true) {
+      overallStatus = false;
+    }
+  });
+
+  return {services, overallStatus};
+}
+
+MainRoutes.get('/howru', async (req, res) => {
+  const {services, overallStatus} = await getServicesStatus(req);
+
   const response = {
-    ok: true,
-    services: [
-      {
-        service: 'redis',
-        ok: redisInstance.client.connected
-      },
-      {
-        service: 'CommunityService',
-        ok: communityResponse[0]
-      },
-      {
-        service: 'bibloadmin',
-        ok: adminResponse[0]
-      },
-      {
-        service: 'openlatform',
-        ok: openPlatformResponse[0][0]
-      },
-      {
-        service: 'smaug',
-        ok: openPlatformResponse[0][1]
-      },
-      {
-        service: 'openagency',
-        ok: openAgencyResponse[0]
-      },
-      {
-        service: 'openuserstatus',
-        ok: openUserstatusResponse[0]
-      },
-      {
-        service: 'entitysuggest',
-        ok: entitySuggestResponse[0]
-      }
-    ],
+    ok: overallStatus,
+    services: services,
     version: res.locals.gitsha,
     env: req.app.locals.env,
     config: filterConfig(req.app.get('BIBLO_CONFIG'))

@@ -287,7 +287,10 @@ module.exports.run = function(worker) {
     prefix: APP_NAME + '_session_'
   });
 
-  redisInstance.client.on('error', function() {
+  // Make redisInstance available elsewhere to enable availabilitychecks
+  app.set('redisInstance', redisInstance);
+
+  redisInstance.client.on('error', () => {
     logger.log('debug', 'ERROR: Redis server not found! No session storage available.', {
       host: config.get('Redis.host'),
       port: config.get('Redis.port'),
@@ -351,9 +354,7 @@ module.exports.run = function(worker) {
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.
   app.use((req, res, next) => {
-    if (process.env.GIT_COMMIT) { // eslint-disable-line
-      res.locals.gitsha = process.env.GIT_COMMIT; // eslint-disable-line
-    }
+    res.locals.gitsha = process.env.GIT_COMMIT || 'dev'; // eslint-disable-line
 
     next();
   });

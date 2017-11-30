@@ -2,20 +2,7 @@
  * @file: Client for Biblo Admin
  */
 
-import request from 'request';
-
-function promiseRequest(method, req) {
-  return new Promise((resolve, reject) => {
-    request[method](req, (err, httpResponse) => {
-      if (err) {
-        reject(err, httpResponse);
-      }
-      else {
-        resolve(httpResponse);
-      }
-    });
-  });
-}
+import {promiseRequest} from './../../utils/promiseRequest.util';
 
 let callBibloAdmin = function callBibloAdmin(user, password, method, req) {
   return promiseRequest(method, Object.assign(
@@ -48,6 +35,14 @@ function getContentPage(endpoint, {slug}) {
   };
 
   return callBibloAdmin('get', options);
+}
+
+function howru(endpoint) {
+  const options = {
+    url: `${endpoint}`
+  };
+
+  return promiseRequest('get', options);
 }
 
 function getCampaigns(endpoint) { // eslint-disable-line no-unused-vars
@@ -95,7 +90,8 @@ export default function BibloAdminClient(config = null) {
   return {
     getContentPage: getContentPage.bind(null, config.endpoint),
     getCampaigns: getCampaigns.bind(null, config.endpoint),
-    getMenu: getMenu.bind(null, config.endpoint)
+    getMenu: getMenu.bind(null, config.endpoint),
+    howru: howru.bind(null, config.endpoint)
   };
 }
 

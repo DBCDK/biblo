@@ -5,7 +5,7 @@ import './scss/PostView.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import TimeToString from '../../../Utils/timeToString.js';
-import ExtractYoutubeID from '../../../Utils/extractYoutubeID';
+import {parseStringForVideoUrls} from '../../../Utils/parseStringForVideoUrls';
 import AddContent from '../AddContent/AddContent.component';
 import {CommentList} from '../Comments/CommentList.component';
 import CreateFlagDialog from '../Flags/CreateFlagDialog.component.js';
@@ -18,8 +18,6 @@ import {getVideoPlayer} from '../General/GroupDisplayUtils';
 import ReviewRow from '../../Profile/Detail/ReviewRow.component';
 import {PDFViewComponent} from './PDFView.component';
 import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
-
-import Youtube from 'react-youtube';
 
 import backSvg from '../../General/Icon/svg/functions/back.svg';
 import flagSvg from '../../General/Icon/svg/functions/flag.svg';
@@ -147,7 +145,7 @@ export default class PostView extends React.Component {
             workType: work.workType
           }}
           likeActions={likeActions}
-          review={review}/>
+          review={review} />
       </div>
     );
   }
@@ -162,11 +160,11 @@ export default class PostView extends React.Component {
         const isInCampaign = postCreate >= campaignStart && postCreate <= campaignEnd;
 
         if (isInCampaign && campaign.logos && campaign.logos.svg) {
-          return <Icon height={40} width={40} svgLink={campaign.logos.svg}/>;
+          return <Icon height={40} width={40} svgLink={campaign.logos.svg} />;
         }
       }
       catch (er) {
-        return <span className="campaign--logo--error"/>;
+        return <span className="campaign--logo--error" />;
       }
     }
 
@@ -214,13 +212,13 @@ export default class PostView extends React.Component {
     const flagFunction = () => uiActions.openModalWindow(postFlagModalContent);
     let flagButton = null;
     if (profile.userIsLoggedIn) {
-      const flagIcon = <Icon glyph={flagSvg} className="icon flag-post--button"/>;
+      const flagIcon = <Icon glyph={flagSvg} className="icon flag-post--button" />;
       flagButton = (
-        <TinyButton clickFunction={flagFunction} icon={flagIcon}/>
+        <TinyButton clickFunction={flagFunction} icon={flagIcon} />
       );
     }
 
-    const youtube = ExtractYoutubeID(content);
+    const videos = parseStringForVideoUrls(content, true);
     const isLikedByCurrentUser = includes(likes, profile.id);
     const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
     const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
@@ -241,13 +239,13 @@ export default class PostView extends React.Component {
       <div className='post--wrapper'>
         <div className='post--profile-image'>
           <a href={`/profil/${owner.id}`}>
-            <img src={owner.image || null} alt={owner.displayName}/>
+            <img src={owner.image || null} alt={owner.displayName} />
           </a>
         </div>
         <div className='post'>
           <div className='post--header'>
             <a href={`/profil/${owner.id}`}>
-              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}}/>
+              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
             </a>
             <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
             <span className='buttons'>
@@ -258,7 +256,7 @@ export default class PostView extends React.Component {
               <TinyButton
                 active={this.state.isEditting}
                 clickFunction={() => this.toggleEditting()}
-                icon={<Icon glyph={pencilSvg} className="icon edit-post--button"/>}
+                icon={<Icon glyph={pencilSvg} className="icon edit-post--button" />}
               />
               ||
               flagButton
@@ -288,14 +286,14 @@ export default class PostView extends React.Component {
             ||
             <div className='post--content-wrapper'>
               {
-                <p className='post--content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}}/> // eslint-disable-line
+                <p className='post--content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} /> // eslint-disable-line
               }
               {review && this.renderReview(review, coverImages, works, profile, likeActions)}
               {
                 image &&
                 <div className='post--media'>
                   <a href={image.replace('medium', 'original')} target="_blank">
-                    <img src={image} alt="image for post"/>
+                    <img src={image} alt="image for post" />
                   </a>
                 </div>
               }
@@ -303,10 +301,14 @@ export default class PostView extends React.Component {
                 video && video.resolutions.length ? getVideoPlayer(video) : null
               }
               {
-                youtube &&
-                <div className="post--youtube-container">
-                  <Youtube videoId={youtube[0]}/>
-                </div>
+                videos.length >= 1 &&
+                videos.map((embeddedVideo, index) => {
+                  return (
+                    <div key={index} className="post--video-container">
+                      {embeddedVideo}
+                    </div>
+                  );
+                })
               }
               {
                 pdf && <PDFViewComponent pdf={pdf} isOwner={editPostAllowed} />

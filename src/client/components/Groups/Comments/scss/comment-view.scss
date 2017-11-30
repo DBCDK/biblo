@@ -55,15 +55,14 @@
   }
 }
 
-.comment--youtube-container {
+.comment--video-container {
   position: relative;
   padding-bottom: 50%;
   padding-top: 30px;
-  height: 0;
-  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-.comment--youtube-container iframe, .comment--youtube-container object, .comment--youtube-container embed {
+.comment--video-container iframe, .comment--video-container object, .comment--video-container embed {
   position: absolute;
   top: 0;
   left: 0;

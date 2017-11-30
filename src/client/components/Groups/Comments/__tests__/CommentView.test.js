@@ -34,7 +34,7 @@ describe('Test of Comment Components', () => {
     expect(wrapper.find('.comment-profile-image').first().find('img').props().alt).to.equal(props.owner.displayName);
     expect(wrapper.find('.username').html()).to.equal(`<span class="username">${props.owner.displayName}</span>`);
     expect(wrapper.find('.time').text()).to.equal('Lige nu');
-    expect(wrapper.find('.content').props().dangerouslySetInnerHTML.__html).to.equal(props.content);
+    expect(wrapper.find('.comment--content--text').props().dangerouslySetInnerHTML.__html).to.equal(props.content);
     expect(wrapper.find('.media').first().find('img').props().src).to.equal(props.image);
   });
 
@@ -47,13 +47,13 @@ describe('Test of Comment Components', () => {
   it('it should not show an youtube video', () => {
     const tree = sd.shallowRender(<CommentView {...props} />);
 
-    expect(tree.subTree('.comment--youtube-container')).to.be.equal(false);
+    expect(tree.subTree('.comment--video-container')).to.be.equal(false);
   });
 
   it('it should show an youtube video', () => {
     props.content = 'some text containing a youtube link https://youtu.be/D9TpswDIBS8';
     const tree = sd.shallowRender(<CommentView {...props} />);
 
-    expect(tree.subTree('.comment--youtube-container')).to.be.not.equal(false);
+    expect(tree.subTree('.comment--video-container')).to.be.not.equal(false);
   });
 });

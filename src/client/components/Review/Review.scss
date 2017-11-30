@@ -15,7 +15,7 @@ video {
 }
 
 
-.review--youtube-container {
+.review--video-container {
   position: relative;
   padding-bottom: 50%;
   padding-top: 30px;
@@ -23,7 +23,7 @@ video {
   overflow: hidden;
 }
 
-.review--youtube-container iframe, .review--youtube-container object, .review--youtube-container embed {
+.review--video-container iframe, .review--video-container object, .review--video-container embed {
   position: absolute;
   top: 0;
   left: 0;

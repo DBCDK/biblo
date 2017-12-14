@@ -16,6 +16,36 @@ import '../../../Utils/dateInputPolyfill/date-input-polyfill';
 import './profileform.component.scss';
 
 export default class ProfileForm extends React.Component {
+  static propTypes = {
+    changeImageAction: PropTypes.func.isRequired,
+    errors: PropTypes.array.isRequired,
+    profileImageSrc: PropTypes.string.isRequired,
+    submitState: PropTypes.string,
+    submitProgress: PropTypes.number,
+    submit: PropTypes.func.isRequired,
+    phone: PropTypes.string,
+    displayName: PropTypes.string,
+    description: PropTypes.string,
+    email: PropTypes.string,
+    favoriteLibrary: PropTypes.object,
+    searchAction: PropTypes.func.isRequired,
+    searchElements: PropTypes.array.isRequired,
+    librarySearchDisabled: PropTypes.bool,
+    unselectLibraryFunction: PropTypes.func.isRequired,
+    search: PropTypes.string,
+    fullName: PropTypes.string,
+    birthday: PropTypes.string,
+    checkDisplayNameFunction: PropTypes.func.isRequired,
+    displayNameExists: PropTypes.bool
+  };
+
+  static defaultProps = {
+    searchElements: [],
+    librarySearchDisabled: false,
+    submitProgress: 0,
+    displayNameExists: false
+  };
+
   constructor(props) {
     super(props);
 
@@ -206,34 +236,3 @@ export default class ProfileForm extends React.Component {
     );
   }
 }
-
-ProfileForm.displayName = 'ProfileForm';
-ProfileForm.propTypes = {
-  changeImageAction: PropTypes.func.isRequired,
-  errors: PropTypes.array.isRequired,
-  profileImageSrc: PropTypes.string.isRequired,
-  submitState: PropTypes.string,
-  submitProgress: PropTypes.number,
-  submit: PropTypes.func.isRequired,
-  phone: PropTypes.string,
-  displayName: PropTypes.string,
-  description: PropTypes.string,
-  email: PropTypes.string,
-  favoriteLibrary: PropTypes.object,
-  searchAction: PropTypes.func.isRequired,
-  searchElements: PropTypes.array.isRequired,
-  librarySearchDisabled: PropTypes.bool,
-  unselectLibraryFunction: PropTypes.func.isRequired,
-  search: PropTypes.string,
-  fullName: PropTypes.string,
-  birthday: PropTypes.string,
-  checkDisplayNameFunction: PropTypes.func.isRequired,
-  displayNameExists: PropTypes.bool
-};
-
-ProfileForm.defaultProps = {
-  searchElements: [],
-  librarySearchDisabled: false,
-  submitProgress: 0,
-  displayNameExists: false
-};

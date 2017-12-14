@@ -374,7 +374,7 @@ describe('Test of AddContent Component', () => {
     const radioInputValue = wrapper.find('.attach-review-modal--radio-btn-input').prop(['value']);
     assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');
 
-    wrapper.find('.attach-review-modal--radio-btn-input').first().simulate('change');
+    wrapper.find('.attach-review-modal--radio-btn-input').first().simulate('click');
     wrapper.find('.attach-review-modal--buttons-container').first().simulate('click');
 
     assert.isTrue(!!wrapper.state().attachment.review);

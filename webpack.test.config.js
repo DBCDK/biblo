@@ -45,7 +45,7 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           presets: ['react', 'es2015', 'airbnb'],
-          plugins: ['transform-runtime', 'transform-async-to-generator']
+          plugins: ['transform-runtime', 'transform-async-to-generator', 'transform-class-properties']
         }
       }
     ]

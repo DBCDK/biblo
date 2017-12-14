@@ -79,7 +79,7 @@ describe('Unittest methods in work.parser.js', () => {
       coverUrlFull: ['COVERURL_1', 'COVERURL_2']
     };
     const result = parseWork(Object.assign({}, work));
-    assert.equal(result.coverUrl, `https:${work.coverUrlFull[0]}`);
+    assert.equal(result.coverUrl, `${work.coverUrlFull[0]}`);
   });
 
   it('Should return first element from extent', () => {

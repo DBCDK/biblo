@@ -8,7 +8,7 @@
  * @param req
  * @param res
  * @param next
- * @returns null
+ * @returns *
  */
 export function redirectBackToOrigin(req, res, next) {
   if (req.session.returnUrl) {

@@ -32,9 +32,9 @@ export class AbstractWidget extends Component { // eslint-disable-line react/req
 
   /**
    * This function dispatches an event that gets caught by serviceProviderReduxMiddleware.
-   * The middleware then sets up a listener and calls the biblo service provider with the transform event (passed in through the parameter).
-   * The listener dispatches a redux action with type = `${event}Response`.
-   * This redux action has data = resultFromServiceProvider.
+   * The middleware then sets up a listener and calls the biblo service provider with the transform event (passed in
+   * through the parameter). The listener dispatches a redux action with type = `${event}Response`. This redux action
+   * has data = resultFromServiceProvider.
    * @param {String} event - The event of the transform you want to call.
    * @param {*} query - The query sent to the transform.
    */

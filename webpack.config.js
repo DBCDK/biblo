@@ -45,7 +45,7 @@ module.exports = [
           loader: 'babel-loader',
           query: {
             presets: ['react', 'es2015'],
-            plugins: ['transform-runtime', 'transform-async-to-generator']
+            plugins: ['transform-runtime', 'transform-async-to-generator', 'transform-class-properties']
           }
         },
         {

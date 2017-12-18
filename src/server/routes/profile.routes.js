@@ -153,7 +153,7 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, a
     if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
       const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;
       fullProfile.favoriteLibrary = Object.assign({}, fullProfile.favoriteLibrary, {
-        libraryId: agency.agencyId,
+        libraryId: agency.branchId,
         libraryName: getAgencyName(agency), // see github #22
         libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
       });
@@ -195,7 +195,7 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
         const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
         if (agency) {
           p.favoriteLibrary = {
-            libraryId: agency.agencyId,
+            libraryId: agency.branchId,
             libraryName: getAgencyName(agency),
             libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
           };

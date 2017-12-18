@@ -1,6 +1,6 @@
 {
   "presets": ["react", "es2015"],
-  "plugins": ["transform-runtime", "transform-async-to-generator", "array-includes"],
+  "plugins": ["transform-runtime", "transform-async-to-generator", "array-includes", "transform-class-properties"],
   "ignore": [
     "node_modules/*"
   ]

@@ -7,11 +7,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
+import {createLogger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {callServiceProvider} from './Constants/action.constants';
 
 import rootReducer from './Reducers/root.reducer';
+
+const reduxLogger = createLogger({
+  predicate: (getState, action) => false, // eslint-disable-line
+  collapsed: (getState, action, logEntry) => true // eslint-disable-line
+});
 
 /**
  * Service Provider middleware for redux, use this to call the service provider from a plain action.
@@ -66,7 +72,7 @@ export function serviceProviderReduxMiddleware({dispatch}) {
  * @returns {{store: Object, component: XML}}
  */
 export function wrapComponentInProvider(Comp, initialState = {}) { // eslint-disable-line react/display-name
-  const store = createStore(rootReducer, initialState, applyMiddleware(thunk, serviceProviderReduxMiddleware));
+  const store = createStore(rootReducer, initialState, applyMiddleware(thunk, serviceProviderReduxMiddleware, reduxLogger));
   const component = (
     <Provider store={store}>
       <Comp />

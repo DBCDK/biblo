@@ -8,6 +8,24 @@ import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component
 import './ProfileLibraryInfo.component.scss';
 
 export class ProfileLibraryInfo extends React.Component {
+  static propTypes = {
+    errorObj: PropTypes.object,
+    favoriteLibrary: PropTypes.object.isRequired,
+    unselectLibraryFunction: PropTypes.func.isRequired,
+    search: PropTypes.string,
+    searchAction: PropTypes.func.isRequired,
+    searchElements: PropTypes.array,
+    libraryId: PropTypes.string.isRequired,
+    loanerIdChangeFunc: PropTypes.func.isRequired,
+    pincodeChangeFunc: PropTypes.func.isRequired,
+    requireAll: PropTypes.bool
+  };
+
+  static defaultProps = {
+    errorObj: {},
+    searchElements: []
+  };
+
   constructor(props) {
     super(props);
 
@@ -209,21 +227,3 @@ export class ProfileLibraryInfo extends React.Component {
     );
   }
 }
-
-ProfileLibraryInfo.propTypes = {
-  errorObj: PropTypes.object,
-  favoriteLibrary: PropTypes.object.isRequired,
-  unselectLibraryFunction: PropTypes.func.isRequired,
-  search: PropTypes.string,
-  searchAction: PropTypes.func.isRequired,
-  searchElements: PropTypes.array,
-  libraryId: PropTypes.string.isRequired,
-  loanerIdChangeFunc: PropTypes.func.isRequired,
-  pincodeChangeFunc: PropTypes.func.isRequired,
-  requireAll: PropTypes.bool
-};
-
-ProfileLibraryInfo.defaultProps = {
-  errorObj: {},
-  searchElements: []
-};

@@ -53,7 +53,7 @@ export default class MaterialSearchResultList extends React.Component {
       let displayType = result.workType[0];
       let title = result.dcTitle;
       const displayWorkType = (result.workType) ? result.workType[0] : 'other';
-      const coverUrl = (result.coverUrlFull) ? 'http:' + result.coverUrlFull[0] : this.displayWorkTypeCover(displayWorkType);
+      const coverUrl = (result.coverUrlFull) ? result.coverUrlFull[0] : this.displayWorkTypeCover(displayWorkType);
       const workUrl = '/materiale/' + pid;
 
       if (result.collectionDetails && result.collectionDetails.length > 1) {

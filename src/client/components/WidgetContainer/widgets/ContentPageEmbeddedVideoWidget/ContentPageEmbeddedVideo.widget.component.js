@@ -18,8 +18,11 @@ export class ContentPageEmbeddedVideoWidget extends Component {
   render() {
     let video = '';
 
-    if (this.props.widgetConfig.type === 'YouTube') {
-      video = parseStringForVideoUrls(this.props.widgetConfig.src, true)[0];
+    if (this.props.widgetConfig.type === 'YouTube' || this.props.widgetConfig.type === 'Vimeo') {
+      video = parseStringForVideoUrls(this.props.widgetConfig.src, true);
+    }
+    else {
+      console.warn('Did not find a video with type YouTube or Vimeo. Embedded video wont be rendered.'); // eslint-disable-line
     }
 
     return (

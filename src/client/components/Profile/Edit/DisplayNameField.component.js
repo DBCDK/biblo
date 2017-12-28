@@ -12,11 +12,11 @@ function onChange(onChangeFunc, checkDisplayNameFunction, e) {
       debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 1000);
     }
     debouncedCheckDisplayNameFunction(e.target.value);
-    onChangeFunc(e);
   }
+  onChangeFunc(e);
 }
 
-export default function DisplayNameField({defaultValue, errors, onChangeFunc, checkDisplayNameFunction, displayNameExists}) {
+export default function DisplayNameField({errors, onChangeFunc, checkDisplayNameFunction, displayNameExists, value}) {
   return (
     <div className="display-name--form-area">
       <label>
@@ -27,8 +27,8 @@ export default function DisplayNameField({defaultValue, errors, onChangeFunc, ch
           className={displayNameExists ? 'error' : ''}
           required
           name="displayname"
+          value={value}
           placeholder="Dit brugernavn"
-          defaultValue={defaultValue}
           onChange={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
           onBlur={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
         />
@@ -42,11 +42,11 @@ export default function DisplayNameField({defaultValue, errors, onChangeFunc, ch
 DisplayNameField.displayName = 'DisplayNameField';
 
 DisplayNameField.propTypes = {
-  defaultValue: PropTypes.string.isRequired,
   errors: PropTypes.object.isRequired,
   onChangeFunc: PropTypes.func.isRequired,
   checkDisplayNameFunction: PropTypes.func.isRequired,
-  displayNameExists: PropTypes.bool
+  displayNameExists: PropTypes.bool,
+  value: PropTypes.string.isRequired
 };
 
 DisplayNameField.defaultProps = {

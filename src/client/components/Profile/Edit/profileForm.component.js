@@ -116,7 +116,6 @@ export default class ProfileForm extends React.Component {
   }
 
   render() {
-    console.log(this.state.displayName);
     const errorObj = {};
     this.props.errors.forEach(error => {
       errorObj[error.field] = (

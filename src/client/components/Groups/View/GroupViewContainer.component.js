@@ -151,13 +151,15 @@ export class GroupViewContainer extends React.Component {
       >
         {modal}
         <div className="group">
-          <GroupHeader uri={this.props.group.imageSquare || ''}/>
+          <GroupHeader uri={this.props.group.imageSquare || ''} groupId={this.props.group.id}/>
           {this.props.group.isClosed && (
             <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           )}
           <div className="group--content">
             <div className="group--details">
-              <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}}/>
+              <a href={`/grupper/${this.props.group.id}`}>
+                <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}}/>
+              </a>
               <p
                 className="group--description"
                 dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.description)}}

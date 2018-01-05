@@ -8,6 +8,7 @@ import {shallow} from 'enzyme';
 import AddContent from '../../AddContent/AddContent.component';
 
 import {GroupViewContainer} from '../GroupViewContainer.component.js';
+import {GroupHeader} from './../GroupViewHeader.component';
 
 describe('Test GroupView Component', () => {
   const group = {
@@ -148,5 +149,47 @@ describe('Test GroupView Component', () => {
     );
 
     expect(wrapper.find('.group--post-view').find('h2').text()).to.equal('1 bruger skriver');
+  });
+
+  it('GroupHeader should be rendered once', () => {
+    const wrapper = shallow(
+      <GroupViewContainer
+        globalState={{}}
+        group={group}
+        profile={profile}
+        groupActions={groupActions}
+        uiActions={uiActions}
+        profileActions={profileActions}
+        ui={ui}
+        coverImageActions={coverImageActions}
+        coverImages={{}}
+        searchActions={{}}
+        searchState={{}}
+      />
+    );
+
+    expect(wrapper.find(GroupHeader)).to.have.length(1);
+  });
+
+  it('First child of .group-details should be a link that points to the current group', () => {
+    const wrapper = shallow(
+      <GroupViewContainer
+        globalState={{}}
+        group={group}
+        profile={profile}
+        groupActions={groupActions}
+        uiActions={uiActions}
+        profileActions={profileActions}
+        ui={ui}
+        coverImageActions={coverImageActions}
+        coverImages={{}}
+        searchActions={{}}
+        searchState={{}}
+      />
+    );
+
+    expect(wrapper.find('.group--title')).to.have.lengthOf(1);
+    expect(wrapper.find('.group--details').childAt(0).type()).to.equal('a');
+    expect(wrapper.find('.group--details').childAt(0).prop('href')).to.equal(`/grupper/${group.id}`);
   });
 });

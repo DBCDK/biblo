@@ -8,7 +8,7 @@ import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
 import Follow from '../../General/Follow/Follow.component.js';
-import GroupHeader from './GroupViewHeader.component.js';
+import {GroupHeader} from './GroupViewHeader.component.js';
 import GroupMembersBox from './GroupViewMembersBox.component.js';
 import {PostList} from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';

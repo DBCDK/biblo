@@ -9,7 +9,7 @@ import './scss/groupViewHeader.scss';
  * @param {string} uri
  * @param {number} groupId The id of the group the link should point to
  */
-export default function GroupHeader({uri, groupId}) {
+export function GroupHeader({uri, groupId}) {
   return (
     <div className='group-header' >
       <div className='group-header--background-image' style={{backgroundImage: `url("${uri}")`}} ></div>

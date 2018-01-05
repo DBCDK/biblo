@@ -8,7 +8,7 @@ import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 // COMPONENTS
 import PageLayout from '../../Layout/PageLayout.component.js';
 import Follow from '../../General/Follow/Follow.component.js';
-import {GroupHeader} from './GroupViewHeader.component.js';
+import {GroupViewHeader} from './GroupViewHeader.component.js';
 import GroupMembersBox from './GroupViewMembersBox.component.js';
 import {PostList} from '../Posts/PostList.component.js';
 import PostAdd from '../AddContent/AddContent.component';
@@ -151,7 +151,7 @@ export class GroupViewContainer extends React.Component {
       >
         {modal}
         <div className="group">
-          <GroupHeader uri={this.props.group.imageSquare || ''} groupId={this.props.group.id}/>
+          <GroupViewHeader uri={this.props.group.imageSquare || ''} groupId={this.props.group.id}/>
           {this.props.group.isClosed && (
             <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           )}

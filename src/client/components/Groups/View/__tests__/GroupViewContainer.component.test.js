@@ -8,7 +8,7 @@ import {shallow} from 'enzyme';
 import AddContent from '../../AddContent/AddContent.component';
 
 import {GroupViewContainer} from '../GroupViewContainer.component.js';
-import {GroupHeader} from './../GroupViewHeader.component';
+import {GroupViewHeader} from './../GroupViewHeader.component';
 
 describe('Test GroupView Component', () => {
   const group = {
@@ -168,7 +168,7 @@ describe('Test GroupView Component', () => {
       />
     );
 
-    expect(wrapper.find(GroupHeader)).to.have.length(1);
+    expect(wrapper.find(GroupViewHeader)).to.have.length(1);
   });
 
   it('First child of .group-details should be a link that points to the current group', () => {

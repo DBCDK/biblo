@@ -42,6 +42,6 @@ describe('Testing the parseStringForVideoUrls.js util', () => {
     const expectedSerializedVideoPlayer = `{"key":"${vimeoURL}","ref":null,"props":{"width":"100%","height":"100%","url":"https://vimeo.com/76839641","config":{"youtube":{"playerVars":{"controls":1}}},"playing":false,"loop":false,"controls":false,"volume":0.8,"muted":false,"playbackRate":1,"style":{},"progressFrequency":1000,"playsinline":false},"_owner":null,"_store":{}}`; // eslint-disable-line
 
     expect(result).to.have.lengthOf(1);
-    expect(JSON.stringify(result[0])).to.equal(expectedSerializedVideoPlayer); // eslint-disable-line
+    expect(JSON.stringify(result[0])).to.equal(expectedSerializedVideoPlayer);
   });
 });

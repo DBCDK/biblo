@@ -12,19 +12,36 @@ import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 import './scss/FactBox.widget.component.scss';
 
 export class FactBoxWidget extends AbstractWidget {
-  shouldComponentUpdate(nextProps) {
+  state = {
+    isClient: false
+  };
+
+  componentDidMount() {
+    this.setState({isClient: true});
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
     // We only care about the widgetConfig
-    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig) || !isEqual(nextState.isClient, this.state.isClient);
   }
 
   render() {
     const factboxTitle = this.props.widgetConfig.title || '';
+
     const factboxContent = this.props.widgetConfig.content || '';
+
+    const factboxTitleContainer = this.state.isClient ?
+      <h3 dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxTitle)}} /> :
+      <h3 />;
+
+    const factboxContentContainer = this.state.isClient ?
+      <div className="fact-box--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxContent)}} /> :
+      <div className="fact-box--content" />;
 
     return (
       <div className="fact-box-widget">
-        <h3 dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxTitle)}} />
-        <div className="fact-box--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxContent)}} />
+        {factboxTitleContainer}
+        {factboxContentContainer}
       </div>
     );
   }

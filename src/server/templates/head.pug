@@ -43,19 +43,19 @@ head
           include newrelic
 
         if production
-          script(src='//cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.min.js', type='text/javascript' defer=true)
-          script(src='//cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.min.js', type='text/javascript' defer=true)
+          script(src='//cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js' integrity='sha256-wouRkivKKXA3y6AuyFwcDcF50alCNV8LbghfYCH6Z98=' crossorigin)
+          script(src='//cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js' integrity='sha256-9hrJxD4IQsWHdNpzLkJKYGiY/SEZFJJSUqyeZPNKd8g=' crossorigin)
           script(src='/scripts/webtrends.min.js', type='text/javascript' defer=true)
           script(src='/scripts/webtrends.load.js', type='text/javascript' defer=true)
           script(src='/scripts/webtrekk.js', type='text/javascript' defer=true)
         else
-          script(src='//cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.js', type='text/javascript' defer=true)
-          script(src='//cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.js', type='text/javascript' defer=true)
+          script(src='//cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.development.js' integrity='sha256-oK7yxCBxbvB6f0k30sHQEN7rIMklxeiFkzO/xOqA054=' crossorigin)
+          script(src='//cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.development.js' integrity='sha256-MENkb7k+X0cdQau8EP2kECRfc0A4Lq9uo6QGSnWgK0o=' crossorigin)
 
-        script(src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js', type='text/javascript' defer=true)
+        script(src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js', type='text/javascript' defer=true)
         script(src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', type='text/javascript', defer=true)
         script(src='//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js' type='text/javascript' defer=true)
-        script(src='//twemoji.maxcdn.com/2/twemoji.min.js?2.1' type='text/javascript' defer=true)
+        script(src='//cdnjs.cloudflare.com/ajax/libs/twemoji/2.5.0/twemoji.min.js' integrity='sha256-Y3KC8juDUsBOzJ3XtOH/sj+BAlF9AQr6pEey+4ibaJ4=' crossorigin)
 
         // Set by the globals.middleware.js
         script window.USER_IS_LOGGED_IN = !{isLoggedIn || false};

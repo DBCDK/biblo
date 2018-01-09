@@ -34,11 +34,15 @@ export class LatestPostsWidget extends AbstractWidget {
   }
 
   renderPost(post) {
+    if (!post.group) {
+      return null;
+    }
+
     return (
       <CompactGroupPostElement
         post={post}
         key={`lp-cpe-${post.id}`}
-        groupName={post.group.name}
+        groupName={post.group && post.group.name ? post.group.name : ''}
         groupHref={`/grupper/${post.group.id}`}
         elementHref={`/grupper/post/${post.id}`}
       />

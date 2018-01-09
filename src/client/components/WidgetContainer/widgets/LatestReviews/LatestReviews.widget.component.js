@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {AbstractWidget} from '../../AbstractWidget.component';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import {PaginationContainer} from '../../PaginationContainer.component';
 import {CompactReviewElement} from './CompactReviewElement.component';

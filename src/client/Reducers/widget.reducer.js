@@ -95,7 +95,14 @@ export default function widgetReducer(state = initialState, action = {}) {
       };
 
       if (action.data.status === 200) {
-        LatestReviews.campaignReviews[action.data.campaignId] = (state.LatestReviews.campaignReviews[action.data.campaignId] || []).concat(action.data.data);
+        // Update our store with new set of reviews and filter out any dublets
+        const reviewIds = [];
+        LatestReviews.campaignReviews[action.data.campaignId] = (state.LatestReviews.campaignReviews[action.data.campaignId] || []).concat(action.data.data).filter(review => {
+          if (!reviewIds.includes(review.id)) {
+            reviewIds.push(review.id);
+            return review;
+          }
+        });
         LatestReviews.reviewsPending = false;
       }
 

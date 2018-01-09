@@ -29,12 +29,15 @@
     "jest": "jest"
   },
   "jest": {
-    "setupFiles": ["./tests.general.js"],
-    "roots": ["./src/"],
+    "setupFiles": [
+      "./tests.general.js"
+    ],
+    "roots": [
+      "./src/"
+    ],
     "testRegex": "/__tests__/.*.test.js",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
@@ -98,7 +101,7 @@
     "history": "^4.7.2",
     "html-pdf": "^2.2.0",
     "ignore-styles": "^5.0.1",
-    "jest": "^22.0.4",
+    "jest": "^22.0.5",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",

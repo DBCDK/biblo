@@ -3,11 +3,12 @@
  */
 
 import React from 'react';
-import {assert} from 'chai';
+import {expect} from 'chai';
 import {shallow} from 'enzyme';
 import AddContent from '../../AddContent/AddContent.component';
 
 import {GroupViewContainer} from '../GroupViewContainer.component.js';
+import {GroupViewHeader} from './../GroupViewHeader.component';
 
 describe('Test GroupView Component', () => {
   const group = {
@@ -30,7 +31,6 @@ describe('Test GroupView Component', () => {
   const profile = {
     userIsLoggedIn: true
   };
-
 
   const ui = {
     modal: {
@@ -81,12 +81,12 @@ describe('Test GroupView Component', () => {
       />
     );
 
-    assert.equal(`<p class="group--description">${group.description}</p>`, wrapper.find('.group--description').html());
-    assert.equal(`<h2 class="group--title">${group.name}</h2>`, wrapper.find('.group--title').html());
+    expect(`<p class="group--description">${group.description}</p>`).to.equal(wrapper.find('.group--description').html());
+    expect(`<h2 class="group--title">${group.name}</h2>`).to.equal(wrapper.find('.group--title').html());
 
     // AddContent form is added with props
-    assert.equal(wrapper.find('AddContent').type(), AddContent);
-    assert.deepEqual(wrapper.find('AddContent').props(), {
+    expect(wrapper.find('AddContent').type()).to.equal(AddContent);
+    expect(wrapper.find('AddContent').props()).to.deep.equal({
       redirectTo: '/grupper/1',
       profile,
       getMoreWorks: noop,
@@ -100,32 +100,33 @@ describe('Test GroupView Component', () => {
       editing: false
     });
 
-    assert.equal(wrapper.find('.group--post-view').find('h2').text(), '0 brugere skriver');
+    expect(wrapper.find('.group--post-view').find('h2').text()).to.equal('0 brugere skriver');
 
     // No posts renedered Posts
-    assert.equal(wrapper.find('PostList').html(), '<div class="post-list"></div>');
+    expect(wrapper.find('PostList').html()).to.equal('<div class="post-list"></div>');
   });
 
   it('Group View Rendered with posts', () => {
-    group.posts = [{
-      comments: [],
-      content: 'test',
-      groupid: 1,
-      id: 1,
-      image: null,
-      owner: {
-        displayName: 'Søren Hestevennen',
+    const newGroup = Object.assign({}, group, {
+      posts: [{
+        comments: [],
+        content: 'test',
+        groupid: 1,
         id: 1,
-        image: null
-      },
-      postid: 1,
-      postownerid: 1,
-      timeCreated: '2016-02-19T12:34:11.000Z',
-      title: ' ',
-      isMembersExpanded: true,
-      groupIsClosed: false
-    }];
-    group.postsCount = 1;
+        image: null,
+        owner: {
+          displayName: 'Søren Hestevennen',
+          id: 1,
+          image: null
+        },
+        postid: 1,
+        postownerid: 1,
+        timeCreated: '2016-02-19T12:34:11.000Z',
+        title: ' ',
+        isMembersExpanded: true,
+        groupIsClosed: false
+      }], postsCount: 1
+    });
     const actions = {
       asyncGetGroupMembers: noop,
       asyncListenToGroupForNewContent: noop
@@ -134,7 +135,7 @@ describe('Test GroupView Component', () => {
     const wrapper = shallow(
       <GroupViewContainer
         globalState={{}}
-        group={group}
+        group={newGroup}
         profile={profile}
         groupActions={actions}
         uiActions={uiActions}
@@ -146,6 +147,49 @@ describe('Test GroupView Component', () => {
         searchState={{}}
       />
     );
-    assert.equal(wrapper.find('.group--post-view').find('h2').text(), '1 bruger skriver');
+
+    expect(wrapper.find('.group--post-view').find('h2').text()).to.equal('1 bruger skriver');
+  });
+
+  it('GroupHeader should be rendered once', () => {
+    const wrapper = shallow(
+      <GroupViewContainer
+        globalState={{}}
+        group={group}
+        profile={profile}
+        groupActions={groupActions}
+        uiActions={uiActions}
+        profileActions={profileActions}
+        ui={ui}
+        coverImageActions={coverImageActions}
+        coverImages={{}}
+        searchActions={{}}
+        searchState={{}}
+      />
+    );
+
+    expect(wrapper.find(GroupViewHeader)).to.have.length(1);
+  });
+
+  it('First child of .group-details should be a link that points to the current group', () => {
+    const wrapper = shallow(
+      <GroupViewContainer
+        globalState={{}}
+        group={group}
+        profile={profile}
+        groupActions={groupActions}
+        uiActions={uiActions}
+        profileActions={profileActions}
+        ui={ui}
+        coverImageActions={coverImageActions}
+        coverImages={{}}
+        searchActions={{}}
+        searchState={{}}
+      />
+    );
+
+    expect(wrapper.find('.group--title')).to.have.lengthOf(1);
+    expect(wrapper.find('.group--details').childAt(0).type()).to.equal('a');
+    expect(wrapper.find('.group--details').childAt(0).prop('href')).to.equal(`/grupper/${group.id}`);
   });
 });

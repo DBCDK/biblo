@@ -1,6 +1,7 @@
 import webdriver, {By, until} from 'selenium-webdriver';
 import fs from 'fs';
 import * as path from 'path';
+import os from 'os';
 
 const driverTimeout = 2000;
 
@@ -24,8 +25,16 @@ function postToPreview(widgetConfig) {
 }
 
 function World() {
-  this.driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome());
-  this.browser = this.driver.build();
+  console.log('OS TYPE: ', os.type());
+  const chromeCapabilities = webdriver.Capabilities.chrome();
+  const chromeOptions = {
+    args: ['--headless', '--disable-gpu'],
+    binary: os.type() === 'Linux'
+      ? path.resolve(`${__dirname}/browsers/google-chrome-stable_current_amd64.deb`)
+      : path.resolve(`${__dirname}/browsers/Google Chrome.app/Contents/MacOS/Google Chrome`)
+  };
+  chromeCapabilities.set('chromeOptions', chromeOptions);
+  this.browser = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
 
   this.$ = selector => {
     return this.browser.findElement(By.css(selector));

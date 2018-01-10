@@ -10,4 +10,50 @@ module.exports = function aboutpage(times) {
       "mainContent": "<div><h2>Om Biblo</h2><h3>Biblo er et online fællesskab for børn</h3><p>Her kan børn under 14 år dele interesser med hinanden i online &aring;bne grupper. Grupperne kan handle om alt, og de kan oprettes b&aring;de af b&oslash;rn og bibliotekarer. Hver gruppe handler om noget specielt, som man diskuterer i den gruppe. Vil man diskutere noget andet, kan man enten finde en gruppe, der passer bedre, lave sin egen gruppe eller sp&oslash;rge i gruppen &quot;Sp&oslash;rg Biblo&quot;.</p><p>Alle, der har et Unilogin kan se, skrive, uploade og deltage i konkurrencer p&aring; Biblo.</p><p>Man kan også l&aring;ne b&oslash;ger, film og spil p&aring; Biblo - lige som man kan p&aring; sit bibliotek.</p><p>Biblo er skabt og k&oslash;res af de danske folkebiblioteker.</p><p>Biblo overv&aring;ges af voksne bibliotekarer.</p><h3>Biblo kan bruges både i skolen og i fritiden - med sikkerhed</h3><p>Mange b&oslash;rn vil bruge Biblo b&aring;de b&aring;de i og uden for skoletiden. Man kan deltage i konkurrencer, der ofte laves i et samarbejde mellem skoler og det lokale bibliotek. For eksempel er &quot;Sommerbogen&quot; Danmarks st&oslash;rste l&aelig;se-konkurrence med omkring 4.000 deltagere hver sommer.</p><p>Biblo bliver overv&aring;get og modereret af bibliotekarer, og b&oslash;rnene vil altid kunne komme i kontakt med en voksen. Desuden kr&aelig;ver Biblo.dk et UNILogin fra alle, der vil oprette sig som bruger.</p><p>Se hvordan man kontakter Biblo under &quot;Kontakt&quot; herunder.</p></div>",
       "headerImageUrl": "https://s3-eu-west-1.amazonaws.com/uxdev-biblo-content-article/om-biblo/header.jpg"
     });
+
+  nock('http://uxscrum-i02.dbc.dk:8889', {encodedQueryParams: true})
+    .get('/menu/main')
+    .times(times)
+    .query({"_format": "json"})
+    .reply(200, [{
+      "link": {
+        "url": {"external": false, "uri": "/grupper"}, "title": "Grupper", "description": "Se alle grupper",
+        "enabled": true, "weight": "0", "options": [], "meta_data": {"entity_id": "4"}, "provider": "menu_link_content"
+      }, "subtree": [], "depth": 1, "options": []
+    }]);
+
+  nock('http://uxscrum-i02.dbc.dk:8889', {encodedQueryParams: true})
+    .get('/menu/footer')
+    .times(times)
+    .query({"_format": "json"})
+    .reply(200, [{
+      "link": {
+        "url": {"external": true, "uri": "http://bibliotek.dk"}, "title": "Søg på bibliotek.dk", "description": null,
+        "enabled": true, "weight": "-50", "options": {"external": true}, "meta_data": {"entity_id": "2"},
+        "provider": "menu_link_content"
+      }, "subtree": [], "depth": 1, "options": []
+    }, {
+      "link": {
+        "url": {"external": false, "uri": ""}, "title": "Læs vores guide til god søgning på nettet",
+        "description": null, "enabled": true, "weight": "-49", "options": {"fragment": "what-ever"},
+        "meta_data": {"entity_id": "3"}, "provider": "menu_link_content"
+      }, "subtree": [], "depth": 1, "options": []
+    }, {
+      "link": {
+        "url": {"external": true, "uri": "http://google.com"}, "title": "Søg på google", "description": null,
+        "enabled": true, "weight": "-48", "options": {"external": true}, "meta_data": {"entity_id": "1"},
+        "provider": "menu_link_content"
+      }, "subtree": [], "depth": 1, "options": []
+    }]);
+
+  nock('http://uxscrum-i02.dbc.dk:8889', {encodedQueryParams: true})
+    .get('/frontpage')
+    .times(times)
+    .query({"_format": "json"})
+    .reply(200, {
+      "nid": "8", "type": "section_page", "title": "frontpage", "status": "1", "created": "1473759370",
+      "changed": "1473759396", "field_content": [{
+        "widgetName": "ContentPageTextWidget", "widgetConfig": {"content": "<p>This is the frontpage</p>"}
+      }]
+    });
 };

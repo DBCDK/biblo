@@ -9,7 +9,7 @@ import FooterContainer from './FooterContainer.component.js';
 /**
  * Client side rendering of the Frontpage Component
  */
-ReactDOM.render(
+ReactDOM.hydrate(
   <FooterContainer />,
   document.getElementById('footer')
 );

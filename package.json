@@ -98,7 +98,7 @@
     "history": "^4.7.2",
     "html-pdf": "^2.2.0",
     "ignore-styles": "^5.0.1",
-    "jest": "^22.0.4",
+    "jest": "^22.0.5",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",

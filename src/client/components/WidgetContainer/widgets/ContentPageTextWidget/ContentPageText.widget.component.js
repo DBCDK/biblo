@@ -10,14 +10,27 @@ import {isEqual} from 'lodash';
 import sanitizeHtml from './../../../../Utils/sanitizeHtml.util';
 
 export class ContentPageTextWidget extends Component {
-  shouldComponentUpdate(nextProps) {
+  state = {
+    isClient: false
+  };
+
+  componentDidMount() {
+    this.setState({isClient: true});
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
     // We only care about the widgetConfig
-    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig) || nextState.isClient !== this.state.isClient;
   }
 
   render() {
+    const content = this.state.isClient ?
+      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.widgetConfig.content)}} /> :
+      <span className="content-page--text-widget" />;
     return (
-      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.widgetConfig.content)}} />
+      <React.Fragment>
+        {content}
+      </React.Fragment>
     );
   }
 }

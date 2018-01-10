@@ -99,7 +99,7 @@ export function renderComponent(Comp, target) {
     }
   }
 
-  ReactDOM.render(
+  ReactDOM.hydrate(
     wrapComponentInProvider(Comp, initialState).component,
     document.getElementById(target)
   );

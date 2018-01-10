@@ -10,9 +10,16 @@ import Icon from '../../General/Icon/Icon.component.js';
 import groupSvg from '../../General/Icon/svg/functions/group.svg';
 
 export default class GroupViewTile extends React.Component {
+  state = {
+    isClient: false
+  };
 
   getCoverImageUrl(group) {
     return (group.imageSquare ? group.imageSquare : '/no_group_image.png');
+  }
+
+  componentDidMount() {
+    this.setState({isClient: true});
   }
 
   getMembersCountString() {
@@ -31,13 +38,14 @@ export default class GroupViewTile extends React.Component {
   render() {
     const group = this.props.group;
     const groupUrl = '/grupper/' + group.id;
+    const groupName = this.state.isClient ? <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}}/> : <span/>;
 
     return (<div key={group.id} className="group--tile">
       <a href={groupUrl}>
         <img className="coverimage" src={this.getCoverImageUrl(group)}/>
         <div className="group--title">
           <Icon className="icon" glyph={groupSvg} />
-          <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}}/>
+          {groupName}
         </div>
       </a>
       {this.props.followers &&

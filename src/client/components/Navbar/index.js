@@ -9,7 +9,7 @@ import NavbarContainer from './NavbarContainer.component.js';
 /**
  * Client side rendering of the Frontpage Component
  */
-ReactDOM.render(
+ReactDOM.hydrate(
   <NavbarContainer />,
   document.getElementById('navbar')
 );

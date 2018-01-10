@@ -17,8 +17,20 @@ import spinnerSvg from '../../../General/Icon/svg/spinners/loading-spin.svg';
 import './scss/compactWorkElementsContainer.component.scss';
 
 export class CompactWorkElementsContainer extends Component {
+  static propTypes = {
+    works: PropTypes.array,
+    closed: PropTypes.bool,
+    isLoading: PropTypes.bool
+  };
+
+  static defaultProps = {
+    works: [],
+    closed: true,
+    isLoading: false
+  };
+
   render() {
-    const elements = this.props.works.map(work => <CompactWorkElement work={work} key={`work-${work.collection[0]}`}/>);
+    const elements = this.props.works.map(work => <CompactWorkElement work={work} key={`work-${work.collection[0] || 'unknown-work'}`}/>);
     const classNames = 'compact-works--container' + (this.props.closed ? ' closed' : '');
 
     let spinner = '';
@@ -38,17 +50,3 @@ export class CompactWorkElementsContainer extends Component {
     );
   }
 }
-
-CompactWorkElementsContainer.displayName = 'CompactWorkElementsContainer';
-
-CompactWorkElementsContainer.propTypes = {
-  works: PropTypes.array,
-  closed: PropTypes.bool,
-  isLoading: PropTypes.bool
-};
-
-CompactWorkElementsContainer.defaultProps = {
-  works: [],
-  closed: true,
-  isLoading: false
-};

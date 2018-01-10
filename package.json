@@ -11,11 +11,11 @@
     "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:dev": "COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:localproxy": "NODE_TLS_REJECT_UNAUTHORIZED=0 NEW_RELIC_PROXY_URL=http://localhost:8888 http_proxy=http://localhost:8888 COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
-    "features": "STANDARD_CACHE_TIME=1 OPEN_PLATFORM_SERVICE_URL=\"http://platform-i01.dbc.dk:8080/\" PORT=3334 ./node_modules/.bin/cucumberjs --compilers js:babel/register selenium/features",
+    "features": "STANDARD_CACHE_TIME=1 OPEN_PLATFORM_SERVICE_URL=\"http://platform-i01.dbc.dk:8080/\" PORT=3334 ./node_modules/.bin/cucumberjs --compilers js:babel/register selenium/features --fail-fast",
     "features:junit": "STANDARD_CACHE_TIME=1 SC_LOGLEVEL=0 PORT=3334 cucumber.js --format=json --compilers js:babel/register selenium/features | ./node_modules/.bin/cucumber-junit > feature_report.xml",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
-    "mmj:serve": "redis-server --daemonize yes && . ./mmj.env && forever -w --watchDirectory src/server --killSignal=SIGTERM src/main.js",
+    "mmj:serve": ". ./mmj.env && forever -w --watchDirectory src/server --killSignal=SIGTERM src/main.js",
     "serve": "nodemon --exec node --no-stdin src/main.js",
     "selenium": "mocha -t 80000 selenium/selenium_test.js",
     "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
@@ -25,18 +25,7 @@
     "test:watch": "karma start",
     "tail": "tail -f log.log",
     "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
-    "sonar": "sonar-runner -Dsonar.projectKey=biblo:local -Dsonar.projectName=BibloLocal -Dsonar.projectVersion=1.0 -Dsonar.sources=./src",
-    "jest": "jest"
-  },
-  "jest": {
-    "setupFiles": ["./tests.general.js"],
-    "roots": ["./src/"],
-    "testRegex": "/__tests__/.*.test.js",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    "sonar": "sonar-runner -Dsonar.projectKey=biblo:local -Dsonar.projectName=BibloLocal -Dsonar.projectVersion=1.0 -Dsonar.sources=./src"
   },
   "repository": {
     "type": "git",
@@ -98,7 +87,6 @@
     "history": "^4.7.2",
     "html-pdf": "^2.2.0",
     "ignore-styles": "^5.0.1",
-    "jest": "^22.0.5",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
@@ -125,7 +113,6 @@
     "react-redux": "^5.0.6",
     "react-visibility-sensor": "^3.11.0",
     "redux": "^3.7.2",
-    "redux-logger": "^3.0.6",
     "redux-thunk": "2.2.0",
     "request": "^2.83.0",
     "sanitize-html": "^1.16.3",
@@ -180,6 +167,7 @@
     "raf": "^3.4.0",
     "react-test-renderer": "^16.2.0",
     "redux-devtools": "^3.0.2",
+    "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.0.2",
     "selenium-webdriver": "^3.0.1",
     "sinon": "^4.1.3",

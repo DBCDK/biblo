@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import autosize from 'autosize';
 import {isEmpty} from 'lodash';
 import dateformat from '../../../Utils/dateInputPolyfill/dateformat';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
@@ -149,9 +150,9 @@ export default class ProfileForm extends React.Component {
 
             <div className="padded-area">
               <DisplayNameField
-                defaultValue={this.props.displayName}
+                value={this.state.displayName}
                 errors={errorObj}
-                onChangeFunc={e => this.setState({displayName: e.target.value})}
+                onChangeFunc={e => this.setState({displayName: sanitizeHtml(e.target.value)})}
                 checkDisplayNameFunction={this.props.checkDisplayNameFunction}
                 displayNameExists={this.props.displayNameExists}
               />
@@ -164,11 +165,11 @@ export default class ProfileForm extends React.Component {
                   <textarea
                     placeholder="Her kan du skrive lidt om dig selv"
                     name="description"
-                    defaultValue={this.props.description}
+                    value={this.state.description}
                     ref={description => {
                       this.descriptionRef = description;
                     }}
-                    onChange={e => this.setState({description: e.target.value})}
+                    onChange={e => this.setState({description: sanitizeHtml(e.target.value)})}
                   />
                   {errorObj.description || ''}
                 </label>

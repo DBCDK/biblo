@@ -1,4 +1,5 @@
 import textParser from './text.parser';
+import sanitizeHtml from './../../utils/serverSideSanitizeHtml.util';
 
 /**
  *
@@ -12,8 +13,8 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
   let p = {};
 
   p.raw = {
-    description: profile.description,
-    displayName: profile.displayName
+    description: sanitizeHtml(profile.description),
+    displayName: sanitizeHtml(profile.displayName)
   };
 
   p.description = textParser(profile.description || '', true, 'break');
@@ -66,7 +67,8 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
   }
 
   /**
-   * To get the correct value, remember to include "communityRoles" relation when getting profile (see getFullProfile transform).
+   * To get the correct value, remember to include "communityRoles" relation when getting profile (see getFullProfile
+   * transform).
    * @type {boolean}
    */
   p.isModerator = !!(profile.communityRoles && Array.isArray(profile.communityRoles) && profile.communityRoles.filter((role) => {

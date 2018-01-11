@@ -2,6 +2,9 @@ language: node_js
 sudo: false
 dist: trusty
 
+addons:
+  chrome: stable
+
 cache:
   bundler: true
   directories:
@@ -18,6 +21,7 @@ before_install:
 env:
 - TEST_SUITE=lint
 - TEST_SUITE=test
+- TEST_SUITE=features
 
 script:
 - "npm run $TEST_SUITE"

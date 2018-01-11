@@ -26,7 +26,7 @@ function postToPreview(widgetConfig) {
 function World() {
   const chromeCapabilities = webdriver.Capabilities.chrome();
   const chromeOptions = {
-    // args: ['--headless', '--disable-gpu', '--window-size=1280,800']
+    args: ['--headless', '--disable-gpu', '--window-size=1280,800']
   };
   chromeCapabilities.set('chromeOptions', chromeOptions);
   this.browser = new webdriver.Builder().withCapabilities(chromeCapabilities).build();

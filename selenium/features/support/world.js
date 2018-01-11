@@ -2,7 +2,7 @@ import webdriver, {By, until} from 'selenium-webdriver';
 import fs from 'fs';
 import * as path from 'path';
 
-const driverTimeout = 2000;
+const driverTimeout = 10000;
 
 function postToPreview(widgetConfig) {
   const callback = arguments[arguments.length - 1];
@@ -25,7 +25,9 @@ function postToPreview(widgetConfig) {
 
 function World() {
   const chromeCapabilities = webdriver.Capabilities.chrome();
-  const chromeOptions = {};
+  const chromeOptions = {
+    // args: ['--headless', '--disable-gpu', '--window-size=1280,800']
+  };
   chromeCapabilities.set('chromeOptions', chromeOptions);
   this.browser = new webdriver.Builder().withCapabilities(chromeCapabilities).build();
 

@@ -174,7 +174,7 @@ export default function widgetReducer(state = initialState, action = {}) {
 
     case types.GOT_WORKS: {
       const newState = Object.assign({}, state.EditoriallySelectedMaterialsWidget);
-      const identifier = action.data.requestedPids.join();
+      const identifier = Array.isArray(action.data.requestedPids) ? action.data.requestedPids.join() : '';
       newState.works[identifier] = action.data.data;
 
       return assignToEmpty(state, {EditoriallySelectedMaterialsWidget: newState});

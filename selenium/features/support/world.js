@@ -2,7 +2,7 @@ import webdriver, {By, until} from 'selenium-webdriver';
 import fs from 'fs';
 import * as path from 'path';
 
-const driverTimeout = 10000;
+const driverTimeout = 2000;
 
 function postToPreview(widgetConfig) {
   const callback = arguments[arguments.length - 1];

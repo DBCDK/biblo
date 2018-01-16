@@ -21,12 +21,11 @@
     "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
     "start:watch": "webpack --progress --colors --watch -d",
-    "test": "karma start --single-run=true",
+    "test": "jest",
     "test:watch": "karma start",
     "tail": "tail -f log.log",
     "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
-    "sonar": "sonar-runner -Dsonar.projectKey=biblo:local -Dsonar.projectName=BibloLocal -Dsonar.projectVersion=1.0 -Dsonar.sources=./src",
-    "jest": "jest"
+    "sonar": "sonar-runner -Dsonar.projectKey=biblo:local -Dsonar.projectName=BibloLocal -Dsonar.projectVersion=1.0 -Dsonar.sources=./src"
   },
   "jest": {
     "setupFiles": [

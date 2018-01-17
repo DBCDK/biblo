@@ -28,7 +28,7 @@
   },
   "jest": {
     "setupFiles": [
-      "./tests.general.js"
+      "./testlib/tests.setup.js"
     ],
     "roots": [
       "./src/"

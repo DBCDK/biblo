@@ -21,11 +21,23 @@
     "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
     "start:watch": "webpack --progress --colors --watch -d",
-    "test": "karma start --single-run=true",
-    "test:watch": "karma start",
+    "test": "jest",
     "tail": "tail -f log.log",
     "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
     "sonar": "sonar-runner -Dsonar.projectKey=biblo:local -Dsonar.projectName=BibloLocal -Dsonar.projectVersion=1.0 -Dsonar.sources=./src"
+  },
+  "jest": {
+    "setupFiles": [
+      "./tests.general.js"
+    ],
+    "roots": [
+      "./src/"
+    ],
+    "testRegex": "/__tests__/.*.test.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   },
   "repository": {
     "type": "git",
@@ -87,6 +99,7 @@
     "history": "^4.7.2",
     "html-pdf": "^2.2.0",
     "ignore-styles": "^5.0.1",
+    "jest": "^22.1.1",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
@@ -149,19 +162,6 @@
     "forever": "^0.15.3",
     "glob": "^7.0.3",
     "jsdom": "^11.5.1",
-    "jsdom-global": "^3.0.2",
-    "json-loader": "^0.5.2",
-    "karma": "^1.1.2",
-    "karma-cli": "1.0.1",
-    "karma-coverage": "^1.1.1",
-    "karma-jsdom-launcher": "^6.1.2",
-    "karma-junit-reporter": "^1.0.0",
-    "karma-mocha": "^1.0.1",
-    "karma-mocha-reporter": "^2.0.3",
-    "karma-sinon": "^1.0.4",
-    "karma-webpack": "^2.0.9",
-    "mocha": "^4.0.1",
-    "mocha-jenkins-reporter": "^0.3.1",
     "nock": "^9.1.5",
     "node-libs-browser": "^2.0.0",
     "node-noop": "^1.0.0",

@@ -166,7 +166,6 @@
     "node-libs-browser": "^2.0.0",
     "node-noop": "^1.0.0",
     "raf": "^3.4.0",
-    "react-test-renderer": "^16.2.0",
     "redux-devtools": "^3.0.2",
     "redux-mock-store": "^1.0.2",
     "selenium-webdriver": "^3.0.1",

@@ -4,7 +4,10 @@
 
 // import libs
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {expect} from 'chai';
+import {mount} from 'enzyme';
+import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
+import snapshot from './__snapshots__/ContentPage.widgets.test.snapshots.js';
 
 // import components
 import WidgetContainer from '../WidgetContainer.component';
@@ -34,7 +37,7 @@ describe('Test ContentPages Widgets', () => {
     const wrapper = mount(component);
 
     const textInnerHTML = wrapper.find('.content-page--text-widget').text();
-    expect(textInnerHTML).toBe('Bob er sej!');
+    expect(textInnerHTML).to.equal('Bob er sej!');
   });
 
   it('ContentPageImage should render', () => {
@@ -63,9 +66,9 @@ describe('Test ContentPages Widgets', () => {
     const wrapper = mount(component);
 
     const renderedImage = wrapper.find('.content-page--image-widget').find('img').props();
-    expect(renderedImage.src).toBe('bob');
-    expect(renderedImage.alt).toBe('bob2');
-    expect(renderedImage.title).toBe('bob3');
+    expect(renderedImage.src).to.equal('bob');
+    expect(renderedImage.alt).to.equal('bob2');
+    expect(renderedImage.title).to.equal('bob3');
   });
 
   it('ContentPageEmbeddedVideo should render', () => {
@@ -80,11 +83,14 @@ describe('Test ContentPages Widgets', () => {
       widgetConfig: {type: 'YouTube', src: 'https://www.youtube.com/embed/qZ3fiOctBkE'}
     };
 
-    const tree = shallow(<WidgetContainer
+    const renderer = new ShallowRenderer();
+    renderer.render(<WidgetContainer
       widgetLocationName={widgetLocationName}
       widgetState={widgetState}
       widgetActions={widgetActions} />);
 
-    expect(tree).toMatchSnapshot();
+    const result = renderer.getRenderOutput();
+
+    expect(JSON.stringify(result)).to.equal(JSON.stringify(snapshot.ContentPageEmbeddedVideoShouldRender));
   });
 });

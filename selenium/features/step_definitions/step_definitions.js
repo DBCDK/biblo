@@ -217,7 +217,7 @@ var myStepDefinitionsWrapper = function() {
   });
 
   this.Then(/^the page contains a post with a campaign logo$/, function() {
-    return this.$('.post--campaign--logo > span > img')
+    return this.$('.post--campaign--logo > div > img')
       .then(logo => logo.getAttribute('src'))
       .then(src => expect(src).to.contain('/sommerbogen-logo.svg'));
   });

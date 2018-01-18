@@ -13,30 +13,47 @@ import './icon.scss';
  * @returns {XML}
  * @constructor
  */
-export default function Icon({glyph, svgLink, width = 16, height = 16, className = 'icon'}) {
+export default class Icon extends React.Component {
+  static propTypes = {
+    glyph: PropTypes.any,
+    svgLink: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    className: PropTypes.string
+  };
 
-  let innerIcon = (
-    <svg className={className} viewBox={glyph.viewBox}>
-      <use xlinkHref={`#${glyph.id}`}></use>
-    </svg>
-  );
+  static defaultProps = {
+    width: 16,
+    height: 16,
+    className: 'icon'
+  };
 
-  if (svgLink) {
-    innerIcon = (<img src={svgLink} className='svg' height={height} />);
+  state = {
+    isClient: false
+  };
+
+  componentDidMount() {
+    this.setState({isClient: true});
   }
 
-  return (
-    <div className={`${className}--container`} style={{width, height}}>
-      {innerIcon}
-      <div className='icon--svg--click-overlay'></div>
-    </div>
-  );
-}
+  render() {
+    let innerIcon = this.state.isClient ? (
+      <svg className={this.props.className} viewBox={this.props.glyph.viewBox}>
+        <use xlinkHref={`#${this.props.glyph.id}`} />
+      </svg>
+    ) : null;
 
-Icon.propTypes = {
-  glyph: PropTypes.any,
-  svgLink: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  className: PropTypes.string
-};
+    if (this.props.svgLink && this.state.isClient) {
+      innerIcon = (<img src={this.props.svgLink} className='svg' height={this.props.height} />);
+    }
+
+    return (
+      <div className={`${this.props.className}--container`} style={{
+        width: this.props.width, height: this.props.height
+      }}>
+        {innerIcon}
+        <div className='icon--svg--click-overlay'></div>
+      </div>
+    );
+  }
+}

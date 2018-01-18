@@ -10,6 +10,7 @@ import './scss/cookie-warning.scss';
 
 // SVGs
 import logo from './biblo_logo_100x30.svg';
+import Icon from '../General/Icon/Icon.component';
 
 export default class CookieWarningContainer extends React.Component {
   constructor() {
@@ -17,8 +18,13 @@ export default class CookieWarningContainer extends React.Component {
 
     // Assume they've already seen the warning
     this.state = {
+      isClient: false,
       displayWarning: (typeof window !== 'undefined') ? !Cookies.get('reddi-fe-cookie') : false
     };
+  }
+
+  componentDidMount() {
+    this.setState({isClient: true});
   }
 
   onClose() {
@@ -28,11 +34,11 @@ export default class CookieWarningContainer extends React.Component {
 
   render() {
     return (
-      this.state.displayWarning &&
+      (this.state.displayWarning && this.state.isClient) &&
       <ModalWindow onClose={this.onClose.bind(this)} >
         <div className="cookie-warning" >
           <div className="cookie-warning--svg">
-            <svg><use xlinkHref={logo} /></svg>
+            <Icon glyph={logo} width={100} height={30} />
           </div>
           <span className="cookie-warning--header" >
             Velkommen til biblo.dk

@@ -30,7 +30,6 @@ module.exports = [
       path: path.join(__dirname, 'public/js'),
       filename: '[name].js'
     },
-    cache: true,
 
     resolve: {
       modules: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')]
@@ -77,12 +76,10 @@ module.exports = [
         },
         {
           test: /\.svg$/,
-          loader:
-          'svg-sprite-loader?' +
-          JSON.stringify({
-            name: '[pathhash]',
-            prefixize: true
-          })
+          loader: 'svg-sprite-loader',
+          options: {
+            symbolId: '[hash]'
+          }
         }
       ]
     },

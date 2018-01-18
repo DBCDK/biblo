@@ -48,11 +48,10 @@ export default class Icon extends React.Component {
     }
 
     return (
-      <div className={`${this.props.className}--container`} style={{
+      <div className={`${this.props.className}--container icon--container`} style={{
         width: this.props.width, height: this.props.height
       }}>
         {innerIcon}
-        <div className='icon--svg--click-overlay'></div>
       </div>
     );
   }

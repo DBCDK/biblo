@@ -3,8 +3,7 @@
  */
 
 import React from 'react';
-import {assert} from 'chai';
-import sd from 'skin-deep';
+import {shallow} from 'enzyme';
 import Cookies from 'js-cookie';
 
 import CookieWarningContainer from '../CookieWarningContainer.component';
@@ -13,17 +12,21 @@ describe('Testing the CookieWarningContainer component', () => {
 
   it('Should render a modal', () => {
     Cookies.remove('reddi-fe-cookie');
-    const tree = sd.shallowRender(<CookieWarningContainer />);
-    assert.isNotFalse(tree.subTree('.cookie-warning'), 'A cookie warning was rendered');
+    const tree = shallow(<CookieWarningContainer />);
+
+    expect(tree.find('.cookie-warning')).toHaveLength(1); // eslint-disable-line no-undef
+    expect(tree).toMatchSnapshot(); // eslint-disable-line no-undef
   });
 
   it('Should hide the cookie warning', () => {
-    const tree = sd.shallowRender(<CookieWarningContainer />);
-    const instance = tree.getMountedInstance();
-    assert.isTrue(instance.state.displayWarning);
-    instance.onClose();
-    assert.isFalse(instance.state.displayWarning, 'state.displayWarning is false after the onClose method was invoked');
+    const tree = shallow(<CookieWarningContainer />);
+    const instance = tree.instance();
 
-    assert.isFalse(tree.subTree('.cookie-warning'), 'No cookie warning was found after the onClose method was invoked');
+    expect(instance.state.displayWarning).toBe(true); // eslint-disable-line no-undef
+    instance.onClose();
+    tree.update();
+
+    expect(instance.state.displayWarning).toBe(false); // eslint-disable-line no-undef
+    expect(tree.find('.cookie-warning')).toHaveLength(0); // eslint-disable-line no-undef
   });
 });

@@ -6,32 +6,30 @@ import './icon.scss';
  * Creates an SVG Icon. Import the svg file and pass it as a glyph property
  *
  * @param glyph
+ * @param svgLink
  * @param width
  * @param height
  * @param className
- // * @param svgLink
  * @returns {XML}
  * @constructor
  */
 export default function Icon({glyph, svgLink, width = 16, height = 16, className = 'icon'}) {
 
   let innerIcon = (
-    <svg className={className} width={width} height={height} >
-      <use xlinkHref={glyph} />
+    <svg className={className} viewBox={glyph.viewBox}>
+      <use xlinkHref={`#${glyph.id}`}></use>
     </svg>
   );
 
   if (svgLink) {
-    innerIcon = (
-      <img src={svgLink} className='svg' height={height}/>
-    );
+    innerIcon = (<img src={svgLink} className='svg' height={height} />);
   }
 
   return (
-    <span className={className + '--container'} style={{width, height, position: 'relative'}}>
+    <div className={`${className}--container`} style={{width, height}}>
       {innerIcon}
       <div className='icon--svg--click-overlay'></div>
-    </span>
+    </div>
   );
 }
 

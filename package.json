@@ -20,7 +20,7 @@
     "selenium": "mocha -t 80000 selenium/selenium_test.js",
     "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
-    "start:watch": "webpack --progress --colors --watch -d",
+    "start:watch": "rm -r ./public && webpack --progress --colors --watch -d",
     "test": "jest",
     "tail": "tail -f log.log",
     "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
@@ -33,7 +33,7 @@
     "roots": [
       "./src/"
     ],
-    "testRegex": "(__tests__\/).*test.js$",
+    "testRegex": "(__tests__/).*test.js$",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
@@ -59,7 +59,7 @@
     "autolinker": "^1.6.0",
     "autoprefixer": "^7.2.3",
     "autosize": "^4.0.0",
-    "aws-sdk": "^2.173.0",
+    "aws-sdk": "^2.184.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -81,7 +81,7 @@
     "compass-sass-mixins": "^0.12.7",
     "compression": "^1.7.1",
     "connect-redis": "^3.3.2",
-    "css-loader": "^0.28.7",
+    "css-loader": "^0.28.9",
     "dbc-node-entitysuggest": "^2.0.2",
     "dbc-node-logger": "^1.4.11",
     "dbc-node-openagency-client": "^2.0.4",
@@ -99,7 +99,7 @@
     "history": "^4.7.2",
     "html-pdf": "^2.2.0",
     "ignore-styles": "^5.0.1",
-    "jest": "^22.1.1",
+    "jest": "^22.1.2",
     "js-cookie": "^2.2.0",
     "jsdom": "^11.5.1",
     "lodash": "^4.17.4",
@@ -137,7 +137,7 @@
     "superagent": "^3.8.2",
     "susy": "2.2.12",
     "svg-inline-loader": "^0.8.0",
-    "svg-sprite-loader": "^0.0.31",
+    "svg-sprite-loader": "^3.6.2",
     "twemoji": "^2.5.0",
     "vhost": "3.0.2",
     "walk": "2.3.9",

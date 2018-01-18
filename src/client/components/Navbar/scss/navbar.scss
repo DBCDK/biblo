@@ -71,15 +71,26 @@
   }
   .navbar--link {
     display: inline-block;
-    width: 35px;
-    height: 35px;
   }
 }
 
-.navbar--profile, .navbar--search {
+.navbar--search {
+  fill: white;
+  height: 35px;
+  width: 35px;
+  padding: 5px;
+}
+
+.navbar--search--container {
+  background-color: $melrose;
+}
+
+.navbar--profile, .navbar--search--container {
   pointer-events: none;
   vertical-align: middle;
   display: inline-block;
-  width: 35px;
-  height: 35px;
+}
+
+.svg-logo {
+  fill: white;
 }

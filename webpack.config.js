@@ -76,10 +76,7 @@ module.exports = [
         },
         {
           test: /\.svg$/,
-          loader: 'svg-sprite-loader',
-          options: {
-            symbolId: '[hash]'
-          }
+          loader: 'svg-sprite-loader'
         }
       ]
     },

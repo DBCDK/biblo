@@ -13,7 +13,6 @@ import NavBarProfileImage from './NavBarProfileImage.component';
 import Icon from '../General/Icon/Icon.component';
 import LogoutWarning from '../LogoutWarning/LogoutWarningContainer.component';
 
-
 // Constants
 import {DET_SKER_PAGE, PUBLIC_PROFILE} from '../../Constants/hyperlinks.constants';
 
@@ -38,6 +37,7 @@ export default class NavbarContainer extends React.Component {
     super(props);
 
     this.state = {
+      isClient: false,
       displayLogoutWarning: this.props.profileState.displayLogoutWarning,
       active: {
         profile: false,
@@ -45,6 +45,10 @@ export default class NavbarContainer extends React.Component {
         button: false
       }
     };
+  }
+
+  componentDidMount() {
+    this.setState({isClient: true});
   }
 
   onToggle(type) {
@@ -78,14 +82,13 @@ export default class NavbarContainer extends React.Component {
       };
     }
 
-    if (image.shouldDisplay) {
+    if (image.shouldDisplay && this.state.isClient) {
       return (
         <NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')} notifications={image.unreadMessages} />);
     }
+
     return (
       <NavBarIconLink
-        width={35}
-        height={35}
         className="navbar--profile"
         url="#"
         glyph={profileSvg}
@@ -94,65 +97,70 @@ export default class NavbarContainer extends React.Component {
     );
   }
 
-  renderSearch() {
-    return (
-      <NavBarIconLink
-        width={35}
-        height={35}
-        className="navbar--search"
-        url="#"
-        glyph={searchSvg}
-        onClick={() => this.toggleSearchBox()}
-      />
-    );
-  }
-
   renderProfileLinks() {
     if (!image.shouldDisplay) {
       return (
-        <ul className="" >
+        <ul>
           <li><NavbarLink value='Log ind' url='/login' /></li>
         </ul>
       );
     }
 
     return (
-      <ul className="" >
+      <ul>
         <li><NavbarLink value='Profil' url='/profil' /></li>
         <li><NavbarLink value='Log ud' url='/logout' className='log-out-button' /></li>
       </ul>
     );
   }
 
+  getRightSideMenu() {
+    return (
+      <React.Fragment>
+        <NavBarIconLink
+          className="navbar--search"
+          url="#"
+          glyph={searchSvg}
+          onClick={() => this.toggleSearchBox()}
+        />
+
+        {this.renderProfile()}
+        <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')} />
+      </React.Fragment>
+    );
+  }
+
   render() {
     const menus = {};
     const menuState = this.props.globalState.menu;
+    const profileLinks = this.renderProfileLinks();
+    const rightSideMenu = this.getRightSideMenu();
 
     if (menuState && Array.isArray(menuState.main) && Array.isArray(menuState.footer)) {
       menus.main = menuState.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
-      menus.footer = menuState.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
+      menus.footer = menuState.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} />
+      </li>);
     }
 
     return (
-      <div className="navbar" >
-        <div className="navbar--container" >
-          <div className="navbar--menu" >
-            <ul className="inline-list" >
+      <div className="navbar">
+        <div className="navbar--container">
+          <div className="navbar--menu">
+            <ul className="inline-list">
               <li>
-                <a className='bibloLogo' href={DET_SKER_PAGE} >
-                  <Icon icon="profile" width={100} height={30} glyph={bibloSvg} />
-                </a></li>
+                <a className='bibloLogo' href={DET_SKER_PAGE}>
+                  <Icon className={'svg-logo'} width={100} height={30} glyph={bibloSvg} />
+                </a>
+              </li>
               {menus.main}
             </ul>
           </div>
 
-          <div className="navbar--icons" >
-            {this.renderSearch()}
-            {this.renderProfile()}
-            <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')} />
+          <div className="navbar--icons">
+            {rightSideMenu}
           </div>
         </div>
-        <NavbarMobileMenu active={this.state.active.menu} type='menu' >
+        <NavbarMobileMenu active={this.state.active.menu} type='menu'>
           <div>
             <ul className="navbar--mobile-main-menu">
               {menus.main}
@@ -162,15 +170,15 @@ export default class NavbarContainer extends React.Component {
             </ul>
           </div>
         </NavbarMobileMenu>
-        <NavbarMobileMenu active={this.state.active.profile} type='profile' >
+        <NavbarMobileMenu active={this.state.active.profile} type='profile'>
           <div>
-            {this.renderProfileLinks()}
+            {profileLinks}
           </div>
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')} />
         <SearchContainer search={this.props.searchState} searchActions={this.props.searchActions} />
         {
-          this.state.displayLogoutWarning && <LogoutWarning/>
+          this.state.displayLogoutWarning && <LogoutWarning />
         }
       </div>
     );

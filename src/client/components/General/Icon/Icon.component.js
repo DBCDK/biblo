@@ -37,7 +37,7 @@ export default class Icon extends React.Component {
   }
 
   render() {
-    let innerIcon = this.state.isClient ? (
+    let innerIcon = this.state.isClient && this.props.glyph ? (
       <svg className={this.props.className} viewBox={this.props.glyph.viewBox}>
         <use xlinkHref={`#${this.props.glyph.id}`} />
       </svg>

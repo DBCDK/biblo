@@ -69,13 +69,15 @@ export class LatestReviewsWidget extends AbstractWidget {
     }
 
     reviews = reviews.map((review) => {
-      return (
-        <CompactReviewElement
-          key={`compact_review_${review.id}`}
-          review={review}
-          coverImages={this.props.widgetState.CoverImages || {}}
-          getCoverImageAction={this.props.widgetActions.asyncGetCoverImage}/>
-      );
+      if (review) {
+        return (
+          <CompactReviewElement
+            key={`compact_review_${review.id}`}
+            review={review}
+            coverImages={this.props.widgetState.CoverImages || {}}
+            getCoverImageAction={this.props.widgetActions.asyncGetCoverImage} />
+        );
+      }
     });
 
     return (

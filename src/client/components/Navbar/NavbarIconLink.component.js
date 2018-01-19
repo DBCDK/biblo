@@ -12,8 +12,8 @@ export function NavBarIconLink(props) {
     >
       <Icon
         className={props.className}
-        width={props.width}
-        height={props.height}
+        width={35}
+        height={35}
         glyph={props.glyph}
       />
     </a>
@@ -21,8 +21,6 @@ export function NavBarIconLink(props) {
 }
 
 NavBarIconLink.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
   url: PropTypes.string.isRequired,
   glyph: PropTypes.any.isRequired,
   className: PropTypes.string.isRequired,

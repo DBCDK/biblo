@@ -11,13 +11,19 @@ import './scss/site-closed-warning.scss';
 
 // SVGs
 import logo from './skrivepause.svg';
+import Icon from '../General/Icon/Icon.component';
 
 export default class SiteClosedWarningContainer extends React.Component {
   constructor() {
     super();
     this.state = {
+      isClient: false,
       displayWarning: !Cookies.get('site-closed-warning-was-seen') && !isSiteOpen()
     };
+  }
+
+  componentDidMount() {
+    this.setState({isClient: true});
   }
 
   onClose() {
@@ -28,13 +34,11 @@ export default class SiteClosedWarningContainer extends React.Component {
 
   render() {
     return (
-      this.state.displayWarning && (
+      (this.state.displayWarning && this.state.isClient) && (
         <ModalWindow onClose={this.onClose.bind(this)}>
           <div className="site-closed-warning">
             <div className="site-closed-warning--svg">
-              <svg>
-                <use xlinkHref={logo} />
-              </svg>
+              <Icon glyph={logo} width={100} height={30} />
             </div>
             <span className="site-closed-warning--header">
               <p>Indtil kl. 9 kan du kun læse og se indholdet her på Biblo.</p>

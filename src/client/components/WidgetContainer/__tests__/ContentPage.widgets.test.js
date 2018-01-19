@@ -34,7 +34,7 @@ describe('Test ContentPages Widgets', () => {
     const wrapper = mount(component);
 
     const textInnerHTML = wrapper.find('.content-page--text-widget').text();
-    expect(textInnerHTML).toBe('Bob er sej!'); // eslint-disable-line no-undef
+    expect(textInnerHTML).toBe('Bob er sej!');
   });
 
   it('ContentPageImage should render', () => {
@@ -63,9 +63,9 @@ describe('Test ContentPages Widgets', () => {
     const wrapper = mount(component);
 
     const renderedImage = wrapper.find('.content-page--image-widget').find('img').props();
-    expect(renderedImage.src).toBe('bob'); // eslint-disable-line no-undef
-    expect(renderedImage.alt).toBe('bob2'); // eslint-disable-line no-undef
-    expect(renderedImage.title).toBe('bob3'); // eslint-disable-line no-undef
+    expect(renderedImage.src).toBe('bob');
+    expect(renderedImage.alt).toBe('bob2');
+    expect(renderedImage.title).toBe('bob3');
   });
 
   it('ContentPageEmbeddedVideo should render', () => {
@@ -85,6 +85,6 @@ describe('Test ContentPages Widgets', () => {
       widgetState={widgetState}
       widgetActions={widgetActions} />);
 
-    expect(tree).toMatchSnapshot(); // eslint-disable-line no-undef
+    expect(tree).toMatchSnapshot();
   });
 });

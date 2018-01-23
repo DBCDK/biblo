@@ -1,3 +1,4 @@
+/* eslint-disable react/require-render-return */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -102,8 +103,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadpdf');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percentage = e.loaded / e.total * 100;
-          attachment.pdf.file.progress = percentage;
+          attachment.pdf.file.progress = e.loaded / e.total * 100;
           if (onProgress) {
             onProgress(attachment);
           }
@@ -133,6 +133,7 @@ export default class UploadMedia extends React.Component {
   /**
    * Handle image uploads
    * @param file the file to be uploaded
+   * @param onProgress
    * @returns {Promise}  returns a promise with attachment if success or a error mesage if rejected
    */
   handleImage(file, onProgress) {
@@ -157,8 +158,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadimage');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percentage = e.loaded / e.total * 100;
-          attachment.image.file.progress = percentage;
+          attachment.image.file.progress = e.loaded / e.total * 100;
           if (onProgress) {
             onProgress(attachment);
           }
@@ -205,8 +205,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadvideo');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          const percentage = e.loaded / e.total * 100;
-          attachment.video.file.progress = percentage;
+          attachment.video.file.progress = e.loaded / e.total * 100;
           if (onProgress) {
             onProgress(attachment);
           }
@@ -258,6 +257,10 @@ export default class UploadMedia extends React.Component {
     else {
       this.setState({attachment: attachment, imageRemoved: true});
     }
+  }
+
+  render() {
+    throw new Error('This is an abstract class which should be exxtended, not rendered directly.');
   }
 }
 

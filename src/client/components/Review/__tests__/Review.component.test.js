@@ -1,6 +1,5 @@
 import React from 'react';
 import sd from 'skin-deep';
-import sinon from 'sinon';
 
 import Review from '../Review.component';
 import {profileMock} from '../../__mocks__/profile.mock.js';
@@ -121,9 +120,8 @@ describe('Test of Review Component ', () => {
         />
       );
 
-      let instance = component.getMountedInstance();
-
-      const spy = sinon.spy(instance, 'overwriteReview');
+      const instance = component.getMountedInstance();
+      const spy = jest.spyOn(instance, 'overwriteReview');
 
       instance.addContent = () => {
         return new Promise((resolve, reject) => {
@@ -134,7 +132,7 @@ describe('Test of Review Component ', () => {
       instance
         .processContent()
         .then(() => {
-          expect(spy.called).toBe(true);
+          expect(spy).toHaveBeenCalled();
           done();
         })
         .catch(err => {

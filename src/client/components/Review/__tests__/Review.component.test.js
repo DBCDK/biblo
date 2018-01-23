@@ -1,6 +1,5 @@
 import React from 'react';
 import sd from 'skin-deep';
-import {assert} from 'chai';
 import sinon from 'sinon';
 
 import Review from '../Review.component';
@@ -47,7 +46,7 @@ describe('Test of Review Component ', () => {
     instance
       .processContent()
       .then(() => {
-        assert.isNotFalse(component.subTree('Message'));
+        expect(component.subTree('Message')).toBeTruthy();
       })
       .catch(() => {});
   });
@@ -73,7 +72,7 @@ describe('Test of Review Component ', () => {
     );
     let instance = component.getMountedInstance();
     instance.validate();
-    assert.isNotFalse(component.subTree('Message'), 'error message was not found');
+    expect(component.subTree('Message')).toBeTruthy();
   });
 
   it('should not be able to submit if the user is not logged in', () => {
@@ -97,7 +96,7 @@ describe('Test of Review Component ', () => {
       />
     );
 
-    assert.isFalse(component.subTree('form'));
+    expect(component.subTree('form')).toBe(false);
   });
 
   it('should open a modal on a duplicate review for a work - test', done => {
@@ -135,7 +134,7 @@ describe('Test of Review Component ', () => {
       instance
         .processContent()
         .then(() => {
-          assert.isTrue(spy.called, 'did not call overwriteReview');
+          expect(spy.called).toBe(true);
           done();
         })
         .catch(err => {

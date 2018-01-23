@@ -58,6 +58,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
         </h2>
         <Review
           {...highlightedReview}
+          autoplayVideo={true}
           profile={profile}
           likes={highlightedReview.likes}
           uiActions={uiActions}

@@ -1,5 +1,5 @@
 import React from 'react';
-import sd from 'skin-deep';
+import {shallow} from 'enzyme';
 
 import Review from '../Review.component';
 import {profileMock} from '../../__mocks__/profile.mock.js';
@@ -22,7 +22,7 @@ describe('Test of Review Component ', () => {
   };
 
   it('onSubmit method should add an error if content is empty', () => {
-    const component = sd.shallowRender(
+    const component = shallow(
       <Review
         autoplayVideo={false}
         isEditing={true}
@@ -41,7 +41,7 @@ describe('Test of Review Component ', () => {
       />
     );
 
-    let instance = component.getMountedInstance();
+    const instance = component.instance();
     instance
       .processContent()
       .then(() => {
@@ -51,7 +51,7 @@ describe('Test of Review Component ', () => {
   });
 
   it('should add an error if rating is not set', () => {
-    const component = sd.shallowRender(
+    const component = shallow(
       <Review
         autoplayVideo={false}
         isEditing={true}
@@ -69,14 +69,14 @@ describe('Test of Review Component ', () => {
         rating={0}
       />
     );
-    let instance = component.getMountedInstance();
+    const instance = component.instance();
     instance.validate();
-    expect(component.subTree('Message')).toBeTruthy();
+    expect(component.find('Message')).toBeTruthy();
   });
 
   it('should not be able to submit if the user is not logged in', () => {
     profile.userIsLoggedIn = false;
-    const component = sd.shallowRender(
+    const component = shallow(
       <Review
         autoplayVideo={false}
         isEditing={true}
@@ -95,13 +95,13 @@ describe('Test of Review Component ', () => {
       />
     );
 
-    expect(component.subTree('form')).toBe(false);
+    expect(component.find('form')).toHaveLength(0);
   });
 
   it('should open a modal on a duplicate review for a work - test', done => {
     try {
       profile.userIsLoggedIn = true;
-      const component = sd.shallowRender(
+      const component = shallow(
         <Review
           autoplayVideo={false}
           isEditing={true}
@@ -120,7 +120,7 @@ describe('Test of Review Component ', () => {
         />
       );
 
-      const instance = component.getMountedInstance();
+      const instance = component.instance();
       const spy = jest.spyOn(instance, 'overwriteReview');
 
       instance.addContent = () => {

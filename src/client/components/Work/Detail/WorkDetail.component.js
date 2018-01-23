@@ -34,6 +34,44 @@ const displayTypeSvgs = {
 };
 
 export class WorkDetail extends React.Component {
+  static propTypes = {
+    bind: PropTypes.string,
+    bindId: PropTypes.string,
+    fullTitle: PropTypes.string.isRequired,
+    isMultivolume: PropTypes.bool,
+    collectionDetails: PropTypes.array.isRequired,
+    profile: PropTypes.object.isRequired,
+    editText: PropTypes.string.isRequired,
+    toggleReview: PropTypes.func.isRequired,
+    abstract: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    creator: PropTypes.string.isRequired,
+    titleSeries: PropTypes.array.isRequired,
+    descriptionSeries: PropTypes.string.isRequired,
+    displayType: PropTypes.string.isRequired,
+    collection: PropTypes.array.isRequired,
+    coverUrl: PropTypes.string.isRequired,
+    orderState: PropTypes.number,
+    orderMaterialAction: PropTypes.func.isRequired,
+    checkAvailabilityAction: PropTypes.func.isRequired,
+    checkAvailabilityResult: PropTypes.object,
+    checkAvailabilityDone: PropTypes.bool,
+    resetOrderState: PropTypes.func.isRequired,
+    unselectLibraryFunction: PropTypes.func.isRequired,
+    searchForLibraryAction: PropTypes.func.isRequired,
+    saveProfileAction: PropTypes.func.isRequired,
+    librarySearchResults: PropTypes.array.isRequired,
+    fullReview: PropTypes.bool,
+    ownReview: PropTypes.bool,
+    getWorkOnlineAccessAction: PropTypes.func.isRequired,
+    bindDetails: PropTypes.object
+  };
+
+  static defaultProps = {
+    ownReview: false,
+    fullReview: false
+  };
+
   constructor() {
     super();
 
@@ -368,42 +406,3 @@ export class WorkDetail extends React.Component {
     );
   }
 }
-
-WorkDetail.displayName = 'WorkDetail';
-WorkDetail.propTypes = {
-  bind: PropTypes.string,
-  bindId: PropTypes.string,
-  fullTitle: PropTypes.string.isRequired,
-  isMultivolume: PropTypes.bool,
-  collectionDetails: PropTypes.array.isRequired,
-  profile: PropTypes.object.isRequired,
-  editText: PropTypes.string.isRequired,
-  toggleReview: PropTypes.func.isRequired,
-  abstract: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  creator: PropTypes.string.isRequired,
-  titleSeries: PropTypes.string.isRequired,
-  descriptionSeries: PropTypes.string.isRequired,
-  displayType: PropTypes.string.isRequired,
-  collection: PropTypes.array.isRequired,
-  coverUrl: PropTypes.string.isRequired,
-  orderState: PropTypes.number,
-  orderMaterialAction: PropTypes.func.isRequired,
-  checkAvailabilityAction: PropTypes.func.isRequired,
-  checkAvailabilityResult: PropTypes.object,
-  checkAvailabilityDone: PropTypes.bool,
-  resetOrderState: PropTypes.func.isRequired,
-  unselectLibraryFunction: PropTypes.func.isRequired,
-  searchForLibraryAction: PropTypes.func.isRequired,
-  saveProfileAction: PropTypes.func.isRequired,
-  librarySearchResults: PropTypes.array.isRequired,
-  fullReview: PropTypes.bool,
-  ownReview: PropTypes.bool,
-  getWorkOnlineAccessAction: PropTypes.func.isRequired,
-  bindDetails: PropTypes.object
-};
-
-WorkDetail.defaultProps = {
-  ownReview: false,
-  fullReview: false
-};

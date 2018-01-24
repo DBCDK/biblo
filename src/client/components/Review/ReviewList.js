@@ -8,9 +8,10 @@ import ExpandButton from '../General/ExpandButton/ExpandButton.component';
 import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 import './ReviewList.scss';
 
-export default function ReviewList({totalCount, reviews = [], profile = {}, uiActions = null,
-  reviewActions = null, flagActions = null, highlightedReview = null,
-  likeActions = null, expand, delta = 15, pids = [], skip = 0, limit = 100000, isLoading, ownReview}) {
+export default function ReviewList({
+  totalCount, reviews, profile, uiActions, reviewActions, flagActions,
+  highlightedReview, likeActions, expand, delta, pids, skip, limit, isLoading, ownReview
+}) {
 
   let hasMore = false;
   if (totalCount > reviews.length) {
@@ -28,10 +29,10 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
 
   let reviewsCountText;
   if (totalCount === 1) {
-    reviewsCountText = (<div className='reviewsCount'>1 anmeldelse</div>);
+    reviewsCountText = '1 anmeldelse';
   }
   if (totalCount > 1) {
-    reviewsCountText = (<div className='reviewsCount'>{totalCount} anmeldelser</div>);
+    reviewsCountText = `${totalCount} anmeldelser`;
   }
 
   let autoplayVideo = false;
@@ -43,10 +44,10 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
   let highlightSection = <span className="no--highlight" />;
   if (highlightedReview.id) {
     if (totalCount > 1) {
-      reviewsCountText = (<div className='reviewsCount'>Se de {totalCount} andre anmeldelser</div>);
+      reviewsCountText = `Se de ${totalCount} andre anmeldelser`;
     }
     else if (totalCount === 1) {
-      reviewsCountText = (<div className='reviewsCount'>Se den anden anmeldelse</div>);
+      reviewsCountText = 'Se den anden anmeldelse';
     }
 
     highlightSection = (
@@ -76,7 +77,9 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
     <div className='review-list'>
       {highlightSection}
 
-      <h2 className="review-list--header">{reviewsCountText}</h2>
+      <h2 className="review-list--header">
+        <div className='reviewsCount'>{reviewsCountText}</div>
+      </h2>
       {
         reviews
         && reviews.map((item) => (<Review
@@ -119,5 +122,16 @@ ReviewList.propTypes = {
 };
 
 ReviewList.defaultProps = {
-  ownReview: false
+  ownReview: false,
+  reviews: [],
+  profile: {},
+  uiActions: null,
+  reviewActions: null,
+  flagActions: null,
+  highlightedReview: null,
+  likeActions: null,
+  delta: 15,
+  pids: [],
+  skip: 0,
+  limit: 100000
 };

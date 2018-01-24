@@ -53,7 +53,7 @@ export default function ReviewList({totalCount, reviews = [], profile = {}, uiAc
       <div className="highlight-section">
         <h2 className="review-list--header">
           <div className="reviewsCount">Anmeldelse af&nbsp;
-            <span className={'emoji-container'} dangerouslySetInnerHTML={{__html: sanitizeHtml(highlightedReview.owner.displayName)}} />
+          <span className={'emoji-container'} dangerouslySetInnerHTML={{__html: sanitizeHtml(highlightedReview.owner.displayName)}} />
           </div>
         </h2>
         <Review

@@ -49,7 +49,7 @@ ReviewButton.propTypes = {
   editText: PropTypes.string,
   clickFunction: PropTypes.func,
   profile: PropTypes.object,
-  glyph: PropTypes.string,
+  glyph: PropTypes.object,
   loginRequired: PropTypes.bool
 };
 

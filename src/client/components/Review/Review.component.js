@@ -34,6 +34,37 @@ import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
 export default class Review extends UploadMedia {
+  static propTypes = {
+    autoplayVideo: PropTypes.bool.isRequired,
+    owner: PropTypes.object, // for profile image in view
+    profile: PropTypes.object.isRequired, // for editing, flagging, liking
+    id: PropTypes.number,
+    pid: PropTypes.string.isRequired,
+    pids: PropTypes.array, // from openplatform work endpoint (optional)
+    reviewownerid: PropTypes.number,
+    logo: PropTypes.string,
+    isEditing: PropTypes.bool,
+    worktype: PropTypes.string, // term.workType (underværksniveau)
+    content: PropTypes.string,
+    rating: PropTypes.number,
+    reviewActions: PropTypes.object.isRequired,
+    timeCreated: PropTypes.string,
+    image: PropTypes.string,
+    video: PropTypes.object,
+    flagActions: PropTypes.object,
+    likes: PropTypes.array,
+    likeActions: PropTypes.object,
+    uiActions: PropTypes.object.isRequired,
+    errors: PropTypes.array,
+    modified: PropTypes.any,
+    created: PropTypes.any,
+    abort: PropTypes.any,
+    parentId: PropTypes.any,
+    imageId: PropTypes.number,
+    toggleReview: PropTypes.func,
+    ownReview: PropTypes.bool
+  };
+
   constructor(props) {
     super(props);
 
@@ -630,34 +661,3 @@ export default class Review extends UploadMedia {
     /* eslint-enable react/no-danger */
   }
 }
-Review.displayName = 'Review';
-Review.propTypes = {
-  autoplayVideo: PropTypes.bool.isRequired,
-  owner: PropTypes.object, // for profile image in view
-  profile: PropTypes.object.isRequired, // for editing, flagging, liking
-  id: PropTypes.number,
-  pid: PropTypes.string.isRequired,
-  pids: PropTypes.array, // from openplatform work endpoint (optional)
-  reviewownerid: PropTypes.number,
-  logo: PropTypes.string,
-  isEditing: PropTypes.bool,
-  worktype: PropTypes.string, // term.workType (underværksniveau)
-  content: PropTypes.string,
-  rating: PropTypes.number,
-  reviewActions: PropTypes.object.isRequired,
-  timeCreated: PropTypes.string,
-  image: PropTypes.string,
-  video: PropTypes.object,
-  flagActions: PropTypes.object,
-  likes: PropTypes.array,
-  likeActions: PropTypes.object,
-  uiActions: PropTypes.object.isRequired,
-  errors: PropTypes.array,
-  modified: PropTypes.any,
-  created: PropTypes.any,
-  abort: PropTypes.any,
-  parentId: PropTypes.any,
-  imageId: PropTypes.number,
-  toggleReview: PropTypes.func,
-  ownReview: PropTypes.bool
-};

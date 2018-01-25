@@ -30,7 +30,7 @@ export default class GroupSearchResultList extends React.Component {
             </div>
             <div className='description'>
               <div className='title'>
-                <Icon className="icon" glyph={groupSvg}/>
+                <Icon className="icon" glyph={groupSvg} width={20} />
                 {result.name}
               </div>
             </div>

@@ -14,5 +14,6 @@ Feature: Editorially selected materials widget
 
     # Make some assertions on the response
     Then page is not error page
+    Then wait 1000 ms
     And the compact-work-element selector should contain the following items
       | Astro Boy |

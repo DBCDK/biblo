@@ -60,7 +60,7 @@ export default class SearchFilters extends React.Component {
       const activeClass = filters[key].enabled ? 'search-filters--button-active' : '';
       return (
         <li key={key} className={'search-filters--button ' + activeClass} onClick={clickFunction}>
-          <Icon width={36} height={36} glyph={filterIcons[key].svg} />
+          <Icon width={36} height={28} glyph={filterIcons[key].svg} />
         </li>
       );
     });
@@ -78,7 +78,7 @@ export default class SearchFilters extends React.Component {
     const activeClass = groupFilter ? 'search-filters--button-active' : '';
     let groupFilterButton = (
       <a className={'search-filters--button ' + activeClass} onClick={clickFunction}>
-        <Icon width={36} height={36} glyph={groupSvg} />
+        <Icon width={36} height={28} glyph={groupSvg} />
       </a>
     );
 

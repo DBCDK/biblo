@@ -87,7 +87,7 @@ export default class MaterialSearchResultList extends React.Component {
             </div>
             <div className='description' >
               <div className='title' >
-                <Icon glyph={displayTypeSvgs[displayType]} />
+                <Icon glyph={displayTypeSvgs[displayType]} width={20} />
                 {title}
               </div>
             </div>

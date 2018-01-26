@@ -11,11 +11,15 @@
 
   .search-filters--button {
     display: inline-block;
-    padding: 5px 20px;
+    padding: 10px 20px;
     margin-right: 3px;
+    margin-bottom: 3px;
     background-color: $athens-gray;
+    vertical-align: middle;
+
     svg {
       fill: $governor-bay;
+      height: 28px;
     }
 
     &.search-filters--button-active {

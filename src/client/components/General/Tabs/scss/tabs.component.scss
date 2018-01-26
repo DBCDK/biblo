@@ -33,6 +33,7 @@ $tab-bg-color-inactive: $governor-bay;
 
       .icon--container {
         vertical-align: middle;
+        margin-right: 10px;
       }
 
       .icon {
@@ -90,6 +91,7 @@ $tab-bg-color-inactive: $governor-bay;
 
   @include min-screen($tablet){
     display: inline-block;
+    vertical-align: middle;
   }
 }
 

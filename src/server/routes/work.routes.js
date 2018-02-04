@@ -106,7 +106,7 @@ WorkRoutes.get('/:pid', async function(req, res, next) {
     const work = workResult.data[0];
 
     let ownReviewId;
-    let pids = [pid];
+    let pids = Array.isArray(work.collection) ? work.collection : [pid];
 
     let profile = {
       userIsLoggedIn: false,

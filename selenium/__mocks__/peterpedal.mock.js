@@ -10,13 +10,16 @@ module.exports = function peterpedal (times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
   .get('/api/reviews/count')
   .times(times)
-  .query({"access_token":"","where":"{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:05074975\"}]}]}"})
-  .reply(200, {"count":0});
+    .query({
+      "access_token": "",
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:27889654\"},{\"pid\":\"870970-basis:05074975\"}]}]}"
+    })
+    .reply(200, {"count": 7});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
   .get('/api/reviews/')
   .times(times)
-  .query({"filter":"{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:05074975\"}]}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:27889654\"},{\"pid\":\"870970-basis:05074975\"}]}]}}"})
   .reply(200, []);
 
   nock('http://localhost:3000', {encodedQueryParams: true})

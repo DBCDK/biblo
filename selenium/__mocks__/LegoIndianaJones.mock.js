@@ -5,7 +5,6 @@ module.exports = function LegoIndianaJones(times) {
   nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/work/')
     .times(times)
-
     .reply(200, {
       "statusCode": 200,
       "data": [{
@@ -113,13 +112,13 @@ module.exports = function LegoIndianaJones(times) {
     .times(times)
     .query({
       "access_token": "",
-      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"}]}]}"
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"},{\"pid\":\"870970-basis:27312381\"},{\"pid\":\"870970-basis:27364616\"},{\"pid\":\"870970-basis:27312438\"},{\"pid\":\"870970-basis:27312462\"},{\"pid\":\"870970-basis:27312497\"}]}]}"
     })
     .reply(200, {"count": 0});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"}]}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29186626\"},{\"pid\":\"870970-basis:27312381\"},{\"pid\":\"870970-basis:27364616\"},{\"pid\":\"870970-basis:27312438\"},{\"pid\":\"870970-basis:27312462\"},{\"pid\":\"870970-basis:27312497\"}]}]}}"})
     .reply(200, []);
 };

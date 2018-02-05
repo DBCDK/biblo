@@ -218,14 +218,14 @@ module.exports = function krigerkattene(times) {
     .times(times)
     .query({
       "access_token": "",
-      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29283893\"}]}]}"
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:28949847\"},{\"pid\":\"870970-basis:29024707\"},{\"pid\":\"870970-basis:29283893\"},{\"pid\":\"870970-basis:29333793\"},{\"pid\":\"870970-basis:29496226\"},{\"pid\":\"870970-basis:29602352\"},{\"pid\":\"870970-basis:29227365\"},{\"pid\":\"870970-basis:29288658\"},{\"pid\":\"870970-basis:29227756\"},{\"pid\":\"870970-basis:29288623\"},{\"pid\":\"870970-basis:50926419\"},{\"pid\":\"870970-basis:50926400\"},{\"pid\":\"870970-basis:29614636\"},{\"pid\":\"870970-basis:29614857\"},{\"pid\":\"870970-basis:50926427\"},{\"pid\":\"870970-basis:50926443\"}]}]}"
     })
     .reply(200, {"count": 10});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29283893\"}]}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:28949847\"},{\"pid\":\"870970-basis:29024707\"},{\"pid\":\"870970-basis:29283893\"},{\"pid\":\"870970-basis:29333793\"},{\"pid\":\"870970-basis:29496226\"},{\"pid\":\"870970-basis:29602352\"},{\"pid\":\"870970-basis:29227365\"},{\"pid\":\"870970-basis:29288658\"},{\"pid\":\"870970-basis:29227756\"},{\"pid\":\"870970-basis:29288623\"},{\"pid\":\"870970-basis:50926419\"},{\"pid\":\"870970-basis:50926400\"},{\"pid\":\"870970-basis:29614636\"},{\"pid\":\"870970-basis:29614857\"},{\"pid\":\"870970-basis:50926427\"},{\"pid\":\"870970-basis:50926443\"}]}]}}"})
     .reply(200, [{
       "pid": "870970-basis:29283893",
       "libraryid": "762100",

@@ -47,13 +47,16 @@ module.exports = function krigerkattene(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/count')
     .times(times)
-    .query({"access_token":"","where":"{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"}]}]}"})
+    .query({
+      "access_token": "",
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"},{\"pid\":\"870970-basis:28873697\"},{\"pid\":\"870970-basis:27252540\"},{\"pid\":\"870970-basis:26346924\"},{\"pid\":\"870970-basis:05053994\"}]}]}"
+    })
     .reply(200, {"count":0});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter":"{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"}]}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"},{\"pid\":\"870970-basis:28873697\"},{\"pid\":\"870970-basis:27252540\"},{\"pid\":\"870970-basis:26346924\"},{\"pid\":\"870970-basis:05053994\"}]}]}}"})
     .reply(200, []);
 
   nock('http://localhost:3000', {encodedQueryParams: true})

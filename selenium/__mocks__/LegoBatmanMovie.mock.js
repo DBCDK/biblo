@@ -98,13 +98,13 @@ module.exports = function LegoBatmanMovie(times) {
     .times(times)
     .query({
       "access_token": "",
-      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29992487\"}]}]}"
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:52064368\"},{\"pid\":\"870970-basis:29992487\"},{\"pid\":\"870970-basis:29992460\"}]}]}"
     })
     .reply(200, {"count": 0});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29992487\"}]}]}}"})
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:52064368\"},{\"pid\":\"870970-basis:29992487\"},{\"pid\":\"870970-basis:29992460\"}]}]}}"})
     .reply(200, []);
 };

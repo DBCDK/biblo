@@ -47,32 +47,236 @@ module.exports = function krigerkattene(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/count')
     .times(times)
-    .query({"access_token":"","where":"{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"}]}]}"})
-    .reply(200, {"count":0});
+    .query({
+      "access_token": "",
+      "where": "{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"},{\"pid\":\"870970-basis:28873697\"},{\"pid\":\"870970-basis:27252540\"},{\"pid\":\"870970-basis:26346924\"},{\"pid\":\"870970-basis:05053994\"}]}]}"
+    })
+    .reply(200, {"count": 3});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/reviews/')
     .times(times)
-    .query({"filter":"{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"}]}]}}"})
-    .reply(200, []);
+    .query({"filter": "{\"skip\":0,\"limit\":10,\"order\":\"created DESC\",\"include\":[\"likes\",\"image\",{\"relation\":\"video\",\"scope\":{\"include\":[{\"relation\":\"resolutions\",\"scope\":{\"include\":[\"video\"]}}]}},{\"relation\":\"owner\",\"scope\":{\"include\":[\"image\"]}}],\"where\":{\"and\":[{\"markedAsDeleted\":null},{\"or\":[{\"pid\":\"870970-basis:29693544\"},{\"pid\":\"870970-basis:28873697\"},{\"pid\":\"870970-basis:27252540\"},{\"pid\":\"870970-basis:26346924\"},{\"pid\":\"870970-basis:05053994\"}]}]}}"})
+    .reply(200, [
+      {
+        "pid": "870970-basis:28873697",
+        "libraryid": "700001",
+        "worktype": "literature",
+        "content": "Anmeldelse A",
+        "created": "2014-07-24T22:00:00.000Z",
+        "modified": "2014-07-24T22:00:00.000Z",
+        "rating": 4,
+        "markedAsDeleted": null,
+        "palleid": 1,
+        "id": 1,
+        "reviewownerid": 1,
+        "likes": [],
+        "owner": {
+          "username": "user0001",
+          "displayName": "user0001",
+          "favoriteLibrary": {
+            "libraryId": "700001",
+            "pincode": "0001",
+            "loanerId": "0000000001"
+          },
+          "description": "",
+          "email": "email_a@domain.com",
+          "phone": "",
+          "created": null,
+          "lastUpdated": null,
+          "hasFilledInProfile": true,
+          "birthday": null,
+          "fullName": "Full Name User One",
+          "palleid": 1,
+          "id": 1
+        }
+      },
+      {
+        "pid": "870970-basis:26346924",
+        "libraryid": "700002",
+        "worktype": "literature",
+        "content": "Anmeldelse B",
+        "created": "2013-08-09T22:00:00.000Z",
+        "modified": "2013-08-09T22:00:00.000Z",
+        "rating": 5,
+        "markedAsDeleted": null,
+        "palleid": 2,
+        "id": 2,
+        "reviewownerid": 2,
+        "likes": [],
+        "owner": {
+          "username": "user0002",
+          "displayName": "Display Name",
+          "favoriteLibrary": {
+            "libraryId": "700002",
+            "pincode": "0002",
+            "loanerId": "0000000002"
+          },
+          "description": "",
+          "email": "email_b@domain.com",
+          "phone": "0123456789",
+          "created": null,
+          "lastUpdated": null,
+          "hasFilledInProfile": true,
+          "birthday": null,
+          "fullName": "Full Name User Two",
+          "palleid": 2,
+          "id": 2
+        }
+      },
+      {
+        "pid": "870970-basis:27252540",
+        "libraryid": "700003",
+        "worktype": "literature",
+        "content": "Anmeldelse C",
+        "created": "2012-07-08T22:00:00.000Z",
+        "modified": "2012-07-08T22:00:00.000Z",
+        "rating": 2,
+        "markedAsDeleted": null,
+        "palleid": 3,
+        "id": 3,
+        "reviewownerid": 3,
+        "likes": [],
+        "owner": {
+          "username": "email_c@domain.com",
+          "displayName": "Full Name User Three",
+          "favoriteLibrary": {
+            "libraryId": "700003"
+          },
+          "description": "",
+          "email": "email_c@domain.com",
+          "phone": "0",
+          "created": null,
+          "lastUpdated": null,
+          "hasFilledInProfile": true,
+          "birthday": null,
+          "fullName": "",
+          "palleid": 3,
+          "id": 3
+        }
+      }
+    ]);
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .get('/api/Campaigns')
     .times(times)
-    .query({"filter":"{\"where\":{\"type\":\"review\"},\"include\":[]}"})
-    .reply(200, [{"campaignName":"Sommerbogen 2016","startDate":"2016-06-09T20:00:00.044Z","endDate":"2016-08-21T04:00:00.044Z","logos":{"svg":"/sommerbogen-logo.svg","small":"/sommerbogen-logo.png","medium":"/sommerbogen-logo.png","large":"/sommerbogen-logo.png"},"type":"review","id":1,"workTypes":[{"worktype":"book","id":1},{"worktype":"audiobook","id":7},{"worktype":"literature","id":10}]}]);
+    .query({"filter": "{\"where\":{\"type\":\"review\"},\"include\":[]}"})
+    .reply(200, [{
+      "campaignName": "Sommerbogen 2016", "startDate": "2016-06-09T20:00:00.044Z",
+      "endDate": "2016-08-21T04:00:00.044Z", "logos": {
+        "svg": "/sommerbogen-logo.svg", "small": "/sommerbogen-logo.png", "medium": "/sommerbogen-logo.png",
+        "large": "/sommerbogen-logo.png"
+      }, "type": "review", "id": 1, "workTypes": [{"worktype": "book", "id": 1}, {"worktype": "audiobook", "id": 7}, {
+        "worktype": "literature", "id": 10
+      }]
+    }]);
 
   // Mocking request/response for contents in "Alle bøger i serien Tintins oplevelser"-container
   nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/search/?q=%28%22%2A%22%29%20AND%20%28phrase.titleSeries%3D%22Tintins%20oplevelser%22%29&fields%5B0%5D=pid&fields%5B1%5D=coverUrlFull&fields%5B2%5D=dcTitle&fields%5B3%5D=titleSeries&fields%5B4%5D=workType&limit=18&offset=0&sort=solr_numberInSeries_ascending')
     .times(times)
-    .reply(200, {"statusCode":200,"data":[{"pid":["870970-basis:52000602"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52000602&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ed66cb2a230a90549604"],"dcTitle":["Faraos cigarer"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:29394393"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29394393&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=9a0c3ac2e04f48d801a3"],"dcTitle":["Den mystiske stjerne"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:29693544"],"dcTitle":["\"Enhjørningen\"s hemmelighed"],"titleSeries":["Tintins oplevelser ; 11"],"workType":["book"]},{"pid":["870970-basis:29068623"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29068623&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ec32b388b68cc703d313"],"dcTitle":["De 7 krystalkugler"],"titleSeries":["Tintins oplevelser ; 13"],"workType":["book"]},{"pid":["870970-basis:26913063"],"dcTitle":["Tintin, reporteren fra \"Petit vingtième\", i Sovjetunionen"],"titleSeries":["Tintins oplevelser ; 1","Carlsen minicomics"],"workType":["book"]},{"pid":["870970-basis:26913098"],"dcTitle":["Tintin i Congo"],"titleSeries":["Tintins oplevelser ; 2","Carlsen minicomics"],"workType":["book"]},{"pid":["870970-basis:01271172"],"dcTitle":["Soltemplet"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:26961254"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=26961254&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2e2514df2a0498c1576e"],"dcTitle":["Den blå lotus"],"titleSeries":["Tintins oplevelser ; 5","Carlsen minicomics"],"workType":["book"]},{"pid":["870970-basis:01274783"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=01274783&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=6c7a8416d4a99260ec45"],"dcTitle":["Kong Ottokars scepter"],"titleSeries":["Tintins oplevelser ; 2"],"workType":["book"]},{"pid":["870970-basis:27338143"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=27338143&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2cfcbb28ea679ed8c133"],"dcTitle":["Rackham den Rødes skat"],"titleSeries":["Tintins oplevelser ; 12","Carlsen minicomics"],"workType":["book"]},{"pid":["870970-basis:26938236"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=26938236&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=22422e27247da8d1ba27"],"dcTitle":["Tintin i Amerika"],"titleSeries":["Tintins oplevelser ; 3","Carlsen minicomics"],"workType":["book"]},{"pid":["870970-basis:01265202"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=01265202&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=4a149f7d457270b1b25d"],"dcTitle":["De syv krystalkugler"],"titleSeries":["Tintins oplevelser ; 3"],"workType":["book"]},{"pid":["870970-basis:05903467"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=05903467&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ab9909aa50b50fa415c2"],"dcTitle":["Det sorte guld"],"titleSeries":["Tintins oplevelser ; 6"],"workType":["book"]},{"pid":["870970-basis:51895363"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51895363&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=3e901b8fbb6b61ecdfd0"],"dcTitle":["Den Sorte Ø"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:01271342"],"dcTitle":["Månen tur-retur"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:29068631"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29068631&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=e49bc613caa3372b64eb"],"dcTitle":["Ottokars scepter"],"titleSeries":["Tintins oplevelser ; 8"],"workType":["book"]},{"pid":["870970-basis:28873700"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28873700&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=07cde3ddc78e480a4d53"],"dcTitle":["Krabben med de gyldne klosakse"],"titleSeries":["Tintins oplevelser ; 9"],"workType":["book"]},{"pid":["870970-basis:29783624"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29783624&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=93bbdaf778953de1cb2c"],"dcTitle":["Tintin i tibet"],"titleSeries":["Tintins oplevelser"],"workType":["book"]}]});
+    .reply(200, {
+      "statusCode": 200, "data": [{
+        "pid": ["870970-basis:52000602"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52000602&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ed66cb2a230a90549604"],
+        "dcTitle": ["Faraos cigarer"], "titleSeries": ["Tintins oplevelser"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29394393"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29394393&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=9a0c3ac2e04f48d801a3"],
+        "dcTitle": ["Den mystiske stjerne"], "titleSeries": ["Tintins oplevelser"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29693544"], "dcTitle": ["\"Enhjørningen\"s hemmelighed"],
+        "titleSeries": ["Tintins oplevelser ; 11"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29068623"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29068623&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ec32b388b68cc703d313"],
+        "dcTitle": ["De 7 krystalkugler"], "titleSeries": ["Tintins oplevelser ; 13"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:26913063"], "dcTitle": ["Tintin, reporteren fra \"Petit vingtième\", i Sovjetunionen"],
+        "titleSeries": ["Tintins oplevelser ; 1", "Carlsen minicomics"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:26913098"], "dcTitle": ["Tintin i Congo"],
+        "titleSeries": ["Tintins oplevelser ; 2", "Carlsen minicomics"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:01271172"], "dcTitle": ["Soltemplet"], "titleSeries": ["Tintins oplevelser"],
+        "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:26961254"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=26961254&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2e2514df2a0498c1576e"],
+        "dcTitle": ["Den blå lotus"], "titleSeries": ["Tintins oplevelser ; 5", "Carlsen minicomics"],
+        "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:01274783"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=01274783&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=6c7a8416d4a99260ec45"],
+        "dcTitle": ["Kong Ottokars scepter"], "titleSeries": ["Tintins oplevelser ; 2"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:27338143"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=27338143&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2cfcbb28ea679ed8c133"],
+        "dcTitle": ["Rackham den Rødes skat"], "titleSeries": ["Tintins oplevelser ; 12", "Carlsen minicomics"],
+        "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:26938236"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=26938236&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=22422e27247da8d1ba27"],
+        "dcTitle": ["Tintin i Amerika"], "titleSeries": ["Tintins oplevelser ; 3", "Carlsen minicomics"],
+        "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:01265202"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=01265202&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=4a149f7d457270b1b25d"],
+        "dcTitle": ["De syv krystalkugler"], "titleSeries": ["Tintins oplevelser ; 3"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:05903467"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=05903467&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=ab9909aa50b50fa415c2"],
+        "dcTitle": ["Det sorte guld"], "titleSeries": ["Tintins oplevelser ; 6"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:51895363"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=51895363&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=3e901b8fbb6b61ecdfd0"],
+        "dcTitle": ["Den Sorte Ø"], "titleSeries": ["Tintins oplevelser"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:01271342"], "dcTitle": ["Månen tur-retur"], "titleSeries": ["Tintins oplevelser"],
+        "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29068631"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29068631&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=e49bc613caa3372b64eb"],
+        "dcTitle": ["Ottokars scepter"], "titleSeries": ["Tintins oplevelser ; 8"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:28873700"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=28873700&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=07cde3ddc78e480a4d53"],
+        "dcTitle": ["Krabben med de gyldne klosakse"], "titleSeries": ["Tintins oplevelser ; 9"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29783624"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29783624&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=93bbdaf778953de1cb2c"],
+        "dcTitle": ["Tintin i tibet"], "titleSeries": ["Tintins oplevelser"], "workType": ["book"]
+      }]
+    });
 
   // Mocking request/response for contents in "Carlsen minicomics"-container
   nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/search/?q=%28%22%2A%22%29%20AND%20%28phrase.titleSeries%3D%22Carlsen%20minicomics%22%29&fields%5B0%5D=pid&fields%5B1%5D=coverUrlFull&fields%5B2%5D=dcTitle&fields%5B3%5D=titleSeries&fields%5B4%5D=workType&limit=6&offset=0&sort=solr_numberInSeries_ascending')
     .times(times)
-    .reply(200, {"statusCode":200,"data":[{"pid":["870970-basis:52000602"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52000602&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=16ae391a3e0a51f8fb4c"],"dcTitle":["Faraos cigarer"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:29394393"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29394393&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2544df996d2c85794ac7"],"dcTitle":["Den mystiske stjerne"],"titleSeries":["Tintins oplevelser"],"workType":["book"]},{"pid":["870970-basis:29693544"],"dcTitle":['"Enhjørningen"s hemmelighed'],"titleSeries":["Tintins oplevelser ; 11"],"workType":["book"]},{"pid":["870970-basis:29068623"],"coverUrlFull":["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29068623&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=869df4bbd3358ca2a811"],"dcTitle":["De 7 krystalkugler"],"titleSeries":["Tintins oplevelser ; 13"],"workType":["book"]},{"pid":["870970-basis:26913063"],"dcTitle":['Tintin, reporteren fra "Petit vingtième", i Sovjetunionen'],"titleSeries":["Tintins oplevelser ; 1","Carlsen minicomics"],"workType":["book"]},{"pid":["870970-basis:26913098"],"dcTitle":["Tintin i Congo"],"titleSeries":["Tintins oplevelser ; 2","Carlsen minicomics"],"workType":["book"]}]});
+    .reply(200, {
+      "statusCode": 200, "data": [{
+        "pid": ["870970-basis:52000602"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=52000602&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=16ae391a3e0a51f8fb4c"],
+        "dcTitle": ["Faraos cigarer"], "titleSeries": ["Tintins oplevelser"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29394393"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29394393&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=2544df996d2c85794ac7"],
+        "dcTitle": ["Den mystiske stjerne"], "titleSeries": ["Tintins oplevelser"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29693544"], "dcTitle": ['"Enhjørningen"s hemmelighed'],
+        "titleSeries": ["Tintins oplevelser ; 11"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:29068623"],
+        "coverUrlFull": ["//moreinfo.addi.dk/2.6/more_info_get.php?lokalid=29068623&attachment_type=forside_stor&bibliotek=870970&source_id=870970&key=869df4bbd3358ca2a811"],
+        "dcTitle": ["De 7 krystalkugler"], "titleSeries": ["Tintins oplevelser ; 13"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:26913063"], "dcTitle": ['Tintin, reporteren fra "Petit vingtième", i Sovjetunionen'],
+        "titleSeries": ["Tintins oplevelser ; 1", "Carlsen minicomics"], "workType": ["book"]
+      }, {
+        "pid": ["870970-basis:26913098"], "dcTitle": ["Tintin i Congo"],
+        "titleSeries": ["Tintins oplevelser ; 2", "Carlsen minicomics"], "workType": ["book"]
+      }]
+    });
 
   nock('http://platform-i01:8080', {encodedQueryParams: true})
     .post('/search/?q=%28%22%2A%22%29%20AND%20%28phrase.titleSeries%3D%22Carlsen%20minicomics%22%29&fields%5B0%5D=pid&fields%5B1%5D=coverUrlFull&fields%5B2%5D=dcTitle&fields%5B3%5D=titleSeries&fields%5B4%5D=workType&limit=18&offset=0&sort=solr_numberInSeries_ascending')

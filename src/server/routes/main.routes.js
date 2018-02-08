@@ -153,6 +153,12 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
   }
 });
 
+/**
+ * Collects statuses from an explicit list of web services and constructs the howru-object based on the answers.
+ *
+ * @param {Object} req
+ * @return {Promise<{services: *[], overallStatus: boolean}>}
+ */
 async function getServicesStatus(req) {
   const redisInstance = req.app.get('redisInstance');
   const communityResponse = await req.callServiceProvider('howruCommunity');
@@ -207,8 +213,13 @@ async function getServicesStatus(req) {
   return {services, overallStatus};
 }
 
+/**
+ * Defines the /howru endpoint.
+ * Sets the statusCode of the response based on the value given in overallStatus
+ */
 MainRoutes.get('/howru', async (req, res) => {
   const {services, overallStatus} = await getServicesStatus(req);
+  const statusCode = overallStatus ? 200 : 503;
 
   const response = {
     ok: overallStatus,
@@ -217,7 +228,7 @@ MainRoutes.get('/howru', async (req, res) => {
     env: req.app.locals.env,
     config: filterConfig(req.app.get('BIBLO_CONFIG'))
   };
-  res.json(response);
+  res.status(statusCode).json(response);
 });
 
 export default MainRoutes;

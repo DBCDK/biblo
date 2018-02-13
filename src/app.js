@@ -12,7 +12,7 @@ const newrelic = (config.get('NewRelic.enabled') && require('newrelic')) || null
 // Libraries
 import express from 'express';
 import * as path from 'path';
-import Logger from 'dbc-node-logger';
+import {log, setInfo} from 'dbc-node-logger';
 import RedisStore from 'connect-redis';
 import ServiceProviderSetup from './server/serviceProvider/ServiceProviderSetup.js';
 import AWS from 'aws-sdk';
@@ -82,8 +82,8 @@ module.exports.run = function(worker) {
   const APP_NAME = config.get('NewRelic.app_name');
   const APPLICATION = 'biblo';
   const KAFKA_TOPIC = config.get('Logger.KAFKA_TOPIC');
-  const logger = new Logger({app_name: APP_NAME});
-  const expressLoggers = logger.getExpressLoggers();
+  setInfo({app: APP_NAME});
+  // const expressLoggers = logger.getExpressLoggers();
 
   // Direct requests to app
   server.on('request', app);
@@ -105,7 +105,7 @@ module.exports.run = function(worker) {
       next();
     }
     catch (err) {
-      logger.error('An unknown error occurred', {
+      log.error('An unknown error occurred', {
         error: err.message && err.name ? {message: err.message, name: err.name} : err
       });
     }
@@ -196,25 +196,24 @@ module.exports.run = function(worker) {
         // if it doesn't exist -> create it.
         dynamodb.createTable(tableDef, (createTableErr, createTableData) => {
           if (!createTableErr && createTableData) {
-            logger.info('Created dynamo table!', createTableData);
+            log.info('Created dynamo table!', createTableData);
           }
           else {
-            logger.error('Cannot create dynamo table, messages will be disabled!');
+            log.error('Cannot create dynamo table, messages will be disabled!');
           }
         });
       }
     }
     else {
-      logger.error('Cannot connect to dynamo, messages will be disabled!');
+      log.error('Cannot connect to dynamo, messages will be disabled!');
     }
   });
 
   // Configure service provider
-  const sp = ServiceProviderSetup(config, logger, worker);
+  const sp = ServiceProviderSetup(config, log, worker);
 
   // Configure app variables
   app.set('serviceProvider', sp);
-  app.set('logger', logger);
   app.set('APPLICATION', APPLICATION);
   app.set('Configuration', config);
   app.set('BIBLO_CONFIG', BIBLO_CONFIG);
@@ -247,7 +246,7 @@ module.exports.run = function(worker) {
   const fileHeaders = (PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'}) || {};
 
   // Queue handlers
-  const queueCreate = createQueue.bind(null, logger, app);
+  const queueCreate = createQueue.bind(null, log, app);
 
   // Configure message queue
   const userMessageQueue = queueCreate('user messages', processUserMessage);
@@ -291,7 +290,7 @@ module.exports.run = function(worker) {
   app.set('redisInstance', redisInstance);
 
   redisInstance.client.on('error', () => {
-    logger.log('debug', 'ERROR: Redis server not found! No session storage available.', {
+    log.error('ERROR: Redis server not found! No session storage available.', {
       host: config.get('Redis.host'),
       port: config.get('Redis.port'),
       prefix: APP_NAME + '_session_'
@@ -321,7 +320,7 @@ module.exports.run = function(worker) {
   app.use(express.static(path.join(__dirname, '../static'), fileHeaders));
 
   // Setting logger
-  app.use(expressLoggers.logger);
+  // app.use(expressLoggers.logger);
 
   // Setting Input Validation
   const validatorOptions = {
@@ -378,7 +377,7 @@ module.exports.run = function(worker) {
 
   // Graceful handling of errors
   app.use((err, req, res, next) => {
-    logger.log('error', 'An error occurred! Got following: ' + err, {url: req.url, session: req.session});
+    log.error('An error occurred! Got following: ' + err, {url: req.url, session: req.session});
     console.error('error', 'An error occurred! Got following: ' + err.stack, {url: req.url, session: req.session}); // eslint-disable-line
     // no-console
     if (res.headersSent) {
@@ -396,7 +395,7 @@ module.exports.run = function(worker) {
   });
 
   // Setting logger -- should be placed after routes
-  app.use(expressLoggers.errorLogger);
+  // app.use(expressLoggers.errorLogger);
 
   // We only want one connection per server.
   if (worker.isLeader) {
@@ -435,8 +434,8 @@ module.exports.run = function(worker) {
     });
   }
 
-  logger.debug('>> Worker PID: ' + process.pid);
-  logger.debug('Server listening on port ' + app.get('port'));
-  logger.debug('NEW_RELIC_APP_NAME: ' + APP_NAME);
-  logger.debug('APPLICATION: ' + APPLICATION);
+  log.debug('>> Worker PID: ' + process.pid);
+  log.debug('Server listening on port ' + app.get('port'));
+  log.debug('NEW_RELIC_APP_NAME: ' + APP_NAME);
+  log.debug('APPLICATION: ' + APPLICATION);
 };

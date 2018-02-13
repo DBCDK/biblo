@@ -84,7 +84,7 @@
     "connect-redis": "^3.3.2",
     "css-loader": "^0.28.9",
     "dbc-node-entitysuggest": "^2.0.2",
-    "dbc-node-logger": "^1.4.11",
+    "dbc-node-logger": "^2.0.9",
     "dbc-node-openagency-client": "^2.0.4",
     "dbc-node-openuserstatus-client": "^2.0.1",
     "dbc-node-serviceprovider": "^3.1.0",

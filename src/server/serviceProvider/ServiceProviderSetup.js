@@ -99,7 +99,7 @@ export default function initProvider(config, logger, sockets) {
     isCacheableValue
   };
 
-  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));
+  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore, log));
 
   // Register all clients
   RegisterClientOnProvider('community', CommunityClient.bind(null, logger));

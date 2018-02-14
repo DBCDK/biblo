@@ -396,12 +396,6 @@ module.exports.run = function(worker) {
     res.render('error', {errorData: '{"statusCode":404}'});
   });
 
-  // Setting logger -- should be placed after routes
-  app.use((err, req, res, next) => {
-    log.error('http request:error', {error: err, headers: req.headers, body: req.body || {}});
-    next(err);
-  });
-
   // We only want one connection per server.
   if (worker.isLeader) {
     // First we connect to the community service via primus

@@ -320,7 +320,10 @@ module.exports.run = function(worker) {
   app.use(express.static(path.join(__dirname, '../static'), fileHeaders));
 
   // Setting logger
-  // app.use(expressLoggers.logger);
+  app.use((req, res, next) => {
+    log.info('http request', {headers: req.headers, body: req.body || {}});
+    next();
+  });
 
   // Setting Input Validation
   const validatorOptions = {
@@ -395,7 +398,10 @@ module.exports.run = function(worker) {
   });
 
   // Setting logger -- should be placed after routes
-  // app.use(expressLoggers.errorLogger);
+  app.use((err, req, res, next) => {
+    log.error('http request:error', {error: err, headers: req.headers, body: req.body || {}});
+    next(err);
+  });
 
   // We only want one connection per server.
   if (worker.isLeader) {

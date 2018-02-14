@@ -2,6 +2,7 @@
  * @file
  * Event for doing a howru check on OpenAgency
  */
+import {log} from 'dbc-node-logger';
 
 const HowRUEntitySuggest = {
 
@@ -14,7 +15,7 @@ const HowRUEntitySuggest = {
       return await this.callServiceClient('custom', 'howruEntitySuggest');
     }
     catch (e) {
-      console.error(e); // eslint-disable-line
+      log.error(e); // eslint-disable-line
       return {statusCode: 404};
     }
   },

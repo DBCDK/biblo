@@ -6,6 +6,7 @@
 import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
 import path from 'path';
 import redisStore from 'cache-manager-redis';
+import {log} from 'dbc-node-logger';
 
 // import clients
 import CommunityClient from './clients/community.client';
@@ -33,7 +34,7 @@ function registerServiceClient(provider, config, clientCache, clientName, client
     clientConfig = config.get(`ServiceProvider.${clientName}`);
   }
   catch (e) {
-    console.warn(`No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`); // eslint-disable-line
+    log.warn(`No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`); // eslint-disable-line
   }
 
   const methods = client(clientConfig);

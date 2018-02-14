@@ -8,6 +8,7 @@ import express from 'express';
 import passport from 'passport';
 import request from 'request';
 import {config, generateSignedCloudfrontCookie} from '@dbcdk/biblo-config';
+import {log} from 'dbc-node-logger';
 
 import cacheManager from 'cache-manager';
 import redisStore from 'cache-manager-redis';
@@ -66,6 +67,7 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
     }
   }
   catch (err) {
+    log.error(err);
     next(err);
   }
 });
@@ -79,8 +81,7 @@ MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',
 });
 
 MainRoutes.get('/logout', function(req, res) {
-  const logger = req.app.get('logger');
-  logger.info('Logging out user', {session: req.session});
+  log.info('Logging out user', {session: req.session});
 
   req.logout();
   res.redirect('/?logout=1');
@@ -98,8 +99,6 @@ MainRoutes.get('/error', (req, res, next) => {
 });
 
 MainRoutes.get('/billede/:id/:size', async function(req, res) {
-  const logger = req.app.get('logger');
-
   try {
     const cacheKey = `imageCache_${req.params.id}_${req.params.size}`;
     let imageResult = await getFromCache(cacheKey);
@@ -120,17 +119,15 @@ MainRoutes.get('/billede/:id/:size', async function(req, res) {
     res.setHeader('Cache-Control', `expires=${Number(expires[1]) - 60}`);
 
     setTimeout(() => res.redirect(imageUrl), 50);
-    logger.info('got image url', {url: imageUrl});
+    log.info('got image url', {url: imageUrl});
   }
   catch (err) {
-    logger.error('An error occurred while getting image!', {error: err.message});
+    log.error('An error occurred while getting image!', {error: err.message});
     res.redirect('/kunne_ikke_finde_billede.png');
   }
 });
 
 MainRoutes.get('/pdf/:id', async function(req, res) {
-  const logger = req.app.get('logger');
-
   try {
     const pdfResult = await req.callServiceProvider('getPDF', {id: req.params.id});
     const pdfUrl = generateSignedCloudfrontCookie(
@@ -145,10 +142,10 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
       response.headers['Content-Disposition'] = `inline; filename="${pdfResult[0].body.name}"`;
     }).pipe(res), 50);
 
-    logger.info('got pdf url', {url: pdfUrl});
+    log.info('got pdf url', {url: pdfUrl});
   }
   catch (err) {
-    logger.error('An error occurred while getting PDF!', {error: err.message});
+    log.error('An error occurred while getting PDF!', {error: err.message});
     res.redirect('/error');
   }
 });

@@ -381,8 +381,7 @@ module.exports.run = function(worker) {
   // Graceful handling of errors
   app.use((err, req, res, next) => {
     log.error('An error occurred! Got following: ' + err, {url: req.url, session: req.session});
-    console.error('error', 'An error occurred! Got following: ' + err.stack, {url: req.url, session: req.session}); // eslint-disable-line
-    // no-console
+
     if (res.headersSent) {
       return next(err);
     }

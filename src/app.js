@@ -321,7 +321,7 @@ module.exports.run = function(worker) {
 
   // Setting logger
   app.use((req, res, next) => {
-    log.info('http request', {headers: req.headers, body: req.body || {}});
+    log.info('http request', {originalUrl: req.originalUrl, headers: req.headers, body: req.body || {}});
     next();
   });
 

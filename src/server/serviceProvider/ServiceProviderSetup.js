@@ -3,7 +3,7 @@
  * Setup service provicer
  */
 
-import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
+import {Provider, AutoRequire, ClientCache} from './provider';
 import path from 'path';
 import redisStore from 'cache-manager-redis';
 import {log} from 'dbc-node-logger';

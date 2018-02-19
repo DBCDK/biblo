@@ -83,9 +83,10 @@ export default function Transform(transform, clients) {
              * - especially with mobilsoeg-profile transforms -
              * which has a bad performance impact
              * when the logger tries to serialise it.
-            //serviceReponse: response,
-            //finalResponse: transformedResponse
+             * However, they can be a nice supplement to use when debugging locally
              */
+            // serviceReponse: response,
+            // finalResponse: transformedResponse
           });
           return transformedResponse;
         });

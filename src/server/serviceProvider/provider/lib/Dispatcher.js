@@ -1,3 +1,4 @@
+import {log} from 'dbc-node-logger';
 /**
  * @file
  * The Dispatcher is a wrapper for socket.io. It will handle all communication
@@ -7,18 +8,17 @@
 /**
  * Register events when a new connections is made.
  *
+ * @param transform
  * @param connection
- * @param logger
- * @param provider
  */
-function registerEventOnConnection(transform, logger, connection) {
+function registerEventOnConnection(transform, connection) {
   const event = transform.event();
   connection.on(`${event}Request`, (request) => {
     var startTime = Date.now();
     transform.trigger(request, connection).forEach((responsePromise) => {
       responsePromise
         .then(response => {
-          logger.log('info', `${event}Response time`, Date.now() - startTime);
+          log.log('info', `${event}Response time`, Date.now() - startTime);
           connection.emit(`${event}Response`, response);
         })
         .catch(error => {
@@ -29,11 +29,12 @@ function registerEventOnConnection(transform, logger, connection) {
           // we have a plain js object, and also throws if it is cyclic etc.
           try {
             error = JSON.parse(JSON.stringify(error));
-          } catch (_) {
+          }
+          catch (_) {
             error = 'unserialisable error';
           }
 
-          logger.log('warning', 'ResponseError', {event, error, time: Date.now() - startTime});
+          log.log('warning', 'ResponseError', {event, error, time: Date.now() - startTime});
           connection.emit(`${event}Response`, {error});
         });
     });
@@ -43,15 +44,14 @@ function registerEventOnConnection(transform, logger, connection) {
 /**
  * Register events from the provider on new connections
  *
- * @param socket
- * @param provider
- * @param logger
+ * @param transforms
+ * @param io
  * @constructor
  */
-export default function Dispatcher(transforms, logger, io) {
+export default function Dispatcher(transforms, io) {
   // On socket.io it would make more sense to use `io.use(...)` instead of
   // `io.on('connection'...)`, but io.use is not supported on socketcluster yet.
   io.on('connection', (connection) => {
-    transforms.forEach((transform) => registerEventOnConnection(transform, logger, connection));
+    transforms.forEach((transform) => registerEventOnConnection(transform, connection));
   });
 }

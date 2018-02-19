@@ -86,8 +86,8 @@ function isCacheableValue(value) {
  * @param sockets
  * @returns {Provider}
  */
-export default function initProvider(config, logger, sockets) {
-  const provider = Provider(logger);
+export default function initProvider(config, sockets) {
+  const provider = Provider();
   provider.dispatcher(sockets);
 
   const cacheStore = {
@@ -99,10 +99,10 @@ export default function initProvider(config, logger, sockets) {
     isCacheableValue
   };
 
-  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore, log));
+  const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));
 
   // Register all clients
-  RegisterClientOnProvider('community', CommunityClient.bind(null, logger));
+  RegisterClientOnProvider('community', CommunityClient);
   RegisterClientOnProvider('openplatform', OpenPlatformClient);
   RegisterClientOnProvider('bibloadmin', BibloAdminClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);

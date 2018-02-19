@@ -7,8 +7,8 @@
 /**
  * Register events when a new connections is made.
  *
+ * @param transform
  * @param connection
- * @param provider
  */
 function registerEventOnConnection(transform, connection) {
   const event = transform.event();
@@ -24,12 +24,11 @@ function registerEventOnConnection(transform, connection) {
 /**
  * Register events from the provider on new connections
  *
- * @param socket
- * @param provider
- * @param logger
+ * @param transforms
+ * @param io
  * @constructor
  */
-export default function Dispatcher(transforms, logger, io) {
+export default function Dispatcher(transforms, io) {
   io.use((connection, next) => {
     transforms.forEach((transform) => registerEventOnConnection(transform, connection));
     next();

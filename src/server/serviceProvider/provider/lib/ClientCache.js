@@ -3,8 +3,10 @@
  * Cache wrapper for Provider Client Methods
  */
 
-import {mapValues, isArray} from 'lodash';
+import isArray from 'lodash/isArray';
+import mapValues from 'lodash/mapValues';
 import cacheManager from 'cache-manager';
+import {log} from 'dbc-node-logger';
 
 export let manager = null;
 
@@ -37,10 +39,10 @@ function promiseAsCallback(promise, callback) {
  * const wrappedMethods = manager.wrap(Client.METHODS);
  *
  * @param config
- * @returns {{wrap: wrap, store: *}}
+ * @returns {function(*=, *=): Object}
  * @constructor
  */
-export function ClientCache(config, logger = console) {
+export function ClientCache(config) {
   manager = cacheManager.caching(config);
 
   /**
@@ -62,7 +64,7 @@ export function ClientCache(config, logger = console) {
         promiseAsCallback(fn(params), cb);
       }, {ttl}, (err, result) => {
         if (err) {
-          logger.error('Promise was rejected in cachePromiseCallback', {error: err, params: params});
+          log.error('Promise was rejected in cachePromiseCallback', {error: err, params: params});
           reject(err);
         }
         else {

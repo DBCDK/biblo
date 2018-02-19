@@ -41,7 +41,6 @@ function discoverFiles(folder, namespace) {
  * @param {String} folder Folder to search
  * @param {String} namespace filename pattern e.g 'transform.js'. Not a regex
  * @returns {Array}
- * @param logger
  */
 export function autoRequire(folder, namespace) {
   return discoverFiles(folder, namespace).map(require);

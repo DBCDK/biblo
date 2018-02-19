@@ -44,7 +44,7 @@ describe('Testing the methods in the Dispatcher object', () => {
   });
 
   it('tests something', (done) => {
-    Dispatcher([testTransform], console, socketMock);
+    Dispatcher([testTransform], socketMock);
     expect(connectionMock.emit.called).to.be.equal(false);
     setTimeout(() => {
       expect(connectionMock.emit.calledWith('testEventResponse', ['requestTransform', 'responseTransform'])).to.be.equal(true);

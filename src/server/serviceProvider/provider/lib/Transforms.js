@@ -3,9 +3,10 @@
  * Module for registering all transforms
  */
 
-import {isArray} from 'lodash';
+import isArray from 'lodash/isArray';
 import {now} from './Utils.js';
 import {manager} from './ClientCache';
+import {log} from 'dbc-node-logger';
 
 /**
  * Validate the transform object.
@@ -37,10 +38,10 @@ function validateTransform(transform) {
  * @param logger
  * @returns {trigger}
  */
-export default function Transform(transform, clients, logger = console) {
+export default function Transform(transform, clients) {
   validateTransform(transform);
   transform.clients = clients;
-  transform.logger = logger;
+  transform.logger = log;
 
   /**
    *
@@ -73,7 +74,7 @@ export default function Transform(transform, clients, logger = console) {
         .then((response) => {
           const transformedResponse = transform.responseTransform(response, params, context);
           const requestStop = now();
-          logger.log('info', 'Transform has been triggered', {
+          log.log('info', 'Transform has been triggered', {
             event: event,
             timing: requestStop - requestStart,
             params: params
@@ -111,8 +112,9 @@ export default function Transform(transform, clients, logger = console) {
             resolve();
           }
         });
-      } catch (e) {
-        logger.error(e);
+      }
+      catch (e) {
+        log.error(e);
         resolve();
       }
     });

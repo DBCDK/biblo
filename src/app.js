@@ -210,7 +210,7 @@ module.exports.run = function(worker) {
   });
 
   // Configure service provider
-  const sp = ServiceProviderSetup(config, log, worker);
+  const sp = ServiceProviderSetup(config, worker);
 
   // Configure app variables
   app.set('serviceProvider', sp);

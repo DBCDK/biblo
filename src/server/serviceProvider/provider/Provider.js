@@ -11,11 +11,10 @@ import Transform from './lib/Transforms';
  * Initialization of the provider and the underlying services.
  *
  * @param {Object} config Object containing the necessary parameters.
- * @param {Object} logger logger object with methods for logging.
  *
  * @api public
  */
-export function Provider(logger) {
+export function Provider() {
 
   /**
    * Object with all clients registered on the provider
@@ -31,14 +30,14 @@ export function Provider(logger) {
 
   /**
    * Method for registering a single transform
-   * @param transform
+   * @param transformObject
    */
   function registerTransform(transformObject) {
     const name = transformObject.event();
     if (transforms.has(name)) {
       throw new Error(`Event '${name}' already registered`);
     }
-    const transform = Transform(transformObject, clients, logger);
+    const transform = Transform(transformObject, clients);
     transforms.set(name, transform);
 
     return transform;
@@ -62,13 +61,13 @@ export function Provider(logger) {
   /**
    * Initializes the use of sockets
    *
-   * @param {Socket} socket If communication with the parent application should
    * go through a socket it should be provided here. Currently there's no
    * alternative to using socket.
    * @api public
+   * @param io
    */
   function dispatcher(io) {
-    Dispatcher(transforms, logger, io);
+    Dispatcher(transforms, io);
   }
 
   function trigger(event, params, context) {

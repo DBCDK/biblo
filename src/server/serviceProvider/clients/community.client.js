@@ -1,5 +1,7 @@
 import {promiseRequest} from './../../utils/promiseRequest.util';
 import request from 'request';
+import {log} from 'dbc-node-logger';
+
 const uuid = require('node-uuid');
 const http = require('http');
 const url_parser = require('url').parse;
@@ -9,11 +11,10 @@ const forever = require('async/forever');
  * This is a helper function to create an infinite long polling listener on a change stream
  * @param {String} endpoint
  * @param {String} model
- * @param {Function || Array[Function]} callback
- * @param {Object} logger
+ * @param {Function} callback
  * @returns {Promise}
  */
-function changeStreamListener(endpoint, model, callback, logger) {
+function changeStreamListener(endpoint, model, callback) {
   // Return a promise so the serviceprovider is happy
   return new Promise((resolve) => {
     // Parse out the url for the change stream and add a keep-alive agent to it.
@@ -46,11 +47,11 @@ function changeStreamListener(endpoint, model, callback, logger) {
       const retryHandler = (err) => {
         if (err) {
           // An error occurred, so we log it.
-          logger.error(`got error from ${model} change stream, retrying`, err);
+          log.error(`got error from ${model} change stream, retrying`, err);
         }
         else {
           // The stream end regularly (The unfortunate nature of long polling), so we log it.
-          logger.info(`${model} stream ended, retrying`);
+          log.info(`${model} stream ended, retrying`);
         }
 
         // Retry with backoff.
@@ -80,7 +81,7 @@ function changeStreamListener(endpoint, model, callback, logger) {
               resolve({created: true});
             }
 
-            logger.info(`Started listening to ${model}`);
+            log.info(`Started listening to ${model}`);
           }
           // Whenever a change occurs, we first get an event, we use this to help us parse the change.
           else if (dataString.indexOf('event: ') === 0) {
@@ -1110,56 +1111,52 @@ function getUserQuarantines(endpoint, {uid, filter}) {
 /**
  * This function creates a listener on quarantines
  * @param {String} endpoint
- * @param {Object} logger
  * @param {Function || Array} callback
  * @returns {Promise}
  */
-function listenForNewQuarantines(endpoint, logger, callback) {
+function listenForNewQuarantines(endpoint, callback) {
   if (!callback || (typeof callback !== 'function' && !Array.isArray(callback))) {
     return Promise.reject('Callback needs to be a function!');
   }
 
-  return changeStreamListener(endpoint, 'Quarantines', callback, logger);
+  return changeStreamListener(endpoint, 'Quarantines', callback);
 }
 
 /**
  * This function creates a change stream listener on posts
  * @param {String}endpoint
- * @param {Object} logger
  * @param {Function || Array} callback
  * @returns {Promise}
  */
-function listenForNewPosts(endpoint, logger, callback) {
+function listenForNewPosts(endpoint, callback) {
   if (!callback || (typeof callback !== 'function' && !Array.isArray(callback))) {
     return Promise.reject('Callback needs to be a function!');
   }
 
-  return changeStreamListener(endpoint, 'Posts', callback, logger);
+  return changeStreamListener(endpoint, 'Posts', callback);
 }
 
 /**
  * This function creates a change stream listener on posts
  * @param {String}endpoint
- * @param {Object} logger
  * @param {Function || Array} callback
  * @returns {Promise}
  */
-function listenForNewComments(endpoint, logger, callback) {
+function listenForNewComments(endpoint, callback) {
   if (!callback || (typeof callback !== 'function' && !Array.isArray(callback))) {
     return Promise.reject('Callback needs to be a function!');
   }
 
-  return changeStreamListener(endpoint, 'Comments', callback, logger);
+  return changeStreamListener(endpoint, 'Comments', callback);
 }
 
 /**
  * This method calls the community service suggester on groups.
  * @param {String}endpoint
- * @param {Object}logger
  * @param {Object}params
  * @returns {Promise}
  */
-function groupSuggest(endpoint, logger, params) {
+function groupSuggest(endpoint, params) {
   return promiseRequest('get', {
     url: `${endpoint}api/Groups/suggest?q=${encodeURIComponent(params.q)}`
   });
@@ -1183,7 +1180,6 @@ function checkIfGroupNameExists(endpoint, params) {
 /**
  * This function get the top works based on reviews.
  * @param endpoint
- * @param logger
  * @param params
  * @returns {Promise}
  */
@@ -1323,6 +1319,7 @@ function getGroupCampaigns(endpoint) {
  * Gets the members of a group
  * @param {String} endpoint
  * @param {number} id
+ * @param filter
  * @returns {Promise}
  */
 function getGroupMembers(endpoint, {id, filter = {}}) {
@@ -1337,7 +1334,7 @@ function getGroupMembers(endpoint, {id, filter = {}}) {
  * Gets a users groups.
  * @param {string} endpoint
  * @param {number}uid
- * @param {mixed} include
+ * @param {string|mixed} include
  * @returns {Promise}
  */
 function getMyGroups(endpoint, {uid, include = 'group'}) {
@@ -1431,16 +1428,16 @@ function howru(endpoint) {
  * @param {Object} config Config object with the necessary parameters to use
  * the webservice
  */
-module.exports = function CommunityClient(logger, config = null) {
+module.exports = function CommunityClient(config = null) {
 
   if (!config || !config.endpoint) {
     throw new Error('Expected config object but got null or no endpoint provided');
   }
 
   return {
-    listenForNewQuarantines: listenForNewQuarantines.bind(null, config.endpoint, logger),
-    listenForNewPosts: listenForNewPosts.bind(null, config.endpoint, logger),
-    listenForNewComments: listenForNewComments.bind(null, config.endpoint, logger),
+    listenForNewQuarantines: listenForNewQuarantines.bind(null, config.endpoint),
+    listenForNewPosts: listenForNewPosts.bind(null, config.endpoint),
+    listenForNewComments: listenForNewComments.bind(null, config.endpoint),
     topWorksFromReviews: topWorksFromReviews.bind(null, config.endpoint),
     checkIfUserProfileExists: checkIfUserProfileExists.bind(null, config.endpoint),
     checkIfDisplayNameIsTaken: checkIfDisplayNameIsTaken.bind(null, config.endpoint),
@@ -1490,7 +1487,7 @@ module.exports = function CommunityClient(logger, config = null) {
     checkForMemberInGroup: checkForMemberInGroup.bind(null, config.endpoint),
     getUserQuarantines: getUserQuarantines.bind(null, config.endpoint),
     createReview: createReview.bind(null, config.endpoint),
-    groupSuggest: groupSuggest.bind(null, config.endpoint, logger),
+    groupSuggest: groupSuggest.bind(null, config.endpoint),
     getReviewCampaigns: getReviewCampaigns.bind(null, config.endpoint),
     getGroupCampaigns: getGroupCampaigns.bind(null, config.endpoint),
     getCampaign: getCampaign.bind(null, config.endpoint),

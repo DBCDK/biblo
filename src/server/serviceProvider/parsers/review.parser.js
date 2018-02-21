@@ -1,6 +1,6 @@
 import parseProfile from './profile.parser';
 import parseText from './text.parser';
-import {uniq} from 'lodash';
+import uniq from 'lodash/uniq';
 
 export default function parseReview(review, campaigns = [], limitReviewContent) {
   campaigns.forEach(campaign => {

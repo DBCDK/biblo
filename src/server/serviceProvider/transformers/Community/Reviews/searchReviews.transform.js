@@ -1,6 +1,7 @@
 import parseReview from '../../../parsers/review.parser';
 import workParser from '../../../parsers/work.parser';
-import {_} from 'lodash';
+import uniq from 'lodash/uniq';
+import difference from 'lodash/difference';
 
 const SearchReviewsTransform = {
   event() {
@@ -19,7 +20,7 @@ const SearchReviewsTransform = {
           const total = responseParsed.hits.total;
           const reviews = responseParsed.hits.hits;
           const campaigns = response[1];
-          const pids = _.uniq(reviews.map(review => review._source.pid));
+          const pids = uniq(reviews.map(review => review._source.pid));
 
           Promise.all(
             pids.map(pid =>
@@ -32,7 +33,7 @@ const SearchReviewsTransform = {
             .then(workResponses => {
               const works = workResponses.map(workResponse => JSON.parse(workResponse.body).data[0]);
               const openPlatformPids = works.map(w => w.pid[0]);
-              const pidDifference = _.difference(pids, openPlatformPids);
+              const pidDifference = difference(pids, openPlatformPids);
 
               if (pidDifference.length > 0) {
                 reject(`Could not search reviews. Some pids are missing in openplatform response: ${JSON.stringify(pidDifference)}`);

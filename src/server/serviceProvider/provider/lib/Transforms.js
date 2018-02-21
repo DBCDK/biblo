@@ -74,7 +74,7 @@ export default function Transform(transform, clients) {
         .then((response) => {
           const transformedResponse = transform.responseTransform(response, params, context);
           const requestStop = now();
-          log.log('info', 'Transform has been triggered', {
+          log.info('Transform has been triggered', {
             event: event,
             timing: requestStop - requestStart,
             params: params

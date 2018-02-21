@@ -18,7 +18,7 @@ function registerEventOnConnection(transform, connection) {
     transform.trigger(request, connection).forEach((responsePromise) => {
       responsePromise
         .then(response => {
-          log.log('info', `${event}Response time`, Date.now() - startTime);
+          log.info(`${event}Response time`, Date.now() - startTime);
           connection.emit(`${event}Response`, response);
         })
         .catch(error => {
@@ -34,7 +34,7 @@ function registerEventOnConnection(transform, connection) {
             error = 'unserialisable error';
           }
 
-          log.log('warning', 'ResponseError', {event, error, time: Date.now() - startTime});
+          log.warn('ResponseError', {event, error, time: Date.now() - startTime});
           connection.emit(`${event}Response`, {error});
         });
     });

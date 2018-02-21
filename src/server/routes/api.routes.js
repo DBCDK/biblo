@@ -6,13 +6,13 @@ import express from 'express';
 import Busboy from 'busboy';
 import multer from 'multer';
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
+import {log} from 'dbc-node-logger';
 
 const ApiRoutes = express.Router();
 const upload = multer({storage: multer.memoryStorage()});
 
 ApiRoutes.post('/uploadimage', ensureAuthenticated, upload.single('image'), async function (req, res, next) {
   try {
-    const logger = req.app.get('logger');
     const accessToken = req.session.passport.user.id;
 
     if (!req.file) {
@@ -21,14 +21,16 @@ ApiRoutes.post('/uploadimage', ensureAuthenticated, upload.single('image'), asyn
 
     const uploadRes = (await req.callServiceProvider('uploadimage', {image: req.file, accessToken}))[0];
     if (uploadRes.statusCode >= 400) {
+      log.error('Error occurred during file upload!');
       throw new Error('Error occurred during file upload!');
     }
 
-    logger.info('Successfully uploaded image!');
+    log.info('Successfully uploaded image!');
 
     return res.send(JSON.stringify(uploadRes.data));
   }
   catch (err) {
+    log.error(err);
     return next(err);
   }
 });
@@ -37,8 +39,6 @@ ApiRoutes.post('/uploadimage', ensureAuthenticated, upload.single('image'), asyn
  * API endpoint for uploading video to AWS S3
  */
 ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
-
-  const logger = req.app.get('logger');
   const videoInputBucket = req.config.get('ServiceProvider.aws.buckets.videoInputBucket');
   const s3 = req.app.get('s3');
   let busboy = new Busboy({headers: req.headers});
@@ -54,7 +54,7 @@ ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
       Body: file
     }, (err, data) => {
       if (err) {
-        logger.error('an error occurred while uploading to s3', {error: err});
+        log.error('an error occurred while uploading to s3', {error: err});
         res.sendStatus(400);
       }
       else {
@@ -69,11 +69,11 @@ ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
             pureFileName: pureFileName
           };
 
-          logger.info('Successfully uploaded video to AWS S3', {data});
+          log.info('Successfully uploaded video to AWS S3', {data});
           res.sendStatus(200);
         }
         else {
-          logger.error('An error uccurred while uploading a video to AWS', {session: req.session});
+          log.error('An error uccurred while uploading a video to AWS', {session: req.session});
           res.sendStatus(400);
         }
       }
@@ -86,7 +86,6 @@ ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
 ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
   const pdfBucket = req.config.get('ServiceProvider.aws.buckets.pdfBucket');
   const s3 = req.app.get('s3');
-  const logger = req.app.get('logger');
   let busboy = new Busboy({headers: req.headers, limits: {fileSize: 32000000}}); // 32 mb
 
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
@@ -107,14 +106,14 @@ ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
       // Delete the file off S3
       if (limit) {
         s3.deleteObject({Bucket: pdfBucket, Key: filename}, function () {
-          logger.info('Deleted PDF that was too large.', {Bucket: pdfBucket, Key: filename});
+          log.info('Deleted PDF that was too large.', {Bucket: pdfBucket, Key: filename});
         });
 
         return 413;
       }
 
       if (err) {
-        logger.error('An error occurred while uploading pdf to s3', {error: err});
+        log.error('An error occurred while uploading pdf to s3', {error: err});
         return res.sendStatus(400);
       }
 
@@ -129,11 +128,11 @@ ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
           pureFileName: pureFileName
         };
 
-        logger.info('Successfully uploaded pdf to s3', {data});
+        log.info('Successfully uploaded pdf to s3', {data});
         return res.sendStatus(200);
       }
 
-      logger.error('An error occurred while uploading a pdf to AWS', {session: req.session});
+      log.error('An error occurred while uploading a pdf to AWS', {session: req.session});
       return res.sendStatus(400);
     });
   });

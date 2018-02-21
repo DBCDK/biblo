@@ -2,6 +2,7 @@
  * @file: This file contains middlewares for appending and updating data for endpoints.
  */
 
+import {log} from 'dbc-node-logger';
 import {config} from '@dbcdk/biblo-config';
 
 import {renderToString} from 'react-dom/server';
@@ -206,8 +207,7 @@ export async function GetMenus(req, res, next) {
     });
   }
   catch (e) {
-    const logger = req.app.get('logger');
-    logger.error('Retrieval of global content failed', e);
+    log.error('Retrieval of global content failed', e);
   }
 
   next();

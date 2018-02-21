@@ -1,17 +1,18 @@
 /**
  * @file: In this file we process user messages to send them to dynamo.
  */
+import {log} from 'dbc-node-logger';
 
 /**
  * This function processes user messages to insert them into DynamoDB
  * In order to create the user messages you must provide userId, messageType and message in the job object.
  * @param {Object} job
+ * @param {function} done
  * @returns {Promise}
  */
 export function processUserMessage(job, done) {
   return new Promise((resolve, reject) => { // eslint-disable-line consistent-return
     const app = job.app;
-    const logger = app.get('logger');
     const docClient = app.get('dynamoDocClient');
     const TableName = app.get('dynamoTable');
 
@@ -37,7 +38,7 @@ export function processUserMessage(job, done) {
       ReturnValues: 'NONE'
     };
 
-    logger.info('Creating user message with following parameters', parameters);
+    log.info('Creating user message with following parameters', parameters);
 
     docClient.put(parameters, (err, data) => {
       if (err) {

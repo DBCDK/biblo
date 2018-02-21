@@ -1,3 +1,4 @@
+import {log} from 'dbc-node-logger';
 import DOMPurify from 'dompurify';
 import {JSDOM} from 'jsdom';
 
@@ -15,7 +16,7 @@ export default function sanitize(_html) {
     }
   }
   catch (e) {
-    console.error(e); // eslint-disable-line
+    log.error(e); // eslint-disable-line
   }
 
   return html;

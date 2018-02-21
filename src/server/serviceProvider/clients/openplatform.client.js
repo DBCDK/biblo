@@ -1,4 +1,5 @@
 import {promiseRequest} from './../../utils/promiseRequest.util';
+import {log} from 'dbc-node-logger';
 
 /**
  * Map containing anonymous and library authenticated tokens.
@@ -71,6 +72,7 @@ let callOpenPlatform = async function callOpenPlatform(config, method, req, auth
     return resp;
   }
   catch (e) {
+    log.error(e.message, e);
     return Promise.reject(e);
   }
 };

@@ -1,19 +1,20 @@
+import {log} from 'dbc-node-logger';
+
 /**
  * Creating ElasticTranscoder jobs at AWS
  *
+ * @param ElasticTranscoder
  * @param {Object} videoData
  * @param {string} postId
  * @param {string} commentId
  * @param {string} reviewId
- * @param {Object} logger
+ * @param AMAZON_CONFIG
  */
-export function createElasticTranscoderJob(
-  ElasticTranscoder,
+export function createElasticTranscoderJob(ElasticTranscoder,
   videoData,
   postId,
   commentId,
   reviewId,
-  logger,
   AMAZON_CONFIG
 ) {
   if (postId && typeof postId !== 'string') {
@@ -59,10 +60,10 @@ export function createElasticTranscoderJob(
 
   ElasticTranscoder.createJob(params, err => {
     if (err) {
-      logger.error('ElasticTranscoder job creation failed', {error: err, params: params});
+      log.error('ElasticTranscoder job creation failed', {error: err, params: params});
     }
     else {
-      logger.info('ElasticTranscoder job was successfully created', {params: params});
+      log.info('ElasticTranscoder job was successfully created', {params: params});
     }
   });
 }

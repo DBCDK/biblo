@@ -2,6 +2,7 @@
  * @file: This transform gets a group from the community service, if a user is logged in, it also checks if that user
  *   is following the group.
  */
+import {log} from 'dbc-node-logger';
 
 const HowRUCommunity = {
 
@@ -14,7 +15,7 @@ const HowRUCommunity = {
       return await this.callServiceClient('community', 'howru');
     }
     catch (e) {
-      console.error(e); // eslint-disable-line
+      log.error(e); // eslint-disable-line
       return {statusCode: 404};
     }
   },

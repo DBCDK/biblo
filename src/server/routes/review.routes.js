@@ -7,6 +7,7 @@ import express from 'express';
 import multer from 'multer';
 import sanitize from 'sanitize-html';
 import {createElasticTranscoderJob} from './../utils/aws.util.js';
+import {log} from 'dbc-node-logger';
 
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
 
@@ -33,12 +34,11 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
   const reviewsLimit = 10;
   const skip = 0;
 
-  const logger = res.app.get('logger');
   try {
 
     let reviewResult = (await req.callServiceProvider('getReviews', {id, limit}))[0];
     if (reviewResult.error) {
-      logger.error('An error occured while communicating with CommunityService', {
+      log.error('An error occured while communicating with CommunityService', {
         endpoint: '/review',
         error: reviewResult.error,
         response: reviewResult,
@@ -49,7 +49,7 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
     }
 
     if (!reviewResult.data) {
-      logger.error('No data present in response', {
+      log.error('No data present in response', {
         endpoint: '/review',
         response: reviewResult,
         url: req.url
@@ -61,7 +61,7 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
 
     let workResult = (await req.callServiceProvider('work', {pids: [pid]}))[0];
     if (workResult.error) {
-      logger.error('An error occured while commuunicating with OpenPlatform', {
+      log.error('An error occured while commuunicating with OpenPlatform', {
         endpoint: '/work',
         response: workResult,
         url: req.url
@@ -70,7 +70,7 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
     }
 
     if (!workResult.data) {
-      logger.error('No data present in response', {
+      log.error('No data present in response', {
         endpoint: '/work',
         response: workResult,
         url: req.url
@@ -154,7 +154,6 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
 ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handlePostReview(req, res, next) {
   try {
     const profile = req.session.passport.user.profile.profile;
-    const logger = req.app.get('logger');
     const amazonConfig = req.config.get('ServiceProvider.aws');
     const ElasticTranscoder = req.app.get('ElasticTranscoder');
 
@@ -177,7 +176,7 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
 
     const createReviewResponse = (await req.callServiceProvider('createReview', params))[0];
     if (createReviewResponse.status === 200 && req.session.videoupload) {
-      createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, createReviewResponse.data.id, logger, amazonConfig);
+      createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, createReviewResponse.data.id, amazonConfig);
     }
 
     if (

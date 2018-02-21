@@ -3,9 +3,10 @@
  * Setup service provicer
  */
 
-import {Provider, AutoRequire, ClientCache} from 'dbc-node-serviceprovider';
+import {Provider, AutoRequire, ClientCache} from './provider';
 import path from 'path';
 import redisStore from 'cache-manager-redis';
+import {log} from 'dbc-node-logger';
 
 // import clients
 import CommunityClient from './clients/community.client';
@@ -33,7 +34,7 @@ function registerServiceClient(provider, config, clientCache, clientName, client
     clientConfig = config.get(`ServiceProvider.${clientName}`);
   }
   catch (e) {
-    console.warn(`No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`); // eslint-disable-line
+    log.warn(`No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`); // eslint-disable-line
   }
 
   const methods = client(clientConfig);
@@ -85,8 +86,8 @@ function isCacheableValue(value) {
  * @param sockets
  * @returns {Provider}
  */
-export default function initProvider(config, logger, sockets) {
-  const provider = Provider(logger);
+export default function initProvider(config, sockets) {
+  const provider = Provider();
   provider.dispatcher(sockets);
 
   const cacheStore = {
@@ -101,7 +102,7 @@ export default function initProvider(config, logger, sockets) {
   const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));
 
   // Register all clients
-  RegisterClientOnProvider('community', CommunityClient.bind(null, logger));
+  RegisterClientOnProvider('community', CommunityClient);
   RegisterClientOnProvider('openplatform', OpenPlatformClient);
   RegisterClientOnProvider('bibloadmin', BibloAdminClient);
   RegisterClientOnProvider('entitysuggest', EntitySuggest);

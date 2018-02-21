@@ -3,13 +3,12 @@
  * This file contains the various strategies used by PassportJS in PG and MobilSøg
  */
 import passport from 'passport';
+import {log} from 'dbc-node-logger';
 
 // Strategies
 import UniloginStrategy from 'passport-unilogin';
 
 export function Unilogin(app, uniloginConfig) {
-  const logger = app.get('logger');
-
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -25,7 +24,8 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.auth.error
         };
-        logger.warning('Error when comparing auth\'s in ticket from UNI-Loing', {
+
+        log.warn('Error when comparing auth\'s in ticket from UNI-Loing', {
           error: error,
           query: req.query,
           ticket: ticket
@@ -37,11 +37,13 @@ export function Unilogin(app, uniloginConfig) {
         req.session.passportError = {
           message: error.timestamp.message
         };
-        logger.warning('Error when validating timestamps in ticket from UNI-Loing', {
+
+        log.warn('Error when validating timestamps in ticket from UNI-Loing', {
           error: error,
           query: req.query,
           ticket: ticket
         });
+
         return done(null, false, error.timestamp.message);
       }
 
@@ -50,7 +52,7 @@ export function Unilogin(app, uniloginConfig) {
         // Check if user exists
         if (!res.data.exists) {
           // user doesn't exist, create user
-          logger.info('User was not found, creating profile', {ticket: ticket});
+          log.info('User was not found, creating profile', {ticket: ticket});
           return serviceProvider.trigger('createProfile', ticket.user)[0];
         }
         return {};
@@ -81,7 +83,7 @@ export function Unilogin(app, uniloginConfig) {
 
               resolveTemp1(res);
             }).catch((err) => {
-              logger.error('an error occurred when getting pickupAgencListDetails', {error: err.message});
+              log.error('an error occurred when getting pickupAgencListDetails', {error: err.message});
               resolveTemp1(res);
             });
           });
@@ -89,7 +91,7 @@ export function Unilogin(app, uniloginConfig) {
 
         return res;
       }).then((res) => {
-        logger.info('User was successfully logged in', {ticket: ticket, user: res});
+        log.info('User was successfully logged in', {ticket: ticket, user: res});
         done(null, res.body);
       }).catch((err) => {
         done(err);

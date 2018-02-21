@@ -7,6 +7,7 @@ import express from 'express';
 import multer from 'multer';
 import sanitize from 'sanitize-html';
 import {createElasticTranscoderJob} from './../utils/aws.util.js';
+import {log} from 'dbc-node-logger';
 
 import {groupCreateForm} from '../forms/group.forms';
 
@@ -139,8 +140,7 @@ GroupRoutes.get('/post/:id', async function (req, res) {
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}`);
   }
   catch (e) {
-    const logger = req.app.get('logger');
-    logger.error('An error occured while retrieving a group', {error: e, params: req.params});
+    log.error('An error occured while retrieving a group', {error: e, params: req.params});
     res.redirect('/error/500');
   }
 });
@@ -151,8 +151,7 @@ GroupRoutes.get('/kommentar/:id', async function (req, res) {
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}/${req.params.id}#comment_${req.params.id}`);
   }
   catch (e) {
-    const logger = req.app.get('logger');
-    logger.error('An error occured while retrieving a comment', {error: e, params: req.params});
+    log.error('An error occured while retrieving a comment', {error: e, params: req.params});
     res.redirect('/error/500');
   }
 });
@@ -370,15 +369,15 @@ async function fetchGroupData(params, req, res, update = {}) {
     res.locals.profile = JSON.stringify(profile);
 
     const group = response[0][0];
-    // console.log(group);
 
     group.posts = Array.isArray(response[1][0]) ? response[1][0] : [response[1][0]];
     group.numberOfPostsLoaded = group.posts.length;
     showGroup(Object.assign(group, update), res);
   }
   catch (e) {
-    const logger = req.app.get('logger');
-    logger.error('An error occured while fetching groupdata', {error: e.message || e, params: params, session: req.session});
+    log.error('An error occured while fetching groupdata', {
+      error: e.message || e, params: params, session: req.session
+    });
     res.locals.title = 'Fejl - Biblo.dk';
     res.redirect('/error');
   }
@@ -393,7 +392,6 @@ GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], (req, res) 
  * Add a post to a group
  */
 GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async function (req, res) {
-  const logger = req.app.get('logger');
   const ElasticTranscoder = req.app.get('ElasticTranscoder');
   const params = {
     title: ' ',
@@ -423,10 +421,10 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     // creating video conversion jobs at ElasticTranscoder
     if (req.session.videoupload && response && params) {
       if (params.type === 'post') {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, null, logger, amazonConfig);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, null, amazonConfig);
       }
       else {
-        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, null, logger, amazonConfig);
+        createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, null, amazonConfig);
       }
     }
 
@@ -444,7 +442,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
       res.send(JSON.stringify(content));
     }
     else if (!response) {
-      logger.error('An error occured when creating a new post', {params: params});
+      log.error('An error occured when creating a new post', {params: params});
       res.redirect('/error');
     }
     else {
@@ -452,6 +450,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     }
   }
   catch (e) {
+    log.error(e);
     const errorObj = {
       message: e.message,
       name: e.name
@@ -472,7 +471,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
       }
     }
     else {
-      logger.error('An occured when creating a new post/comment', {params: params, error: errorObj});
+      log.error('An occured when creating a new post/comment', {params: params, error: errorObj});
       if (req.xhr) {
         res.sendStatus(400);
       }
@@ -500,6 +499,7 @@ GroupRoutes.get('/', async function getGroups(req, res, next) {
     });
   }
   catch (e) {
+    log.error(e);
     next(e);
   }
 });

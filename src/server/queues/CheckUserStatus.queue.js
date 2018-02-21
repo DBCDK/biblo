@@ -2,7 +2,9 @@
  * @file: In this file we check user status.
  */
 
-import {includes, flatMap} from 'lodash';
+import flatMap from 'lodash/flatMap';
+import includes from 'lodash/includes';
+import {log} from 'dbc-node-logger';
 
 /**
  * Filtering the given userMessages.
@@ -50,7 +52,6 @@ export function processUserStatusCheck(job, done) {
     const app = job.app;
     const serviceProvider = app.get('serviceProvider');
     const userMessageAdd = app.get('userMessageAdd');
-    const logger = app.get('logger');
 
     if (
       !job.data || !job.data.favoriteLibrary || !job.data.favoriteLibrary.libraryId || !job.data.favoriteLibrary.pincode || !job.data.favoriteLibrary.loanerId || !job.data.userId
@@ -58,7 +59,7 @@ export function processUserStatusCheck(job, done) {
       return reject(new Error('Required props were not found, try add more data!'));
     }
 
-    logger.info('About to check user status for:', {userId: job.data.userId});
+    log.info('About to check user status for:', {userId: job.data.userId});
 
     const getUserStatusPromise = serviceProvider.trigger('getUserStatus', {
       agencyId: job.data.favoriteLibrary.libraryId,
@@ -73,11 +74,11 @@ export function processUserStatusCheck(job, done) {
       const userStatus = serviceProviderData[0].result;
 
       if (!userStatus) {
-        logger.error('Could not get user status', {user: job.data});
+        log.error('Could not get user status', {user: job.data});
         return reject('Could not get user status');
       }
 
-      logger.info('Got user status for user:', {userId: job.data.userId});
+      log.info('Got user status for user:', {userId: job.data.userId});
 
       const loanedItemsLoanIds = [];
       const readyItemsOrderIds = [];

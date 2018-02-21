@@ -1,5 +1,6 @@
 import express from 'express';
 import {ensureAuthenticated} from '../middlewares/auth.middleware';
+import {log} from 'dbc-node-logger';
 
 const WorkRoutes = express.Router();
 
@@ -68,7 +69,8 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
     res.json({
       errors: [err.message]
     });
-    res.app.get('logger').error('An error occured while placing an order', {
+
+    log.error('An error occured while placing an order', {
       endpoint: '/bestil',
       error: err,
       url: req.url
@@ -76,14 +78,13 @@ WorkRoutes.post('/bestil', ensureAuthenticated, async function(req, res) {
   }
 });
 
-WorkRoutes.get('/:pid', async function(req, res, next) {
-  const logger = res.app.get('logger');
+WorkRoutes.get('/:pid', async (req, res, next) => {
   try {
     const pid = decodeURIComponent(req.params.pid);
     let ownReview = {};
     const workResult = (await req.callServiceProvider('work', {pids: [pid]}))[0];
     if (workResult.error) {
-      logger.error('An error occured while communicating with OpenPlatform', {
+      log.error('An error occured while communicating with OpenPlatform', {
         endpoint: '/work',
         error: workResult.error,
         response: workResult,
@@ -94,7 +95,7 @@ WorkRoutes.get('/:pid', async function(req, res, next) {
     }
 
     if (!workResult.data) {
-      logger.error('No data present in response', {
+      log.error('No data present in response', {
         endpoint: '/work',
         response: workResult,
         url: req.url
@@ -178,6 +179,7 @@ WorkRoutes.get('/:pid', async function(req, res, next) {
     });
   }
   catch (err) {
+    log.error(err);
     next(err);
   }
 });

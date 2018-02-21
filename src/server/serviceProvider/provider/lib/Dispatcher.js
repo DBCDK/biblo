@@ -1,9 +1,9 @@
-import {log} from 'dbc-node-logger';
 /**
  * @file
  * The Dispatcher is a wrapper for socket.io. It will handle all communication
  * between server and client
  */
+import {log} from 'dbc-node-logger';
 
 /**
  * Register events when a new connections is made.
@@ -14,11 +14,11 @@ import {log} from 'dbc-node-logger';
 function registerEventOnConnection(transform, connection) {
   const event = transform.event();
   connection.on(`${event}Request`, (request) => {
-    var startTime = Date.now();
+    const startTime = Date.now();
     transform.trigger(request, connection).forEach((responsePromise) => {
       responsePromise
         .then(response => {
-          log.info(`${event}Response time`, Date.now() - startTime);
+          log.info(`${event} Response`, {event: event, timing: Date.now() - startTime});
           connection.emit(`${event}Response`, response);
         })
         .catch(error => {
@@ -34,7 +34,7 @@ function registerEventOnConnection(transform, connection) {
             error = 'unserialisable error';
           }
 
-          log.warn('ResponseError', {event, error, time: Date.now() - startTime});
+          log.warn('ResponseError', {event, error, timing: Date.now() - startTime});
           connection.emit(`${event}Response`, {error});
         });
     });

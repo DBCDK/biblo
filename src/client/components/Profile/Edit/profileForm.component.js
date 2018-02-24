@@ -75,13 +75,13 @@ export default class ProfileForm extends React.Component {
       const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
       this.props.submit(
         e,
-        this.state.displayName,
+        sanitizeHtml(this.state.displayName),
         this.state.email,
         this.state.phone,
         this.state.libraryId,
         this.state.loanerId,
         this.state.pincode,
-        this.state.description,
+        sanitizeHtml(this.state.description),
         birthday,
         this.state.fullName
       );
@@ -152,7 +152,7 @@ export default class ProfileForm extends React.Component {
               <DisplayNameField
                 value={this.state.displayName}
                 errors={errorObj}
-                onChangeFunc={e => this.setState({displayName: sanitizeHtml(e.target.value)})}
+                onChangeFunc={e => this.setState({displayName: e.target.value})}
                 checkDisplayNameFunction={this.props.checkDisplayNameFunction}
                 displayNameExists={this.props.displayNameExists}
               />
@@ -169,7 +169,7 @@ export default class ProfileForm extends React.Component {
                     ref={description => {
                       this.descriptionRef = description;
                     }}
-                    onChange={e => this.setState({description: sanitizeHtml(e.target.value)})}
+                    onChange={e => this.setState({description: e.target.value})}
                   />
                   {errorObj.description || ''}
                 </label>

@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {debounce} from 'lodash';
+import debounce from 'lodash/debounce';
+import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
 
 import Message from '../../General/Message/Message.component';
 
 let debouncedCheckDisplayNameFunction;
 
 function onChange(onChangeFunc, checkDisplayNameFunction, e) {
-  if (e.target.value !== '') {
+  const sanitizedString = sanitizeHtml(e.target.value);
+  if (sanitizedString !== '') {
     if (!debouncedCheckDisplayNameFunction) {
       debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 1000);
     }
-    debouncedCheckDisplayNameFunction(e.target.value);
+    debouncedCheckDisplayNameFunction(sanitizedString);
   }
   onChangeFunc(e);
 }

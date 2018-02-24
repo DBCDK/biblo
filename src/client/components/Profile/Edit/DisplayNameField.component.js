@@ -19,7 +19,6 @@ function onChange(onChangeFunc, checkDisplayNameFunction, e) {
 }
 
 /**
- *
  * @param {string} errors
  * @param {Function} onChangeFunc
  * @param {Function} checkDisplayNameFunction

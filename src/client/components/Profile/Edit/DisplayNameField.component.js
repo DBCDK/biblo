@@ -18,6 +18,15 @@ function onChange(onChangeFunc, checkDisplayNameFunction, e) {
   onChangeFunc(e);
 }
 
+/**
+ *
+ * @param {string} errors
+ * @param {Function} onChangeFunc
+ * @param {Function} checkDisplayNameFunction
+ * @param {boolean} displayNameExists
+ * @param {string} value
+ * @return {*}
+ */
 export default function DisplayNameField({errors, onChangeFunc, checkDisplayNameFunction, displayNameExists, value}) {
   return (
     <div className="display-name--form-area">

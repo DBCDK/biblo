@@ -8,13 +8,15 @@ import Message from '../../General/Message/Message.component';
 let debouncedCheckDisplayNameFunction;
 
 function onChange(onChangeFunc, checkDisplayNameFunction, e) {
-  const sanitizedString = sanitizeHtml(e.target.value);
-  if (sanitizedString !== '') {
+  if (e.target.value !== '') {
+    const sanitizedString = sanitizeHtml(e.target.value);
+
     if (!debouncedCheckDisplayNameFunction) {
       debouncedCheckDisplayNameFunction = debounce(checkDisplayNameFunction, 1000);
     }
     debouncedCheckDisplayNameFunction(sanitizedString);
   }
+
   onChangeFunc(e);
 }
 

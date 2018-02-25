@@ -13,6 +13,16 @@ import * as searchActions from '../../../Actions/search.actions';
 import './profileEditContainer.component.scss';
 
 class ProfileEditContainer extends React.Component {
+  static propTypes = {
+    searchState: PropTypes.object.isRequired,
+    globalState: PropTypes.object.isRequired,
+    searchActions: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    libraryActions: PropTypes.object.isRequired,
+    entitySuggest: PropTypes.object.isRequired
+  };
+
   profileEditSubmit(event, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName) {
     const actions = this.props.actions;
     const profile = this.props.profile;
@@ -101,17 +111,6 @@ class ProfileEditContainer extends React.Component {
     );
   }
 }
-
-ProfileEditContainer.displayName = 'ProfileEditContainer';
-ProfileEditContainer.propTypes = {
-  searchState: PropTypes.object.isRequired,
-  globalState: PropTypes.object.isRequired,
-  searchActions: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-  libraryActions: PropTypes.object.isRequired,
-  entitySuggest: PropTypes.object.isRequired
-};
 
 /**
  * Connect the redux state and actions to container props

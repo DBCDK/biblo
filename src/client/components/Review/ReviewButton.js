@@ -8,6 +8,18 @@ import Login from '../General/Login/Login.component.js';
 import './ReviewButton.scss';
 
 export class ReviewButton extends React.Component {
+  static propTypes = {
+    editText: PropTypes.string,
+    clickFunction: PropTypes.func,
+    profile: PropTypes.object,
+    glyph: PropTypes.object,
+    loginRequired: PropTypes.bool
+  };
+
+  static defaultProps = {
+    loginRequired: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,16 +55,3 @@ export class ReviewButton extends React.Component {
     );
   }
 }
-
-ReviewButton.displayName = 'ReviewButton';
-ReviewButton.propTypes = {
-  editText: PropTypes.string,
-  clickFunction: PropTypes.func,
-  profile: PropTypes.object,
-  glyph: PropTypes.object,
-  loginRequired: PropTypes.bool
-};
-
-ReviewButton.defaultProps = {
-  loginRequired: true
-};

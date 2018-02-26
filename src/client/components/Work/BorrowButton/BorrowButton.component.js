@@ -37,6 +37,40 @@ const materialSvgs = {
 };
 
 export default class BorrowButton extends React.Component {
+  static propTypes = {
+    buttonTitle: PropTypes.string.isRequired,
+    adjustedTitle: PropTypes.string,
+    modalButtonTitle: PropTypes.string.isRequired,
+    buttonIcon: PropTypes.any.isRequired,
+    itemDescription: PropTypes.string.isRequired,
+    collectionDetails: PropTypes.array.isRequired,
+    coverUrl: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    orderMaterialAction: PropTypes.func.isRequired,
+    orderState: PropTypes.number,
+    saveProfileAction: PropTypes.func.isRequired,
+    unselectLibraryFunction: PropTypes.func.isRequired,
+    searchForLibraryAction: PropTypes.func.isRequired,
+    librarySearchResults: PropTypes.array.isRequired,
+    checkAvailabilityAction: PropTypes.func.isRequired,
+    checkAvailabilityResult: PropTypes.object,
+    checkAvailabilityDone: PropTypes.bool,
+    resetOrderState: PropTypes.func.isRequired,
+    profile: PropTypes.object,
+    getWorkOnlineAccessAction: PropTypes.func.isRequired,
+    errors: PropTypes.array
+  };
+
+  static defaultProps = {
+    orderState: 0,
+    checkAvailabilityResult: {},
+    checkAvailabilityDone: false,
+    profile: {
+      userIsLoggedIn: false
+    }
+  };
+
   constructor() {
     super();
 
@@ -388,37 +422,3 @@ export default class BorrowButton extends React.Component {
     );
   }
 }
-
-BorrowButton.propTypes = {
-  buttonTitle: PropTypes.string.isRequired,
-  adjustedTitle: PropTypes.string,
-  modalButtonTitle: PropTypes.string.isRequired,
-  buttonIcon: PropTypes.any.isRequired,
-  itemDescription: PropTypes.string.isRequired,
-  collectionDetails: PropTypes.array.isRequired,
-  coverUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  orderMaterialAction: PropTypes.func.isRequired,
-  orderState: PropTypes.number,
-  saveProfileAction: PropTypes.func.isRequired,
-  unselectLibraryFunction: PropTypes.func.isRequired,
-  searchForLibraryAction: PropTypes.func.isRequired,
-  librarySearchResults: PropTypes.array.isRequired,
-  checkAvailabilityAction: PropTypes.func.isRequired,
-  checkAvailabilityResult: PropTypes.object,
-  checkAvailabilityDone: PropTypes.bool,
-  resetOrderState: PropTypes.func.isRequired,
-  profile: PropTypes.object,
-  getWorkOnlineAccessAction: PropTypes.func.isRequired,
-  errors: PropTypes.array
-};
-
-BorrowButton.defaultProps = {
-  orderState: 0,
-  checkAvailabilityResult: {},
-  checkAvailabilityDone: false,
-  profile: {
-    userIsLoggedIn: false
-  }
-};

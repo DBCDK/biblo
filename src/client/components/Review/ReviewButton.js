@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../General/Icon/Icon.component.js';
 import Login from '../General/Login/Login.component.js';
+import ProfileLibraryInfoModalContainer from '../Profile/Edit/ProfileLibraryInfoModalContainer.component';
 import './ReviewButton.scss';
 
 export class ReviewButton extends React.Component {
@@ -13,23 +14,27 @@ export class ReviewButton extends React.Component {
     clickFunction: PropTypes.func,
     profile: PropTypes.object,
     glyph: PropTypes.object,
-    loginRequired: PropTypes.bool
+    loginRequired: PropTypes.bool,
+    saveProfileAction: PropTypes.func
   };
 
   static defaultProps = {
     loginRequired: true
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loginPending: false
-    };
-  }
+  state = {
+    loginPending: false,
+    displayLibrarySelectModal: false
+  };
 
   handleClick() {
     if (this.props.profile.userIsLoggedIn || !this.props.loginRequired) {
-      this.props.clickFunction();
+      if (!this.props.profile.favoriteLibrary.hasOwnProperty('libraryId') && this.props.loginRequired) {
+        this.setState({displayLibrarySelectModal: true});
+      }
+      else {
+        this.props.clickFunction();
+      }
     }
     else {
       this.setState({
@@ -44,14 +49,26 @@ export class ReviewButton extends React.Component {
     }
 
     const editText = this.props.editText;
-    const icon = this.props.glyph ? (<Icon glyph={this.props.glyph}/>) : (<span/>);
+    const icon = this.props.glyph ? (<Icon glyph={this.props.glyph} />) : (<span />);
+
+    const modal = this.state.displayLibrarySelectModal ? <ProfileLibraryInfoModalContainer
+      onModalCloseClicked={() => this.setState({displayLibrarySelectModal: false})}
+      title={'Du skal udfylde lånerinformation for at kunne anmelde materialer'}
+      onProfileSaved={() => {
+        this.setState({displayLibrarySelectModal: false});
+        this.props.clickFunction();
+      }}
+    /> : null;
 
     return (
-      <a className="review-button" onClick={this.handleClick.bind(this)}>
-        <span>
-          {icon}{editText}
-        </span>
-      </a>
+      <React.Fragment>
+        <a className="review-button" onClick={this.handleClick.bind(this)}>
+          <span>
+            {icon}{editText}
+          </span>
+        </a>
+        {modal}
+      </React.Fragment>
     );
   }
 }

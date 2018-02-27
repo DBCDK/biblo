@@ -273,7 +273,7 @@ export default class BorrowButton extends React.Component {
             search=""
             searchAction={this.props.searchForLibraryAction}
             searchElements={this.props.librarySearchResults}
-            libraryId={this.state.libraryId}
+            libraryId={this.state.libraryId || ''}
             loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
             pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
             requireAll={true}

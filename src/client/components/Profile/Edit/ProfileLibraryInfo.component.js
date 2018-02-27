@@ -15,7 +15,7 @@ export class ProfileLibraryInfo extends React.Component {
     search: PropTypes.string,
     searchAction: PropTypes.func.isRequired,
     searchElements: PropTypes.array,
-    libraryId: PropTypes.string.isRequired,
+    libraryId: PropTypes.string,
     loanerIdChangeFunc: PropTypes.func.isRequired,
     pincodeChangeFunc: PropTypes.func.isRequired,
     requireAll: PropTypes.bool

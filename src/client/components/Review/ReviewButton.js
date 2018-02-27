@@ -14,8 +14,7 @@ export class ReviewButton extends React.Component {
     clickFunction: PropTypes.func,
     profile: PropTypes.object,
     glyph: PropTypes.object,
-    loginRequired: PropTypes.bool,
-    saveProfileAction: PropTypes.func
+    loginRequired: PropTypes.bool
   };
 
   static defaultProps = {

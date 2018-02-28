@@ -7,6 +7,7 @@ import Icon from '../General/Icon/Icon.component.js';
 import Login from '../General/Login/Login.component.js';
 import ProfileLibraryInfoModalContainer from '../Profile/Edit/ProfileLibraryInfoModalContainer.component';
 import './ReviewButton.scss';
+import {userHasSelectedFavouriteLibrary} from '../../Utils/userHasSelectedFavouriteLibrary.util';
 
 export class ReviewButton extends React.Component {
   static propTypes = {
@@ -28,7 +29,7 @@ export class ReviewButton extends React.Component {
 
   handleClick() {
     if (this.props.profile.userIsLoggedIn || !this.props.loginRequired) {
-      if (!this.props.profile.favoriteLibrary.hasOwnProperty('libraryId') && this.props.loginRequired) {
+      if (!userHasSelectedFavouriteLibrary(this.props.profile) && this.props.loginRequired) {
         this.setState({displayLibrarySelectModal: true});
       }
       else {

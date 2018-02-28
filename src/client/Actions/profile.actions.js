@@ -83,7 +83,6 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
         if (data.redirect && !(options && options.preventRedirect)) {
           window.location.href = data.redirect;
         }
-        dispatch(profileEditSubmitStateChange('SUBMITTED'));
         dispatch(profileEditSubmit(
           imageFile,
           displayname,
@@ -98,6 +97,7 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
           data.status,
           data.errors
         ));
+        dispatch(profileEditSubmitStateChange('SUBMITTED'));
       }
     };
 

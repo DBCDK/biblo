@@ -28,7 +28,12 @@ class ProfileLibraryInfoModalContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.profile.UI.submitState !== 'SUBMITTED' && nextProps.profile.UI.submitState === 'SUBMITTED' && this.props.onProfileSaved) {
+    if (
+      this.props.profile.UI.submitState !== 'SUBMITTED' &&
+      nextProps.profile.UI.submitState === 'SUBMITTED' &&
+      this.props.onProfileSaved &&
+      (!nextProps.profile.errors || nextProps.profile.errors.length === 0)
+    ) {
       this.props.onProfileSaved();
     }
   }

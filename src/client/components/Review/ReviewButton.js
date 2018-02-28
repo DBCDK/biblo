@@ -52,7 +52,7 @@ export class ReviewButton extends React.Component {
 
     const modal = this.state.displayLibrarySelectModal ? <ProfileLibraryInfoModalContainer
       onModalCloseClicked={() => this.setState({displayLibrarySelectModal: false})}
-      title={'Du skal udfylde lånerinformation for at kunne anmelde materialer'}
+      title={'Du skal udfylde din lånerinformation for at kunne anmelde materialer'}
       onProfileSaved={() => {
         this.setState({displayLibrarySelectModal: false});
         this.props.clickFunction();

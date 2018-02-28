@@ -17,6 +17,20 @@
   text-align: right;
 }
 
+.library--hide-loanerid--label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.library--form-area {
+  label {
+    p {
+      text-align: left;
+    }
+  }
+}
+
 .library--form-area--hide-value-mobile {
   input {
     font-size: 16pt;

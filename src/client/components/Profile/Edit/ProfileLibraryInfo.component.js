@@ -204,7 +204,7 @@ export class ProfileLibraryInfo extends React.Component {
                 defaultChecked={this.state.hideLoanerId}
                 onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}
               />
-              Skjul lånernummer
+              <div className={'library--hide-loanerid--label'}>Skjul lånernummer</div>
             </label>
           </div>
         </div>

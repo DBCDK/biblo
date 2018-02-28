@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import Icon from '../General/Icon/Icon.component.js';
 import Login from '../General/Login/Login.component.js';
 import ProfileLibraryInfoModalContainer from '../Profile/Edit/ProfileLibraryInfoModalContainer.component';
-import './ReviewButton.scss';
 import {userHasSelectedFavouriteLibrary} from '../../Utils/userHasSelectedFavouriteLibrary.util';
+import './ReviewButton.scss';
 
 export class ReviewButton extends React.Component {
   static propTypes = {
@@ -45,7 +45,7 @@ export class ReviewButton extends React.Component {
 
   render() {
     if (this.state.loginPending) {
-      return (<Login>Log ind for at skrive en anmeldelse </Login>);
+      return (<Login>Log ind for at skrive en anmeldelse</Login>);
     }
 
     const editText = this.props.editText;

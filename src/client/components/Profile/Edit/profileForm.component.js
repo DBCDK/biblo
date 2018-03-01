@@ -28,7 +28,7 @@ export default class ProfileForm extends React.Component {
     displayName: PropTypes.string,
     description: PropTypes.string,
     email: PropTypes.string,
-    favoriteLibrary: PropTypes.object,
+    favoriteLibrary: PropTypes.object.isRequired,
     searchAction: PropTypes.func.isRequired,
     searchElements: PropTypes.array.isRequired,
     librarySearchDisabled: PropTypes.bool,
@@ -64,24 +64,24 @@ export default class ProfileForm extends React.Component {
     };
 
     this.descriptionRef = null;
-    this.proofileFormRef = null;
+    this.profileFormRef = null;
   }
 
   componentDidMount() {
     autosize(this.descriptionRef);
 
-    const elem = this.proofileFormRef;
+    const elem = this.profileFormRef;
     elem.onsubmit = e => {
       const birthday = !isEmpty(this.state.birthday) ? dateformat(this.state.birthday, 'yyyy-mm-dd') : '';
       this.props.submit(
         e,
-        this.state.displayName,
+        sanitizeHtml(this.state.displayName),
         this.state.email,
         this.state.phone,
         this.state.libraryId,
         this.state.loanerId,
         this.state.pincode,
-        this.state.description,
+        sanitizeHtml(this.state.description),
         birthday,
         this.state.fullName
       );
@@ -133,7 +133,7 @@ export default class ProfileForm extends React.Component {
       <div className={(this.props.errors.length > 0 && ' shakeit') || ''}>
         <div className={'profile-form' + ((this.props.errors.length > 0 && '') || '')}>
           <form method="POST" encType="multipart/form-data" id="profile_form_component" ref={profileForm => {
-            this.proofileFormRef = profileForm;
+            this.profileFormRef = profileForm;
           }}>
             <div className={'profile-image-upload'}>
               <DroppableImageField
@@ -152,7 +152,7 @@ export default class ProfileForm extends React.Component {
               <DisplayNameField
                 value={this.state.displayName}
                 errors={errorObj}
-                onChangeFunc={e => this.setState({displayName: sanitizeHtml(e.target.value)})}
+                onChangeFunc={e => this.setState({displayName: e.target.value})}
                 checkDisplayNameFunction={this.props.checkDisplayNameFunction}
                 displayNameExists={this.props.displayNameExists}
               />
@@ -169,7 +169,7 @@ export default class ProfileForm extends React.Component {
                     ref={description => {
                       this.descriptionRef = description;
                     }}
-                    onChange={e => this.setState({description: sanitizeHtml(e.target.value)})}
+                    onChange={e => this.setState({description: e.target.value})}
                   />
                   {errorObj.description || ''}
                 </label>

@@ -164,17 +164,13 @@ export class WorkDetail extends React.Component {
   splitByAccessType(collectionDetails) {
     const physical = [];
     const ereolen = [];
-    const ereolen_ebooks = [];
     const filmstriben = [];
     const online = [];
 
     collectionDetails.forEach(collection => {
       if (collection.accessType[0] === 'online') {
-        if (collection.workType[0] === 'audiobook') {
+        if (collection.workType[0] === 'audiobook' || collection.workType[0] === 'book') {
           ereolen.push(collection);
-        }
-        else if (collection.workType[0] === 'book') {
-          ereolen_ebooks.push(collection);
         }
         else if (collection.workType[0] === 'movie') {
           filmstriben.push(collection);
@@ -188,7 +184,7 @@ export class WorkDetail extends React.Component {
       }
     });
 
-    return {physical, online, ereolen, ereolen_ebooks, filmstriben};
+    return {physical, online, ereolen, filmstriben};
   }
 
   /**
@@ -202,15 +198,13 @@ export class WorkDetail extends React.Component {
    * @param type
    * @returns {*}
    */
-  renderBorrowerButton(
-    collectionDetails,
+  renderBorrowerButton(collectionDetails,
     adjustedTitle,
     buttonIcon,
     buttonTitle,
     modalButtonTitle = 'Lån',
     itemDescription = '',
-    type = 'physical'
-  ) {
+    type = 'physical') {
     if (collectionDetails.length === 0) {
       return '';
     }
@@ -308,7 +302,8 @@ export class WorkDetail extends React.Component {
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
-    const displayType = this.props.displayType in displayTypeSvgs ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
+    const displayType = this.props.displayType in displayTypeSvgs ? this.props.displayType : 'other'; // eslint-disable-line
+    // no-unused-vars
 
     const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
@@ -323,7 +318,7 @@ export class WorkDetail extends React.Component {
       });
     }
 
-    const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(collectionDetails);
+    const {physical, online, ereolen, filmstriben} = this.splitByAccessType(collectionDetails);
     if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton
@@ -380,15 +375,6 @@ export class WorkDetail extends React.Component {
               'Lån på eReolen GO',
               'Gå til eReolen GO',
               'Hør nu på eReolen',
-              'online'
-            )}
-            {this.renderBorrowerButton(
-              ereolen_ebooks,
-              title,
-              <Icon glyph={eReolenlogo} />,
-              'Lån på eReolen GO',
-              'Gå til eReolen GO',
-              'Læs nu på eReolen',
               'online'
             )}
             {this.renderBorrowerButton(

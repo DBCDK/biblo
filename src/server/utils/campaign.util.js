@@ -37,10 +37,10 @@ export async function getContributions(req, campaign, profileId) {
     });
   }
 
-  throw 'wrong campaign'; // group id missing?
+  throw Error('wrong campaign');
 }
 
-export async function getUserContributedCampaigns (req, profileId) {
+export async function getUserContributedCampaigns(req, profileId) {
   let contributedCampaigns = [];
 
   let campaigns = (await req.callServiceProvider('getAllCampaigns', {}))[0].body;
@@ -53,13 +53,13 @@ export async function getUserContributedCampaigns (req, profileId) {
           if (contributions && contributions.review.data.length > 0 || contributions.group.data.length > 0) {
             contributedCampaigns.push(campaign);
           }
-        }).catch((err)=> {
-          log.error('getting contributions from group failed. missing group id?:', err);
+        }).catch((err) => {
+          log.error('getting contributions from group failed. missing group id?', {error: err.message});
         })
       );
     });
 
-    Promise.all(promises).then(function () {
+    Promise.all(promises).then(function() {
       contributedCampaigns = contributedCampaigns.sort(
         (a, b) => {
           return (

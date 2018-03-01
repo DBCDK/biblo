@@ -154,7 +154,7 @@ export default function profileReducer(state = initialState, action = {}) {
         description: action.description,
         displayname: action.displayname,
         email: action.email,
-        errors: action.errors,
+        errors: action.errors || [],
         fullName: action.fullName,
         phone: action.phone,
         favoriteLibrary: assignToEmpty(state.favoriteLibrary, {

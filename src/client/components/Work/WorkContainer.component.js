@@ -186,6 +186,7 @@ export class WorkContainer extends React.Component {
           <div className="work--reviewlist">
             {reviewVisible && (
               <Review
+                autoplayVideo={false}
                 isEditing={true}
                 toggleReview={this.toggleReview.bind(this)}
                 profile={this.props.profile}

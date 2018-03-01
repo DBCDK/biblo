@@ -115,7 +115,7 @@ export class WorkDetail extends React.Component {
     ];
 
     let shouldRender = false;
-    props.forEach(prop => {
+    props.forEach(prop => { // eslint-disable-line react/prop-types
       if (typeof this.props[prop] === 'object' && !equal(this.props[prop], nextProps[prop])) {
         shouldRender = true;
         return shouldRender;

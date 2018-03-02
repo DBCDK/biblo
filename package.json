@@ -21,7 +21,7 @@
     "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
     "start:watch": "rm -r ./public && webpack --progress --colors --watch -d",
-    "test": "jest",
+    "test": "LOG_LEVEL=off jest",
     "test:ci": "JEST_JUNIT_OUTPUT=./output/jest.xml jest --ci --testResultsProcessor='jest-junit'",
     "tail": "tail -f log.log",
     "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",

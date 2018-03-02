@@ -7,10 +7,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {WorkDetail} from './../WorkDetail.component';
+import BorrowButton from './../../BorrowButton/BorrowButton.component';
 
 describe('Unittesting methods in WorkDetail.component', () => {
   let instance = null;
-  const mockData = [{
+  let wrapper = null;
+
+  const collectionDetails = [{
     accessType: ['physical'], creator: ['Mette Finderup'], pid: ['870970-basis:29145253'], language: ['Dansk'],
     title: ['Emmy - konfirmationshys?'], titleFull: ['Emmy - konfirmationshys? : hvem, mig?'], type: ['Bog'],
     workType: ['book']
@@ -29,10 +32,10 @@ describe('Unittesting methods in WorkDetail.component', () => {
   }];
 
   beforeEach(() => {
-    instance = shallow(
+    wrapper = shallow(
       <WorkDetail
         fullTitle={''}
-        collectionDetails={[]}
+        collectionDetails={collectionDetails}
         profile={{}}
         editText={''}
         toggleReview={() => {}}
@@ -53,16 +56,22 @@ describe('Unittesting methods in WorkDetail.component', () => {
         librarySearchResults={[]}
         getWorkOnlineAccessAction={() => {}}
       />
-    ).instance();
+    );
+
+    instance = wrapper.instance();
   });
 
   it('Ereolen should contain two elements', () => {
-    const result = instance.splitByAccessType(mockData);
+    const result = instance.splitByAccessType(collectionDetails);
     expect(result.ereolen).toHaveLength(2);
   });
 
   it('ereolen_ebooks should not be present', () => {
-    const result = instance.splitByAccessType(mockData);
+    const result = instance.splitByAccessType(collectionDetails);
     expect(result.ereolen_ebooks).toBeUndefined();
+  });
+
+  it('Should render two BorrowButtons', () => {
+    expect(wrapper.find(BorrowButton)).toHaveLength(2);
   });
 });

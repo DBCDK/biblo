@@ -305,6 +305,7 @@ export class WorkDetail extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
@@ -351,15 +352,17 @@ export class WorkDetail extends React.Component {
         {this.renderTopBar()}
         <div className="work-detail--main">
           <div className="work-detail--title-container">
-            <h2 className="work-detail--title">
-              <Icon
-                glyph={displayTypeSvgs[displayType]}
-                className="work-detail--worktype-icon"
-                width={36}
-                height={36}
-              />
-              {title}
-            </h2>
+            <a href="/">
+              <h2 className="work-detail--title">
+                <Icon
+                  glyph={displayTypeSvgs[displayType]}
+                  className="work-detail--worktype-icon"
+                  width={36}
+                  height={36}
+                />
+                {title}
+              </h2>
+            </a>
             {this.props.isMultivolume && (
               <p className="work-detail--multi-volume--title">
                 {this.props.title}: {bind}

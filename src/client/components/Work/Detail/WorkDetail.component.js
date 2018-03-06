@@ -216,8 +216,6 @@ export class WorkDetail extends React.Component {
       return '';
     }
 
-    console.log(arguments);
-
     return (
       <div className="work-detail--button-wrapper">
         <BorrowButton

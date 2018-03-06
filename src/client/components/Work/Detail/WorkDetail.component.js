@@ -317,6 +317,10 @@ export class WorkDetail extends React.Component {
     const profile = this.props.profile;
     let reviewButton;
 
+    const linkToMaterial = Array.isArray(this.props.collection) && this.props.collection[0] ?
+      `/materiale/${this.props.collection[0]}` :
+      '#';
+
     let collectionDetails = this.props.collectionDetails;
     if (this.props.isMultivolume && this.props.bindDetails) {
       collectionDetails = collectionDetails.filter(coll => {
@@ -352,7 +356,7 @@ export class WorkDetail extends React.Component {
         {this.renderTopBar()}
         <div className="work-detail--main">
           <div className="work-detail--title-container">
-            <a href="/">
+            <a href={`${linkToMaterial}`}>
               <h2 className="work-detail--title">
                 <Icon
                   glyph={displayTypeSvgs[displayType]}

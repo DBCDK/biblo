@@ -17,7 +17,7 @@ export class WorkHeader extends React.Component {
 
   /**
    * Called when image is loaded into the DOM.
-   * Determines whether the image is wider than its height.
+   * Determines whether the image dimenstions are landscape or portrait.
    *
    * @param {React.SyntheticEvent} e
    */

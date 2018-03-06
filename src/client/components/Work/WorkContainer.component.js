@@ -28,6 +28,25 @@ import * as ProfileActions from '../../Actions/profile.actions';
 import './WorkContainer.scss';
 
 export class WorkContainer extends React.Component {
+  static propTypes = {
+    searchState: PropTypes.object.isRequired,
+    reviewState: PropTypes.object.isRequired,
+    searchActions: PropTypes.object.isRequired,
+    reviewActions: PropTypes.object.isRequired,
+    flagActions: PropTypes.object.isRequired,
+    likeActions: PropTypes.object.isRequired,
+    uiActions: PropTypes.object.isRequired,
+    ui: PropTypes.object,
+    worktype: PropTypes.string,
+    workActions: PropTypes.object.isRequired,
+    workState: PropTypes.object.isRequired,
+    profile: PropTypes.object,
+    entitySuggest: PropTypes.object.isRequired,
+    libraryActions: PropTypes.object.isRequired,
+    profileActions: PropTypes.object.isRequired,
+    globalState: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -257,26 +276,6 @@ export class WorkContainer extends React.Component {
     );
   }
 }
-
-WorkContainer.displayName = 'WorkContainer';
-WorkContainer.propTypes = {
-  searchState: PropTypes.object.isRequired,
-  reviewState: PropTypes.object.isRequired,
-  searchActions: PropTypes.object.isRequired,
-  reviewActions: PropTypes.object.isRequired,
-  flagActions: PropTypes.object.isRequired,
-  likeActions: PropTypes.object.isRequired,
-  uiActions: PropTypes.object.isRequired,
-  ui: PropTypes.object,
-  worktype: PropTypes.string,
-  workActions: PropTypes.object.isRequired,
-  workState: PropTypes.object.isRequired,
-  profile: PropTypes.object,
-  entitySuggest: PropTypes.object.isRequired,
-  libraryActions: PropTypes.object.isRequired,
-  profileActions: PropTypes.object.isRequired,
-  globalState: PropTypes.object.isRequired
-};
 
 export default connect(
   state => {

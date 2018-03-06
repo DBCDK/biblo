@@ -228,8 +228,8 @@ var myStepDefinitionsWrapper = function() {
       .then(headerText => assert.equal(headerText, 'Mere info'));
   });
 
-  this.Then(/^when I click the (.*) selector$/, function(selector) {
-    return this.click(`.${selector}`);
+  this.Then(/^I click on the element (.*)$/, function(selector) {
+    return this.click(`${selector}`);
   });
 
   this.Then(/^the (.*) selector should count (\d+) elements$/, function(selector, elements) {
@@ -285,6 +285,10 @@ var myStepDefinitionsWrapper = function() {
 
   this.Then(/^the user enters (.+) into (.+)$/, function(value, selector) {
     return this.$(selector).sendKeys(value);
+  });
+
+  this.Then(/^the path should be (.+)$/, function(contained) {
+    return this.browser.getCurrentUrl().then(url => expect(`${BASE_URL}${contained}`).to.equal(url));
   });
 };
 

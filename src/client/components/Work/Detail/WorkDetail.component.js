@@ -195,6 +195,7 @@ export class WorkDetail extends React.Component {
    * Render a button for loans
    *
    * @param collectionDetails
+   * @param adjustedTitle
    * @param buttonIcon
    * @param buttonTitle
    * @param modalButtonTitle
@@ -393,6 +394,7 @@ export class WorkDetail extends React.Component {
             )}
             {this.renderBorrowerButton(
               filmstriben,
+              title,
               <Icon glyph={movieSvgNoBorder} width={24} height={24} />,
               'Lån på filmstriben',
               'Gå til filmstriben',

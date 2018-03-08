@@ -5,7 +5,8 @@ import './WorkHeader.component.scss';
 
 export class WorkHeader extends React.Component {
   static propTypes = {
-    coverUrl: PropTypes.string.isRequired
+    coverUrl: PropTypes.string.isRequired,
+    linkToMaterial: PropTypes.string.isRequired
   };
 
   state = {
@@ -45,7 +46,9 @@ export class WorkHeader extends React.Component {
         <div className={`work-header--background-image ${landscapeClass}`} style={{backgroundImage: `url("${coverUrl}")`}}></div>
         <div className={`work-header--foreground-image--wrapper ${landscapeClass}`}>
           <div className={`work-header--foreground-image ${landscapeClass}`} style={{marginTop: `${marginTop}px`}}>
-            <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />
+            <a href={`${this.props.linkToMaterial}`}>
+              <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />
+            </a>
           </div>
         </div>
       </div>

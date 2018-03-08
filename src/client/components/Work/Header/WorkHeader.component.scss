@@ -23,6 +23,10 @@
 .work-header--foreground-image--wrapper {
   width: 150px;
   margin: auto;
+
+  &.landscape {
+    width: 250px;
+  }
 }
 
 .work-header--foreground-image {
@@ -30,9 +34,18 @@
   position: absolute;
   margin-top: 30px;
 
+  &.landscape {
+    width: 250px;
+    margin-top: 65px;
+  }
+
   img {
-    width: 150px;
+    max-height: 200px;
     box-shadow: 0 2px 20px #232323;
     object-fit: cover;
+
+    &.landscape {
+      width: 250px;
+    }
   }
 }

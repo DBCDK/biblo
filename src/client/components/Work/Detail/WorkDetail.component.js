@@ -64,7 +64,8 @@ export class WorkDetail extends React.Component {
     fullReview: PropTypes.bool,
     ownReview: PropTypes.bool,
     getWorkOnlineAccessAction: PropTypes.func.isRequired,
-    bindDetails: PropTypes.object
+    bindDetails: PropTypes.object,
+    linkToMaterial: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -306,7 +307,6 @@ export class WorkDetail extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
@@ -317,10 +317,6 @@ export class WorkDetail extends React.Component {
 
     const profile = this.props.profile;
     let reviewButton;
-
-    const linkToMaterial = Array.isArray(this.props.collection) && this.props.collection[0] ?
-      `/materiale/${this.props.collection[0]}` :
-      '#';
 
     let collectionDetails = this.props.collectionDetails;
     if (this.props.isMultivolume && this.props.bindDetails) {
@@ -357,7 +353,7 @@ export class WorkDetail extends React.Component {
         {this.renderTopBar()}
         <div className="work-detail--main">
           <div className="work-detail--title-container">
-            <a href={`${linkToMaterial}`}>
+            <a href={`${this.props.linkToMaterial}`}>
               <h2 className="work-detail--title">
                 <Icon
                   glyph={displayTypeSvgs[displayType]}

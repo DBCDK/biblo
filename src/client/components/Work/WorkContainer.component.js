@@ -149,6 +149,10 @@ export class WorkContainer extends React.Component {
       };
     });
 
+    const linkToMaterial = Array.isArray(work.collection) && work.collection[0] ?
+      `/materiale/${work.collection[0]}` :
+      '#';
+
     let isOwnReview = false;
     if (reviews.length > 0) {
       isOwnReview = meta.ownReviewId === highlightedReview.id;
@@ -165,7 +169,7 @@ export class WorkContainer extends React.Component {
           <ModalWindow onClose={this.props.uiActions.closeModalWindow}>{this.props.ui.modal.children}</ModalWindow>
         )}
         <div className="work">
-          <WorkHeader coverUrl={work.coverUrl} />
+          <WorkHeader coverUrl={work.coverUrl} linkToMaterial={linkToMaterial} />
           <WorkDetail
             collection={work.collection}
             collectionDetails={work.collectionDetails}
@@ -200,6 +204,7 @@ export class WorkContainer extends React.Component {
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
             getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
             ownReview={isOwnReview}
+            linkToMaterial={linkToMaterial}
           />
 
           <div className="work--reviewlist">

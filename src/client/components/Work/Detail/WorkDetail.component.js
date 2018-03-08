@@ -228,10 +228,10 @@ export class WorkDetail extends React.Component {
   /**
    * Manipulates the book title based on pre determined rules.
    * Currently only manipulates multivolume titles.
-   * @param {String}title - dcTitle
-   * @param {String}titleFull - dcTitleFull
-   * @param {String}displayType´
-   * @param {Boolean}isMultivolume
+   * @param {String} title - dcTitle
+   * @param {String} titleFull - dcTitleFull
+   * @param {String} bind
+   * @param {Boolean} isMultivolume
    * @returns {String}
    */
   adjustTitle(title, titleFull, bind, isMultivolume) {

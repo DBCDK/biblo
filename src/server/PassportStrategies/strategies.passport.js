@@ -28,7 +28,8 @@ export function Unilogin(app, uniloginConfig) {
         log.warn('Error when comparing auth\'s in ticket from UNI-Loing', {
           error: error,
           query: req.query,
-          ticket: ticket
+          ticket: ticket,
+          sessionId: req.sessionID
         });
         return done(null, false, error.auth.message);
       }
@@ -41,7 +42,8 @@ export function Unilogin(app, uniloginConfig) {
         log.warn('Error when validating timestamps in ticket from UNI-Loing', {
           error: error,
           query: req.query,
-          ticket: ticket
+          ticket: ticket,
+          sessionId: req.sessionID
         });
 
         return done(null, false, error.timestamp.message);
@@ -52,7 +54,7 @@ export function Unilogin(app, uniloginConfig) {
         // Check if user exists
         if (!res.data.exists) {
           // user doesn't exist, create user
-          log.info('User was not found, creating profile', {ticket: ticket});
+          log.info('User was not found, creating profile', {ticket: ticket, sessionId: req.sessionID});
           return serviceProvider.trigger('createProfile', ticket.user)[0];
         }
         return {};
@@ -83,7 +85,9 @@ export function Unilogin(app, uniloginConfig) {
 
               resolveTemp1(res);
             }).catch((err) => {
-              log.error('an error occurred when getting pickupAgencListDetails', {error: err.message});
+              log.error('an error occurred when getting pickupAgencListDetails', {
+                error: err.message, sessionId: req.sessionID
+              });
               resolveTemp1(res);
             });
           });

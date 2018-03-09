@@ -112,7 +112,7 @@ export class WorkContainer extends React.Component {
     const work = this.props.workState.work; // the work collection from the service provider
     const isMultivolume = !!(work.multivolume && work.multivolume.length);
     const bind = (isMultivolume && /(bind \d+)/.exec((work.type[0] || '').toLowerCase())[0]) || '';
-    const bindPids = isMultivolume ? work.bind[work.bindId].pid : work.collection;
+    const bindPids = isMultivolume && work.bind[work.bindId] ? work.bind[work.bindId].pid : work.collection;
     const bindDetails = isMultivolume ? work.bind[work.bindId] : {};
     const multivolumeDisplay = this.getMultiVolumeDisplay(
       work,

@@ -95,7 +95,7 @@ export default function parseWork(work) {
   work.publisher = (work.publisher) ? work.publisher[0] : null;
   work.ageRecommended = (work.audienceAge) ? work.audienceAge : null;
   work.ageAllowed = (work.audienceMedieraad) ? work.audienceMedieraad[0] : null;
+  /* Testing for (bind \d) in type has proven unsafe. We cannot be sure type always contains (bind \d), but it is the best solution for now.*/
   work = (work.type && /^bog\s\(bind \d+\)/ig.test(work.type)) ? Object.assign({}, work, parseMultiVolume(work)) : work;
-
   return work;
 }

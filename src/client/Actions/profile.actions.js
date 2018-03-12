@@ -76,12 +76,10 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
     request.open('POST', options && options.formLocation || window.location.href);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.onreadystatechange = (e) => {
-      if (
-        e.target.readyState === 4
-      ) {
+      if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
         if (data.redirect && !(options && options.preventRedirect)) {
-          window.location.href = data.redirect;
+          window.location.assign(data.redirect);
         }
         dispatch(profileEditSubmit(
           imageFile,

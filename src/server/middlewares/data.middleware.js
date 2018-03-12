@@ -67,7 +67,7 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
   };
 
   req.callServiceProvider('getFullProfile').then((result) => {
-    if (result && result[0] && result[0].statusMessage === 'OK') {
+    if (result && result[0] && result[0].body && result[0].statusCode === 200) {
       req.session.passport.user.profile = {profile: Object.assign(result[0].body, {userIsLoggedIn: true}), errors: []};
     }
 

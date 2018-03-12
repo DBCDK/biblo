@@ -16,6 +16,7 @@ export class InputField extends React.Component {
             <strong>{this.props.title}</strong>
           </p>
           <input
+            id={this.props.id}
             required={this.props.required}
             name={this.props.name}
             type={this.props.type}
@@ -39,6 +40,7 @@ export class InputField extends React.Component {
 InputField.displayName = 'InputField';
 InputField.propTypes = {
   defaultValue: PropTypes.string,
+  id: PropTypes.string,
   error: PropTypes.any,
   onChangeFunc: PropTypes.func.isRequired,
   type: PropTypes.string,
@@ -57,6 +59,7 @@ InputField.defaultProps = {
   error: '',
   onChangeFunc: () => {},
   name: 'standard',
+  id: '',
   title: '',
   placeholder: '',
   type: 'text',

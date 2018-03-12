@@ -11,7 +11,11 @@
  * @returns *
  */
 export function redirectBackToOrigin(req, res, next) {
-  if (req.session.returnUrl) {
+  if (req.session.hasOwnProperty('shouldFillProfile') && req.session.shouldFillProfile) {
+    delete req.session.shouldFillProfile;
+    return res.redirect('/profil/rediger');
+  }
+  else if (req.session.returnUrl) {
     let ret = req.session.returnUrl;
     delete req.session.returnUrl;
     return res.redirect(ret);

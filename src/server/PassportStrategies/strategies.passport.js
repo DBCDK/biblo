@@ -19,6 +19,7 @@ export function Unilogin(app, uniloginConfig) {
       uniloginBasePath: uniloginConfig.uniloginBasePath,
       maxTicketAge: 30
     }, (error, req, ticket, done) => { // eslint-disable-line consistent-return
+      console.log('PASSPORT');
 
       if (error && error.auth.error) {
         req.session.passportError = {
@@ -54,7 +55,10 @@ export function Unilogin(app, uniloginConfig) {
         // Check if user exists
         if (!res.data.exists) {
           // user doesn't exist, create user
+          req.session.shouldFillProfile = true;
+          req.session.onFilledProfile = req.session.returnUrl;
           log.info('User was not found, creating profile', {ticket: ticket, sessionId: req.sessionID});
+
           return serviceProvider.trigger('createProfile', ticket.user)[0];
         }
         return {};

@@ -37,6 +37,7 @@ export default function DisplayNameField({errors, onChangeFunc, checkDisplayName
         </p>
         <input
           className={displayNameExists ? 'error' : ''}
+          id={'profile-displayname-input'}
           required
           name="displayname"
           value={value}

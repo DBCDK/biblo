@@ -19,7 +19,6 @@ export function Unilogin(app, uniloginConfig) {
       uniloginBasePath: uniloginConfig.uniloginBasePath,
       maxTicketAge: 30
     }, (error, req, ticket, done) => { // eslint-disable-line consistent-return
-      console.log('PASSPORT');
 
       if (error && error.auth.error) {
         req.session.passportError = {

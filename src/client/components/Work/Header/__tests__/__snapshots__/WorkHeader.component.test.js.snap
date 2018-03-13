@@ -340,7 +340,7 @@ ShallowWrapper {
             }
           >
             Object {
-              "img": <img
+              "image": <img
                 className=""
                 onLoad={[Function]}
                 src=""
@@ -381,7 +381,7 @@ ShallowWrapper {
             }
           >
             Object {
-              "img": <img
+              "image": <img
                 className=""
                 onLoad={[Function]}
                 src=""
@@ -397,7 +397,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Object {
-              "img": <img
+              "image": <img
                 className=""
                 onLoad={[Function]}
                 src=""
@@ -410,7 +410,7 @@ ShallowWrapper {
           },
           "ref": null,
           "rendered": Object {
-            "img": <img
+            "image": <img
               className=""
               onLoad={[Function]}
               src=""
@@ -450,7 +450,7 @@ ShallowWrapper {
               }
             >
               Object {
-                "img": <img
+                "image": <img
                   className=""
                   onLoad={[Function]}
                   src=""
@@ -491,7 +491,7 @@ ShallowWrapper {
               }
             >
               Object {
-                "img": <img
+                "image": <img
                   className=""
                   onLoad={[Function]}
                   src=""
@@ -507,7 +507,7 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Object {
-                "img": <img
+                "image": <img
                   className=""
                   onLoad={[Function]}
                   src=""
@@ -520,7 +520,7 @@ ShallowWrapper {
             },
             "ref": null,
             "rendered": Object {
-              "img": <img
+              "image": <img
                 className=""
                 onLoad={[Function]}
                 src=""

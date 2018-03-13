@@ -151,7 +151,7 @@ export class WorkContainer extends React.Component {
 
     const linkToMaterial = Array.isArray(work.collection) && work.collection[0] ?
       `/materiale/${work.collection[0]}` :
-      '#';
+      '';
 
     let isOwnReview = false;
     if (reviews.length > 0) {

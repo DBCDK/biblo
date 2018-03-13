@@ -40,15 +40,21 @@ export class WorkHeader extends React.Component {
     const coverUrl = this.props.coverUrl;
     const landscapeClass = this.state.isLandscape ? 'landscape' : '';
     const marginTop = 240 - this.state.imageHeight;
+    const img =
+      <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />;
 
     return (
       <div className='work-header'>
         <div className={`work-header--background-image ${landscapeClass}`} style={{backgroundImage: `url("${coverUrl}")`}}></div>
         <div className={`work-header--foreground-image--wrapper ${landscapeClass}`}>
           <div className={`work-header--foreground-image ${landscapeClass}`} style={{marginTop: `${marginTop}px`}}>
-            <a href={`${this.props.linkToMaterial}`}>
-              <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />
-            </a>
+            {
+              this.props.linkToMaterial.length ?
+                <a href={`${this.props.linkToMaterial}`}>
+                  {img}
+                </a> :
+                {img}
+            }
           </div>
         </div>
       </div>

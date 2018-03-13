@@ -204,15 +204,13 @@ export class WorkDetail extends React.Component {
    * @param type
    * @returns {*}
    */
-  renderBorrowerButton(
-    collectionDetails,
+  renderBorrowerButton(collectionDetails,
     adjustedTitle,
     buttonIcon,
     buttonTitle,
     modalButtonTitle = 'Lån',
     itemDescription = '',
-    type = 'physical'
-  ) {
+    type = 'physical') {
     if (collectionDetails.length === 0) {
       return '';
     }
@@ -310,7 +308,8 @@ export class WorkDetail extends React.Component {
     const bind = this.props.bind;
     const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
     const creator = this.props.creator;
-    const displayType = this.props.displayType in displayTypeSvgs ? this.props.displayType : 'other'; // eslint-disable-line no-unused-vars
+    const displayType = this.props.displayType in displayTypeSvgs ? this.props.displayType : 'other'; // eslint-disable-line
+    // no-unused-vars
 
     const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
     const abstract = this.props.abstract;
@@ -348,22 +347,28 @@ export class WorkDetail extends React.Component {
       );
     }
 
+    const workTitle = <h2 className="work-detail--title">
+      <Icon
+        glyph={displayTypeSvgs[displayType]}
+        className="work-detail--worktype-icon"
+        width={36}
+        height={36}
+      />
+      {title}
+    </h2>;
+
     return (
       <div className="work-detail" ref={workDetail => (this.workDetailRef = workDetail)}>
         {this.renderTopBar()}
         <div className="work-detail--main">
           <div className="work-detail--title-container">
-            <a href={`${this.props.linkToMaterial}`}>
-              <h2 className="work-detail--title">
-                <Icon
-                  glyph={displayTypeSvgs[displayType]}
-                  className="work-detail--worktype-icon"
-                  width={36}
-                  height={36}
-                />
-                {title}
-              </h2>
-            </a>
+            {
+              this.props.linkToMaterial.length ?
+                <a href={`${this.props.linkToMaterial}`}>
+                  {workTitle}
+                </a> :
+                {workTitle}
+            }
             {this.props.isMultivolume && (
               <p className="work-detail--multi-volume--title">
                 {this.props.title}: {bind}

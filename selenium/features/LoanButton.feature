@@ -17,7 +17,7 @@ Feature: Loan button
     Given a user visits material 870970-basis:29145253
     And the cookiewarning has been closed
     Then Take a screenshot with filename: a.png
-    And when I click the borrow--button-online selector
+    And I click on the element .borrow--button-online
     Then Take a screenshot with filename: b.png
     And the modal-window--borrow--types selector should contain the following items
       | EBOG | LYDBOG (NET) |

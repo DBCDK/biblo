@@ -3,10 +3,10 @@ Feature: Redirect after login
 
   Scenario: A new user should be redirected back to the first page after succesful login and profile form filling
     When mock frontpage is loaded
-    And a user visits the frontpage
-    And the cookiewarning has been closed
+    Given a user visits the frontpage
+    Given the cookiewarning has been closed
     When mock emptyUser is loaded
-    And the user can log in
+    Given the user can log in
     When mock EntitySuggest is loaded
     And the user enters testhest into #profile-displayname-input
     And the user enters Biblioteket Godthåb into #library-searchfield

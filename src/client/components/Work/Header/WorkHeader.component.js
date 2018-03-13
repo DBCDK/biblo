@@ -41,7 +41,7 @@ export class WorkHeader extends React.Component {
     const landscapeClass = this.state.isLandscape ? 'landscape' : '';
     const marginTop = 240 - this.state.imageHeight;
     const image =
-      <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />;
+      <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={img => this.image = img} />;
 
     return (
       <div className='work-header'>

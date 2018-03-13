@@ -55,6 +55,7 @@ describe('Unittesting methods in WorkDetail.component', () => {
         saveProfileAction={() => {}}
         librarySearchResults={[]}
         getWorkOnlineAccessAction={() => {}}
+        linkToMaterial={''}
       />
     );
 

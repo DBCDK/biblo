@@ -9,7 +9,7 @@ var BASE_URL = process.env.SELENIUM_URL || `http://localhost:${config.get('Biblo
 
 var myStepDefinitionsWrapper = function() {
   this.Given(/^a user visits the frontpage$/i, function(callback) {
-    this.browser.get(BASE_URL)
+    this.browser.get(`${BASE_URL}/`)
       .then(() => {
         callback();
       });
@@ -281,6 +281,10 @@ var myStepDefinitionsWrapper = function() {
 
   this.Then(/^the highlight header contains (.+)$/, function(contained) {
     return this.$('.highlight-section > .review-list--header').getText().then(text => assert.equal(contained, text));
+  });
+
+  this.Then(/^the user enters (.+) into (.+)$/, function(value, selector) {
+    return this.$(selector).sendKeys(value);
   });
 };
 

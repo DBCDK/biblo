@@ -25,7 +25,12 @@ ShallowWrapper {
         >
           <Icon
             className="icon"
-            glyph="test-file-stub"
+            glyph={
+              Object {
+                "id": "",
+                "viewBox": "",
+              }
+            }
             height={30}
             width={100}
           />
@@ -62,7 +67,12 @@ ShallowWrapper {
           >
             <Icon
               className="icon"
-              glyph="test-file-stub"
+              glyph={
+                Object {
+                  "id": "",
+                  "viewBox": "",
+                }
+              }
               height={30}
               width={100}
             />
@@ -96,7 +106,12 @@ ShallowWrapper {
           "props": Object {
             "children": <Icon
               className="icon"
-              glyph="test-file-stub"
+              glyph={
+                Object {
+                  "id": "",
+                  "viewBox": "",
+                }
+              }
               height={30}
               width={100}
             />,
@@ -109,7 +124,10 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "className": "icon",
-              "glyph": "test-file-stub",
+              "glyph": Object {
+                "id": "",
+                "viewBox": "",
+              },
               "height": 30,
               "width": 100,
             },
@@ -177,7 +195,12 @@ ShallowWrapper {
           >
             <Icon
               className="icon"
-              glyph="test-file-stub"
+              glyph={
+                Object {
+                  "id": "",
+                  "viewBox": "",
+                }
+              }
               height={30}
               width={100}
             />
@@ -214,7 +237,12 @@ ShallowWrapper {
             >
               <Icon
                 className="icon"
-                glyph="test-file-stub"
+                glyph={
+                  Object {
+                    "id": "",
+                    "viewBox": "",
+                  }
+                }
                 height={30}
                 width={100}
               />
@@ -248,7 +276,12 @@ ShallowWrapper {
             "props": Object {
               "children": <Icon
                 className="icon"
-                glyph="test-file-stub"
+                glyph={
+                  Object {
+                    "id": "",
+                    "viewBox": "",
+                  }
+                }
                 height={30}
                 width={100}
               />,
@@ -261,7 +294,10 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "className": "icon",
-                "glyph": "test-file-stub",
+                "glyph": Object {
+                  "id": "",
+                  "viewBox": "",
+                },
                 "height": 30,
                 "width": 100,
               },

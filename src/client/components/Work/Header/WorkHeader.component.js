@@ -40,7 +40,7 @@ export class WorkHeader extends React.Component {
     const coverUrl = this.props.coverUrl;
     const landscapeClass = this.state.isLandscape ? 'landscape' : '';
     const marginTop = 240 - this.state.imageHeight;
-    const img =
+    const image =
       <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />;
 
     return (
@@ -51,9 +51,9 @@ export class WorkHeader extends React.Component {
             {
               this.props.linkToMaterial.length ?
                 <a href={`${this.props.linkToMaterial}`}>
-                  {img}
+                  {image}
                 </a> :
-                {img}
+                {image}
             }
           </div>
         </div>

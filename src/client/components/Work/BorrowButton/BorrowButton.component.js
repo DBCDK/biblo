@@ -415,7 +415,7 @@ export default class BorrowButton extends React.Component {
             this.props.profile,
             this.closeModal.bind(this)
           )}
-        <a className="borrow--button" onClick={() => this.setState({displayModal: true})}>
+        <a className={`borrow--button borrow--button-${this.props.type}`} onClick={() => this.setState({displayModal: true})}>
           {this.props.buttonIcon} <span className="button-text">{this.props.buttonTitle}</span>
         </a>
       </div>

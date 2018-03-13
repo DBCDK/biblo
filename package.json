@@ -21,7 +21,7 @@
     "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
     "start:watch": "rm -r ./public && webpack --progress --colors --watch -d",
-    "test": "jest",
+    "test": "LOG_LEVEL=off jest",
     "test:ci": "JEST_JUNIT_OUTPUT=./output/jest.xml jest --ci --testResultsProcessor='jest-junit'",
     "tail": "tail -f log.log",
     "tail:timer": "tail -f log.log | awk '(/event/ || /time_delta/ || /TIMER/) && !/result/'",
@@ -36,7 +36,8 @@
     ],
     "testRegex": "(__tests__/).*test.js$",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js",
       "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },

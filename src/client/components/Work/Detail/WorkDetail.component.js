@@ -165,17 +165,13 @@ export class WorkDetail extends React.Component {
   splitByAccessType(collectionDetails) {
     const physical = [];
     const ereolen = [];
-    const ereolen_ebooks = [];
     const filmstriben = [];
     const online = [];
 
     collectionDetails.forEach(collection => {
       if (collection.accessType[0] === 'online') {
-        if (collection.workType[0] === 'audiobook') {
+        if (collection.workType[0] === 'audiobook' || collection.workType[0] === 'book') {
           ereolen.push(collection);
-        }
-        else if (collection.workType[0] === 'book') {
-          ereolen_ebooks.push(collection);
         }
         else if (collection.workType[0] === 'movie') {
           filmstriben.push(collection);
@@ -189,7 +185,7 @@ export class WorkDetail extends React.Component {
       }
     });
 
-    return {physical, online, ereolen, ereolen_ebooks, filmstriben};
+    return {physical, online, ereolen, filmstriben};
   }
 
   /**
@@ -324,7 +320,7 @@ export class WorkDetail extends React.Component {
       });
     }
 
-    const {physical, online, ereolen, ereolen_ebooks, filmstriben} = this.splitByAccessType(collectionDetails);
+    const {physical, online, ereolen, filmstriben} = this.splitByAccessType(collectionDetails);
     if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton
@@ -389,15 +385,6 @@ export class WorkDetail extends React.Component {
               'Lån på eReolen GO',
               'Gå til eReolen GO',
               'Hør nu på eReolen',
-              'online'
-            )}
-            {this.renderBorrowerButton(
-              ereolen_ebooks,
-              title,
-              <Icon glyph={eReolenlogo} />,
-              'Lån på eReolen GO',
-              'Gå til eReolen GO',
-              'Læs nu på eReolen',
               'online'
             )}
             {this.renderBorrowerButton(

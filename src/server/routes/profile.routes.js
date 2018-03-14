@@ -13,6 +13,7 @@ import {
 } from '../middlewares/auth.middleware';
 
 import {getUserContributedCampaigns} from '../utils/campaign.util.js';
+import {log} from 'dbc-node-logger';
 
 let upload = multer({storage: multer.memoryStorage()});
 
@@ -319,6 +320,8 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
       }
 
       if (errors.length > 0) {
+        console.log('if', data);
+        console.log('errors', errors);
         data.status = 'ERROR';
         data.errors = errors;
       }
@@ -352,6 +355,13 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
         }
       }
 
+      // Override preivous redirects if onFilledProfile is truthy
+      if (req.session.hasOwnProperty('onFilledProfile') && req.session.onFilledProfile.length) {
+        const destination = req.session.onFilledProfile;
+        delete req.session.onFilledProfile;
+        data.redirect = destination;
+      }
+
       if (req.xhr) {
         res.setHeader('Content-Type', 'application/json');
         return res.send(JSON.stringify(data));
@@ -364,6 +374,7 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
       });
     }
     catch (e) {
+      log.error(e.message);
       return next(e);
     }
   });

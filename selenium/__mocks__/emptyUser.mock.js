@@ -5,8 +5,7 @@ module.exports = function emptyUser(times) {
   nock('http://localhost:3000', {encodedQueryParams: true})
     .post('/api/Profiles/checkIfUserExists')
     .times(times)
-
-    .reply(200, {"username": "bobby_hansen", "exists": true});
+    .reply(200, {"username": "bobby_hansen", "exists": false});
 
   nock('http://localhost:3000', {encodedQueryParams: true})
     .post('/api/Profiles/unilogin')
@@ -193,5 +192,15 @@ module.exports = function emptyUser(times) {
         "widgetName": "ContentPageTextWidget",
         "widgetConfig": {"content": "<p>This is the frontpage</p>"}
       }]
+    });
+
+  nock('http://localhost:3000')
+    .post('/api/Profiles')
+    .times(times)
+    .reply(200, {
+      "username": "bobby_hansen",
+      "created": "2018-03-12T20:33:15.657Z",
+      "lastUpdated": "2018-03-12T20:33:15.657Z",
+      "id": 1
     });
 };

@@ -124,6 +124,7 @@ export class ProfileLibraryInfo extends React.Component {
       return (
         <div className="search-area library-search-area" onKeyDown={this.onKeyDownHandler.bind(this)}>
           <InputField
+            id={'library-searchfield'}
             defaultValue={this.props.search}
             error={this.props.errorObj.search}
             onChangeFunc={this.props.searchAction}

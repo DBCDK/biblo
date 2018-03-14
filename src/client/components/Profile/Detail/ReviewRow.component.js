@@ -16,6 +16,13 @@ import Icon from '../../General/Icon/Icon.component';
 import './scss/ReviewRow.component.scss';
 
 export default class ReviewRow extends React.Component {
+  static propTypes = {
+    activeUser: PropTypes.object.isRequired,
+    metadata: PropTypes.object.isRequired,
+    likeActions: PropTypes.object.isRequired,
+    review: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -169,12 +176,3 @@ export default class ReviewRow extends React.Component {
     );
   }
 }
-
-ReviewRow.displayName = 'ReviewRow';
-
-ReviewRow.propTypes = {
-  activeUser: PropTypes.object.isRequired,
-  metadata: PropTypes.object.isRequired,
-  likeActions: PropTypes.object.isRequired,
-  review: PropTypes.object.isRequired
-};

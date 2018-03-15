@@ -28,6 +28,25 @@ import * as ProfileActions from '../../Actions/profile.actions';
 import './WorkContainer.scss';
 
 export class WorkContainer extends React.Component {
+  static propTypes = {
+    searchState: PropTypes.object.isRequired,
+    reviewState: PropTypes.object.isRequired,
+    searchActions: PropTypes.object.isRequired,
+    reviewActions: PropTypes.object.isRequired,
+    flagActions: PropTypes.object.isRequired,
+    likeActions: PropTypes.object.isRequired,
+    uiActions: PropTypes.object.isRequired,
+    ui: PropTypes.object,
+    worktype: PropTypes.string,
+    workActions: PropTypes.object.isRequired,
+    workState: PropTypes.object.isRequired,
+    profile: PropTypes.object,
+    entitySuggest: PropTypes.object.isRequired,
+    libraryActions: PropTypes.object.isRequired,
+    profileActions: PropTypes.object.isRequired,
+    globalState: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -130,6 +149,10 @@ export class WorkContainer extends React.Component {
       };
     });
 
+    const linkToMaterial = Array.isArray(work.collection) && work.collection[0] ?
+      `/materiale/${work.collection[0]}` :
+      '';
+
     let isOwnReview = false;
     if (reviews.length > 0) {
       isOwnReview = meta.ownReviewId === highlightedReview.id;
@@ -146,7 +169,7 @@ export class WorkContainer extends React.Component {
           <ModalWindow onClose={this.props.uiActions.closeModalWindow}>{this.props.ui.modal.children}</ModalWindow>
         )}
         <div className="work">
-          <WorkHeader coverUrl={work.coverUrl} />
+          <WorkHeader coverUrl={work.coverUrl} linkToMaterial={linkToMaterial} />
           <WorkDetail
             collection={work.collection}
             collectionDetails={work.collectionDetails}
@@ -181,6 +204,7 @@ export class WorkContainer extends React.Component {
             saveProfileAction={this.props.profileActions.asyncProfileEditSubmit}
             getWorkOnlineAccessAction={this.props.workActions.asyncGetWorkOnlineAccess}
             ownReview={isOwnReview}
+            linkToMaterial={linkToMaterial}
           />
 
           <div className="work--reviewlist">
@@ -257,26 +281,6 @@ export class WorkContainer extends React.Component {
     );
   }
 }
-
-WorkContainer.displayName = 'WorkContainer';
-WorkContainer.propTypes = {
-  searchState: PropTypes.object.isRequired,
-  reviewState: PropTypes.object.isRequired,
-  searchActions: PropTypes.object.isRequired,
-  reviewActions: PropTypes.object.isRequired,
-  flagActions: PropTypes.object.isRequired,
-  likeActions: PropTypes.object.isRequired,
-  uiActions: PropTypes.object.isRequired,
-  ui: PropTypes.object,
-  worktype: PropTypes.string,
-  workActions: PropTypes.object.isRequired,
-  workState: PropTypes.object.isRequired,
-  profile: PropTypes.object,
-  entitySuggest: PropTypes.object.isRequired,
-  libraryActions: PropTypes.object.isRequired,
-  profileActions: PropTypes.object.isRequired,
-  globalState: PropTypes.object.isRequired
-};
 
 export default connect(
   state => {

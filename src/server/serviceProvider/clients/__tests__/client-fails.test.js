@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import EntitySuggest from '../entitysuggest.client';
-import {assert} from 'chai';
 import sinon from 'sinon';
 import request from 'request'
 

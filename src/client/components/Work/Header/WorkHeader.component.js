@@ -5,7 +5,8 @@ import './WorkHeader.component.scss';
 
 export class WorkHeader extends React.Component {
   static propTypes = {
-    coverUrl: PropTypes.string.isRequired
+    coverUrl: PropTypes.string.isRequired,
+    linkToMaterial: PropTypes.string.isRequired
   };
 
   state = {
@@ -39,15 +40,21 @@ export class WorkHeader extends React.Component {
     const coverUrl = this.props.coverUrl;
     const landscapeClass = this.state.isLandscape ? 'landscape' : '';
     const marginTop = 240 - this.state.imageHeight;
+    const image =
+      <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={img => this.image = img} />;
 
     return (
-      <div>
-        <div className='work-header'>
-          <div className={`work-header--background-image ${landscapeClass}`} style={{backgroundImage: `url("${coverUrl}")`}}></div>
-          <div className={`work-header--foreground-image--wrapper ${landscapeClass}`}>
-            <div className={`work-header--foreground-image ${landscapeClass}`} style={{marginTop: `${marginTop}px`}}>
-              <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={(img) => this.image = img} />
-            </div>
+      <div className='work-header'>
+        <div className={`work-header--background-image ${landscapeClass}`} style={{backgroundImage: `url("${coverUrl}")`}}></div>
+        <div className={`work-header--foreground-image--wrapper ${landscapeClass}`}>
+          <div className={`work-header--foreground-image ${landscapeClass}`} style={{marginTop: `${marginTop}px`}}>
+            {
+              this.props.linkToMaterial.length ?
+                <a href={`${this.props.linkToMaterial}`}>
+                  {image}
+                </a> :
+                {image}
+            }
           </div>
         </div>
       </div>

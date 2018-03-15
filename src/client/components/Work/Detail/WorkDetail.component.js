@@ -64,7 +64,8 @@ export class WorkDetail extends React.Component {
     fullReview: PropTypes.bool,
     ownReview: PropTypes.bool,
     getWorkOnlineAccessAction: PropTypes.func.isRequired,
-    bindDetails: PropTypes.object
+    bindDetails: PropTypes.object,
+    linkToMaterial: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -223,10 +224,10 @@ export class WorkDetail extends React.Component {
   /**
    * Manipulates the book title based on pre determined rules.
    * Currently only manipulates multivolume titles.
-   * @param {String}title - dcTitle
-   * @param {String}titleFull - dcTitleFull
-   * @param {String}displayType´
-   * @param {Boolean}isMultivolume
+   * @param {String} title - dcTitle
+   * @param {String} titleFull - dcTitleFull
+   * @param {String} bind
+   * @param {Boolean} isMultivolume
    * @returns {String}
    */
   adjustTitle(title, titleFull, bind, isMultivolume) {
@@ -342,20 +343,28 @@ export class WorkDetail extends React.Component {
       );
     }
 
+    const workTitle = <h2 className="work-detail--title">
+      <Icon
+        glyph={displayTypeSvgs[displayType]}
+        className="work-detail--worktype-icon"
+        width={36}
+        height={36}
+      />
+      {title}
+    </h2>;
+
     return (
       <div className="work-detail" ref={workDetail => (this.workDetailRef = workDetail)}>
         {this.renderTopBar()}
         <div className="work-detail--main">
           <div className="work-detail--title-container">
-            <h2 className="work-detail--title">
-              <Icon
-                glyph={displayTypeSvgs[displayType]}
-                className="work-detail--worktype-icon"
-                width={36}
-                height={36}
-              />
-              {title}
-            </h2>
+            {
+              this.props.linkToMaterial.length ?
+                <a href={`${this.props.linkToMaterial}`}>
+                  {workTitle}
+                </a> :
+                {workTitle}
+            }
             {this.props.isMultivolume && (
               <p className="work-detail--multi-volume--title">
                 {this.props.title}: {bind}

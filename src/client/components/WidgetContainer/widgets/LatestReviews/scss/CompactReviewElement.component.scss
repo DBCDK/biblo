@@ -58,10 +58,18 @@
     }
   }
 
+  .compact-review--review-content--rating {
+    margin-top: 12px;
+  }
+
   .compact-review--review-content--content {
     flex-grow: 1;
+    max-height: 145px;
+    overflow: hidden;
+
     a {
       vertical-align: middle;
+      margin-left: 4px;
     }
   }
 
@@ -79,7 +87,7 @@
 
   .compact-review-worktype-icon {
     fill: $governor-bay;
-    padding: 4px;
+    padding: 4px 4px 4px 0;
   }
 
   .compact-review--owner-image--container {

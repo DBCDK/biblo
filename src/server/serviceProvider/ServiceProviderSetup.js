@@ -10,7 +10,7 @@ import {log} from 'dbc-node-logger';
 
 // import clients
 import CommunityClient from './clients/community.client';
-import EntitySuggest from 'dbc-node-entitysuggest';
+import EntitySuggest from './clients/entitysuggest.client';
 import OpenAgency from 'dbc-node-openagency-client';
 import OpenPlatformClient from './clients/openplatform.client.js';
 import BibloAdminClient from './clients/bibloadmin.client';

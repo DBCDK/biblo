@@ -24,6 +24,7 @@ const GetLatestPostsTransform = {
           scope: {
             include: [
               'image',
+              'likes',
               {
                 relation: 'video',
                 scope: {

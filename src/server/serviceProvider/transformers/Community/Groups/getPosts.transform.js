@@ -58,6 +58,7 @@ const GetPostsTransform = {
           scope: {
             include: [
               'image',
+              'likes',
               {
                 relation: 'video',
                 scope: {
@@ -103,6 +104,7 @@ const GetPostsTransform = {
 
     const campaigns = response[1].concat(response[2].body);
     const posts = JSON.parse(response[0].body);
+    console.log(posts[0].review);
     return Promise.all(posts.map(post => this.fetchCommentsForPost(post)
       .then(postWithComments => parsePost(postWithComments, campaigns))))
       .catch(err => ({errors: [err]}));

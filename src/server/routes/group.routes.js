@@ -301,6 +301,7 @@ async function fetchGroupData(params, req, res, update = {}) {
               scope: {
                 include: [
                   'image',
+                  'likes',
                   {
                     relation: 'video',
                     scope: {

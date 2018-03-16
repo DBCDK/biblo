@@ -18,6 +18,7 @@ const GetPostsTransform = {
           scope: {
             include: [
               'image',
+              'likes',
               {
                 relation: 'video',
                 scope: {
@@ -58,6 +59,7 @@ const GetPostsTransform = {
                 scope: {
                   include: [
                     'image',
+                    'likes',
                     {
                       relation: 'video',
                       scope: {

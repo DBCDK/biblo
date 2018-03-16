@@ -58,6 +58,7 @@ const GetPostsTransform = {
           scope: {
             include: [
               'image',
+              'likes',
               {
                 relation: 'video',
                 scope: {
@@ -97,6 +98,7 @@ const GetPostsTransform = {
   },
 
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+
     if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getPosts failed');
     }

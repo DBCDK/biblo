@@ -19,6 +19,10 @@
   @include max-screen($tablet - 1px) {
     @include span(5 of 5);
   }
+
+  .generic-widget-wrapper {
+    padding: 0 1em;
+  }
 }
 
 .generic-widget-container.ContentPageTextWidget--container, .generic-widget-container.ContentPageImageWidget--container {

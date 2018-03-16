@@ -1,0 +1,1336 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Unittesting methods in MultiVolumeDisplay.component.test.js Should match snapshot 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MultiVolumeDisplay
+    getMetadataAction={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "870970-basis:52796636",
+          ],
+          Array [
+            "870970-basis:28949847",
+          ],
+          Array [
+            "870970-basis:52796644",
+          ],
+          Array [
+            "870970-basis:29024707",
+          ],
+          Array [
+            "870970-basis:53234127",
+          ],
+          Array [
+            "870970-basis:29283893",
+          ],
+          Array [
+            "870970-basis:53234097",
+          ],
+          Array [
+            "870970-basis:29333793",
+          ],
+          Array [
+            "870970-basis:29496226",
+          ],
+          Array [
+            "870970-basis:29602352",
+          ],
+        ],
+      }
+    }
+    multivolume={
+      Array [
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:52796636",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 1)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:28949847",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 1)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:52796644",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 2)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:29024707",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 2)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:53234127",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 3)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:29283893",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 3)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:53234097",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 4)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:29333793",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 4)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:29496226",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 5)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+        Object {
+          "accessType": Array [
+            "physical",
+          ],
+          "creator": Array [
+            "Erin Hunter",
+          ],
+          "language": Array [
+            "Dansk",
+          ],
+          "pid": Array [
+            "870970-basis:29602352",
+          ],
+          "title": Array [
+            "Krigerkattene",
+          ],
+          "titleFull": Array [
+            "Krigerkattene",
+          ],
+          "type": Array [
+            "Bog (bind 6)",
+          ],
+          "workType": Array [
+            "book",
+          ],
+        },
+      ]
+    }
+    multivolumeMetadata={Object {}}
+    multivolumeTitle="Krigerkattene"
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="more-info--header"
+        >
+          Alle bind i 
+          Krigerkattene
+        </div>,
+        Array [
+          <div
+            className="work-detail--series-display--edition-container"
+          >
+            <a
+              href="/materiale/870970-basis:52796636"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 1
+              </p>
+            </a>
+          </div>,
+          null,
+          <div
+            className="work-detail--series-display--edition-container"
+          >
+            <a
+              href="/materiale/870970-basis:52796644"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 2
+              </p>
+            </a>
+          </div>,
+          null,
+          <div
+            className="work-detail--series-display--edition-container"
+          >
+            <a
+              href="/materiale/870970-basis:53234127"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 3
+              </p>
+            </a>
+          </div>,
+          null,
+          <div
+            className="work-detail--series-display--edition-container"
+          >
+            <a
+              href="/materiale/870970-basis:53234097"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 4
+              </p>
+            </a>
+          </div>,
+          null,
+          <div
+            className="work-detail--series-display--edition-container"
+          >
+            <a
+              href="/materiale/870970-basis:29496226"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 5
+              </p>
+            </a>
+          </div>,
+          <div
+            className="work-detail--series-display--edition-container"
+          >
+            <a
+              href="/materiale/870970-basis:29602352"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 6
+              </p>
+            </a>
+          </div>,
+        ],
+      ],
+      "className": "more-info",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            "Alle bind i ",
+            "Krigerkattene",
+          ],
+          "className": "more-info--header",
+        },
+        "ref": null,
+        "rendered": Array [
+          "Alle bind i ",
+          "Krigerkattene",
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "sd_870970-basis:52796636",
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="/materiale/870970-basis:52796636"
+          >
+            <img
+              src={undefined}
+            />
+            <p>
+              bind 1
+            </p>
+          </a>,
+          "className": "work-detail--series-display--edition-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                src={undefined}
+              />,
+              <p>
+                bind 1
+              </p>,
+            ],
+            "href": "/materiale/870970-basis:52796636",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "src": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "bind 1",
+              },
+              "ref": null,
+              "rendered": "bind 1",
+              "type": "p",
+            },
+          ],
+          "type": "a",
+        },
+        "type": "div",
+      },
+      null,
+      Object {
+        "instance": null,
+        "key": "sd_870970-basis:52796644",
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="/materiale/870970-basis:52796644"
+          >
+            <img
+              src={undefined}
+            />
+            <p>
+              bind 2
+            </p>
+          </a>,
+          "className": "work-detail--series-display--edition-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                src={undefined}
+              />,
+              <p>
+                bind 2
+              </p>,
+            ],
+            "href": "/materiale/870970-basis:52796644",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "src": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "bind 2",
+              },
+              "ref": null,
+              "rendered": "bind 2",
+              "type": "p",
+            },
+          ],
+          "type": "a",
+        },
+        "type": "div",
+      },
+      null,
+      Object {
+        "instance": null,
+        "key": "sd_870970-basis:53234127",
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="/materiale/870970-basis:53234127"
+          >
+            <img
+              src={undefined}
+            />
+            <p>
+              bind 3
+            </p>
+          </a>,
+          "className": "work-detail--series-display--edition-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                src={undefined}
+              />,
+              <p>
+                bind 3
+              </p>,
+            ],
+            "href": "/materiale/870970-basis:53234127",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "src": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "bind 3",
+              },
+              "ref": null,
+              "rendered": "bind 3",
+              "type": "p",
+            },
+          ],
+          "type": "a",
+        },
+        "type": "div",
+      },
+      null,
+      Object {
+        "instance": null,
+        "key": "sd_870970-basis:53234097",
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="/materiale/870970-basis:53234097"
+          >
+            <img
+              src={undefined}
+            />
+            <p>
+              bind 4
+            </p>
+          </a>,
+          "className": "work-detail--series-display--edition-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                src={undefined}
+              />,
+              <p>
+                bind 4
+              </p>,
+            ],
+            "href": "/materiale/870970-basis:53234097",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "src": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "bind 4",
+              },
+              "ref": null,
+              "rendered": "bind 4",
+              "type": "p",
+            },
+          ],
+          "type": "a",
+        },
+        "type": "div",
+      },
+      null,
+      Object {
+        "instance": null,
+        "key": "sd_870970-basis:29496226",
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="/materiale/870970-basis:29496226"
+          >
+            <img
+              src={undefined}
+            />
+            <p>
+              bind 5
+            </p>
+          </a>,
+          "className": "work-detail--series-display--edition-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                src={undefined}
+              />,
+              <p>
+                bind 5
+              </p>,
+            ],
+            "href": "/materiale/870970-basis:29496226",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "src": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "bind 5",
+              },
+              "ref": null,
+              "rendered": "bind 5",
+              "type": "p",
+            },
+          ],
+          "type": "a",
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "sd_870970-basis:29602352",
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="/materiale/870970-basis:29602352"
+          >
+            <img
+              src={undefined}
+            />
+            <p>
+              bind 6
+            </p>
+          </a>,
+          "className": "work-detail--series-display--edition-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                src={undefined}
+              />,
+              <p>
+                bind 6
+              </p>,
+            ],
+            "href": "/materiale/870970-basis:29602352",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "src": undefined,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "bind 6",
+              },
+              "ref": null,
+              "rendered": "bind 6",
+              "type": "p",
+            },
+          ],
+          "type": "a",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="more-info--header"
+          >
+            Alle bind i 
+            Krigerkattene
+          </div>,
+          Array [
+            <div
+              className="work-detail--series-display--edition-container"
+            >
+              <a
+                href="/materiale/870970-basis:52796636"
+              >
+                <img
+                  src={undefined}
+                />
+                <p>
+                  bind 1
+                </p>
+              </a>
+            </div>,
+            null,
+            <div
+              className="work-detail--series-display--edition-container"
+            >
+              <a
+                href="/materiale/870970-basis:52796644"
+              >
+                <img
+                  src={undefined}
+                />
+                <p>
+                  bind 2
+                </p>
+              </a>
+            </div>,
+            null,
+            <div
+              className="work-detail--series-display--edition-container"
+            >
+              <a
+                href="/materiale/870970-basis:53234127"
+              >
+                <img
+                  src={undefined}
+                />
+                <p>
+                  bind 3
+                </p>
+              </a>
+            </div>,
+            null,
+            <div
+              className="work-detail--series-display--edition-container"
+            >
+              <a
+                href="/materiale/870970-basis:53234097"
+              >
+                <img
+                  src={undefined}
+                />
+                <p>
+                  bind 4
+                </p>
+              </a>
+            </div>,
+            null,
+            <div
+              className="work-detail--series-display--edition-container"
+            >
+              <a
+                href="/materiale/870970-basis:29496226"
+              >
+                <img
+                  src={undefined}
+                />
+                <p>
+                  bind 5
+                </p>
+              </a>
+            </div>,
+            <div
+              className="work-detail--series-display--edition-container"
+            >
+              <a
+                href="/materiale/870970-basis:29602352"
+              >
+                <img
+                  src={undefined}
+                />
+                <p>
+                  bind 6
+                </p>
+              </a>
+            </div>,
+          ],
+        ],
+        "className": "more-info",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              "Alle bind i ",
+              "Krigerkattene",
+            ],
+            "className": "more-info--header",
+          },
+          "ref": null,
+          "rendered": Array [
+            "Alle bind i ",
+            "Krigerkattene",
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "sd_870970-basis:52796636",
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="/materiale/870970-basis:52796636"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 1
+              </p>
+            </a>,
+            "className": "work-detail--series-display--edition-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <img
+                  src={undefined}
+                />,
+                <p>
+                  bind 1
+                </p>,
+              ],
+              "href": "/materiale/870970-basis:52796636",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "src": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "bind 1",
+                },
+                "ref": null,
+                "rendered": "bind 1",
+                "type": "p",
+              },
+            ],
+            "type": "a",
+          },
+          "type": "div",
+        },
+        null,
+        Object {
+          "instance": null,
+          "key": "sd_870970-basis:52796644",
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="/materiale/870970-basis:52796644"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 2
+              </p>
+            </a>,
+            "className": "work-detail--series-display--edition-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <img
+                  src={undefined}
+                />,
+                <p>
+                  bind 2
+                </p>,
+              ],
+              "href": "/materiale/870970-basis:52796644",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "src": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "bind 2",
+                },
+                "ref": null,
+                "rendered": "bind 2",
+                "type": "p",
+              },
+            ],
+            "type": "a",
+          },
+          "type": "div",
+        },
+        null,
+        Object {
+          "instance": null,
+          "key": "sd_870970-basis:53234127",
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="/materiale/870970-basis:53234127"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 3
+              </p>
+            </a>,
+            "className": "work-detail--series-display--edition-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <img
+                  src={undefined}
+                />,
+                <p>
+                  bind 3
+                </p>,
+              ],
+              "href": "/materiale/870970-basis:53234127",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "src": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "bind 3",
+                },
+                "ref": null,
+                "rendered": "bind 3",
+                "type": "p",
+              },
+            ],
+            "type": "a",
+          },
+          "type": "div",
+        },
+        null,
+        Object {
+          "instance": null,
+          "key": "sd_870970-basis:53234097",
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="/materiale/870970-basis:53234097"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 4
+              </p>
+            </a>,
+            "className": "work-detail--series-display--edition-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <img
+                  src={undefined}
+                />,
+                <p>
+                  bind 4
+                </p>,
+              ],
+              "href": "/materiale/870970-basis:53234097",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "src": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "bind 4",
+                },
+                "ref": null,
+                "rendered": "bind 4",
+                "type": "p",
+              },
+            ],
+            "type": "a",
+          },
+          "type": "div",
+        },
+        null,
+        Object {
+          "instance": null,
+          "key": "sd_870970-basis:29496226",
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="/materiale/870970-basis:29496226"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 5
+              </p>
+            </a>,
+            "className": "work-detail--series-display--edition-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <img
+                  src={undefined}
+                />,
+                <p>
+                  bind 5
+                </p>,
+              ],
+              "href": "/materiale/870970-basis:29496226",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "src": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "bind 5",
+                },
+                "ref": null,
+                "rendered": "bind 5",
+                "type": "p",
+              },
+            ],
+            "type": "a",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "sd_870970-basis:29602352",
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="/materiale/870970-basis:29602352"
+            >
+              <img
+                src={undefined}
+              />
+              <p>
+                bind 6
+              </p>
+            </a>,
+            "className": "work-detail--series-display--edition-container",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <img
+                  src={undefined}
+                />,
+                <p>
+                  bind 6
+                </p>,
+              ],
+              "href": "/materiale/870970-basis:29602352",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "src": undefined,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "bind 6",
+                },
+                "ref": null,
+                "rendered": "bind 6",
+                "type": "p",
+              },
+            ],
+            "type": "a",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

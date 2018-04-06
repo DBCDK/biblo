@@ -60,9 +60,7 @@ describe('Testing ReviewButton.test.js - not logged in', () => {
       profileReducer: {
         userIsLoggedIn: true,
         favoriteLibrary: {
-          libraryId: '123456',
-          loanerId: '1234',
-          pincode: '0000'
+          libraryId: '123456'
         }
       },
       entitySuggestReducer: {

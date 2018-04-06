@@ -10,11 +10,7 @@ export function userHasSelectedFavouriteLibrary(profile) {
   if (profile.hasOwnProperty('favoriteLibrary')) {
     hasFilled = !!(
       profile.favoriteLibrary.libraryId &&
-      profile.favoriteLibrary.libraryId.length &&
-      profile.favoriteLibrary.loanerId &&
-      profile.favoriteLibrary.loanerId.length &&
-      profile.favoriteLibrary.pincode &&
-      profile.favoriteLibrary.pincode.length
+      profile.favoriteLibrary.libraryId.length
     );
   }
 

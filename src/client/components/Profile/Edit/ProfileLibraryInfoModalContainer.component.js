@@ -83,8 +83,8 @@ class ProfileLibraryInfoModalContainer extends React.Component {
               unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
               searchAction={this.librarySearch.bind(this)}
               searchElements={librarySuggestions}
-              loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
-              pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
+              loanerIdChangeFunc={null}
+              pincodeChangeFunc={null}
               requireAll
             />
             <input type="submit" value="OK" className="modal-window--review-button" />

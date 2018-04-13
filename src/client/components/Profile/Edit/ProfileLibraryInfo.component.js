@@ -16,8 +16,8 @@ export class ProfileLibraryInfo extends React.Component {
     searchAction: PropTypes.func.isRequired,
     searchElements: PropTypes.array,
     libraryId: PropTypes.string,
-    loanerIdChangeFunc: PropTypes.func.isRequired,
-    pincodeChangeFunc: PropTypes.func.isRequired,
+    loanerIdChangeFunc: PropTypes.func,
+    pincodeChangeFunc: PropTypes.func,
     requireAll: PropTypes.bool
   };
 
@@ -185,7 +185,7 @@ export class ProfileLibraryInfo extends React.Component {
           />
         </div>
 
-        <div className={this.getLoanerIdInputFieldClassName()}>
+        {this.props.loanerIdChangeFunc && <div className={this.getLoanerIdInputFieldClassName()}>
           <InputField
             error={this.props.errorObj.loanerId}
             onChangeFunc={this.props.loanerIdChangeFunc}
@@ -208,9 +208,9 @@ export class ProfileLibraryInfo extends React.Component {
               <div className={'library--hide-loanerid--label'}>Skjul lånernummer</div>
             </label>
           </div>
-        </div>
+        </div>}
 
-        <div className={this.getLoanerIdInputFieldClassName()}>
+        {this.props.pincodeChangeFunc && <div className={this.getLoanerIdInputFieldClassName()}>
           <InputField
             error={this.props.errorObj.pincode}
             onChangeFunc={this.props.pincodeChangeFunc}
@@ -223,7 +223,7 @@ export class ProfileLibraryInfo extends React.Component {
             autocomplete="off"
             pattern="[0-9]*"
           />
-        </div>
+        </div>}
       </div>
     );
   }

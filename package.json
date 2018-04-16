@@ -17,8 +17,6 @@
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
     "mmj:serve": ". ./mmj.env && forever -w --watchDirectory src/server --killSignal=SIGTERM src/main.js",
     "serve": "nodemon --exec node --no-stdin src/main.js",
-    "selenium": "mocha -t 80000 selenium/selenium_test.js",
-    "selenium:junit": "mocha -t 80000 selenium/selenium_test.js -R mocha-jenkins-reporter",
     "start": "node src/main.js",
     "start:watch": "rm -r ./public && webpack --progress --colors --watch -d",
     "test": "LOG_LEVEL=off jest",

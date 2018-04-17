@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
+import Truncate from '../../General/Truncate/Truncate.component';
 
 // Components
 import Rating from '../../General/Rating/Rating.component';
@@ -140,7 +141,11 @@ export default class ReviewRow extends React.Component {
             <img src={coverUrl} alt={title} />
           </div>
           <div className="review--data">
-            <span className="review--data--material-title"><a href={`/materiale/${review.pid}`}>{title}</a></span>
+            <span className="review--data--material-title">
+              <a href={`/materiale/${review.pid}`}>
+                <Truncate lines={5} ellipsis={<span>...</span>} text={title}/>
+              </a>
+            </span>
             <div className="ratings">
               <Rating rating={review.rating} />
             </div>

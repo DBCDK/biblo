@@ -17,7 +17,7 @@ export class CustomTruncate extends React.Component {
     text: PropTypes.string.isRequired
   };
   render() {
-    return <Truncate lines={this.props.lines} ellipsis={this.props.ellipsis}><span>{this.props.text}</span></Truncate>
+    return <Truncate lines={this.props.lines} ellipsis={this.props.ellipsis}><span>{this.props.text}</span></Truncate>;
   }
 }
 

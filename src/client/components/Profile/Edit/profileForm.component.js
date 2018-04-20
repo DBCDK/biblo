@@ -230,7 +230,7 @@ export default class ProfileForm extends React.Component {
               />
 
               <div className={'profile-form-submit-button'}>{submitArea}</div>
-              <div className="profile-form--required-fields-description">Du <strong>skal</strong> udfylde de felter, der har en *. De andre felter må du selv bestemme om du vil udfylde</div>
+              <div className="profile-form--required-fields-description">* Du <i>skal</i> udfylde de felter, der har en stjerne. De andre felter må du selv bestemme om du vil udfylde.</div>
             </div>
           </form>
         </div>

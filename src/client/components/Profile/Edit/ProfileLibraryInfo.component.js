@@ -130,7 +130,7 @@ export class ProfileLibraryInfo extends React.Component {
             onChangeFunc={this.props.searchAction}
             type="text"
             name="search"
-            title="Vælg dit bibliotek"
+            title="Vælg dit bibliotek *"
             placeholder="Søg efter dit bibliotek her"
             autocomplete="off"
             disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
@@ -168,7 +168,7 @@ export class ProfileLibraryInfo extends React.Component {
 
     return (
       <div className="library--form-area">
-        <h3>Dit bibliotek<span className="required-field-asterisk">*</span></h3>
+        <h3>Dit bibliotek</h3>
         {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
 
         <div className="selected-library-description">

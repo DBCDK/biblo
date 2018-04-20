@@ -33,7 +33,7 @@ export default function DisplayNameField({errors, onChangeFunc, checkDisplayName
     <div className="display-name--form-area">
       <label>
         <p>
-          <strong>Vælg et brugernavn</strong>
+          <strong>Vælg et brugernavn</strong><span className="required-field-asterisk">*</span>
         </p>
         <input
           className={displayNameExists ? 'error' : ''}

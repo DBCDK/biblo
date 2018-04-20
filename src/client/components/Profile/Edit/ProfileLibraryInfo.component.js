@@ -168,7 +168,7 @@ export class ProfileLibraryInfo extends React.Component {
 
     return (
       <div className="library--form-area">
-        <h3>Dit bibliotek</h3>
+        <h3>Dit bibliotek<span className="required-field-asterisk">*</span></h3>
         {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
 
         <div className="selected-library-description">

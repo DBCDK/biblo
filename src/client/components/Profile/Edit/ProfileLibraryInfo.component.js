@@ -130,7 +130,7 @@ export class ProfileLibraryInfo extends React.Component {
             onChangeFunc={this.props.searchAction}
             type="text"
             name="search"
-            title="Vælg dit bibliotek"
+            title="Vælg dit bibliotek *"
             placeholder="Søg efter dit bibliotek her"
             autocomplete="off"
             disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}

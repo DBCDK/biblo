@@ -153,6 +153,18 @@ function updateProfile(endpoint, {uid, profile, accessToken}) {
   });
 }
 
+/**
+ * Delete Profile
+ *
+ * @param endpoint
+ * @param params
+ * @returns {Promise}
+ */
+function deleteProfile(endpoint, {id, accessToken}) {
+  return promiseRequest('delete', {url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`});
+}
+
+
 function removeImage(endpoint, {imageId, accessToken}) {
   return promiseRequest('del', {
     url: `${endpoint}api/ImageCollections/${imageId}?access_token=${accessToken}`
@@ -469,6 +481,45 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
     });
   });
 }
+
+/**
+ * Change group owner.
+ * @param endpoint {string}
+ * @param groupId {int}
+ * @param name {string}
+ * @param description {string}
+ * @param colour {string}
+ * @param coverImage {file}
+ * @param uid {int}
+ * @param accessToken {string}
+ * @param isModerator {boolean}
+ */
+function changeGroupOwner(endpoint, {groupId, groupownerid, uid, accessToken, isModerator}) {
+  if (!accessToken) {
+    return Promise.reject('Please provide an access token!');
+  }
+
+  return promiseRequest('get', {
+    url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
+    json: true
+  }).then((groupGetResponse) => {
+    const group = groupGetResponse.body;
+    if (!isModerator && group.groupownerid !== uid) {
+      return Promise.reject('User does not own the group!');
+    }
+
+    return promiseRequest('put', {
+      url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
+      json: true,
+      body: {
+        groupownerid
+      }
+    }).then(response => {
+      return response.body;
+    });
+  });
+}
+
 
 /**
  * Fetches a Group in Loopback
@@ -1446,6 +1497,7 @@ module.exports = function CommunityClient(config = null) {
     loginAndGetProfile: loginAndGetProfile.bind(null, config.endpoint),
     createProfile: createProfile.bind(null, config.endpoint),
     updateProfile: updateProfile.bind(null, config.endpoint),
+    deleteProfile: deleteProfile.bind(null, config.endpoint),
     updateImage: updateImage.bind(null, config.endpoint),
     updateImageCollection: updateImageCollection.bind(null, config.endpoint),
     uploadImage: uploadImage.bind(null, config.endpoint),
@@ -1456,6 +1508,7 @@ module.exports = function CommunityClient(config = null) {
     joinGroup: joinGroup.bind(null, config.endpoint),
     leaveGroup: leaveGroup.bind(null, config.endpoint),
     getGroup: getGroup.bind(null, config.endpoint),
+    changeGroupOwner: changeGroupOwner.bind(null, config.endpoint),
     closeGroup: closeGroup.bind(null, config.endpoint),
     deleteGroup: deleteGroup.bind(null, config.endpoint),
     listGroups: listGroups.bind(null, config.endpoint),

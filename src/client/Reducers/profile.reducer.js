@@ -4,6 +4,7 @@
 
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
+import { profileIsDeleted } from '../Actions/profile.actions';
 
 
 let initialState = {
@@ -44,7 +45,8 @@ let initialState = {
   UI: {
     submitState: '',
     submitProgress: 0
-  }
+  },
+  deleted: false
 };
 
 if (typeof window !== 'undefined') {
@@ -202,6 +204,21 @@ export default function profileReducer(state = initialState, action = {}) {
       return assignToEmpty(state, {
         userMessages: assignToEmpty(state.userMessages, {
           messages: messages
+        })
+      });
+    }
+    case types.DELETE_PROFILE: {
+      return assignToEmpty(state, {
+        UI: assignToEmpty(state.UI, {
+          deleting: true
+        })
+      });
+    }
+    case types.DELETE_PROFILE_COMPLETED: {
+      return assignToEmpty(state, {
+        profileIsDeleted: true,
+        UI: assignToEmpty(state.UI, {
+          deleting: false
         })
       });
     }

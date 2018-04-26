@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import ProfileForm from './profileForm.component';
 import PageLayout from '../../Layout/PageLayout.component';
+import ProfileDelete from '../Delete/ProfileDeleteContainer.component';
 
 import * as ProfileActions from '../../../Actions/profile.actions';
 import * as EntitySuggestLibraryActions from '../../../Actions/entitySuggetLibrary.actions';
@@ -101,6 +102,7 @@ class ProfileEditContainer extends React.Component {
                 checkDisplayNameFunction={this.props.actions.asyncCheckDisplayNameExists}
                 displayNameExists={this.props.profile.displayNameExists}
               />
+              <ProfileDelete />
             </div>
             <div className="after-profile-edit--form-component-container">
               <br />

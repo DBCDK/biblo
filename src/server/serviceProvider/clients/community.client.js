@@ -1,7 +1,8 @@
 import {promiseRequest} from './../../utils/promiseRequest.util';
 import request from 'request';
 import {log} from 'dbc-node-logger';
-
+import {config} from '@dbcdk/biblo-config';
+const defaultModerator = config.get('ServiceProvider.community.defaultModerator');
 const uuid = require('node-uuid');
 const http = require('http');
 const url_parser = require('url').parse;
@@ -152,6 +153,18 @@ function updateProfile(endpoint, {uid, profile, accessToken}) {
     json: true
   });
 }
+
+/**
+ * Delete Profile
+ *
+ * @param endpoint
+ * @param params
+ * @returns {Promise}
+ */
+function deleteProfile(endpoint, {id, accessToken}) {
+  return promiseRequest('delete', {url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`});
+}
+
 
 function removeImage(endpoint, {imageId, accessToken}) {
   return promiseRequest('del', {
@@ -469,6 +482,45 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
     });
   });
 }
+
+/**
+ * Change group owner.
+ * @param endpoint {string}
+ * @param groupId {int}
+ * @param name {string}
+ * @param description {string}
+ * @param colour {string}
+ * @param coverImage {file}
+ * @param uid {int}
+ * @param accessToken {string}
+ * @param isModerator {boolean}
+ */
+function changeGroupOwner(endpoint, {groupId, groupownerid, uid, accessToken, isModerator}) {
+  if (!accessToken) {
+    return Promise.reject('Please provide an access token!');
+  }
+
+  return promiseRequest('get', {
+    url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
+    json: true
+  }).then((groupGetResponse) => {
+    const group = groupGetResponse.body;
+    if (!isModerator && group.groupownerid !== uid) {
+      return Promise.reject('User does not own the group!');
+    }
+
+    return promiseRequest('put', {
+      url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
+      json: true,
+      body: {
+        groupownerid
+      }
+    }).then(response => {
+      return response.body;
+    });
+  });
+}
+
 
 /**
  * Fetches a Group in Loopback
@@ -1361,6 +1413,46 @@ function getPostPdf(endpoint, {id}) {
     json: true
   });
 }
+/**
+ * Transfer ownership of a users groups.
+ * @param {string} endpoint
+ * @param {number} uid
+ * @param {number} newUid
+ * @param {string|mixed} include
+ * @returns {Promise}
+ */
+async function transferGroups(endpoint, {uid, newUid = defaultModerator, accessToken}) {
+  
+  const filter = encodeURIComponent(JSON.stringify({
+    where: {
+      groupownerid: uid
+    }
+  }));
+  try {
+    const {body} = await promiseRequest('get', {
+      url: `${endpoint}api/Groups?filter=${filter}&access_token=${accessToken}`,
+      json: true,
+      body: {
+        groupownerid: uid
+      }
+    });
+    await Promise.all(body.map(g => {
+      return promiseRequest('patch', {
+        url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
+        json: true,
+        body: {
+          groupownerid: newUid
+        }
+      });
+    }));
+
+    return true;
+  } 
+  catch (e) {
+    console.log(e);
+    return false;
+  }
+}
 
 /**
  * Remove pdf from post
@@ -1446,6 +1538,7 @@ module.exports = function CommunityClient(config = null) {
     loginAndGetProfile: loginAndGetProfile.bind(null, config.endpoint),
     createProfile: createProfile.bind(null, config.endpoint),
     updateProfile: updateProfile.bind(null, config.endpoint),
+    deleteProfile: deleteProfile.bind(null, config.endpoint),
     updateImage: updateImage.bind(null, config.endpoint),
     updateImageCollection: updateImageCollection.bind(null, config.endpoint),
     uploadImage: uploadImage.bind(null, config.endpoint),
@@ -1456,6 +1549,7 @@ module.exports = function CommunityClient(config = null) {
     joinGroup: joinGroup.bind(null, config.endpoint),
     leaveGroup: leaveGroup.bind(null, config.endpoint),
     getGroup: getGroup.bind(null, config.endpoint),
+    changeGroupOwner: changeGroupOwner.bind(null, config.endpoint),
     closeGroup: closeGroup.bind(null, config.endpoint),
     deleteGroup: deleteGroup.bind(null, config.endpoint),
     listGroups: listGroups.bind(null, config.endpoint),
@@ -1493,6 +1587,7 @@ module.exports = function CommunityClient(config = null) {
     getCampaign: getCampaign.bind(null, config.endpoint),
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
+    transferGroups: transferGroups.bind(null, config.endpoint),
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),

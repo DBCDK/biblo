@@ -59,6 +59,13 @@ class ProfileEditContainer extends React.Component {
 
   render() {
 
+    if (this.props.profile.profileIsDeleted) {
+      return (
+        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+          profilen er væk :)
+        </PageLayout>
+      );
+    }
     const searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 20).map((suggestion) => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
@@ -102,7 +109,7 @@ class ProfileEditContainer extends React.Component {
                 checkDisplayNameFunction={this.props.actions.asyncCheckDisplayNameExists}
                 displayNameExists={this.props.profile.displayNameExists}
               />
-              <ProfileDelete />
+              <ProfileDelete profile={this.props.profile} onDelete={this.props.actions.asyncDeleteProfile} />
             </div>
             <div className="after-profile-edit--form-component-container">
               <br />

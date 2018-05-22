@@ -99,7 +99,6 @@ export default function initProvider(config, sockets) {
     isCacheableValue
   };
 
-  console.log(config);
   const RegisterClientOnProvider = registerServiceClient.bind(null, provider, config, ClientCache(cacheStore));
 
   // Register all clients

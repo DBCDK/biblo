@@ -280,11 +280,10 @@ export function deleteUserMessage({messageType, createdEpoch}) {
  * @param messageType
  * @param createdEpoch
  */
-export function profileIsDeleted({messageType, createdEpoch}) {
+export function profileIsDeleted(data) {
   return {
-    type: types.DELETE_USER_MESSAGE,
-    messageType,
-    createdEpoch
+    type: types.DELETE_PROFILE_COMPLETED,
+    data
   };
 }
 
@@ -294,9 +293,9 @@ export function profileIsDeleted({messageType, createdEpoch}) {
  * @param {Number} createdEpoch - Epoch of when the message was created (Find this is the message object).
  * @returns {function()} - Dispatches the result once it arrives.
  */
-export function asyncDeleteProfile({messageType, createdEpoch}) {
+export function asyncDeleteProfile(action) {
   return (dispatch) => {
-    setUserMessageReadSocket.responseOnce((resp) => dispatch(markUserMessageAsRead(resp.message)));
-    setUserMessageReadSocket.request({messageType, createdEpoch});
+    deleteProfile.responseOnce((resp) => dispatch(profileIsDeleted(resp)));
+    deleteProfile.request(action);
   };
 }

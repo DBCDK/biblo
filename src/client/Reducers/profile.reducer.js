@@ -4,8 +4,6 @@
 
 import assignToEmpty from '../Utils/assign';
 import * as types from '../Constants/action.constants';
-import { profileIsDeleted } from '../Actions/profile.actions';
-
 
 let initialState = {
   username: '',
@@ -210,15 +208,17 @@ export default function profileReducer(state = initialState, action = {}) {
     case types.DELETE_PROFILE: {
       return assignToEmpty(state, {
         UI: assignToEmpty(state.UI, {
-          deleting: true
+          isDeleting: true
         })
       });
     }
     case types.DELETE_PROFILE_COMPLETED: {
+      console.log(action);
       return assignToEmpty(state, {
-        profileIsDeleted: true,
         UI: assignToEmpty(state.UI, {
-          deleting: false
+          isDeleting: false,
+          isDeleted: action.data.count === 1,
+          hasDeleteError: action.data.count !== 1 || (action.data.error ? true : false)
         })
       });
     }

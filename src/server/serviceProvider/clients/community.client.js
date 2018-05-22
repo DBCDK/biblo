@@ -1,7 +1,8 @@
 import {promiseRequest} from './../../utils/promiseRequest.util';
 import request from 'request';
 import {log} from 'dbc-node-logger';
-
+import {config} from '@dbcdk/biblo-config';
+const defaultModerator = config.get('ServiceProvider.community.defaultModerator');
 const uuid = require('node-uuid');
 const http = require('http');
 const url_parser = require('url').parse;
@@ -1412,6 +1413,46 @@ function getPostPdf(endpoint, {id}) {
     json: true
   });
 }
+/**
+ * Transfer ownership of a users groups.
+ * @param {string} endpoint
+ * @param {number} uid
+ * @param {number} newUid
+ * @param {string|mixed} include
+ * @returns {Promise}
+ */
+async function transferGroups(endpoint, {uid, newUid = defaultModerator, accessToken}) {
+  
+  const filter = encodeURIComponent(JSON.stringify({
+    where: {
+      groupownerid: uid
+    }
+  }));
+  try {
+    const {body} = await promiseRequest('get', {
+      url: `${endpoint}api/Groups?filter=${filter}&access_token=${accessToken}`,
+      json: true,
+      body: {
+        groupownerid: uid
+      }
+    });
+    await Promise.all(body.map(g => {
+      return promiseRequest('patch', {
+        url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
+        json: true,
+        body: {
+          groupownerid: newUid
+        }
+      });
+    }));
+
+    return true;
+  } 
+  catch (e) {
+    console.log(e);
+    return false;
+  }
+}
 
 /**
  * Remove pdf from post
@@ -1546,6 +1587,7 @@ module.exports = function CommunityClient(config = null) {
     getCampaign: getCampaign.bind(null, config.endpoint),
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
+    transferGroups: transferGroups.bind(null, config.endpoint),
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),

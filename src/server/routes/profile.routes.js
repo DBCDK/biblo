@@ -46,20 +46,23 @@ async function checkUserLibraryInfo(req, body, profile) {
         libraryId: libraryId
       });
       updatedProfileObject.favoriteLibrary = {libraryId, loanerId, pincode};
-    } catch (e) {
+    } 
+    catch (e) {
       if (e === 'User credentials are invalid') {
         errors.push({
           field: 'loanerId',
           errorMessage: 'Forkert lånernummer eller pinkode!'
         });
-      } else {
+      } 
+      else {
         errors.push({
           field: 'loanerId',
           errorMessage: 'Der er sket en fejl! Prøv igen senere!'
         });
       }
     }
-  } else if (
+  } 
+  else if (
     (typeof libraryId === 'string' && libraryId.length > 0) ||
     (typeof libraryId === 'number' && libraryId > 0)
   ) {
@@ -68,7 +71,8 @@ async function checkUserLibraryInfo(req, body, profile) {
         libraryId: libraryId
       };
     }
-  } else {
+  } 
+  else {
     errors.push({
       field: 'libraryId',
       errorMessage: 'Du skal vælge et bibliotek!'
@@ -126,7 +130,8 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function(
       result.data
     );
     return res.redirect(req.session.returnUrl || '/');
-  } catch (e) {
+  } 
+  catch (e) {
     return next(e);
   }
 });
@@ -145,7 +150,8 @@ ProfileRoutes.get(
           isModerator: p.isModerator,
           id: req.params.id
         }))[0].body;
-      } else {
+      } 
+      else {
         fullProfile = (await req.callServiceProvider('getFullProfile', {
           isModerator: false,
           id: p.id
@@ -475,7 +481,8 @@ ProfileRoutes.get(
         offset: 0
       }))[0].body;
       data.campaigns = await getUserContributedCampaigns(req, profileId);
-    } catch (e) {
+    } 
+    catch (e) {
       // eslint-disable-line no-catch-shadow
       data.errors = [e];
     }

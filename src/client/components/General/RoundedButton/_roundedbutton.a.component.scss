@@ -1,3 +1,5 @@
+@import "settings";
+
 .rounded-button {
   margin: 10px;
   padding: 10px;
@@ -30,4 +32,26 @@
   border-style: solid;
   border-color: #2acc94;
   background-color: #62edc6;
+}
+
+.rounded-button--danger {
+  background-color: $carnation;
+}
+.rounded-button--danger:hover {
+  padding: 10px;
+  border-color: $carnation;
+  background-color: lighten($carnation, 10%);
+}
+
+.rounded-button--secondary {
+  border-color:  rgba(0,0,0,0.5);
+  border-style: solid;
+  background-color: rgba(0,0,0,0);
+  color: $dark;
+}
+.rounded-button--secondary:hover {
+  padding: 10px;
+  border-color:  rgba(0,0,0,0.5);
+  border-style: solid;
+  background-color: rgba(0,0,0,0.1);
 }

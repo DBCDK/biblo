@@ -1,0 +1,23 @@
+@import 'settings/colors';
+
+.delete-modal--transfer {
+  label {
+    margin-left: 1rem;
+  }
+  background-color: $light-gray;
+  padding: 2rem;
+  margin: 1rem;
+}
+
+.delete-modal--note {
+  color: $gray;
+  margin-top: 0.5rem;
+
+}
+
+.delete--link{
+  margin: 0 0.5rem 0.5rem;
+  a {
+    color: $carnation;
+  }
+}

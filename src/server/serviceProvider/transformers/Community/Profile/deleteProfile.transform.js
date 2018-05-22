@@ -26,12 +26,6 @@ const deleteProfile = {
       }
     }
     return this.callServiceClient('community', 'deleteProfile', {id: profile.id});
-    return Promise.resolve({
-      statusCode: 200,
-      body: true,
-      statusMessage: 'profileIsDeleted'
-    });
-
   },
 
   /**

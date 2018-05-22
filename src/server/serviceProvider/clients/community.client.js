@@ -1,8 +1,6 @@
 import {promiseRequest} from './../../utils/promiseRequest.util';
 import request from 'request';
 import {log} from 'dbc-node-logger';
-import {config} from '@dbcdk/biblo-config';
-const defaultModerator = config.get('ServiceProvider.community.defaultModerator');
 const uuid = require('node-uuid');
 const http = require('http');
 const url_parser = require('url').parse;
@@ -1421,8 +1419,7 @@ function getPostPdf(endpoint, {id}) {
  * @param {string|mixed} include
  * @returns {Promise}
  */
-async function transferGroups(endpoint, {uid, newUid = defaultModerator, accessToken}) {
-  
+async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, accessToken}) {
   const filter = encodeURIComponent(JSON.stringify({
     where: {
       groupownerid: uid
@@ -1441,15 +1438,14 @@ async function transferGroups(endpoint, {uid, newUid = defaultModerator, accessT
         url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
         json: true,
         body: {
-          groupownerid: newUid
+          groupownerid: newUid !== null ? uid : defaultModerator
         }
       });
     }));
-
     return true;
-  } 
+  }
   catch (e) {
-    console.log(e);
+    log.error(e);
     return false;
   }
 }
@@ -1587,7 +1583,7 @@ module.exports = function CommunityClient(config = null) {
     getCampaign: getCampaign.bind(null, config.endpoint),
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
-    transferGroups: transferGroups.bind(null, config.endpoint),
+    transferGroups: transferGroups.bind(null, config.endpoint, config.defaultModerator),
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),

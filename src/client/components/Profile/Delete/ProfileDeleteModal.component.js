@@ -74,7 +74,7 @@ export default class ProfileDeleteModal extends React.Component {
         <h3 className="danger">Er du sikker på at du vil slette din profil?</h3>
         <p>
           Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive
-          slettet, og det vil ikke være muligt at dem tilbage
+          slettet, og det vil ikke være muligt at få dem tilbage.
         </p>
         <div className="delete-modal--transfer">
           <input

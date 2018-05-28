@@ -30,7 +30,7 @@ ShallowWrapper {
           Er du sikker på at du vil slette din profil?
         </h3>,
         <p>
-          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage
+          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
         </p>,
         <div
           className="delete-modal--transfer"
@@ -97,10 +97,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
         },
         "ref": null,
-        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
         "type": "p",
       },
       Object {
@@ -256,7 +256,7 @@ ShallowWrapper {
             Er du sikker på at du vil slette din profil?
           </h3>,
           <p>
-            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage
+            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
           </p>,
           <div
             className="delete-modal--transfer"
@@ -323,10 +323,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
           },
           "ref": null,
-          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
           "type": "p",
         },
         Object {
@@ -510,7 +510,7 @@ ShallowWrapper {
           Er du sikker på at du vil slette din profil?
         </h3>,
         <p>
-          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage
+          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
         </p>,
         <div
           className="delete-modal--transfer"
@@ -587,10 +587,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
         },
         "ref": null,
-        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
         "type": "p",
       },
       Object {
@@ -782,7 +782,7 @@ ShallowWrapper {
             Er du sikker på at du vil slette din profil?
           </h3>,
           <p>
-            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage
+            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
           </p>,
           <div
             className="delete-modal--transfer"
@@ -859,10 +859,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
           },
           "ref": null,
-          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
           "type": "p",
         },
         Object {
@@ -1282,7 +1282,7 @@ ShallowWrapper {
           Er du sikker på at du vil slette din profil?
         </h3>,
         <p>
-          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage
+          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
         </p>,
         <div
           className="delete-modal--transfer"
@@ -1349,10 +1349,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
         },
         "ref": null,
-        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
         "type": "p",
       },
       Object {
@@ -1508,7 +1508,7 @@ ShallowWrapper {
             Er du sikker på at du vil slette din profil?
           </h3>,
           <p>
-            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage
+            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
           </p>,
           <div
             className="delete-modal--transfer"
@@ -1575,10 +1575,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
           },
           "ref": null,
-          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at dem tilbage",
+          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
           "type": "p",
         },
         Object {

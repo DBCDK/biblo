@@ -18,6 +18,7 @@ import {asyncGetCoverImage} from './coverImage.actions';
 const setUserMessageReadSocket = SocketClient('setUserMessageRead');
 const deleteUserMessageSocket = SocketClient('deleteUserMessage');
 const getReviewsSocket = SocketClient('getReviews');
+const deleteProfile = SocketClient('deleteProfile');
 const checkIfDisplayNameIsTaken = SocketClient('checkIfDisplayNameIsTaken');
 
 // Listeners
@@ -271,5 +272,30 @@ export function deleteUserMessage({messageType, createdEpoch}) {
     type: types.DELETE_USER_MESSAGE,
     messageType,
     createdEpoch
+  };
+}
+
+/**
+ * Used internally to pass a response to a reducer.
+ * @param messageType
+ * @param createdEpoch
+ */
+export function profileIsDeleted(data) {
+  return {
+    type: types.DELETE_PROFILE_COMPLETED,
+    data
+  };
+}
+
+/**
+ *
+ * @param {String} messageType - Type of message (for example "type-orderIsReady").
+ * @param {Number} createdEpoch - Epoch of when the message was created (Find this is the message object).
+ * @returns {function()} - Dispatches the result once it arrives.
+ */
+export function asyncDeleteProfile(action) {
+  return (dispatch) => {
+    deleteProfile.responseOnce((resp) => dispatch(profileIsDeleted(resp)));
+    deleteProfile.request(action);
   };
 }

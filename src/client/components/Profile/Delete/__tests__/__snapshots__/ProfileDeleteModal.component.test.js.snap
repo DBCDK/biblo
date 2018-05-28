@@ -1,0 +1,2131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing ProfileDeleteModal.component.js Show modal deleting form 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ProfileDeleteModal
+    hasDeleteError={false}
+    isDeleted={false}
+    isDeleting={false}
+    onClose={[MockFunction]}
+    onConfirm={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "children": Array [
+        <h3
+          className="danger"
+        >
+          Er du sikker på at du vil slette din profil?
+        </h3>,
+        <p>
+          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
+        </p>,
+        <div
+          className="delete-modal--transfer"
+        >
+          <input
+            checked={false}
+            disabled={false}
+            id="transfer"
+            name="transfer"
+            onClick={[Function]}
+            type="checkbox"
+          />
+           
+          <label
+            htmlFor="transfer"
+          >
+            Overfør mine grupper til en moderator.
+          </label>
+          <div
+            className="delete-modal--note"
+          >
+            Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+          </div>
+        </div>,
+        <div
+          className="btn-wrapper"
+        >
+          <button
+            className="rounded-button rounded-button--secondary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Nej tak, det var en fejl!
+          </button>
+          <button
+            className="rounded-button rounded-button--danger"
+            disabled={false}
+            onClick={[Function]}
+          >
+            
+            Ja tak, Slet min profil og alt mit data
+          </button>
+        </div>,
+      ],
+      "onClose": [Function],
+      "title": "Slet Profil",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Er du sikker på at du vil slette din profil?",
+          "className": "danger",
+        },
+        "ref": null,
+        "rendered": "Er du sikker på at du vil slette din profil?",
+        "type": "h3",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+        },
+        "ref": null,
+        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+        "type": "p",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <input
+              checked={false}
+              disabled={false}
+              id="transfer"
+              name="transfer"
+              onClick={[Function]}
+              type="checkbox"
+            />,
+            " ",
+            <label
+              htmlFor="transfer"
+            >
+              Overfør mine grupper til en moderator.
+            </label>,
+            <div
+              className="delete-modal--note"
+            >
+              Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+            </div>,
+          ],
+          "className": "delete-modal--transfer",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "checked": false,
+              "disabled": false,
+              "id": "transfer",
+              "name": "transfer",
+              "onClick": [Function],
+              "type": "checkbox",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+          " ",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Overfør mine grupper til en moderator.",
+              "htmlFor": "transfer",
+            },
+            "ref": null,
+            "rendered": "Overfør mine grupper til en moderator.",
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+              "className": "delete-modal--note",
+            },
+            "ref": null,
+            "rendered": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <button
+              className="rounded-button rounded-button--secondary"
+              disabled={false}
+              onClick={[Function]}
+            >
+              Nej tak, det var en fejl!
+            </button>,
+            <button
+              className="rounded-button rounded-button--danger"
+              disabled={false}
+              onClick={[Function]}
+            >
+              
+              Ja tak, Slet min profil og alt mit data
+            </button>,
+          ],
+          "className": "btn-wrapper",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Nej tak, det var en fejl!",
+              "className": "rounded-button rounded-button--secondary",
+              "disabled": false,
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": "Nej tak, det var en fejl!",
+            "type": "button",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "",
+                "Ja tak, Slet min profil og alt mit data",
+              ],
+              "className": "rounded-button rounded-button--danger",
+              "disabled": false,
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": Array [
+              "",
+              "Ja tak, Slet min profil og alt mit data",
+            ],
+            "type": "button",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": Array [
+          <h3
+            className="danger"
+          >
+            Er du sikker på at du vil slette din profil?
+          </h3>,
+          <p>
+            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
+          </p>,
+          <div
+            className="delete-modal--transfer"
+          >
+            <input
+              checked={false}
+              disabled={false}
+              id="transfer"
+              name="transfer"
+              onClick={[Function]}
+              type="checkbox"
+            />
+             
+            <label
+              htmlFor="transfer"
+            >
+              Overfør mine grupper til en moderator.
+            </label>
+            <div
+              className="delete-modal--note"
+            >
+              Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+            </div>
+          </div>,
+          <div
+            className="btn-wrapper"
+          >
+            <button
+              className="rounded-button rounded-button--secondary"
+              disabled={false}
+              onClick={[Function]}
+            >
+              Nej tak, det var en fejl!
+            </button>
+            <button
+              className="rounded-button rounded-button--danger"
+              disabled={false}
+              onClick={[Function]}
+            >
+              
+              Ja tak, Slet min profil og alt mit data
+            </button>
+          </div>,
+        ],
+        "onClose": [Function],
+        "title": "Slet Profil",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Er du sikker på at du vil slette din profil?",
+            "className": "danger",
+          },
+          "ref": null,
+          "rendered": "Er du sikker på at du vil slette din profil?",
+          "type": "h3",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+          },
+          "ref": null,
+          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+          "type": "p",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <input
+                checked={false}
+                disabled={false}
+                id="transfer"
+                name="transfer"
+                onClick={[Function]}
+                type="checkbox"
+              />,
+              " ",
+              <label
+                htmlFor="transfer"
+              >
+                Overfør mine grupper til en moderator.
+              </label>,
+              <div
+                className="delete-modal--note"
+              >
+                Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+              </div>,
+            ],
+            "className": "delete-modal--transfer",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "checked": false,
+                "disabled": false,
+                "id": "transfer",
+                "name": "transfer",
+                "onClick": [Function],
+                "type": "checkbox",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+            " ",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Overfør mine grupper til en moderator.",
+                "htmlFor": "transfer",
+              },
+              "ref": null,
+              "rendered": "Overfør mine grupper til en moderator.",
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+                "className": "delete-modal--note",
+              },
+              "ref": null,
+              "rendered": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <button
+                className="rounded-button rounded-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+              >
+                Nej tak, det var en fejl!
+              </button>,
+              <button
+                className="rounded-button rounded-button--danger"
+                disabled={false}
+                onClick={[Function]}
+              >
+                
+                Ja tak, Slet min profil og alt mit data
+              </button>,
+            ],
+            "className": "btn-wrapper",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Nej tak, det var en fejl!",
+                "className": "rounded-button rounded-button--secondary",
+                "disabled": false,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "Nej tak, det var en fejl!",
+              "type": "button",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "",
+                  "Ja tak, Slet min profil og alt mit data",
+                ],
+                "className": "rounded-button rounded-button--danger",
+                "disabled": false,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": Array [
+                "",
+                "Ja tak, Slet min profil og alt mit data",
+              ],
+              "type": "button",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`Testing ProfileDeleteModal.component.js Show modal deleting form 2`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ProfileDeleteModal
+    hasDeleteError={false}
+    isDeleted={false}
+    isDeleting={true}
+    onClose={[MockFunction]}
+    onConfirm={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "children": Array [
+        <h3
+          className="danger"
+        >
+          Er du sikker på at du vil slette din profil?
+        </h3>,
+        <p>
+          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
+        </p>,
+        <div
+          className="delete-modal--transfer"
+        >
+          <input
+            checked={false}
+            disabled={true}
+            id="transfer"
+            name="transfer"
+            onClick={[Function]}
+            type="checkbox"
+          />
+           
+          <label
+            htmlFor="transfer"
+          >
+            Overfør mine grupper til en moderator.
+          </label>
+          <div
+            className="delete-modal--note"
+          >
+            Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+          </div>
+        </div>,
+        <div
+          className="btn-wrapper"
+        >
+          <button
+            className="rounded-button rounded-button--secondary"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Nej tak, det var en fejl!
+          </button>
+          <button
+            className="rounded-button rounded-button--danger"
+            disabled={true}
+            onClick={[Function]}
+          >
+            <Icon
+              className="icon"
+              glyph={
+                Object {
+                  "id": "",
+                  "viewBox": "",
+                }
+              }
+              height={16}
+              width={16}
+            />
+            Ja tak, Slet min profil og alt mit data
+          </button>
+        </div>,
+      ],
+      "onClose": [Function],
+      "title": "Slet Profil",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Er du sikker på at du vil slette din profil?",
+          "className": "danger",
+        },
+        "ref": null,
+        "rendered": "Er du sikker på at du vil slette din profil?",
+        "type": "h3",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+        },
+        "ref": null,
+        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+        "type": "p",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <input
+              checked={false}
+              disabled={true}
+              id="transfer"
+              name="transfer"
+              onClick={[Function]}
+              type="checkbox"
+            />,
+            " ",
+            <label
+              htmlFor="transfer"
+            >
+              Overfør mine grupper til en moderator.
+            </label>,
+            <div
+              className="delete-modal--note"
+            >
+              Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+            </div>,
+          ],
+          "className": "delete-modal--transfer",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "checked": false,
+              "disabled": true,
+              "id": "transfer",
+              "name": "transfer",
+              "onClick": [Function],
+              "type": "checkbox",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+          " ",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Overfør mine grupper til en moderator.",
+              "htmlFor": "transfer",
+            },
+            "ref": null,
+            "rendered": "Overfør mine grupper til en moderator.",
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+              "className": "delete-modal--note",
+            },
+            "ref": null,
+            "rendered": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <button
+              className="rounded-button rounded-button--secondary"
+              disabled={true}
+              onClick={[Function]}
+            >
+              Nej tak, det var en fejl!
+            </button>,
+            <button
+              className="rounded-button rounded-button--danger"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <Icon
+                className="icon"
+                glyph={
+                  Object {
+                    "id": "",
+                    "viewBox": "",
+                  }
+                }
+                height={16}
+                width={16}
+              />
+              Ja tak, Slet min profil og alt mit data
+            </button>,
+          ],
+          "className": "btn-wrapper",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Nej tak, det var en fejl!",
+              "className": "rounded-button rounded-button--secondary",
+              "disabled": true,
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": "Nej tak, det var en fejl!",
+            "type": "button",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <Icon
+                  className="icon"
+                  glyph={
+                    Object {
+                      "id": "",
+                      "viewBox": "",
+                    }
+                  }
+                  height={16}
+                  width={16}
+                />,
+                "Ja tak, Slet min profil og alt mit data",
+              ],
+              "className": "rounded-button rounded-button--danger",
+              "disabled": true,
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "className": "icon",
+                  "glyph": Object {
+                    "id": "",
+                    "viewBox": "",
+                  },
+                  "height": 16,
+                  "width": 16,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              "Ja tak, Slet min profil og alt mit data",
+            ],
+            "type": "button",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": Array [
+          <h3
+            className="danger"
+          >
+            Er du sikker på at du vil slette din profil?
+          </h3>,
+          <p>
+            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
+          </p>,
+          <div
+            className="delete-modal--transfer"
+          >
+            <input
+              checked={false}
+              disabled={true}
+              id="transfer"
+              name="transfer"
+              onClick={[Function]}
+              type="checkbox"
+            />
+             
+            <label
+              htmlFor="transfer"
+            >
+              Overfør mine grupper til en moderator.
+            </label>
+            <div
+              className="delete-modal--note"
+            >
+              Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+            </div>
+          </div>,
+          <div
+            className="btn-wrapper"
+          >
+            <button
+              className="rounded-button rounded-button--secondary"
+              disabled={true}
+              onClick={[Function]}
+            >
+              Nej tak, det var en fejl!
+            </button>
+            <button
+              className="rounded-button rounded-button--danger"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <Icon
+                className="icon"
+                glyph={
+                  Object {
+                    "id": "",
+                    "viewBox": "",
+                  }
+                }
+                height={16}
+                width={16}
+              />
+              Ja tak, Slet min profil og alt mit data
+            </button>
+          </div>,
+        ],
+        "onClose": [Function],
+        "title": "Slet Profil",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Er du sikker på at du vil slette din profil?",
+            "className": "danger",
+          },
+          "ref": null,
+          "rendered": "Er du sikker på at du vil slette din profil?",
+          "type": "h3",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+          },
+          "ref": null,
+          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+          "type": "p",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <input
+                checked={false}
+                disabled={true}
+                id="transfer"
+                name="transfer"
+                onClick={[Function]}
+                type="checkbox"
+              />,
+              " ",
+              <label
+                htmlFor="transfer"
+              >
+                Overfør mine grupper til en moderator.
+              </label>,
+              <div
+                className="delete-modal--note"
+              >
+                Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+              </div>,
+            ],
+            "className": "delete-modal--transfer",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "checked": false,
+                "disabled": true,
+                "id": "transfer",
+                "name": "transfer",
+                "onClick": [Function],
+                "type": "checkbox",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+            " ",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Overfør mine grupper til en moderator.",
+                "htmlFor": "transfer",
+              },
+              "ref": null,
+              "rendered": "Overfør mine grupper til en moderator.",
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+                "className": "delete-modal--note",
+              },
+              "ref": null,
+              "rendered": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <button
+                className="rounded-button rounded-button--secondary"
+                disabled={true}
+                onClick={[Function]}
+              >
+                Nej tak, det var en fejl!
+              </button>,
+              <button
+                className="rounded-button rounded-button--danger"
+                disabled={true}
+                onClick={[Function]}
+              >
+                <Icon
+                  className="icon"
+                  glyph={
+                    Object {
+                      "id": "",
+                      "viewBox": "",
+                    }
+                  }
+                  height={16}
+                  width={16}
+                />
+                Ja tak, Slet min profil og alt mit data
+              </button>,
+            ],
+            "className": "btn-wrapper",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Nej tak, det var en fejl!",
+                "className": "rounded-button rounded-button--secondary",
+                "disabled": true,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "Nej tak, det var en fejl!",
+              "type": "button",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <Icon
+                    className="icon"
+                    glyph={
+                      Object {
+                        "id": "",
+                        "viewBox": "",
+                      }
+                    }
+                    height={16}
+                    width={16}
+                  />,
+                  "Ja tak, Slet min profil og alt mit data",
+                ],
+                "className": "rounded-button rounded-button--danger",
+                "disabled": true,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "icon",
+                    "glyph": Object {
+                      "id": "",
+                      "viewBox": "",
+                    },
+                    "height": 16,
+                    "width": 16,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                "Ja tak, Slet min profil og alt mit data",
+              ],
+              "type": "button",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`Testing ProfileDeleteModal.component.js Show modal deleting form 3`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ProfileDeleteModal
+    hasDeleteError={false}
+    isDeleted={true}
+    isDeleting={false}
+    onClose={[MockFunction]}
+    onConfirm={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "children": Array [
+        <h3
+          className="danger"
+        >
+          Din profil er dit data er nu slettet
+        </h3>,
+        <p>
+          Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.
+        </p>,
+        <div
+          className="btn-wrapper"
+        >
+          <a
+            className="rounded-button rounded-button--secondary"
+            href="/logout"
+          >
+            Log ud
+          </a>
+        </div>,
+      ],
+      "onClose": [Function],
+      "title": "Slet Profil",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Din profil er dit data er nu slettet",
+          "className": "danger",
+        },
+        "ref": null,
+        "rendered": "Din profil er dit data er nu slettet",
+        "type": "h3",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.",
+        },
+        "ref": null,
+        "rendered": "Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.",
+        "type": "p",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            className="rounded-button rounded-button--secondary"
+            href="/logout"
+          >
+            Log ud
+          </a>,
+          "className": "btn-wrapper",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Log ud",
+            "className": "rounded-button rounded-button--secondary",
+            "href": "/logout",
+          },
+          "ref": null,
+          "rendered": "Log ud",
+          "type": "a",
+        },
+        "type": "div",
+      },
+    ],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": Array [
+          <h3
+            className="danger"
+          >
+            Din profil er dit data er nu slettet
+          </h3>,
+          <p>
+            Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.
+          </p>,
+          <div
+            className="btn-wrapper"
+          >
+            <a
+              className="rounded-button rounded-button--secondary"
+              href="/logout"
+            >
+              Log ud
+            </a>
+          </div>,
+        ],
+        "onClose": [Function],
+        "title": "Slet Profil",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Din profil er dit data er nu slettet",
+            "className": "danger",
+          },
+          "ref": null,
+          "rendered": "Din profil er dit data er nu slettet",
+          "type": "h3",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.",
+          },
+          "ref": null,
+          "rendered": "Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.",
+          "type": "p",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              className="rounded-button rounded-button--secondary"
+              href="/logout"
+            >
+              Log ud
+            </a>,
+            "className": "btn-wrapper",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Log ud",
+              "className": "rounded-button rounded-button--secondary",
+              "href": "/logout",
+            },
+            "ref": null,
+            "rendered": "Log ud",
+            "type": "a",
+          },
+          "type": "div",
+        },
+      ],
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`Testing ProfileDeleteModal.component.js Show modal deleting form 4`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ProfileDeleteModal
+    hasDeleteError={true}
+    isDeleted={false}
+    isDeleting={false}
+    onClose={[MockFunction]}
+    onConfirm={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "children": Array [
+        <h3
+          className="danger"
+        >
+          Er du sikker på at du vil slette din profil?
+        </h3>,
+        <p>
+          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
+        </p>,
+        <div
+          className="delete-modal--transfer"
+        >
+          <input
+            checked={false}
+            disabled={false}
+            id="transfer"
+            name="transfer"
+            onClick={[Function]}
+            type="checkbox"
+          />
+           
+          <label
+            htmlFor="transfer"
+          >
+            Overfør mine grupper til en moderator.
+          </label>
+          <div
+            className="delete-modal--note"
+          >
+            Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+          </div>
+        </div>,
+        <div
+          className="btn-wrapper"
+        >
+          <button
+            className="rounded-button rounded-button--secondary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Nej tak, det var en fejl!
+          </button>
+          <button
+            className="rounded-button rounded-button--danger"
+            disabled={false}
+            onClick={[Function]}
+          >
+            
+            Ja tak, Slet min profil og alt mit data
+          </button>
+        </div>,
+      ],
+      "onClose": [Function],
+      "title": "Slet Profil",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Er du sikker på at du vil slette din profil?",
+          "className": "danger",
+        },
+        "ref": null,
+        "rendered": "Er du sikker på at du vil slette din profil?",
+        "type": "h3",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+        },
+        "ref": null,
+        "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+        "type": "p",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <input
+              checked={false}
+              disabled={false}
+              id="transfer"
+              name="transfer"
+              onClick={[Function]}
+              type="checkbox"
+            />,
+            " ",
+            <label
+              htmlFor="transfer"
+            >
+              Overfør mine grupper til en moderator.
+            </label>,
+            <div
+              className="delete-modal--note"
+            >
+              Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+            </div>,
+          ],
+          "className": "delete-modal--transfer",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "checked": false,
+              "disabled": false,
+              "id": "transfer",
+              "name": "transfer",
+              "onClick": [Function],
+              "type": "checkbox",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+          " ",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Overfør mine grupper til en moderator.",
+              "htmlFor": "transfer",
+            },
+            "ref": null,
+            "rendered": "Overfør mine grupper til en moderator.",
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+              "className": "delete-modal--note",
+            },
+            "ref": null,
+            "rendered": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <button
+              className="rounded-button rounded-button--secondary"
+              disabled={false}
+              onClick={[Function]}
+            >
+              Nej tak, det var en fejl!
+            </button>,
+            <button
+              className="rounded-button rounded-button--danger"
+              disabled={false}
+              onClick={[Function]}
+            >
+              
+              Ja tak, Slet min profil og alt mit data
+            </button>,
+          ],
+          "className": "btn-wrapper",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Nej tak, det var en fejl!",
+              "className": "rounded-button rounded-button--secondary",
+              "disabled": false,
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": "Nej tak, det var en fejl!",
+            "type": "button",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "",
+                "Ja tak, Slet min profil og alt mit data",
+              ],
+              "className": "rounded-button rounded-button--danger",
+              "disabled": false,
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": Array [
+              "",
+              "Ja tak, Slet min profil og alt mit data",
+            ],
+            "type": "button",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": Array [
+          <h3
+            className="danger"
+          >
+            Er du sikker på at du vil slette din profil?
+          </h3>,
+          <p>
+            Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.
+          </p>,
+          <div
+            className="delete-modal--transfer"
+          >
+            <input
+              checked={false}
+              disabled={false}
+              id="transfer"
+              name="transfer"
+              onClick={[Function]}
+              type="checkbox"
+            />
+             
+            <label
+              htmlFor="transfer"
+            >
+              Overfør mine grupper til en moderator.
+            </label>
+            <div
+              className="delete-modal--note"
+            >
+              Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+            </div>
+          </div>,
+          <div
+            className="btn-wrapper"
+          >
+            <button
+              className="rounded-button rounded-button--secondary"
+              disabled={false}
+              onClick={[Function]}
+            >
+              Nej tak, det var en fejl!
+            </button>
+            <button
+              className="rounded-button rounded-button--danger"
+              disabled={false}
+              onClick={[Function]}
+            >
+              
+              Ja tak, Slet min profil og alt mit data
+            </button>
+          </div>,
+        ],
+        "onClose": [Function],
+        "title": "Slet Profil",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Er du sikker på at du vil slette din profil?",
+            "className": "danger",
+          },
+          "ref": null,
+          "rendered": "Er du sikker på at du vil slette din profil?",
+          "type": "h3",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+          },
+          "ref": null,
+          "rendered": "Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive slettet, og det vil ikke være muligt at få dem tilbage.",
+          "type": "p",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <input
+                checked={false}
+                disabled={false}
+                id="transfer"
+                name="transfer"
+                onClick={[Function]}
+                type="checkbox"
+              />,
+              " ",
+              <label
+                htmlFor="transfer"
+              >
+                Overfør mine grupper til en moderator.
+              </label>,
+              <div
+                className="delete-modal--note"
+              >
+                Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+              </div>,
+            ],
+            "className": "delete-modal--transfer",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "checked": false,
+                "disabled": false,
+                "id": "transfer",
+                "name": "transfer",
+                "onClick": [Function],
+                "type": "checkbox",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+            " ",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Overfør mine grupper til en moderator.",
+                "htmlFor": "transfer",
+              },
+              "ref": null,
+              "rendered": "Overfør mine grupper til en moderator.",
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+                "className": "delete-modal--note",
+              },
+              "ref": null,
+              "rendered": "Dine indlæg og kommentarer i grupperne vil stadig blive slettet.",
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <button
+                className="rounded-button rounded-button--secondary"
+                disabled={false}
+                onClick={[Function]}
+              >
+                Nej tak, det var en fejl!
+              </button>,
+              <button
+                className="rounded-button rounded-button--danger"
+                disabled={false}
+                onClick={[Function]}
+              >
+                
+                Ja tak, Slet min profil og alt mit data
+              </button>,
+            ],
+            "className": "btn-wrapper",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Nej tak, det var en fejl!",
+                "className": "rounded-button rounded-button--secondary",
+                "disabled": false,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": "Nej tak, det var en fejl!",
+              "type": "button",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "",
+                  "Ja tak, Slet min profil og alt mit data",
+                ],
+                "className": "rounded-button rounded-button--danger",
+                "disabled": false,
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": Array [
+                "",
+                "Ja tak, Slet min profil og alt mit data",
+              ],
+              "type": "button",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`Testing ProfileDeleteModal.component.js Show modal form 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ProfileDelete
+    onDelete={[MockFunction]}
+    profile={
+      Object {
+        "UI": Object {
+          "submitProgress": 0,
+          "submitState": "",
+        },
+        "birthday": null,
+        "created": "2016-03-10T09:20:28.744Z",
+        "description": null,
+        "displayName": "Bobby",
+        "displayNameExists": false,
+        "email": null,
+        "errors": Array [],
+        "favoriteLibrary": Object {
+          "libraryId": "714700",
+        },
+        "fullName": null,
+        "hasFilledInProfile": true,
+        "id": 109,
+        "image": Object {
+          "commentImageCollection": null,
+          "groupCoverImageCollectionId": null,
+          "id": 43,
+          "postImageCollection": null,
+          "profileImageCollection": 109,
+          "url": Object {
+            "large": "/billede/43/large",
+            "medium": "/billede/43/medium",
+            "small": "/billede/43/small",
+          },
+        },
+        "imageFile": null,
+        "isModerator": false,
+        "lastUpdated": "2016-03-10T09:20:28.744Z",
+        "phone": null,
+        "submitProgress": 0,
+        "submitState": "",
+        "userIsLoggedIn": true,
+        "userMessages": Object {
+          "messages": Array [],
+          "unreadMessages": 0,
+        },
+        "username": "jona341k",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        "",
+        <div
+          className="delete--link"
+        >
+          <a
+            href="#delete"
+            onClick={[Function]}
+          >
+            Slet profil
+          </a>
+        </div>,
+      ],
+    },
+    "ref": null,
+    "rendered": Array [
+      "",
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="#delete"
+            onClick={[Function]}
+          >
+            Slet profil
+          </a>,
+          "className": "delete--link",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Slet profil",
+            "href": "#delete",
+            "onClick": [Function],
+          },
+          "ref": null,
+          "rendered": "Slet profil",
+          "type": "a",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          "",
+          <div
+            className="delete--link"
+          >
+            <a
+              href="#delete"
+              onClick={[Function]}
+            >
+              Slet profil
+            </a>
+          </div>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        "",
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="#delete"
+              onClick={[Function]}
+            >
+              Slet profil
+            </a>,
+            "className": "delete--link",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Slet profil",
+              "href": "#delete",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": "Slet profil",
+            "type": "a",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`Testing ProfileDeleteModal.component.js Show modal form 2`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ProfileDelete
+    onDelete={[MockFunction]}
+    profile={
+      Object {
+        "UI": Object {
+          "submitProgress": 0,
+          "submitState": "",
+        },
+        "birthday": null,
+        "created": "2016-03-10T09:20:28.744Z",
+        "description": null,
+        "displayName": "Bobby",
+        "displayNameExists": false,
+        "email": null,
+        "errors": Array [],
+        "favoriteLibrary": Object {
+          "libraryId": "714700",
+        },
+        "fullName": null,
+        "hasFilledInProfile": true,
+        "id": 109,
+        "image": Object {
+          "commentImageCollection": null,
+          "groupCoverImageCollectionId": null,
+          "id": 43,
+          "postImageCollection": null,
+          "profileImageCollection": 109,
+          "url": Object {
+            "large": "/billede/43/large",
+            "medium": "/billede/43/medium",
+            "small": "/billede/43/small",
+          },
+        },
+        "imageFile": null,
+        "isModerator": false,
+        "lastUpdated": "2016-03-10T09:20:28.744Z",
+        "phone": null,
+        "submitProgress": 0,
+        "submitState": "",
+        "userIsLoggedIn": true,
+        "userMessages": Object {
+          "messages": Array [],
+          "unreadMessages": 0,
+        },
+        "username": "jona341k",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <ProfileDeleteModal
+          hasError={undefined}
+          isDeleted={undefined}
+          isDeleting={undefined}
+          onClose={[Function]}
+          onConfirm={[Function]}
+        />,
+        <div
+          className="delete--link"
+        >
+          <a
+            href="#delete"
+            onClick={[Function]}
+          >
+            Slet profil
+          </a>
+        </div>,
+      ],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "hasError": undefined,
+          "isDeleted": undefined,
+          "isDeleting": undefined,
+          "onClose": [Function],
+          "onConfirm": [Function],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <a
+            href="#delete"
+            onClick={[Function]}
+          >
+            Slet profil
+          </a>,
+          "className": "delete--link",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Slet profil",
+            "href": "#delete",
+            "onClick": [Function],
+          },
+          "ref": null,
+          "rendered": "Slet profil",
+          "type": "a",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <ProfileDeleteModal
+            hasError={undefined}
+            isDeleted={undefined}
+            isDeleting={undefined}
+            onClose={[Function]}
+            onConfirm={[Function]}
+          />,
+          <div
+            className="delete--link"
+          >
+            <a
+              href="#delete"
+              onClick={[Function]}
+            >
+              Slet profil
+            </a>
+          </div>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "hasError": undefined,
+            "isDeleted": undefined,
+            "isDeleting": undefined,
+            "onClose": [Function],
+            "onConfirm": [Function],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <a
+              href="#delete"
+              onClick={[Function]}
+            >
+              Slet profil
+            </a>,
+            "className": "delete--link",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Slet profil",
+              "href": "#delete",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": "Slet profil",
+            "type": "a",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

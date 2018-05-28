@@ -109,7 +109,7 @@ class ProfileEditContainer extends React.Component {
                 checkDisplayNameFunction={this.props.actions.asyncCheckDisplayNameExists}
                 displayNameExists={this.props.profile.displayNameExists}
               />
-              <ProfileDelete profile={this.props.profile} onDelete={this.props.actions.asyncDeleteProfile} />
+              {this.props.profile.hasFilledInProfile ? <ProfileDelete profile={this.props.profile} onDelete={this.props.actions.asyncDeleteProfile} /> : ''}
             </div>
             <div className="after-profile-edit--form-component-container">
               <br />

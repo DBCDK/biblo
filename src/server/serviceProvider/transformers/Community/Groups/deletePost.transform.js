@@ -15,7 +15,7 @@ const DeletePostTransform = {
         accessToken: passport.user.id
       };
 
-      return this.callServiceClient('community', 'markPostAsDeleted', params);
+      return this.callServiceClient('community', 'deletePost', params);
     }
     // If user is not logged in return an error
     return Promise.reject(new Error('user not logged in'));

@@ -17,7 +17,7 @@ const DeleteReviewTransform = {
 
       const pid = validateId(query.pid);
 
-      return this.callServiceClient('community', 'markReviewAsDeleted', params)
+      return this.callServiceClient('community', 'deleteReview', params)
         .then(() => {
           if (pid.type === 'pid') {
             return this.invalidateCache(`*Reviews*${query.pid}*`);

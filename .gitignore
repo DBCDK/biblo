@@ -41,3 +41,9 @@ config.js
 mmj.env
 
 NODE_ENV_DOCKERFILE
+
+
+# ============
+# OS generated files
+# ============
+.DS_Store

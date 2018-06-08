@@ -710,19 +710,12 @@ function createComment(endpoint, params) {
 }
 
 /**
- * Marks a comment as deleted in the CS.
+ * Delete comment in the CS.
  * @param endpoint
  * @param id
  */
-function deleteComment(endpoint, {id}) {
-  return promiseRequest('put', {
-    url: `${endpoint}api/Comments`,
-    json: true,
-    body: {
-      id: id,
-      timeDeleted: Date.now()
-    }
-  });
+function deleteComment(endpoint, {id, accessToken}) {
+  return promiseRequest('delete', {url: `${endpoint}api/Comments/${id}?access_token=${accessToken}`});
 }
 
 function countComments(endpoint, {accessToken, where}) {
@@ -1026,67 +1019,22 @@ function closeGroup(endpoint, {id, timeClosed, accessToken}) {
 }
 
 /**
- * Mark a post as deleted
+ * Delete Post
+ * @param {String} endpoint
+ * @param {Object} params
  */
-function markPostAsDeleted(endpoint, params) {
-  return new Promise((resolve, reject) => {
-
-    const accessToken = params.accessToken;
-    const postId = params.id;
-
-    const url = endpoint + 'api/Posts/' + postId + '?access_token=' + accessToken;
-
-    const deletePostBody = {
-      markedAsDeleted: true
-    };
-
-    const requestParams = {
-      url,
-      json: true,
-      body: deletePostBody
-    };
-
-    // create like
-    request.put(requestParams, (err, res) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(res);
-    });
-  });
+function deletePost(endpoint, {id, accessToken}) {
+  return promiseRequest('delete', {url: `${endpoint}api/Posts/${id}?access_token=${accessToken}`});
 }
 
 /**
- * Mark a reviewt as deleted
+ * Delete Review in Biblo communityservice.
+ * @param {String} endpoint
+ * @param {object} params
  */
-function markReviewAsDeleted(endpoint, params) {
-  return new Promise((resolve, reject) => {
-
-    const accessToken = params.accessToken;
-    const reviewId = params.id;
-
-    const url = endpoint + 'api/reviews/' + reviewId + '?access_token=' + accessToken;
-
-    const deletePostBody = {
-      markedAsDeleted: true
-    };
-
-    const requestParams = {
-      url,
-      json: true,
-      body: deletePostBody
-    };
-
-    // create like
-    request.put(requestParams, (err, res) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(res);
-    });
-  });
+function deleteReview(endpoint, {id, accessToken}) {
+  return promiseRequest('delete', {url: `${endpoint}api/reviews/${id}?access_token=${accessToken}`});
 }
-
 
 function getReviews(endpoint, params) {
   return promiseRequest('get', {
@@ -1571,8 +1519,8 @@ module.exports = function CommunityClient(config = null) {
     likeReview: likeReview.bind(null, config.endpoint),
     unlikePost: unlikePost.bind(null, config.endpoint),
     unlikeReview: unlikeReview.bind(null, config.endpoint),
-    markPostAsDeleted: markPostAsDeleted.bind(null, config.endpoint),
-    markReviewAsDeleted: markReviewAsDeleted.bind(null, config.endpoint),
+    deletePost: deletePost.bind(null, config.endpoint),
+    deleteReview: deleteReview.bind(null, config.endpoint),
     getReviews: getReviews.bind(null, config.endpoint),
     checkForMemberInGroup: checkForMemberInGroup.bind(null, config.endpoint),
     getUserQuarantines: getUserQuarantines.bind(null, config.endpoint),

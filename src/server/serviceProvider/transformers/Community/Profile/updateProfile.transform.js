@@ -1,4 +1,5 @@
 import {quarantinedMiddleware} from '../middlewares/auth.middlewares';
+import {encryptData} from '../../../../utils/crypto.util';
 
 const UpdateProfileTransform = {
 
@@ -13,6 +14,7 @@ const UpdateProfileTransform = {
     return quarantinedMiddleware(this, user.profileId, () => {
       profile.isModerator && delete profile.isModerator; // eslint-disable-line no-unused-expressions
       profile.uid && delete profile.uid; // eslint-disable-line no-unused-expressions
+      profile.favoriteLibrary = encryptData(profile.favoriteLibrary);
 
       return this.callServiceClient('community', 'updateProfile', {uid, profile, accessToken});
     });

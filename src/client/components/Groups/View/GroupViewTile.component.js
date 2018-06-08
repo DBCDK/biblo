@@ -44,7 +44,7 @@ export default class GroupViewTile extends React.Component {
       <a href={groupUrl}>
         <img className="coverimage" src={this.getCoverImageUrl(group)}/>
         <div className="group--title">
-          <Icon className="icon" glyph={groupSvg} width={"1.2em"} />
+          <Icon className="icon" glyph={groupSvg} width='1.2em'/>
           {groupName}
         </div>
       </a>

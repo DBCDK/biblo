@@ -200,6 +200,7 @@ export default class PostView extends React.Component {
       pdf
     } = this.props;
 
+    const commentsToLoad = commentsCount-1;
     const postFlagModalContent = (
       <CreateFlagDialog
         submitFunction={this.submitPostFlag}
@@ -336,7 +337,7 @@ export default class PostView extends React.Component {
               text="Vis flere"
             />
             <span className="post--comment-count">
-              {commentsCount} {commentsCount === 1 && 'kommentar' || 'kommentarer'}
+              {commentsToLoad} {commentsToLoad === 1 && 'kommentar' || 'kommentarer'}
             </span>
           </div>
           }

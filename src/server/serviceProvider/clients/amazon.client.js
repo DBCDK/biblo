@@ -149,6 +149,34 @@ function hardDeleteUserMessage(docClient, tableName, {userId, messageType, creat
 }
 
 /**
+ * Delete all messages for a userId.
+ *
+ * @param docClient
+ * @param {String} tableName
+ * @param {String} userId
+ */
+function deleteAllUserMessages(docClient, tableName, {userId}) {
+  return new Promise(async (resolve, reject) => {
+    if (!(userId)) {
+      reject('Not enough parameters! Please ensure userId is set.');
+    }
+    try {
+      const messages = await getUserMessages(docClient, tableName, userId);
+      if (!messages.Items || messages.Items.length === 0) {
+        return resolve();
+      }
+      const deleteRequestPromises = messages.Items.map(({messageType, createdEpoch}) => {
+        return hardDeleteUserMessage(docClient, tableName, {userId, messageType, createdEpoch});
+      });
+      return await Promise.all(deleteRequestPromises);
+    }
+    catch (e) {
+      reject(e);
+    }
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  *
  * @param {Object} configuration Config object with the necessary parameters to use the webservice.
@@ -196,6 +224,7 @@ export default function AWSClient(configuration = null) {
     setUserMessageRead: setUserMessageRead.bind(null, docClient, tableName),
     getUserMessages: getUserMessages.bind(null, docClient, tableName),
     deleteUserMessage: deleteUserMessage.bind(null, docClient, tableName),
+    deleteAllUserMessages: deleteAllUserMessages.bind(null, docClient, tableName),
     hardDeleteUserMessage: hardDeleteUserMessage.bind(null, docClient, tableName)
   };
 }

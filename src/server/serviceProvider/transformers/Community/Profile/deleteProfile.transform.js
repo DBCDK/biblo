@@ -25,6 +25,7 @@ const deleteProfile = {
         return Promise.reject(new Error('Groups could not be transfered'));
       }
     }
+    await this.callServiceClient('aws', 'deleteAllUserMessages', {userId: profile.id});
     return this.callServiceClient('community', 'deleteProfile', {id: profile.id});
   },
 

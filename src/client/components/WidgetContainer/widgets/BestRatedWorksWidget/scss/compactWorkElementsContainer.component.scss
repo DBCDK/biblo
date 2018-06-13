@@ -6,8 +6,7 @@
     max-width: 180px;
   }
   overflow: hidden;
-  @include scroller(250px);
-
+  @include scroller(200px);
   &.closed {
     @include min-screen($tablet) {
       height: 250px;

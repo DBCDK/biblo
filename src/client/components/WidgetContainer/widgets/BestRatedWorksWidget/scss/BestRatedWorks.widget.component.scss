@@ -12,7 +12,16 @@
       margin-bottom: 2em;
     }
     @include scroller(180px);
+  
   }
-
+  .pagination-controls--spinner{
+    @include max-screen($tablet) {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 140px;
+      left: 0;
+    }
+}
 
 }

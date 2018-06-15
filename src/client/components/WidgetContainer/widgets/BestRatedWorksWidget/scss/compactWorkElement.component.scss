@@ -23,10 +23,12 @@
     .compact-work-element--title {
       text-overflow: ellipsis;
       color: $governor-bay;
+      text-align: center;
 
       .icon {
         fill: currentColor;
       }
     }
   }
+
 }

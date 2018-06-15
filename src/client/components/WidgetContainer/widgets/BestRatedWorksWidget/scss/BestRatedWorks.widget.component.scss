@@ -2,15 +2,24 @@
 
 .best-rated-works--widget {
   .pages--container {
-    @include content-grid(180px);
+    @extend %content-grid;
     & > * {
       max-width: 180px;
     }
 
     @include min-screen($tablet) {
       margin-bottom: 2em;
-      overflow: hidden;
     }
-    @extend %scroller;
+    @include scroller(180px);
+  
+
   }
+
+  .pagination-controls--container{
+    @include max-screen($tablet) {
+      display: none;
+    }
+  }
+
+
 }

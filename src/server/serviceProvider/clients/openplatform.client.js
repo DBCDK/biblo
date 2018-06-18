@@ -131,7 +131,7 @@ function availability(endpoint, params) {
   const authUser = `@${params.libraryId}`;
   const req = {
     url: `${endpoint}availability/`,
-    qs: {pid: params.pids}
+    qs: {pids: [params.pids]}
   };
 
   return callOpenPlatform('get', req, authUser);

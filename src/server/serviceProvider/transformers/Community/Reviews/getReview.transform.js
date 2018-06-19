@@ -7,7 +7,7 @@ const GetReviewTransform = {
 
   requestTransform(event, {id, pids, skip, limit, where, order='created DESC'}, connection) {
     return new Promise((resolve, reject) => {
-      const user = connection.request.user || {id: ''};
+      const user = connection.request.user || {id: null};
       const accessToken = user.id;
       let orFilter = [];
       let params = {

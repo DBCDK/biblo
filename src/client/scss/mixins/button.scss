@@ -1,10 +1,3 @@
-@import 'hover-transition';
-@import 'no-selection';
-@import '../settings/colors';
-@import '../settings/fonts';
-@import '../settings/breakpoints';
-@import 'media-queries';
-
 @mixin button($background: $melrose, $color: white, $lighten: false, $hoverColor: false) {
   padding: 8px 30px;
   @include max-screen($tablet - 1px) {

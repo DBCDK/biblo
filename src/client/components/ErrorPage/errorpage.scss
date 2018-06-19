@@ -1,6 +1,3 @@
-@import "~susy/sass/susy";
-@import 'tools';
-
 .error-page--error-splash {
   @include errorbox();
 }

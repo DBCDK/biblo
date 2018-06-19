@@ -16,7 +16,7 @@ const PlaceOrderTransform = {
   requestTransform(event, {pids, libraryId, name, phone, email, token}) {
     return this.callServiceClient('cached/standard/openplatform', 'order', {
       request: {
-        library: libraryId,
+        pickUpBranch: libraryId,
         pids: pids,
         expires: this.getNeedBeforeDate(90),
         name: name,

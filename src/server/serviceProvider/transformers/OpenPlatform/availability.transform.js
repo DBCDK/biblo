@@ -31,7 +31,7 @@ const AvailabilityTransform = {
       };
     }
     return {
-      data: body.data,
+      data: body.data[0],
       pids: pids
     };
   }

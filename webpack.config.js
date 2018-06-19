@@ -1,9 +1,12 @@
 var webpack = require('webpack');
 var path = require('path');
-var extractTextPlugin = require('extract-text-webpack-plugin');
-
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 var noErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
-var extractCss = new extractTextPlugin({filename: '../css/[name].css', allChunks: true});
+var extractCss = new MiniCssExtractPlugin({
+  filename: '../css/[name].css',
+  allChunks: true
+});
 
 module.exports = [
   {
@@ -11,7 +14,8 @@ module.exports = [
 
     entry: {
       profileedit: './src/client/components/Profile/Edit/index.js',
-      profileeditlibrary: './src/client/components/Profile/LibraryEdit/index.js',
+      profileeditlibrary:
+        './src/client/components/Profile/LibraryEdit/index.js',
       profiledetail: './src/client/components/Profile/Detail/index.js',
       contentpage: './src/client/components/ContentPage/index.js',
       groups: './src/client/components/Groups/index.js',
@@ -24,7 +28,8 @@ module.exports = [
       review: './src/client/components/Review/index.js',
       reviewexplorer: './src/client/components/ReviewExplorer/index.js',
       preview: './src/client/components/WidgetContainer/index.js',
-      campaigncertificate: './src/client/components/CampaignCertificate/CampaignCertificate.component.js'
+      campaigncertificate:
+        './src/client/components/CampaignCertificate/CampaignCertificate.component.js'
     },
     output: {
       path: path.join(__dirname, 'public/js'),
@@ -32,7 +37,10 @@ module.exports = [
     },
 
     resolve: {
-      modules: [path.resolve(__dirname, 'src/client/components'), path.resolve(__dirname, 'node_modules')]
+      modules: [
+        path.resolve(__dirname, 'src/client/components'),
+        path.resolve(__dirname, 'node_modules')
+      ]
     },
 
     devtool: 'source-map',
@@ -44,38 +52,55 @@ module.exports = [
           loader: 'babel-loader',
           query: {
             presets: ['react', 'es2015'],
-            plugins: ['transform-runtime', 'transform-async-to-generator', 'transform-class-properties']
+            plugins: [
+              'transform-runtime',
+              'transform-async-to-generator',
+              'transform-class-properties'
+            ]
           }
         },
+
         {
           test: /\.scss$/,
-          use: extractCss.extract({
-            use: [{
+          exclude: /node_modules/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
               loader: 'css-loader',
               options: {
                 sourceMap: true
               }
-            }, {
+            },
+            {
               loader: 'sass-loader',
               options: {
                 sourceMap: true, // @see https://github.com/webpack-contrib/sass-loader#source-maps
-                includePaths: [
-                  path.resolve(__dirname, './src/client/scss/'),
-                  path.resolve(__dirname, './node_modules/compass-sass-mixins/lib'),
-                  path.resolve(__dirname, './node_modules/sass-mediaqueries')
+              }
+            },
+            {
+              loader: 'sass-resources-loader',
+              options: {
+                resources: [
+                  path.resolve(__dirname, './node_modules/susy/sass/_susy.scss'),
+                  path.resolve(__dirname, './node_modules/compass-mixins/lib/_compass.scss'),
+                  path.resolve(__dirname, './node_modules/sass-mediaqueries/_media-queries.scss'),
+                  path.resolve(__dirname, './src/client/scss/global.scss'),
                 ]
               }
-            }, {
+            },
+
+            {
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
                 plugins: () => [require('autoprefixer')()] // @see https://github.com/postcss/postcss-loader#plugins
               }
-            }]
-          })
+            },           
+          ]
         },
         {
           test: /\.svg$/,
+          exclude: /node_modules/,
           loader: 'svg-sprite-loader'
         }
       ]
@@ -90,6 +115,7 @@ module.exports = [
     },
 
     plugins: [
+      new HardSourceWebpackPlugin(),
       new webpack.LoaderOptionsPlugin({
         options: {
           sassLoader: {

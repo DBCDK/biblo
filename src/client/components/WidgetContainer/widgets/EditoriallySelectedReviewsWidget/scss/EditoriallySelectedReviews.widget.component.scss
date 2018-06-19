@@ -1,5 +1,3 @@
-@import "tools";
-
 .editorially-selected-reviews-widget-container {
   @include content-grid(370px);
   @include scroller(90%);

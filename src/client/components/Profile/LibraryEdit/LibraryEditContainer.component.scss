@@ -1,5 +1,3 @@
-@import "tools";
-
 .profile-library-edit--container {
   @include min-screen($desktop) {
     width: 630px;

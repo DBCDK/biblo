@@ -1,6 +1,3 @@
-@import "tools";
-
-
 .borrow--button {
   @include button($lima, white, false, #73f175);
   padding: 8px 0;

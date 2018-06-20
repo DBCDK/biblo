@@ -1382,6 +1382,7 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
       }
     });
     await Promise.all(body.map(g => {
+      joinGroup(endpoint, {uid: defaultModerator, groupId: g.id, accessToken});
       return promiseRequest('patch', {
         url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
         json: true,

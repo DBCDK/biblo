@@ -15,7 +15,7 @@
     "features:junit": "LOG_LEVEL=off STANDARD_CACHE_TIME=1 SC_LOGLEVEL=0 PORT=3334 cucumber.js --format=json --compilers js:babel/register selenium/features | ./node_modules/.bin/cucumber-junit > feature_report.xml",
     "lint": "eslint ./src",
     "lint:checkstyle": "eslint ./src  -o report.xml -f checkstyle",
-    "mmj:serve": ". ./mmj.env && forever -w --watchDirectory src/server --killSignal=SIGTERM src/main.js",
+    "serve:env": ". ./env.env && forever -w --watchDirectory src/server --killSignal=SIGTERM src/main.js",
     "serve": "nodemon --exec node --no-stdin src/main.js",
     "start": "node src/main.js",
     "start:watch": "rm -rf ./public && webpack --progress --colors --watch -d",
@@ -37,7 +37,10 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js",
       "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "reporters": [
+      "jest-junit"
+    ]
   },
   "repository": {
     "type": "git",
@@ -166,7 +169,7 @@
     "estraverse-fb": "^1.3.1",
     "forever": "^0.15.3",
     "glob": "^7.0.3",
-    "jest-junit": "^3.6.0",
+    "jest-junit": "^5.1.0",
     "nock": "^9.1.10",
     "node-libs-browser": "^2.0.0",
     "node-noop": "^1.0.0",

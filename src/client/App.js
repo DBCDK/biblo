@@ -5,12 +5,12 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import {createLogger} from 'redux-logger';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
-import {callServiceProvider} from './Constants/action.constants';
+import { callServiceProvider } from './Constants/action.constants';
 
 import rootReducer from './Reducers/root.reducer';
 
@@ -33,7 +33,7 @@ const reduxLogger = createLogger({
  * @param getState
  * @returns {function(): function()}
  */
-export function serviceProviderReduxMiddleware({dispatch}) {
+export function serviceProviderReduxMiddleware({ dispatch }) {
   // This object contains our existing clients to prevent listener overflows.
   let clients = {};
 
@@ -53,7 +53,7 @@ export function serviceProviderReduxMiddleware({dispatch}) {
       if (!clients[action.event]) {
         clients[action.event] = SocketClient(action.event);
         clients[action.event].response(function (data) {
-          dispatch({type: `${action.event}Response`, data});
+          dispatch({ type: `${action.event}Response`, data });
         });
       }
 
@@ -95,7 +95,13 @@ export function renderComponent(Comp, target) {
   if (typeof window !== 'undefined') {
     let jsonData = document.getElementById('initialState');
     if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
-      initialState = JSON.parse(jsonData.innerHTML);
+      let prepareState = JSON.parse(jsonData.innerHTML);
+      // Delete initialState.profileReducer and initiate it from JSONDATA_USER_PROFILE.json in profile.reducer.js, if JSONDATA_USER_PROFILE.json exists
+      let jsonUserData = document.getElementById('JSONDATA_USER_PROFILE');
+      if (jsonUserData && jsonUserData.innerHTML && jsonUserData.innerHTML.length > 0) {
+        delete prepareState.profileReducer;
+      }
+      initialState = prepareState;
     }
   }
 

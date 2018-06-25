@@ -1391,7 +1391,7 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
         }
       });
     }));
-    return true;
+    return body.map(g => g.id);
   }
   catch (e) {
     log.error(e);

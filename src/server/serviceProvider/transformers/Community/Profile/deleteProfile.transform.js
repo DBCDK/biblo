@@ -24,6 +24,9 @@ const deleteProfile = {
       if (!groupsAreTransfered) {
         return Promise.reject(new Error('Groups could not be transfered'));
       }
+      groupsAreTransfered.forEach(groupId => {
+        this.invalidateCache(`getComments*"id":${groupId},*`);
+      });
     }
     await this.callServiceClient('aws', 'deleteAllUserMessages', {userId: profile.id});
     return this.callServiceClient('community', 'deleteProfile', {id: profile.id});

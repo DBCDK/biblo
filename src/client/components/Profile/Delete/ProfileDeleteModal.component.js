@@ -7,7 +7,8 @@ export default class ProfileDeleteModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transfer: false
+      transfer: false,
+      hasConfirmedDelete: false,
     };
   }
   static propTypes = {
@@ -24,16 +25,16 @@ export default class ProfileDeleteModal extends React.Component {
     }
   };
   confirmDelete = () => {
-    this.props.onConfirm({transferGroups: this.state.transfer});
+    this.props.onConfirm({ transferGroups: this.state.transfer });
   };
   toggleTransfer = () => {
-    this.setState({transfer: !this.state.transfer});
+    this.setState({ transfer: !this.state.transfer });
   };
   render() {
     if (this.props.hasError) {
       return (
         <ModalWindow onClose={this.closeModalWindow} title="Slet Profil">
-          <h3 className="danger">Der er sket en fejl</h3>
+          <h1 className="danger">Der er sket en fejl</h1>
           <p>
             Vi kan desværre ikke slette din profil. Prøv igen senere eller
             kontakt <a href="https://kundeservice.dbc.dk/biblo">kundeservice</a>
@@ -52,62 +53,111 @@ export default class ProfileDeleteModal extends React.Component {
 
     if (this.props.isDeleted) {
       return (
-        <ModalWindow onClose={this.closeModalWindow} title="Slet Profil">
-          <h3 className="danger">Din profil er dit data er nu slettet</h3>
-          <p>
-            Vi håber at du vender tilbage en dag. Klik på log ud og luk din
-            browser for at logge ud af UNI-login.
+        <ModalWindow onClose={() => {/* The user should not be able to close this modal */ }} title="Slet Profil">
+          <div className="delete-modal">
+            <h1 className="danger">Din profil er dit data er nu slettet</h1>
+            <p>
+              Vi håber at du vender tilbage en dag. Klik på log ud og luk din
+              browser for at logge ud af UNI-login.
           </p>
-          <div className="btn-wrapper">
-            <a
-              className="rounded-button rounded-button--secondary"
-              href="/logout"
-            >
-              Log ud
+            <div className="btn-wrapper">
+              <a
+                className="rounded-button rounded-button--secondary"
+                href="/logout"
+              >
+                Log ud
             </a>
+            </div>
           </div>
         </ModalWindow>
       );
     }
+
+    if (this.state.hasConfirmedDelete) {
+      return (
+        <ModalWindow onClose={this.closeModalWindow} title="Slet Profil">
+          <div className="delete-modal">
+            <h1 className="danger">Hvis du giver dine grupper videre, kan andre få glæde af dem</h1>
+            <p>
+              Din profil, dine indlæg, kommentarer og anmeldelser bliver slettet. Men måske vil andre gerne bruge de grupper, du har oprettet.
+              Skal Biblo passe dem for dig?
+          </p>
+            <div className="delete-modal--transfer">
+              <h4>Hvad skal vi gøre med dine grupper?</h4>
+              <p className="delete-modal--radio">
+                <input
+                  disabled={this.props.isDeleting}
+                  type="radio"
+                  name="transfer"
+                  id="transfer"
+                  checked={this.state.transfer}
+                  onClick={this.toggleTransfer}
+                />{' '}
+                <label htmlFor="transfer">
+                  Slet min profil og alt jeg har lavet på Biblo, <span className="danger">men giv mine grupper videre til en voksen fra Biblo, så andre stadig kan bruge grupperne.</span>
+                </label>
+              </p>
+              <p className="delete-modal--radio">
+                <input
+                  disabled={this.props.isDeleting}
+                  type="radio"
+                  name="transfer"
+                  id="transfer"
+                  checked={!this.state.transfer}
+                  onClick={this.toggleTransfer}
+                />{' '}
+                <label htmlFor="transfer">
+                  Slet min profil og alt jeg har lavet på Biblo
+            </label>
+              </p>
+            </div>
+            <div className="delete-modal--btn-wrapper">
+              <button
+                disabled={this.props.isDeleting}
+                className="rounded-button rounded-button--secondary"
+                onClick={this.closeModalWindow}
+              >
+                Stop! Slet ikke min profil
+            </button>
+              <button
+                disabled={this.props.isDeleting}
+                className="rounded-button rounded-button--danger"
+                onClick={this.confirmDelete}
+              >
+                {this.props.isDeleting ? <Icon glyph={spinnerSvg} /> : ''}
+                Slet min profil
+            </button>
+            </div>
+          </div>
+        </ModalWindow>
+      );
+
+    }
+
     return (
       <ModalWindow onClose={this.closeModalWindow} title="Slet Profil">
-        <h3 className="danger">Er du sikker på at du vil slette din profil?</h3>
-        <p>
-          Alle dine grupper, indlæg, kommentarer og anmeldelser vil blive
-          slettet, og det vil ikke være muligt at få dem tilbage.
+        <div className="delete-modal">
+          <h1 className="danger">Du er ved at slette din profil</h1>
+          <p>
+            Hvis du sletter din profil, sletter du alt, hvad du har lavet på Biblo.
         </p>
-        <div className="delete-modal--transfer">
-          <input
-            disabled={this.props.isDeleting}
-            type="checkbox"
-            name="transfer"
-            id="transfer"
-            checked={this.state.transfer}
-            onClick={this.toggleTransfer}
-          />{' '}
-          <label htmlFor="transfer">
-            Overfør mine grupper til en moderator.
-          </label>
-          <div className="delete-modal--note">
-            Dine indlæg og kommentarer i grupperne vil stadig blive slettet.
+          <p>
+            Du kan altså ikke få din profil tilbage, men du kan altid oprette en ny profil på et andet tidspunkt.
+        </p>
+          <div className="delete-modal--btn-wrapper">
+            <button
+              className="rounded-button rounded-button--secondary"
+              onClick={this.closeModalWindow}
+            >
+              Stop! Slet ikke min profil
+        </button>
+            <button
+              className="rounded-button rounded-button--danger"
+              onClick={() => { this.setState({ hasConfirmedDelete: true }) }}
+            >
+              Slet min profil
+        </button>
           </div>
-        </div>
-        <div className="btn-wrapper">
-          <button
-            disabled={this.props.isDeleting}
-            className="rounded-button rounded-button--secondary"
-            onClick={this.closeModalWindow}
-          >
-            Nej tak, det var en fejl!
-          </button>
-          <button
-            disabled={this.props.isDeleting}
-            className="rounded-button rounded-button--danger"
-            onClick={this.confirmDelete}
-          >
-            {this.props.isDeleting ? <Icon glyph={spinnerSvg} /> : ''}
-            Ja tak, Slet min profil og alt mit data
-          </button>
         </div>
       </ModalWindow>
     );

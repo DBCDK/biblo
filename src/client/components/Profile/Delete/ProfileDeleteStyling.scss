@@ -1,12 +1,23 @@
-
+.delete-modal {
+  margin: 0 1rem;
+  .rounded-button:last-of-type {
+    margin-right: 0;
+  }
+  h1 {
+    margin-top: 0;
+  }
+}
 
 .delete-modal--transfer {
   label {
     margin-left: 1rem;
   }
+  h4 {
+    margin-left: 32px;
+  }
   background-color: $light-gray;
-  padding: 2rem;
-  margin: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .delete-modal--note {
@@ -20,4 +31,21 @@
   a {
     color: $carnation;
   }
+}
+
+.delete-modal h3 {
+  text-align: center;
+}
+
+.delete-modal--btn-wrapper {
+  text-align: right;
+}
+
+.delete-modal--radio {
+  display: flex;
+}
+
+.delete-modal--radio label {
+  position: relative;
+  top: -4px;
 }

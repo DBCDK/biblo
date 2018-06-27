@@ -525,7 +525,7 @@ export default class Review extends UploadMedia {
               >
                 <div className="review-add--input">
                   <textarea
-                    autofocus="true"
+                    autoFocus="true"
                     className="review-add--textarea"
                     name="content"
                     placeholder="Skriv din anmeldelse her"

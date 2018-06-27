@@ -95,7 +95,13 @@ export function renderComponent(Comp, target) {
   if (typeof window !== 'undefined') {
     let jsonData = document.getElementById('initialState');
     if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
-      initialState = JSON.parse(jsonData.innerHTML);
+      let prepareState = JSON.parse(jsonData.innerHTML);
+      // Delete initialState.profileReducer and initiate it from JSONDATA_USER_PROFILE.json in profile.reducer.js, if JSONDATA_USER_PROFILE.json exists
+      let jsonUserData = document.getElementById('JSONDATA_USER_PROFILE');
+      if (jsonUserData && jsonUserData.innerHTML && jsonUserData.innerHTML.length > 0) {
+        delete prepareState.profileReducer;
+      }
+      initialState = prepareState;
     }
   }
 

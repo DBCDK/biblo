@@ -72,7 +72,19 @@ const getFullProfileTransform = {
     body.isModerator = !!(body.communityRoles && Array.isArray(body.communityRoles) && body.communityRoles.filter((role) => {
       return role.name === 'moderator';
     }).length > 0);
+
     body.favoriteLibrary = decryptData(body.favoriteLibrary);
+
+    // Fixes bug with favourite library being stringified twice. Should be fixed in communityservice.
+    if (typeof body.favoriteLibrary === 'string') {
+      try {
+        body.favoriteLibrary = JSON.parse(body.favoriteLibrary);
+      }
+      catch (e) {
+        // Do nothing
+      }
+    }
+
     body.quarantined = JSON.parse(response[1].body).quarantined;
     body.userMessages = userMessageParser(response[2] && response[2].Items || [], 0);
 

@@ -107,7 +107,6 @@ export default class AddContent extends UploadMedia {
               }
             });
           }
-          this.props.addContentAction(response);
           if (this.props.abort) {
             this.props.abort();
           }

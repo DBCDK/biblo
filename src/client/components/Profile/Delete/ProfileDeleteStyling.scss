@@ -1,5 +1,10 @@
 .delete-modal {
   margin: 0 1rem;
+  .rounded-button {
+    @include max-screen($tablet) {
+      width: 100%;
+    }
+  }
   .rounded-button:last-of-type {
     margin-right: 0;
   }

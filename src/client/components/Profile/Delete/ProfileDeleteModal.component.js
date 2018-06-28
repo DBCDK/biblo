@@ -7,13 +7,14 @@ export default class ProfileDeleteModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transfer: false,
-      hasConfirmedDelete: false,
+      transfer: true,
+      hasConfirmedDelete: false
     };
   }
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
+    imageUrl: PropTypes.string.isRequired,
     isDeleted: PropTypes.bool,
     isDeleting: PropTypes.bool,
     hasError: PropTypes.bool
@@ -25,10 +26,10 @@ export default class ProfileDeleteModal extends React.Component {
     }
   };
   confirmDelete = () => {
-    this.props.onConfirm({ transferGroups: this.state.transfer });
+    this.props.onConfirm({transferGroups: this.state.transfer});
   };
   toggleTransfer = () => {
-    this.setState({ transfer: !this.state.transfer });
+    this.setState({transfer: !this.state.transfer});
   };
   render() {
     if (this.props.hasError) {
@@ -52,25 +53,22 @@ export default class ProfileDeleteModal extends React.Component {
     }
 
     if (this.props.isDeleted) {
-      return (
-        <ModalWindow onClose={() => {/* The user should not be able to close this modal */ }} title="Slet Profil">
-          <div className="delete-modal">
-            <h1 className="danger">Din profil er dit data er nu slettet</h1>
-            <p>
-              Vi håber at du vender tilbage en dag. Klik på log ud og luk din
-              browser for at logge ud af UNI-login.
+      return <ModalWindow onClose={() => {
+        /* The user should not be able to close this modal */
+      }} title="Slet Profil">
+        <div className="delete-modal">
+          <h1 className="danger">Din profil er dit data er nu slettet</h1>
+          <p>
+            Vi håber at du vender tilbage en dag. Klik på log ud og luk
+            din browser for at logge ud af UNI-login.
           </p>
-            <div className="btn-wrapper">
-              <a
-                className="rounded-button rounded-button--secondary"
-                href="/logout"
-              >
-                Log ud
+          <div className="btn-wrapper">
+            <a className="rounded-button rounded-button--secondary" href="/logout">
+              Log ud
             </a>
-            </div>
           </div>
-        </ModalWindow>
-      );
+        </div>
+      </ModalWindow>;
     }
 
     if (this.state.hasConfirmedDelete) {
@@ -81,7 +79,7 @@ export default class ProfileDeleteModal extends React.Component {
             <p>
               Din profil, dine indlæg, kommentarer og anmeldelser bliver slettet. Men måske vil andre gerne bruge de grupper, du har oprettet.
               Skal Biblo passe dem for dig?
-          </p>
+            </p>
             <div className="delete-modal--transfer">
               <h4>Hvad skal vi gøre med dine grupper?</h4>
               <p className="delete-modal--radio">
@@ -94,7 +92,8 @@ export default class ProfileDeleteModal extends React.Component {
                   onClick={this.toggleTransfer}
                 />{' '}
                 <label htmlFor="transfer">
-                  Slet min profil og alt jeg har lavet på Biblo, <span className="danger">men giv mine grupper videre til en voksen fra Biblo, så andre stadig kan bruge grupperne.</span>
+                  Slet min profil og alt jeg har lavet på Biblo,{' '}
+                  <span className="delete-modal--info">men giv mine grupper videre til en voksen fra Biblo, så andre stadig kan bruge grupperne.</span>
                 </label>
               </p>
               <p className="delete-modal--radio">
@@ -108,7 +107,7 @@ export default class ProfileDeleteModal extends React.Component {
                 />{' '}
                 <label htmlFor="transfer">
                   Slet min profil og alt jeg har lavet på Biblo
-            </label>
+                </label>
               </p>
             </div>
             <div className="delete-modal--btn-wrapper">
@@ -118,7 +117,7 @@ export default class ProfileDeleteModal extends React.Component {
                 onClick={this.closeModalWindow}
               >
                 Stop! Slet ikke min profil
-            </button>
+              </button>
               <button
                 disabled={this.props.isDeleting}
                 className="rounded-button rounded-button--danger"
@@ -126,7 +125,7 @@ export default class ProfileDeleteModal extends React.Component {
               >
                 {this.props.isDeleting ? <Icon glyph={spinnerSvg} /> : ''}
                 Slet min profil
-            </button>
+              </button>
             </div>
           </div>
         </ModalWindow>
@@ -137,26 +136,31 @@ export default class ProfileDeleteModal extends React.Component {
     return (
       <ModalWindow onClose={this.closeModalWindow} title="Slet Profil">
         <div className="delete-modal">
+          <div className="delete-modal--image">
+            <img src={this.props.imageUrl} />
+            <span className="delete-modal--mark" />
+          </div>
+
           <h1 className="danger">Du er ved at slette din profil</h1>
           <p>
             Hvis du sletter din profil, sletter du alt, hvad du har lavet på Biblo.
-        </p>
+          </p>
           <p>
             Du kan altså ikke få din profil tilbage, men du kan altid oprette en ny profil på et andet tidspunkt.
-        </p>
+          </p>
           <div className="delete-modal--btn-wrapper">
             <button
               className="rounded-button rounded-button--secondary"
               onClick={this.closeModalWindow}
             >
               Stop! Slet ikke min profil
-        </button>
+            </button>
             <button
               className="rounded-button rounded-button--danger"
-              onClick={() => { this.setState({ hasConfirmedDelete: true }) }}
+              onClick={() => this.setState({hasConfirmedDelete: true})}
             >
               Slet min profil
-        </button>
+            </button>
           </div>
         </div>
       </ModalWindow>

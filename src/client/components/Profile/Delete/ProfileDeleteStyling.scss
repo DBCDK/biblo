@@ -15,11 +15,12 @@
   h4 {
     margin-left: 32px;
   }
-  background-color: $light-gray;
   padding: 1rem;
   margin-bottom: 1rem;
 }
-
+.delete-modal--info {
+  color: $lima;
+}
 .delete-modal--note {
   color: $gray;
   margin-top: 0.5rem;
@@ -48,4 +49,43 @@
 .delete-modal--radio label {
   position: relative;
   top: -4px;
+}
+.delete-modal--image {
+  margin: auto;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+}
+
+.delete-modal--mark {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 100px;
+    height: 100px;
+    opacity: 0.8;
+  &:before, &:after {
+    position: absolute;
+    left: 47px;
+    content: ' ';
+    height: 124px;
+    width: 4px;
+    background-color: $carnation;
+    top: -12px;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
 }

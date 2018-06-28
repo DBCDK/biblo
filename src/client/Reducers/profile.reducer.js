@@ -48,45 +48,31 @@ let initialState = {
 };
 
 if (typeof window !== 'undefined') {
-
   let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
-
   if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
     let data = JSON.parse(jsonData.innerHTML);
     if (data.profile) {
       initialState = assignToEmpty(initialState, data.profile);
     }
   }
-
-
-
   let statusMessage = document.getElementById('JSONDATA');
-
-  if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
-
-
-  }
-
-
-
   if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
     let statusMessageData = JSON.parse(statusMessage.innerHTML);
-
-    //initiate userimage
-    if(statusMessageData.feed){
- console.log("in  statusMessageData",statusMessageData);;
-    let userImage = statusMessageData.feed.profile.image;
-    if(userImage){
-    console.log("userImage",userImage);
-    initialState = Object.assign({},initialState, {image: {url: {
-      small: userImage.small,
-      medium: userImage.medium,
-      large: userImage.large
-    }}});
+    //  initiate userimage
+    if (statusMessageData.feed) {
+      let userImage = statusMessageData.feed.profile.image;
+      if (userImage) {
+        initialState = Object.assign({}, initialState, {
+          image: {
+            url: {
+              small: userImage.small,
+              medium: userImage.medium,
+              large: userImage.large
+            }
+          }
+        });
+      }
     }
-         
-  }
-
 
     if (statusMessageData && statusMessageData.status === 'ERROR') {
       initialState = assignToEmpty(initialState, {
@@ -101,7 +87,7 @@ if (typeof window !== 'undefined') {
           pincode: statusMessageData.query.pincode
         },
         phone: statusMessageData.query.phone,
-        search: statusMessageData.query.search,
+        search: statusMessageData.query.search
       });
 
       statusMessageData.errors.forEach((error) => {
@@ -110,9 +96,6 @@ if (typeof window !== 'undefined') {
     }
 
   }
-
-
-console.log("final initialState",initialState);
 }
 
 export default function profileReducer(state = initialState, action = {}) {

@@ -7,6 +7,9 @@
 */
 
 .compact-work-element {
+  @include max-screen($tablet) {
+    padding-bottom: 1em;
+    }
 
   .compact-work-element--artwork-container {
     height: 200px;
@@ -32,6 +35,7 @@
         /* autoprefixer: off */
         -webkit-box-orient: vertical;
         /* autoprefixer: on */
+        
             
       }
       color: $governor-bay;

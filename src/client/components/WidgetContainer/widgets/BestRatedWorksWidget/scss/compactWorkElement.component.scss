@@ -7,6 +7,10 @@
 */
 
 .compact-work-element {
+  @include max-screen($tablet) {
+    padding-bottom: 1em;
+    }
+
   .compact-work-element--artwork-container {
     height: 200px;
     margin-bottom: 0.5em;
@@ -21,7 +25,18 @@
 
   .compact-work-element--title-and-worktype--container {
     .compact-work-element--title {
-      text-overflow: ellipsis;
+
+      @include max-screen($tablet) {
+        overflow: hidden;
+        -webkit-line-clamp: 3;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        /* autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
+        
+            
+      }
       color: $governor-bay;
       text-align: center;
 

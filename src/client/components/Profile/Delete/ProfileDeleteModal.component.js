@@ -101,11 +101,11 @@ export default class ProfileDeleteModal extends React.Component {
                   disabled={this.props.isDeleting}
                   type="radio"
                   name="transfer"
-                  id="transfer"
+                  id="no-transfer"
                   checked={!this.state.transfer}
                   onClick={this.toggleTransfer}
                 />{' '}
-                <label htmlFor="transfer">
+                <label htmlFor="no-transfer">
                   Slet min profil og alt jeg har lavet på Biblo
                 </label>
               </p>

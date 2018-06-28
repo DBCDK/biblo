@@ -93,7 +93,7 @@ export default class AddContent extends UploadMedia {
       });
       let form = this.groupPostFormRef;
       this.addContent(form, e.target.action)
-        .then(response => {
+        .then(() => {
           if (form.id.value === '') {
             // UploadComponent does upserts. checks on id null  . clear state to prepare for new
             this.setState({

@@ -59,22 +59,6 @@ if (typeof window !== 'undefined') {
   if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
     let statusMessageData = JSON.parse(statusMessage.innerHTML);
 
-    //  initiate userimage
-    if (statusMessageData.feed) {
-      let userprofile = statusMessageData.feed.profile;
-      if (userprofile) {
-        initialState = Object.assign({}, initialState, {
-          image: {
-            url: {
-              small: userprofile.image.small,
-              medium: userprofile.image.medium,
-              large: userprofile.image.large
-            }
-          }
-        });
-      }
-    }
-
     if (statusMessageData && statusMessageData.status === 'ERROR') {
       initialState = assignToEmpty(initialState, {
         birthday: statusMessageData.query.birthday,

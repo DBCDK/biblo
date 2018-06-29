@@ -58,10 +58,11 @@ describe('Testing ProfileDeleteModal.component.js', () => {
       />
     );
     wrapper.find('button.rounded-button--danger').simulate('click');
-    expect(onDelete.mock.calls[0][0]).toEqual({transferGroups: false});
-
-    wrapper.find('#transfer').simulate('click');
     wrapper.find('button.rounded-button--danger').simulate('click');
-    expect(onDelete.mock.calls[1][0]).toEqual({transferGroups: true});
+    expect(onDelete.mock.calls[0][0]).toEqual({transferGroups: true});
+
+    wrapper.find('#no-transfer').simulate('click');
+    wrapper.find('button.rounded-button--danger').simulate('click');
+    expect(onDelete.mock.calls[1][0]).toEqual({transferGroups: false});
   });
 });

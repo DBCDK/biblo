@@ -26,7 +26,6 @@ export default class ProfileDelete extends React.Component {
   onConfirm = ({transferGroups}) => {
     this.props.onDelete({profile: this.props.profile, transferGroups});
   };
-
   render() {
     return (
       <div>
@@ -37,6 +36,7 @@ export default class ProfileDelete extends React.Component {
             isDeleted={this.props.profile.UI.isDeleted}
             isDeleting={this.props.profile.UI.isDeleting}
             hasError={this.props.profile.UI.hasDeleteError}
+            imageUrl={this.props.profile.image.url.small}
           />
         ) : (
           ''

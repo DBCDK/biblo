@@ -1399,6 +1399,34 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
     return false;
   }
 }
+/**
+ * Get groups owned by user.
+ * @param {string} endpoint
+ * @param {number} uid
+ * @param {string|mixed} include
+ * @returns {Promise}
+ */
+async function getGroupsOwnedByUser(endpoint, {uid, accessToken}) {
+  const filter = encodeURIComponent(JSON.stringify({
+    where: {
+      groupownerid: uid
+    }
+  }));
+  try {
+    const {body} = await promiseRequest('get', {
+      url: `${endpoint}api/Groups?filter=${filter}&access_token=${accessToken}`,
+      json: true,
+      body: {
+        groupownerid: uid
+      }
+    });
+    return body;
+  }
+  catch (e) {
+    log.error(e);
+    return false;
+  }
+}
 
 /**
  * Remove pdf from post
@@ -1533,6 +1561,7 @@ module.exports = function CommunityClient(config = null) {
     getCampaign: getCampaign.bind(null, config.endpoint),
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
+    getGroupsOwnedByUser: getGroupsOwnedByUser.bind(null, config.endpoint),
     transferGroups: transferGroups.bind(null, config.endpoint, config.defaultModerator),
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),

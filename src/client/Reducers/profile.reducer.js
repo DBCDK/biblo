@@ -58,16 +58,18 @@ if (typeof window !== 'undefined') {
   let statusMessage = document.getElementById('JSONDATA');
   if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
     let statusMessageData = JSON.parse(statusMessage.innerHTML);
+    
     //  initiate userimage
     if (statusMessageData.feed) {
-      let userImage = statusMessageData.feed.profile.image;
-      if (userImage) {
+      let userprofile = statusMessageData.feed.profile;
+      console.log("userprofile",userprofile);
+      if (userprofile) {
         initialState = Object.assign({}, initialState, {
           image: {
             url: {
-              small: userImage.small,
-              medium: userImage.medium,
-              large: userImage.large
+              small: userprofile.image.small,
+              medium: userprofile.image.medium,
+              large: userprofile.image.large
             }
           }
         });

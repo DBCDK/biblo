@@ -58,11 +58,10 @@ if (typeof window !== 'undefined') {
   let statusMessage = document.getElementById('JSONDATA');
   if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
     let statusMessageData = JSON.parse(statusMessage.innerHTML);
-    
+
     //  initiate userimage
     if (statusMessageData.feed) {
       let userprofile = statusMessageData.feed.profile;
-      console.log("userprofile",userprofile);
       if (userprofile) {
         initialState = Object.assign({}, initialState, {
           image: {

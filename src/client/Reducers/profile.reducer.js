@@ -49,18 +49,16 @@ let initialState = {
 
 if (typeof window !== 'undefined') {
   let jsonData = document.getElementById('JSONDATA_USER_PROFILE');
-
   if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
     let data = JSON.parse(jsonData.innerHTML);
     if (data.profile) {
       initialState = assignToEmpty(initialState, data.profile);
     }
   }
-
   let statusMessage = document.getElementById('JSONDATA');
-
   if (statusMessage && statusMessage.innerHTML && statusMessage.innerHTML.length > 0) {
     let statusMessageData = JSON.parse(statusMessage.innerHTML);
+
     if (statusMessageData && statusMessageData.status === 'ERROR') {
       initialState = assignToEmpty(initialState, {
         birthday: statusMessageData.query.birthday,
@@ -81,6 +79,7 @@ if (typeof window !== 'undefined') {
         initialState.errors.push(error);
       });
     }
+
   }
 }
 

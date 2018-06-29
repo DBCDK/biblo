@@ -49,11 +49,13 @@
 
 .delete-modal--radio {
   display: flex;
-}
-
-.delete-modal--radio label {
-  position: relative;
-  top: -4px;
+  label {
+    position: relative;
+    top: -4px;
+  }
+  input {
+    flex-shrink: 0;
+  }
 }
 .delete-modal--image {
   margin: auto;

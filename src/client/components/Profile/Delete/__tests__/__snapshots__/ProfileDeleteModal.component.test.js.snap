@@ -1013,7 +1013,7 @@ ShallowWrapper {
         <h1
           className="danger"
         >
-          Din profil er dit data er nu slettet
+          Din profil er nu slettet
         </h1>
         <p>
           Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.
@@ -1042,7 +1042,7 @@ ShallowWrapper {
           <h1
             className="danger"
           >
-            Din profil er dit data er nu slettet
+            Din profil er nu slettet
           </h1>,
           <p>
             Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.
@@ -1067,11 +1067,11 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Din profil er dit data er nu slettet",
+            "children": "Din profil er nu slettet",
             "className": "danger",
           },
           "ref": null,
-          "rendered": "Din profil er dit data er nu slettet",
+          "rendered": "Din profil er nu slettet",
           "type": "h1",
         },
         Object {
@@ -1131,7 +1131,7 @@ ShallowWrapper {
           <h1
             className="danger"
           >
-            Din profil er dit data er nu slettet
+            Din profil er nu slettet
           </h1>
           <p>
             Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.
@@ -1160,7 +1160,7 @@ ShallowWrapper {
             <h1
               className="danger"
             >
-              Din profil er dit data er nu slettet
+              Din profil er nu slettet
             </h1>,
             <p>
               Vi håber at du vender tilbage en dag. Klik på log ud og luk din browser for at logge ud af UNI-login.
@@ -1185,11 +1185,11 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Din profil er dit data er nu slettet",
+              "children": "Din profil er nu slettet",
               "className": "danger",
             },
             "ref": null,
-            "rendered": "Din profil er dit data er nu slettet",
+            "rendered": "Din profil er nu slettet",
             "type": "h1",
           },
           Object {

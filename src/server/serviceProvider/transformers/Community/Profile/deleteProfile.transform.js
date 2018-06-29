@@ -28,6 +28,19 @@ const deleteProfile = {
         this.invalidateCache(`getGroup*"id":${groupId},*`);
       });
     }
+    else {
+      const groups = await this.callServiceClient(
+        'community',
+        'getGroupsOwnedByUser',
+        {uid: profile.id}
+      );
+      if (groups) {
+        groups.forEach(group => {
+          this.invalidateCache(`getGroup*"id":${group.id},*`);
+        });
+      }
+      this.invalidateCache('groupSuggest*');
+    }
     await this.callServiceClient('aws', 'deleteAllUserMessages', {userId: profile.id});
     return this.callServiceClient('community', 'deleteProfile', {id: profile.id});
   },

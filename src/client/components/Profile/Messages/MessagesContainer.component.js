@@ -29,8 +29,8 @@ export default class MessagesContainer extends React.Component {
     const messages = this.sortMessages();
     let renderedIds = [];
     const renderedMessages = messages.slice(0, this.state.limit).map(msg => {
-      if (!renderedIds.includes(msg.commentId)) {// only render message, if not already rendered
-        renderedIds.push(msg.commentId);
+      if (!renderedIds.includes(msg.commentId)) { // only render message, if not already rendered. Messages that don't have commentId is rendered too.
+        msg.commentId ? renderedIds.push(msg.commentId) : null; // check if msg have a commentId before pushing to renderedIds
         return (
           <MessageRow
             agencies={this.props.agencies}

@@ -72,7 +72,7 @@ export function serviceProviderReduxMiddleware({dispatch}) {
  * @returns {{store: Object, component: XML}}
  */
 export function wrapComponentInProvider(Comp, initialState = {}) { // eslint-disable-line react/display-name
-  const composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
+  const composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(thunk, serviceProviderReduxMiddleware, reduxLogger)));
   const component = (
     <Provider store={store}>

@@ -180,7 +180,9 @@ export default class BorrowButton extends React.Component {
       Object.keys(collectionsObject).length === 1 &&
       collectionsObject[Object.keys(collectionsObject)[0]].accessType[0] !== 'online'
     ) {
-      checked = true;
+      // Setting checked to true here won't work. This will not update state, and in case there is only one item it cannot be selected.
+      // Turning it of until a better solution is made. /svi
+      // checked = true;
     }
 
     return (

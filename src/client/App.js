@@ -6,7 +6,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import {createLogger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
@@ -72,7 +72,8 @@ export function serviceProviderReduxMiddleware({dispatch}) {
  * @returns {{store: Object, component: XML}}
  */
 export function wrapComponentInProvider(Comp, initialState = {}) { // eslint-disable-line react/display-name
-  const store = createStore(rootReducer, initialState, applyMiddleware(thunk, serviceProviderReduxMiddleware, reduxLogger));
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(thunk, serviceProviderReduxMiddleware, reduxLogger)));
   const component = (
     <Provider store={store}>
       <Comp />

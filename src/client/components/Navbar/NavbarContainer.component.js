@@ -81,7 +81,7 @@ export default class NavbarContainer extends React.Component {
         unreadMessages: profile.userMessages && profile.userMessages.unreadMessages || 0
       };
     }
-    image.unreadMessages === 1  || image.unreadMessages === 0 ? image.unreadMessages = 0 : image.unreadMessages = image.unreadMessages/2;
+    image.unreadMessages === 1 || image.unreadMessages === 0 ? image.unreadMessages = 0 : image.unreadMessages /= 2;
 
     if (image.shouldDisplay && this.state.isClient) {
       return (

@@ -213,14 +213,14 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
 
       if (req.file) {
         if (requester.isModerator && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
-          req.callServiceProvider('updateProfileImage', {
+          await req.callServiceProvider('updateProfileImage', {
             isModerator: requester.isModerator,
             uid: p.id,
             file: req.file
           });
         }
         else if (req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
-          req.callServiceProvider('updateProfileImage', {file: req.file});
+          await req.callServiceProvider('updateProfileImage', {file: req.file});
         }
         else {
           errors.push({

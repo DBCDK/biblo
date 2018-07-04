@@ -54,10 +54,10 @@ export default class ProfileDeleteModal extends React.Component {
 
     if (this.props.isDeleted) {
       return <ModalWindow onClose={() => {
-        /* The user should not be able to close this modal */
+        window.location = '/logout';
       }} title="Slet Profil">
         <div className="delete-modal">
-          <h1 className="danger">Din profil er dit data er nu slettet</h1>
+          <h1 className="danger">Din profil er nu slettet</h1>
           <p>
             Vi håber at du vender tilbage en dag. Klik på log ud og luk
             din browser for at logge ud af UNI-login.

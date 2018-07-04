@@ -97,8 +97,7 @@ export class SeriesDisplay extends Component {
       const amountToDisplay = this.state.pager[clippedSeriesTitle] * this.state.limit;
       const results = (this.props.seriesResults[clippedSeriesTitle] || []).slice(0, amountToDisplay).map(book => {
         let bookTitle = book.dcTitle[0];
-
-        if (typeof book.titleSeries[idx] === 'string') {
+        if (book.titleSeries && typeof book.titleSeries[idx] === 'string') {
           const ed = editionRegex.exec(book.titleSeries[idx]);
           if (ed && ed.length > 0) {
             bookTitle = `${ed[1]}. Bog`;

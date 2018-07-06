@@ -52,19 +52,19 @@ if (typeof window !== 'undefined') {
   if (jsonData && jsonData.innerHTML && jsonData.innerHTML.length > 0) {
     let data = JSON.parse(jsonData.innerHTML);
     if (data.profile) {
-      let profileData = Object.assign({}, data.profile); 
+      let profileData = Object.assign({}, data.profile);
       if (data.profile.userMessages) {
-        //fix double message issue
+        // fix double message issue
         let seenIds = [];
-        let filtredMeasseges =  Object.assign({}, data.profile.userMessages, {messages: []}); 
+        let filtredMeasseges = Object.assign({}, data.profile.userMessages, {messages: []});
         data.profile.userMessages.messages.map(msg => {
           if (!seenIds.includes(msg.commentId)) {
             msg.commentId ? seenIds.push(msg.commentId) : null; // check if msg have a commentId before pushing to renderedIds
             filtredMeasseges.messages.push(msg);
           }
         });
-        filtredMeasseges.unreadMessages = Math.round(filtredMeasseges.unreadMessages/2);
-        profileData = Object.assign({}, data.profile, {userMessages: filtredMeasseges}); 
+        filtredMeasseges.unreadMessages = Math.round(filtredMeasseges.unreadMessages / 2);
+        profileData = Object.assign({}, data.profile, {userMessages: filtredMeasseges});
       }
 
       initialState = assignToEmpty(initialState, profileData);

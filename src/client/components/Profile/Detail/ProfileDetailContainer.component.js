@@ -393,8 +393,6 @@ export class ProfileDetailContainer extends React.Component {
           userstatusState={this.props.userstatusState}
         />
       );
-      
-     
       tabs.push({
         label: 'BESKEDER',
         icon: beskederSVG,

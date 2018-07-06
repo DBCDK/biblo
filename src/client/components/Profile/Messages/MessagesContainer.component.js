@@ -28,20 +28,20 @@ export default class MessagesContainer extends React.Component {
   getMessages() {
     const messages = this.sortMessages();
     const renderedMessages = messages.slice(0, this.state.limit).map(msg => {
-        return (
-          <MessageRow
-            agencies={this.props.agencies}
-            agencyActions={this.props.agencyActions}
-            groupActions={this.props.groupActions}
-            groupState={this.props.groupState}
-            key={msg.createdEpoch}
-            message={msg}
-            readAction={this.props.readAction}
-            deleteAction={this.props.deleteAction}
-            renewLoanAction={this.props.renewLoanAction}
-            userstatusState={this.props.userstatusState}
-          />
-        );
+      return (
+        <MessageRow
+          agencies={this.props.agencies}
+          agencyActions={this.props.agencyActions}
+          groupActions={this.props.groupActions}
+          groupState={this.props.groupState}
+          key={msg.createdEpoch}
+          message={msg}
+          readAction={this.props.readAction}
+          deleteAction={this.props.deleteAction}
+          renewLoanAction={this.props.renewLoanAction}
+          userstatusState={this.props.userstatusState}
+        />
+      );
 
     });
     return (renderedMessages.length ? renderedMessages : 'Du har ingen beskeder');

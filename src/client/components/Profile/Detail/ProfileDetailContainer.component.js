@@ -393,13 +393,13 @@ export class ProfileDetailContainer extends React.Component {
           userstatusState={this.props.userstatusState}
         />
       );
-      let unreadMessagesUnfiltred = this.props.profile.userMessages && this.props.profile.userMessages.unreadMessages || 0;
-      let unreadMessages = unreadMessagesUnfiltred === 1 || unreadMessagesUnfiltred === 0 ? 0 : Math.round(unreadMessagesUnfiltred/2);
+      
+     
       tabs.push({
         label: 'BESKEDER',
         icon: beskederSVG,
         content: messagesPaneContent,
-        counter: unreadMessages
+        counter: this.props.profile.userMessages.unreadMessages
       });
     }
 

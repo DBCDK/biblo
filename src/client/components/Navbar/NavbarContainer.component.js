@@ -49,8 +49,24 @@ export default class NavbarContainer extends React.Component {
 
   componentDidMount() {
     this.setState({isClient: true});
+    this.filterUserMessages();
   }
 
+  filterUserMessages() {// do a readAction on messages that appear twice.
+    let userMessages = this.props.profileState.userMessages;
+    if (userMessages && this.props.readAction) {
+      let seenIds = [];
+      userMessages.messages.map((msg) => {
+        if (seenIds.includes(msg.commentId)) {// if message already seen, mark as read.
+          let message = Object.assign({}, msg);
+          this.props.readAction(message);
+        }
+        else {
+          msg.commentId ? seenIds.push(msg.commentId) : '';
+        }
+      });
+    }
+  }
   onToggle(type) {
     const active = {
       button: false,
@@ -191,7 +207,8 @@ NavbarContainer.propTypes = {
   profileState: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   globalState: PropTypes.object.isRequired,
-  searchActions: PropTypes.object.isRequired
+  searchActions: PropTypes.object.isRequired,
+  readAction: PropTypes.func
 };
 
 NavbarContainer.defaultProps = {

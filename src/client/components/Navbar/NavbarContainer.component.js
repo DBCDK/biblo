@@ -53,10 +53,10 @@ export default class NavbarContainer extends React.Component {
   }
 
   filterUserMessages() {// do a readAction on messages that appear twice.
-    let messages = this.props.profileState.userMessages.messages;
-    if (messages && this.props.readAction) {
+    let userMessages = this.props.profileState.userMessages;
+    if (userMessages && this.props.readAction) {
       let seenIds = [];
-      messages.map((msg) => {
+      userMessages.messages.map((msg) => {
         if (seenIds.includes(msg.commentId)) {// if message already seen, mark as read.
           let message = Object.assign({}, msg);
           this.props.readAction(message);

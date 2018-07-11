@@ -27,22 +27,25 @@ export default class MessagesContainer extends React.Component {
 
   getMessages() {
     const messages = this.sortMessages();
+    let renderedIds = [];
     const renderedMessages = messages.slice(0, this.state.limit).map(msg => {
-      return (
-        <MessageRow
-          agencies={this.props.agencies}
-          agencyActions={this.props.agencyActions}
-          groupActions={this.props.groupActions}
-          groupState={this.props.groupState}
-          key={msg.createdEpoch}
-          message={msg}
-          readAction={this.props.readAction}
-          deleteAction={this.props.deleteAction}
-          renewLoanAction={this.props.renewLoanAction}
-          userstatusState={this.props.userstatusState}
-        />
-      );
-
+      if (!renderedIds.includes(msg.commentId)) { // only render message, if not already rendered. Messages that don't have commentId is rendered too.
+        msg.commentId ? renderedIds.push(msg.commentId) : null; // check if msg have a commentId before pushing to renderedIds
+        return (
+          <MessageRow
+            agencies={this.props.agencies}
+            agencyActions={this.props.agencyActions}
+            groupActions={this.props.groupActions}
+            groupState={this.props.groupState}
+            key={msg.createdEpoch}
+            message={msg}
+            readAction={this.props.readAction}
+            deleteAction={this.props.deleteAction}
+            renewLoanAction={this.props.renewLoanAction}
+            userstatusState={this.props.userstatusState}
+          />
+        );
+      }
     });
     return (renderedMessages.length ? renderedMessages : 'Du har ingen beskeder');
   }

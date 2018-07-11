@@ -49,8 +49,24 @@ export default class NavbarContainer extends React.Component {
 
   componentDidMount() {
     this.setState({isClient: true});
+    this.filterUserMessages();
   }
 
+  filterUserMessages() { //do a readAction on messages that appear twice. 
+    let messages = this.props.profileState.userMessages.messages;
+    if (messages && this.props.readAction) {
+      let seenIds = [];
+      messages.map((msg) => {
+        if (seenIds.includes(msg.commentId)) {//if message already seen, mark as read.
+          let message = Object.assign({}, msg);
+            this.props.readAction(message);
+        }
+        else {
+          msg.commentId ? seenIds.push(msg.commentId) : ""; 
+        }
+      });
+    }
+  }
   onToggle(type) {
     const active = {
       button: false,

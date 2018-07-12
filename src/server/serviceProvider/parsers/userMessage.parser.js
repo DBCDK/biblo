@@ -41,7 +41,7 @@ export function userMessageParser(items = [], limit) {
       'type-userWasQuarantined'
     ];
 
-    if (seenIds.includes(message.commentId)&&(!!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType))) {
+    if (seenIds.includes(message.commentId) || !!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {
       return;
     }
 

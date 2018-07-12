@@ -20,6 +20,7 @@ export function userMessageParser(items = [], limit) {
   if (limit) {
     items = items.slice(0, limit);
   }
+  let seenIds = [];
 
   items.forEach((message) => {
     message.type = message.messageType;
@@ -40,11 +41,12 @@ export function userMessageParser(items = [], limit) {
       'type-userWasQuarantined'
     ];
 
-    if (!!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {
+    if (seenIds.includes(message.commentId)&&(!!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType))) {
       return;
     }
 
     userMessages.messages.push(message);
+    message.commentId ? seenIds.push(message.commentId) : '';
 
     if (!message.read) {
       userMessages.unreadMessages += 1;

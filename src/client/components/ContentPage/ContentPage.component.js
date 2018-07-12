@@ -13,7 +13,6 @@ import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
-import {asyncMarkUserMessageAsRead} from '../../Actions/profile.actions';
 
 import './contentPage.scss';
 
@@ -71,8 +70,7 @@ export class Article extends React.Component {
         searchState={this.props.searchState}
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
-        globalState={this.props.globalState}
-        readAction={asyncMarkUserMessageAsRead}>
+        globalState={this.props.globalState}>
         {content}
       </PageLayout>
     );

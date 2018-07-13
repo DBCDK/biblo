@@ -11,7 +11,7 @@
  * @param {Number} limit
  * @returns {{unreadMessages: number, messages: Array}}
  */
-export function userMessageParser(items = [], limit,callServiceClient) {
+export function userMessageParser(items = [], limit, callServiceClient) {
   let userMessages = {
     unreadMessages: 0,
     messages: []
@@ -42,7 +42,7 @@ export function userMessageParser(items = [], limit,callServiceClient) {
     ];
 
     if (seenIds.includes(message.commentId) || !!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {
-      seenIds.includes(message.commentId) ? callServiceClient('aws', 'deleteUserMessage', message):"";
+      seenIds.includes(message.commentId) ? callServiceClient('aws', 'deleteUserMessage', message):'';
       return;
     }
 

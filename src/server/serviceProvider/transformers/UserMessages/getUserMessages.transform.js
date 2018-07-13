@@ -20,7 +20,8 @@ const GetUserMessageTransform = {
   },
 
   responseTransform(response) {
-    response.messages = userMessageParser(response.Items || [], 0);
+
+    response.messages = userMessageParser(response.Items || [], 0,this.callServiceClient);
     return response;
   }
 };

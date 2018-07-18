@@ -301,7 +301,9 @@ export default class ProfileForm extends React.Component {
 
               <div className={'profile-form-submit-button'}>{submitArea}</div>
               <div className="profile-form--required-fields-description">
-                * Du <i>skal</i> udfylde de felter, der har en stjerne. De andre felter må du selv bestemme om du vil udfylde.
+                <a target="_blank" rel="noopener noreferrer" href="https://biblo.dk/sikkerhed-pa-biblo">
+                  Her kan du læse mere om hvordan vi passer på dine data på biblo.dk
+                </a>
               </div>
             </div>
           </form>

@@ -28,13 +28,16 @@ function onChange(onChangeFunc, checkDisplayNameFunction, e) {
  * @param {string} value
  * @return {*}
  */
-export default function DisplayNameField({errors, onChangeFunc, checkDisplayNameFunction, displayNameExists, value}) {
+export default function DisplayNameField({errors, onChangeFunc, checkDisplayNameFunction, displayNameExists, value, renderFieldExplanation}) {
   return (
-    <div className="display-name--form-area">
+    <div className="display-name--form-area ">
       <label>
-        <p>
-          <strong>Vælg et brugernavn *</strong>
-        </p>
+        <div className="inputFieldTextContainer">
+          <p>
+            <strong>Vælg et brugernavn *</strong>
+          </p>
+          {renderFieldExplanation ? renderFieldExplanation : ''}
+        </div>
         <input
           className={displayNameExists ? 'error' : ''}
           id={'profile-displayname-input'}
@@ -59,7 +62,9 @@ DisplayNameField.propTypes = {
   onChangeFunc: PropTypes.func.isRequired,
   checkDisplayNameFunction: PropTypes.func.isRequired,
   displayNameExists: PropTypes.bool,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  renderFieldExplanation: PropTypes.element
+
 };
 
 DisplayNameField.defaultProps = {

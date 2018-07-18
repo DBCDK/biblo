@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import './inputfield.component.scss';
 
 export class InputField extends React.Component {
@@ -12,9 +11,12 @@ export class InputField extends React.Component {
     return (
       <div className={this.props.name + '--form-area inputfield'}>
         <label>
-          <p>
-            <strong>{this.props.title}</strong>
-          </p>
+          <div className="inputFieldTextContainer">
+            <p>
+              <strong>{this.props.title}</strong>
+            </p>
+            {this.props.renderFieldExplanation ? this.props.renderFieldExplanation : ''}
+          </div>
           <input
             id={this.props.id}
             required={this.props.required}
@@ -51,7 +53,8 @@ InputField.propTypes = {
   disabled: PropTypes.bool,
   autocomplete: PropTypes.string,
   dateFormat: PropTypes.string,
-  pattern: PropTypes.string
+  pattern: PropTypes.string,
+  renderFieldExplanation: PropTypes.element
 };
 
 InputField.defaultProps = {

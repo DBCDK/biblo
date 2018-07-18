@@ -4,7 +4,8 @@ import autosize from 'autosize';
 import {isEmpty} from 'lodash';
 import dateformat from '../../../Utils/dateInputPolyfill/dateformat';
 import sanitizeHtml from './../../../Utils/sanitizeHtml.util';
-
+import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
+import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import DroppableImageField from '../../General/DroppableImageField/DroppableImageField.component.js';
 import RoundedButtonSubmit from '../../General/RoundedButton/RoundedButton.submit.component.js';
 import ProgressBar from '../../General/ProgressBar/ProgressBar.component';
@@ -12,9 +13,11 @@ import DisplayNameField from './DisplayNameField.component';
 import {InputField} from '../../General/InputField/InputField.component';
 import Message from '../../General/Message/Message.component';
 import {ProfileLibraryInfo} from './ProfileLibraryInfo.component';
-
 import '../../../Utils/dateInputPolyfill/date-input-polyfill';
 import './profileform.component.scss';
+import {isMobile} from 'react-device-detect';
+
+const fieldExplanationData= require('./profileFormData.json');
 
 export default class ProfileForm extends React.Component {
   static propTypes = {
@@ -60,7 +63,10 @@ export default class ProfileForm extends React.Component {
       birthday: props.birthday,
       fullName: props.fullName,
       loanerId: (props.favoriteLibrary || {}).loanerId || '',
-      pincode: (props.favoriteLibrary || {}).pincode || ''
+      pincode: (props.favoriteLibrary || {}).pincode || '',
+      displayModal: false,
+      fieldExplanation: {title: '', content: ''}
+
     };
 
     this.descriptionRef = null;
@@ -110,9 +116,41 @@ export default class ProfileForm extends React.Component {
         return <RoundedButtonSubmit buttonText="GEMT" />;
       }
       default: {
-        return <RoundedButtonSubmit buttonText="OK" />;
+        return <RoundedButtonSubmit buttonText="Opret min profil på Biblo.dk" />;
       }
     }
+  }
+  hideShowModal(fieldExplanation) {
+    this.setState({displayModal: !this.state.displayModal});
+    if (fieldExplanation) {
+      this.setState({fieldExplanation});
+    }
+  }
+  renderFieldExplanation(fieldExplanation) {
+    if (this.state.fieldExplanation) {
+      return (
+        <div>
+          <p className="fieldExplanation required" onClick={() => this.hideShowModal(fieldExplanation)}>
+            {isMobile? 'Hvorfor?':fieldExplanation.title}
+          </p>
+          {this.state.displayModal && <ModalWindow onClose={this.hideShowModal.bind(this)} >
+            <div className="cookie-warning" >
+              <div className="cookie-warning--svg">
+              </div>
+              <span className="cookie-warning--header" >
+                {this.state.fieldExplanation.modalTitle}
+              </span>
+              <span className="cookie-warning--message" >
+                {this.state.fieldExplanation.content}
+              </span>
+              <RoundedButton buttonText="OK" clickFunction={this.hideShowModal.bind(this)} />
+            </div>
+          </ModalWindow>}
+        </div>
+      );
+    }
+    return;
+
   }
 
   render() {
@@ -135,7 +173,8 @@ export default class ProfileForm extends React.Component {
           <form method="POST" encType="multipart/form-data" id="profile_form_component" ref={profileForm => {
             this.profileFormRef = profileForm;
           }}>
-            <div className={'profile-image-upload'}>
+            <div className='profile-image-upload'>
+
               <DroppableImageField
                 disabled={disabled}
                 imageSrc={this.props.profileImageSrc}
@@ -143,79 +182,32 @@ export default class ProfileForm extends React.Component {
                 fieldName={'profile_image'}
                 overlayText={this.props.profileImageSrc === '/no_profile.png' ? 'Upload dit billede' : ''}
               />
+
+
+              <div className='image-field-text-container'>
+                {this.renderFieldExplanation(fieldExplanationData.profileImage)}
+              </div>
               {errorObj.profile_image || ''}
+
             </div>
+
 
             {errorObj.general || ''}
 
             <div className="padded-area">
-              <DisplayNameField
-                value={this.state.displayName}
-                errors={errorObj}
-                onChangeFunc={e => this.setState({displayName: e.target.value})}
-                checkDisplayNameFunction={this.props.checkDisplayNameFunction}
-                displayNameExists={this.props.displayNameExists}
-              />
 
-              <div className="description--form-area">
-                <label>
-                  <p>
-                    <strong>Beskriv dig selv</strong>
-                  </p>
-                  <textarea
-                    placeholder="Her kan du skrive lidt om dig selv"
-                    name="description"
-                    value={this.state.description}
-                    ref={description => {
-                      this.descriptionRef = description;
-                    }}
-                    onChange={e => this.setState({description: e.target.value})}
-                  />
-                  {errorObj.description || ''}
-                </label>
+              <span className="profile-form-headers">Disse to felter <u>skal</u> du udfylde:</span>
+              <div>
+                <DisplayNameField
+                  value={this.state.displayName? this.state.displayName :''}
+                  errors={errorObj}
+                  onChangeFunc={e => this.setState({displayName: e.target.value})}
+                  checkDisplayNameFunction={this.props.checkDisplayNameFunction}
+                  displayNameExists={this.props.displayNameExists}
+                  fieldExplanation={fieldExplanationData.username}
+                  renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.username)}
+                />
               </div>
-
-              <InputField
-                defaultValue={this.props.email}
-                error={errorObj.email}
-                onChangeFunc={e => this.setState({email: e.target.value})}
-                type="email"
-                name="email"
-                title="E-mail (din eller dine forældres)"
-                placeholder="E-mail"
-              />
-
-              <InputField
-                defaultValue={this.props.phone}
-                error={errorObj.phone}
-                onChangeFunc={e => this.setState({phone: e.target.value})}
-                type="tel"
-                name="phone"
-                title="Mobil (din eller dine forældres)"
-                placeholder="Mobil"
-              />
-
-              <InputField
-                defaultValue={this.props.fullName}
-                error={errorObj.fullName}
-                onChangeFunc={e => this.setState({fullName: e.target.value})}
-                type="text"
-                name="fullName"
-                title="Dit rigtige navn"
-                placeholder="Dit navn"
-              />
-
-              <InputField
-                defaultValue={birthday}
-                error={errorObj.birthday}
-                onChangeFunc={e => this.setState({birthday: e.target.value})}
-                type="date"
-                name="birthday"
-                title="Din fødselsdag"
-                placeholder="Din fødselsdag"
-                format="dd/mm/yyyy"
-                data-date-format="dd/mm/yyyy"
-              />
 
               <ProfileLibraryInfo
                 errorObj={errorObj}
@@ -227,7 +219,85 @@ export default class ProfileForm extends React.Component {
                 libraryId={this.state.libraryId}
                 loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
                 pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
+                fieldExplanation={fieldExplanationData.library}
+                renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.library)}
+
               />
+              <h1 className="profile-form-headers">Disse fem felter <u>behøver</u> du ikke at udfylde nu:</h1>
+
+              <InputField
+                defaultValue={this.props.fullName}
+                error={errorObj.fullName}
+                onChangeFunc={e => this.setState({fullName: e.target.value})}
+                type="text"
+                name="fullName"
+                title="Dit rigtige navn"
+                placeholder="Dit navn"
+                fieldExplanation={fieldExplanationData.name}
+                renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.name)}
+
+              />
+              <InputField
+                defaultValue={this.props.phone}
+                error={errorObj.phone}
+                onChangeFunc={e => this.setState({phone: e.target.value})}
+                type="tel"
+                name="phone"
+                title="Mobil (din eller dine forældres)"
+                placeholder="Mobil"
+                fieldExplanation={fieldExplanationData.phone}
+                renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.phone)}
+
+              />
+              <InputField
+                defaultValue={this.props.email}
+                error={errorObj.email}
+                onChangeFunc={e => this.setState({email: e.target.value})}
+                type="email"
+                name="email"
+                title="E-mail (din eller dine forældres)"
+                placeholder="E-mail"
+                fieldExplanation={fieldExplanationData.email}
+                renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.email)}
+
+              />
+
+              <InputField
+                defaultValue={birthday}
+                error={errorObj.birthday}
+                onChangeFunc={e => this.setState({birthday: e.target.value})}
+                type="date"
+                name="birthday"
+                title="Det år du blev født"
+                placeholder="Vælg dit fødselsår"
+                format="dd/mm/yyyy"
+                data-date-format="dd/mm/yyyy"
+                fieldExplanation={fieldExplanationData.born}
+                renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.born)}
+
+              />
+
+              <div className="description--form-area">
+                <label>
+                  <div className="inputFieldTextContainer">
+
+                    <p>
+                      <strong>Beskriv dig selv</strong>
+                    </p>
+                    {this.renderFieldExplanation(fieldExplanationData.description)}
+                  </div>
+                  <textarea
+                    placeholder="Her kan du skrive lidt om dig selv"
+                    name="description"
+                    value={this.state.description? this.state.description:'' }
+                    ref={description => {
+                      this.descriptionRef = description;
+                    }}
+                    onChange={e => this.setState({description: e.target.value})}
+                  />
+                  {errorObj.description || ''}
+                </label>
+              </div>
 
               <div className={'profile-form-submit-button'}>{submitArea}</div>
               <div className="profile-form--required-fields-description">
@@ -240,3 +310,5 @@ export default class ProfileForm extends React.Component {
     );
   }
 }
+
+

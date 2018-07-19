@@ -107,6 +107,8 @@ export class ProfileLibraryInfo extends React.Component {
     if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
       return (
         <div>
+              <h1>Dit bibliotek</h1>
+
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />
           <RoundedButton
@@ -125,6 +127,7 @@ export class ProfileLibraryInfo extends React.Component {
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
       return (
         <div className="search-area library-search-area" onKeyDown={this.onKeyDownHandler.bind(this)}>
+
           <InputField
             id={'library-searchfield'}
             defaultValue={this.props.search}

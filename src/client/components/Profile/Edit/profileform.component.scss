@@ -79,8 +79,13 @@
 text-align: right;
 font-size: 0.9rem;
 font-weight: 600;
-font-size: 13px;
+font-size: 12px;
 text-decoration: underline;
+
+
+@include max-screen($tablet) {
+  font-size: 13px;
+}
 }
 .fieldExplanation:hover{
   cursor: pointer;
@@ -104,4 +109,10 @@ text-decoration: underline;
   font-weight: bold;
   margin-bottom: 0;
   font-size: 1.05rem;
+}
+
+.selected-library-description h1{
+    font-weight: bold;
+    margin-bottom: 0;
+    font-size: 1.05rem;
 }

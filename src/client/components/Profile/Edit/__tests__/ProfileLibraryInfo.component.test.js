@@ -6,7 +6,7 @@
 import React from 'react';
 import {assert} from 'chai';
 import sinon from 'sinon';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {ProfileLibraryInfo} from '../ProfileLibraryInfo.component';
 

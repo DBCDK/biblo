@@ -107,7 +107,7 @@ export class ProfileLibraryInfo extends React.Component {
     if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
       return (
         <div>
-              <h1>Dit bibliotek</h1>
+          <h1>Dit bibliotek</h1>
 
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />

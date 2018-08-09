@@ -1,6 +1,7 @@
 /**
  * @file: This file contains the user message parser, which returns an object from an array of messages
  */
+import DeleteMessageTransform from '../transformers/UserMessages/deleteUserMessage.transform';
 
 /**
  * This function parses user messages.
@@ -11,7 +12,7 @@
  * @param {Number} limit
  * @returns {{unreadMessages: number, messages: Array}}
  */
-export function userMessageParser(items = [], limit, callServiceClient) {
+export function userMessageParser(items = [], limit) {
   let userMessages = {
     unreadMessages: 0,
     messages: []
@@ -42,7 +43,7 @@ export function userMessageParser(items = [], limit, callServiceClient) {
     ];
 
     if (seenIds.includes(message.commentId) || !!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {
-      seenIds.includes(message.commentId) ? callServiceClient('aws', 'deleteUserMessage', message):'';
+      seenIds.includes(message.commentId) ? DeleteMessageTransform.requestTransform('deleteUserMessage', message):'';
       return;
     }
 

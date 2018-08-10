@@ -1,0 +1,42 @@
+{
+    "profileImage": {
+        "title": "Hvorfor kan jeg uploade et profilbillede?",
+        "content": "Et profilbillede er med til at gøre din profil mere personlig. Nogle har et billede af deres kæledyr, andre et billede af dem selv og andre igen noget fra deres yndlingsbog eller –spil. Det er ikke tilladt at uploade billeder af andre personer end sig selv, billeder, der er beskyttet af copyright eller billeder, der kan støde andre. Biblo.dks moderatorer(voksne admins) kan slette og redigere alle profilbilleder på biblo.dk. Hvis du ikke uploader et profilbillede, sætter systemet et standard-billede ind.",
+        "modalTitle": "Hvorfor kan jeg uploade et profilbillede?"
+    },
+    "username": {
+        "title": "Hvorfor skal jeg vælge det?",
+        "content": "Alle profiler på biblo.dk skal have sit eget navn, så man kan skelne profilerne fra hinanden. Mange finder på sjove navne. Du kan altid ændre dit profilnavn, hvis du bliver træt af det gamle. Bare log ind på biblo.dk, tryk på din profil, dernæst på den lille blyant og skriv så et nyt navn. Husk at trykke på gem nederst på siden. Et profilnavn må ikke støde nogen, det må ikke være dit Unilogin eller cpr-nummer, adresse eller lignende. Du må ikke bruge en anden persons navn, men du må gerne bruge dit rigtige navn.",
+        "modalTitle": "Skriv et profilnavn – Hvorfor skal jeg det?"
+    },
+    "library": {
+        "title": "Hvorfor skal jeg vælge det?",
+        "content": "Biblo.dk er lavet af folkebibliotekerne og det er vigtigt for os at vide, hvilket bibliotek, du hører til. For eksempel skal du hente din præmie på dit bibliotek, hvis du vinder i en af de mange konkurrencer. Bibliotekerne laver også statistik på hvor mange børn fra deres kommune, der er aktive på biblo.dk. Du kan også låne bøger via biblo.dk og det er nemmere for dig, når dit bibliotek er valgt.",
+        "modalTitle": "Vælg dit bibliotek – Hvorfor skal jeg det?"
+    },
+    "name": {
+        "title": "Hvorfor kan jeg vælge det?",
+        "content": "Denne oplysning kan kun ses af moderatorerne(voksne admins) fra biblo.dk. Hvis vi kender dit rigtige navn, er det nemmere at give dig den rigtige besked, hvis du har vundet en præmie i en konkurrence på biblo.dk.",
+        "modalTitle": "Dit rigtige navn – Hvorfor kan jeg vælge det?"
+    },
+    "phone": {
+        "title": "Hvorfor kan jeg vælge det?",
+        "content": "Hvis du har vundet i en af konkurrencerne på biblo.dk, så har vi brug for at kontakte dig. Vi har kun mulighed for at kontakte dig, hvis du har skrevet et telefonnummer eller en e-mailadresse. Helst begge dele, så chancerne for at du får beskeden fra os bliver større. Biblo.dk deler aldrig disse oplysninger med andre end det bibliotek, du er tilknyttet og som skal give dig den præmie, du måtte vinde. Ingen andre end biblo.dks moderatorer(voksne admins) kan se dit mobilnummer.",
+        "modalTitle": "Mobil (din eller dine forældres) – Hvorfor kan jeg vælge det?"
+    },
+    "email": {
+        "title": "Hvorfor kan jeg vælge det?",
+        "content": "Hvis du har vundet i en af konkurrencerne på biblo.dk, så har vi brug for at kontakte dig. Vi har kun mulighed for at kontakte dig, hvis du har skrevet et telefonnummer eller en e-mailadresse. Helst begge dele, så chancerne for at du får beskeden fra os bliver større. Biblo.dk deler aldrig disse oplysninger med andre end det bibliotek, du er tilknyttet og som skal give dig den præmie, du måtte vinde. Ingen andre end biblo.dks moderatorer(voksne admins) kan se din e-mail.",
+        "modalTitle": "E-mail (din eller dine forældres) – Hvorfor kan jeg vælge det?"
+    },
+    "born": {
+        "title": "Hvorfor kan jeg vælge det?",
+        "content": "Nogle konkurrencer på biblo.dk er kun for bestemte aldersgrupper. Vi har derfor brug for at se, om du er gammel eller ung nok til at deltage i konkurrencen. Biblo.dk bruger også denne information til at lave statistik over, hvilken alder, brugerne på biblo.dk har. Udover moderatorerne(voksne admins) på biblo.dk kan ingen se din alder.",
+        "modalTitle": "Det år du blev født – Hvorfor kan jeg vælge det?"
+    },
+    "description": {
+        "title": "Hvorfor kan jeg vælge det?",
+        "content": "Du har mulighed for at skrive lidt om dig selv. Dette vil andre på biblo.dk kunne se, når de trykker på din profil. Mange skriver, at de elsker bøger, heste, fodbold eller Minecraft. Andre skriver, hvilken by de bor i eller, hvor gamle de er. Man må ikke skrive sit Unilogin, cpr-nummer, adresse eller andet, der fortæller præcist, hvem man er. Man må heller ikke skrive noget, som kan støde andre eller noget, der linker til andre sider. Moderatorerne(voksne admins) på biblo.dk kan ændre i jeres beskrivelser af jer selv.",
+        "modalTitle": "Beskriv dig selv – Hvorfor kan jeg vælge det?"
+    }
+}

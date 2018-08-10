@@ -18,7 +18,9 @@ export class ProfileLibraryInfo extends React.Component {
     libraryId: PropTypes.string,
     loanerIdChangeFunc: PropTypes.func,
     pincodeChangeFunc: PropTypes.func,
-    requireAll: PropTypes.bool
+    requireAll: PropTypes.bool,
+    renderFieldExplanation: PropTypes.element
+
   };
 
   static defaultProps = {
@@ -105,6 +107,8 @@ export class ProfileLibraryInfo extends React.Component {
     if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
       return (
         <div>
+          <h1>Dit bibliotek</h1>
+
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />
           <RoundedButton
@@ -123,6 +127,7 @@ export class ProfileLibraryInfo extends React.Component {
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
       return (
         <div className="search-area library-search-area" onKeyDown={this.onKeyDownHandler.bind(this)}>
+
           <InputField
             id={'library-searchfield'}
             defaultValue={this.props.search}
@@ -135,8 +140,8 @@ export class ProfileLibraryInfo extends React.Component {
             autocomplete="off"
             disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
             required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
+            renderFieldExplanation={this.props.renderFieldExplanation ? this.props.renderFieldExplanation : null}
           />
-
           <SearchDropDown
             visible={this.state.visible}
             elements={this.props.searchElements}
@@ -168,7 +173,6 @@ export class ProfileLibraryInfo extends React.Component {
 
     return (
       <div className="library--form-area">
-        <h3>Dit bibliotek</h3>
         {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
 
         <div className="selected-library-description">
@@ -185,45 +189,7 @@ export class ProfileLibraryInfo extends React.Component {
           />
         </div>
 
-        {this.props.loanerIdChangeFunc && <div className={this.getLoanerIdInputFieldClassName()}>
-          <InputField
-            error={this.props.errorObj.loanerId}
-            onChangeFunc={this.props.loanerIdChangeFunc}
-            type={this.state.hideLoanerId && !this.isTouchDevice() && 'password' || 'number'}
-            name="loanerId"
-            title="Dit lånernummer"
-            placeholder="Lånernummer"
-            defaultValue={this.props.favoriteLibrary.loanerId}
-            required={this.props.requireAll}
-            autocomplete="off"
-            pattern="[0-9]*"
-          />
-          <div className="library--hide-loanerid">
-            <label>
-              <input
-                type="checkbox"
-                defaultChecked={this.state.hideLoanerId}
-                onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}
-              />
-              <div className={'library--hide-loanerid--label'}>Skjul lånernummer</div>
-            </label>
-          </div>
-        </div>}
 
-        {this.props.pincodeChangeFunc && <div className={this.getLoanerIdInputFieldClassName()}>
-          <InputField
-            error={this.props.errorObj.pincode}
-            onChangeFunc={this.props.pincodeChangeFunc}
-            type={!this.isTouchDevice() && 'password' || 'number'}
-            name="pincode"
-            title="Din pinkode"
-            placeholder="Pinkode"
-            defaultValue={this.props.favoriteLibrary.pincode}
-            required={this.props.requireAll}
-            autocomplete="off"
-            pattern="[0-9]*"
-          />
-        </div>}
       </div>
     );
   }

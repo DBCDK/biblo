@@ -7,6 +7,9 @@
 .profile-image-upload {
   background: linear-gradient(180deg, #d784e7 70%, $white 30%);
   padding-top: 25px;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
 }
 
 .profile-form--label {
@@ -15,8 +18,12 @@
   font-weight: 600;
 }
 .profile-form--required-fields-description {
-  margin: 0.5em 0 0.5em 0;
-}
+
+    margin: 0.5em 0 0.5em 0;
+    padding: 0px 30px;
+    text-align: center;
+    font-size: 0.9rem;  
+  }
 
 .padded-area {
   padding: 10px;
@@ -28,7 +35,7 @@
       font-size: 15pt;
       font-weight: 400;
       font-family: $body-font;
-      width: 99%;
+      width: 100%;
     }
 
     input.error {
@@ -37,7 +44,7 @@
 
     textarea {
       box-sizing: border-box;
-      min-height: 50px;
+      min-height: 100px;
       margin: 0;
       padding: 0;
       vertical-align: baseline;
@@ -60,4 +67,52 @@
 
 .progressbar-container {
   margin: 10px auto;
+}
+
+.inputFieldTextContainer{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
+.fieldExplanation{
+text-align: right;
+font-size: 0.9rem;
+font-weight: 600;
+font-size: 12px;
+text-decoration: underline;
+
+
+@include max-screen($tablet) {
+  font-size: 13px;
+}
+}
+.fieldExplanation:hover{
+  cursor: pointer;
+}
+.required::before { content:" *"; color: red; display: inline-block;}
+
+
+.image-field-text-container{
+  max-width: 140px;
+  word-wrap: break-word;
+  align-self: flex-end;
+  padding-right: 10px;
+
+  @include max-screen($tablet) {
+    margin-left: 6px;
+  }
+
+}
+
+.profile-form-headers{
+  font-weight: bold;
+  margin-bottom: 0;
+  font-size: 1.05rem;
+}
+
+.selected-library-description h1{
+    font-weight: bold;
+    margin-bottom: 0;
+    font-size: 1.05rem;
 }

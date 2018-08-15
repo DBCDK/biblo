@@ -10,13 +10,13 @@ export class InputField extends React.Component {
   render() {
     return (
       <div className={this.props.name + '--form-area inputfield'}>
+        <div className="inputFieldTextContainer">
+          <p>
+            <strong>{this.props.title}</strong>
+          </p>
+          {this.props.renderFieldExplanation ? this.props.renderFieldExplanation : ''}
+        </div>
         <label>
-          <div className="inputFieldTextContainer">
-            <p>
-              <strong>{this.props.title}</strong>
-            </p>
-            {this.props.renderFieldExplanation ? this.props.renderFieldExplanation : ''}
-          </div>
           <input
             id={this.props.id}
             required={this.props.required}

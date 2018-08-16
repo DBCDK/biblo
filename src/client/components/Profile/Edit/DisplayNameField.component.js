@@ -31,13 +31,14 @@ function onChange(onChangeFunc, checkDisplayNameFunction, e) {
 export default function DisplayNameField({errors, onChangeFunc, checkDisplayNameFunction, displayNameExists, value, renderFieldExplanation}) {
   return (
     <div className="display-name--form-area ">
+      <div className="inputFieldTextContainer">
+        <p>
+          <strong>Vælg et brugernavn *</strong>
+        </p>
+        {renderFieldExplanation ? renderFieldExplanation : ''}
+      </div>
       <label>
-        <div className="inputFieldTextContainer">
-          <p>
-            <strong>Vælg et brugernavn *</strong>
-          </p>
-          {renderFieldExplanation ? renderFieldExplanation : ''}
-        </div>
+
         <input
           className={displayNameExists ? 'error' : ''}
           id={'profile-displayname-input'}

@@ -40,7 +40,8 @@ export default class ProfileForm extends React.Component {
     fullName: PropTypes.string,
     birthday: PropTypes.string,
     checkDisplayNameFunction: PropTypes.func.isRequired,
-    displayNameExists: PropTypes.bool
+    displayNameExists: PropTypes.bool,
+    hasFilledInProfile: PropTypes.bool
   };
 
   static defaultProps = {
@@ -116,7 +117,7 @@ export default class ProfileForm extends React.Component {
         return <RoundedButtonSubmit buttonText="GEMT" />;
       }
       default: {
-        return <RoundedButtonSubmit buttonText="Opret min profil på Biblo.dk" />;
+        return <RoundedButtonSubmit buttonText={this.props.hasFilledInProfile ? 'Gem min profil' : 'Opret min profil på Biblo.dk'} />;
       }
     }
   }
@@ -204,7 +205,6 @@ export default class ProfileForm extends React.Component {
                   onChangeFunc={e => this.setState({displayName: e.target.value})}
                   checkDisplayNameFunction={this.props.checkDisplayNameFunction}
                   displayNameExists={this.props.displayNameExists}
-                  fieldExplanation={fieldExplanationData.username}
                   renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.username)}
                 />
               </div>
@@ -219,7 +219,6 @@ export default class ProfileForm extends React.Component {
                 libraryId={this.state.libraryId}
                 loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
                 pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
-                fieldExplanation={fieldExplanationData.library}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.library)}
 
               />
@@ -233,7 +232,6 @@ export default class ProfileForm extends React.Component {
                 name="fullName"
                 title="Dit rigtige navn"
                 placeholder="Dit navn"
-                fieldExplanation={fieldExplanationData.name}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.name)}
 
               />
@@ -245,7 +243,6 @@ export default class ProfileForm extends React.Component {
                 name="phone"
                 title="Mobil (din eller dine forældres)"
                 placeholder="Mobil"
-                fieldExplanation={fieldExplanationData.phone}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.phone)}
 
               />
@@ -257,7 +254,6 @@ export default class ProfileForm extends React.Component {
                 name="email"
                 title="E-mail (din eller dine forældres)"
                 placeholder="E-mail"
-                fieldExplanation={fieldExplanationData.email}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.email)}
 
               />
@@ -272,7 +268,6 @@ export default class ProfileForm extends React.Component {
                 placeholder="Vælg dit fødselsår"
                 format="dd/mm/yyyy"
                 data-date-format="dd/mm/yyyy"
-                fieldExplanation={fieldExplanationData.born}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.born)}
 
               />

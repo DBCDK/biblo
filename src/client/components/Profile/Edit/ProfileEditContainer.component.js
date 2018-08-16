@@ -108,6 +108,7 @@ class ProfileEditContainer extends React.Component {
                 unselectLibraryFunction={this.props.libraryActions.unselectLibrary}
                 checkDisplayNameFunction={this.props.actions.asyncCheckDisplayNameExists}
                 displayNameExists={this.props.profile.displayNameExists}
+                hasFilledInProfile={this.props.profile.hasFilledInProfile}
               />
               {this.props.profile.hasFilledInProfile ? <ProfileDelete profile={this.props.profile} onDelete={this.props.actions.asyncDeleteProfile} /> : ''}
             </div>

@@ -75,6 +75,9 @@
   justify-content: space-between;
   width: 100%;
 }
+.inputFieldTextContainer p{
+margin-bottom: 0px;
+}
 .fieldExplanation{
 text-align: right;
 font-size: 0.9rem;
@@ -109,6 +112,7 @@ text-decoration: underline;
   font-weight: bold;
   margin-bottom: 0;
   font-size: 1.05rem;
+  margin-top: 2.5rem;
 }
 
 .selected-library-description h1{

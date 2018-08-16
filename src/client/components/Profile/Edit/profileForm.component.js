@@ -273,14 +273,13 @@ export default class ProfileForm extends React.Component {
               />
 
               <div className="description--form-area">
+                <div className="inputFieldTextContainer">
+                  <p>
+                    <strong>Beskriv dig selv</strong>
+                  </p>
+                  {this.renderFieldExplanation(fieldExplanationData.description)}
+                </div>
                 <label>
-                  <div className="inputFieldTextContainer">
-
-                    <p>
-                      <strong>Beskriv dig selv</strong>
-                    </p>
-                    {this.renderFieldExplanation(fieldExplanationData.description)}
-                  </div>
                   <textarea
                     placeholder="Her kan du skrive lidt om dig selv"
                     name="description"

@@ -5,7 +5,7 @@ const GetReviewTransform = {
     return 'getReviews';
   },
 
-  requestTransform(event, {id, pids, skip, limit, where, order='created DESC'}, connection) {
+  requestTransform(event, {id, pids, skip, limit = 5, where, order='created DESC'}, connection) {
     return new Promise((resolve, reject) => {
       const user = connection.request.user || {id: null};
       const accessToken = user.id;

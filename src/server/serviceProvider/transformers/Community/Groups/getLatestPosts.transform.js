@@ -6,7 +6,7 @@ const GetLatestPostsTransform = {
     return 'getLatestPosts';
   },
 
-  requestTransform(event, {skip, limit}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {skip, limit=10}, connection) { // eslint-disable-line no-unused-vars
     const postFilter = {
       limit: limit,
       skip: skip,

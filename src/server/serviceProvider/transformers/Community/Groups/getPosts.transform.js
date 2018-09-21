@@ -40,6 +40,9 @@ const GetPostsTransform = {
   },
 
   requestTransform(event, {id, skip, limit, where = {}}, connection) { // eslint-disable-line no-unused-vars
+    if (!id) {
+      return Promise.reject(new Error('No group id provided'));
+    }
 
     const postFilter = {
       limit: limit,

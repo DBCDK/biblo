@@ -12,6 +12,9 @@ const GetGroupTransform = {
   },
 
   requestTransform(event, {id}, connection) {
+    if (!id) {
+      return Promise.reject(new Error('No group id provided'));
+    }
     const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
     let promises = [];
     let groupFilter = {

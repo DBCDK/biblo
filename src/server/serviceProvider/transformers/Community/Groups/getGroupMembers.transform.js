@@ -12,6 +12,9 @@ const GetGroupMembersTransform = {
   },
 
   requestTransform(event, {id, limit, offset}) {
+    if (!id) {
+      return Promise.reject(new Error('No group id provided'));
+    }
     return this.callServiceClient('community', 'getGroupMembers', {id, filter: {include: 'image', limit, offset}});
   },
 

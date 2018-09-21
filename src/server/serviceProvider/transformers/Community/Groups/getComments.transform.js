@@ -7,7 +7,9 @@ const GetCommentsTransform = {
   },
 
   requestTransform(event, {id, skip, limit}, connection) { // eslint-disable-line no-unused-vars
-
+    if (!id) {
+      return Promise.reject(new Error('No post id provided'));
+    }
     const commentFilter = {
       limit: limit,
       skip: skip,

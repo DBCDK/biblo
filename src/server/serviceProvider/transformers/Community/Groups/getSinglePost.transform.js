@@ -7,7 +7,9 @@ const GetPostsTransform = {
   },
 
   requestTransform(event, {id, filter = {}}, connection) { // eslint-disable-line no-unused-vars
-
+    if (!id) {
+      return Promise.reject(new Error('No post id provided'));
+    }
     const postFilter = {
       where: {id, markedAsDeleted: null},
       include: [

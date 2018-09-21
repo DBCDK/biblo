@@ -13,8 +13,11 @@ const GetSingleCommentsTransform = {
   },
 
   requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
-
+    if (!id) {
+      return Promise.reject(new Error('No comment id provided'));
+    }
     const commentFilter = {
+      limit: 1,
       where: {id: id},
       order: 'timeCreated DESC',
       include: [

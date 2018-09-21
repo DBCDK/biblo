@@ -4,6 +4,9 @@ const GetGroupTransform = {
   },
 
   requestTransform(event, {id, type}, connection) { // eslint-disable-line no-unused-vars
+    if (!id) {
+      return Promise.reject(new Error('No id provided'));
+    }
     switch (type) {
       case 'comment':
         return this.callServiceClient('community', 'getComments', {

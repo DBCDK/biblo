@@ -32,5 +32,8 @@ block append footerscripts
   if profileImage
       script(id='JSONDATA_USER_PROFILE_IMAGE', type='application/json') !{profileImage}
 
+  if openPlatformToken
+      script(id='OPENPLATFORM_TOKEN', type='application/json') !{openPlatformToken}
+
 block prepend body
     #content!= content

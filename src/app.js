@@ -54,7 +54,7 @@ import {
   ConfigurationMiddleware,
   GetMenus
 } from './server/middlewares/data.middleware';
-import {ensureUserHasProfile, ensureUserHasValidLibrary} from './server/middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureUserHasValidLibrary, setOpenplatformToken} from './server/middlewares/auth.middleware';
 import {setReturlUrl} from './server/middlewares/retururl.middleware';
 
 // Queue processors
@@ -352,6 +352,7 @@ module.exports.run = function(worker) {
   app.use(reduxStateMiddleware);
   app.use(renderComponent);
   app.use(GetMenus);
+  app.use(setOpenplatformToken);
 
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.

@@ -17,7 +17,8 @@ const AuthenticateTransform = {
   responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
     return {
       token: `Bearer ${response.access_token}`,
-      expires: Date.now() + response.expires_in
+      expires: Date.now() + response.expires_in * 1000,
+      raw: response.access_token
     };
   }
 };

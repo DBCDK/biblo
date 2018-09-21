@@ -89,3 +89,28 @@ export function ensureUserHasValidLibrary(req, res, next) {
 
   return next();
 }
+
+/**
+ * Propagate an anonoymous openplatform token through the middleware.
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns null
+ */
+export function setOpenplatformToken(req, res, next) {
+  req
+    .callServiceProvider('authenticate', {
+      userId: '',
+      libraryId: '',
+      password: '@'
+    })
+    .then(result => {
+      res.locals.openPlatformToken = JSON.stringify(result[0].raw);
+      return next();
+    })
+    .catch(() => {
+      // swallow error
+      return next();
+    });
+}

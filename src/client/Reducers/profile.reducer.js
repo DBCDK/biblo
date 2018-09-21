@@ -81,6 +81,11 @@ if (typeof window !== 'undefined') {
     }
 
   }
+  const openPlatformToken = document.getElementById('OPENPLATFORM_TOKEN');
+  if (openPlatformToken) {
+    const openPlatformTokenData = JSON.parse(openPlatformToken.innerHTML);
+    initialState = assignToEmpty(initialState, {openPlatformToken: openPlatformTokenData});
+  }
 }
 
 export default function profileReducer(state = initialState, action = {}) {

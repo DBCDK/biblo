@@ -14,17 +14,7 @@ const SearchTransform = {
   /* eslint-disable no-unused-vars */
   requestTransform(
     event,
-    {
-      q,
-      seriesTitle,
-      forfatter,
-      materialer,
-      emneord,
-      limit,
-      offset,
-      rankSort,
-      fields
-    },
+    {q, seriesTitle, forfatter, materialer, emneord, limit, offset, rankSort, fields},
     connection
   ) {
     /* eslint-enable no-unused-vars */
@@ -79,13 +69,7 @@ const SearchTransform = {
 
     return this.callServiceClient('cached/short/openplatform', 'search', {
       q: cqlQuery,
-      fields: fields || [
-        'collectionDetails',
-        'dcTitle',
-        'pid',
-        'workType',
-        'coverUrlFull'
-      ],
+      fields: fields || ['collectionDetails', 'dcTitle', 'pid', 'workType', 'coverUrlFull'],
       limit: limit,
       offset: offset,
       sort: rankSort

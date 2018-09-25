@@ -68,9 +68,7 @@ const GetLatestPostsTransform = {
   // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
     if (response[0].statusCode !== 200) {
-      throw new Error(
-        'Call to community service, with method getLatestPosts failed'
-      );
+      throw new Error('Call to community service, with method getLatestPosts failed');
     }
 
     const campaigns = response[1].concat(response[2].body);

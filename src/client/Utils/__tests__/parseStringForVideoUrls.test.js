@@ -13,20 +13,14 @@ describe('Testing the parseStringForVideoUrls.js util', () => {
   });
 
   it('it should return null when no video URLs is found', () => {
-    const result = parseStringForVideoUrls(
-      'this is a string without any YouTube IDs',
-      false
-    );
+    const result = parseStringForVideoUrls('this is a string without any YouTube IDs', false);
     expect(Array.isArray(result)).to.be.true;
     expect(result).to.be.empty;
   });
 
   it('it should return an array with youtube url present', () => {
     const youtubeURL = 'https://www.youtube.com/watch?v=kNTnrpL1Uw0';
-    const result = parseStringForVideoUrls(
-      `this is a string containing one youtube link ${youtubeURL}`,
-      false
-    );
+    const result = parseStringForVideoUrls(`this is a string containing one youtube link ${youtubeURL}`, false);
 
     expect(result).to.have.lengthOf(1);
     expect(result[0]).to.deep.equal([
@@ -80,10 +74,7 @@ describe('Testing the parseStringForVideoUrls.js util', () => {
 
   it('it should return an array with one player', () => {
     const vimeoURL = 'https://vimeo.com/76839641';
-    const result = parseStringForVideoUrls(
-      `this is a string containing a vimeo link ${vimeoURL}`,
-      true
-    );
+    const result = parseStringForVideoUrls(`this is a string containing a vimeo link ${vimeoURL}`, true);
     const expectedSerializedVideoPlayer = `{"key":"${vimeoURL}","ref":null,"props":{"width":"100%","height":"100%","url":"${vimeoURL}","config":{"youtube":{"playerVars":{"controls":1}}},"playing":false,"loop":false,"controls":false,"volume":0.8,"muted":false,"playbackRate":1,"style":{},"progressInterval":1000,"playsinline":false,"wrapper":"div"},"_owner":null,"_store":{}}`; // eslint-disable-line
 
     expect(result).to.have.lengthOf(1);

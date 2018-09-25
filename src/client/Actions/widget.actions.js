@@ -6,12 +6,7 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const getReviewsSocket = SocketClient('getReviews');
 const getCoverImageSocket = SocketClient('coverImage');
 
-export function asyncGetLatestReviews(
-  sort = 'id DESC',
-  limit,
-  campaignId = false,
-  offset = 0
-) {
+export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = false, offset = 0) {
   if (campaignId) {
     return {
       type: types.callServiceProvider,
@@ -21,9 +16,7 @@ export function asyncGetLatestReviews(
   }
 
   return dispatch => {
-    getReviewsSocket.responseOnce(res =>
-      dispatch(getLatestReviews(sort, limit, res.data, res.reviewsCount))
-    );
+    getReviewsSocket.responseOnce(res => dispatch(getLatestReviews(sort, limit, res.data, res.reviewsCount)));
     getReviewsSocket.request({order: sort, limit, campaignId, skip: offset});
   };
 }

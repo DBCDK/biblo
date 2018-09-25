@@ -30,9 +30,7 @@ const ToggleCloseGroupTransform = {
   // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
     if (response.statusCode !== 200) {
-      throw new Error(
-        'Call to community service, with method closeGroup failed'
-      );
+      throw new Error('Call to community service, with method closeGroup failed');
     }
 
     return response.body;

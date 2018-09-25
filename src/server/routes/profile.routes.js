@@ -6,11 +6,7 @@
 import express from 'express';
 import multer from 'multer';
 
-import {
-  ensureUserHasProfile,
-  ensureAuthenticated,
-  ensureUserHasValidLibrary
-} from '../middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureAuthenticated, ensureUserHasValidLibrary} from '../middlewares/auth.middleware';
 
 import {getUserContributedCampaigns} from '../utils/campaign.util.js';
 import {log} from 'dbc-node-logger';
@@ -78,10 +74,7 @@ async function checkUserLibraryInfo(req, body, profile) {
   return {errors, updatedProfileObject};
 }
 
-ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function(
-  req,
-  res
-) {
+ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function(req, res) {
   res.locals.title = 'Rediger bibliotek - Biblo.dk';
   res.render('page', {
     css: ['/css/profileeditlibrary.css'],
@@ -89,11 +82,7 @@ ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function(
   });
 });
 
-ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function(
-  req,
-  res,
-  next
-) {
+ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function(req, res, next) {
   try {
     let p = req.session.passport.user.profile.profile;
     const b = req.body;
@@ -108,10 +97,7 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function(
       });
     }
 
-    const result = (await req.callServiceProvider(
-      'updateProfile',
-      libraryCheck.updatedProfileObject
-    ))[0];
+    const result = (await req.callServiceProvider('updateProfile', libraryCheck.updatedProfileObject))[0];
     if (result.error && result.error.length > 0) {
       return res.render('page', {
         css: ['/css/profileeditlibrary.css'],
@@ -120,39 +106,32 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function(
       });
     }
 
-    req.session.passport.user.profile.profile = Object.assign(
-      {},
-      p,
-      result.data
-    );
+    req.session.passport.user.profile.profile = Object.assign({}, p, result.data);
     return res.redirect(req.session.returnUrl || '/');
   } catch (e) {
     return next(e);
   }
 });
 
-ProfileRoutes.get(
-  ['/rediger', '/rediger/moderator/:id'],
-  ensureAuthenticated,
-  async function(req, res, next) {
-    res.locals.title = 'Rediger profil - Biblo.dk';
-    try {
-      let p = req.session.passport.user.profile.profile;
+ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, async function(req, res, next) {
+  res.locals.title = 'Rediger profil - Biblo.dk';
+  try {
+    let p = req.session.passport.user.profile.profile;
 
-      let fullProfile = {};
-      if (p.isModerator && req.params.id) {
-        fullProfile = (await req.callServiceProvider('getFullProfile', {
-          isModerator: p.isModerator,
-          id: req.params.id
-        }))[0].body;
-      } else {
-        fullProfile = (await req.callServiceProvider('getFullProfile', {
-          isModerator: false,
-          id: p.id
-        }))[0].body;
-      }
+    let fullProfile = {};
+    if (p.isModerator && req.params.id) {
+      fullProfile = (await req.callServiceProvider('getFullProfile', {
+        isModerator: p.isModerator,
+        id: req.params.id
+      }))[0].body;
+    } else {
+      fullProfile = (await req.callServiceProvider('getFullProfile', {
+        isModerator: false,
+        id: p.id
+      }))[0].body;
+    }
 
-      /* Mock agency object, for debugging on the go :)
+    /* Mock agency object, for debugging on the go :)
      agency = agency || {
      agencyId: 'DK-775100',
      branchName: [{$value: 'bob'}],
@@ -162,42 +141,28 @@ ProfileRoutes.get(
      };
      */
 
-      // fetch library details and attach to favorite library
-      if (
-        fullProfile &&
-        fullProfile.favoriteLibrary &&
-        fullProfile.favoriteLibrary.libraryId
-      ) {
-        const agency = (await req.callServiceProvider('getLibraryDetails', {
-          agencyId: fullProfile.favoriteLibrary.libraryId
-        }))[0].pickupAgency;
-        fullProfile.favoriteLibrary = Object.assign(
-          {},
-          fullProfile.favoriteLibrary,
-          {
-            libraryId: agency.branchId,
-            libraryName: getAgencyName(agency), // see github #22
-            libraryAddress:
-              agency.postalAddress +
-              ', ' +
-              agency.postalCode +
-              ' ' +
-              agency.city
-          }
-        );
-      }
-
-      res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
-
-      res.render('page', {
-        css: ['/css/profileedit.css'],
-        js: ['/js/profileedit.js']
+    // fetch library details and attach to favorite library
+    if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
+      const agency = (await req.callServiceProvider('getLibraryDetails', {
+        agencyId: fullProfile.favoriteLibrary.libraryId
+      }))[0].pickupAgency;
+      fullProfile.favoriteLibrary = Object.assign({}, fullProfile.favoriteLibrary, {
+        libraryId: agency.branchId,
+        libraryName: getAgencyName(agency), // see github #22
+        libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
       });
-    } catch (e) {
-      next(e);
     }
+
+    res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
+
+    res.render('page', {
+      css: ['/css/profileedit.css'],
+      js: ['/js/profileedit.js']
+    });
+  } catch (e) {
+    next(e);
   }
-);
+});
 
 ProfileRoutes.post(
   ['/rediger', '/rediger/moderator/:id'],
@@ -229,12 +194,7 @@ ProfileRoutes.post(
           p.favoriteLibrary = {
             libraryId: agency.branchId,
             libraryName: getAgencyName(agency),
-            libraryAddress:
-              agency.postalAddress +
-              ', ' +
-              agency.postalCode +
-              ' ' +
-              agency.city
+            libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
           };
         }
       }
@@ -248,57 +208,38 @@ ProfileRoutes.post(
       };
 
       if (req.file) {
-        if (
-          requester.isModerator &&
-          req.file.mimetype &&
-          req.file.mimetype.indexOf('image') >= 0
-        ) {
+        if (requester.isModerator && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
           await req.callServiceProvider('updateProfileImage', {
             isModerator: requester.isModerator,
             uid: p.id,
             file: req.file
           });
-        } else if (
-          req.file.mimetype &&
-          req.file.mimetype.indexOf('image') >= 0
-        ) {
+        } else if (req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
           await req.callServiceProvider('updateProfileImage', {file: req.file});
         } else {
           errors.push({
             field: 'profile_image',
-            errorMessage:
-              'Du kan kun uploade billeder her! Prøv med en anden fil!'
+            errorMessage: 'Du kan kun uploade billeder her! Prøv med en anden fil!'
           });
         }
       }
 
       let libraryCheck = await checkUserLibraryInfo(req, b, p);
       errors = errors.concat(libraryCheck.errors);
-      updatedProfileObject = Object.assign(
-        updatedProfileObject,
-        libraryCheck.updatedProfileObject
-      );
+      updatedProfileObject = Object.assign(updatedProfileObject, libraryCheck.updatedProfileObject);
 
       if (typeof b.displayname === 'string' && b.displayname.length > 0) {
         if (b.displayname !== p.displayName) {
           if (
-            !/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(
-              b.displayname
-            ) &&
+            !/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(b.displayname) &&
             b.displayname.toLowerCase() !== p.username.toLowerCase()
           ) {
-            const displayNameExists = (await req.callServiceProvider(
-              'checkIfDisplayNameIsTaken',
-              b.displayname
-            ))[0];
+            const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
 
             if (displayNameExists.data && !displayNameExists.data.exists) {
               updatedProfileObject.displayName = b.displayname;
               updatedProfileObject.hasFilledInProfile = true;
-            } else if (
-              displayNameExists.data &&
-              displayNameExists.data.exists
-            ) {
+            } else if (displayNameExists.data && displayNameExists.data.exists) {
               errors.push({
                 field: 'displayname',
                 errorMessage: 'Brugernavnet er desværre taget!'
@@ -312,8 +253,7 @@ ProfileRoutes.post(
           } else {
             errors.push({
               field: 'displayname',
-              errorMessage:
-                'Man må ikke benytte CPR-nummer, lånerkortnummer eller uni-login som brugernavn.'
+              errorMessage: 'Man må ikke benytte CPR-nummer, lånerkortnummer eller uni-login som brugernavn.'
             });
           }
         }
@@ -381,10 +321,7 @@ ProfileRoutes.post(
           updatedProfileObject.uid = req.params.id;
         }
 
-        const result = (await req.callServiceProvider(
-          'updateProfile',
-          updatedProfileObject
-        ))[0];
+        const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];
 
         if (result.errors && result.errors.length > 0) {
           data.status = 'ERROR';
@@ -400,10 +337,7 @@ ProfileRoutes.post(
       }
 
       // Override preivous redirects if onFilledProfile is truthy
-      if (
-        req.session.hasOwnProperty('onFilledProfile') &&
-        req.session.onFilledProfile.length
-      ) {
+      if (req.session.hasOwnProperty('onFilledProfile') && req.session.onFilledProfile.length) {
         const destination = req.session.onFilledProfile;
         delete req.session.onFilledProfile;
         data.redirect = destination;
@@ -426,53 +360,50 @@ ProfileRoutes.post(
   }
 );
 
-ProfileRoutes.get(
-  ['/:id', '/'],
-  ensureAuthenticated,
-  ensureUserHasProfile,
-  ensureUserHasValidLibrary,
-  async function(req, res) {
-    let profile;
-    let profileId = req.params.id;
-    const data = {
-      feed: {},
-      errors: [],
-      reviews: [],
-      campaigns: []
-    };
+ProfileRoutes.get(['/:id', '/'], ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async function(
+  req,
+  res
+) {
+  let profile;
+  let profileId = req.params.id;
+  const data = {
+    feed: {},
+    errors: [],
+    reviews: [],
+    campaigns: []
+  };
 
-    if (!profileId) {
-      profile = JSON.parse(res.locals.profile);
-      profileId = profile.profile.id;
-    }
-
-    try {
-      data.userReviews = (await req.callServiceProvider('getOwnReview', {
-        reviewownerid: profileId,
-        offset: 0,
-        order: 'created ASC'
-      }))[0].data;
-      data.feed = (await req.callServiceProvider('getUserFeed', {
-        userId: profileId,
-        offset: 0
-      }))[0].body;
-      data.campaigns = await getUserContributedCampaigns(req, profileId);
-    } catch (e) {
-      // eslint-disable-line no-catch-shadow
-      data.errors = [e];
-    }
-
-    res.locals.title =
-      data.feed && data.feed.profile && data.feed.profile.raw
-        ? `${data.feed.profile.raw.displayName} - Biblo.dk`
-        : 'Biblo.dk';
-
-    res.render('page', {
-      css: ['/css/profiledetail.css'],
-      js: ['/js/profiledetail.js'],
-      jsonData: [JSON.stringify(data)]
-    });
+  if (!profileId) {
+    profile = JSON.parse(res.locals.profile);
+    profileId = profile.profile.id;
   }
-);
+
+  try {
+    data.userReviews = (await req.callServiceProvider('getOwnReview', {
+      reviewownerid: profileId,
+      offset: 0,
+      order: 'created ASC'
+    }))[0].data;
+    data.feed = (await req.callServiceProvider('getUserFeed', {
+      userId: profileId,
+      offset: 0
+    }))[0].body;
+    data.campaigns = await getUserContributedCampaigns(req, profileId);
+  } catch (e) {
+    // eslint-disable-line no-catch-shadow
+    data.errors = [e];
+  }
+
+  res.locals.title =
+    data.feed && data.feed.profile && data.feed.profile.raw
+      ? `${data.feed.profile.raw.displayName} - Biblo.dk`
+      : 'Biblo.dk';
+
+  res.render('page', {
+    css: ['/css/profiledetail.css'],
+    js: ['/js/profiledetail.js'],
+    jsonData: [JSON.stringify(data)]
+  });
+});
 
 export default ProfileRoutes;

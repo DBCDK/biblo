@@ -113,9 +113,7 @@ const GetPostsTransform = {
     const posts = JSON.parse(response[0].body);
     return Promise.all(
       posts.map(post =>
-        this.fetchCommentsForPost(post).then(postWithComments =>
-          parsePost(postWithComments, campaigns)
-        )
+        this.fetchCommentsForPost(post).then(postWithComments => parsePost(postWithComments, campaigns))
       )
     ).catch(err => ({errors: [err]}));
   }

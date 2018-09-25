@@ -30,7 +30,11 @@ describe('Testing the Tabs component', () => {
     ];
     const tree = sd.shallowRender(<Tabs tabs={tabs} />);
 
-    assert.equal(tree.subTree('.tabs').props.children.length, tabs.length, 'Found equal number of rendered tabs as given as props');
+    assert.equal(
+      tree.subTree('.tabs').props.children.length,
+      tabs.length,
+      'Found equal number of rendered tabs as given as props'
+    );
     assert.isFalse(isEmpty(tree.text()), 'tabs container is not empty');
     assert.equal(tree.props.className, 'tabs-container', 'tabs-container class was found');
   });

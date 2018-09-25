@@ -20,12 +20,21 @@ export class ErrorPageContainer extends React.Component {
     };
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
-        <div className='error-page--error-splash'>
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profileState}
+        globalState={this.props.globalState}
+      >
+        <div className="error-page--error-splash">
           <h1>UPS...</h1>
-          <p>Du har ramt en side der ikke findes. Gå tilbage til den foregående side eller brug menuen til at komme
-            videre.</p>
-          <p>{statusCode} {messages[statusCode]}</p>
+          <p>
+            Du har ramt en side der ikke findes. Gå tilbage til den foregående side eller brug menuen til at komme
+            videre.
+          </p>
+          <p>
+            {statusCode} {messages[statusCode]}
+          </p>
         </div>
       </PageLayout>
     );
@@ -42,7 +51,7 @@ ErrorPageContainer.propTypes = {
 
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
@@ -51,7 +60,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch)
     };

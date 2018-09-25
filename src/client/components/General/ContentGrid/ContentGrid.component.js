@@ -5,25 +5,14 @@ import ContentGridElement from './ContentGridElement.component.js';
 
 import './content-grid.scss';
 
-function ContentGrid({items=[]}) {
-
-  const elements = items.map((e) => {
-    return (
-      <ContentGridElement
-        key={e.id}
-        title={e.title}
-        text={e.text}
-        url={e.url}
-        imageUrl={e.imageUrl}
-      />
-    );
+function ContentGrid({items = []}) {
+  const elements = items.map(e => {
+    return <ContentGridElement key={e.id} title={e.title} text={e.text} url={e.url} imageUrl={e.imageUrl} />;
   });
 
   return (
     <div className="content-grid">
-      <ul className="content-grid--wrapper">
-        {elements}
-      </ul>
+      <ul className="content-grid--wrapper">{elements}</ul>
     </div>
   );
 }

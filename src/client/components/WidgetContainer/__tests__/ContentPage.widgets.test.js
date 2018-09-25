@@ -28,7 +28,8 @@ describe('Test ContentPages Widgets', () => {
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
-        widgetActions={widgetActions} />
+        widgetActions={widgetActions}
+      />
     );
 
     const wrapper = mount(component);
@@ -57,12 +58,16 @@ describe('Test ContentPages Widgets', () => {
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
-        widgetActions={widgetActions} />
+        widgetActions={widgetActions}
+      />
     );
 
     const wrapper = mount(component);
 
-    const renderedImage = wrapper.find('.content-page--image-widget').find('img').props();
+    const renderedImage = wrapper
+      .find('.content-page--image-widget')
+      .find('img')
+      .props();
     expect(renderedImage.src).toBe('bob');
     expect(renderedImage.alt).toBe('bob2');
     expect(renderedImage.title).toBe('bob3');
@@ -80,10 +85,13 @@ describe('Test ContentPages Widgets', () => {
       widgetConfig: {type: 'YouTube', src: 'https://www.youtube.com/embed/qZ3fiOctBkE'}
     };
 
-    const tree = shallow(<WidgetContainer
-      widgetLocationName={widgetLocationName}
-      widgetState={widgetState}
-      widgetActions={widgetActions} />);
+    const tree = shallow(
+      <WidgetContainer
+        widgetLocationName={widgetLocationName}
+        widgetState={widgetState}
+        widgetActions={widgetActions}
+      />
+    );
 
     expect(tree).toMatchSnapshot();
   });

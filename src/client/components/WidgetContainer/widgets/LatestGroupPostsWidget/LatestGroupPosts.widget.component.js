@@ -53,14 +53,13 @@ export class LatestGroupPostsWidget extends AbstractWidget {
 
   renderCompactReviewElements(widgetPosts) {
     return widgetPosts.map(post => {
-      return (
-        <CompactGroupPostElement key={`cpe-${post.id}`} post={post} />
-      );
+      return <CompactGroupPostElement key={`cpe-${post.id}`} post={post} />;
     });
   }
 
   renderCampaignLogo(widgetGroup) {
-    const campaignLogoUrl = widgetGroup && widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small || null;
+    const campaignLogoUrl =
+      (widgetGroup && widgetGroup.campaign && widgetGroup.campaign.logos && widgetGroup.campaign.logos.small) || null;
     if (campaignLogoUrl) {
       return (
         <span className="widget--campaign-logo">

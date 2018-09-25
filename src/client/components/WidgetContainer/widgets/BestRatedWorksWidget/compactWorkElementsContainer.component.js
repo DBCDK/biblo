@@ -30,7 +30,9 @@ export class CompactWorkElementsContainer extends Component {
   };
 
   render() {
-    const elements = this.props.works.map(work => <CompactWorkElement work={work} key={`work-${work.collection[0] || 'unknown-work'}`}/>);
+    const elements = this.props.works.map(work => (
+      <CompactWorkElement work={work} key={`work-${work.collection[0] || 'unknown-work'}`} />
+    ));
     const classNames = 'compact-works--container' + (this.props.closed ? ' closed' : '');
 
     let spinner = '';
@@ -38,8 +40,9 @@ export class CompactWorkElementsContainer extends Component {
     if (this.props.isLoading || elements.length === 0) {
       spinner = (
         <div className="compact-works--spinner-container">
-          <Icon glyph={spinnerSvg} height={150} width={150}/>
-        </div>);
+          <Icon glyph={spinnerSvg} height={150} width={150} />
+        </div>
+      );
     }
 
     return (

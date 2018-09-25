@@ -25,14 +25,13 @@ var dateFormat = (function() {
 
   // Regexes and supporting functions are cached through closure
   return function(date, mask, utc, gmt) {
-
     // You can't provide utc if you skip other args (use the 'UTC:' mask prefix)
     if (arguments.length === 1 && kindOf(date) === 'string' && !/\d/.test(date)) {
       mask = date;
       date = undefined;
     }
 
-    date = date || new Date;
+    date = date || new Date();
 
     if (typeof date === 'string' && weirdDateFormatRegex.test(date)) {
       let weirdDate = weirdDateFormatRegex.exec(date);
@@ -100,8 +99,8 @@ var dateFormat = (function() {
       T: H < 12 ? 'A' : 'P',
       TT: H < 12 ? 'AM' : 'PM',
       Z: gmt ? 'GMT' : utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
-      o: (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
-      S: ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
+      o: (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + (Math.abs(o) % 60), 4),
+      S: ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (((d % 100) - (d % 10) != 10) * d) % 10],
       W: W,
       N: N
     };
@@ -116,31 +115,64 @@ var dateFormat = (function() {
 })();
 
 dateFormat.masks = {
-  'default': 'ddd mmm dd yyyy HH:MM:ss',
-  'shortDate': 'm/d/yy',
-  'mediumDate': 'mmm d, yyyy',
-  'longDate': 'mmmm d, yyyy',
-  'fullDate': 'dddd, mmmm d, yyyy',
-  'shortTime': 'h:MM TT',
-  'mediumTime': 'h:MM:ss TT',
-  'longTime': 'h:MM:ss TT Z',
-  'isoDate': 'yyyy-mm-dd',
-  'isoTime': 'HH:MM:ss',
-  'isoDateTime': 'yyyy-mm-dd\'T\'HH:MM:sso',
-  'isoUtcDateTime': 'UTC:yyyy-mm-dd\'T\'HH:MM:ss\'Z\'',
-  'expiresHeaderFormat': 'ddd, dd mmm yyyy HH:MM:ss Z'
+  default: 'ddd mmm dd yyyy HH:MM:ss',
+  shortDate: 'm/d/yy',
+  mediumDate: 'mmm d, yyyy',
+  longDate: 'mmmm d, yyyy',
+  fullDate: 'dddd, mmmm d, yyyy',
+  shortTime: 'h:MM TT',
+  mediumTime: 'h:MM:ss TT',
+  longTime: 'h:MM:ss TT Z',
+  isoDate: 'yyyy-mm-dd',
+  isoTime: 'HH:MM:ss',
+  isoDateTime: "yyyy-mm-dd'T'HH:MM:sso",
+  isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'",
+  expiresHeaderFormat: 'ddd, dd mmm yyyy HH:MM:ss Z'
 };
 
 // Internationalization strings
 dateFormat.i18n = {
   dayNames: [
-    'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
-    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
   ],
   monthNames: [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-    'October', 'November', 'December'
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ]
 };
 
@@ -220,8 +252,10 @@ function kindOf(val) {
     return 'array';
   }
 
-  return {}.toString.call(val)
-    .slice(8, -1).toLowerCase();
-};
+  return {}.toString
+    .call(val)
+    .slice(8, -1)
+    .toLowerCase();
+}
 
 export default dateFormat;

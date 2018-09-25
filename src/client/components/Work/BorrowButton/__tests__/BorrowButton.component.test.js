@@ -43,7 +43,10 @@ describe('Test Borrow Button (in work detail)', () => {
 
     const wrapper = mount(component);
     wrapper.find('.borrow--button').simulate('click');
-    const innerHtml = wrapper.find('.modal-window--borrow--types').first().text();
+    const innerHtml = wrapper
+      .find('.modal-window--borrow--types')
+      .first()
+      .text();
 
     expect(innerHtml).to.include(expected);
   });

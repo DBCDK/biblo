@@ -2,7 +2,7 @@
 
 import EntitySuggest from '../entitysuggest.client';
 import sinon from 'sinon';
-import request from 'request'
+import request from 'request';
 
 describe('Test Failing scenarius in client.js', () => {
   afterEach(function(done) {
@@ -10,13 +10,14 @@ describe('Test Failing scenarius in client.js', () => {
     done();
   });
 
-  it('Test getSubjectSuggestions Method on bad URL', (done) => {
-    sinon
-      .stub(request, 'get')
-      .yields(null, {
-          statusCode: 404,
-        }, '<html></html>'
-      );
+  it('Test getSubjectSuggestions Method on bad URL', done => {
+    sinon.stub(request, 'get').yields(
+      null,
+      {
+        statusCode: 404
+      },
+      '<html></html>'
+    );
 
     const suggest = EntitySuggest({
       method: 'fail',
@@ -24,20 +25,21 @@ describe('Test Failing scenarius in client.js', () => {
       port: 8017
     });
 
-    suggest.getSubjectSuggestions({query: 'display.title', rs: 5})
-      .then((data) => {
+    suggest
+      .getSubjectSuggestions({query: 'display.title', rs: 5})
+      .then(data => {
         done(new Error('This promise should fail'));
-      }).catch((err) => {
-      expect(typeof err === 'object').toBeTruthy();
-      expect(err.statusCode).toBeTruthy();
-      expect(err.statusCode).not.toEqual(200);
-      done();
-    });
+      })
+      .catch(err => {
+        expect(typeof err === 'object').toBeTruthy();
+        expect(err.statusCode).toBeTruthy();
+        expect(err.statusCode).not.toEqual(200);
+        done();
+      });
   });
 
-  it('Test getSubjectSuggestions Method with failing promise', (done) => {
-    sinon
-      .stub(request, 'get').yields({err: 'failure'});
+  it('Test getSubjectSuggestions Method with failing promise', done => {
+    sinon.stub(request, 'get').yields({err: 'failure'});
 
     const suggest = EntitySuggest({
       method: 'fail',
@@ -45,12 +47,14 @@ describe('Test Failing scenarius in client.js', () => {
       port: 8017
     });
 
-    suggest.getSubjectSuggestions({query: 'display.title', rs: 5})
-      .then((data) => {
+    suggest
+      .getSubjectSuggestions({query: 'display.title', rs: 5})
+      .then(data => {
         done(new Error('This promise should fail'));
-      }).catch((err) => {
-      expect(typeof err === 'object').toBeTruthy();
-      done();
-    });
+      })
+      .catch(err => {
+        expect(typeof err === 'object').toBeTruthy();
+        done();
+      });
   });
 });

@@ -5,7 +5,7 @@ const GetReviewTransform = {
     return 'getReviews';
   },
 
-  requestTransform(event, {id, pids, skip, limit = 5, where, order='created DESC'}, connection) {
+  requestTransform(event, {id, pids, skip, limit = 5, where, order = 'created DESC'}, connection) {
     return new Promise((resolve, reject) => {
       const user = connection.request.user || {id: null};
       const accessToken = user.id;
@@ -27,7 +27,8 @@ const GetReviewTransform = {
                     scope: {
                       include: ['video']
                     }
-                  }]
+                  }
+                ]
               }
             },
             {
@@ -42,22 +43,17 @@ const GetReviewTransform = {
 
       if (where) {
         params.filter.where = where;
-      }
-      else if (pids) {
-        pids.forEach((pid) => {
+      } else if (pids) {
+        pids.forEach(pid => {
           orFilter.push({pid: pid});
         });
 
         if (orFilter.length > 0) {
           params.filter.where = {
-            and: [
-              {markedAsDeleted: null},
-              {or: orFilter}
-            ]
+            and: [{markedAsDeleted: null}, {or: orFilter}]
           };
         }
-      }
-      else {
+      } else {
         params.filter.where = {markedAsDeleted: null, id: id};
       }
 
@@ -66,10 +62,10 @@ const GetReviewTransform = {
         this.callServiceClient('cached/standard/community', 'getReviews', params),
         this.callServiceClient('cached/standard/community', 'getReviewCampaigns')
       ])
-        .then((response) => {
+        .then(response => {
           resolve(response);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });

@@ -3,7 +3,6 @@
  */
 
 const getPdfTransform = {
-
   /**
    * @return {string}
    */

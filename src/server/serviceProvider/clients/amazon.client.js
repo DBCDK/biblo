@@ -27,8 +27,7 @@ function getUserMessages(docClient, tableName, userId) {
     docClient.scan(parameters, (err, data) => {
       if (err || !data) {
         reject(err || 'No data found!');
-      }
-      else {
+      } else {
         resolve(data);
       }
     });
@@ -65,8 +64,7 @@ function setUserMessageRead(docClient, tableName, {messageType, createdEpoch}) {
     docClient.update(parameters, (err, data) => {
       if (err || !data) {
         reject(err || 'No data found!');
-      }
-      else {
+      } else {
         resolve(data);
       }
     });
@@ -105,8 +103,7 @@ function deleteUserMessage(docClient, tableName, {messageType, createdEpoch}) {
     docClient.update(parameters, (err, data) => {
       if (err || !data) {
         reject(err || 'No data found!');
-      }
-      else {
+      } else {
         resolve(data);
       }
     });
@@ -140,8 +137,7 @@ function hardDeleteUserMessage(docClient, tableName, {userId, messageType, creat
     docClient.delete(parameters, (err, data) => {
       if (err || !data) {
         reject(err || 'No data found!');
-      }
-      else {
+      } else {
         resolve(data);
       }
     });
@@ -157,7 +153,7 @@ function hardDeleteUserMessage(docClient, tableName, {userId, messageType, creat
  */
 function deleteAllUserMessages(docClient, tableName, {userId}) {
   return new Promise(async (resolve, reject) => {
-    if (!(userId)) {
+    if (!userId) {
       reject('Not enough parameters! Please ensure userId is set.');
     }
     try {
@@ -169,8 +165,7 @@ function deleteAllUserMessages(docClient, tableName, {userId}) {
         return hardDeleteUserMessage(docClient, tableName, {userId, messageType, createdEpoch});
       });
       return await Promise.all(deleteRequestPromises);
-    }
-    catch (e) {
+    } catch (e) {
       reject(e);
     }
   });
@@ -184,14 +179,11 @@ function deleteAllUserMessages(docClient, tableName, {userId}) {
 export default function AWSClient(configuration = null) {
   if (!configuration) {
     throw new Error('Expected config object but got null!');
-  }
-  else if (!configuration.key) {
+  } else if (!configuration.key) {
     throw new Error('Expected key in config object but got nothing!');
-  }
-  else if (!configuration.keyId) {
+  } else if (!configuration.keyId) {
     throw new Error('Expected keyId in config object but got nothing!');
-  }
-  else if (!configuration.region) {
+  } else if (!configuration.region) {
     throw new Error('Expected region in config object but got nothing!');
   }
 

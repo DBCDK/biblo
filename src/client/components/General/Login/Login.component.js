@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Login extends React.Component {
-
   getCurrentLocation() {
     return window.location.pathname + window.location.search;
   }
@@ -10,10 +9,8 @@ export default class Login extends React.Component {
     return '/login?destination=' + encodeURIComponent(this.getCurrentLocation());
   }
 
-  render () {
-    return (
-      <a href={this.getDestination()}>{this.props.children}</a>
-    );
+  render() {
+    return <a href={this.getDestination()}>{this.props.children}</a>;
   }
 }
 

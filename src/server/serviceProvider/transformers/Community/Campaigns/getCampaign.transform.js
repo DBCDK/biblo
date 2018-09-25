@@ -2,7 +2,6 @@
  * @file: Get campaigns from biblo admin.
  */
 const getContentPageTransform = {
-
   /**
    * @return {string}
    */
@@ -13,7 +12,7 @@ const getContentPageTransform = {
   /**
    * @returns {Promise}
    */
-  requestTransform(event, {id, filter={}}) {
+  requestTransform(event, {id, filter = {}}) {
     return this.callServiceClient('cached/short/community', 'getCampaign', {id, filter});
   },
 

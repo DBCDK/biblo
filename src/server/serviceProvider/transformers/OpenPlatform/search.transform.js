@@ -7,15 +7,30 @@ const type2Cql = {
 };
 
 const SearchTransform = {
-
   event() {
     return 'search';
   },
 
-  requestTransform(event, {q, seriesTitle, forfatter, materialer, emneord, limit, offset, rankSort, fields}, connection) { // eslint-disable-line no-unused-vars
+  /* eslint-disable no-unused-vars */
+  requestTransform(
+    event,
+    {
+      q,
+      seriesTitle,
+      forfatter,
+      materialer,
+      emneord,
+      limit,
+      offset,
+      rankSort,
+      fields
+    },
+    connection
+  ) {
+    /* eslint-enable no-unused-vars */
 
-    offset = (offset) ? offset : 0;
-    rankSort = (rankSort) ? rankSort : 'rank_frequency';
+    offset = offset ? offset : 0;
+    rankSort = rankSort ? rankSort : 'rank_frequency';
 
     const topLevelCql = [];
 
@@ -25,16 +40,17 @@ const SearchTransform = {
         // wrap fulltext search only query in quotes
         q = '"' + q + '"';
       }
-    }
-    else {
+    } else {
       q = '"*"';
     }
     // add freetext cql part
     topLevelCql.push(q);
 
-
     if (materialer) {
-      const materialCql = materialer.split(',').map((type) => '(' + type2Cql[type] + ')').join(' OR ');
+      const materialCql = materialer
+        .split(',')
+        .map(type => '(' + type2Cql[type] + ')')
+        .join(' OR ');
       topLevelCql.push(materialCql);
     }
 
@@ -43,7 +59,10 @@ const SearchTransform = {
     }
 
     if (emneord) {
-      const subjectCql = emneord.split(',').map((type) => '(term.subject="' + type + '")').join(' OR ');
+      const subjectCql = emneord
+        .split(',')
+        .map(type => '(term.subject="' + type + '")')
+        .join(' OR ');
       topLevelCql.push(subjectCql);
     }
 
@@ -56,7 +75,7 @@ const SearchTransform = {
       fields.push('workType');
     }
 
-    const cqlQuery = topLevelCql.map((cql) => '('+cql+')').join(' AND ');
+    const cqlQuery = topLevelCql.map(cql => '(' + cql + ')').join(' AND ');
 
     return this.callServiceClient('cached/short/openplatform', 'search', {
       q: cqlQuery,
@@ -73,16 +92,15 @@ const SearchTransform = {
     });
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  responseTransform(response, query, connection) {
     const ret = JSON.parse(response.body);
     ret.data = (ret.data || []).map(work => {
       if (work.coverUrlFull && work.coverUrlFull.length > 0) {
         work.coverUrl = work.coverUrlFull[0];
-      }
-      else if (work.workType) {
+      } else if (work.workType) {
         work.coverUrl = `/images/covers/${work.workType}.png`;
-      }
-      else {
+      } else {
         work.coverUrl = '/images/covers/other.png';
       }
 

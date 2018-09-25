@@ -17,7 +17,11 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
     answerButton = (
       <RoundedButton
         clickFunction={answerFunction}
-        buttonText={<span className="rounded-button--back--svg"><Icon glyph={backSvg} /> Svar</span>}
+        buttonText={
+          <span className="rounded-button--back--svg">
+            <Icon glyph={backSvg} /> Svar
+          </span>
+        }
         compact={true}
       />
     );
@@ -25,7 +29,9 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
 
   if (likes && likes > 0) {
     like = (
-      <span className="activity-row--like-answer--likes"><Icon glyph={heartSvg} /> {likes} kan godt lide dette</span>
+      <span className="activity-row--like-answer--likes">
+        <Icon glyph={heartSvg} /> {likes} kan godt lide dette
+      </span>
     );
   }
 
@@ -34,11 +40,7 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
   }
 
   if (children) {
-    childHtml = (
-      <div className={'activity-row--children--no-image'}>
-        {children}
-      </div>
-    );
+    childHtml = <div className={'activity-row--children--no-image'}>{children}</div>;
   }
 
   let likeAnswer = (
@@ -52,9 +54,7 @@ export default function ActivityRow({children, date, answerFunction, likes, titl
       <div className="activity-row">
         <div className="activity-row--title">
           {activityTitle}
-          <div className='activity-row--date'>
-            {date ? TimeToString(date) : ''}
-          </div>
+          <div className="activity-row--date">{date ? TimeToString(date) : ''}</div>
         </div>
 
         {childHtml}
@@ -70,8 +70,5 @@ ActivityRow.propTypes = {
   date: PropTypes.string,
   answerFunction: PropTypes.func,
   likes: PropTypes.array,
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ])
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };

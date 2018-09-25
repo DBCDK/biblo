@@ -58,15 +58,19 @@ class ProfileEditContainer extends React.Component {
   }
 
   render() {
-
     if (this.props.profile.profileIsDeleted) {
       return (
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+        <PageLayout
+          searchState={this.props.searchState}
+          searchActions={this.props.searchActions}
+          profileState={this.props.profile}
+          globalState={this.props.globalState}
+        >
           profilen er væk :)
         </PageLayout>
       );
     }
-    const searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 20).map((suggestion) => {
+    const searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 20).map(suggestion => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
@@ -80,8 +84,12 @@ class ProfileEditContainer extends React.Component {
     }
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
-
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profile}
+        globalState={this.props.globalState}
+      >
         <div className="profile-edit--container">
           <h1 className="profile-edit--title">{form_title}</h1>
           <div className="profile-edit--form-component-container-container">
@@ -110,7 +118,11 @@ class ProfileEditContainer extends React.Component {
                 displayNameExists={this.props.profile.displayNameExists}
                 hasFilledInProfile={this.props.profile.hasFilledInProfile}
               />
-              {this.props.profile.hasFilledInProfile ? <ProfileDelete profile={this.props.profile} onDelete={this.props.actions.asyncDeleteProfile} /> : ''}
+              {this.props.profile.hasFilledInProfile ? (
+                <ProfileDelete profile={this.props.profile} onDelete={this.props.actions.asyncDeleteProfile} />
+              ) : (
+                ''
+              )}
             </div>
             <div className="after-profile-edit--form-component-container">
               <br />
@@ -127,7 +139,7 @@ class ProfileEditContainer extends React.Component {
  */
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       searchState: state.searchReducer,
       profile: state.profileReducer,
@@ -137,7 +149,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(ProfileActions, dispatch),

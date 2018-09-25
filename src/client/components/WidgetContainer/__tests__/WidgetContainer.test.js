@@ -22,11 +22,15 @@ describe('Test generic WidgetContainer', () => {
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
-        widgetActions={widgetActions} />
+        widgetActions={widgetActions}
+      />
     );
 
     const wrapper = mount(component);
-    const text = wrapper.find(`.${widgetLocationName}--generic-widget-container`).first().text();
+    const text = wrapper
+      .find(`.${widgetLocationName}--generic-widget-container`)
+      .first()
+      .text();
 
     expect(text).to.equal('');
   });
@@ -47,12 +51,16 @@ describe('Test generic WidgetContainer', () => {
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
-        widgetActions={widgetActions} />
+        widgetActions={widgetActions}
+      />
     );
 
     const expected = 'This is a dummy widget!';
     const wrapper = mount(component);
-    const text = wrapper.find('.dummy-widget').first().text();
+    const text = wrapper
+      .find('.dummy-widget')
+      .first()
+      .text();
 
     expect(text).to.equal(expected);
   });

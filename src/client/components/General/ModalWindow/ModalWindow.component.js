@@ -7,7 +7,6 @@ import closeSvg from '../Icon/svg/functions/close.svg';
 import './modal-window.scss';
 
 export default class ModalWindow extends React.Component {
-
   constructor(props) {
     super(props);
   }
@@ -16,17 +15,18 @@ export default class ModalWindow extends React.Component {
     let title = '';
 
     if (this.props.title) {
-      title = (<h2>{this.props.title}</h2>);
+      title = <h2>{this.props.title}</h2>;
     }
 
     return (
       <div className="modal-window--overlay" onClick={this.props.onClose}>
-        <div className="modal-window--window" onClick={(e) => {
-          e.stopPropagation();
-        }}>
-          <div className="modal-window--overhead-title">
-            {title}
-          </div>
+        <div
+          className="modal-window--window"
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="modal-window--overhead-title">{title}</div>
           <div className="modal-window--content-container">
             <div>
               <div className="modal-window--close-button--container">
@@ -35,9 +35,7 @@ export default class ModalWindow extends React.Component {
                 </span>
               </div>
             </div>
-            <div className="modal-window--content">
-              {this.props.children}
-            </div>
+            <div className="modal-window--content">{this.props.children}</div>
           </div>
         </div>
       </div>

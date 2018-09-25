@@ -3,7 +3,6 @@
  * Get content page from biblo admin
  */
 const getContentPageTransform = {
-
   /**
    * @return {string}
    */
@@ -52,14 +51,16 @@ const getContentPageTransform = {
 
     try {
       const contentResponse = JSON.parse(response.body) || {};
-      const widgetLocations = contentResponse.type === 'article' ? this.getArticleLocations(contentResponse) : this.getSectionLocations(contentResponse);
+      const widgetLocations =
+        contentResponse.type === 'article'
+          ? this.getArticleLocations(contentResponse)
+          : this.getSectionLocations(contentResponse);
       data.body = {widgetLocations, title: contentResponse.title};
 
       if (contentResponse.message) {
         data.body.message = contentResponse.message;
       }
-    }
-    catch (err) {
+    } catch (err) {
       data.errors.push(err);
       data.statusCode = 500;
       data.statusMessage = 'ERROR';

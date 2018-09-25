@@ -11,7 +11,6 @@ const flagGroupSocketClient = SocketClient('flagGroup');
 const flagCommentSocketClient = SocketClient('flagComment');
 const flagReviewSocketClient = SocketClient('flagReview');
 
-
 export function flagPost(flag) {
   flagPostSocketClient.request({flag});
 

@@ -1,10 +1,5 @@
 export const mock = {
-  pids: [
-    '870970-basis:26338735',
-    '870970-basis:52983851',
-    '870970-basis:26167531',
-    '870970-basis:29974411'
-  ],
+  pids: ['870970-basis:26338735', '870970-basis:52983851', '870970-basis:26167531', '870970-basis:29974411'],
   totalCount: 4,
   limit: 10,
   reviews: [

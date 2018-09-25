@@ -4,7 +4,6 @@
  */
 
 const getQuarantinesTransform = {
-
   /**
    * @return {string}
    */
@@ -32,7 +31,7 @@ const getQuarantinesTransform = {
     const filter = {
       where: {
         end: {
-          gte: (new Date()).toDateString()
+          gte: new Date().toDateString()
         }
       }
     };

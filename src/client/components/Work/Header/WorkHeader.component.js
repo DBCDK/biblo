@@ -22,7 +22,7 @@ export class WorkHeader extends React.Component {
    *
    * @param {React.SyntheticEvent} e
    */
-  onLoad = (e) => {
+  onLoad = e => {
     const isLandscape = e.target.naturalWidth > e.target.naturalHeight;
     this.setState({isLandscape, imageHeight: e.target.clientHeight});
   };
@@ -40,21 +40,19 @@ export class WorkHeader extends React.Component {
     const coverUrl = this.props.coverUrl;
     const landscapeClass = this.state.isLandscape ? 'landscape' : '';
     const marginTop = 240 - this.state.imageHeight;
-    const image =
-      <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={img => this.image = img} />;
+    const image = (
+      <img className={`${landscapeClass}`} src={coverUrl} onLoad={this.onLoad} ref={img => (this.image = img)} />
+    );
 
     return (
-      <div className='work-header'>
-        <div className={`work-header--background-image ${landscapeClass}`} style={{backgroundImage: `url("${coverUrl}")`}}></div>
+      <div className="work-header">
+        <div
+          className={`work-header--background-image ${landscapeClass}`}
+          style={{backgroundImage: `url("${coverUrl}")`}}
+        />
         <div className={`work-header--foreground-image--wrapper ${landscapeClass}`}>
           <div className={`work-header--foreground-image ${landscapeClass}`} style={{marginTop: `${marginTop}px`}}>
-            {
-              this.props.linkToMaterial.length ?
-                <a href={`${this.props.linkToMaterial}`}>
-                  {image}
-                </a> :
-                {image}
-            }
+            {this.props.linkToMaterial.length ? <a href={`${this.props.linkToMaterial}`}>{image}</a> : {image}}
           </div>
         </div>
       </div>

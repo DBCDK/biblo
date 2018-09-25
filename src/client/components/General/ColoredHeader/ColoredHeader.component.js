@@ -15,11 +15,9 @@ export default function ColoredHeader(props) {
   return (
     <div className="colored-header" style={styles}>
       <div className="colored-header--iconcontainer">
-        {props.imageSrc &&
-        <img src={props.imageSrc} alt="{title}"/>
-        ||
-        <Icon className="icon" height={100} width={100} glyph={props.iconGlyph}/>
-        }
+        {(props.imageSrc && <img src={props.imageSrc} alt="{title}" />) || (
+          <Icon className="icon" height={100} width={100} glyph={props.iconGlyph} />
+        )}
       </div>
       <div className="colored-header--description">
         <div className="colored-header--text">

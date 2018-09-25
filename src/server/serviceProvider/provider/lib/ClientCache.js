@@ -17,11 +17,9 @@ export let manager = null;
  * @param callback
  */
 function promiseAsCallback(promise, callback) {
-  const promises = isArray(promise) && promise || [promise];
-  promises.forEach((singlePromise) => {
-    singlePromise
-      .then((result) => callback(null, JSON.stringify(result)))
-      .catch((err) => callback(err, null));
+  const promises = (isArray(promise) && promise) || [promise];
+  promises.forEach(singlePromise => {
+    singlePromise.then(result => callback(null, JSON.stringify(result))).catch(err => callback(err, null));
   });
 }
 
@@ -60,17 +58,21 @@ export function ClientCache(config) {
   function wrapMethodInCache(fn, fnName, ttl, params) {
     const key = fnName + JSON.stringify(params);
     return new Promise((resolve, reject) => {
-      manager.wrap(key, (cb) => {
-        promiseAsCallback(fn(params), cb);
-      }, {ttl}, (err, result) => {
-        if (err) {
-          log.error('Promise was rejected in cachePromiseCallback', {error: err, params: params});
-          reject(err);
+      manager.wrap(
+        key,
+        cb => {
+          promiseAsCallback(fn(params), cb);
+        },
+        {ttl},
+        (err, result) => {
+          if (err) {
+            log.error('Promise was rejected in cachePromiseCallback', {error: err, params: params});
+            reject(err);
+          } else {
+            resolve(JSON.parse(result));
+          }
         }
-        else {
-          resolve(JSON.parse(result));
-        }
-      });
+      );
     });
   }
 

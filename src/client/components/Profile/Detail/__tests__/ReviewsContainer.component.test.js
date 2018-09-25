@@ -20,11 +20,11 @@ describe('Testing the ReviewContainer component', () => {
   const emptyWorksMetadata = {};
   const emptyObject = {};
   const user = {};
-  const noop = () => {
-  };
+  const noop = () => {};
 
   it('Should render empty div container', () => {
-    const expectedHTML = '<div class="reviews-container-component"><div class="reviews-container-component--reviews"></div></div>';
+    const expectedHTML =
+      '<div class="reviews-container-component"><div class="reviews-container-component--reviews"></div></div>';
     const wrapper = shallow(
       <ReviewsContainer
         reviews={emptyReviews}
@@ -43,7 +43,7 @@ describe('Testing the ReviewContainer component', () => {
     let count = 0;
 
     // getWorksAction mock method
-    const getWorksAction = (pids) => {
+    const getWorksAction = pids => {
       count = pids.length;
     };
 
@@ -60,7 +60,7 @@ describe('Testing the ReviewContainer component', () => {
 
     const instance = tree.getMountedInstance();
     const spy = sinon.spy(instance, 'requestMetadata');
-    assert.isFalse(spy.called, 'Component haven\'t rendered yet so requestMetadata should not have been called yet');
+    assert.isFalse(spy.called, "Component haven't rendered yet so requestMetadata should not have been called yet");
 
     // render reviews
     const rendered = instance.renderReviewRows();
@@ -89,6 +89,10 @@ describe('Testing the ReviewContainer component', () => {
     const rendered = tree.getRenderOutput();
 
     assert.equal(rendered.props.className, 'reviews-container-component');
-    assert.equal(rendered.props.children[0].props.children.length, instance.state.limit, 'Number of children equals the components state.limit');
+    assert.equal(
+      rendered.props.children[0].props.children.length,
+      instance.state.limit,
+      'Number of children equals the components state.limit'
+    );
   });
 });

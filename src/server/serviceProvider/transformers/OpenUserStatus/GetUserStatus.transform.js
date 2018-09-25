@@ -30,8 +30,7 @@ const GetUserStatusTransform = {
 
     if ((!agencyId || !userId || !pinCode) && this.getFavouriteLibrary(connection)) {
       params = this.getFavouriteLibrary(connection);
-    }
-    else {
+    } else {
       params = {
         agencyId,
         userId,
@@ -49,7 +48,6 @@ const GetUserStatusTransform = {
   responseTransform(response) {
     return parseGetUserStatusResponse(response);
   }
-
 };
 
 export default GetUserStatusTransform;

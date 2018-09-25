@@ -20,7 +20,9 @@ function ProgressBar({completed, color, height, children}) {
 
   return (
     <div className="progressbar-container" style={containerStyle}>
-      <div className="progressbar-container--progress" style={style}>{children}</div>
+      <div className="progressbar-container--progress" style={style}>
+        {children}
+      </div>
     </div>
   );
 }

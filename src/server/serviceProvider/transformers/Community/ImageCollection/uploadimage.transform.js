@@ -2,7 +2,6 @@
  * @file: Upload an image to the community service
  */
 const imageUploadTransform = {
-
   /**
    * @return {string}
    */

@@ -15,7 +15,7 @@ const forever = require('async/forever');
  */
 function changeStreamListener(endpoint, model, callback) {
   // Return a promise so the serviceprovider is happy
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     // Parse out the url for the change stream and add a keep-alive agent to it.
     const opts = url_parser(`${endpoint}api/${model}/change-stream?_format=event-stream`);
     opts.agent = new http.Agent({keepAlive: true});
@@ -31,7 +31,7 @@ function changeStreamListener(endpoint, model, callback) {
     let cb = callback;
     if (Array.isArray(callback)) {
       cb = (err, res) => {
-        callback.forEach((cbf) => cbf(err, res));
+        callback.forEach(cbf => cbf(err, res));
       };
     }
 
@@ -43,19 +43,19 @@ function changeStreamListener(endpoint, model, callback) {
     // The magic starts here, this is an async loop which runs forever, to ensure whenever we loose a connection, it is reestablished automatically.
     forever(retry => {
       // We construct a handler for both end and error
-      const retryHandler = (err) => {
+      const retryHandler = err => {
         if (err) {
           // An error occurred, so we log it.
           log.error(`got error from ${model} change stream, retrying`, err);
-        }
-        else {
+        } else {
           // The stream end regularly (The unfortunate nature of long polling), so we log it.
           log.info(`${model} stream ended, retrying`);
         }
 
         // Retry with backoff.
         setTimeout(() => {
-          if (timeout < maxTimeout) { // We want a max of one minute.
+          if (timeout < maxTimeout) {
+            // We want a max of one minute.
             timeout += timeoutIncrement;
           }
           retry();
@@ -63,47 +63,49 @@ function changeStreamListener(endpoint, model, callback) {
       };
 
       // we now insert the url with the keepAlive on, and make a get request.
-      http.get(opts, response => {
-        // Whenever we get some data, we want to start parsing it.
-        response.on('data', d => {
-          // we got data, so reset the timeout
-          timeout = 0;
+      http
+        .get(opts, response => {
+          // Whenever we get some data, we want to start parsing it.
+          response.on('data', d => {
+            // we got data, so reset the timeout
+            timeout = 0;
 
-          // d is a buffer, so we convert it to a string.
-          const dataString = d.toString();
+            // d is a buffer, so we convert it to a string.
+            const dataString = d.toString();
 
-          // The ACK signal of the stream is :ok
-          // This tells us the listener has begun
-          if (dataString.indexOf(':ok') === 0) {
-            if (!resolved) {
-              resolved = true;
-              resolve({created: true});
+            // The ACK signal of the stream is :ok
+            // This tells us the listener has begun
+            if (dataString.indexOf(':ok') === 0) {
+              if (!resolved) {
+                resolved = true;
+                resolve({created: true});
+              }
+
+              log.info(`Started listening to ${model}`);
             }
+            // Whenever a change occurs, we first get an event, we use this to help us parse the change.
+            else if (dataString.indexOf('event: ') === 0) {
+              currentEvent = `${eventRegex.exec(dataString)[1]}: `;
+            }
+            // After we got the event, we want to respond to it
+            // We do this by calling our callback(s) with a parsed version of the event.
+            else if (dataString.indexOf(currentEvent) === 0) {
+              const jsonData = JSON.parse(dataString.substring(currentEvent.length));
+              cb(null, jsonData);
+            }
+            // If the above scenarios can't parse the data, something unexpected has happened.
+            else {
+              cb('something weird happened');
+            }
+          });
 
-            log.info(`Started listening to ${model}`);
-          }
-          // Whenever a change occurs, we first get an event, we use this to help us parse the change.
-          else if (dataString.indexOf('event: ') === 0) {
-            currentEvent = `${eventRegex.exec(dataString)[1]}: `;
-          }
-          // After we got the event, we want to respond to it
-          // We do this by calling our callback(s) with a parsed version of the event.
-          else if (dataString.indexOf(currentEvent) === 0) {
-            const jsonData = JSON.parse(dataString.substring(currentEvent.length));
-            cb(null, jsonData);
-          }
-          // If the above scenarios can't parse the data, something unexpected has happened.
-          else {
-            cb('something weird happened');
-          }
-        });
-
-        // If the connection is inactive, the connection is dropped, so we want to restart it
-        // Whenever an error occurs, we want to log the error, and retry the stream.
-        // This is where we get stuff like ECONNREFUSED ie. if the service is redeploying.
-        response.on('end', retryHandler);
-        response.on('error', retryHandler);
-      }).on('error', retryHandler);
+          // If the connection is inactive, the connection is dropped, so we want to restart it
+          // Whenever an error occurs, we want to log the error, and retry the stream.
+          // This is where we get stuff like ECONNREFUSED ie. if the service is redeploying.
+          response.on('end', retryHandler);
+          response.on('error', retryHandler);
+        })
+        .on('error', retryHandler);
     });
   });
 }
@@ -163,7 +165,6 @@ function deleteProfile(endpoint, {id, accessToken}) {
   return promiseRequest('delete', {url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`});
 }
 
-
 function removeImage(endpoint, {imageId, accessToken}) {
   return promiseRequest('del', {
     url: `${endpoint}api/ImageCollections/${imageId}?access_token=${accessToken}`
@@ -207,12 +208,17 @@ function uploadImage(endpoint, {image, accessToken, container = 'uxdev-biblo-ima
 function updateImageCollection(endpoint, query) {
   const {id} = query;
   const form = {};
-  ['profileImageCollection', 'groupCoverImageCollectionId', 'postImageCollection', 'commentImageCollection', 'reviewImageCollection']
-    .forEach(f => {
-      if (query[f]) {
-        form[f] = query[f];
-      }
-    });
+  [
+    'profileImageCollection',
+    'groupCoverImageCollectionId',
+    'postImageCollection',
+    'commentImageCollection',
+    'reviewImageCollection'
+  ].forEach(f => {
+    if (query[f]) {
+      form[f] = query[f];
+    }
+  });
 
   return promiseRequest('put', {
     url: `${endpoint}api/ImageCollections/${id}`,
@@ -237,18 +243,15 @@ function updateImage(endpoint, {image, relationId, relationType, accessToken}) {
         }
       }
     }
-  }).then((res) => {
+  }).then(res => {
     let remoteFileObject = JSON.parse(res.body);
     let bodyObj = {};
     bodyObj[relationType] = relationId;
-    return promiseRequest(
-      'put',
-      {
-        url: endpoint + 'api/ImageCollections/' + remoteFileObject.id + '?access_token=' + accessToken,
-        json: true,
-        body: bodyObj
-      }
-    );
+    return promiseRequest('put', {
+      url: endpoint + 'api/ImageCollections/' + remoteFileObject.id + '?access_token=' + accessToken,
+      json: true,
+      body: bodyObj
+    });
   });
 }
 
@@ -269,7 +272,14 @@ function getFullProfile(endpoint, {uid, accessToken, profileFilter}) {
   }
 
   return promiseRequest('get', {
-    url: endpoint + 'api/Profiles/' + uid + '?filter=' + encodeURIComponent(JSON.stringify(filter)) + '&access_token=' + accessToken
+    url:
+      endpoint +
+      'api/Profiles/' +
+      uid +
+      '?filter=' +
+      encodeURIComponent(JSON.stringify(filter)) +
+      '&access_token=' +
+      accessToken
   });
 }
 
@@ -282,7 +292,7 @@ function getImage(endpoint, {id}) {
 function getResizedImage(endpoint, {id, size}) {
   return promiseRequest('get', {
     url: endpoint + 'api/imageCollections/' + id + '/download/' + size
-  }).then((httpResponse) => {
+  }).then(httpResponse => {
     if (httpResponse && httpResponse.statusCode !== 200) {
       return Promise.reject(httpResponse.statusCode, httpResponse);
     }
@@ -331,7 +341,7 @@ function joinGroup(endpoint, {uid, groupId, accessToken}) {
  * @returns {Promise}
  */
 function listGroups(endpoint, params) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const filter_str = JSON.stringify(params.filter || []);
     const url = endpoint + 'api/Groups/?filter=' + filter_str;
     request.get(
@@ -361,10 +371,10 @@ function createGroup(endpoint, params) {
       name,
       description,
       colour,
-      timeCreated: (new Date()).toUTCString(),
+      timeCreated: new Date().toUTCString(),
       groupownerid: uid
     }
-  }).then((createResult) => {
+  }).then(createResult => {
     let fileExtension = coverImage.originalname.split('.');
     fileExtension = fileExtension[fileExtension.length - 1];
     const fileName = uuid.v4().replace('-', '') + '.' + fileExtension;
@@ -386,7 +396,7 @@ function createGroup(endpoint, params) {
           }
         }
       }
-    }).then((fileResult) => {
+    }).then(fileResult => {
       fileResult = JSON.parse(fileResult.body);
       return promiseRequest('put', {
         url: endpoint + 'api/ImageCollections/' + fileResult.id + '?access_token=' + accessToken,
@@ -394,7 +404,7 @@ function createGroup(endpoint, params) {
         body: {
           groupCoverImageCollectionId: createResult.body.id
         }
-      }).then((updatedFileResult) => {
+      }).then(updatedFileResult => {
         createResult.body.file = updatedFileResult.body;
         return Promise.resolve(createResult);
       });
@@ -422,7 +432,7 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
   return promiseRequest('get', {
     url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
     json: true
-  }).then((groupGetResponse) => {
+  }).then(groupGetResponse => {
     const group = groupGetResponse.body;
     if (!isModerator && group.groupownerid !== uid) {
       return Promise.reject('User does not own the group!');
@@ -430,36 +440,41 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
 
     let promises = [];
 
-    promises.push(promiseRequest('put', {
-      url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
-      json: true,
-      body: {
-        name,
-        description,
-        colour
-      }
-    }));
+    promises.push(
+      promiseRequest('put', {
+        url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
+        json: true,
+        body: {
+          name,
+          description,
+          colour
+        }
+      })
+    );
 
     if (coverImage) {
       let fileExtension = coverImage.originalname.split('.');
       fileExtension = fileExtension[fileExtension.length - 1];
       const fileName = uuid.v4().replace('-', '') + '.' + fileExtension;
 
-      promises.push(promiseRequest('post', {
-        url: endpoint + 'api/ImageCollections/upload?access_token=' + accessToken + '&container=uxdev-biblo-imagebucket',
-        formData: {
-          file: {
-            value: coverImage.buffer,
-            options: {
-              contentType: coverImage.mimetype,
-              filename: fileName
+      promises.push(
+        promiseRequest('post', {
+          url:
+            endpoint + 'api/ImageCollections/upload?access_token=' + accessToken + '&container=uxdev-biblo-imagebucket',
+          formData: {
+            file: {
+              value: coverImage.buffer,
+              options: {
+                contentType: coverImage.mimetype,
+                filename: fileName
+              }
             }
           }
-        }
-      }));
+        })
+      );
     }
 
-    return Promise.all(promises).then((promiseResponses) => {
+    return Promise.all(promises).then(promiseResponses => {
       let createResult = promiseResponses[0];
 
       if (promiseResponses[1]) {
@@ -470,7 +485,7 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
           body: {
             groupCoverImageCollectionId: createResult.body.id
           }
-        }).then((updatedFileResult) => {
+        }).then(updatedFileResult => {
           createResult.body.file = updatedFileResult.body;
           return Promise.resolve(createResult.body);
         });
@@ -501,7 +516,7 @@ function changeGroupOwner(endpoint, {groupId, groupownerid, uid, accessToken, is
   return promiseRequest('get', {
     url: `${endpoint}api/Groups/${groupId}?access_token=${accessToken}`,
     json: true
-  }).then((groupGetResponse) => {
+  }).then(groupGetResponse => {
     const group = groupGetResponse.body;
     if (!isModerator && group.groupownerid !== uid) {
       return Promise.reject('User does not own the group!');
@@ -519,12 +534,11 @@ function changeGroupOwner(endpoint, {groupId, groupownerid, uid, accessToken, is
   });
 }
 
-
 /**
  * Fetches a Group in Loopback
  */
 function getGroup(endpoint, params) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const id = params.id;
     const filter_str = JSON.stringify(params.filter || {});
     const url = endpoint + 'api/Groups/' + id + '?filter=' + filter_str;
@@ -543,7 +557,7 @@ function getGroup(endpoint, params) {
  * Fetches a posts for a group in Loopback
  */
 function getPosts(endpoint, params) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const filter_str = JSON.stringify(params.filter || {});
     const url = endpoint + 'api/Posts/?filter=' + filter_str;
     request.get(
@@ -561,7 +575,7 @@ function getPosts(endpoint, params) {
  * Fetches a comments for a post in Loopback
  */
 function getComments(endpoint, params) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const filter_str = JSON.stringify(params.filter || {});
     const url = `${endpoint}api/Comments/?filter=${filter_str}`;
     request.get(
@@ -611,7 +625,18 @@ function searchGroups(endpoint, params) {
     const accessToken = params.accessToken;
     const fields = JSON.stringify(params.fields);
     const q = encodeURIComponent(params.q);
-    const url = endpoint + 'api/Groups/search?access_token=' + accessToken + '&q=' + q + '&fields=' + fields + '&limit=' + params.limit + '&from=' + params.from;
+    const url =
+      endpoint +
+      'api/Groups/search?access_token=' +
+      accessToken +
+      '&q=' +
+      q +
+      '&fields=' +
+      fields +
+      '&limit=' +
+      params.limit +
+      '&from=' +
+      params.from;
     request.get({url}, (err, res) => {
       if (err) {
         reject(err);
@@ -620,7 +645,6 @@ function searchGroups(endpoint, params) {
     });
   });
 }
-
 
 /**
  * Create a Post on a Group
@@ -656,17 +680,20 @@ function createPost(endpoint, params) {
       postBody.pdfmimetype = 'application/pdf';
     }
 
-    request.put({
-      url,
-      json: true,
-      body: postBody
-    }, (err, res) => {
-      if (err) {
-        reject(err);
-      }
+    request.put(
+      {
+        url,
+        json: true,
+        body: postBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
 
-      resolve(res);
-    });
+        resolve(res);
+      }
+    );
   });
 }
 
@@ -695,17 +722,20 @@ function createComment(endpoint, params) {
       postBody.container = params.video.container || null;
     }
 
-    request.put({
-      url,
-      json: true,
-      body: postBody
-    }, (err, res) => {
-      if (err) {
-        reject(err);
-      }
+    request.put(
+      {
+        url,
+        json: true,
+        body: postBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
 
-      resolve(res);
-    });
+        resolve(res);
+      }
+    );
   });
 }
 
@@ -719,19 +749,31 @@ function deleteComment(endpoint, {id, accessToken}) {
 }
 
 function countComments(endpoint, {accessToken, where}) {
-  return promiseRequest('get', `${endpoint}api/Comments/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`);
+  return promiseRequest(
+    'get',
+    `${endpoint}api/Comments/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+  );
 }
 
 function countPosts(endpoint, {accessToken, where}) {
-  return promiseRequest('get', `${endpoint}api/Posts/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`);
+  return promiseRequest(
+    'get',
+    `${endpoint}api/Posts/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+  );
 }
 
 function countGroups(endpoint, {accessToken, where}) {
-  return promiseRequest('get', `${endpoint}api/Groups/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`);
+  return promiseRequest(
+    'get',
+    `${endpoint}api/Groups/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+  );
 }
 
 function countReviews(endpoint, {accessToken, where}) {
-  return promiseRequest('get', `${endpoint}api/reviews/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`);
+  return promiseRequest(
+    'get',
+    `${endpoint}api/reviews/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+  );
 }
 
 /**
@@ -739,7 +781,6 @@ function countReviews(endpoint, {accessToken, where}) {
  */
 function flagPost(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const postId = params.postId;
     const ownerId = params.flagger;
@@ -756,16 +797,19 @@ function flagPost(endpoint, params) {
     };
 
     // create flag
-    request.post({
-      url,
-      json: true,
-      body: flagPostBody
-    }, (err, res) => {
-      if (err) {
-        reject(err);
+    request.post(
+      {
+        url,
+        json: true,
+        body: flagPostBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
       }
-      resolve(res);
-    });
+    );
   });
 }
 
@@ -774,7 +818,6 @@ function flagPost(endpoint, params) {
  */
 function flagComment(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const commentId = params.commentId;
     const ownerId = params.flagger;
@@ -791,16 +834,19 @@ function flagComment(endpoint, params) {
     };
 
     // create flag
-    request.post({
-      url,
-      json: true,
-      body: flagCommentBody
-    }, (err, res) => {
-      if (err) {
-        reject(err);
+    request.post(
+      {
+        url,
+        json: true,
+        body: flagCommentBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
       }
-      resolve(res);
-    });
+    );
   });
 }
 
@@ -809,7 +855,6 @@ function flagComment(endpoint, params) {
  */
 function flagGroup(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const groupId = params.groupId;
     const ownerId = params.flagger;
@@ -826,16 +871,19 @@ function flagGroup(endpoint, params) {
     };
 
     // create flag
-    request.post({
-      url,
-      json: true,
-      body: flagGroupBody
-    }, (err, res) => {
-      if (err) {
-        reject(err);
+    request.post(
+      {
+        url,
+        json: true,
+        body: flagGroupBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
       }
-      resolve(res);
-    });
+    );
   });
 }
 
@@ -844,7 +892,6 @@ function flagGroup(endpoint, params) {
  */
 function flagReview(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const reviewId = params.reviewId;
     const ownerId = params.flagger;
@@ -861,16 +908,19 @@ function flagReview(endpoint, params) {
     };
 
     // create flag
-    request.post({
-      url,
-      json: true,
-      body: reviewGroupBody
-    }, (err, res) => {
-      if (err) {
-        reject(err);
+    request.post(
+      {
+        url,
+        json: true,
+        body: reviewGroupBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
       }
-      resolve(res);
-    });
+    );
   });
 }
 
@@ -879,7 +929,6 @@ function flagReview(endpoint, params) {
  */
 function likePost(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const profileId = params.profileId;
     const postId = params.postId;
@@ -913,7 +962,6 @@ function likePost(endpoint, params) {
  */
 function likeReview(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const profileId = params.profileId;
     const reviewId = params.reviewId;
@@ -941,19 +989,17 @@ function likeReview(endpoint, params) {
   });
 }
 
-
 /**
  * unlike a post
  */
 function unlikePost(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const profileId = params.profileId;
     const postId = params.postId;
 
-    const url = endpoint + 'api/Posts/unlike?access_token=' + accessToken +
-      '&profileId=' + profileId + '&postId=' + postId;
+    const url =
+      endpoint + 'api/Posts/unlike?access_token=' + accessToken + '&profileId=' + profileId + '&postId=' + postId;
 
     // delete that like
     request.del({url}, (err, res) => {
@@ -970,13 +1016,12 @@ function unlikePost(endpoint, params) {
  */
 function unlikeReview(endpoint, params) {
   return new Promise((resolve, reject) => {
-
     const accessToken = params.accessToken;
     const profileId = params.profileId;
     const reviewId = params.reviewId;
 
-    const url = endpoint + 'api/reviews/unlike?access_token=' + accessToken +
-      '&profileId=' + profileId + '&reviewId=' + reviewId;
+    const url =
+      endpoint + 'api/reviews/unlike?access_token=' + accessToken + '&profileId=' + profileId + '&reviewId=' + reviewId;
 
     request.del({url}, (err, res) => {
       if (err) {
@@ -986,7 +1031,6 @@ function unlikeReview(endpoint, params) {
     });
   });
 }
-
 
 function checkIfProfileIsQuarantined(endpoint, id) {
   return promiseRequest('get', {url: `${endpoint}api/Quarantines/${id}/check-if-profile-is-quarantined`});
@@ -1066,28 +1110,33 @@ function createReview(endpoint, params) {
     }
 
     if (params.id) {
-      request.put({
-        url,
-        json: true,
-        body: postBody
-      }, (err, res) => {
-        if (err) {
-          reject(err);
+      request.put(
+        {
+          url,
+          json: true,
+          body: postBody
+        },
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
         }
-        resolve(res);
-      });
-    }
-    else {
-      request.post({
-        url,
-        json: true,
-        body: postBody
-      }, (err, res) => {
-        if (err) {
-          reject(err);
+      );
+    } else {
+      request.post(
+        {
+          url,
+          json: true,
+          body: postBody
+        },
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
         }
-        resolve(res);
-      });
+      );
     }
   });
 }
@@ -1197,9 +1246,7 @@ function topWorksFromReviews(endpoint, params) {
       date_range: {
         field: 'created',
         format: 'MM-yyy',
-        ranges: [
-          {from: `now-${age}d`}
-        ]
+        ranges: [{from: `now-${age}d`}]
       },
       aggs: {
         pids: {
@@ -1226,18 +1273,21 @@ function topWorksFromReviews(endpoint, params) {
     from: offset,
     size,
     // If we want to filter based on worktypes, we need a different query.
-    aggs: shouldFilter ? {
-      worktypes: {
-        filters: {
-          filters: worktypes.map(wType => ({
-            term: { //
-              worktype: wType
-            }
-          }))
-        },
-        aggs: popAggregation
-      }
-    } : popAggregation
+    aggs: shouldFilter
+      ? {
+          worktypes: {
+            filters: {
+              filters: worktypes.map(wType => ({
+                term: {
+                  //
+                  worktype: wType
+                }
+              }))
+            },
+            aggs: popAggregation
+          }
+        }
+      : popAggregation
   });
 
   return promiseRequest('get', {
@@ -1254,9 +1304,12 @@ function topWorksFromReviews(endpoint, params) {
 function getCampaign(endpoint, {id, filter}) {
   filter = encodeURIComponent(
     JSON.stringify(
-      Object.assign({
-        include: {group: 'coverImage'}
-      }, filter)
+      Object.assign(
+        {
+          include: {group: 'coverImage'}
+        },
+        filter
+      )
     )
   );
 
@@ -1336,12 +1389,14 @@ function getGroupMembers(endpoint, {id, filter = {}}) {
  * @returns {Promise}
  */
 function getMyGroups(endpoint, {uid, include = 'group'}) {
-  const filter = encodeURIComponent(JSON.stringify({
-    where: {
-      profileid: uid
-    },
-    include
-  }));
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      where: {
+        profileid: uid
+      },
+      include
+    })
+  );
 
   return promiseRequest('get', {
     url: `${endpoint}api/GroupProfiles?filter=${filter}`,
@@ -1350,9 +1405,11 @@ function getMyGroups(endpoint, {uid, include = 'group'}) {
 }
 
 function getPostPdf(endpoint, {id}) {
-  const filter = encodeURIComponent(JSON.stringify({
-    include: 'pdf'
-  }));
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      include: 'pdf'
+    })
+  );
 
   return promiseRequest('get', {
     url: `${endpoint}api/posts/${id}?filter=${filter}`,
@@ -1368,11 +1425,13 @@ function getPostPdf(endpoint, {id}) {
  * @returns {Promise}
  */
 async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, accessToken}) {
-  const filter = encodeURIComponent(JSON.stringify({
-    where: {
-      groupownerid: uid
-    }
-  }));
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      where: {
+        groupownerid: uid
+      }
+    })
+  );
   try {
     const {body} = await promiseRequest('get', {
       url: `${endpoint}api/Groups?filter=${filter}&access_token=${accessToken}`,
@@ -1381,20 +1440,21 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
         groupownerid: uid
       }
     });
-    await Promise.all(body.map(g => {
-      leaveGroup(endpoint, {uid: uid, groupId: g.id, accessToken});
-      joinGroup(endpoint, {uid: defaultModerator, groupId: g.id, accessToken});
-      return promiseRequest('patch', {
-        url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
-        json: true,
-        body: {
-          groupownerid: newUid !== null ? uid : defaultModerator
-        }
-      });
-    }));
+    await Promise.all(
+      body.map(g => {
+        leaveGroup(endpoint, {uid: uid, groupId: g.id, accessToken});
+        joinGroup(endpoint, {uid: defaultModerator, groupId: g.id, accessToken});
+        return promiseRequest('patch', {
+          url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
+          json: true,
+          body: {
+            groupownerid: newUid !== null ? uid : defaultModerator
+          }
+        });
+      })
+    );
     return body.map(g => g.id);
-  }
-  catch (e) {
+  } catch (e) {
     log.error(e);
     return false;
   }
@@ -1407,11 +1467,13 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
  * @returns {Promise}
  */
 async function getGroupsOwnedByUser(endpoint, {uid, accessToken}) {
-  const filter = encodeURIComponent(JSON.stringify({
-    where: {
-      groupownerid: uid
-    }
-  }));
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      where: {
+        groupownerid: uid
+      }
+    })
+  );
   try {
     const {body} = await promiseRequest('get', {
       url: `${endpoint}api/Groups?filter=${filter}&access_token=${accessToken}`,
@@ -1421,8 +1483,7 @@ async function getGroupsOwnedByUser(endpoint, {uid, accessToken}) {
       }
     });
     return body;
-  }
-  catch (e) {
+  } catch (e) {
     log.error(e);
     return false;
   }
@@ -1472,7 +1533,9 @@ function searchReviews(endpoint, elasticQuery) {
   const from = elasticQuery.from || 0;
 
   return promiseRequest('get', {
-    url: `${endpoint}api/Reviews/search?from=${from}&limit=${limit}&q=${encodeURIComponent(query)}&sort=${encodeURIComponent(sort)}`
+    url: `${endpoint}api/Reviews/search?from=${from}&limit=${limit}&q=${encodeURIComponent(
+      query
+    )}&sort=${encodeURIComponent(sort)}`
   });
 }
 
@@ -1495,7 +1558,6 @@ function howru(endpoint) {
  * the webservice
  */
 module.exports = function CommunityClient(config = null) {
-
   if (!config || !config.endpoint) {
     throw new Error('Expected config object but got null or no endpoint provided');
   }

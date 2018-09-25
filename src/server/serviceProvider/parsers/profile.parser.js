@@ -38,8 +38,7 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
       large: `/billede/${profile.image.id}/large`,
       largeSquare: `/billede/${profile.image.id}/large-square`
     };
-  }
-  else {
+  } else {
     p.image = {
       thumbnail: '/no_profile.png',
       small: '/no_profile.png',
@@ -71,9 +70,13 @@ export default function profileParser(profile = {}, isPublic = false, size = fal
    * transform).
    * @type {boolean}
    */
-  p.isModerator = !!(profile.communityRoles && Array.isArray(profile.communityRoles) && profile.communityRoles.filter((role) => {
-    return role.name === 'moderator';
-  }).length > 0);
+  p.isModerator = !!(
+    profile.communityRoles &&
+    Array.isArray(profile.communityRoles) &&
+    profile.communityRoles.filter(role => {
+      return role.name === 'moderator';
+    }).length > 0
+  );
 
   return p;
 }

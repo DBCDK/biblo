@@ -18,13 +18,13 @@ export function PostList({
   groupIsClosed = false
 }) {
   return (
-    <div className='post-list'>
-      {
-        posts
-        && posts.map((item) => (
+    <div className="post-list">
+      {(posts &&
+        posts.map(item => (
           <PostView
             campaign={campaign}
-            key={item.id} {...item}
+            key={item.id}
+            {...item}
             profile={profile}
             likes={item.likes}
             groupId={groupId}
@@ -38,10 +38,10 @@ export function PostList({
             getMoreWorks={getMoreWorks}
             groupIsClosed={groupIsClosed}
           />
-        ))
-        || 'Der er ikke skrevet nogen indlæg i gruppen endnu'
-      }
-    </div>);
+        ))) ||
+        'Der er ikke skrevet nogen indlæg i gruppen endnu'}
+    </div>
+  );
 }
 
 PostList.displayName = 'PostList';

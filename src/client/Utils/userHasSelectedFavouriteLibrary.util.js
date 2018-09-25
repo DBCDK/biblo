@@ -8,10 +8,7 @@
 export function userHasSelectedFavouriteLibrary(profile) {
   let hasFilled = false;
   if (profile.hasOwnProperty('favoriteLibrary')) {
-    hasFilled = !!(
-      profile.favoriteLibrary.libraryId &&
-      profile.favoriteLibrary.libraryId.length
-    );
+    hasFilled = !!(profile.favoriteLibrary.libraryId && profile.favoriteLibrary.libraryId.length);
   }
 
   return hasFilled;

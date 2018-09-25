@@ -6,4 +6,3 @@ import LibraryEditContainer from './LibraryEditContainer.component';
 import {renderComponent} from '../../../App';
 
 renderComponent(LibraryEditContainer, 'content');
-

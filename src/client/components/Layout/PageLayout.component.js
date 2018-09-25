@@ -15,7 +15,6 @@ if (typeof window !== 'undefined' && window.FastClick) {
 import './page-layout.scss';
 
 export default class PageLayout extends React.Component {
-
   constructor(props) {
     super(props);
   }
@@ -24,9 +23,7 @@ export default class PageLayout extends React.Component {
     return (
       <div className="container">
         <NavBar {...this.props} />
-        <div className="content">
-          {this.props.children}
-        </div>
+        <div className="content">{this.props.children}</div>
         <CookieWarningContainer />
         <Footer globalState={this.props.globalState} />
         <Konami />

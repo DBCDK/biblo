@@ -44,16 +44,14 @@ export default class MaterialSearchResultList extends React.Component {
   getListElements() {
     return this.props.results.map((result, i) => {
       if (typeof result === 'undefined' || !result) {
-        return (
-          <span className="result--undefined" />
-        );
+        return <span className="result--undefined" />;
       }
 
       const pid = result.pid[0];
       let displayType = result.workType[0];
       let title = result.dcTitle;
-      const displayWorkType = (result.workType) ? result.workType[0] : 'other';
-      const coverUrl = (result.coverUrlFull) ? result.coverUrlFull[0] : this.displayWorkTypeCover(displayWorkType);
+      const displayWorkType = result.workType ? result.workType[0] : 'other';
+      const coverUrl = result.coverUrlFull ? result.coverUrlFull[0] : this.displayWorkTypeCover(displayWorkType);
       const workUrl = '/materiale/' + pid;
 
       if (result.collectionDetails && result.collectionDetails.length > 1) {
@@ -80,13 +78,13 @@ export default class MaterialSearchResultList extends React.Component {
       }
 
       return (
-        <div className="result-item" key={i} >
-          <a href={workUrl} >
-            <div className='cover-image' >
+        <div className="result-item" key={i}>
+          <a href={workUrl}>
+            <div className="cover-image">
               <img src={coverUrl} />
             </div>
-            <div className='description' >
-              <div className='title' >
+            <div className="description">
+              <div className="title">
                 <Icon glyph={displayTypeSvgs[displayType]} width={20} />
                 {title}
               </div>
@@ -99,15 +97,15 @@ export default class MaterialSearchResultList extends React.Component {
 
   render() {
     const listElements = this.getListElements();
-    const result = listElements.length ? listElements : 'Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.';
+    const result = listElements.length
+      ? listElements
+      : 'Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.';
 
     return (
-      <div className='material-search--result-container' >
+      <div className="material-search--result-container">
         <h2>På biblioteket:</h2>
-        <hr/>
-        <div className="material-search--results" >
-          {result}
-        </div>
+        <hr />
+        <div className="material-search--results">{result}</div>
       </div>
     );
   }

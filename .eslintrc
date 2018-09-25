@@ -108,10 +108,10 @@
     "no-undef-init": 2,
     "no-undefined": 2,
     "no-unused-vars": 2,
-    "no-use-before-define": 2,
+    "no-use-before-define": 0,
     // Stylistic Issues
-    "indent": [2, 2, {"SwitchCase": 1}],
-    "brace-style": [2, "stroustrup"],
+    "indent": 0,
+    "brace-style": 0,
     "camelcase": 0,
     "comma-spacing": 2,
     "comma-style": 2,
@@ -153,10 +153,6 @@
       "always"
     ],
     "padded-blocks": 0,
-    "quotes": [
-      2,
-      "single"
-    ],
     "quote-props": [
       2,
       "as-needed"

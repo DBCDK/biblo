@@ -10,9 +10,7 @@ import PostView from '../PostView.component';
 import AddContent from '../../AddContent/AddContent.component';
 
 describe('Test of Post Components', () => {
-
-  const noop = () => {
-  };
+  const noop = () => {};
 
   // actions for this test (just use spies)
   const groupActions = {
@@ -27,7 +25,7 @@ describe('Test of Post Components', () => {
     content: 'test content',
     html: 'test content',
     image: 'some_url',
-    timeCreated: (new Date()).toISOString(),
+    timeCreated: new Date().toISOString(),
     owner: {
       displayName: 'testUser',
       image: 'some_profile_image',
@@ -50,12 +48,27 @@ describe('Test of Post Components', () => {
   it('it should show generate html', () => {
     const wrapper = shallow(<PostView {...props} />);
 
-    expect(wrapper.find('.post--profile-image').find('img').props().src).to.equal(props.owner.image);
-    expect(wrapper.find('.post--profile-image').find('img').props().alt).to.equal(props.owner.displayName);
+    expect(
+      wrapper
+        .find('.post--profile-image')
+        .find('img')
+        .props().src
+    ).to.equal(props.owner.image);
+    expect(
+      wrapper
+        .find('.post--profile-image')
+        .find('img')
+        .props().alt
+    ).to.equal(props.owner.displayName);
     expect(wrapper.find('.username').html()).to.equal(`<span class="username">${props.owner.displayName}</span>`);
     expect(wrapper.find('.time').text()).to.equal('Lige nu');
     expect(wrapper.find('.post--content').props().dangerouslySetInnerHTML.__html).to.equal(props.html);
-    expect(wrapper.find('.post--media').find('img').props().src).to.equal(props.image);
+    expect(
+      wrapper
+        .find('.post--media')
+        .find('img')
+        .props().src
+    ).to.equal(props.image);
   });
 
   it('it should have add comment button', () => {

@@ -7,12 +7,11 @@
 import parseComment from '../../../parsers/comment.parser';
 
 const GetSingleCommentsTransform = {
-
   event() {
     return 'getSingleComment';
   },
-
-  requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  requestTransform(event, {id}, connection) {
     if (!id) {
       return Promise.reject(new Error('No comment id provided'));
     }
@@ -54,24 +53,32 @@ const GetSingleCommentsTransform = {
                 scope: {
                   include: ['video']
                 }
-              }]
+              }
+            ]
           }
         }
       ]
     };
 
     return Promise.all([
-      this.callServiceClient('cached/standard/community', 'getComments', {id, filter: commentFilter}),
+      this.callServiceClient('cached/standard/community', 'getComments', {
+        id,
+        filter: commentFilter
+      }),
       this.callServiceClient('cached/standard/bibloadmin', 'getCampaigns')
     ]);
   },
-
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  responseTransform(response, query, connection) {
     if (response[0].statusCode !== 200) {
-      throw new Error('Call to community service, with method getComments failed');
+      throw new Error(
+        'Call to community service, with method getComments failed'
+      );
     }
 
-    const comments = JSON.parse(response[0].body).map(comment => parseComment(comment, response[1]));
+    const comments = JSON.parse(response[0].body).map(comment =>
+      parseComment(comment, response[1])
+    );
     return comments[0];
   }
 };

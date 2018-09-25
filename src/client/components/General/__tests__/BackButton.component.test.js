@@ -14,7 +14,11 @@ describe('Test backbutton', () => {
   it('Check backbutton onclick calls window.history.back', () => {
     sinon.spy(window.history, 'back'); // eslint-disable-line
 
-    let comp = TestUtils.renderIntoDocument(<div><BackButton /></div>);
+    let comp = TestUtils.renderIntoDocument(
+      <div>
+        <BackButton />
+      </div>
+    );
     TestUtils.Simulate.click(ReactDOM.findDOMNode(comp).children[0]);
 
     expect(window.history.back.callCount).to.equal(1);

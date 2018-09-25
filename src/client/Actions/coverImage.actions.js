@@ -6,7 +6,8 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const getCoverImageSocket = SocketClient('coverImage');
 
 export function asyncGetCoverImage(pid, worktype) {
-  return dispatch => { // eslint-disable-line no-unused-vars
+  return dispatch => {
+    // eslint-disable-line no-unused-vars
     let coverObject = {};
     coverObject[pid] = `/images/covers/${worktype}.png`;
     setTimeout(() => dispatch(gotCoverImage(coverObject)));

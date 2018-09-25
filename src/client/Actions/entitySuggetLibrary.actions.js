@@ -11,10 +11,9 @@ const findSuggestedLibrary = SocketClient('findSuggestedLibrary');
 export function asyncFindSuggestedLibraryAction(query) {
   return function(dispatch) {
     if (query.length > 2) {
-      findSuggestedLibrary.response((res) => dispatch(findSuggestedLibraryAction(query, res.body.suggestions)));
+      findSuggestedLibrary.response(res => dispatch(findSuggestedLibraryAction(query, res.body.suggestions)));
       findSuggestedLibrary.request(query);
-    }
-    else {
+    } else {
       dispatch(findSuggestedLibraryAction('nil', []));
     }
   };

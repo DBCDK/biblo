@@ -11,7 +11,7 @@ const getLibraryDetails = SocketClient('getLibraryDetails');
 
 export function asyncGetLibraryDetailsAction(query) {
   return function(dispatch) {
-    getLibraryDetails.responseOnce((res) => {
+    getLibraryDetails.responseOnce(res => {
       dispatch(getLibraryDetailsAction(res.pickupAgency || {}));
     });
     getLibraryDetails.request(query);

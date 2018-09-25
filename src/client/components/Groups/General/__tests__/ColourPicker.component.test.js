@@ -14,9 +14,7 @@ describe('Test ColourPicker', () => {
   it('Test colour picker component', () => {
     let comp = TestUtils.renderIntoDocument(
       <div>
-        <ColourPicker
-          baseName={'base_colourPicker_name'}
-        />
+        <ColourPicker baseName={'base_colourPicker_name'} />
       </div>
     );
     let dmn = ReactDOM.findDOMNode(comp).children[0];

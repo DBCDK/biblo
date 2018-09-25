@@ -3,13 +3,16 @@
  */
 
 const checkForMemberInGroupTransform = {
-
   event() {
     return 'checkForMemberInGroup';
   },
 
   requestTransform(event, {id}, connection) {
-    const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
+    const uid =
+      (connection.request.session.passport &&
+        connection.request.session.passport.user &&
+        connection.request.session.passport.user.profileId) ||
+      null;
     if (uid) {
       return this.callServiceClient('community', 'checkForMemberInGroup', {groupId: id, profileId: uid});
     }
@@ -18,7 +21,7 @@ const checkForMemberInGroupTransform = {
   },
 
   responseTransform(response) {
-    return response && response.statusCode && response.statusCode !== 404 || false; // If the status code is 404, the user is not following the group
+    return (response && response.statusCode && response.statusCode !== 404) || false; // If the status code is 404, the user is not following the group
   }
 };
 

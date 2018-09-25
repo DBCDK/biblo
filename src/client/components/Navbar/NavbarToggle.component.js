@@ -17,7 +17,7 @@ export default function NavbarToggle(props) {
 
   return (
     <a className={ClassNames(classes)} href="#" onClick={props.onToggle}>
-      <span></span>
+      <span />
     </a>
   );
 }

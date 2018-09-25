@@ -6,14 +6,12 @@ import './GroupSearchResultList.scss';
 import Icon from '../../General/Icon/Icon.component.js';
 import groupSvg from '../../General/Icon/svg/functions/group.svg';
 
-
 export default class GroupSearchResultList extends React.Component {
   getCoverImageUrl(group) {
     let url;
     if (group.coverImage) {
       url = '/billede/' + group.coverImage.id + '/small-square';
-    }
-    else {
+    } else {
       url = '/no_group_image.png';
     }
     return url;
@@ -25,11 +23,11 @@ export default class GroupSearchResultList extends React.Component {
       return (
         <div className="result-item " key={i}>
           <a href={groupUrl}>
-            <div className='cover-image'>
-              <img src={this.getCoverImageUrl(result)}/>
+            <div className="cover-image">
+              <img src={this.getCoverImageUrl(result)} />
             </div>
-            <div className='description'>
-              <div className='title'>
+            <div className="description">
+              <div className="title">
                 <Icon className="icon" glyph={groupSvg} width={20} />
                 {result.name}
               </div>
@@ -42,15 +40,15 @@ export default class GroupSearchResultList extends React.Component {
 
   render() {
     const listElements = this.getListElements();
-    const result = listElements.length ? listElements : 'Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.';
+    const result = listElements.length
+      ? listElements
+      : 'Vi kunne ikke finde noget der passer med din søgning. Prøv at skrive din søgning på en anden måde.';
 
     return (
-      <div className='group-search--result-container'>
+      <div className="group-search--result-container">
         <h2>I grupperne:</h2>
-        <hr/>
-        <div className={`group-search--results ${listElements.length ? 'results' : 'empty'}`}>
-          {result}
-        </div>
+        <hr />
+        <div className={`group-search--results ${listElements.length ? 'results' : 'empty'}`}>{result}</div>
       </div>
     );
   }

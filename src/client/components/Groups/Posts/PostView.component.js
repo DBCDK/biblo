@@ -26,7 +26,6 @@ import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 import {includes} from 'lodash';
 
 export default class PostView extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -64,17 +63,20 @@ export default class PostView extends React.Component {
     });
   }
 
-  submitPostFlag(flag) { // eslint-disable-line
+  submitPostFlag(flag) {
+    // eslint-disable-line
     flag.flagger = this.props.profile.id;
     this.props.flagActions.flagPost(flag);
   }
 
-  submitCommentFlag(flag) { // eslint-disable-line
+  submitCommentFlag(flag) {
+    // eslint-disable-line
     flag.flagger = this.props.profile.id;
     this.props.flagActions.flagComment(flag);
   }
 
-  submitGroupFlag(flag) { // eslint-disable-line
+  submitGroupFlag(flag) {
+    // eslint-disable-line
     flag.flagger = this.props.profile.id;
     this.props.flagActions.flagGroup(flag);
   }
@@ -94,11 +96,12 @@ export default class PostView extends React.Component {
   }
 
   deletePost() {
-
     const content = (
       <div>
-        <p>Du er ved at slette et indlæg, du selv har skrevet. Hvis andre brugere har svaret på dit indlæg, vil det også
-          blive slettet.</p>
+        <p>
+          Du er ved at slette et indlæg, du selv har skrevet. Hvis andre brugere har svaret på dit indlæg, vil det også
+          blive slettet.
+        </p>
         <p>Er du sikker på, at du vil slette indlægget og alle svar?</p>
       </div>
     );
@@ -114,7 +117,9 @@ export default class PostView extends React.Component {
           this.props.groupActions.asyncDeletePost(this.props.id);
           this.props.uiActions.closeModalWindow();
         }}
-      >{content}</ConfirmDialog>
+      >
+        {content}
+      </ConfirmDialog>
     );
     this.props.uiActions.openModalWindow(dialog);
   }
@@ -145,7 +150,8 @@ export default class PostView extends React.Component {
             workType: work.workType
           }}
           likeActions={likeActions}
-          review={review} />
+          review={review}
+        />
       </div>
     );
   }
@@ -162,8 +168,7 @@ export default class PostView extends React.Component {
         if (isInCampaign && campaign.logos && campaign.logos.svg) {
           return <Icon height={40} width={40} svgLink={campaign.logos.svg} />;
         }
-      }
-      catch (er) {
+      } catch (er) {
         return <span className="campaign--logo--error" />;
       }
     }
@@ -200,7 +205,7 @@ export default class PostView extends React.Component {
       pdf
     } = this.props;
 
-    const commentsToLoad = commentsCount-1;
+    const commentsToLoad = commentsCount - 1;
     const postFlagModalContent = (
       <CreateFlagDialog
         submitFunction={this.submitPostFlag}
@@ -214,15 +219,13 @@ export default class PostView extends React.Component {
     let flagButton = null;
     if (profile.userIsLoggedIn) {
       const flagIcon = <Icon glyph={flagSvg} className="icon flag-post--button" />;
-      flagButton = (
-        <TinyButton clickFunction={flagFunction} icon={flagIcon} />
-      );
+      flagButton = <TinyButton clickFunction={flagFunction} icon={flagIcon} />;
     }
 
     const videos = parseStringForVideoUrls(content, true);
     const isLikedByCurrentUser = includes(likes, profile.id);
-    const likeFunction = (profile.userIsLoggedIn) ? this.likePost : () => {};
-    const unlikeFunction = (profile.userIsLoggedIn) ? this.unlikePost : () => {};
+    const likeFunction = profile.userIsLoggedIn ? this.likePost : () => {};
+    const unlikeFunction = profile.userIsLoggedIn ? this.unlikePost : () => {};
     const addPostAllowed = !groupIsClosed || profile.isModerator;
     const editPostAllowed = (profile.id === owner.id && !groupIsClosed) || profile.isModerator;
 
@@ -237,35 +240,31 @@ export default class PostView extends React.Component {
     );
 
     return (
-      <div className='post--wrapper'>
-        <div className='post--profile-image'>
+      <div className="post--wrapper">
+        <div className="post--profile-image">
           <a href={`/profil/${owner.id}`}>
             <img src={owner.image || null} alt={owner.displayName} />
           </a>
         </div>
-        <div className='post'>
-          <div className='post--header'>
+        <div className="post">
+          <div className="post--header">
             <a href={`/profil/${owner.id}`}>
-              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
+              <span className="username" dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
             </a>
-            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
-            <span className='buttons'>
-              <span className="post--campaign--logo">
-                {this.renderCampaignLogo(campaign, timeCreated)}
-              </span>
-              {editPostAllowed &&
-              <TinyButton
-                active={this.state.isEditting}
-                clickFunction={() => this.toggleEditting()}
-                icon={<Icon glyph={pencilSvg} className="icon edit-post--button" />}
-              />
-              ||
-              flagButton
-              }
+            <span className="time">{(this.state.isEditting && 'Retter nu') || TimeToString(timeCreated)}</span>
+            <span className="buttons">
+              <span className="post--campaign--logo">{this.renderCampaignLogo(campaign, timeCreated)}</span>
+              {(editPostAllowed && (
+                <TinyButton
+                  active={this.state.isEditting}
+                  clickFunction={() => this.toggleEditting()}
+                  icon={<Icon glyph={pencilSvg} className="icon edit-post--button" />}
+                />
+              )) ||
+                flagButton}
             </span>
           </div>
-          {
-            this.state.isEditting &&
+          {(this.state.isEditting && (
             <AddContent
               redirectTo={`/grupper/${groupId}`}
               profile={profile}
@@ -284,38 +283,31 @@ export default class PostView extends React.Component {
               pdfUploads={true}
               editing={true}
             />
-            ||
-            <div className='post--content-wrapper'>
+          )) || (
+            <div className="post--content-wrapper">
               {
-                <p className='post--content' dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} /> // eslint-disable-line
+                <p className="post--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} /> // eslint-disable-line
               }
               {review && this.renderReview(review, coverImages, works, profile, likeActions)}
-              {
-                image &&
-                <div className='post--media'>
+              {image && (
+                <div className="post--media">
                   <a href={image.replace('medium', 'original')} target="_blank">
                     <img src={image} alt="image for post" />
                   </a>
                 </div>
-              }
-              {
-                video && video.resolutions.length ? getVideoPlayer(video) : null
-              }
-              {
-                videos.length >= 1 &&
+              )}
+              {video && video.resolutions.length ? getVideoPlayer(video) : null}
+              {videos.length >= 1 &&
                 videos.map((embeddedVideo, index) => {
                   return (
                     <div key={index} className="post--video-container">
                       {embeddedVideo}
                     </div>
                   );
-                })
-              }
-              {
-                pdf && <PDFViewComponent pdf={pdf} isOwner={editPostAllowed} />
-              }
+                })}
+              {pdf && <PDFViewComponent pdf={pdf} isOwner={editPostAllowed} />}
             </div>
-          }
+          )}
           <CommentList
             comments={comments}
             profile={profile}
@@ -329,45 +321,48 @@ export default class PostView extends React.Component {
             coverImages={coverImages}
             deleteAction={commentId => this.props.groupActions.callServiceProvider('deleteComment', {id: commentId})}
           />
-          {commentsCount > numberOfCommentsLoaded &&
-          <div className="post--load-more-comments">
-            <ExpandButton
-              isLoading={loadingComments}
-              onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
-              text="Vis flere"
-            />
-            <span className="post--comment-count">
-              {commentsToLoad} {commentsToLoad === 1 && 'kommentar' || 'kommentarer'}
-            </span>
-          </div>
-          }
-          {!this.state.isEditting && <span> {
-            this.state.isCommentInputVisible &&
-            <AddContent
-              redirectTo={commentRedirect || `/grupper/${groupId}`}
-              profile={profile}
-              parentId={id}
-              type="comment"
-              works={works}
-              coverImages={coverImages}
-              abort={() => this.toggleCommentInput()}
-              getMoreWorks={getMoreWorks}
-              addContentAction={groupActions.addComment}
-              autofocus={true}
-              displayAbortButton={true}
-            />
-            ||
-            <a
-              className={`post--add-comment-button${addPostAllowed ? '' : '-disabled'}`}
-              href="#add-comment"
-              onClick={e => addPostAllowed && this.toggleCommentInput(e)}>
-              <Icon glyph={backSvg}
+          {commentsCount > numberOfCommentsLoaded && (
+            <div className="post--load-more-comments">
+              <ExpandButton
+                isLoading={loadingComments}
+                onClick={() => groupActions.asyncShowMoreComments(id, numberOfCommentsLoaded, 10)}
+                text="Vis flere"
               />
-              Svar
-            </a>
-          }
-          {likeButton}
-          </span>}
+              <span className="post--comment-count">
+                {commentsToLoad} {(commentsToLoad === 1 && 'kommentar') || 'kommentarer'}
+              </span>
+            </div>
+          )}
+          {!this.state.isEditting && (
+            <span>
+              {' '}
+              {(this.state.isCommentInputVisible && (
+                <AddContent
+                  redirectTo={commentRedirect || `/grupper/${groupId}`}
+                  profile={profile}
+                  parentId={id}
+                  type="comment"
+                  works={works}
+                  coverImages={coverImages}
+                  abort={() => this.toggleCommentInput()}
+                  getMoreWorks={getMoreWorks}
+                  addContentAction={groupActions.addComment}
+                  autofocus={true}
+                  displayAbortButton={true}
+                />
+              )) || (
+                <a
+                  className={`post--add-comment-button${addPostAllowed ? '' : '-disabled'}`}
+                  href="#add-comment"
+                  onClick={e => addPostAllowed && this.toggleCommentInput(e)}
+                >
+                  <Icon glyph={backSvg} />
+                  Svar
+                </a>
+              )}
+              {likeButton}
+            </span>
+          )}
         </div>
       </div>
     );

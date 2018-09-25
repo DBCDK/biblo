@@ -3,8 +3,8 @@ import moment from 'moment';
 export default function TimeToString(past) {
   const delta = (Date.now() - Date.parse(past)) / 1000;
   const days = Math.floor(delta / (24 * 3600));
-  const hours = Math.floor(delta / (3600));
-  const minutes = Math.floor(delta / (60));
+  const hours = Math.floor(delta / 3600);
+  const minutes = Math.floor(delta / 60);
   if (days) {
     if (days === 1) {
       return '1 dag siden';

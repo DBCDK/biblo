@@ -18,24 +18,41 @@ import groupSvg from '../General/Icon/svg/functions/group.svg';
 
 import './GroupsContainer.scss';
 
-
 export class GroupsContainer extends React.Component {
   render() {
-    const text = 'Her kan du finde alle Biblos grupper. Du kan også lave din egen. Søg efter grupper på den lilla knap øverst på siden.';
+    const text =
+      'Her kan du finde alle Biblos grupper. Du kan også lave din egen. Søg efter grupper på den lilla knap øverst på siden.';
     const {data, actions} = this.props;
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profileState}
+        globalState={this.props.globalState}
+      >
         <div className="group-page--header">
           <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
         </div>
         <div className="lists">
-          <RoundedButton buttonText='Opret ny gruppe' href={CREATE_GROUP_LINK}/>
+          <RoundedButton buttonText="Opret ny gruppe" href={CREATE_GROUP_LINK} />
 
-          <GroupList title="Populære grupper" groups={data.popularGroups} limit={data.popularLimit}
-            isLoading={data.popularLoading} expand={actions.asyncShowGroups.bind(null, 'popular')} actions={actions}/>
+          <GroupList
+            title="Populære grupper"
+            groups={data.popularGroups}
+            limit={data.popularLimit}
+            isLoading={data.popularLoading}
+            expand={actions.asyncShowGroups.bind(null, 'popular')}
+            actions={actions}
+          />
 
-          <GroupList title="Nyeste grupper" groups={data.newGroups} limit={data.newLimit}
-            isLoading={data.newLoading} expand={actions.asyncShowGroups.bind(null, 'new')} actions={actions}/>
+          <GroupList
+            title="Nyeste grupper"
+            groups={data.newGroups}
+            limit={data.newLimit}
+            isLoading={data.newLoading}
+            expand={actions.asyncShowGroups.bind(null, 'new')}
+            actions={actions}
+          />
         </div>
       </PageLayout>
     );
@@ -54,7 +71,7 @@ GroupsContainer.propTypes = {
 
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
@@ -64,7 +81,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(groupActions, dispatch)

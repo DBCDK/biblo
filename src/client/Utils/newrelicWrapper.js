@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 function newrelicIsPresent() {
-  return (typeof window !== 'undefined' && !!window.newrelic); // eslint-disable-line no-undef
+  return typeof window !== 'undefined' && !!window.newrelic; // eslint-disable-line no-undef
 }
 
 /**
@@ -18,8 +18,7 @@ export function addPageAction(event, params) {
   if (newrelicIsPresent()) {
     try {
       newrelic.addPageAction(event, params); // eslint-disable-line no-undef
-    }
-    catch (e) {
+    } catch (e) {
       console.error(e); // eslint-disable-line no-console
     }
   }

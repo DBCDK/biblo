@@ -43,8 +43,7 @@ export default class UploadMedia extends React.Component {
           if (contentResponse.status === 500 && contentResponse.data && contentResponse.data.error) {
             return reject(contentResponse.data.error);
           }
-        }
-        catch (err) {
+        } catch (err) {
           reject(err);
         }
 
@@ -69,14 +68,11 @@ export default class UploadMedia extends React.Component {
 
         if (type === 'image') {
           resolve(this.handleImage(file, onProgress));
-        }
-        else if (type === 'video') {
+        } else if (type === 'video') {
           resolve(this.handleVideo(file, onProgress));
-        }
-        else if (file.type === 'application/pdf') {
+        } else if (file.type === 'application/pdf') {
           resolve(this.handlePDF(file, onProgress));
-        }
-        else {
+        } else {
           reject('filtype ikke understøttet');
         }
       }
@@ -103,7 +99,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadpdf');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          attachment.pdf.file.progress = e.loaded / e.total * 100;
+          attachment.pdf.file.progress = (e.loaded / e.total) * 100;
           if (onProgress) {
             onProgress(attachment);
           }
@@ -158,7 +154,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadimage');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          attachment.image.file.progress = e.loaded / e.total * 100;
+          attachment.image.file.progress = (e.loaded / e.total) * 100;
           if (onProgress) {
             onProgress(attachment);
           }
@@ -173,8 +169,7 @@ export default class UploadMedia extends React.Component {
         if (e.target.status === 200) {
           try {
             attachment.image.imageCollectionId = JSON.parse(this.xhr.responseText).id;
-          }
-          catch (err) {
+          } catch (err) {
             return reject(errorMessage);
           }
 
@@ -205,7 +200,7 @@ export default class UploadMedia extends React.Component {
       this.xhr.open('POST', '/api/uploadvideo');
       this.xhr.upload.onprogress = e => {
         if (e.lengthComputable) {
-          attachment.video.file.progress = e.loaded / e.total * 100;
+          attachment.video.file.progress = (e.loaded / e.total) * 100;
           if (onProgress) {
             onProgress(attachment);
           }
@@ -253,8 +248,7 @@ export default class UploadMedia extends React.Component {
     if (this.fileInput.value) {
       this.fileInput.value = null;
       this.setState({attachment: attachment});
-    }
-    else {
+    } else {
       this.setState({attachment: attachment, imageRemoved: true});
     }
   }

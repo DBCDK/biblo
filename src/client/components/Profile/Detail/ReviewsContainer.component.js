@@ -82,15 +82,14 @@ export default class ReviewsContainer extends React.Component {
     const reviewsList = this.renderReviewRows();
 
     return (
-      <div className="reviews-container-component" >
-        <div className="reviews-container-component--reviews" >
-          {reviewsList.splice(0, this.state.limit)}
-        </div>
-        {(this.props.reviews.length > this.state.limit && reviewsList.length) &&
-        <div className="reviews-container-component--loadmore" >
-          <VisFlereButton onClick={this.onClick.bind(this)} />
-        </div>
-        }
+      <div className="reviews-container-component">
+        <div className="reviews-container-component--reviews">{reviewsList.splice(0, this.state.limit)}</div>
+        {this.props.reviews.length > this.state.limit &&
+          reviewsList.length && (
+            <div className="reviews-container-component--loadmore">
+              <VisFlereButton onClick={this.onClick.bind(this)} />
+            </div>
+          )}
       </div>
     );
   }

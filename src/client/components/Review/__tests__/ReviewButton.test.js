@@ -29,7 +29,10 @@ describe('Testing ReviewButton.test.js - not logged in', () => {
     const clickFunction = jest.fn();
 
     const wrapper = mount(
-      <Provider store={store}><ReviewButton clickFunction={clickFunction} profile={initialState.profileReducer} loginRequired={true} /></Provider>);
+      <Provider store={store}>
+        <ReviewButton clickFunction={clickFunction} profile={initialState.profileReducer} loginRequired={true} />
+      </Provider>
+    );
 
     wrapper.find(ReviewButton).simulate('click');
     expect(wrapper.text()).toEqual('Log ind for at skrive en anmeldelse');
@@ -49,7 +52,10 @@ describe('Testing ReviewButton.test.js - not logged in', () => {
     const store = mockStore(initialState);
     const clickFunction = jest.fn();
     const wrapper = mount(
-      <Provider store={store}><ReviewButton clickFunction={clickFunction} profile={initialState.profileReducer} loginRequired={true} /></Provider>);
+      <Provider store={store}>
+        <ReviewButton clickFunction={clickFunction} profile={initialState.profileReducer} loginRequired={true} />
+      </Provider>
+    );
 
     wrapper.find(ReviewButton).simulate('click');
     expect(wrapper.find(ProfileLibraryInfoModalContainer)).toHaveLength(1);
@@ -71,7 +77,10 @@ describe('Testing ReviewButton.test.js - not logged in', () => {
     const store = mockStore(initialState);
     const clickFunction = jest.fn();
     const wrapper = mount(
-      <Provider store={store}><ReviewButton clickFunction={clickFunction} profile={initialState.profileReducer} loginRequired={true} /></Provider>);
+      <Provider store={store}>
+        <ReviewButton clickFunction={clickFunction} profile={initialState.profileReducer} loginRequired={true} />
+      </Provider>
+    );
 
     wrapper.find(ReviewButton).simulate('click');
     expect(wrapper.find(ProfileLibraryInfoModalContainer)).toHaveLength(0);

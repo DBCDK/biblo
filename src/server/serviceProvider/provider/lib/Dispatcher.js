@@ -13,9 +13,9 @@ import {log} from 'dbc-node-logger';
  */
 function registerEventOnConnection(transform, connection) {
   const event = transform.event();
-  connection.on(`${event}Request`, (request) => {
+  connection.on(`${event}Request`, request => {
     const startTime = Date.now();
-    transform.trigger(request, connection).forEach((responsePromise) => {
+    transform.trigger(request, connection).forEach(responsePromise => {
       responsePromise
         .then(response => {
           log.info(`${event} Response`, {event: event, timing: Date.now() - startTime});
@@ -29,8 +29,7 @@ function registerEventOnConnection(transform, connection) {
           // we have a plain js object, and also throws if it is cyclic etc.
           try {
             error = JSON.parse(JSON.stringify(error));
-          }
-          catch (_) {
+          } catch (_) {
             error = 'unserialisable error';
           }
 
@@ -51,7 +50,7 @@ function registerEventOnConnection(transform, connection) {
 export default function Dispatcher(transforms, io) {
   // On socket.io it would make more sense to use `io.use(...)` instead of
   // `io.on('connection'...)`, but io.use is not supported on socketcluster yet.
-  io.on('connection', (connection) => {
-    transforms.forEach((transform) => registerEventOnConnection(transform, connection));
+  io.on('connection', connection => {
+    transforms.forEach(transform => registerEventOnConnection(transform, connection));
   });
 }

@@ -14,8 +14,7 @@ export function redirectBackToOrigin(req, res, next) {
   if (req.session.hasOwnProperty('shouldFillProfile') && req.session.shouldFillProfile) {
     delete req.session.shouldFillProfile;
     return res.redirect('/profil/rediger');
-  }
-  else if (req.session.returnUrl) {
+  } else if (req.session.returnUrl) {
     let ret = req.session.returnUrl;
     delete req.session.returnUrl;
     return res.redirect(ret);
@@ -66,7 +65,7 @@ export function ensureUserHasProfile(req, res, next) {
   }
 
   // user has a profile, send them to where they want to go.
-  if (req.user && ((req.user.profile.profile || req.user.profile).hasFilledInProfile)) {
+  if (req.user && (req.user.profile.profile || req.user.profile).hasFilledInProfile) {
     return next();
   }
 

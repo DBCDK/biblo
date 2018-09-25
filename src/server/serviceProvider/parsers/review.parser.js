@@ -4,9 +4,9 @@ import uniq from 'lodash/uniq';
 
 export default function parseReview(review, campaigns = [], limitReviewContent) {
   campaigns.forEach(campaign => {
-    const reviewCreatedEpoch = (new Date(review.created)).getTime();
-    const campaignStartEpoch = (new Date(campaign.startDate)).getTime();
-    const campaignEndEpoch = (new Date(campaign.endDate)).getTime();
+    const reviewCreatedEpoch = new Date(review.created).getTime();
+    const campaignStartEpoch = new Date(campaign.startDate).getTime();
+    const campaignEndEpoch = new Date(campaign.endDate).getTime();
 
     if (
       reviewCreatedEpoch - campaignStartEpoch > 0 && // Review was created after the campaign started.
@@ -24,8 +24,8 @@ export default function parseReview(review, campaigns = [], limitReviewContent) 
 
   review.owner = parseProfile(review.owner, true, 'small');
   review.imageId = review.image && review.image.id; // we currently only allow one image at a time
-  review.image = review.image && '/billede/' + review.image.id + '/medium' || null;
-  review.likes = review.likes && uniq(review.likes.map(like => like.profileId)) || [];
+  review.image = (review.image && '/billede/' + review.image.id + '/medium') || null;
+  review.likes = (review.likes && uniq(review.likes.map(like => like.profileId))) || [];
   review.html = parseText(content, true, 'break');
 
   return review;

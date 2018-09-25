@@ -22,8 +22,7 @@ PreviewRoutes.post('/', (req, res, next) => {
       css: ['/css/preview.css', '/css/search.css'],
       js: ['/js/preview.js']
     });
-  }
-  catch (err) {
+  } catch (err) {
     return next(err);
   }
 });

@@ -24,14 +24,15 @@ export class ContentPageTextWidget extends Component {
   }
 
   render() {
-    const content = this.state.isClient ?
-      <span className="content-page--text-widget" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.widgetConfig.content)}} /> :
-      <span className="content-page--text-widget" />;
-    return (
-      <React.Fragment>
-        {content}
-      </React.Fragment>
+    const content = this.state.isClient ? (
+      <span
+        className="content-page--text-widget"
+        dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.widgetConfig.content)}}
+      />
+    ) : (
+      <span className="content-page--text-widget" />
     );
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 

@@ -12,10 +12,8 @@ describe('Testing the MessageRow Component', () => {
     read: false
   };
 
-  const noop = () => {
-  };
-  const readAction = () => {
-  };
+  const noop = () => {};
+  const readAction = () => {};
 
   it('Should render unread message', () => {
     const tree = sd.shallowRender(
@@ -114,10 +112,8 @@ describe('Testing the getMessageImage method', () => {
     read: false
   };
 
-  const noop = () => {
-  };
-  const readAction = () => {
-  };
+  const noop = () => {};
+  const readAction = () => {};
 
   it('Should return default image', () => {
     const tree = sd.shallowRender(

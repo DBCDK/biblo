@@ -30,8 +30,7 @@ class LibraryEditContainer extends React.Component {
   }
 
   render() {
-
-    let searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
+    let searchElements = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map(suggestion => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
@@ -41,24 +40,25 @@ class LibraryEditContainer extends React.Component {
     let errorObj = Object.assign({}, this.props.entitySuggest.errorStateObject);
     errorObj.library = (
       <p>
-        <strong>
-          Dit bibliotek er lukket. Du skal vælge et andet bibliotek i stedet.
-        </strong>
+        <strong>Dit bibliotek er lukket. Du skal vælge et andet bibliotek i stedet.</strong>
         {errorObj.library}
       </p>
     );
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profile}
+        globalState={this.props.globalState}
+      >
         <div className="profile-library-edit--container">
           <div className="profile-library-edit--form-component-container-container">
             <div className="profile-library-edit--form-component-container">
               <div className="profile-library-edit--profile-image-container">
                 <img src={this.props.profile.image.url.medium} className="profile-library-edit--profile-image" />
                 <p>
-                  <strong>
-                    {this.props.profile.displayName}
-                  </strong>
+                  <strong>{this.props.profile.displayName}</strong>
                 </p>
               </div>
 
@@ -70,14 +70,12 @@ class LibraryEditContainer extends React.Component {
                   searchAction={this.librarySearch.bind(this)}
                   searchElements={searchElements}
                   libraryId={this.props.profile.favoriteLibrary.libraryId}
-                  loanerIdChangeFunc={(e) => this.setState({loanerId: e.target.value})}
-                  pincodeChangeFunc={(e) => this.setState({pincode: e.target.value})}
+                  loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
+                  pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
                   requireAll={false}
                 />
 
-                <RoundedButtonSubmit
-                  buttonText="OK"
-                />
+                <RoundedButtonSubmit buttonText="OK" />
               </form>
             </div>
           </div>
@@ -103,7 +101,7 @@ LibraryEditContainer.propTypes = {
  */
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       searchState: state.searchReducer,
       profile: state.profileReducer,
@@ -113,7 +111,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(ProfileActions, dispatch),

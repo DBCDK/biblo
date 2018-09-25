@@ -3,7 +3,6 @@
  * Uses the custom method 'checkIfUserExists' to check whether a user exists.
  */
 const checkProfileName = {
-
   /**
    * @return {string}
    */

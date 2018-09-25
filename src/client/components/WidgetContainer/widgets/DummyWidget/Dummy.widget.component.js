@@ -17,9 +17,7 @@ export class DummyWidget extends AbstractWidget {
   }
 
   render() {
-    return (
-      <span className="dummy-widget">This is a dummy widget!</span>
-    );
+    return <span className="dummy-widget">This is a dummy widget!</span>;
   }
 }
 

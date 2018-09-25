@@ -31,9 +31,14 @@ async function checkUserLibraryInfo(req, body, profile) {
   let updatedProfileObject = {};
   const {libraryId, loanerId, pincode} = body;
 
-  if (typeof libraryId === 'string' && libraryId.length > 0 &&
-    typeof loanerId === 'string' && loanerId.length > 0 &&
-    typeof pincode === 'string' && pincode.length > 0) {
+  if (
+    typeof libraryId === 'string' &&
+    libraryId.length > 0 &&
+    typeof loanerId === 'string' &&
+    loanerId.length > 0 &&
+    typeof pincode === 'string' &&
+    pincode.length > 0
+  ) {
     try {
       await req.callServiceProvider('authenticate', {
         userId: loanerId,
@@ -41,35 +46,29 @@ async function checkUserLibraryInfo(req, body, profile) {
         libraryId: libraryId
       });
       updatedProfileObject.favoriteLibrary = {libraryId, loanerId, pincode};
-    }
-    catch (e) {
+    } catch (e) {
       if (e === 'User credentials are invalid') {
         errors.push({
           field: 'loanerId',
           errorMessage: 'Forkert lånernummer eller pinkode!'
         });
-      }
-      else {
+      } else {
         errors.push({
           field: 'loanerId',
           errorMessage: 'Der er sket en fejl! Prøv igen senere!'
         });
       }
     }
-  }
-  else if (
-    typeof libraryId === 'string' &&
-    libraryId.length > 0 ||
-    typeof libraryId === 'number' &&
-    libraryId > 0
+  } else if (
+    (typeof libraryId === 'string' && libraryId.length > 0) ||
+    (typeof libraryId === 'number' && libraryId > 0)
   ) {
     if ((profile.favoriteLibrary || {}).libraryId !== libraryId) {
       updatedProfileObject.favoriteLibrary = {
         libraryId: libraryId
       };
     }
-  }
-  else {
+  } else {
     errors.push({
       field: 'libraryId',
       errorMessage: 'Du skal vælge et bibliotek!'
@@ -79,8 +78,10 @@ async function checkUserLibraryInfo(req, body, profile) {
   return {errors, updatedProfileObject};
 }
 
-
-ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function (req, res) {
+ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function(
+  req,
+  res
+) {
   res.locals.title = 'Rediger bibliotek - Biblo.dk';
   res.render('page', {
     css: ['/css/profileeditlibrary.css'],
@@ -88,7 +89,11 @@ ProfileRoutes.get('/rediger/bibliotek', ensureAuthenticated, function (req, res)
   });
 });
 
-ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function (req, res, next) {
+ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function(
+  req,
+  res,
+  next
+) {
   try {
     let p = req.session.passport.user.profile.profile;
     const b = req.body;
@@ -103,7 +108,10 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function (re
       });
     }
 
-    const result = (await req.callServiceProvider('updateProfile', libraryCheck.updatedProfileObject))[0];
+    const result = (await req.callServiceProvider(
+      'updateProfile',
+      libraryCheck.updatedProfileObject
+    ))[0];
     if (result.error && result.error.length > 0) {
       return res.render('page', {
         css: ['/css/profileeditlibrary.css'],
@@ -112,34 +120,39 @@ ProfileRoutes.post('/rediger/bibliotek', ensureAuthenticated, async function (re
       });
     }
 
-    req.session.passport.user.profile.profile = Object.assign({}, p, result.data);
+    req.session.passport.user.profile.profile = Object.assign(
+      {},
+      p,
+      result.data
+    );
     return res.redirect(req.session.returnUrl || '/');
-  }
-  catch (e) {
+  } catch (e) {
     return next(e);
   }
 });
 
-ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, async function (req, res, next) {
-  res.locals.title = 'Rediger profil - Biblo.dk';
-  try {
-    let p = req.session.passport.user.profile.profile;
+ProfileRoutes.get(
+  ['/rediger', '/rediger/moderator/:id'],
+  ensureAuthenticated,
+  async function(req, res, next) {
+    res.locals.title = 'Rediger profil - Biblo.dk';
+    try {
+      let p = req.session.passport.user.profile.profile;
 
-    let fullProfile = {};
-    if (p.isModerator && req.params.id) {
-      fullProfile = (await req.callServiceProvider('getFullProfile', {
-        isModerator: p.isModerator,
-        id: req.params.id
-      }))[0].body;
-    }
-    else {
-      fullProfile = (await req.callServiceProvider('getFullProfile', {
-        isModerator: false,
-        id: p.id
-      }))[0].body;
-    }
+      let fullProfile = {};
+      if (p.isModerator && req.params.id) {
+        fullProfile = (await req.callServiceProvider('getFullProfile', {
+          isModerator: p.isModerator,
+          id: req.params.id
+        }))[0].body;
+      } else {
+        fullProfile = (await req.callServiceProvider('getFullProfile', {
+          isModerator: false,
+          id: p.id
+        }))[0].body;
+      }
 
-    /* Mock agency object, for debugging on the go :)
+      /* Mock agency object, for debugging on the go :)
      agency = agency || {
      agencyId: 'DK-775100',
      branchName: [{$value: 'bob'}],
@@ -149,30 +162,47 @@ ProfileRoutes.get(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, a
      };
      */
 
+      // fetch library details and attach to favorite library
+      if (
+        fullProfile &&
+        fullProfile.favoriteLibrary &&
+        fullProfile.favoriteLibrary.libraryId
+      ) {
+        const agency = (await req.callServiceProvider('getLibraryDetails', {
+          agencyId: fullProfile.favoriteLibrary.libraryId
+        }))[0].pickupAgency;
+        fullProfile.favoriteLibrary = Object.assign(
+          {},
+          fullProfile.favoriteLibrary,
+          {
+            libraryId: agency.branchId,
+            libraryName: getAgencyName(agency), // see github #22
+            libraryAddress:
+              agency.postalAddress +
+              ', ' +
+              agency.postalCode +
+              ' ' +
+              agency.city
+          }
+        );
+      }
 
-    // fetch library details and attach to favorite library
-    if (fullProfile && fullProfile.favoriteLibrary && fullProfile.favoriteLibrary.libraryId) {
-      const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: fullProfile.favoriteLibrary.libraryId}))[0].pickupAgency;
-      fullProfile.favoriteLibrary = Object.assign({}, fullProfile.favoriteLibrary, {
-        libraryId: agency.branchId,
-        libraryName: getAgencyName(agency), // see github #22
-        libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+      res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
+
+      res.render('page', {
+        css: ['/css/profileedit.css'],
+        js: ['/js/profileedit.js']
       });
+    } catch (e) {
+      next(e);
     }
-
-    res.locals.profile = JSON.stringify({profile: fullProfile, errors: []});
-
-    res.render('page', {
-      css: ['/css/profileedit.css'],
-      js: ['/js/profileedit.js']
-    });
   }
-  catch (e) {
-    next(e);
-  }
-});
+);
 
-ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, upload.single('profile_image'),
+ProfileRoutes.post(
+  ['/rediger', '/rediger/moderator/:id'],
+  ensureAuthenticated,
+  upload.single('profile_image'),
   async function editProfilePost(req, res, next) {
     try {
       let p = req.session.passport.user.profile.profile;
@@ -183,8 +213,7 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
           isModerator: p.isModerator,
           id: req.params.id
         }))[0].body;
-      }
-      else {
+      } else {
         p = (await req.callServiceProvider('getFullProfile', {
           isModerator: false,
           id: p.id
@@ -193,12 +222,19 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
 
       // fetch library details and attach to favorite library
       if (p && p.favoriteLibrary && p.favoriteLibrary.libraryId) {
-        const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: p.favoriteLibrary.libraryId}))[0].pickupAgency;
+        const agency = (await req.callServiceProvider('getLibraryDetails', {
+          agencyId: p.favoriteLibrary.libraryId
+        }))[0].pickupAgency;
         if (agency) {
           p.favoriteLibrary = {
             libraryId: agency.branchId,
             libraryName: getAgencyName(agency),
-            libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city
+            libraryAddress:
+              agency.postalAddress +
+              ', ' +
+              agency.postalCode +
+              ' ' +
+              agency.city
           };
         }
       }
@@ -212,62 +248,76 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
       };
 
       if (req.file) {
-        if (requester.isModerator && req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
+        if (
+          requester.isModerator &&
+          req.file.mimetype &&
+          req.file.mimetype.indexOf('image') >= 0
+        ) {
           await req.callServiceProvider('updateProfileImage', {
             isModerator: requester.isModerator,
             uid: p.id,
             file: req.file
           });
-        }
-        else if (req.file.mimetype && req.file.mimetype.indexOf('image') >= 0) {
+        } else if (
+          req.file.mimetype &&
+          req.file.mimetype.indexOf('image') >= 0
+        ) {
           await req.callServiceProvider('updateProfileImage', {file: req.file});
-        }
-        else {
+        } else {
           errors.push({
             field: 'profile_image',
-            errorMessage: 'Du kan kun uploade billeder her! Prøv med en anden fil!'
+            errorMessage:
+              'Du kan kun uploade billeder her! Prøv med en anden fil!'
           });
         }
       }
 
       let libraryCheck = await checkUserLibraryInfo(req, b, p);
       errors = errors.concat(libraryCheck.errors);
-      updatedProfileObject = Object.assign(updatedProfileObject, libraryCheck.updatedProfileObject);
+      updatedProfileObject = Object.assign(
+        updatedProfileObject,
+        libraryCheck.updatedProfileObject
+      );
 
-      if (
-        typeof b.displayname === 'string' &&
-        b.displayname.length > 0
-      ) {
+      if (typeof b.displayname === 'string' && b.displayname.length > 0) {
         if (b.displayname !== p.displayName) {
-          if (!(/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(b.displayname)) && b.displayname.toLowerCase() !== p.username.toLowerCase()) {
-            const displayNameExists = (await req.callServiceProvider('checkIfDisplayNameIsTaken', b.displayname))[0];
+          if (
+            !/([0-9]{6}-[0-9]{4}|[0-9]{10}|[0-9]{6} [0-9]{4})/.test(
+              b.displayname
+            ) &&
+            b.displayname.toLowerCase() !== p.username.toLowerCase()
+          ) {
+            const displayNameExists = (await req.callServiceProvider(
+              'checkIfDisplayNameIsTaken',
+              b.displayname
+            ))[0];
 
             if (displayNameExists.data && !displayNameExists.data.exists) {
               updatedProfileObject.displayName = b.displayname;
               updatedProfileObject.hasFilledInProfile = true;
-            }
-            else if (displayNameExists.data && displayNameExists.data.exists) {
+            } else if (
+              displayNameExists.data &&
+              displayNameExists.data.exists
+            ) {
               errors.push({
                 field: 'displayname',
                 errorMessage: 'Brugernavnet er desværre taget!'
               });
-            }
-            else {
+            } else {
               errors.push({
                 field: 'displayname',
                 errorMessage: 'Der er sket en fejl! Prøv igen senere!'
               });
             }
-          }
-          else {
+          } else {
             errors.push({
               field: 'displayname',
-              errorMessage: 'Man må ikke benytte CPR-nummer, lånerkortnummer eller uni-login som brugernavn.'
+              errorMessage:
+                'Man må ikke benytte CPR-nummer, lånerkortnummer eller uni-login som brugernavn.'
             });
           }
         }
-      }
-      else {
+      } else {
         errors.push({
           field: 'displayname',
           errorMessage: 'Du skal have et brugernavn!'
@@ -276,46 +326,40 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
 
       if (typeof b.description === 'string') {
         updatedProfileObject.description = b.description;
-      }
-      else {
+      } else {
         updatedProfileObject.description = '';
       }
 
       if (typeof b.email === 'string') {
-        let emailValidity = (/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i) // eslint-disable-line
+        let emailValidity = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i // eslint-disable-line
           .test(b.email);
         if (emailValidity) {
           updatedProfileObject.email = b.email;
-        }
-        else {
+        } else {
           errors.push({
             field: 'email',
             errorMessage: 'Du skal skrive en gyldig email addresse.'
           });
         }
-      }
-      else {
+      } else {
         updatedProfileObject.email = '';
       }
 
       if (typeof b.phone === 'string') {
         updatedProfileObject.phone = b.phone;
-      }
-      else {
+      } else {
         updatedProfileObject.phone = '';
       }
 
       if (typeof b.birthday === 'string' && b.birthday.length > 0) {
         updatedProfileObject.birthday = b.birthday;
-      }
-      else {
+      } else {
         updatedProfileObject.birthday = null;
       }
 
       if (typeof b.fullName === 'string') {
         updatedProfileObject.fullName = b.fullName;
-      }
-      else {
+      } else {
         updatedProfileObject.fullName = '';
       }
 
@@ -324,28 +368,28 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
         console.log('errors', errors);
         data.status = 'ERROR';
         data.errors = errors;
-      }
-      else if (JSON.stringify(updatedProfileObject) === '{}') {
+      } else if (JSON.stringify(updatedProfileObject) === '{}') {
         data.status = 'OK';
         data.redirect = '/profil/' + p.id;
 
         if (!req.xhr) {
           return res.redirect(data.redirect);
         }
-      }
-      else {
+      } else {
         if (requester.isModerator && req.params.id) {
           updatedProfileObject.isModerator = requester.isModerator;
           updatedProfileObject.uid = req.params.id;
         }
 
-        const result = (await req.callServiceProvider('updateProfile', updatedProfileObject))[0];
+        const result = (await req.callServiceProvider(
+          'updateProfile',
+          updatedProfileObject
+        ))[0];
 
         if (result.errors && result.errors.length > 0) {
           data.status = 'ERROR';
           data.errors = result.errors;
-        }
-        else if (result.status && result.data) {
+        } else if (result.status && result.data) {
           data.status = 'OK';
           data.redirect = '/profil/' + result.data.id;
 
@@ -356,7 +400,10 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
       }
 
       // Override preivous redirects if onFilledProfile is truthy
-      if (req.session.hasOwnProperty('onFilledProfile') && req.session.onFilledProfile.length) {
+      if (
+        req.session.hasOwnProperty('onFilledProfile') &&
+        req.session.onFilledProfile.length
+      ) {
         const destination = req.session.onFilledProfile;
         delete req.session.onFilledProfile;
         data.redirect = destination;
@@ -372,17 +419,19 @@ ProfileRoutes.post(['/rediger', '/rediger/moderator/:id'], ensureAuthenticated, 
         js: ['/js/profileedit.js'],
         jsonData: [JSON.stringify(data)]
       });
-    }
-    catch (e) {
+    } catch (e) {
       log.error(e.message);
       return next(e);
     }
-  });
+  }
+);
 
 ProfileRoutes.get(
   ['/:id', '/'],
-  ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary,
-  async function (req, res) {
+  ensureAuthenticated,
+  ensureUserHasProfile,
+  ensureUserHasValidLibrary,
+  async function(req, res) {
     let profile;
     let profileId = req.params.id;
     const data = {
@@ -403,14 +452,20 @@ ProfileRoutes.get(
         offset: 0,
         order: 'created ASC'
       }))[0].data;
-      data.feed = (await req.callServiceProvider('getUserFeed', {userId: profileId, offset: 0}))[0].body;
-      data.campaigns = (await getUserContributedCampaigns(req, profileId));
-    }
-    catch (e) { // eslint-disable-line no-catch-shadow
+      data.feed = (await req.callServiceProvider('getUserFeed', {
+        userId: profileId,
+        offset: 0
+      }))[0].body;
+      data.campaigns = await getUserContributedCampaigns(req, profileId);
+    } catch (e) {
+      // eslint-disable-line no-catch-shadow
       data.errors = [e];
     }
 
-    res.locals.title = data.feed && data.feed.profile && data.feed.profile.raw ? `${data.feed.profile.raw.displayName} - Biblo.dk` : 'Biblo.dk';
+    res.locals.title =
+      data.feed && data.feed.profile && data.feed.profile.raw
+        ? `${data.feed.profile.raw.displayName} - Biblo.dk`
+        : 'Biblo.dk';
 
     res.render('page', {
       css: ['/css/profiledetail.css'],
@@ -419,6 +474,5 @@ ProfileRoutes.get(
     });
   }
 );
-
 
 export default ProfileRoutes;

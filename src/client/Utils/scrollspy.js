@@ -7,7 +7,7 @@ import {debounce} from 'lodash';
 const spies = [];
 const isBrowser = typeof window !== 'undefined';
 
-function isElementInViewport (element) {
+function isElementInViewport(element) {
   if (!isBrowser) {
     return false;
   }
@@ -40,8 +40,7 @@ if (isBrowser && window.addEventListener) {
   window.addEventListener('load', handleScroll, false);
   window.addEventListener('scroll', handleScroll, false);
   window.addEventListener('resize', handleScroll, false);
-}
-else if (isBrowser && window.attachEvent) {
+} else if (isBrowser && window.attachEvent) {
   window.attachEvent('onDOMContentLoaded', handleScroll);
   window.attachEvent('onload', handleScroll);
   window.attachEvent('onscroll', handleScroll);

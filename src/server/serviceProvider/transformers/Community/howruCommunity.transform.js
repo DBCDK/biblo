@@ -5,7 +5,6 @@
 import {log} from 'dbc-node-logger';
 
 const HowRUCommunity = {
-
   event() {
     return 'howruCommunity';
   },
@@ -13,8 +12,7 @@ const HowRUCommunity = {
   async requestTransform() {
     try {
       return await this.callServiceClient('community', 'howru');
-    }
-    catch (e) {
+    } catch (e) {
       log.error(e); // eslint-disable-line
       return {statusCode: 404};
     }

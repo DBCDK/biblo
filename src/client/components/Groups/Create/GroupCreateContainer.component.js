@@ -29,11 +29,7 @@ export class GroupCreateContainer extends React.Component {
       group.UI.submitState !== 'UPLOAD_CANCELED'
     ) {
       event.preventDefault();
-      actions.asyncSubmitGroupCreateForm(
-        group.imageFile,
-        name,
-        description
-      );
+      actions.asyncSubmitGroupCreateForm(group.imageFile, name, description);
     }
   }
 
@@ -44,7 +40,12 @@ export class GroupCreateContainer extends React.Component {
 
     return (
       <div>
-        <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profileState} globalState={this.props.globalState} >
+        <PageLayout
+          searchState={this.props.searchState}
+          searchActions={this.props.searchActions}
+          profileState={this.props.profileState}
+          globalState={this.props.globalState}
+        >
           <div className="group-create">
             <BackButton />
             <h1>Opret gruppe</h1>
@@ -56,7 +57,9 @@ export class GroupCreateContainer extends React.Component {
               submitProgress={group.UI.submitProgress}
               submit={submit}
               checkedNames={group.checkedNames}
-              checkIfGroupNameExistsAction={groupName => actions.callServiceProvider('checkIfGroupNameExists', {groupName})}
+              checkIfGroupNameExistsAction={groupName =>
+                actions.callServiceProvider('checkIfGroupNameExists', {groupName})
+              }
             />
           </div>
         </PageLayout>
@@ -80,7 +83,7 @@ GroupCreateContainer.propTypes = {
  */
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
@@ -90,7 +93,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       groupActions: bindActionCreators(groupActions, dispatch)

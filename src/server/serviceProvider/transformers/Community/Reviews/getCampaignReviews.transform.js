@@ -5,57 +5,60 @@ const GetReviewTransform = {
     return 'getCampaignReviews';
   },
 
-  requestTransform(event, {skip, limit, order='created DESC', campaignId, wheres = []}) {
-    return this.callServiceClient('cached/standard/community', 'getCampaign', {id: campaignId}).then(campaignResponse => {
-      const campaign = campaignResponse.body;
-      const startDate = campaign.startDate;
-      const endDate = campaign.endDate;
-      campaign.workTypes = campaign.workTypes.map(w => w.worktype);
+  requestTransform(event, {skip, limit, order = 'created DESC', campaignId, wheres = []}) {
+    return this.callServiceClient('cached/standard/community', 'getCampaign', {id: campaignId}).then(
+      campaignResponse => {
+        const campaign = campaignResponse.body;
+        const startDate = campaign.startDate;
+        const endDate = campaign.endDate;
+        campaign.workTypes = campaign.workTypes.map(w => w.worktype);
 
-      const params = {
-        filter: {
-          skip,
-          limit,
-          order,
-          include: [
-            'likes',
-            'image',
-            {
-              relation: 'video',
-              scope: {
-                include: [
-                  {
-                    relation: 'resolutions',
-                    scope: {
-                      include: ['video']
+        const params = {
+          filter: {
+            skip,
+            limit,
+            order,
+            include: [
+              'likes',
+              'image',
+              {
+                relation: 'video',
+                scope: {
+                  include: [
+                    {
+                      relation: 'resolutions',
+                      scope: {
+                        include: ['video']
+                      }
                     }
-                  }]
+                  ]
+                }
+              },
+              {
+                relation: 'owner',
+                scope: {
+                  include: ['image']
+                }
               }
-            },
-            {
-              relation: 'owner',
-              scope: {
-                include: ['image']
-              }
+            ],
+            where: {
+              and: [
+                {created: {gte: startDate}},
+                {created: {lte: endDate}},
+                {markedAsDeleted: null},
+                {or: campaign.workTypes.map(w => ({worktype: w}))} // Only get reviews when they have one of the predefined worktypes.
+              ].concat(wheres)
             }
-          ],
-          where: {
-            and: [
-              {created: {gte: startDate}},
-              {created: {lte: endDate}},
-              {markedAsDeleted: null},
-              {or: campaign.workTypes.map(w => ({worktype: w}))} // Only get reviews when they have one of the predefined worktypes.
-            ].concat(wheres)
           }
-        }
-      };
+        };
 
-      return Promise.all([
-        this.callServiceClient('community', 'countReviews', {where: params.filter.where}),
-        this.callServiceClient('community', 'getReviews', params),
-        Promise.resolve([campaign])
-      ]);
-    });
+        return Promise.all([
+          this.callServiceClient('community', 'countReviews', {where: params.filter.where}),
+          this.callServiceClient('community', 'getReviews', params),
+          Promise.resolve([campaign])
+        ]);
+      }
+    );
   },
 
   responseTransform(response, {campaignId}) {

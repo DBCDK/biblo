@@ -26,12 +26,13 @@ export default function Follow({active, text, onClick, showLoginLink}) {
   };
 
   if (showLoginLink) {
-    return (<Login>Log ind for at følge gruppen</Login>);
+    return <Login>Log ind for at følge gruppen</Login>;
   }
 
   return (
-    <a className={ClassNames(classes)} href='#follow' onClick={() => onClick && onClick(!active)}>
-      <Icon glyph={active && checkedSvg || plusSvg} />{text}
+    <a className={ClassNames(classes)} href="#follow" onClick={() => onClick && onClick(!active)}>
+      <Icon glyph={(active && checkedSvg) || plusSvg} />
+      {text}
     </a>
   );
 }

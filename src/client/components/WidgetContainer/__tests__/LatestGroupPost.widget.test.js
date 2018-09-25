@@ -29,7 +29,10 @@ describe('Test LatestGroupPosts Widget', () => {
       }
     });
 
-    const LatestReviewsWidget = wrapper.find('h2').first().text();
+    const LatestReviewsWidget = wrapper
+      .find('h2')
+      .first()
+      .text();
     expect(LatestReviewsWidget).to.equal('LatestGroupPostsWidget displayTitle Test!');
   });
 
@@ -58,7 +61,10 @@ describe('Test LatestGroupPosts Widget', () => {
       }
     });
 
-    const groupPostContent = wrapper.find('.compact-group-post-element--container.text--post').first().text();
+    const groupPostContent = wrapper
+      .find('.compact-group-post-element--container.text--post')
+      .first()
+      .text();
     expect(groupPostContent).to.include(singleGroupPostMock.html);
   });
 });

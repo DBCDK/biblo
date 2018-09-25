@@ -26,7 +26,6 @@ import * as ProfileActions from '../../Actions/profile.actions';
 import './WorkReviewContainer.scss';
 
 export class WorkReviewContainer extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -56,8 +55,7 @@ export class WorkReviewContainer extends React.Component {
       if (window) {
         window.location = '/materiale/' + encodeURIComponent(pid);
       }
-    }
-    else {
+    } else {
       this.setState({
         reviewVisible: false,
         errorMessage: 'Du er i karantæne lige nu'
@@ -86,10 +84,10 @@ export class WorkReviewContainer extends React.Component {
 
     let isOwnReview;
     if (reviews.length > 0) {
-      isOwnReview = (meta.ownReviewId === reviews[0].id);
+      isOwnReview = meta.ownReviewId === reviews[0].id;
     }
 
-    let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map((suggestion) => {
+    let librarySuggestions = this.props.entitySuggest[this.props.entitySuggest.query].slice(0, 5).map(suggestion => {
       return {
         text: [suggestion.navn, suggestion.by].join(' i '),
         clickFunc: () => this.props.libraryActions.asyncSelectSuggestedLibrary(suggestion)
@@ -97,17 +95,17 @@ export class WorkReviewContainer extends React.Component {
     });
 
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions} profileState={this.props.profile} globalState={this.props.globalState} >
-
-        {this.props.ui.modal.isOpen &&
-        <ModalWindow onClose={this.props.uiActions.closeModalWindow}>
-          {
-            this.props.ui.modal.children
-          }
-        </ModalWindow>
-        }
-        <div className='work'>
-          <WorkHeader coverUrl={work.coverUrl}/>
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profile}
+        globalState={this.props.globalState}
+      >
+        {this.props.ui.modal.isOpen && (
+          <ModalWindow onClose={this.props.uiActions.closeModalWindow}>{this.props.ui.modal.children}</ModalWindow>
+        )}
+        <div className="work">
+          <WorkHeader coverUrl={work.coverUrl} />
           <WorkDetail
             collection={work.collection}
             collectionDetails={work.collectionDetails}
@@ -141,13 +139,12 @@ export class WorkReviewContainer extends React.Component {
             fullReview={true}
             ownReview={isOwnReview}
           />
-          {
-            this.state.errorMessage &&
-            <Message type='error'>
+          {this.state.errorMessage && (
+            <Message type="error">
               <span> {this.state.errorMessage} </span>
             </Message>
-          }
-          <div className='work--reviewlist'>
+          )}
+          <div className="work--reviewlist">
             <ReviewList
               pids={bindPids}
               limit={1}
@@ -189,7 +186,7 @@ WorkReviewContainer.propTypes = {
 };
 
 export default connect(
-  (state) => {
+  state => {
     return {
       searchState: state.searchReducer,
       reviewState: state.reviewReducer,
@@ -201,7 +198,7 @@ export default connect(
     };
   },
 
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       workActions: bindActionCreators(workActions, dispatch),

@@ -8,14 +8,12 @@ export default function sanitize(_html) {
   try {
     if (typeof window !== 'undefined') {
       html = DOMPurify.sanitize(_html);
-    }
-    else {
-      const window = (new JSDOM('')).window;
+    } else {
+      const window = new JSDOM('').window;
       const purifier = DOMPurify(window);
       html = purifier.sanitize(_html);
     }
-  }
-  catch (e) {
+  } catch (e) {
     log.error(e); // eslint-disable-line
   }
 

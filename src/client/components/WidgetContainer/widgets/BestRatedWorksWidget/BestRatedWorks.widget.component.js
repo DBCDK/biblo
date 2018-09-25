@@ -49,8 +49,9 @@ export class BestRatedWorksWidget extends AbstractWidget {
     const containerId = `best-rated-works--${this.props.widgetIndex}`;
     const config = this.props.widgetConfig;
     const size = config.size;
-    const works = (this.props.widgetReducerProp.works || [])
-      .map(work => <CompactWorkElement work={work} key={`work-${work.collection[0]}`}/>);
+    const works = (this.props.widgetReducerProp.works || []).map(work => (
+      <CompactWorkElement work={work} key={`work-${work.collection[0]}`} />
+    ));
     const morePages = this.props.widgetReducerProp.more ? 0 : works.length;
 
     return (

@@ -10,8 +10,8 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 export default function FeaturePreview({show = false, previewKey = 'debugMode', children}) {
-  if (typeof localStorage !== 'undefined' && localStorage.getItem(previewKey) !== null || show) {
-    return (<span className="feature-preview--container">{children}</span>);
+  if ((typeof localStorage !== 'undefined' && localStorage.getItem(previewKey) !== null) || show) {
+    return <span className="feature-preview--container">{children}</span>;
   }
 
   return <span className="feature-preview--container feature--hidden"> </span>;

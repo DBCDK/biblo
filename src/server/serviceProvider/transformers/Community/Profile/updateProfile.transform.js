@@ -2,7 +2,6 @@ import {quarantinedMiddleware} from '../middlewares/auth.middlewares';
 import {encryptData} from '../../../../utils/crypto.util';
 
 const UpdateProfileTransform = {
-
   event() {
     return 'updateProfile';
   },
@@ -10,7 +9,7 @@ const UpdateProfileTransform = {
   requestTransform(event, profile, connection) {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
-    const uid = profile.isModerator && profile.uid || user.profileId;
+    const uid = (profile.isModerator && profile.uid) || user.profileId;
     return quarantinedMiddleware(this, user.profileId, () => {
       profile.isModerator && delete profile.isModerator; // eslint-disable-line no-unused-expressions
       profile.uid && delete profile.uid; // eslint-disable-line no-unused-expressions

@@ -32,7 +32,8 @@ export const reviewsMock = [
             resolutionImageFileId: null,
             resolutionVideoFileId: 895
           }
-        }]
+        }
+      ]
     },
     campaign: {
       id: 1,

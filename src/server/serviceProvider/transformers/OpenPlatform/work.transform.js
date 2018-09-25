@@ -5,7 +5,8 @@ const WorkTransform = {
     return 'work';
   },
 
-  requestTransform(event, {pids, fields = null}, connection) { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  requestTransform(event, {pids, fields = null}, connection) {
     const pidsCopy = [].concat(pids);
     const workRequests = [];
     while (pidsCopy.length > 0) {
@@ -13,8 +14,8 @@ const WorkTransform = {
     }
 
     return Promise.all(
-      workRequests.map(
-        pidBucket => this.callServiceClient('cached/short/openplatform', 'work', {
+      workRequests.map(pidBucket =>
+        this.callServiceClient('cached/short/openplatform', 'work', {
           pids: pidBucket,
           fields: fields || [
             'dcTitle',
@@ -60,7 +61,9 @@ const WorkTransform = {
     );
   },
 
-  responseTransform(responses, query, connection) { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  responseTransform(responses, query, connection) {
+    // eslint-disable-line no-unused-vars
     let data = [];
     responses.forEach(response => {
       const responseBody = JSON.parse(response.body);

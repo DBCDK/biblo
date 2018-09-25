@@ -1,13 +1,12 @@
 import moment from 'moment';
 
-
 const ToggleCloseGroupTransform = {
-
   event() {
     return 'toggleCloseGroup';
   },
 
-  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, query, connection) {
+    // eslint-disable-line no-unused-vars
 
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
@@ -19,7 +18,7 @@ const ToggleCloseGroupTransform = {
       const params = {
         id: query.id,
         accessToken: passport.user.id,
-        timeClosed: query.close && moment().format('YYYY-MM-DD') || null
+        timeClosed: (query.close && moment().format('YYYY-MM-DD')) || null
       };
 
       return this.callServiceClient('community', 'closeGroup', params);
@@ -28,9 +27,12 @@ const ToggleCloseGroupTransform = {
     return Promise.reject(new Error('user not logged in'));
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  responseTransform(response, query, connection) {
     if (response.statusCode !== 200) {
-      throw new Error('Call to community service, with method closeGroup failed');
+      throw new Error(
+        'Call to community service, with method closeGroup failed'
+      );
     }
 
     return response.body;

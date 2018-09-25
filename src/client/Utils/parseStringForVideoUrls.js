@@ -27,18 +27,16 @@ export function parseStringForVideoUrls(str, returnPlayer) {
           width={'100%'}
           height={'100%'}
           url={match[0]}
-          config={
-            {
-              youtube: {
-                playerVars: {
-                  controls: 1
-                }
+          config={{
+            youtube: {
+              playerVars: {
+                controls: 1
               }
             }
-          }
-        />);
-    }
-    else {
+          }}
+        />
+      );
+    } else {
       matches.push(match);
     }
     match = regex.exec(str);

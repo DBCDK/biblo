@@ -139,8 +139,7 @@ describe('Test of Review Component ', () => {
           console.warn('procesContent failed:', err); // eslint-disable-line no-console
           done();
         });
-    }
-    catch (err) {
+    } catch (err) {
       console.warn('failed to wait for overwriteReview modal:', err); // eslint-disable-line no-console
       done();
     }

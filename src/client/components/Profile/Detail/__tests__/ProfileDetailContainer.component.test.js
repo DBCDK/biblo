@@ -18,8 +18,7 @@ import {uiMock} from '../../../__mocks__/ui.mock';
 import {reviewsMock} from '../../../__mocks__/reviews.mock';
 
 describe('Test profile detail container (public profile)', () => {
-  const noop = () => {
-  };
+  const noop = () => {};
 
   // actions for this test (just use spies)
   const feedActions = {
@@ -80,57 +79,60 @@ describe('Test profile detail container (public profile)', () => {
     isLoadingResults: false
   };
 
-  const campaignsMock = [{
-    campaignName: 'Sommerbogen 2016',
-    startDate: '2016-06-09T20:00:00.044Z',
-    endDate: '2016-08-21T04:00:00.044Z',
-    logos: {
-      svg: '/sommerbogen-logo.svg',
-      small: '/sommerbogen-logo.png',
-      medium: '/sommerbogen-logo.png',
-      large: '/sommerbogen-logo.png'
-    },
-    type: 'review',
-    id: 1,
-    workTypes: ['book', 'audiobook', 'literature']
-  }, {
-    campaignName: 'Skriv din egen historie',
-    startDate: '2016-07-20T00:00:00.000Z',
-    endDate: '2016-12-25T00:00:00.000Z',
-    logos: {
-      small: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
-      medium: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
-      large: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
-      svg: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png'
-    },
-    type: 'group',
-    id: 2,
-    workTypes: [],
-    group: {
-      name: 'Skriv din egen historie',
-      description: 'Dette er en test kampagne gruppe!',
-      colour: 'blue',
-      timeCreated: '2016-07-25T09:03:23.000Z',
-      id: 136,
-      groupownerid: 323,
-      campaignGroupFK: 2,
-      campaign: {
-        campaignName: 'Skriv din egen historie',
-        startDate: '2016-07-20T00:00:00.000Z',
-        endDate: '2016-12-25T00:00:00.000Z',
-        logos: {
-          small: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
-          medium: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
-          large: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
-          svg: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png'
-        },
-        type: 'group',
-        id: 2,
-        workTypes: []
+  const campaignsMock = [
+    {
+      campaignName: 'Sommerbogen 2016',
+      startDate: '2016-06-09T20:00:00.044Z',
+      endDate: '2016-08-21T04:00:00.044Z',
+      logos: {
+        svg: '/sommerbogen-logo.svg',
+        small: '/sommerbogen-logo.png',
+        medium: '/sommerbogen-logo.png',
+        large: '/sommerbogen-logo.png'
       },
-      isClosed: false
+      type: 'review',
+      id: 1,
+      workTypes: ['book', 'audiobook', 'literature']
+    },
+    {
+      campaignName: 'Skriv din egen historie',
+      startDate: '2016-07-20T00:00:00.000Z',
+      endDate: '2016-12-25T00:00:00.000Z',
+      logos: {
+        small: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+        medium: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+        large: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+        svg: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png'
+      },
+      type: 'group',
+      id: 2,
+      workTypes: [],
+      group: {
+        name: 'Skriv din egen historie',
+        description: 'Dette er en test kampagne gruppe!',
+        colour: 'blue',
+        timeCreated: '2016-07-25T09:03:23.000Z',
+        id: 136,
+        groupownerid: 323,
+        campaignGroupFK: 2,
+        campaign: {
+          campaignName: 'Skriv din egen historie',
+          startDate: '2016-07-20T00:00:00.000Z',
+          endDate: '2016-12-25T00:00:00.000Z',
+          logos: {
+            small: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+            medium: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+            large: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png',
+            svg: 'https://cdn0.iconfinder.com/data/icons/70-basic-icons/100/write-128.png'
+          },
+          type: 'group',
+          id: 2,
+          workTypes: []
+        },
+        isClosed: false
+      }
     }
-  }];
+  ];
 
   it('should render activity rows containing posts, and a comment', () => {
     const component = (
@@ -268,7 +270,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
-      />);
+      />
+    );
 
     expect(wrapper.find('.p-detail--diploma')).to.have.lengthOf(2);
   });
@@ -300,7 +303,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
-      />);
+      />
+    );
 
     expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
   });
@@ -330,14 +334,15 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
-      />);
+      />
+    );
 
     expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
   });
 
   it('Should not render campaignDiplomaButtons when no reviews have been associated with a campaign', () => {
     const _reviews = assignToEmpty(reviews, {
-      userReviews: reviewsMock.map((review) => {
+      userReviews: reviewsMock.map(review => {
         review.campaign = null;
         return review;
       })
@@ -367,7 +372,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
-      />);
+      />
+    );
 
     expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
   });

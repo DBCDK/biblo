@@ -19,7 +19,8 @@ describe('Testing the ReviewRow component', () => {
   // Testing the getTitle method
   it('Title should be Henter data when no metadata is given', () => {
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.getTitle(), 'Henter data');
@@ -28,7 +29,8 @@ describe('Testing the ReviewRow component', () => {
   it('Title should be dcTitle when dcFullTitle is undefined', () => {
     const _metadata = {dcTitle: 'dcTitle'};
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     instance.props.metadata.dcTitle = 'dcTitle';
@@ -38,7 +40,8 @@ describe('Testing the ReviewRow component', () => {
   it('Title should be dcTitle - even if dcFullTitle is set', () => {
     const _metadata = {dcTitle: 'dcTitle', dcFullTitle: 'dcFullTitle'};
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     instance.props.metadata.dcTitle = 'dcTitle';
@@ -49,7 +52,8 @@ describe('Testing the ReviewRow component', () => {
   it('Should set title to dcFullTitle', () => {
     const _metadata = {dcFullTitle: 'dcFullTitle'};
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.getTitle(), 'dcFullTitle');
@@ -58,7 +62,8 @@ describe('Testing the ReviewRow component', () => {
   // Testing the getCoverUrl method
   it('Should return dummy cover url', () => {
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.getCoverUrl(), '/images/covers/other.png');
@@ -67,7 +72,8 @@ describe('Testing the ReviewRow component', () => {
   it('Should return the given cover url', () => {
     const _metadata = {coverUrl: 'some/cover/path.jpg'};
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.getCoverUrl(), 'some/cover/path.jpg');
@@ -76,7 +82,8 @@ describe('Testing the ReviewRow component', () => {
   it('Should return the given cover url', () => {
     const _metadata = {coverUrl: 'some/cover/path.jpg', workType: 'book'};
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.getCoverUrl(), 'some/cover/path.jpg');
@@ -85,7 +92,8 @@ describe('Testing the ReviewRow component', () => {
   it('Should return the URL for material cover when cover URL is missing', () => {
     const _metadata = {workType: 'book'};
     const tree = sd.shallowRender(
-      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />);
+      <ReviewRow review={review} metadata={_metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.getCoverUrl(), '/images/covers/book.png');
@@ -96,13 +104,13 @@ describe('Testing the ReviewRow component', () => {
     const _review = {id: 1};
     const _activeUser = {id: 1};
     const _likeActions = {
-      likeReview: () => {
-      }
+      likeReview: () => {}
     };
 
     const spy = sinon.spy(_likeActions, 'likeReview');
     const tree = sd.shallowRender(
-      <ReviewRow review={_review} metadata={metadata} activeUser={_activeUser} likeActions={_likeActions} />);
+      <ReviewRow review={_review} metadata={metadata} activeUser={_activeUser} likeActions={_likeActions} />
+    );
     const instance = tree.getMountedInstance();
 
     assert.equal(instance.state.likes.length, 0, 'Likes is empty');
@@ -117,13 +125,13 @@ describe('Testing the ReviewRow component', () => {
     const _review = {id: 1, rating: 5};
     const _activeUser = {id: 1};
     const _likeActions = {
-      unlikeReview: () => {
-      }
+      unlikeReview: () => {}
     };
 
     const spy = sinon.spy(_likeActions, 'unlikeReview');
     const tree = sd.shallowRender(
-      <ReviewRow review={_review} metadata={metadata} activeUser={_activeUser} likeActions={_likeActions} />);
+      <ReviewRow review={_review} metadata={metadata} activeUser={_activeUser} likeActions={_likeActions} />
+    );
     const instance = tree.getMountedInstance();
     instance.state.likes = [1];
 
@@ -139,12 +147,8 @@ describe('Testing the ReviewRow component', () => {
       content: 'review-test-content'
     };
     const tree = sd.shallowRender(
-      <ReviewRow
-        review={_review}
-        metadata={metadata}
-        activeUser={activeUser}
-        likeActions={likeActions}
-      />);
+      <ReviewRow review={_review} metadata={metadata} activeUser={activeUser} likeActions={likeActions} />
+    );
 
     const renderedContainer = tree.getRenderOutput();
 

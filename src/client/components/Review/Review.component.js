@@ -72,8 +72,7 @@ export default class Review extends UploadMedia {
     let pids;
     if (props.pids && props.length !== 0) {
       pids = props.pids;
-    }
-    else {
+    } else {
       pids = [props.pid];
     }
 
@@ -230,8 +229,7 @@ export default class Review extends UploadMedia {
         field: 'content',
         errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'
       });
-    }
-    else if (
+    } else if (
       (typeof this.state.content === 'undefined' || this.state.content === '') &&
       !(this.state.attachment && this.state.attachment.video)
     ) {
@@ -277,8 +275,7 @@ export default class Review extends UploadMedia {
         attachment: attachment,
         imageRemoveId: null
       });
-    }
-    else {
+    } else {
       this.setState({
         image: null,
         attachment: attachment,
@@ -304,8 +301,7 @@ export default class Review extends UploadMedia {
 
     if (this.validate() && XMLHttpRequest && FormData) {
       this.processContent();
-    }
-    else {
+    } else {
       this.setState({isLoading: false});
     }
 
@@ -319,13 +315,11 @@ export default class Review extends UploadMedia {
           if (response.errors && response.errors.length > 0) {
             this.setState({errorMsg: response.errors[0].errorMessage});
             reject(this.state);
-          }
-          else {
+          } else {
             if (this.props.ownReview) {
               // only show the one review
               this.props.reviewActions.asyncShowReview(response.data.id);
-            }
-            else {
+            } else {
               // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
               this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
             }
@@ -342,8 +336,7 @@ export default class Review extends UploadMedia {
           if (errorMsg === 'Eksisterende anmeldelse') {
             this.overwriteReview(resp.existingReviewId);
             resolve(this.state);
-          }
-          else {
+          } else {
             this.setState({errorMsg: errorMsg});
             reject(this.state);
           }
@@ -414,8 +407,7 @@ export default class Review extends UploadMedia {
     const flagFunction = () => {
       if (profile.userIsLoggedIn && this.state.id) {
         this.props.uiActions.openModalWindow(reviewFlagModalContent);
-      }
-      else {
+      } else {
         let dialog = (
           <div>
             <p>Du skal logge ind for at skrive til moderator</p>
@@ -499,19 +491,15 @@ export default class Review extends UploadMedia {
                   icon={<Icon glyph={pencilSvg} className="icon edit-post--button" />}
                 />
               )) || (
-                  <TinyButton
-                    clickFunction={flagFunction}
-                    icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
-                  />
-                )}
+                <TinyButton
+                  clickFunction={flagFunction}
+                  icon={<Icon glyph={flagSvg} className="icon flag-post--button" />}
+                />
+              )}
             </span>
           </div>
 
-          <Rating
-            pid={pid}
-            rating={rating}
-            onChange={this.state.isEditing ? this.onRatingChange.bind(this) : null}
-          />
+          <Rating pid={pid} rating={rating} onChange={this.state.isEditing ? this.onRatingChange.bind(this) : null} />
           {errorObj.rating || ''}
           {this.state.isEditing && errorObj.content}
           {(this.state.isEditing && (
@@ -597,13 +585,8 @@ export default class Review extends UploadMedia {
                       this.state.attachment.video.file &&
                       this.state.attachment.video.file.progress > 0 &&
                       this.state.attachment.video.file.progress < 100)) && (
-                      <input
-                        type="reset"
-                        className="button alert"
-                        onClick={this.onAbort.bind(this)}
-                        value="Fortryd"
-                      />
-                    )}
+                    <input type="reset" className="button alert" onClick={this.onAbort.bind(this)} value="Fortryd" />
+                  )}
                   {deleteButton}
 
                   <div className="review-add--media">
@@ -624,38 +607,37 @@ export default class Review extends UploadMedia {
                 onChange={event =>
                   this.readInput(event, attachment => this.setState({attachment: attachment}))
                     .then(attachment => this.setState({attachment: attachment}))
-                    .catch(errorMsg => this.setState({errorMsg: errorMsg}))}
+                    .catch(errorMsg => this.setState({errorMsg: errorMsg}))
+                }
                 ref={_fileInput => (this.fileInput = _fileInput)}
               />
             </div>
           )) || (
-              <div className="review--content-wrapper">
-                {
+            <div className="review--content-wrapper">
+              {
                 <p className="review--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.html)}} /> // eslint-disable-line
-                }
-                {(image || (this.state.attachment.image && this.state.attachment.image.data)) && (
-                  <div className="review--media">
-                    <a href={image && image.replace('medium', 'original')} target="_blank">
-                      <img src={this.state.attachment.image.data} alt="image for review" />
-                    </a>
-                  </div>
-                )}
-                {video && video.resolutions && video.resolutions.length
-                  ? getVideoPlayer(video, this.props.autoplayVideo)
-                  : null}
-                {
-                  videos.length >= 1 &&
-                  videos.map((embeddedVideo, index) => {
-                    return (
-                      <div key={index} className="review--video-container">
-                        {embeddedVideo}
-                      </div>
-                    );
-                  })
-                }
-                {likeButton}
-              </div>
-            )}
+              }
+              {(image || (this.state.attachment.image && this.state.attachment.image.data)) && (
+                <div className="review--media">
+                  <a href={image && image.replace('medium', 'original')} target="_blank">
+                    <img src={this.state.attachment.image.data} alt="image for review" />
+                  </a>
+                </div>
+              )}
+              {video && video.resolutions && video.resolutions.length
+                ? getVideoPlayer(video, this.props.autoplayVideo)
+                : null}
+              {videos.length >= 1 &&
+                videos.map((embeddedVideo, index) => {
+                  return (
+                    <div key={index} className="review--video-container">
+                      {embeddedVideo}
+                    </div>
+                  );
+                })}
+              {likeButton}
+            </div>
+          )}
         </div>
       </div>
     );

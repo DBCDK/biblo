@@ -12,13 +12,19 @@ export function getVideoPlayer(videoProp, autoplay = false) {
       }
 
       sources.push(
-        <source src={`https://s3-eu-west-1.amazonaws.com/${resolution.video.container}/${resolution.video.name}`} type={`${resolution.video.type}`} key={key}/>);
+        <source
+          src={`https://s3-eu-west-1.amazonaws.com/${resolution.video.container}/${resolution.video.name}`}
+          type={`${resolution.video.type}`}
+          key={key}
+        />
+      );
     }
   });
 
-  let posterUrl = sources.length > 0 && thumbUrl ?
-    `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}` :
-    '/video_behandler.png';
+  let posterUrl =
+    sources.length > 0 && thumbUrl
+      ? `https://s3-eu-west-1.amazonaws.com/uxdev-biblo-video-thumbnails/${thumbUrl}`
+      : '/video_behandler.png';
 
   return (
     <video controls autoPlay={autoplay} poster={posterUrl}>

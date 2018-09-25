@@ -108,8 +108,7 @@ export class CampaignCertificate extends Component {
           <img className="overlay" src="/images/video_thumbnail_overlay.png" />
         </div>
       );
-    }
-    else if (contribution.image) {
+    } else if (contribution.image) {
       content = <img src={contribution.image} />;
     }
 

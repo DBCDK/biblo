@@ -32,7 +32,8 @@ export function ConfigurationMiddleware(req, res, next) {
  * @param res
  * @param next
  */
-export function fullProfileOnSession(req, res, next) { // eslint-disable-line consistent-return
+export function fullProfileOnSession(req, res, next) {
+  // eslint-disable-line consistent-return
   if (!req.isAuthenticated()) {
     res.locals.profile = JSON.stringify({
       profile: {
@@ -66,27 +67,33 @@ export function fullProfileOnSession(req, res, next) { // eslint-disable-line co
     errors: []
   };
 
-  req.callServiceProvider('getFullProfile').then((result) => {
-    if (result && result[0] && result[0].body && result[0].statusCode === 200) {
-      req.session.passport.user.profile = {profile: Object.assign(result[0].body, {userIsLoggedIn: true}), errors: []};
-    }
+  req
+    .callServiceProvider('getFullProfile')
+    .then(result => {
+      if (result && result[0] && result[0].body && result[0].statusCode === 200) {
+        req.session.passport.user.profile = {
+          profile: Object.assign(result[0].body, {userIsLoggedIn: true}),
+          errors: []
+        };
+      }
 
-    if (
-      beforeProfile &&
-      beforeProfile.favoriteLibrary &&
-      beforeProfile.favoriteLibrary.libraryIsInvalid &&
-      beforeProfile.favoriteLibrary.libraryId === req.session.passport.user.profile.profile.favoriteLibrary.libraryId
-    ) {
-      req.session.passport.user.profile.profile.favoriteLibrary.libraryIsInvalid = true;
-    }
+      if (
+        beforeProfile &&
+        beforeProfile.favoriteLibrary &&
+        beforeProfile.favoriteLibrary.libraryIsInvalid &&
+        beforeProfile.favoriteLibrary.libraryId === req.session.passport.user.profile.profile.favoriteLibrary.libraryId
+      ) {
+        req.session.passport.user.profile.profile.favoriteLibrary.libraryIsInvalid = true;
+      }
 
-    res.locals.profile = JSON.stringify(req.session.passport.user.profile);
-    next();
-  }).catch((err) => {
-    req.session.passport.user.profile.errors.push(err);
-    res.locals.profile = JSON.stringify(req.session.passport.user.profile);
-    next();
-  });
+      res.locals.profile = JSON.stringify(req.session.passport.user.profile);
+      next();
+    })
+    .catch(err => {
+      req.session.passport.user.profile.errors.push(err);
+      res.locals.profile = JSON.stringify(req.session.passport.user.profile);
+      next();
+    });
 }
 
 /**
@@ -103,42 +110,33 @@ export function ensureProfileImage(req, res, next) {
   };
 
   if (req.isAuthenticated()) {
-    (new Promise((resolve) => {
-      if (
-        req.session.passport.user &&
-        req.session.passport.user.profile &&
-        req.session.passport.user.profile.profile
-      ) {
+    new Promise(resolve => {
+      if (req.session.passport.user && req.session.passport.user.profile && req.session.passport.user.profile.profile) {
         resolve(req.session.passport.user.profile.profile);
-      }
-      else {
+      } else {
         fullProfileOnSession(req, res, () => {
           resolve(req.session.passport.user.profile.profile);
         });
       }
-    })).then((profile) => {
-      if (
-        profile.image &&
-        profile.image.url &&
-        profile.image.url.small &&
-        profile.image.url.small.length > 0
-      ) {
-        image.url = req.session.passport.user.profile.profile.image.url.small;
-        image.shouldDisplay = true;
+    })
+      .then(profile => {
+        if (profile.image && profile.image.url && profile.image.url.small && profile.image.url.small.length > 0) {
+          image.url = req.session.passport.user.profile.profile.image.url.small;
+          image.shouldDisplay = true;
 
-        if (profile.userMessages && profile.userMessages.unreadMessages) {
-          image.unreadMessages = profile.userMessages.unreadMessages;
+          if (profile.userMessages && profile.userMessages.unreadMessages) {
+            image.unreadMessages = profile.userMessages.unreadMessages;
+          }
         }
-      }
 
-      res.locals.profileImage = JSON.stringify(image);
-      next();
-    }).catch(() => {
-      res.locals.profileImage = JSON.stringify(image);
-      next();
-    });
-  }
-  else {
+        res.locals.profileImage = JSON.stringify(image);
+        next();
+      })
+      .catch(() => {
+        res.locals.profileImage = JSON.stringify(image);
+        next();
+      });
+  } else {
     res.locals.profileImage = JSON.stringify(image);
     next();
   }
@@ -158,10 +156,9 @@ export function reduxStateMiddleware(req, res, next) {
     const profileReducer = req.session.passport.user.profile.profile;
     req.initialReduxState = Object.assign(
       init,
-      {profileReducer}// Overwrite profile state with actual profile.
+      {profileReducer} // Overwrite profile state with actual profile.
     );
-  }
-  catch (e) {
+  } catch (e) {
     req.initialReduxState = init;
   }
 
@@ -203,13 +200,10 @@ export async function GetMenus(req, res, next) {
     await getGlobalContent(req, globalContent => {
       req.writeToReduxStateTree('globalReducer', globalContent);
       res.locals.globalContent = JSON.stringify({globalContent});
-
     });
-  }
-  catch (e) {
+  } catch (e) {
     log.error('Retrieval of global content failed', e);
   }
 
   next();
 }
-

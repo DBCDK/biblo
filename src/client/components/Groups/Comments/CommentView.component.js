@@ -18,7 +18,6 @@ import flagSvg from '../../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
 
 export default class CommentView extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -63,8 +62,23 @@ export default class CommentView extends React.Component {
   }
 
   render() {
-    const {id, content, html, image, timeCreated, owner, profile, groupId, postId, submitFlagFunction, uiActions, groupActions, review, video} = this.props;
-    const deleteAction = this.props.deleteAction && this.deleteComment || false;
+    const {
+      id,
+      content,
+      html,
+      image,
+      timeCreated,
+      owner,
+      profile,
+      groupId,
+      postId,
+      submitFlagFunction,
+      uiActions,
+      groupActions,
+      review,
+      video
+    } = this.props;
+    const deleteAction = (this.props.deleteAction && this.deleteComment) || false;
     const commentFlagModalContent = (
       <CreateFlagDialog
         submitFunction={submitFlagFunction}
@@ -89,30 +103,31 @@ export default class CommentView extends React.Component {
     }
 
     return (
-      <div className='comment-wrapper' id={`comment_${this.props.id}`}>
-        <div className='comment-profile-image'>
+      <div className="comment-wrapper" id={`comment_${this.props.id}`}>
+        <div className="comment-profile-image">
           <a href={`/profil/${owner.id}`}>
-            <img className='profile-image' src={owner.image || null} alt={owner.displayName} />
+            <img className="profile-image" src={owner.image || null} alt={owner.displayName} />
           </a>
         </div>
-        <div className='comment'>
-          <div className='comment--header'>
+        <div className="comment">
+          <div className="comment--header">
             <a href={`/profil/${owner.id}`}>
-              <span className='username' dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
+              <span className="username" dangerouslySetInnerHTML={{__html: sanitizeHtml(owner.displayName)}} />
             </a>
-            <span className='time'>{this.state.isEditting && 'Retter nu' || TimeToString(timeCreated)}</span>
+            <span className="time">{(this.state.isEditting && 'Retter nu') || TimeToString(timeCreated)}</span>
           </div>
 
-          <div className='comment--actions'>
-            {(profile.id === owner.id || profile.isModerator) &&
-            <TinyButton active={this.state.isEditting} clickFunction={() => this.toggleEditting()}
-              icon={<Icon glyph={pencilSvg} className="icon edit-comment--button" />} />
-            ||
-            flagButton
-            }
+          <div className="comment--actions">
+            {((profile.id === owner.id || profile.isModerator) && (
+              <TinyButton
+                active={this.state.isEditting}
+                clickFunction={() => this.toggleEditting()}
+                icon={<Icon glyph={pencilSvg} className="icon edit-comment--button" />}
+              />
+            )) ||
+              flagButton}
           </div>
-          {
-            this.state.isEditting &&
+          {(this.state.isEditting && (
             <ContentAdd
               redirectTo={`/grupper/${groupId}`}
               profile={profile}
@@ -129,33 +144,29 @@ export default class CommentView extends React.Component {
               works={this.props.works}
               delete={deleteAction}
             />
-            ||
+          )) || (
             <div className="comment--content">
-
               <p className="comment--content--text" dangerouslySetInnerHTML={{__html: sanitizeHtml(html)}} />
 
               {review && this.renderReview(review)}
-              {
-                image &&
-                <div className='media'>
-                  <a href={image.replace('medium', 'original')} target="_blank"><img src={image} alt="image for post" /></a>
+              {image && (
+                <div className="media">
+                  <a href={image.replace('medium', 'original')} target="_blank">
+                    <img src={image} alt="image for post" />
+                  </a>
                 </div>
-              }
-              {
-                video && video.resolutions.length ? getVideoPlayer(this.props.video) : null
-              }
-              {
-                videos.length >= 1 &&
+              )}
+              {video && video.resolutions.length ? getVideoPlayer(this.props.video) : null}
+              {videos.length >= 1 &&
                 videos.map((embeddedVideo, index) => {
                   return (
                     <div key={index} className="comment--video-container">
                       {embeddedVideo}
                     </div>
                   );
-                })
-              }
+                })}
             </div>
-          }
+          )}
         </div>
       </div>
     );

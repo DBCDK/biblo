@@ -4,7 +4,6 @@
  */
 
 const HowRUOpenAgency = {
-
   event() {
     return 'howruOpenAgency';
   },

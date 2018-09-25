@@ -5,17 +5,8 @@ import Icon from '../General/Icon/Icon.component';
 
 export function NavBarIconLink(props) {
   return (
-    <a
-      className="navbar--link"
-      href={props.url}
-      onClick={(event) => props.onClick && props.onClick(event)}
-    >
-      <Icon
-        className={props.className}
-        width={35}
-        height={35}
-        glyph={props.glyph}
-      />
+    <a className="navbar--link" href={props.url} onClick={event => props.onClick && props.onClick(event)}>
+      <Icon className={props.className} width={35} height={35} glyph={props.glyph} />
     </a>
   );
 }

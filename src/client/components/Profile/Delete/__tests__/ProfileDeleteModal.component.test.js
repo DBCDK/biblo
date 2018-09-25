@@ -11,12 +11,7 @@ import {profileMock} from '../../../__mocks__/profile.mock';
 
 describe('Testing ProfileDeleteModal.component.js', () => {
   it('Show modal form', () => {
-    const wrapper = shallow(
-      <ProfileDeleteModalContainer
-        profile={profileMock}
-        onDelete={jest.fn()}
-      />
-    );
+    const wrapper = shallow(<ProfileDeleteModalContainer profile={profileMock} onDelete={jest.fn()} />);
     // Modal is closed
     expect(wrapper).toMatchSnapshot();
 

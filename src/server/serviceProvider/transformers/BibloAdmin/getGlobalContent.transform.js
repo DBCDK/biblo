@@ -3,7 +3,6 @@
  * Get content page from biblo admin
  */
 const getGlobalContentTransform = {
-
   /**
    * @return {string}
    */
@@ -23,7 +22,6 @@ const getGlobalContentTransform = {
 
   responseTransform(response) {
     if (response.statusCode === 200) {
-
       return JSON.parse(response.body).map(element => {
         return {
           title: element.link.title,

@@ -10,13 +10,7 @@ import {log} from 'dbc-node-logger';
  * @param {string} reviewId
  * @param AMAZON_CONFIG
  */
-export function createElasticTranscoderJob(ElasticTranscoder,
-  videoData,
-  postId,
-  commentId,
-  reviewId,
-  AMAZON_CONFIG
-) {
+export function createElasticTranscoderJob(ElasticTranscoder, videoData, postId, commentId, reviewId, AMAZON_CONFIG) {
   if (postId && typeof postId !== 'string') {
     postId = postId.toString();
   }
@@ -61,8 +55,7 @@ export function createElasticTranscoderJob(ElasticTranscoder,
   ElasticTranscoder.createJob(params, err => {
     if (err) {
       log.error('ElasticTranscoder job creation failed', {error: err, params: params});
-    }
-    else {
+    } else {
       log.info('ElasticTranscoder job was successfully created', {params: params});
     }
   });

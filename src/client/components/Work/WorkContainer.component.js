@@ -67,7 +67,6 @@ export class WorkContainer extends React.Component {
   }
 
   getEditText() {
-
     if (this.getOwnReviewId() && !this.state.reviewVisible) {
       return 'SE DIN ANMELDELSE';
     }
@@ -81,22 +80,18 @@ export class WorkContainer extends React.Component {
         if (this.getOwnReviewId()) {
           const reviewId = this.getOwnReviewId();
           window.location = '/anmeldelse/' + reviewId;
-        }
-        else {
-
+        } else {
           this.setState({
             reviewVisible: !this.state.reviewVisible
           });
         }
-      }
-      else {
+      } else {
         this.setState({
           reviewVisible: false,
           errorMessage: 'Du er i karantæne lige nu'
         });
       }
-    }
-    else {
+    } else {
       window.location = '/login?destination=' + encodeURIComponent(this.getCurrentLocation());
     }
   }
@@ -149,9 +144,8 @@ export class WorkContainer extends React.Component {
       };
     });
 
-    const linkToMaterial = Array.isArray(work.collection) && work.collection[0] ?
-      `/materiale/${work.collection[0]}` :
-      '';
+    const linkToMaterial =
+      Array.isArray(work.collection) && work.collection[0] ? `/materiale/${work.collection[0]}` : '';
 
     let isOwnReview = false;
     if (reviews.length > 0) {

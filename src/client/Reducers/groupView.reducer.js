@@ -34,7 +34,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
     case types.DELETE_POST: {
       let postsAfterDelete = [...state.posts];
       let postsCount = state.postsCount - 1;
-      postsAfterDelete = filter(postsAfterDelete, (post) => {
+      postsAfterDelete = filter(postsAfterDelete, post => {
         return action.postId !== post.id;
       });
       return assignToEmpty(state, {posts: postsAfterDelete, postsCount: postsCount});
@@ -76,14 +76,14 @@ export default function groupViewReducer(state = initialState, action = {}) {
     }
 
     case types.GROUP_EDIT_POST: {
-      posts = state.posts.map(post => (post.id === action.post.id) && action.post || post);
+      posts = state.posts.map(post => (post.id === action.post.id && action.post) || post);
       return assignToEmpty(state, {posts});
     }
 
     case types.GROUP_EDIT_COMMENT: {
       posts = state.posts.map(post => {
         if (post.id === action.comment.postid) {
-          post.comments = post.comments.map(comment => (comment.id === action.comment.id) && action.comment || comment);
+          post.comments = post.comments.map(comment => (comment.id === action.comment.id && action.comment) || comment);
         }
         return post;
       });
@@ -147,8 +147,8 @@ export default function groupViewReducer(state = initialState, action = {}) {
         if (post.id === action.postId) {
           const isAlreadyLikedByUser = includes(post.likes, action.profileId);
           if (isAlreadyLikedByUser) {
-            post.likes = filter(post.likes, (id) => {
-              return (id !== action.profileId);
+            post.likes = filter(post.likes, id => {
+              return id !== action.profileId;
             });
           }
         }
@@ -160,7 +160,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
     case types.LOAD_METADATA_FOR_REVIEW_FROM_PID: {
       let newState = assignToEmpty(state, {});
 
-      (action.work.data || []).forEach((workData) => {
+      (action.work.data || []).forEach(workData => {
         if (!workData || !workData.dcTitleFull) {
           return;
         }
@@ -170,7 +170,7 @@ export default function groupViewReducer(state = initialState, action = {}) {
           title: Array.isArray(workData.dcTitleFull) ? workData.dcTitleFull[0] : workData.dcTitleFull
         };
 
-        workData.collection.forEach((pid) => {
+        workData.collection.forEach(pid => {
           newState.works[pid] = newState.works[pid] ? newState.works[pid] : workObject;
         });
       });
@@ -184,9 +184,8 @@ export default function groupViewReducer(state = initialState, action = {}) {
 
       if (action.post && action.post.id) {
         if (postIds.indexOf(action.post.id) >= 0) {
-          newState.posts = newState.posts.map((post) => post.id === action.post.id ? action.post : post);
-        }
-        else {
+          newState.posts = newState.posts.map(post => (post.id === action.post.id ? action.post : post));
+        } else {
           newState.posts.unshift(action.post);
         }
       }
@@ -196,11 +195,10 @@ export default function groupViewReducer(state = initialState, action = {}) {
         if (postIndex >= 0) {
           let commentIds = (newState.posts[postIndex].comments || []).map(comment => comment.id);
           if (commentIds.indexOf(action.comment.id) >= 0) {
-            newState.posts[postIndex].comments = (newState.posts[postIndex].comments || []).map(comment => comment.id === action.comment.id ?
-              action.comment :
-              comment);
-          }
-          else {
+            newState.posts[postIndex].comments = (newState.posts[postIndex].comments || []).map(
+              comment => (comment.id === action.comment.id ? action.comment : comment)
+            );
+          } else {
             newState.posts[postIndex].comments.unshift(action.comment);
           }
         }

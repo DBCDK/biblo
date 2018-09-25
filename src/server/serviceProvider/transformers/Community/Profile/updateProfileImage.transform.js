@@ -1,7 +1,6 @@
 import {quarantinedMiddleware} from '../middlewares/auth.middlewares';
 
 const UpdateProfileImageTransform = {
-
   event() {
     return 'updateProfileImage';
   },

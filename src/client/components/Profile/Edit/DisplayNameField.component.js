@@ -28,7 +28,14 @@ function onChange(onChangeFunc, checkDisplayNameFunction, e) {
  * @param {string} value
  * @return {*}
  */
-export default function DisplayNameField({errors, onChangeFunc, checkDisplayNameFunction, displayNameExists, value, renderFieldExplanation}) {
+export default function DisplayNameField({
+  errors,
+  onChangeFunc,
+  checkDisplayNameFunction,
+  displayNameExists,
+  value,
+  renderFieldExplanation
+}) {
   return (
     <div className="display-name--form-area ">
       <div className="inputFieldTextContainer">
@@ -38,7 +45,6 @@ export default function DisplayNameField({errors, onChangeFunc, checkDisplayName
         {renderFieldExplanation ? renderFieldExplanation : ''}
       </div>
       <label>
-
         <input
           className={displayNameExists ? 'error' : ''}
           id={'profile-displayname-input'}
@@ -50,7 +56,13 @@ export default function DisplayNameField({errors, onChangeFunc, checkDisplayName
           onBlur={onChange.bind(null, onChangeFunc, checkDisplayNameFunction)}
         />
         {errors.displayname || ''}
-        {displayNameExists ? <Message type="error"><span>Brugernavnet er optaget!</span></Message> : ''}
+        {displayNameExists ? (
+          <Message type="error">
+            <span>Brugernavnet er optaget!</span>
+          </Message>
+        ) : (
+          ''
+        )}
       </label>
     </div>
   );
@@ -65,7 +77,6 @@ DisplayNameField.propTypes = {
   displayNameExists: PropTypes.bool,
   value: PropTypes.string.isRequired,
   renderFieldExplanation: PropTypes.element
-
 };
 
 DisplayNameField.defaultProps = {

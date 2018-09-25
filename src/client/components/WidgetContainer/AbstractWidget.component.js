@@ -9,13 +9,16 @@ import PropTypes from 'prop-types';
  * @Class: AbstractWidget
  * This class defines a few helper methods on top of React.Component to aid widgets.
  */
-export class AbstractWidget extends Component { // eslint-disable-line react/require-render-return
+// eslint-disable-next-line react/require-render-return
+export class AbstractWidget extends Component {
   constructor(props) {
     super(props);
 
     // No props passed to super. Throw error to notify.
     if (!props) {
-      throw new Error('No props declared! Did you remember to call super(props); ?');
+      throw new Error(
+        'No props declared! Did you remember to call super(props); ?'
+      );
     }
 
     // Could not find widgetActions. This should only happen if the component is initialized outside widget context.
@@ -26,7 +29,9 @@ export class AbstractWidget extends Component { // eslint-disable-line react/req
     // Could not find method callServiceProvider!
     // This means we are not dealing with widgetAction, most likely an incomplete mock.
     if (!props.widgetActions.callServiceProvider) {
-      throw new Error('Could not find callServiceProvider in widgetActions, invalid widget initialization!');
+      throw new Error(
+        'Could not find callServiceProvider in widgetActions, invalid widget initialization!'
+      );
     }
   }
 
@@ -44,7 +49,9 @@ export class AbstractWidget extends Component { // eslint-disable-line react/req
 
   render() {
     // This is an abstract component, not for rendering!
-    throw new Error('Child class missing render function or calling super from render!');
+    throw new Error(
+      'Child class missing render function or calling super from render!'
+    );
   }
 }
 

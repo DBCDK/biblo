@@ -9,10 +9,22 @@ import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 import './ReviewList.scss';
 
 export default function ReviewList({
-  totalCount, reviews, profile, uiActions, reviewActions, flagActions,
-  highlightedReview, likeActions, expand, delta, pids, skip, limit, isLoading, ownReview
+  totalCount,
+  reviews,
+  profile,
+  uiActions,
+  reviewActions,
+  flagActions,
+  highlightedReview,
+  likeActions,
+  expand,
+  delta,
+  pids,
+  skip,
+  limit,
+  isLoading,
+  ownReview
 }) {
-
   let hasMore = false;
   if (totalCount > reviews.length) {
     hasMore = true;
@@ -21,9 +33,12 @@ export default function ReviewList({
   let expandButton;
   if (hasMore && expand) {
     expandButton = (
-      <ExpandButton className="reviews-showmore" text="VIS FLERE"
+      <ExpandButton
+        className="reviews-showmore"
+        text="VIS FLERE"
         isLoading={isLoading}
-        onClick={() => expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))} />
+        onClick={() => expand(pids, skip, parseInt(limit, 10) + parseInt(delta, 10))}
+      />
     );
   }
 
@@ -45,16 +60,19 @@ export default function ReviewList({
   if (highlightedReview.id) {
     if (totalCount > 1) {
       reviewsCountText = `Se de ${totalCount} andre anmeldelser`;
-    }
-    else if (totalCount === 1) {
+    } else if (totalCount === 1) {
       reviewsCountText = 'Se den anden anmeldelse';
     }
 
     highlightSection = (
       <div className="highlight-section">
         <h2 className="review-list--header">
-          <div className="reviewsCount">Anmeldelse af&nbsp;
-          <span className={'emoji-container'} dangerouslySetInnerHTML={{__html: sanitizeHtml(highlightedReview.owner.displayName)}} />
+          <div className="reviewsCount">
+            Anmeldelse af&nbsp;
+            <span
+              className={'emoji-container'}
+              dangerouslySetInnerHTML={{__html: sanitizeHtml(highlightedReview.owner.displayName)}}
+            />
           </div>
         </h2>
         <Review
@@ -74,33 +92,33 @@ export default function ReviewList({
   }
 
   return (
-    <div className='review-list'>
+    <div className="review-list">
       {highlightSection}
 
       <h2 className="review-list--header">
-        <div className='reviewsCount'>{reviewsCountText}</div>
+        <div className="reviewsCount">{reviewsCountText}</div>
       </h2>
-      {
-        reviews
-        && reviews.map((item) => (<Review
-          key={item.id} {...item}
-          profile={profile}
-          likes={item.likes}
-          uiActions={uiActions}
-          reviewActions={reviewActions}
-          flagActions={flagActions}
-          likeActions={likeActions}
-          pids={pids}
-          ownReview={ownReview}
-          autoplayVideo={autoplayVideo}
-        />))
-        || 'Der er ikke skrevet nogen anmeldelser'
-      }
+      {(reviews &&
+        reviews.map(item => (
+          <Review
+            key={item.id}
+            {...item}
+            profile={profile}
+            likes={item.likes}
+            uiActions={uiActions}
+            reviewActions={reviewActions}
+            flagActions={flagActions}
+            likeActions={likeActions}
+            pids={pids}
+            ownReview={ownReview}
+            autoplayVideo={autoplayVideo}
+          />
+        ))) ||
+        'Der er ikke skrevet nogen anmeldelser'}
 
-      <div className="reviews--showmore-container">
-        {expandButton}
-      </div>
-    </div>);
+      <div className="reviews--showmore-container">{expandButton}</div>
+    </div>
+  );
 }
 
 ReviewList.propTypes = {

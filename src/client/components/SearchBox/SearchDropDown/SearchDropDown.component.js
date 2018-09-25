@@ -9,7 +9,7 @@ export class SearchDropDown extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return (JSON.stringify(nextProps) !== JSON.stringify(this.props));
+    return JSON.stringify(nextProps) !== JSON.stringify(this.props);
   }
 
   render() {
@@ -36,25 +36,24 @@ export class SearchDropDown extends React.Component {
 
     return (
       <div className="search-area--dropdown" style={{display: this.props.visible ? 'block' : 'none'}}>
-        <ul className="searcharea--dropdown--list">
-          {elements}
-        </ul>
+        <ul className="searcharea--dropdown--list">{elements}</ul>
       </div>
     );
   }
-
 }
 
 SearchDropDown.displayName = 'SearchDropDown';
 SearchDropDown.propTypes = {
   visible: PropTypes.bool,
   selected: PropTypes.number,
-  elements: (props, propName) => { // eslint-disable-line consistent-return
+  elements: (props, propName) => {
+    // eslint-disable-line consistent-return
     const prop = props[propName];
     if (!Array.isArray(prop)) {
       return new Error('Elements must be an array!');
     }
-    prop.forEach((element) => { // eslint-disable-line consistent-return
+    prop.forEach(element => {
+      // eslint-disable-line consistent-return
       if (!element.text) {
         return new Error('Each element must contain text!');
       }

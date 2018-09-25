@@ -5,7 +5,6 @@ import {Provider} from '../Provider.js';
 import {expect, assert} from 'chai';
 
 describe('Testing methods on the Provider', () => {
-
   it('assert methods are accessible', () => {
     assert.isNotNull(Provider);
     assert.isFunction(Provider);
@@ -25,8 +24,7 @@ describe('Testing methods on the Provider', () => {
       },
       requestTransform: true,
       responseTransform: true,
-      someMethod() {
-      }
+      someMethod() {}
     };
     expect(provider.registerTransform(test)).to.have.keys([
       'callServiceClient',
@@ -62,7 +60,7 @@ describe('Testing methods on the Provider', () => {
       expect(() => provider.trigger('testEvent', {test: 'testEvent is triggered'})).to.throw(Error);
     });
 
-    it('Triggers an event', (done) => {
+    it('Triggers an event', done => {
       provider.registerTransform({
         event() {
           return 'testEvent';
@@ -76,10 +74,12 @@ describe('Testing methods on the Provider', () => {
       });
       let trigger = provider.trigger('testEvent', {test: 'testEvent is triggered'});
       expect(trigger).to.have.length(1);
-      trigger[0].then((result) => {
-        expect(result).to.be.equal('testEvent is triggered');
-        done();
-      }).catch(err => done(err));
+      trigger[0]
+        .then(result => {
+          expect(result).to.be.equal('testEvent is triggered');
+          done();
+        })
+        .catch(err => done(err));
     });
   });
 
@@ -110,19 +110,21 @@ describe('Testing methods on the Provider', () => {
     provider.registerTransform(testTransform);
 
     it('should call method on client', () => {
-
-      provider.trigger('testCallClientEvent', 'testGoodMethod')[0].then((value) => {
+      provider.trigger('testCallClientEvent', 'testGoodMethod')[0].then(value => {
         expect(value).to.be.equal(assertString);
       });
     });
 
-    it('should catch error', (done) => {
-      provider.trigger('testCallClientEvent', 'testBadMethod')[0].then(() => {
-        done(new Error('Promise should fail'));
-      }).catch((value) => {
-        expect(value).to.be.equal(assertString);
-        done();
-      });
+    it('should catch error', done => {
+      provider
+        .trigger('testCallClientEvent', 'testBadMethod')[0]
+        .then(() => {
+          done(new Error('Promise should fail'));
+        })
+        .catch(value => {
+          expect(value).to.be.equal(assertString);
+          done();
+        });
     });
   });
 });

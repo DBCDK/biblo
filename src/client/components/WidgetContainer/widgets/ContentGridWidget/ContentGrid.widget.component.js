@@ -14,9 +14,7 @@ export class ContentGridWidget extends Component {
   }
 
   render() {
-    return (
-      <ContentGrid items={this.props.widgetConfig.items} />
-    );
+    return <ContentGrid items={this.props.widgetConfig.items} />;
   }
 }
 

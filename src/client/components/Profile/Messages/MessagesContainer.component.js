@@ -45,7 +45,7 @@ export default class MessagesContainer extends React.Component {
       );
     });
 
-    return (renderedMessages.length ? renderedMessages : 'Du har ingen beskeder');
+    return renderedMessages.length ? renderedMessages : 'Du har ingen beskeder';
   }
 
   onClickShowMore() {
@@ -54,11 +54,13 @@ export default class MessagesContainer extends React.Component {
   }
 
   render() {
-    const showMoreButton = this.props.messages.length > this.state.limit ?
-      <VisFlereButton onClick={this.onClickShowMore.bind(this)} /> : null;
+    const showMoreButton =
+      this.props.messages.length > this.state.limit ? (
+        <VisFlereButton onClick={this.onClickShowMore.bind(this)} />
+      ) : null;
 
     return (
-      <div className="p-detail--messages-container" >
+      <div className="p-detail--messages-container">
         {this.getMessages()}
         {showMoreButton}
       </div>

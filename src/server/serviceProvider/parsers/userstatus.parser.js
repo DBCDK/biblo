@@ -89,8 +89,7 @@ export function parseGetUserStatusResponse(response) {
           const pickupExpires = new Date(order.pickupExpires).getTime();
 
           order.ready = !!(now - pickupDate > 0 && pickupExpires - now > 0);
-        }
-        else if (orderStatus.toLowerCase() === 'available for pickup') {
+        } else if (orderStatus.toLowerCase() === 'available for pickup') {
           order.ready = true;
         }
 
@@ -129,8 +128,7 @@ export function parseGetUserStatusResponse(response) {
           try {
             const dueDate = new Date(loan.dateDue);
             loan.expiresSoon = dueDate.getTime() - 172800000 <= now;
-          }
-          catch (err) {
+          } catch (err) {
             data.errors.push('could not parse date.');
           }
         }
@@ -170,8 +168,7 @@ export function parseGetUserStatusResponse(response) {
         data.result.fiscal.transactions.push(bill);
       });
     }
-  }
-  catch (err) {
+  } catch (err) {
     data.errors.push(err.message || err);
   }
 

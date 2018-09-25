@@ -6,7 +6,6 @@ import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import './scss/group-list.scss';
 
 export default class GroupList extends React.Component {
-
   constructor(props) {
     super(props);
   }
@@ -27,7 +26,7 @@ export default class GroupList extends React.Component {
           className="group-showmore"
           text="Vis flere"
           isLoading={isLoading}
-          onClick={()=> expand(skip, parseInt(limit, 10) + parseInt(delta, 10))}
+          onClick={() => expand(skip, parseInt(limit, 10) + parseInt(delta, 10))}
         />
       );
     }
@@ -35,19 +34,11 @@ export default class GroupList extends React.Component {
     return (
       <div>
         <h2>{title}</h2>
-        <hr/>
+        <hr />
         <div className="group--list">
-          {
-            groups && groups.map((item) => (
-              <GroupViewTile key={item.id} group={item} followers={true}/>
-            ))
-          }
-          <div className="group--showmore">
-            {expandButton}
-          </div>
-
+          {groups && groups.map(item => <GroupViewTile key={item.id} group={item} followers={true} />)}
+          <div className="group--showmore">{expandButton}</div>
         </div>
-
       </div>
     );
   }

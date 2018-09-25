@@ -31,12 +31,10 @@ export class ReviewButton extends React.Component {
     if (this.props.profile.userIsLoggedIn || !this.props.loginRequired) {
       if (!userHasSelectedFavouriteLibrary(this.props.profile) && this.props.loginRequired) {
         this.setState({displayLibrarySelectModal: true});
-      }
-      else {
+      } else {
         this.props.clickFunction();
       }
-    }
-    else {
+    } else {
       this.setState({
         loginPending: true
       });
@@ -45,26 +43,29 @@ export class ReviewButton extends React.Component {
 
   render() {
     if (this.state.loginPending) {
-      return (<Login>Log ind for at skrive en anmeldelse</Login>);
+      return <Login>Log ind for at skrive en anmeldelse</Login>;
     }
 
     const editText = this.props.editText;
-    const icon = this.props.glyph ? (<Icon glyph={this.props.glyph} />) : (<span />);
+    const icon = this.props.glyph ? <Icon glyph={this.props.glyph} /> : <span />;
 
-    const modal = this.state.displayLibrarySelectModal ? <ProfileLibraryInfoModalContainer
-      onModalCloseClicked={() => this.setState({displayLibrarySelectModal: false})}
-      title={'Du skal udfylde din lånerinformation for at kunne anmelde materialer'}
-      onProfileSaved={() => {
-        this.setState({displayLibrarySelectModal: false});
-        this.props.clickFunction();
-      }}
-    /> : null;
+    const modal = this.state.displayLibrarySelectModal ? (
+      <ProfileLibraryInfoModalContainer
+        onModalCloseClicked={() => this.setState({displayLibrarySelectModal: false})}
+        title={'Du skal udfylde din lånerinformation for at kunne anmelde materialer'}
+        onProfileSaved={() => {
+          this.setState({displayLibrarySelectModal: false});
+          this.props.clickFunction();
+        }}
+      />
+    ) : null;
 
     return (
       <React.Fragment>
         <a className="review-button" onClick={this.handleClick.bind(this)}>
           <span>
-            {icon}{editText}
+            {icon}
+            {editText}
           </span>
         </a>
         {modal}

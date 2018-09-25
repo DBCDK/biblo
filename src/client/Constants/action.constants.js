@@ -6,7 +6,6 @@
  * export const YOUR_ACTION_CONSTANT = 'YOUR_ACTION_CONSTANT';
  */
 
-
 // Actions that go across reducers
 export const callServiceProvider = 'callServiceProvider';
 

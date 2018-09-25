@@ -13,23 +13,48 @@ describe('Unittesting methods in WorkDetail.component', () => {
   let instance = null;
   let wrapper = null;
 
-  const collectionDetails = [{
-    accessType: ['physical'], creator: ['Mette Finderup'], pid: ['870970-basis:29145253'], language: ['Dansk'],
-    title: ['Emmy - konfirmationshys?'], titleFull: ['Emmy - konfirmationshys? : hvem, mig?'], type: ['Bog'],
-    workType: ['book']
-  }, {
-    accessType: ['online'], creator: ['Mette Finderup'], pid: ['870970-basis:29384622'], language: ['Dansk'],
-    title: ['Emmy - konfirmationshys?'], titleFull: ['Emmy - konfirmationshys? : hvem, mig???'], type: ['Ebog'],
-    workType: ['book']
-  }, {
-    accessType: ['physical'], creator: ['Mette Finderup'], pid: ['870970-basis:29714746'], language: ['Dansk'],
-    title: ['Emmy - konfirmationshys?'], titleFull: ['Emmy - konfirmationshys? : hvem, mig???'],
-    type: ['Lydbog (cd-mp3)'], workType: ['audiobook']
-  }, {
-    accessType: ['online'], creator: ['Mette Finderup'], pid: ['870970-basis:29566097'], language: ['Dansk'],
-    title: ['Emmy - konfirmationshys?'], titleFull: ['Emmy - konfirmationshys? : hvem, mig???'], type: ['Lydbog (net)'],
-    workType: ['audiobook']
-  }];
+  const collectionDetails = [
+    {
+      accessType: ['physical'],
+      creator: ['Mette Finderup'],
+      pid: ['870970-basis:29145253'],
+      language: ['Dansk'],
+      title: ['Emmy - konfirmationshys?'],
+      titleFull: ['Emmy - konfirmationshys? : hvem, mig?'],
+      type: ['Bog'],
+      workType: ['book']
+    },
+    {
+      accessType: ['online'],
+      creator: ['Mette Finderup'],
+      pid: ['870970-basis:29384622'],
+      language: ['Dansk'],
+      title: ['Emmy - konfirmationshys?'],
+      titleFull: ['Emmy - konfirmationshys? : hvem, mig???'],
+      type: ['Ebog'],
+      workType: ['book']
+    },
+    {
+      accessType: ['physical'],
+      creator: ['Mette Finderup'],
+      pid: ['870970-basis:29714746'],
+      language: ['Dansk'],
+      title: ['Emmy - konfirmationshys?'],
+      titleFull: ['Emmy - konfirmationshys? : hvem, mig???'],
+      type: ['Lydbog (cd-mp3)'],
+      workType: ['audiobook']
+    },
+    {
+      accessType: ['online'],
+      creator: ['Mette Finderup'],
+      pid: ['870970-basis:29566097'],
+      language: ['Dansk'],
+      title: ['Emmy - konfirmationshys?'],
+      titleFull: ['Emmy - konfirmationshys? : hvem, mig???'],
+      type: ['Lydbog (net)'],
+      workType: ['audiobook']
+    }
+  ];
 
   beforeEach(() => {
     wrapper = shallow(

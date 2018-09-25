@@ -44,11 +44,7 @@ export default class GroupForm extends React.Component {
   }
 
   componentDidMount() {
-    this.refGroupForm.onsubmit = (e) => this.props.submit(
-      e,
-      this.state.groupName,
-      this.groupDescriptionArea.value
-    );
+    this.refGroupForm.onsubmit = e => this.props.submit(e, this.state.groupName, this.groupDescriptionArea.value);
   }
 
   groupNameChange(ev) {
@@ -59,9 +55,9 @@ export default class GroupForm extends React.Component {
 
   render() {
     const errorObj = {};
-    this.state.errors.forEach((error) => {
+    this.state.errors.forEach(error => {
       errorObj[error.field] = (
-        <Message type='error'>
+        <Message type="error">
           <span className={error.field}>{error.errorMessage}</span>
         </Message>
       );
@@ -73,18 +69,25 @@ export default class GroupForm extends React.Component {
     if (this.props.submitState === 'SUBMITTING') {
       disabled = true;
       submitArea = <ProgressBar completed={this.props.submitProgress} height={'35px'} />;
-    }
-    else if (this.props.submitState === 'UPLOAD_COMPLETE') {
+    } else if (this.props.submitState === 'UPLOAD_COMPLETE') {
       disabled = true;
-      submitArea = (<ProgressBar completed={this.props.submitProgress} height={'35px'}>
-        <p className="progressbar--message">Behandler</p></ProgressBar>);
+      submitArea = (
+        <ProgressBar completed={this.props.submitProgress} height={'35px'}>
+          <p className="progressbar--message">Behandler</p>
+        </ProgressBar>
+      );
     }
 
     return (
-      <div className={'group-form' + (this.props.errors.length > 0 && ' shakeit' || '')}>
-        <form method="POST" encType="multipart/form-data" id="group_form_component" ref={groupForm => {
-          this.refGroupForm = groupForm;
-        }}>
+      <div className={'group-form' + ((this.props.errors.length > 0 && ' shakeit') || '')}>
+        <form
+          method="POST"
+          encType="multipart/form-data"
+          id="group_form_component"
+          ref={groupForm => {
+            this.refGroupForm = groupForm;
+          }}
+        >
           <div className={'group-image-upload'}>
             <DroppableImageField
               disabled={disabled}
@@ -96,7 +99,10 @@ export default class GroupForm extends React.Component {
           </div>
 
           <div className={'group-name-field'}>
-            <label htmlFor="group-name-input-field"><strong>Gruppens navn</strong></label><br />
+            <label htmlFor="group-name-input-field">
+              <strong>Gruppens navn</strong>
+            </label>
+            <br />
             <input
               disabled={disabled}
               id="group-name-input-field"
@@ -112,7 +118,10 @@ export default class GroupForm extends React.Component {
           <br />
 
           <div className={'group-description-field'}>
-            <label htmlFor="group-description-area"><strong>Beskrivelse af gruppen</strong></label><br />
+            <label htmlFor="group-description-area">
+              <strong>Beskrivelse af gruppen</strong>
+            </label>
+            <br />
             <textarea
               className="group-description--text-area"
               disabled={disabled}
@@ -130,9 +139,7 @@ export default class GroupForm extends React.Component {
           </div>
 
           {errorObj.general || ''}
-          <div className={'group-form-submit-button'}>
-            {submitArea}
-          </div>
+          <div className={'group-form-submit-button'}>{submitArea}</div>
           {this.props.moderation}
         </form>
       </div>

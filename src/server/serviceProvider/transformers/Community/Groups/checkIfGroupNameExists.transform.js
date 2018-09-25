@@ -17,8 +17,7 @@ const checkIfGroupNameExistsTransform = {
     try {
       data.statusCode = response.statusCode;
       data.exists = JSON.parse(response.body).count > 0;
-    }
-    catch (err) {
+    } catch (err) {
       data.statusCode = 500;
       data.errors.push('Error in response from community service');
     }

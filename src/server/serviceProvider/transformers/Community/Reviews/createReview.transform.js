@@ -29,8 +29,7 @@ const CreateReviewTransform = {
             }
             reject(`Could not upsert, ${query.reviewownerid} does not own review ${query.id}`);
           });
-        }
-        else {
+        } else {
           resolve();
         }
       }).then(() => {

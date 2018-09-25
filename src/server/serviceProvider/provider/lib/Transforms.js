@@ -68,33 +68,32 @@ export default function Transform(transform, clients) {
     const requestStart = now();
     const event = transform.event();
     const request = transform.requestTransform(event, params, context);
-    const requests = isArray(request) && request || [request];
-    return requests.map((requestPromise) => {
-      return requestPromise
-        .then((response) => {
-          const transformedResponse = transform.responseTransform(response, params, context);
-          const requestStop = now();
-          log.info('Transform has been triggered', {
-            event: event,
-            timing: requestStop - requestStart,
-            params: params
-            /* Do not log `response` objects
+    const requests = (isArray(request) && request) || [request];
+    return requests.map(requestPromise => {
+      return requestPromise.then(response => {
+        const transformedResponse = transform.responseTransform(response, params, context);
+        const requestStop = now();
+        log.info('Transform has been triggered', {
+          event: event,
+          timing: requestStop - requestStart,
+          params: params
+          /* Do not log `response` objects
              * as these sometimes include large data,
              * - especially with mobilsoeg-profile transforms -
              * which has a bad performance impact
              * when the logger tries to serialise it.
              * However, they can be a nice supplement to use when debugging locally
              */
-            // serviceReponse: response,
-            // finalResponse: transformedResponse
-          });
-          return transformedResponse;
+          // serviceReponse: response,
+          // finalResponse: transformedResponse
         });
+        return transformedResponse;
+      });
     });
   };
 
   transform.invalidateCache = function invalidateCache(arg) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       try {
         manager.keys(arg, (keysErr, rows) => {
           if (keysErr) {
@@ -102,19 +101,17 @@ export default function Transform(transform, clients) {
           }
 
           if (rows && rows.length) {
-            manager.del(rows, (delErr) => {
+            manager.del(rows, delErr => {
               if (delErr) {
                 console.error('error while deleting keys from cachestore', delErr); // eslint-disable-line no-console
               }
               resolve();
             });
-          }
-          else {
+          } else {
             resolve();
           }
         });
-      }
-      catch (e) {
+      } catch (e) {
         log.error(e);
         resolve();
       }

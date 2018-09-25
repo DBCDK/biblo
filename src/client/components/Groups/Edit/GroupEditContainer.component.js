@@ -15,7 +15,6 @@ import * as uiActions from '../../../Actions/ui.actions';
 import './groupeditcontainer.component.scss';
 
 export class GroupEditContainer extends React.Component {
-
   groupFormSubmit(event, name, description) {
     const actions = this.props.actions;
     const group = this.props.group;
@@ -28,19 +27,14 @@ export class GroupEditContainer extends React.Component {
       group.UI.submitState !== 'UPLOAD_CANCELED'
     ) {
       event.preventDefault();
-      actions.asyncSubmitGroupEditForm(
-        group.imageFile,
-        name,
-        description
-      );
+      actions.asyncSubmitGroupEditForm(group.imageFile, name, description);
     }
   }
 
   closeModal() {
     if (this.props.group.moderation.success) {
       window.location = `/grupper/${this.props.group.id}`;
-    }
-    else {
+    } else {
       this.props.uiActions.closeModalWindow();
     }
   }
@@ -91,29 +85,32 @@ export class GroupEditContainer extends React.Component {
       <ModalWindow onClose={close} title={title}>
         <div className={`group-moderation ${type}`}>
           <div className="group-moderation--image">
-            <img className="coverimage" src={this.props.group.image} alt={this.props.group.name}/>
+            <img className="coverimage" src={this.props.group.image} alt={this.props.group.name} />
           </div>
-          {(this.props.group.moderation.success) &&
-          <div className="group-moderation--done">
-            <h3>{texts.done}</h3>
-            <a className="group-moderation--done--button" href="#" onClick={close}>OK</a>
-          </div> ||
-          <div>
-            <h3 className="group-moderation--text">{texts.confirm}</h3>
-            <div className="group-moderation--title">{this.props.group.name}</div>
-            {this.props.group.moderation.error &&
-            <div className="message error shakeit">
-              {texts.error}
+          {(this.props.group.moderation.success && (
+            <div className="group-moderation--done">
+              <h3>{texts.done}</h3>
+              <a className="group-moderation--done--button" href="#" onClick={close}>
+                OK
+              </a>
             </div>
-            ||
+          )) || (
             <div>
-              <a className="group-moderation--cancel" href="#" onClick={close}>Fortryd</a>
-              <a className="group-moderation--confirm" href="#"
-                onClick={action}>{texts.button}</a>
+              <h3 className="group-moderation--text">{texts.confirm}</h3>
+              <div className="group-moderation--title">{this.props.group.name}</div>
+              {(this.props.group.moderation.error && <div className="message error shakeit">{texts.error}</div>) || (
+                <div>
+                  <a className="group-moderation--cancel" href="#" onClick={close}>
+                    Fortryd
+                  </a>
+                  <a className="group-moderation--confirm" href="#" onClick={action}>
+                    {texts.button}
+                  </a>
+                </div>
+              )}
             </div>
-            }
-          </div>
-          }</div>
+          )}
+        </div>
       </ModalWindow>
     );
   }
@@ -122,19 +119,30 @@ export class GroupEditContainer extends React.Component {
     const action = this.props.uiActions.openModalWindow.bind(this);
     return (
       <div className="group-form--moderation">
-        <a href="#delete" onClick={ () => action('delete') }>Slet gruppen</a>
-        {this.props.group.timeClosed &&
-        <a href="#close" onClick={() => action('open')}>Åben gruppe</a> ||
-        <a href="#close" onClick={() => action('close')}>luk gruppe</a>
-        }
+        <a href="#delete" onClick={() => action('delete')}>
+          Slet gruppen
+        </a>
+        {(this.props.group.timeClosed && (
+          <a href="#close" onClick={() => action('open')}>
+            Åben gruppe
+          </a>
+        )) || (
+          <a href="#close" onClick={() => action('close')}>
+            luk gruppe
+          </a>
+        )}
       </div>
     );
   }
 
   render() {
     return (
-      <PageLayout searchState={this.props.searchState} searchActions={this.props.searchActions}
-        profileState={this.props.profileState} globalState={this.props.globalState}>
+      <PageLayout
+        searchState={this.props.searchState}
+        searchActions={this.props.searchActions}
+        profileState={this.props.profileState}
+        globalState={this.props.globalState}
+      >
         <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
         <GroupForm
@@ -148,7 +156,7 @@ export class GroupEditContainer extends React.Component {
             'group-name': this.props.group.raw.name,
             'group-description': this.props.group.raw.description
           }}
-          moderation={this.props.profileState.isModerator && this.renderModerationButtons() || ''}
+          moderation={(this.props.profileState.isModerator && this.renderModerationButtons()) || ''}
         />
         {this.renderModerationModal()}
       </PageLayout>
@@ -173,7 +181,7 @@ GroupEditContainer.propTypes = {
  */
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
@@ -184,7 +192,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(groupActions, dispatch),

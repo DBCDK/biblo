@@ -14,6 +14,11 @@ describe('Test droppable image field component', () => {
     const expected = '<input type="file" accept="image/*" class="droppable-image-field--file-input" name="bob">';
 
     const wrapper = mount(<DroppableImageField onFile={() => {}} fieldName={'bob'} />);
-    expect(wrapper.find('.droppable-image-field--file-input').first().html()).to.equal(expected);
+    expect(
+      wrapper
+        .find('.droppable-image-field--file-input')
+        .first()
+        .html()
+    ).to.equal(expected);
   });
 });

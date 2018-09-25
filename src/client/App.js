@@ -40,7 +40,6 @@ export function serviceProviderReduxMiddleware({dispatch}) {
   return next => action => {
     // First we check that the action type is correct
     if (action.type === callServiceProvider) {
-
       // We then extract the request data or query from the action
       const requestData = action.data || {};
 
@@ -52,7 +51,7 @@ export function serviceProviderReduxMiddleware({dispatch}) {
       // And also ensure reuse of socketclients to prevent excess listeners.
       if (!clients[action.event]) {
         clients[action.event] = SocketClient(action.event);
-        clients[action.event].response(function (data) {
+        clients[action.event].response(function(data) {
           dispatch({type: `${action.event}Response`, data});
         });
       }
@@ -71,9 +70,14 @@ export function serviceProviderReduxMiddleware({dispatch}) {
  * @param {PlainObject} initialState
  * @returns {{store: Object, component: XML}}
  */
-export function wrapComponentInProvider(Comp, initialState = {}) { // eslint-disable-line react/display-name
-  const composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(thunk, serviceProviderReduxMiddleware, reduxLogger)));
+export function wrapComponentInProvider(Comp, initialState = {}) {
+  // eslint-disable-line react/display-name
+  const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+  const store = createStore(
+    rootReducer,
+    initialState,
+    composeEnhancers(applyMiddleware(thunk, serviceProviderReduxMiddleware, reduxLogger))
+  );
   const component = (
     <Provider store={store}>
       <Comp />
@@ -106,8 +110,5 @@ export function renderComponent(Comp, target) {
     }
   }
 
-  ReactDOM.hydrate(
-    wrapComponentInProvider(Comp, initialState).component,
-    document.getElementById(target)
-  );
+  ReactDOM.hydrate(wrapComponentInProvider(Comp, initialState).component, document.getElementById(target));
 }

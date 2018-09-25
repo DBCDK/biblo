@@ -80,12 +80,10 @@ export default class AddContent extends UploadMedia {
     if (!isSiteOpen() && !this.props.profile.isModerator) {
       e.preventDefault();
       this.setState({errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'});
-    }
-    else if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
+    } else if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});
-    }
-    else if (XMLHttpRequest && FormData) {
+    } else if (XMLHttpRequest && FormData) {
       e.preventDefault();
       this.setState({
         isLoading: true,
@@ -178,7 +176,8 @@ export default class AddContent extends UploadMedia {
           this.setState({
             showAddReviews: false,
             attachment: Object.assign(this.state.attachment, {review: null})
-          })}
+          })
+        }
         title="Indsæt Anmeldelse"
       >
         <div className="attach-review-modal--reviews-container">
@@ -237,8 +236,7 @@ export default class AddContent extends UploadMedia {
           <span>Slet</span>
         </a>
       );
-    }
-    else if (this.props.abort && this.props.displayAbortButton) {
+    } else if (this.props.abort && this.props.displayAbortButton) {
       deleteButton = (
         <a className="button delete" onClick={() => this.props.abort()}>
           <span>Fortryd</span>
@@ -303,7 +301,13 @@ export default class AddContent extends UploadMedia {
             <input type="hidden" name="pdfRemoved" value={this.state.attachment.pdf === 'removed'} />
             <input type="hidden" className="redirect" name="redirect" value={this.props.redirectTo} />
             <input type="hidden" name="parentId" value={this.props.parentId} />
-            <input type="hidden" name="attachedReview" value={this.state.attachment.review && this.state.attachment.review.id ? this.state.attachment.review.id : ''} />
+            <input
+              type="hidden"
+              name="attachedReview"
+              value={
+                this.state.attachment.review && this.state.attachment.review.id ? this.state.attachment.review.id : ''
+              }
+            />
             <textarea
               className="content-add--textarea"
               ref={contentTextarea => (this.contentTextareaRef = contentTextarea)}
@@ -336,7 +340,7 @@ export default class AddContent extends UploadMedia {
             </div>
 
             {this.state.attachment.review &&
-            this.state.attachment.review !== 'removed' && (
+              this.state.attachment.review !== 'removed' && (
                 <div className="preview-review">
                   <div className="preview-review--cover-image--container">
                     <img src={this.props.coverImages.pids[this.state.attachment.review.pid]} />
@@ -353,7 +357,8 @@ export default class AddContent extends UploadMedia {
                       href="#removeReview"
                       className="content-add--remove-media"
                       onClick={() =>
-                        this.setState({attachment: Object.assign(this.state.attachment, {review: 'removed'})})}
+                        this.setState({attachment: Object.assign(this.state.attachment, {review: 'removed'})})
+                      }
                     >
                       <Icon glyph={close} />
                     </a>
@@ -362,7 +367,7 @@ export default class AddContent extends UploadMedia {
               )}
 
             {this.state.attachment.pdf &&
-            this.state.attachment.pdf !== 'removed' && (
+              this.state.attachment.pdf !== 'removed' && (
                 <div className="preview-pdf">
                   <div className="pdf-image">
                     <Icon glyph={pdfDarkSvg} height={60} width={60} />
@@ -372,7 +377,7 @@ export default class AddContent extends UploadMedia {
                     <p>
                       <strong>
                         {(this.state.attachment.pdf.file && this.state.attachment.pdf.file.name) ||
-                      this.state.attachment.pdf.name}
+                          this.state.attachment.pdf.name}
                       </strong>
                     </p>
                   </div>
@@ -483,8 +488,9 @@ AddContent.defaultProps = {
   },
   displayAbortButton: false,
   addContentAction: () => {
-    console.error( // eslint-disable-line
-      'YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn\'t happen. Check your props!'
+    console.error(
+      // eslint-disable-line
+      "YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn't happen. Check your props!"
     );
   },
   editing: false

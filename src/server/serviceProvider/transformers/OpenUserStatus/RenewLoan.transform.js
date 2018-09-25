@@ -49,8 +49,7 @@ const RenewLoanTransform = {
         result.userstatusError = true;
         result.message = userStatusResponse['ous:renewLoanError'][0];
       }
-    }
-    catch (err) {
+    } catch (err) {
       this.logger.error('Error when parsing response from OpenUserStatus', err);
 
       result.error = {

@@ -95,8 +95,8 @@ export default function groupEditReducer(state = initialState, action) {
     case types.GROUP_DELETED:
       return assignToEmpty(state, {
         moderation: {
-          success: action.response.id && true || false,
-          error: action.response.error && true || false,
+          success: (action.response.id && true) || false,
+          error: (action.response.error && true) || false,
           inProgress: false
         }
       });
@@ -104,8 +104,8 @@ export default function groupEditReducer(state = initialState, action) {
     case types.GROUP_TOGGLE_CLOSED:
       return assignToEmpty(state, {
         moderation: {
-          success: action.response.id && true || false,
-          error: action.response.error && true || false,
+          success: (action.response.id && true) || false,
+          error: (action.response.error && true) || false,
           inProgress: false
         }
       });

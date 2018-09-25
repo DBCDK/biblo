@@ -15,11 +15,10 @@ let initialState = {
 let errorArr = parseJsonData('JSONDATA', 'errors');
 let errorObj = {};
 if (Array.isArray(errorArr)) {
-  errorArr.forEach((err) => {
+  errorArr.forEach(err => {
     errorObj[err.field] = err.errorMessage;
   });
-}
-else {
+} else {
   errorObj = errorArr;
 }
 

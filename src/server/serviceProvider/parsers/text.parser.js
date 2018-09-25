@@ -22,7 +22,10 @@ export default function textParser(text, links = true, newLines = 'break') {
 
   switch (newLines) {
     case 'paragraphs': {
-      text = text.split(/\r+\n/).map(paragraph => `<p>${paragraph}</p>`).join('');
+      text = text
+        .split(/\r+\n/)
+        .map(paragraph => `<p>${paragraph}</p>`)
+        .join('');
       break;
     }
     case 'break': {

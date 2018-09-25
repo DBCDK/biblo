@@ -86,7 +86,9 @@ export class WorkDetail extends React.Component {
   }
 
   componentDidMount() {
-    registerScrollSpy(this.workDetailRef, visible => this.setState({displayTopBar: !visible}));
+    registerScrollSpy(this.workDetailRef, visible =>
+      this.setState({displayTopBar: !visible})
+    );
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -116,12 +118,15 @@ export class WorkDetail extends React.Component {
     ];
 
     let shouldRender = false;
-    props.forEach(prop => { // eslint-disable-line react/prop-types
-      if (typeof this.props[prop] === 'object' && !equal(this.props[prop], nextProps[prop])) {
+    // eslint-disable-next-line react/prop-types
+    props.forEach(prop => {
+      if (
+        typeof this.props[prop] === 'object' &&
+        !equal(this.props[prop], nextProps[prop])
+      ) {
         shouldRender = true;
         return shouldRender;
-      }
-      else if (this.props[prop] !== nextProps[prop]) {
+      } else if (this.props[prop] !== nextProps[prop]) {
         shouldRender = true;
         return shouldRender;
       }
@@ -142,8 +147,7 @@ export class WorkDetail extends React.Component {
     let title;
     if (titleSeries) {
       query = title = titleSeries;
-    }
-    else if (descriptionSeries) {
+    } else if (descriptionSeries) {
       query = title = descriptionSeries;
       if (query.indexOf(': ') > 0) {
         query = query.substring(query.indexOf(': ') + 2);
@@ -153,7 +157,10 @@ export class WorkDetail extends React.Component {
     }
     query = this.clipTailOnMatch(query, ' ; ');
     query = encodeURIComponent(query.replace('&', ''));
-    return {consolidatedTitleSeries: title, consolidatedTitleSeriesQuery: query};
+    return {
+      consolidatedTitleSeries: title,
+      consolidatedTitleSeriesQuery: query
+    };
   }
 
   /**
@@ -170,17 +177,17 @@ export class WorkDetail extends React.Component {
 
     collectionDetails.forEach(collection => {
       if (collection.accessType[0] === 'online') {
-        if (collection.workType[0] === 'audiobook' || collection.workType[0] === 'book') {
+        if (
+          collection.workType[0] === 'audiobook' ||
+          collection.workType[0] === 'book'
+        ) {
           ereolen.push(collection);
-        }
-        else if (collection.workType[0] === 'movie') {
+        } else if (collection.workType[0] === 'movie') {
           filmstriben.push(collection);
-        }
-        else {
+        } else {
           online.push(collection);
         }
-      }
-      else {
+      } else {
         physical.push(collection);
       }
     });
@@ -200,13 +207,15 @@ export class WorkDetail extends React.Component {
    * @param type
    * @returns {*}
    */
-  renderBorrowerButton(collectionDetails,
+  renderBorrowerButton(
+    collectionDetails,
     adjustedTitle,
     buttonIcon,
     buttonTitle,
     modalButtonTitle = 'Lån',
     itemDescription = '',
-    type = 'physical') {
+    type = 'physical'
+  ) {
     if (collectionDetails.length === 0) {
       return '';
     }
@@ -215,7 +224,15 @@ export class WorkDetail extends React.Component {
       <div className="work-detail--button-wrapper">
         <BorrowButton
           {...this.props}
-          {...{adjustedTitle, collectionDetails, buttonIcon, buttonTitle, modalButtonTitle, itemDescription, type}}
+          {...{
+            adjustedTitle,
+            collectionDetails,
+            buttonIcon,
+            buttonTitle,
+            modalButtonTitle,
+            itemDescription,
+            type
+          }}
         />
       </div>
     );
@@ -264,14 +281,17 @@ export class WorkDetail extends React.Component {
     }
 
     return titles.map((titleSeries, key) => {
-      const {consolidatedTitleSeries, consolidatedTitleSeriesQuery} = this.seriesReference(
-        titleSeries,
-        descriptionSeries
-      );
+      const {
+        consolidatedTitleSeries,
+        consolidatedTitleSeriesQuery
+      } = this.seriesReference(titleSeries, descriptionSeries);
       if (consolidatedTitleSeries) {
         return (
           <span className="work-detail--title-series" key={key}>
-            <a key={`title-series--${consolidatedTitleSeries}`} href={'/find?serie=' + consolidatedTitleSeriesQuery}>
+            <a
+              key={`title-series--${consolidatedTitleSeries}`}
+              href={'/find?serie=' + consolidatedTitleSeriesQuery}
+            >
               {consolidatedTitleSeries}
             </a>
           </span>
@@ -302,12 +322,23 @@ export class WorkDetail extends React.Component {
 
   render() {
     const bind = this.props.bind;
-    const title = this.adjustTitle(this.props.title, this.props.fullTitle, bind, this.props.isMultivolume);
+    const title = this.adjustTitle(
+      this.props.title,
+      this.props.fullTitle,
+      bind,
+      this.props.isMultivolume
+    );
     const creator = this.props.creator;
-    const displayType = this.props.displayType in displayTypeSvgs ? this.props.displayType : 'other'; // eslint-disable-line
+    const displayType =
+      this.props.displayType in displayTypeSvgs
+        ? this.props.displayType
+        : 'other'; // eslint-disable-line
     // no-unused-vars
 
-    const seriesTitles = this.renderSeriesTitles(this.props.titleSeries, this.props.descriptionSeries);
+    const seriesTitles = this.renderSeriesTitles(
+      this.props.titleSeries,
+      this.props.descriptionSeries
+    );
     const abstract = this.props.abstract;
 
     const profile = this.props.profile;
@@ -320,7 +351,9 @@ export class WorkDetail extends React.Component {
       });
     }
 
-    const {physical, online, ereolen, filmstriben} = this.splitByAccessType(collectionDetails);
+    const {physical, online, ereolen, filmstriben} = this.splitByAccessType(
+      collectionDetails
+    );
     if (this.props.fullReview) {
       reviewButton = (
         <ReviewButton
@@ -330,8 +363,7 @@ export class WorkDetail extends React.Component {
           profile={profile}
         />
       );
-    }
-    else {
+    } else {
       reviewButton = (
         <ReviewButton
           editText={this.props.editText}
@@ -343,28 +375,31 @@ export class WorkDetail extends React.Component {
       );
     }
 
-    const workTitle = <h2 className="work-detail--title">
-      <Icon
-        glyph={displayTypeSvgs[displayType]}
-        className="work-detail--worktype-icon"
-        width={36}
-        height={36}
-      />
-      {title}
-    </h2>;
+    const workTitle = (
+      <h2 className="work-detail--title">
+        <Icon
+          glyph={displayTypeSvgs[displayType]}
+          className="work-detail--worktype-icon"
+          width={36}
+          height={36}
+        />
+        {title}
+      </h2>
+    );
 
     return (
-      <div className="work-detail" ref={workDetail => (this.workDetailRef = workDetail)}>
+      <div
+        className="work-detail"
+        ref={workDetail => (this.workDetailRef = workDetail)}
+      >
         {this.renderTopBar()}
         <div className="work-detail--main">
           <div className="work-detail--title-container">
-            {
-              this.props.linkToMaterial.length ?
-                <a href={`${this.props.linkToMaterial}`}>
-                  {workTitle}
-                </a> :
-                {workTitle}
-            }
+            {this.props.linkToMaterial.length ? (
+              <a href={`${this.props.linkToMaterial}`}>{workTitle}</a>
+            ) : (
+              {workTitle}
+            )}
             {this.props.isMultivolume && (
               <p className="work-detail--multi-volume--title">
                 {this.props.title}: {bind}
@@ -376,8 +411,18 @@ export class WorkDetail extends React.Component {
           <div className="work-detail--description">{abstract}</div>
 
           <div className="work-detail--action-buttons">
-            {this.renderBorrowerButton(physical, title, <Icon glyph={houseSvg} />, 'Lån på biblioteket')}
-            {this.renderBorrowerButton(online, title, <Icon glyph={houseSvg} />, 'Lån online')}
+            {this.renderBorrowerButton(
+              physical,
+              title,
+              <Icon glyph={houseSvg} />,
+              'Lån på biblioteket'
+            )}
+            {this.renderBorrowerButton(
+              online,
+              title,
+              <Icon glyph={houseSvg} />,
+              'Lån online'
+            )}
             {this.renderBorrowerButton(
               ereolen,
               title,

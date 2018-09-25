@@ -8,51 +8,43 @@ export default class Input {
     this.element = input;
     this.element.setAttribute('data-has-picker', '');
 
-    this.locale =
-      this.element.getAttribute('lang')
-      || document.body.getAttribute('lang')
-      || 'da';
+    this.locale = this.element.getAttribute('lang') || document.body.getAttribute('lang') || 'da';
 
     this.format =
-      this.element.getAttribute('data-date-format')
-      || document.body.getAttribute('data-date-format')
-      || 'dd-mm-yyyy';
+      this.element.getAttribute('data-date-format') || document.body.getAttribute('data-date-format') || 'dd-mm-yyyy';
 
     this.localeText = this.getLocaleText();
 
-    Object.defineProperties(
-      this.element,
-      {
-        valueAsDate: {
-          get: ()=> {
-            if (!this.element.value) {
-              return null;
-            }
-
-            return new Date(Date.parse(this.element.value));
-          },
-          set: val=> {
-            this.element.value = dateFormat(val, this.format);
+    Object.defineProperties(this.element, {
+      valueAsDate: {
+        get: () => {
+          if (!this.element.value) {
+            return null;
           }
+
+          return new Date(Date.parse(this.element.value));
         },
-        valueAsNumber: {
-          get: ()=> {
-            if (!this.element.value) {
-              return NaN;
-            }
-
-            return this.element.valueAsDate.valueOf();
-          },
-          set: val=> {
-            this.element.valueAsDate = new Date(val);
+        set: val => {
+          this.element.value = dateFormat(val, this.format);
+        }
+      },
+      valueAsNumber: {
+        get: () => {
+          if (!this.element.value) {
+            return NaN;
           }
+
+          return this.element.valueAsDate.valueOf();
+        },
+        set: val => {
+          this.element.valueAsDate = new Date(val);
         }
       }
-    );
+    });
 
     // Open the picker when the input get focus,
     // also on various click events to capture it in all corner cases.
-    const showPicker = ()=> {
+    const showPicker = () => {
       thePicker.attachTo(this.element, this.localeText);
     };
     this.element.addEventListener('focus', showPicker);
@@ -60,7 +52,7 @@ export default class Input {
     this.element.addEventListener('mouseup', showPicker);
 
     // Update the picker if the date changed manually in the input.
-    this.element.addEventListener('keydown', e=> {
+    this.element.addEventListener('keydown', e => {
       const date = new Date();
 
       switch (e.keyCode) {
@@ -94,12 +86,9 @@ export default class Input {
 
     for (const localeSet in locales) {
       const localeList = localeSet.split('_');
-      localeList.map(el=>el.toLowerCase());
+      localeList.map(el => el.toLowerCase());
 
-      if (
-        !!~localeList.indexOf(locale)
-        || !!~localeList.indexOf(locale.substr(0, 2))
-      ) {
+      if (!!~localeList.indexOf(locale) || !!~localeList.indexOf(locale.substr(0, 2))) {
         return locales[localeSet];
       }
     }

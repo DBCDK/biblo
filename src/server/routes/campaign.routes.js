@@ -12,14 +12,9 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {CampaignCertificate} from '../../client/components/CampaignCertificate/CampaignCertificate.component';
 
-
 import {getContributions} from '../utils/campaign.util.js';
 
-import {
-  ensureUserHasProfile,
-  ensureAuthenticated,
-  ensureUserHasValidLibrary
-} from '../middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureAuthenticated, ensureUserHasValidLibrary} from '../middlewares/auth.middleware';
 
 const CampaignRoutes = express.Router();
 const proxy = config.get('Proxy.http_proxy');
@@ -91,21 +86,24 @@ async function getCampaignHTML(req) {
   }
 
   const contributions = await getContributions(req, campaign, profile.id);
-  const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
+  const library = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0]
+    .pickupAgency;
   const works = {};
-  await Promise.all(contributions.review.data.map(review => {
-    return req.callServiceProvider('work', {pids: [review.pid]}).then(work => {
-      work = work[0].data[0];
+  await Promise.all(
+    contributions.review.data.map(review => {
+      return req.callServiceProvider('work', {pids: [review.pid]}).then(work => {
+        work = work[0].data[0];
 
-      if (!work.coverUrl) {
-        work.coverUrl = `/images/cover/${work.workType}.png`;
-      }
+        if (!work.coverUrl) {
+          work.coverUrl = `/images/cover/${work.workType}.png`;
+        }
 
-      (work.collection || []).forEach(pid => {
-        works[pid] = work;
+        (work.collection || []).forEach(pid => {
+          works[pid] = work;
+        });
       });
-    });
-  }));
+    })
+  );
 
   const reactMarkup = renderToStaticMarkup(
     <CampaignCertificate
@@ -134,17 +132,22 @@ async function getCampaignHTML(req) {
       </html>`;
 }
 
-CampaignRoutes.get(/^\/bevis\/([0-9]+).pdf$/, ensureAuthenticated, ensureUserHasProfile, ensureUserHasValidLibrary, async(req, res, next) => {
-  const baseurl = `http://localhost:${req.app.get('port')}`;
-  try {
-    const html = await getCampaignHTML(req, res);
-    const pdfStream = (await generatePDFFromHTML(html, baseurl));
-    res.set('Content-Type', 'application/pdf');
-    pdfStream.pipe(res);
+CampaignRoutes.get(
+  /^\/bevis\/([0-9]+).pdf$/,
+  ensureAuthenticated,
+  ensureUserHasProfile,
+  ensureUserHasValidLibrary,
+  async (req, res, next) => {
+    const baseurl = `http://localhost:${req.app.get('port')}`;
+    try {
+      const html = await getCampaignHTML(req, res);
+      const pdfStream = await generatePDFFromHTML(html, baseurl);
+      res.set('Content-Type', 'application/pdf');
+      pdfStream.pipe(res);
+    } catch (err) {
+      next(err);
+    }
   }
-  catch (err) {
-    next(err);
-  }
-});
+);
 
 export default CampaignRoutes;

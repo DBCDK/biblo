@@ -2,7 +2,6 @@
  * @file: Get campaigns from biblo admin.
  */
 const getAllCampaignsTransform = {
-
   /**
    * @return {string}
    */

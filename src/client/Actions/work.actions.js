@@ -18,8 +18,8 @@ const multiVolumeDetailsSocket = SocketClient('work');
  * @param pids {Array} A list of pids
  */
 export function asyncGetWorks(pids) {
-  return (dispatch) => {
-    getWorksSocket.responseOnce((response) => dispatch(getWorks(response)));
+  return dispatch => {
+    getWorksSocket.responseOnce(response => dispatch(getWorks(response)));
     getWorksSocket.request({pids: pids, fields: ['coverUrlFull', 'dcTitle', 'dcTitleFull', 'pid', 'workType']});
   };
 }
@@ -43,17 +43,16 @@ export function getWorks(response) {
  * @param pids
  */
 export function asyncGetWorkOnlineAccess(pids) {
-  return (dispatch) => {
-    getWorksSocket.response((response) => dispatch(getWorkOnlineAccess(response)));
+  return dispatch => {
+    getWorksSocket.response(response => dispatch(getWorkOnlineAccess(response)));
 
-    getWorksSocket.response = () => {
-    };
+    getWorksSocket.response = () => {};
 
     getWorksSocket.request({pids: pids, fields: ['pid', 'hasOnlineAccess']});
   };
 }
 
-export function getWorkOnlineAccess (response) {
+export function getWorkOnlineAccess(response) {
   return {
     type: types.GET_WORK_ONLINEACCESS,
     response
@@ -61,10 +60,10 @@ export function getWorkOnlineAccess (response) {
 }
 
 export function asyncCheckAvailability(pids) {
-  return (dispatch) => {
-    availabilitySocket.response((response) => dispatch(checkAvailability(response)));
+  return dispatch => {
+    availabilitySocket.response(response => dispatch(checkAvailability(response)));
     if (pids) {
-      pids.forEach((pid) => {
+      pids.forEach(pid => {
         availabilitySocket.request({pids: pid});
       });
     }

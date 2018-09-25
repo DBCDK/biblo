@@ -19,14 +19,13 @@ import './scss/widgetContainer.scss';
 
 class WidgetContainer extends Component {
   getTitle(widgetConfig = {}, classNames = '') {
-    let title = <span className="widget--no--title"/>;
+    let title = <span className="widget--no--title" />;
 
     const titleClasses = `widget--title--generic ${classNames}`;
     if (widgetConfig.showTitle) {
       if (widgetConfig.title) {
         title = <h2 className={titleClasses}>{widgetConfig.title}</h2>;
-      }
-      else if (widgetConfig.displayTitle) {
+      } else if (widgetConfig.displayTitle) {
         title = <h2 className={titleClasses}>{widgetConfig.displayTitle}</h2>;
       }
     }
@@ -52,13 +51,12 @@ class WidgetContainer extends Component {
     const CurrentWidget = widgetComponents[widgetName];
 
     if (!CurrentWidget) {
-      return (<span className="widget--not--found"/>);
+      return <span className="widget--not--found" />;
     }
 
     // And we get the relevant state for that widget.
     const widgetReducerProp =
-      this.props.widgetState[widgetName] ||
-      this.props.widgetState[widgetName.replace('Widget', '')];
+      this.props.widgetState[widgetName] || this.props.widgetState[widgetName.replace('Widget', '')];
 
     return (
       <CurrentWidget
@@ -77,51 +75,46 @@ class WidgetContainer extends Component {
     let currentWidgetStates = this.props.widgetState.widgetLocations[this.props.widgetLocationName];
     if (currentWidgetStates) {
       // Loop over the widgets, you can have as many as you'd like
-      const widgets = (Array.isArray(currentWidgetStates) ? currentWidgetStates : [currentWidgetStates]).map((currentWidgetState, idx) => {
-        // Get widgetConfig
-        const widgetConfig = currentWidgetState.widgetConfig;
+      const widgets = (Array.isArray(currentWidgetStates) ? currentWidgetStates : [currentWidgetStates]).map(
+        (currentWidgetState, idx) => {
+          // Get widgetConfig
+          const widgetConfig = currentWidgetState.widgetConfig;
 
-        // Now we get the widget we wish to render.
-        const widgetName = currentWidgetState.widgetName;
+          // Now we get the widget we wish to render.
+          const widgetName = currentWidgetState.widgetName;
 
-        // Get the component
-        const CurrentWidget = this.getComponent(widgetConfig, widgetName, idx);
+          // Get the component
+          const CurrentWidget = this.getComponent(widgetConfig, widgetName, idx);
 
-        // Get a generic title
-        const title = this.getTitle(widgetConfig, widgetName);
+          // Get a generic title
+          const title = this.getTitle(widgetConfig, widgetName);
 
-        // Get generic background image/style
-        const widgetStyles = this.getStyles(widgetConfig);
+          // Get generic background image/style
+          const widgetStyles = this.getStyles(widgetConfig);
 
-        // We now render our widget inside a container
-        return (
-          <div
-            className={`generic-widget-container ${widgetName}--container`}
-            key={`${this.props.widgetLocationName}_${widgetName}_${idx}`}
-          >
-            {title}
+          // We now render our widget inside a container
+          return (
             <div
-              className={`${widgetName}--wrapper generic-widget-wrapper`}
-              style={widgetStyles}
+              className={`generic-widget-container ${widgetName}--container`}
+              key={`${this.props.widgetLocationName}_${widgetName}_${idx}`}
             >
-              {CurrentWidget}
+              {title}
+              <div className={`${widgetName}--wrapper generic-widget-wrapper`} style={widgetStyles}>
+                {CurrentWidget}
+              </div>
             </div>
-          </div>
-        );
-      });
+          );
+        }
+      );
 
       // Finally we render the array of widgets relevant to this position.
       if (widgets.length > 0) {
-        return (
-          <div className={`${this.props.widgetLocationName}--generic-widget-container`}>
-            {widgets}
-          </div>
-        );
+        return <div className={`${this.props.widgetLocationName}--generic-widget-container`}>{widgets}</div>;
       }
     }
 
     // This renders if no widgets were found for this position
-    return <span className={`${this.props.widgetLocationName}--generic-widget-container no-widgets`}/>;
+    return <span className={`${this.props.widgetLocationName}--generic-widget-container no-widgets`} />;
   }
 }
 

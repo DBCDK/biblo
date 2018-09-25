@@ -12,12 +12,12 @@ import Input from './input.js';
 if (!Input.supportsDateInput()) {
   Input.addPickerToDateInputs();
 
-  document.addEventListener('DOMContentLoaded', ()=> {
+  document.addEventListener('DOMContentLoaded', () => {
     Input.addPickerToDateInputs();
   });
   // This is also on mousedown event so it will capture new inputs that might
   // be added to the DOM dynamically.
-  document.querySelector('body').addEventListener('mousedown', ()=> {
+  document.querySelector('body').addEventListener('mousedown', () => {
     Input.addPickerToDateInputs();
   });
 }

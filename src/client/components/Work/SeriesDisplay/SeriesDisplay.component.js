@@ -117,12 +117,14 @@ export class SeriesDisplay extends Component {
           <div className="buttons">
             {displayMoreResults && (
               <span className="show-more--button" onClick={() => this.onShowMore(clippedSeriesTitle)}>
-                <Icon glyph={plusSvg} />VIS FLERE
+                <Icon glyph={plusSvg} />
+                VIS FLERE
               </span>
             )}
             {displayCloseButton && (
               <span className="close--button" onClick={() => this.onClose(clippedSeriesTitle)}>
-                <Icon glyph={closeSvg} />LUK
+                <Icon glyph={closeSvg} />
+                LUK
               </span>
             )}
           </div>

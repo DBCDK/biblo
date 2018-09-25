@@ -60,7 +60,10 @@ export class CompactReviewElement extends Component {
     }
 
     return (
-      <span className="compact-review-element--text-excerpt" dangerouslySetInnerHTML={{__html: sanitizeHtml('“' + htmlContent + '”')}}/>
+      <span
+        className="compact-review-element--text-excerpt"
+        dangerouslySetInnerHTML={{__html: sanitizeHtml('“' + htmlContent + '”')}}
+      />
     );
   }
 
@@ -71,27 +74,32 @@ export class CompactReviewElement extends Component {
       <div className="compact-review--container">
         <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}/></a>
+          <a href={ownerProfileUrl}>
+            <span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}} />
+          </a>
         </div>
 
         <div className="compact-review--artwork--container">
           <a href={ownerProfileUrl} className="compact-review--owner-image--container">
-            <img src={review.owner.image}/>
+            <img src={review.owner.image} />
           </a>
           <a href={workUrl} className="compact-review--cover-image--container">
-            <img
-              className="compact-review--cover-image"
-              src={coverUrl}/>
+            <img className="compact-review--cover-image" src={coverUrl} />
           </a>
         </div>
 
         <div className="compact-review--review-content">
           <div className="compact-review--review-content--content">
-            <Icon glyph={materialSvgs[review.worktype]} width={25} height={25} className="icon compact-review-worktype-icon"/>
+            <Icon
+              glyph={materialSvgs[review.worktype]}
+              width={25}
+              height={25}
+              className="icon compact-review-worktype-icon"
+            />
             <a href={workUrl}>{this.getTextContent(review.html)}</a>
           </div>
           <div className="compact-review--review-content--rating">
-            <Rating rating={review.rating} pid={review.pid}/>
+            <Rating rating={review.rating} pid={review.pid} />
           </div>
         </div>
       </div>
@@ -107,19 +115,21 @@ export class CompactReviewElement extends Component {
       <div className="compact-review--container">
         <div className="compact-review--review-author">
           Anmeldelse af:&nbsp;
-          <a href={ownerProfileUrl}><span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}}/></a>
+          <a href={ownerProfileUrl}>
+            <span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.owner.displayName)}} />
+          </a>
         </div>
 
         <div className="compact-video-review--container">
           <a href={ownerProfileUrl} className="compact-review--owner-image--container">
-            <img src={review.owner.image}/>
+            <img src={review.owner.image} />
           </a>
           <a href={workUrl} className="compact-review--video--container">
-            <img src={videoImageSrc}/>
-            <span className="after"/>
+            <img src={videoImageSrc} />
+            <span className="after" />
           </a>
           <div className="compact-review--video-review-content--rating">
-            <Rating rating={review.rating} pid={review.pid}/>
+            <Rating rating={review.rating} pid={review.pid} />
           </div>
         </div>
       </div>
@@ -134,16 +144,11 @@ export class CompactReviewElement extends Component {
 
     if (review.video) {
       reviewContent = this.renderVideoReview(review, ownerProfileUrl, workUrl);
-    }
-    else {
+    } else {
       reviewContent = this.renderTextReview(review, ownerProfileUrl, workUrl);
     }
 
-    return (
-      <div className="compact-review--container--container">
-        {reviewContent}
-      </div>
-    );
+    return <div className="compact-review--container--container">{reviewContent}</div>;
   }
 }
 

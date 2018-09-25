@@ -15,7 +15,7 @@ const upload = multer({storage: multer.memoryStorage()});
 const ReviewRoutes = express.Router();
 const ReviewsRoutes = express.Router();
 
-ReviewsRoutes.get('/', async function (req, res) {
+ReviewsRoutes.get('/', async function(req, res) {
   res.locals.title = 'Anmeldelser - Biblo.dk';
   res.render('page', {
     css: ['/css/reviewexplorer.css'],
@@ -28,14 +28,13 @@ ReviewsRoutes.get('/', async function (req, res) {
  * Get information about a single review
  * (Gets the associated work info as well)
  */
-ReviewRoutes.get('/:id', async function (req, res, next) {
+ReviewRoutes.get('/:id', async function(req, res, next) {
   let id = decodeURIComponent(req.params.id);
   let limit = 1;
   const reviewsLimit = 10;
   const skip = 0;
 
   try {
-
     let reviewResult = (await req.callServiceProvider('getReviews', {id, limit}))[0];
     if (reviewResult.error) {
       log.error('An error occured while communicating with CommunityService', {
@@ -94,14 +93,20 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
     if (req.isAuthenticated()) {
       let profile = req.session.passport.user.profile.profile;
       if (profile && profile.favoriteLibrary && profile.favoriteLibrary.libraryId) {
-        const agency = (await req.callServiceProvider('getLibraryDetails', {agencyId: profile.favoriteLibrary.libraryId}))[0].pickupAgency;
-        profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(profile.favoriteLibrary, {
-          libraryId: agency.agencyId,
-          libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName).$value,
-          libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
-          pickupAllowed: agency.pickupAllowed === '1',
-          temporarilyClosed: agency.temporarilyClosed === '1'
-        });
+        const agency = (await req.callServiceProvider('getLibraryDetails', {
+          agencyId: profile.favoriteLibrary.libraryId
+        }))[0].pickupAgency;
+        profile.favoriteLibrary = req.session.passport.user.profile.profile.favoriteLibrary = Object.assign(
+          profile.favoriteLibrary,
+          {
+            libraryId: agency.agencyId,
+            libraryName: (Array.isArray(agency.branchShortName) ? agency.branchShortName[0] : agency.branchShortName)
+              .$value,
+            libraryAddress: agency.postalAddress + ', ' + agency.postalCode + ' ' + agency.city,
+            pickupAllowed: agency.pickupAllowed === '1',
+            temporarilyClosed: agency.temporarilyClosed === '1'
+          }
+        );
         res.locals.profile = JSON.stringify({
           profile: profile,
           errors: []
@@ -129,21 +134,22 @@ ReviewRoutes.get('/:id', async function (req, res, next) {
     res.render('page', {
       css: ['/css/review.css'],
       js: ['/js/review.js'],
-      jsonData: [JSON.stringify({
-        work: work, // this is the associated work info
-        workReviews: reviewsResult.data,
-        highlightedReview: highlightedReview,
-        workReviewsMeta: {
-          skip: skip,
-          limit: reviewsLimit,
-          ownReviewId: ownReviewId,
-          workReviewsTotalCount: reviewsResult.reviewsCount,
-          reviewPage: true
-        }
-      })]
+      jsonData: [
+        JSON.stringify({
+          work: work, // this is the associated work info
+          workReviews: reviewsResult.data,
+          highlightedReview: highlightedReview,
+          workReviewsMeta: {
+            skip: skip,
+            limit: reviewsLimit,
+            ownReviewId: ownReviewId,
+            workReviewsTotalCount: reviewsResult.reviewsCount,
+            reviewPage: true
+          }
+        })
+      ]
     });
-  }
-  catch (err) {
+  } catch (err) {
     next(err);
   }
 });
@@ -176,27 +182,35 @@ ReviewRoutes.post('/', ensureAuthenticated, upload.array(), async function handl
 
     const createReviewResponse = (await req.callServiceProvider('createReview', params))[0];
     if (createReviewResponse.status === 200 && req.session.videoupload) {
-      createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, null, createReviewResponse.data.id, amazonConfig);
+      createElasticTranscoderJob(
+        ElasticTranscoder,
+        req.session.videoupload,
+        null,
+        null,
+        createReviewResponse.data.id,
+        amazonConfig
+      );
     }
 
     if (
       createReviewResponse.status === 500 &&
       createReviewResponse.data &&
       createReviewResponse.data.error &&
-      createReviewResponse.data.error.message === 'Eksisterende anmeldelse') {
+      createReviewResponse.data.error.message === 'Eksisterende anmeldelse'
+    ) {
       // find the existing review id from an existing review of a pid for the given review owner id
-      const existingReviewResponse = (await req.callServiceProvider('getReviews', ({
-        markedAsDeleted: null, pid: params.pid, reviewownerid: params.reviewownerid
-      })));
+      const existingReviewResponse = await req.callServiceProvider('getReviews', {
+        markedAsDeleted: null,
+        pid: params.pid,
+        reviewownerid: params.reviewownerid
+      });
       createReviewResponse.data.error.existingReviewId = existingReviewResponse[0].data[0].id;
     }
 
     req.session.videoupload = null;
     res.status(createReviewResponse.status);
     res.send(createReviewResponse);
-
-  }
-  catch (error) {
+  } catch (error) {
     req.session.videoupload = null;
     next(error);
   }

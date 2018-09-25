@@ -6,7 +6,6 @@
 import groupParser from '../../../parsers/group.parser';
 
 const GetGroupTransform = {
-
   event() {
     return 'getGroup';
   },
@@ -15,7 +14,11 @@ const GetGroupTransform = {
     if (!id) {
       return Promise.reject(new Error('No group id provided'));
     }
-    const uid = connection.request.session.passport && connection.request.session.passport.user && connection.request.session.passport.user.profileId || null;
+    const uid =
+      (connection.request.session.passport &&
+        connection.request.session.passport.user &&
+        connection.request.session.passport.user.profileId) ||
+      null;
     let promises = [];
     let groupFilter = {
       counts: ['posts', 'members'],
@@ -43,7 +46,7 @@ const GetGroupTransform = {
 
   responseTransform(response) {
     const body = groupParser(JSON.parse(response[0].body));
-    body.isFollowing = response[1] && response[1].statusCode && response[1].statusCode !== 404 || false; // If the status code is 404, the user is not following the group
+    body.isFollowing = (response[1] && response[1].statusCode && response[1].statusCode !== 404) || false; // If the status code is 404, the user is not following the group
     body.members = [];
 
     return body;

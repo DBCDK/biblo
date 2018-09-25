@@ -2,17 +2,19 @@
 
 import EntitySuggest from '../entitysuggest.client';
 import sinon from 'sinon';
-import request from 'request'
+import request from 'request';
 
 describe('Test methods in client.js', () => {
   beforeEach(function(done) {
-    sinon
-      .stub(request, 'get')
-      .yields(null, {
-        statusCode: 200,
-      }, JSON.stringify({
+    sinon.stub(request, 'get').yields(
+      null,
+      {
+        statusCode: 200
+      },
+      JSON.stringify({
         response: true
-      }));
+      })
+    );
     done();
   });
 
@@ -41,67 +43,76 @@ describe('Test methods in client.js', () => {
     expect(methods).toHaveProperty('getLibrarySuggestions');
   });
 
-  it('Test getSubjectSuggestions Methods', (done) => {
+  it('Test getSubjectSuggestions Methods', done => {
     let suggest = EntitySuggest({
       method: 'entity-suggest',
       endpoint: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1'
     });
 
-    suggest.getSubjectSuggestions({query: 'display.title', rs: 5})
-      .then((data) => {
-        expect(request.get.calledWith({
-          uri: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1/subject',
-          qs: {query: 'display.title', rs: 5, lt: 'folkebibliotek'}
-        })).toBeTruthy();
+    suggest
+      .getSubjectSuggestions({query: 'display.title', rs: 5})
+      .then(data => {
+        expect(
+          request.get.calledWith({
+            uri: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1/subject',
+            qs: {query: 'display.title', rs: 5, lt: 'folkebibliotek'}
+          })
+        ).toBeTruthy();
         expect(request.get.calledOnce).toBeTruthy();
         expect(typeof data === 'object').toBeTruthy();
         expect(data).toHaveProperty('response');
         done();
-      }).catch((err) => {
+      })
+      .catch(err => {
         done(err);
-      }
-    );
+      });
   });
 
-  it('Test getCreatorSuggestions Methods', (done) => {
+  it('Test getCreatorSuggestions Methods', done => {
     let suggest = EntitySuggest({
       method: 'entity-suggest',
       endpoint: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1'
     });
 
-    suggest.getCreatorSuggestions({query: 'display.title', rs: 5})
-      .then((data) => {
-        expect(request.get.calledWith({
-          uri: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1/creator',
-          qs: {query: 'display.title', rs: 5, lt: 'folkebibliotek'}
-        })).toBeTruthy();
+    suggest
+      .getCreatorSuggestions({query: 'display.title', rs: 5})
+      .then(data => {
+        expect(
+          request.get.calledWith({
+            uri: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1/creator',
+            qs: {query: 'display.title', rs: 5, lt: 'folkebibliotek'}
+          })
+        ).toBeTruthy();
         expect(typeof data === 'object').toBeTruthy();
         expect(data).toHaveProperty('response');
         done();
-      }).catch((err) => {
+      })
+      .catch(err => {
         done(err);
-      }
-    );
+      });
   });
 
-  it('Test getLibrarySuggestions Methods', (done) => {
+  it('Test getLibrarySuggestions Methods', done => {
     let suggest = EntitySuggest({
       method: 'entity-suggest',
       endpoint: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1'
     });
 
-    suggest.getLibrarySuggestions({query: 'display.title', rs: 5, lt: 'testbibliotek'})
-      .then((data) => {
-        expect(request.get.calledWith({
-          uri: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1/library',
-          qs: {query: 'display.title', rs: 5, lt: 'testbibliotek'}
-        })).toBeTruthy();
+    suggest
+      .getLibrarySuggestions({query: 'display.title', rs: 5, lt: 'testbibliotek'})
+      .then(data => {
+        expect(
+          request.get.calledWith({
+            uri: 'http://xp-p02.dbc.dk/ms/entity-suggest/v1/library',
+            qs: {query: 'display.title', rs: 5, lt: 'testbibliotek'}
+          })
+        ).toBeTruthy();
         expect(typeof data === 'object').toBeTruthy();
         expect(data).toHaveProperty('response');
         done();
-      }).catch((err) => {
+      })
+      .catch(err => {
         done(err);
-      }
-    );
+      });
   });
 });

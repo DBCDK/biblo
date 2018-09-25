@@ -5,7 +5,6 @@
 
 import * as types from '../Constants/action.constants';
 
-
 export function openModalWindow(modalChildren, modalTitle) {
   return {
     type: types.OPEN_MODAL_WINDOW,
@@ -13,7 +12,6 @@ export function openModalWindow(modalChildren, modalTitle) {
     modalTitle: modalTitle
   };
 }
-
 
 export function closeModalWindow() {
   return {

@@ -21,12 +21,16 @@ const CreateGroupContent = {
 
     // Fire and forget for image delete.
     if (query.removeImage) {
-      this.callServiceClient('community', 'removeImage', {imageId: query.removeImage});
+      this.callServiceClient('community', 'removeImage', {
+        imageId: query.removeImage
+      });
     }
 
     // Fire and forget for pdf delete.
     if (query.removePdf) {
-      this.callServiceClient('community', 'removePdf', {pdfId: query.removePdf});
+      this.callServiceClient('community', 'removePdf', {
+        pdfId: query.removePdf
+      });
     }
 
     return this.callServiceClient('community', method, {
@@ -55,7 +59,11 @@ const CreateGroupContent = {
 
       if (query.imageId) {
         imageCollectionQuery[imageCollectionField] = response.body.id;
-        return this.callServiceClient('community', 'updateImageCollection', imageCollectionQuery).then(() => response);
+        return this.callServiceClient(
+          'community',
+          'updateImageCollection',
+          imageCollectionQuery
+        ).then(() => response);
       }
 
       return response;
@@ -63,7 +71,11 @@ const CreateGroupContent = {
   },
 
   getSingleContent(query, user) {
-    return this.callServiceClient('community', 'checkIfProfileIsQuarantined', user.profileId).then(quarantine => {
+    return this.callServiceClient(
+      'community',
+      'checkIfProfileIsQuarantined',
+      user.profileId
+    ).then(quarantine => {
       if (JSON.parse(quarantine.body).quarantined) {
         return Promise.reject(new Error('user is quarantined'));
       }
@@ -79,24 +91,30 @@ const CreateGroupContent = {
         filter.include.push('pdf');
       }
 
-      return this.callServiceClient('community', method, {filter: filter}).then(response => {
-        const post = JSON.parse(response.body)[0];
-        if (!post) {
-          return Promise.reject(new Error('content does not exists'));
-        }
-        const ownerId = (query.type === 'post' && post.postownerid) || post.commentownerid;
-        if (user.profile.profile.isModerator) {
-          user.profileId = ownerId;
-        } else if (ownerId !== user.profileId) {
-          return Promise.reject(new Error('user does not have access to edit content'));
-        }
+      return this.callServiceClient('community', method, {filter: filter}).then(
+        response => {
+          const post = JSON.parse(response.body)[0];
+          if (!post) {
+            return Promise.reject(new Error('content does not exists'));
+          }
+          const ownerId =
+            (query.type === 'post' && post.postownerid) || post.commentownerid;
+          if (user.profile.profile.isModerator) {
+            user.profileId = ownerId;
+          } else if (ownerId !== user.profileId) {
+            return Promise.reject(
+              new Error('user does not have access to edit content')
+            );
+          }
 
-        query.ownerId = ownerId;
-        query.timeCreated = post.timeCreated;
-        query.removeImage = (query.imageRemoved && post.image.id) || false;
-        query.removePdf = (query.pdfRemoved && post.pdf && post.pdf.id) || false;
-        return query;
-      });
+          query.ownerId = ownerId;
+          query.timeCreated = post.timeCreated;
+          query.removeImage = (query.imageRemoved && post.image.id) || false;
+          query.removePdf =
+            (query.pdfRemoved && post.pdf && post.pdf.id) || false;
+          return query;
+        }
+      );
     });
   },
 
@@ -110,10 +128,16 @@ const CreateGroupContent = {
 
     // If id is set content is being editted. Check if user has access to edit content
     if (query.id) {
-      return this.getSingleContent(query, user).then(reponseQuery => this.upsertContent(reponseQuery, user));
+      return this.getSingleContent(query, user).then(reponseQuery =>
+        this.upsertContent(reponseQuery, user)
+      );
     }
 
-    return this.callServiceClient('community', 'checkIfProfileIsQuarantined', user.profileId).then(quarantine => {
+    return this.callServiceClient(
+      'community',
+      'checkIfProfileIsQuarantined',
+      user.profileId
+    ).then(quarantine => {
       if (JSON.parse(quarantine.body).quarantined) {
         return Promise.reject(new Error('user is quarantined'));
       }
@@ -121,9 +145,8 @@ const CreateGroupContent = {
       return this.upsertContent(query, user);
     });
   },
-
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     // @todo handle errors
     let result = false;
     if (response.statusCode === 200) {

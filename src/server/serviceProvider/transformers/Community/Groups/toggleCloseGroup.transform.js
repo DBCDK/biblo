@@ -27,10 +27,12 @@ const ToggleCloseGroupTransform = {
     return Promise.reject(new Error('user not logged in'));
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     if (response.statusCode !== 200) {
-      throw new Error('Call to community service, with method closeGroup failed');
+      throw new Error(
+        'Call to community service, with method closeGroup failed'
+      );
     }
 
     return response.body;

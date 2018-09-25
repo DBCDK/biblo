@@ -2,9 +2,8 @@ const GetGroupTransform = {
   event() {
     return 'getGroupId';
   },
-
+  // eslint-disable-next-line no-unused-vars
   requestTransform(event, {id, type}, connection) {
-    // eslint-disable-line no-unused-vars
     if (!id) {
       return Promise.reject(new Error('No id provided'));
     }

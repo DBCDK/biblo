@@ -17,22 +17,25 @@ const DeleteReviewTransform = {
 
       const pid = validateId(query.pid);
 
-      return this.callServiceClient('community', 'deleteReview', params).then(() => {
-        if (pid.type === 'pid') {
-          return this.invalidateCache(`*Reviews*${query.pid}*`);
-        }
+      return this.callServiceClient('community', 'deleteReview', params).then(
+        () => {
+          if (pid.type === 'pid') {
+            return this.invalidateCache(`*Reviews*${query.pid}*`);
+          }
 
-        return Promise.resolve();
-      });
+          return Promise.resolve();
+        }
+      );
     }
     // If user is not logged in return an error
     return Promise.reject(new Error('user not logged in'));
   },
-
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     if (response.statusCode !== 200) {
-      throw new Error('Call to community service, with method deletePost failed');
+      throw new Error(
+        'Call to community service, with method deletePost failed'
+      );
     }
     return JSON.parse(response.body);
   }

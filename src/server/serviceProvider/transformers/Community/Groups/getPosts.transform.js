@@ -31,15 +31,17 @@ const GetPostsTransform = {
       where: {postid: post.id}
     };
 
-    return this.callServiceClient('community', 'getComments', {id: post.id, filter: commentFilter}).then(response => {
+    return this.callServiceClient('community', 'getComments', {
+      id: post.id,
+      filter: commentFilter
+    }).then(response => {
       post.comments = JSON.parse(response.body);
       post.numberOfCommentsLoaded = skip + limit;
       return post;
     });
   },
-
+  // eslint-disable-next-line no-unused-vars
   requestTransform(event, {id, skip, limit, where = {}}, connection) {
-    // eslint-disable-line no-unused-vars
     if (!id) {
       return Promise.reject(new Error('No group id provided'));
     }
@@ -101,10 +103,8 @@ const GetPostsTransform = {
       this.callServiceClient('community', 'getGroupCampaigns')
     ]);
   },
-
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
-
     if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getPosts failed');
     }
@@ -113,7 +113,9 @@ const GetPostsTransform = {
     const posts = JSON.parse(response[0].body);
     return Promise.all(
       posts.map(post =>
-        this.fetchCommentsForPost(post).then(postWithComments => parsePost(postWithComments, campaigns))
+        this.fetchCommentsForPost(post).then(postWithComments =>
+          parsePost(postWithComments, campaigns)
+        )
       )
     ).catch(err => ({errors: [err]}));
   }

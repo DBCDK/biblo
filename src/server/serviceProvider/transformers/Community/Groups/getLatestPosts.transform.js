@@ -4,9 +4,8 @@ const GetLatestPostsTransform = {
   event() {
     return 'getLatestPosts';
   },
-
+  // eslint-disable-next-line no-unused-vars
   requestTransform(event, {skip, limit = 10}, connection) {
-    // eslint-disable-line no-unused-vars
     const postFilter = {
       limit: limit,
       skip: skip,
@@ -59,16 +58,19 @@ const GetLatestPostsTransform = {
     };
 
     return Promise.all([
-      this.callServiceClient('cached/short/community', 'getPosts', {filter: postFilter}),
+      this.callServiceClient('cached/short/community', 'getPosts', {
+        filter: postFilter
+      }),
       this.callServiceClient('cached/standard/community', 'getReviewCampaigns'),
       this.callServiceClient('cached/standard/community', 'getGroupCampaigns')
     ]);
   },
-
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     if (response[0].statusCode !== 200) {
-      throw new Error('Call to community service, with method getLatestPosts failed');
+      throw new Error(
+        'Call to community service, with method getLatestPosts failed'
+      );
     }
 
     const campaigns = response[1].concat(response[2].body);

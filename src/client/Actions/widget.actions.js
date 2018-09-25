@@ -6,7 +6,12 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 const getReviewsSocket = SocketClient('getReviews');
 const getCoverImageSocket = SocketClient('coverImage');
 
-export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = false, offset = 0) {
+export function asyncGetLatestReviews(
+  sort = 'id DESC',
+  limit,
+  campaignId = false,
+  offset = 0
+) {
   if (campaignId) {
     return {
       type: types.callServiceProvider,
@@ -16,7 +21,9 @@ export function asyncGetLatestReviews(sort = 'id DESC', limit, campaignId = fals
   }
 
   return dispatch => {
-    getReviewsSocket.responseOnce(res => dispatch(getLatestReviews(sort, limit, res.data, res.reviewsCount)));
+    getReviewsSocket.responseOnce(res =>
+      dispatch(getLatestReviews(sort, limit, res.data, res.reviewsCount))
+    );
     getReviewsSocket.request({order: sort, limit, campaignId, skip: offset});
   };
 }
@@ -31,8 +38,8 @@ export function getLatestReviews(sort, limit, reviews, reviewsCount) {
 }
 
 export function asyncGetCoverImage(pid) {
+  // eslint-disable-next-line no-unused-vars
   return dispatch => {
-    // eslint-disable-line no-unused-vars
     getCoverImageSocket.request({pid});
   };
 }

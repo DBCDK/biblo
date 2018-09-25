@@ -48,8 +48,8 @@ function howru(endpoint) {
   return promiseRequest('get', options);
 }
 
+// eslint-disable-next-line no-unused-vars
 function getCampaigns(endpoint) {
-  // eslint-disable-line no-unused-vars
   const mockCampaignData = [
     {
       id: 1,

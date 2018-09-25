@@ -20,7 +20,9 @@ const ListGroupsTransform = {
           ]
         }
       }),
-      this.callServiceClient('cached/standard/community', 'countGroups', {where: {markedAsDeleted: false}})
+      this.callServiceClient('cached/standard/community', 'countGroups', {
+        where: {markedAsDeleted: false}
+      })
     ]).catch(err => {
       if (err.message) {
         return err.message;

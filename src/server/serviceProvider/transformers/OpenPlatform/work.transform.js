@@ -5,8 +5,8 @@ const WorkTransform = {
     return 'work';
   },
 
+  // eslint-disable-next-line no-unused-vars
   requestTransform(event, {pids, fields = null}, connection) {
-    // eslint-disable-line no-unused-vars
     const pidsCopy = [].concat(pids);
     const workRequests = [];
     while (pidsCopy.length > 0) {
@@ -61,6 +61,7 @@ const WorkTransform = {
     );
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(responses, query, connection) {
     // eslint-disable-line no-unused-vars
     let data = [];

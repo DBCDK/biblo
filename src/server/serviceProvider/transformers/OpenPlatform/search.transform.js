@@ -11,12 +11,23 @@ const SearchTransform = {
     return 'search';
   },
 
+  /* eslint-disable no-unused-vars */
   requestTransform(
     event,
-    {q, seriesTitle, forfatter, materialer, emneord, limit, offset, rankSort, fields},
+    {
+      q,
+      seriesTitle,
+      forfatter,
+      materialer,
+      emneord,
+      limit,
+      offset,
+      rankSort,
+      fields
+    },
     connection
   ) {
-    // eslint-disable-line no-unused-vars
+    /* eslint-enable no-unused-vars */
 
     offset = offset ? offset : 0;
     rankSort = rankSort ? rankSort : 'rank_frequency';
@@ -68,15 +79,21 @@ const SearchTransform = {
 
     return this.callServiceClient('cached/short/openplatform', 'search', {
       q: cqlQuery,
-      fields: fields || ['collectionDetails', 'dcTitle', 'pid', 'workType', 'coverUrlFull'],
+      fields: fields || [
+        'collectionDetails',
+        'dcTitle',
+        'pid',
+        'workType',
+        'coverUrlFull'
+      ],
       limit: limit,
       offset: offset,
       sort: rankSort
     });
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     const ret = JSON.parse(response.body);
     ret.data = (ret.data || []).map(work => {
       if (work.coverUrlFull && work.coverUrlFull.length > 0) {

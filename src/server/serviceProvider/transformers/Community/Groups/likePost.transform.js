@@ -4,7 +4,6 @@ const LikePostTransform = {
   },
 
   requestTransform(event, query, connection) {
-    // eslint-disable-line no-unused-vars
     // check user is logged in
     if (connection.request.session.passport) {
       // If user is logged in like on post
@@ -17,8 +16,8 @@ const LikePostTransform = {
     return Promise.reject(new Error('user not logged in'));
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
 
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method likePost failed');

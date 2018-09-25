@@ -4,9 +4,8 @@ const GetPostsTransform = {
   event() {
     return 'getSinglePosts';
   },
-
+  // eslint-disable-next-line no-unused-vars
   requestTransform(event, {id, filter = {}}, connection) {
-    // eslint-disable-line no-unused-vars
     if (!id) {
       return Promise.reject(new Error('No post id provided'));
     }
@@ -99,14 +98,15 @@ const GetPostsTransform = {
     };
 
     return Promise.all([
-      this.callServiceClient('cached/standard/community', 'getPosts', {filter: Object.assign(postFilter, filter)}),
+      this.callServiceClient('cached/standard/community', 'getPosts', {
+        filter: Object.assign(postFilter, filter)
+      }),
       this.callServiceClient('cached/standard/community', 'getReviewCampaigns'),
       this.callServiceClient('cached/standard/community', 'getGroupCampaigns')
     ]);
   },
-
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getPosts failed');
     }

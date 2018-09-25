@@ -41,8 +41,8 @@ const SuggestTransform = {
       }
 
       // disable author suggest until the service is able to handle biblo.
+      // eslint-disable-next-line no-constant-condition
       if (creatorSuggestions.data && creatorSuggestions.data.length > index && false) {
-        // eslint-disable-line no-constant-condition
         const suggestion = creatorSuggestions.data[index];
         suggestResponse.data.push({str: suggestion.term, type: 'creator', typeIndex: 2});
       }

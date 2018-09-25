@@ -4,8 +4,6 @@ const DeletePostTransform = {
   },
 
   requestTransform(event, query, connection) {
-    // eslint-disable-line no-unused-vars
-
     if (connection.request.session.passport) {
       // If user is logged in create the post
       const passport = connection.request.session.passport;
@@ -20,10 +18,12 @@ const DeletePostTransform = {
     return Promise.reject(new Error('user not logged in'));
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     if (response.statusCode !== 200) {
-      throw new Error('Call to community service, with method deletePost failed');
+      throw new Error(
+        'Call to community service, with method deletePost failed'
+      );
     }
     return JSON.parse(response.body);
   }

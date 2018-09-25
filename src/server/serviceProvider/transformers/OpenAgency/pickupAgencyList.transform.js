@@ -10,8 +10,8 @@ const pickupAgencyList = {
     });
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query) {
-    // eslint-disable-line no-unused-vars
     return response;
   }
 };

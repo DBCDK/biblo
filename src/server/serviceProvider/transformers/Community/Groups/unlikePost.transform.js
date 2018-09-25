@@ -11,14 +11,17 @@ const UnlikePostTransform = {
       const profileId = passport.user.profileId;
       const postId = query.postId;
       const accessToken = passport.user.id;
-      return this.callServiceClient('community', 'unlikePost', {profileId, postId, accessToken});
+      return this.callServiceClient('community', 'unlikePost', {
+        profileId,
+        postId,
+        accessToken
+      });
     }
     return Promise.reject(new Error('user not logged in'));
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
-
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method likePost failed');
     }

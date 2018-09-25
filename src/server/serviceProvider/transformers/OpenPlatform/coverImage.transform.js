@@ -3,16 +3,16 @@ const CoverImageTransform = {
     return 'coverImage';
   },
 
+  // eslint-disable-next-line no-unused-vars
   requestTransform(event, {pid}, connection) {
-    // eslint-disable-line no-unused-vars
     return this.callServiceClient('cached/standard/openplatform', 'work', {
       pids: [pid],
       fields: ['coverUrlFull', 'collection', 'workType']
     });
   },
 
+  // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-    // eslint-disable-line no-unused-vars
     let coverImageObject = {};
     let responseObject = JSON.parse(response.body).data[0];
     const workType = responseObject.workType[0];

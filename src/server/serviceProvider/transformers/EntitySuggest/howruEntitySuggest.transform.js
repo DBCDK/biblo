@@ -5,7 +5,6 @@
 import {log} from 'dbc-node-logger';
 
 const HowRUEntitySuggest = {
-
   event() {
     return 'howruEntitySuggest';
   },
@@ -13,8 +12,7 @@ const HowRUEntitySuggest = {
   async requestTransform() {
     try {
       return await this.callServiceClient('custom', 'howruEntitySuggest');
-    }
-    catch (e) {
+    } catch (e) {
       log.error(e); // eslint-disable-line
       return {statusCode: 404};
     }

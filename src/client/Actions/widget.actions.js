@@ -31,7 +31,8 @@ export function getLatestReviews(sort, limit, reviews, reviewsCount) {
 }
 
 export function asyncGetCoverImage(pid) {
-  return dispatch => { // eslint-disable-line no-unused-vars
+  return dispatch => {
+    // eslint-disable-line no-unused-vars
     getCoverImageSocket.request({pid});
   };
 }

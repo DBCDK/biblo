@@ -19,13 +19,12 @@ const glyphs = {
   music: musicSvg
 };
 
-
-const MaterialButton = ({materialType='book', active=false}) => {
-  const classNames = (active) ? 'material-button material-button--active': 'material-button material-button--inactive';
+const MaterialButton = ({materialType = 'book', active = false}) => {
+  const classNames = active ? 'material-button material-button--active' : 'material-button material-button--inactive';
   return (
     <a className={classNames} href="/">
-      <Icon glyph={glyphs[materialType]} width={24} height={24}/>
-      <span className='material-button--label'>{materialType}</span>
+      <Icon glyph={glyphs[materialType]} width={24} height={24} />
+      <span className="material-button--label">{materialType}</span>
     </a>
   );
 };

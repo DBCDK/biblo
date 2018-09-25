@@ -33,10 +33,7 @@ export default class ReviewRow extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      this.props.metadata !== nextProps.metadata ||
-      this.state.likes.toString() !== nextState.likes.toString()
-    );
+    return this.props.metadata !== nextProps.metadata || this.state.likes.toString() !== nextState.likes.toString();
   }
 
   onClick() {
@@ -49,8 +46,7 @@ export default class ReviewRow extends React.Component {
     let title = 'Henter data';
     if (this.props.metadata.dcTitle) {
       title = this.props.metadata.dcTitle;
-    }
-    else if (this.props.metadata.dcFullTitle) {
+    } else if (this.props.metadata.dcFullTitle) {
       title = this.props.metadata.dcFullTitle;
     }
 
@@ -61,8 +57,7 @@ export default class ReviewRow extends React.Component {
     let coverUrl = '/images/covers/other.png';
     if (this.props.metadata.coverUrl) {
       coverUrl = this.props.metadata.coverUrl;
-    }
-    else if (this.props.metadata.workType) {
+    } else if (this.props.metadata.workType) {
       coverUrl = `/images/covers/${this.props.metadata.workType}.png`;
     }
     return coverUrl;
@@ -89,8 +84,8 @@ export default class ReviewRow extends React.Component {
     };
 
     this.props.likeActions.unlikeReview(like);
-    const likes = this.state.likes.filter((id) => {
-      return (id !== like.profileId);
+    const likes = this.state.likes.filter(id => {
+      return id !== like.profileId;
     });
 
     this.setState({likes: likes});
@@ -143,7 +138,7 @@ export default class ReviewRow extends React.Component {
           <div className="review--data">
             <span className="review--data--material-title">
               <a href={`/materiale/${review.pid}`}>
-                <Truncate lines={5} ellipsis={<span>...</span>} text={title}/>
+                <Truncate lines={5} ellipsis={<span>...</span>} text={title} />
               </a>
             </span>
             <div className="ratings">
@@ -153,11 +148,10 @@ export default class ReviewRow extends React.Component {
         </div>
 
         <div className="review--content--container">
-          {video &&
-          <div className="review--content">{video}</div>
-          ||
-          <div className="review--content" dangerouslySetInnerHTML={{__html: sanitizedContent}} /> // eslint-disable-line
-            // react/no-danger
+          {(video && <div className="review--content">{video}</div>) || (
+            <div className="review--content" dangerouslySetInnerHTML={{__html: sanitizedContent}} />
+          ) // eslint-disable-line
+          // react/no-danger
           }
           <div className="review--content--actions">
             <SimpleButton text={'Se hele anmeldelsen'} onClick={this.onClick.bind(this)} />
@@ -172,11 +166,12 @@ export default class ReviewRow extends React.Component {
             </div>
           </div>
         </div>
-        {review.campaign && review.campaign.logos &&
-        <div className="review--content--campaign">
-          <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42} />
-        </div>
-        }
+        {review.campaign &&
+          review.campaign.logos && (
+            <div className="review--content--campaign">
+              <Icon svgLink={review.campaign.logos.svg || review.campaign.logos.small} width={42} height={42} />
+            </div>
+          )}
       </div>
     );
   }

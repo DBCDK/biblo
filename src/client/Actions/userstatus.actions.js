@@ -21,8 +21,8 @@ function renewLoan(response) {
 }
 
 export function asyncRenewLoan({loanId, createdEpoch}) {
-  return (dispatch) => {
-    renewLoanListener((response) => {
+  return dispatch => {
+    renewLoanListener(response => {
       dispatch(getUserStatusAsync({})); // eslint-disable-line
       dispatch(renewLoan(response));
     });
@@ -39,8 +39,8 @@ function getUserStatus(response) {
 }
 
 export function getUserStatusAsync({agencyId = null, userId = null, pinCode = null}) {
-  return (dispatch) => {
-    getUserStatusListener((response) => dispatch(getUserStatus(response)));
+  return dispatch => {
+    getUserStatusListener(response => dispatch(getUserStatus(response)));
 
     getUserStatusSocket.request({agencyId, userId, pinCode});
   };

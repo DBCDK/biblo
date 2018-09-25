@@ -58,6 +58,9 @@ describe('Test Group Form component', () => {
 
     // Render and type into the group name input field
     const wrapper = mount(component);
-    wrapper.find('.group-name--input-field').first().simulate('change', eventMock);
+    wrapper
+      .find('.group-name--input-field')
+      .first()
+      .simulate('change', eventMock);
   });
 });

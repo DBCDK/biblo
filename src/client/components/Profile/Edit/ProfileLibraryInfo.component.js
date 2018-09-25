@@ -20,7 +20,6 @@ export class ProfileLibraryInfo extends React.Component {
     pincodeChangeFunc: PropTypes.func,
     requireAll: PropTypes.bool,
     renderFieldExplanation: PropTypes.element
-
   };
 
   static defaultProps = {
@@ -94,8 +93,7 @@ export class ProfileLibraryInfo extends React.Component {
 
     if (up) {
       state.selected = state.selected > min ? state.selected - 1 : min;
-    }
-    else {
+    } else {
       state.selected = state.selected < max ? state.selected + 1 : max;
     }
 
@@ -104,11 +102,14 @@ export class ProfileLibraryInfo extends React.Component {
   }
 
   getLibraryDescription() {
-    if (this.props.favoriteLibrary && this.props.favoriteLibrary.libraryAddress && this.props.favoriteLibrary.libraryName) {
+    if (
+      this.props.favoriteLibrary &&
+      this.props.favoriteLibrary.libraryAddress &&
+      this.props.favoriteLibrary.libraryName
+    ) {
       return (
         <div>
           <h1>Dit bibliotek</h1>
-
           {this.props.favoriteLibrary.libraryName} <br />
           {this.props.favoriteLibrary.libraryAddress} <br />
           <RoundedButton
@@ -127,7 +128,6 @@ export class ProfileLibraryInfo extends React.Component {
     if (typeof this.props.favoriteLibrary.libraryName === 'undefined') {
       return (
         <div className="search-area library-search-area" onKeyDown={this.onKeyDownHandler.bind(this)}>
-
           <InputField
             id={'library-searchfield'}
             defaultValue={this.props.search}
@@ -138,8 +138,20 @@ export class ProfileLibraryInfo extends React.Component {
             title="Vælg dit bibliotek *"
             placeholder="Søg efter dit bibliotek her"
             autocomplete="off"
-            disabled={!!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryName && this.props.favoriteLibrary.libraryAddress)}
-            required={!(this.props.favoriteLibrary && this.props.favoriteLibrary.libraryId && this.props.favoriteLibrary.libraryId.length > 0)}
+            disabled={
+              !!(
+                this.props.favoriteLibrary &&
+                this.props.favoriteLibrary.libraryName &&
+                this.props.favoriteLibrary.libraryAddress
+              )
+            }
+            required={
+              !(
+                this.props.favoriteLibrary &&
+                this.props.favoriteLibrary.libraryId &&
+                this.props.favoriteLibrary.libraryId.length > 0
+              )
+            }
             renderFieldExplanation={this.props.renderFieldExplanation ? this.props.renderFieldExplanation : null}
           />
           <SearchDropDown
@@ -164,7 +176,7 @@ export class ProfileLibraryInfo extends React.Component {
   }
 
   isTouchDevice() {
-    return (typeof Modernizr !== 'undefined' && Modernizr.touch); // eslint-disable-line no-undef
+    return typeof Modernizr !== 'undefined' && Modernizr.touch; // eslint-disable-line no-undef
   }
 
   render() {
@@ -175,21 +187,13 @@ export class ProfileLibraryInfo extends React.Component {
       <div className="library--form-area">
         {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
 
-        <div className="selected-library-description">
-          {libraryDescription}
-        </div>
+        <div className="selected-library-description">{libraryDescription}</div>
 
         {searchField}
 
-        <div className='hidden'>
-          <input
-            type='hidden'
-            name='libraryId'
-            value={this.props.libraryId}
-          />
+        <div className="hidden">
+          <input type="hidden" name="libraryId" value={this.props.libraryId} />
         </div>
-
-
       </div>
     );
   }

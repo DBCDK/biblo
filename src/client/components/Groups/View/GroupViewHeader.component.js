@@ -11,9 +11,13 @@ import './scss/groupViewHeader.scss';
  */
 export function GroupViewHeader({uri, groupId}) {
   return (
-    <div className='group-header' >
-      <div className='group-header--background-image' style={{backgroundImage: `url("${uri}")`}} ></div>
-      <div className='group-header--foreground-image' ><a href={`/grupper/${groupId}`}><img src={uri} /></a></div>
+    <div className="group-header">
+      <div className="group-header--background-image" style={{backgroundImage: `url("${uri}")`}} />
+      <div className="group-header--foreground-image">
+        <a href={`/grupper/${groupId}`}>
+          <img src={uri} />
+        </a>
+      </div>
     </div>
   );
 }

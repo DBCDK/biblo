@@ -9,25 +9,31 @@ import Icon from '../Icon/Icon.component.js';
 import heartSvg from '../Icon/svg/functions/heart.svg';
 import heartFullSvg from '../Icon/svg/functions/heart-full.svg';
 
-export default function LikeButton({usersWhoLikeThis=[], isLikedByCurrentUser = false, likeFunction = () => {}, unlikeFunction = () => {}, active=false, small = false}) {
-
+export default function LikeButton({
+  usersWhoLikeThis = [],
+  isLikedByCurrentUser = false,
+  likeFunction = () => {},
+  unlikeFunction = () => {},
+  active = false,
+  small = false
+}) {
   let text;
   if (small) {
-    text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length}</p> : <p/>;
+    text = usersWhoLikeThis.length > 0 ? <p>{usersWhoLikeThis.length}</p> : <p />;
+  } else {
+    text =
+      usersWhoLikeThis.length > 0 ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
   }
-  else {
-    text = (usersWhoLikeThis.length > 0) ? <p>{usersWhoLikeThis.length} kan godt lide dette</p> : <p>kan godt lide dette</p>;
-  }
 
-  const glyph = (isLikedByCurrentUser) ? heartFullSvg : heartSvg;
+  const glyph = isLikedByCurrentUser ? heartFullSvg : heartSvg;
 
-  const clickFunction = (isLikedByCurrentUser) ? unlikeFunction : likeFunction;
+  const clickFunction = isLikedByCurrentUser ? unlikeFunction : likeFunction;
 
-  const classNames = (!active) ? 'like-button like-button--inactive' : 'like-button';
+  const classNames = !active ? 'like-button like-button--inactive' : 'like-button';
 
   return (
     <a className={classNames} onClick={clickFunction}>
-      <Icon glyph={glyph} className={'like-button--heart-icon'}/>
+      <Icon glyph={glyph} className={'like-button--heart-icon'} />
       {text}
     </a>
   );

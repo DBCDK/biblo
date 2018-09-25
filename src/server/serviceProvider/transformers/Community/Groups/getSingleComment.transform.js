@@ -7,12 +7,12 @@
 import parseComment from '../../../parsers/comment.parser';
 
 const GetSingleCommentsTransform = {
-
   event() {
     return 'getSingleComment';
   },
 
-  requestTransform(event, {id}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {id}, connection) {
+    // eslint-disable-line no-unused-vars
     if (!id) {
       return Promise.reject(new Error('No comment id provided'));
     }
@@ -54,7 +54,8 @@ const GetSingleCommentsTransform = {
                 scope: {
                   include: ['video']
                 }
-              }]
+              }
+            ]
           }
         }
       ]
@@ -66,7 +67,8 @@ const GetSingleCommentsTransform = {
     ]);
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response, query, connection) {
+    // eslint-disable-line no-unused-vars
     if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getComments failed');
     }

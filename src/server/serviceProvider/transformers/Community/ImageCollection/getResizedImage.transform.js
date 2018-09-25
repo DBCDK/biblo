@@ -3,7 +3,6 @@
  * Get the user profile + profile image.
  */
 const getResizedImageTransform = {
-
   /**
    * @return {string}
    */

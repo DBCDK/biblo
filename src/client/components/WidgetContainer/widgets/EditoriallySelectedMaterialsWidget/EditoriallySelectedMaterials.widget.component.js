@@ -29,15 +29,17 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.state, nextState) ||
+    return (
+      !isEqual(this.state, nextState) ||
       !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp) ||
-      !isEqual(nextProps.widgetConfig, this.props.widgetConfig);
+      !isEqual(nextProps.widgetConfig, this.props.widgetConfig)
+    );
   }
 
   componentWillReceiveProps(nextProps) {
-    const works = nextProps.widgetReducerProp.works[this.state.identifier] ?
-      Object.values(nextProps.widgetReducerProp.works[this.state.identifier]) :
-      [];
+    const works = nextProps.widgetReducerProp.works[this.state.identifier]
+      ? Object.values(nextProps.widgetReducerProp.works[this.state.identifier])
+      : [];
     this.setState({works, isLoading: false});
 
     const identifier = Array.isArray(this.props.widgetConfig.pids) ? this.props.widgetConfig.pids.join() : null;
@@ -52,7 +54,10 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
 
   getShowMoreButton(svg, label) {
     return (
-      <a className="editorially-selected-materials-widget--show-more-button" onClick={() => this.setState({closed: !this.state.closed})}>
+      <a
+        className="editorially-selected-materials-widget--show-more-button"
+        onClick={() => this.setState({closed: !this.state.closed})}
+      >
         <span>
           <Icon glyph={svg} /> {label}
         </span>
@@ -61,9 +66,10 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
   }
 
   render() {
-    const works = (this.props.widgetReducerProp.works[this.state.identifier] || []).slice(0, this.state.closed ?
-      6 :
-      (this.state.works.length));
+    const works = (this.props.widgetReducerProp.works[this.state.identifier] || []).slice(
+      0,
+      this.state.closed ? 6 : this.state.works.length
+    );
 
     let closeButtonContent = null;
     if (works.length >= 6 && !this.state.isLoading) {
@@ -74,15 +80,9 @@ export class EditoriallySelectedMaterialsWidget extends AbstractWidget {
 
     return (
       <div className="editorially-selected-materials-widget">
-        <CompactWorkElementsContainer
-          closed={this.state.closed}
-          isLoading={this.state.isLoading}
-          works={works} />
+        <CompactWorkElementsContainer closed={this.state.closed} isLoading={this.state.isLoading} works={works} />
 
-        <div className="editorially-selected-materials-widget--show-more-button--container">
-          {closeButtonContent}
-        </div>
-
+        <div className="editorially-selected-materials-widget--show-more-button--container">{closeButtonContent}</div>
       </div>
     );
   }

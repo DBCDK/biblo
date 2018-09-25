@@ -15,7 +15,6 @@ import Transform from './lib/Transforms';
  * @api public
  */
 export function Provider() {
-
   /**
    * Object with all clients registered on the provider
    * @type {{}}

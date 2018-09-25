@@ -40,12 +40,10 @@ describe('Testing of the editorially selected reviews widget', () => {
     expect(wrapper.find('.editorial-reviews--review').length).to.equal(1);
 
     // We expect the owners display name is rendered
-    expect(wrapper.find('.widget-element--author a').text())
-      .to.equal('Test Mesteren!');
+    expect(wrapper.find('.widget-element--author a').text()).to.equal('Test Mesteren!');
 
     // We expect a work title
-    expect(wrapper.find('.editorial-reviews--review--work-title').text())
-      .to.contain('Harry Styles');
+    expect(wrapper.find('.editorial-reviews--review--work-title').text()).to.contain('Harry Styles');
 
     // We expect to see ratings
     expect(wrapper.find('.star-active').length).to.equal(5);
@@ -55,8 +53,7 @@ describe('Testing of the editorially selected reviews widget', () => {
     expect(wrapper.find('.editorially-selected-reviews-widget--show-more-button').length).to.equal(0);
 
     // And we expect to see a read review button.
-    expect(wrapper.find('.editorial-reviews--read-button a').text())
-      .to.equal('Læs anmeldelsen');
+    expect(wrapper.find('.editorial-reviews--read-button a').text()).to.equal('Læs anmeldelsen');
   });
 
   it('should render a bunch of reviews', () => {
@@ -84,7 +81,10 @@ describe('Testing of the editorially selected reviews widget', () => {
 
     // Here we check if all elements are rendered in the correct order.
     const reviewHtmlIds = wrapper.find('.editorial-reviews--review-container').map(elem => {
-      return elem.children().first().prop('id');
+      return elem
+        .children()
+        .first()
+        .prop('id');
     });
 
     fiveReviewsState.widgetConfig.reviewIds.map((reviewId, idx) => {

@@ -13,27 +13,26 @@ describe('Test NavbarContainer Component', () => {
   const emptyObj = {};
   const globalState = {
     menu: {
-      main: [{
-        title: 'Grupper',
-        url: '/grupper',
-        id: 1
-      }],
-      footer: [{
-        title: 'help',
-        url: '/help',
-        id: 1
-      }]
+      main: [
+        {
+          title: 'Grupper',
+          url: '/grupper',
+          id: 1
+        }
+      ],
+      footer: [
+        {
+          title: 'help',
+          url: '/help',
+          id: 1
+        }
+      ]
     }
   };
 
   it('Assert className navbar--container', () => {
     const wrapper = shallow(
-      <NavbarContainer
-        profileState={emptyObj}
-        searchState={emptyObj}
-        searchActions={emptyObj}
-        globalState={{}}
-      />
+      <NavbarContainer profileState={emptyObj} searchState={emptyObj} searchActions={emptyObj} globalState={{}} />
     );
 
     const result = wrapper.props().className;
@@ -56,12 +55,14 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    const component = mount(<NavbarContainer profileState={{}} searchState={searchState} searchActions={{}} globalState={globalState}/>);
+    const component = mount(
+      <NavbarContainer profileState={{}} searchState={searchState} searchActions={{}} globalState={globalState} />
+    );
     const menuItems = component.find('.navbar--link');
     assert.equal(menuItems.first().text(), globalState.menu.main[0].title, 'Found menu item');
   });
 
-  it('Assert hide unhide menu', (done) => {
+  it('Assert hide unhide menu', done => {
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -101,7 +102,7 @@ describe('Test NavbarContainer Component', () => {
     }, 0);
   });
 
-  it('Assert hide unhide profile dropdown', (done) => {
+  it('Assert hide unhide profile dropdown', done => {
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -116,12 +117,8 @@ describe('Test NavbarContainer Component', () => {
       isLoadingResults: false
     };
 
-    let dom = TestUtils.renderIntoDocument(<NavbarContainer
-      searchState={searchState}
-      profileState={emptyObj}
-      searchActions={emptyObj}
-      globalState={{}}
-    />
+    let dom = TestUtils.renderIntoDocument(
+      <NavbarContainer searchState={searchState} profileState={emptyObj} searchActions={emptyObj} globalState={{}} />
     );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--profile');
     let toggleButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
@@ -139,10 +136,9 @@ describe('Test NavbarContainer Component', () => {
         done();
       });
     });
-
   });
 
-  it('Assert click overlay', (done) => {
+  it('Assert click overlay', done => {
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -158,11 +154,7 @@ describe('Test NavbarContainer Component', () => {
     };
 
     let dom = TestUtils.renderIntoDocument(
-      <NavbarContainer
-        searchState={searchState}
-        profileState={emptyObj}
-        searchActions={emptyObj}
-      />
+      <NavbarContainer searchState={searchState} profileState={emptyObj} searchActions={emptyObj} />
     );
     let menuButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'navbar--toggle');
     let menu = TestUtils.findRenderedDOMComponentWithClass(dom, 'menu');

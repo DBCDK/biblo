@@ -5,16 +5,19 @@ const ListGroupsTransform = {
     return 'popularGroups';
   },
 
-  requestTransform(event, {skip = 0, limit = 15, order = 'group_pop DESC'}) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {skip = 0, limit = 15, order = 'group_pop DESC'}) {
+    // eslint-disable-line no-unused-vars
     return Promise.all([
       this.callServiceClient('cached/standard/community', 'listGroups', {
         filter: {
           limit: limit,
           skip: skip,
           order,
-          include: [{
-            relation: 'coverImage'
-          }]
+          include: [
+            {
+              relation: 'coverImage'
+            }
+          ]
         }
       }),
       this.callServiceClient('cached/standard/community', 'countGroups', {where: {markedAsDeleted: false}})
@@ -29,7 +32,7 @@ const ListGroupsTransform = {
 
   responseTransform(response) {
     if (response.length < 2) {
-      throw new Error('Empty response from BibloCS, it\'s most likely down!');
+      throw new Error("Empty response from BibloCS, it's most likely down!");
     }
 
     const groupsResponse = JSON.parse(response[0].body);

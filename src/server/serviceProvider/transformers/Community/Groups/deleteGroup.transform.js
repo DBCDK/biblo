@@ -1,11 +1,10 @@
-
 const DeleteGroupTransform = {
-
   event() {
     return 'deleteGroup';
   },
 
-  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, query, connection) {
+    // eslint-disable-line no-unused-vars
 
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
@@ -25,13 +24,13 @@ const DeleteGroupTransform = {
     return Promise.reject(new Error('user not logged in'));
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response, query, connection) {
+    // eslint-disable-line no-unused-vars
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method deleteGroup failed');
     }
 
     return JSON.parse(response.body);
-
   }
 };
 

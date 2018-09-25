@@ -48,16 +48,13 @@ export default class CreateFlagDialog extends React.Component {
           contentId: this.props.contentId
         });
         this.setState({hasBeenSubmitted: true});
-      }
-      else {
+      } else {
         // free-text field cannot be empty
         this.setState({emphasizeRequiredFields: true});
       }
-    }
-    else if (this.state.selectedCause === null) {
+    } else if (this.state.selectedCause === null) {
       this.setState({emphasizeRequiredFields: true});
-    }
-    else {
+    } else {
       this.props.submitFunction({
         cause: this.state.selectedCause,
         contentId: this.props.contentId
@@ -161,7 +158,7 @@ CreateFlagDialog.propTypes = {
 CreateFlagDialog.defaultProps = {
   onClose: () => {
     console.error(
-      'YO DEV! You should provide your own onClose method. This is the default being called which shouldn\'t happen. Check your props!' // eslint-disable-line
+      "YO DEV! You should provide your own onClose method. This is the default being called which shouldn't happen. Check your props!" // eslint-disable-line
     );
   },
   contentId: -1

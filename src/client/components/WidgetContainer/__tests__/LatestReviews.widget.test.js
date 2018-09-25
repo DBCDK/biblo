@@ -77,7 +77,10 @@ describe('Test LatestReviews Widget', () => {
       }
     });
 
-    const campaignLogoSrc = wrapper.find('.widget--campaign-logo').find('img').prop('src');
+    const campaignLogoSrc = wrapper
+      .find('.widget--campaign-logo')
+      .find('img')
+      .prop('src');
     expect(campaignLogoSrc).to.contain(singleCampaignReviewMock.campaign.logos.small);
   });
 });

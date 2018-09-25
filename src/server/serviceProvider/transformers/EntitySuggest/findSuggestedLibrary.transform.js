@@ -1,5 +1,4 @@
 const findSuggestedLibrary = {
-
   event() {
     return 'findSuggestedLibrary';
   },
@@ -13,11 +12,9 @@ const findSuggestedLibrary = {
   responseTransform(response, query) {
     return {
       body: {
-        suggestions: response.response.suggestions.map(
-          (suggest) => {
-            return suggest.suggestion;
-          }
-        ),
+        suggestions: response.response.suggestions.map(suggest => {
+          return suggest.suggestion;
+        }),
         numFound: response.response.numFound,
         query
       },

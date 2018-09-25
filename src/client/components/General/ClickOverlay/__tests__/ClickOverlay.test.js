@@ -12,8 +12,15 @@ import ClickOverlay from '../ClickOverlay.Component.js';
 describe('Test ClickOverlay Component', () => {
   it('Assert className navbar--container', done => {
     const event = sinon.spy(); // eslint-disable-line block-scoped-var, no-undef
-    const wrapper = mount(<div><ClickOverlay active={true} onClick={event} /></div>);
-    wrapper.children().at(0).simulate('click');
+    const wrapper = mount(
+      <div>
+        <ClickOverlay active={true} onClick={event} />
+      </div>
+    );
+    wrapper
+      .children()
+      .at(0)
+      .simulate('click');
 
     setTimeout(() => {
       assert.isTrue(event.called);

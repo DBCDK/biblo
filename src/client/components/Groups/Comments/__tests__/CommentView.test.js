@@ -11,7 +11,7 @@ describe('Test of Comment Components', () => {
     content: 'test content',
     html: 'test content',
     image: 'some_url',
-    timeCreated: (new Date()).toISOString(),
+    timeCreated: new Date().toISOString(),
     owner: {
       id: 1,
       displayName: 'testUser',
@@ -30,12 +30,30 @@ describe('Test of Comment Components', () => {
   it('it should show generate html', () => {
     const wrapper = shallow(<CommentView {...props} />);
 
-    expect(wrapper.find('.comment-profile-image').first().find('img').props().src).to.equal(props.owner.image);
-    expect(wrapper.find('.comment-profile-image').first().find('img').props().alt).to.equal(props.owner.displayName);
+    expect(
+      wrapper
+        .find('.comment-profile-image')
+        .first()
+        .find('img')
+        .props().src
+    ).to.equal(props.owner.image);
+    expect(
+      wrapper
+        .find('.comment-profile-image')
+        .first()
+        .find('img')
+        .props().alt
+    ).to.equal(props.owner.displayName);
     expect(wrapper.find('.username').html()).to.equal(`<span class="username">${props.owner.displayName}</span>`);
     expect(wrapper.find('.time').text()).to.equal('Lige nu');
     expect(wrapper.find('.comment--content--text').props().dangerouslySetInnerHTML.__html).to.equal(props.content);
-    expect(wrapper.find('.media').first().find('img').props().src).to.equal(props.image);
+    expect(
+      wrapper
+        .find('.media')
+        .first()
+        .find('img')
+        .props().src
+    ).to.equal(props.image);
   });
 
   it('it should not show an image', () => {

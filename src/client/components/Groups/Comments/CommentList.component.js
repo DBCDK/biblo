@@ -3,14 +3,25 @@ import PropTypes from 'prop-types';
 import CommentView from './CommentView.component';
 
 export function CommentList({
-  comments = [], profile = {}, groupId = null, postId = null, submitFlagFunction = () => {}, uiActions = {}, groupActions = {}, works, coverImages, getMoreWorks, deleteAction
+  comments = [],
+  profile = {},
+  groupId = null,
+  postId = null,
+  submitFlagFunction = () => {},
+  uiActions = {},
+  groupActions = {},
+  works,
+  coverImages,
+  getMoreWorks,
+  deleteAction
 }) {
   return (
-    <div className='post-list'>
-      {
-        comments
-        && comments.map((item) => (
-          <CommentView key={item.id} {...item}
+    <div className="post-list">
+      {(comments &&
+        comments.map(item => (
+          <CommentView
+            key={item.id}
+            {...item}
             groupId={groupId}
             postId={postId}
             profile={profile}
@@ -21,10 +32,11 @@ export function CommentList({
             groupActions={groupActions}
             getMoreWorks={getMoreWorks}
             deleteAction={deleteAction}
-          />))
-        || 'Der er ikke skrevet nogen kommentarer til indlægget endnu'
-      }
-    </div>);
+          />
+        ))) ||
+        'Der er ikke skrevet nogen kommentarer til indlægget endnu'}
+    </div>
+  );
 }
 
 CommentList.propTypes = {

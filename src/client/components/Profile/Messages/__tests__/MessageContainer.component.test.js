@@ -5,8 +5,7 @@ import {assert} from 'chai';
 import MessageContainer from '../MessagesContainer.component';
 
 describe('Testing the MessageContainer.component', () => {
-  const noop = () => {
-  };
+  const noop = () => {};
   const emptyObj = {};
   it('Should increase state.limit by 15', () => {
     const tree = sd.shallowRender(

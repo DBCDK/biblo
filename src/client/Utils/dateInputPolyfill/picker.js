@@ -2,7 +2,7 @@
 class Picker {
   constructor() {
     // This is a singleton.
-    if(thePicker) {
+    if (thePicker) {
       return thePicker;
     }
 
@@ -17,13 +17,9 @@ class Picker {
     // Add controls.
     // Year picker.
     this.year = document.createElement(`select`);
-    Picker.createRangeSelect(
-      this.year,
-      this.date.getFullYear() - 80,
-      this.date.getFullYear() + 20
-    );
+    Picker.createRangeSelect(this.year, this.date.getFullYear() - 80, this.date.getFullYear() + 20);
     this.year.className = `yearSelect`;
-    this.year.addEventListener(`change`, ()=> {
+    this.year.addEventListener(`change`, () => {
       this.date.setYear(this.year.value);
       this.refreshDaysMatrix();
     });
@@ -32,7 +28,7 @@ class Picker {
     // Month picker.
     this.month = document.createElement(`select`);
     this.month.className = `monthSelect`;
-    this.month.addEventListener(`change`, ()=> {
+    this.month.addEventListener(`change`, () => {
       this.date.setMonth(this.month.value);
       this.refreshDaysMatrix();
     });
@@ -41,16 +37,10 @@ class Picker {
     // Today button.
     this.today = document.createElement(`button`);
     this.today.textContent = `I dag`;
-    this.today.addEventListener(`click`, ()=> {
+    this.today.addEventListener(`click`, () => {
       const today = new Date();
       this.date = new Date(
-        `${
-          today.getFullYear()
-        }/${
-          `0${today.getMonth()+1}`.slice(-2)
-        }/${
-          `0${today.getDate()}`.slice(-2)
-        }`
+        `${today.getFullYear()}/${`0${today.getMonth() + 1}`.slice(-2)}/${`0${today.getDate()}`.slice(-2)}`
       );
       this.setInput();
     });
@@ -64,15 +54,15 @@ class Picker {
     // THIS IS THE BIG PART.
     // When the user clicks a day, set that day as the date.
     // Uses event delegation.
-    this.days.addEventListener(`click`, e=> {
+    this.days.addEventListener(`click`, e => {
       const tgt = e.target;
 
-      if(!tgt.hasAttribute(`data-day`)) {
+      if (!tgt.hasAttribute(`data-day`)) {
         return false;
       }
 
       const curSel = this.days.querySelector(`[data-selected]`);
-      if(curSel) {
+      if (curSel) {
         curSel.removeAttribute(`data-selected`);
       }
       tgt.setAttribute(`data-selected`, ``);
@@ -89,50 +79,42 @@ class Picker {
     document.body.appendChild(this.container);
 
     // Close the picker when clicking outside of a date input or picker.
-    document.addEventListener(`click`, e=> {
+    document.addEventListener(`click`, e => {
       let el = e.target;
       let isPicker = el === this.container;
 
-      while(!isPicker && (el = el.parentNode)) {
+      while (!isPicker && (el = el.parentNode)) {
         isPicker = el === this.container;
       }
 
-      e.target.getAttribute(`type`) !== `date` && !isPicker
-        && this.hide();
+      e.target.getAttribute(`type`) !== `date` && !isPicker && this.hide();
     });
   }
 
   // Hide.
   hide() {
-    this.container.setAttribute(`data-open`, this.isOpen = false);
+    this.container.setAttribute(`data-open`, (this.isOpen = false));
   }
 
   // Show.
   show() {
-    this.container.setAttribute(`data-open`, this.isOpen = true);
+    this.container.setAttribute(`data-open`, (this.isOpen = true));
   }
 
   // Position picker below element. Align to element's left edge.
   goto(element) {
     const rekt = element.getBoundingClientRect();
-    this.container.style.top = `${
-      rekt.top + rekt.height
-      + (document.documentElement.scrollTop || document.body.scrollTop)
-    }px`;
-    this.container.style.left = `${
-      rekt.left
-      + (document.documentElement.scrollLeft || document.body.scrollLeft)
-    }px`;
+    this.container.style.top = `${rekt.top +
+      rekt.height +
+      (document.documentElement.scrollTop || document.body.scrollTop)}px`;
+    this.container.style.left = `${rekt.left + (document.documentElement.scrollLeft || document.body.scrollLeft)}px`;
 
     this.show();
   }
 
   // Initiate I/O with given date input.
   attachTo(input, locale) {
-    if(
-      input === this.input
-      && this.isOpen
-    ) {
+    if (input === this.input && this.isOpen) {
       return false;
     }
 
@@ -144,7 +126,7 @@ class Picker {
 
   // Match picker date with input date.
   sync() {
-    if(this.input.valueAsDate) {
+    if (this.input.valueAsDate) {
       this.date = Picker.absoluteDate(this.input.valueAsDate);
     } else {
       this.date = new Date();
@@ -159,7 +141,8 @@ class Picker {
   setInput() {
     this.input.valueAsDate = this.date;
     this.input.focus();
-    setTimeout(()=> { // IE wouldn't hide, so in a timeout you go.
+    setTimeout(() => {
+      // IE wouldn't hide, so in a timeout you go.
       this.hide();
     }, 100);
 
@@ -167,24 +150,19 @@ class Picker {
   }
 
   refreshLocale() {
-    if(this.locale === this.input.locale) {
+    if (this.locale === this.input.locale) {
       return false;
     }
 
     this.locale = this.input.locale;
 
     const daysHeadHTML = [`<tr>`];
-    for(let i = 0, len = this.locale.days.length; i < len; ++i) {
+    for (let i = 0, len = this.locale.days.length; i < len; ++i) {
       daysHeadHTML.push(`<th scope="col">${this.locale.days[i]}</th>`);
     }
     this.daysHead.innerHTML = daysHeadHTML.join(``);
 
-    Picker.createRangeSelect(
-      this.month,
-      0,
-      11,
-      this.locale.months
-    );
+    Picker.createRangeSelect(this.month, 0, 11, this.locale.months);
   }
 
   refreshDaysMatrix() {
@@ -195,26 +173,19 @@ class Picker {
     const year = this.date.getFullYear(); // Get the year (2016).
     const month = this.date.getMonth(); // Get the month number (0-11).
     const startDay = new Date(year, month, 1).getDay(); // First weekday of month (0-6).
-    const maxDays = new Date(
-      this.date.getFullYear(),
-      month + 1,
-      0
-    ).getDate(); // Get days in month (1-31).
+    const maxDays = new Date(this.date.getFullYear(), month + 1, 0).getDate(); // Get days in month (1-31).
 
     // The input's current date.
     const selDate = Picker.absoluteDate(this.input.valueAsDate) || false;
 
     // Are we in the input's currently-selected month and year?
-    const selMatrix =
-      selDate
-      && year === selDate.getFullYear()
-      && month === selDate.getMonth();
+    const selMatrix = selDate && year === selDate.getFullYear() && month === selDate.getMonth();
 
     // Populate days matrix.
     const matrixHTML = [];
-    for(let i = 0; i < maxDays + startDay; ++i) {
+    for (let i = 0; i < maxDays + startDay; ++i) {
       // Add a row every 7 days.
-      if(i % 7 === 0) {
+      if (i % 7 === 0) {
         matrixHTML.push(`
           ${i !== 0 ? `</tr>` : ``}
           <tr>
@@ -223,7 +194,7 @@ class Picker {
 
       // Add new column.
       // If no days from this month in this column, it will be empty.
-      if(i + 1 <= startDay) {
+      if (i + 1 <= startDay) {
         matrixHTML.push(`<td></td>`);
         continue;
       }
@@ -251,9 +222,8 @@ class Picker {
     try {
       inputEvent = new Event(`input`);
       changeEvent = new Event(`change`);
-    }
-    // Old-fashioned way.
-    catch(e) {
+    } catch (e) {
+      // Old-fashioned way.
       inputEvent = document.createEvent(`KeyboardEvent`);
       inputEvent.initEvent(`input`, true, false);
       changeEvent = document.createEvent(`KeyboardEvent`);
@@ -267,7 +237,7 @@ class Picker {
   static createRangeSelect(theSelect, min, max, namesArray) {
     theSelect.innerHTML = ``;
 
-    for(let i = min; i <= max; ++i) {
+    for (let i = min; i <= max; ++i) {
       const aOption = document.createElement(`option`);
       theSelect.appendChild(aOption);
 
@@ -281,7 +251,7 @@ class Picker {
   }
 
   static absoluteDate(date) {
-    return date && new Date(date.getTime() + date.getTimezoneOffset()*60*1000);
+    return date && new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
   }
 }
 

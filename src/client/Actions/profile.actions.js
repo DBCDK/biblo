@@ -31,8 +31,8 @@ export function getProfile() {
 }
 
 export function asyncCheckDisplayNameExists(displayName) {
-  return (dispatch) => {
-    checkIfDisplayNameIsTakenListener((res) => dispatch(checkDisplayNameExists(res.data.displayname, res.data.exists)));
+  return dispatch => {
+    checkIfDisplayNameIsTakenListener(res => dispatch(checkDisplayNameExists(res.data.displayname, res.data.exists)));
     checkIfDisplayNameIsTaken.request(displayName);
   };
 }
@@ -45,8 +45,20 @@ export function checkDisplayNameExists(displayname, exists) {
   };
 }
 
-export function asyncProfileEditSubmit(imageFile, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName, options) {
-  return (dispatch) => {
+export function asyncProfileEditSubmit(
+  imageFile,
+  displayname,
+  email,
+  phone,
+  libraryId,
+  loanerId,
+  pincode,
+  description,
+  birthday,
+  fullName,
+  options
+) {
+  return dispatch => {
     dispatch(profileEditSubmitStateChange('SUBMITTING'));
 
     let fields = {
@@ -74,33 +86,35 @@ export function asyncProfileEditSubmit(imageFile, displayname, email, phone, lib
     }
 
     let request = new XMLHttpRequest();
-    request.open('POST', options && options.formLocation || window.location.href);
+    request.open('POST', (options && options.formLocation) || window.location.href);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    request.onreadystatechange = (e) => {
+    request.onreadystatechange = e => {
       if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
         if (data.redirect && !(options && options.preventRedirect)) {
           window.location.assign(data.redirect);
         }
-        dispatch(profileEditSubmit(
-          imageFile,
-          displayname,
-          email,
-          phone,
-          libraryId,
-          loanerId,
-          pincode,
-          description,
-          birthday,
-          fullName,
-          data.status,
-          data.errors
-        ));
+        dispatch(
+          profileEditSubmit(
+            imageFile,
+            displayname,
+            email,
+            phone,
+            libraryId,
+            loanerId,
+            pincode,
+            description,
+            birthday,
+            fullName,
+            data.status,
+            data.errors
+          )
+        );
         dispatch(profileEditSubmitStateChange('SUBMITTED'));
       }
     };
 
-    request.upload.addEventListener('progress', (e) => dispatch(profileEditUploadProgress(e)));
+    request.upload.addEventListener('progress', e => dispatch(profileEditUploadProgress(e)));
     request.upload.addEventListener('load', () => dispatch(profileEditSubmitStateChange('UPLOAD_COMPLETE')));
     request.upload.addEventListener('error', () => dispatch(profileEditSubmitStateChange('UPLOAD_FAILED')));
     request.upload.addEventListener('abort', () => dispatch(profileEditSubmitStateChange('UPLOAD_CANCELED')));
@@ -140,16 +154,15 @@ export function profileEditSubmit(
 }
 
 export function asyncChangeProfileImage(file) {
-  return (dispatch) => {
+  return dispatch => {
     if ('FileReader' in window) {
       let reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = e => {
         dispatch(changeProfileImage(file, e.target.result));
       };
 
       reader.readAsDataURL(file);
-    }
-    else {
+    } else {
       dispatch(changeProfileImage(file, '/Billede-kommer-snart.jpg'));
     }
   };
@@ -188,8 +201,8 @@ export function profileEditSubmitStateChange(state) {
 export function asyncGetUserReviews(reviewownerid, skip, limit = 10) {
   return dispatch => {
     dispatch(getUserReviewsPending());
-    getReviewsSocket.responseOnce((reviews) => {
-      reviews.data.forEach((review) => {
+    getReviewsSocket.responseOnce(reviews => {
+      reviews.data.forEach(review => {
         asyncGetCoverImage(review.pid, review.worktype)(dispatch);
         asyncLoadMetadataForReview(review.pid)(dispatch);
       });
@@ -230,8 +243,8 @@ export function getUserReviews(reviews) {
  * @returns {function()} - Dispatches the result once it arrives.
  */
 export function asyncMarkUserMessageAsRead({messageType, createdEpoch}) {
-  return (dispatch) => {
-    setUserMessageReadSocket.responseOnce((resp) => dispatch(markUserMessageAsRead(resp.message)));
+  return dispatch => {
+    setUserMessageReadSocket.responseOnce(resp => dispatch(markUserMessageAsRead(resp.message)));
     setUserMessageReadSocket.request({messageType, createdEpoch});
   };
 }
@@ -256,8 +269,8 @@ export function markUserMessageAsRead({messageType, createdEpoch}) {
  * @returns {function()} - Dispatches the result once it arrives.
  */
 export function asyncDeleteUserMessage({messageType, createdEpoch}) {
-  return (dispatch) => {
-    deleteUserMessageSocket.responseOnce((resp) => dispatch(deleteUserMessage(resp.message)));
+  return dispatch => {
+    deleteUserMessageSocket.responseOnce(resp => dispatch(deleteUserMessage(resp.message)));
     deleteUserMessageSocket.request({messageType, createdEpoch});
   };
 }
@@ -294,8 +307,8 @@ export function profileIsDeleted(data) {
  * @returns {function()} - Dispatches the result once it arrives.
  */
 export function asyncDeleteProfile(action) {
-  return (dispatch) => {
-    deleteProfile.responseOnce((resp) => dispatch(profileIsDeleted(resp)));
+  return dispatch => {
+    deleteProfile.responseOnce(resp => dispatch(profileIsDeleted(resp)));
     deleteProfile.request(action);
   };
 }

@@ -46,35 +46,38 @@ export const singleCampaignReviewMock = {
     postVideoCollection: null,
     commentVideoCollection: null,
     reviewVideoCollection: 39,
-    resolutions: [{
-      size: 'original_video',
-      id: 2685,
-      videoCollectionResolutionId: 98,
-      imageCollectionResolutionId: null,
-      video: {
-        container: 'uxdev-biblo-input-videobucket',
-        name: '1465825408820_profile_323.mp4',
-        type: 'video/mp4',
-        url: 'api/fileContainers/uxdev-biblo-input-videobucket/download/1465825408820_profile_323.mp4',
-        id: 2696,
-        resolutionImageFileId: null,
-        resolutionVideoFileId: 2685
+    resolutions: [
+      {
+        size: 'original_video',
+        id: 2685,
+        videoCollectionResolutionId: 98,
+        imageCollectionResolutionId: null,
+        video: {
+          container: 'uxdev-biblo-input-videobucket',
+          name: '1465825408820_profile_323.mp4',
+          type: 'video/mp4',
+          url: 'api/fileContainers/uxdev-biblo-input-videobucket/download/1465825408820_profile_323.mp4',
+          id: 2696,
+          resolutionImageFileId: null,
+          resolutionVideoFileId: 2685
+        }
+      },
+      {
+        size: '854x480',
+        id: 2686,
+        videoCollectionResolutionId: 98,
+        imageCollectionResolutionId: null,
+        video: {
+          container: 'uxdev-biblo-output-videobucket',
+          name: '1465825408820_profile_323.mp4',
+          type: 'video/mp4',
+          url: 'api/fileContainers/uxdev-biblo-output-videobucket/download/1465825408820_profile_323.mp4',
+          id: 2697,
+          resolutionImageFileId: null,
+          resolutionVideoFileId: 2686
+        }
       }
-    }, {
-      size: '854x480',
-      id: 2686,
-      videoCollectionResolutionId: 98,
-      imageCollectionResolutionId: null,
-      video: {
-        container: 'uxdev-biblo-output-videobucket',
-        name: '1465825408820_profile_323.mp4',
-        type: 'video/mp4',
-        url: 'api/fileContainers/uxdev-biblo-output-videobucket/download/1465825408820_profile_323.mp4',
-        id: 2697,
-        resolutionImageFileId: null,
-        resolutionVideoFileId: 2686
-      }
-    }]
+    ]
   },
   owner: {
     raw: {

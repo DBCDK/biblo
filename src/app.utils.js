@@ -35,4 +35,3 @@ export function createQueue(logger, app, queueName, processFunction) {
 
   return genericQueue;
 }
-

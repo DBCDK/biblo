@@ -7,9 +7,7 @@ import {config} from '@dbcdk/biblo-config';
  */
 export function encryptData(data) {
   const cipher = crypto.createCipher('aes-128-cbc', config.get('Biblo.secret'));
-  return (
-    cipher.update(JSON.stringify(data), 'utf8', 'hex') + cipher.final('hex')
-  );
+  return cipher.update(JSON.stringify(data), 'utf8', 'hex') + cipher.final('hex');
 }
 
 /**
@@ -18,16 +16,10 @@ export function encryptData(data) {
  */
 export function decryptData(data) {
   try {
-    const decipher = crypto.createDecipher(
-      'aes-128-cbc',
-      config.get('Biblo.secret')
-    );
+    const decipher = crypto.createDecipher('aes-128-cbc', config.get('Biblo.secret'));
     const s = decipher.update(data, 'hex', 'utf8') + decipher.final('utf8');
     return JSON.parse(s);
-  }
-  catch (e) {
+  } catch (e) {
     return null;
   }
 }
-
-

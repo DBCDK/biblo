@@ -10,7 +10,6 @@ import {expect} from 'chai';
 import {GroupEditContainer} from '../GroupEditContainer.component';
 
 describe('Test Group Edit Form component', () => {
-
   const Profile = {
     isModerator: true
   };
@@ -26,8 +25,7 @@ describe('Test Group Edit Form component', () => {
   const Actions = {
     asyncGroupToggleClose: sinon.spy(),
     asyncGroupDelete: sinon.spy(),
-    asyncShowGroups: () => {
-    },
+    asyncShowGroups: () => {},
     changeImageAction: null,
     asyncChangeImage: () => {}
   };
@@ -149,7 +147,12 @@ describe('Test Group Edit Form component', () => {
     };
     Group.moderation.success = true;
     const wrapper = mount(component);
-    expect(wrapper.find('.group-moderation--done h3').first().text()).to.equal('Gruppen er slettet');
+    expect(
+      wrapper
+        .find('.group-moderation--done h3')
+        .first()
+        .text()
+    ).to.equal('Gruppen er slettet');
   });
 
   it('On Fail it should render text', () => {
@@ -162,6 +165,11 @@ describe('Test Group Edit Form component', () => {
     Group.moderation.error = true;
 
     const wrapper = mount(component);
-    expect(wrapper.find('.message.error').first().text()).to.equal('Du kan ikke slette gruppen');
+    expect(
+      wrapper
+        .find('.message.error')
+        .first()
+        .text()
+    ).to.equal('Du kan ikke slette gruppen');
   });
 });

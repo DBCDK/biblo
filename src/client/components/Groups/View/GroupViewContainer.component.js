@@ -94,8 +94,7 @@ export class GroupViewContainer extends React.Component {
       this.setState({
         following: !this.state.following
       });
-    }
-    else {
+    } else {
       this.setState({showloginToFollowMessage: true});
     }
   }
@@ -151,14 +150,14 @@ export class GroupViewContainer extends React.Component {
       >
         {modal}
         <div className="group">
-          <GroupViewHeader uri={this.props.group.imageSquare || ''} groupId={this.props.group.id}/>
+          <GroupViewHeader uri={this.props.group.imageSquare || ''} groupId={this.props.group.id} />
           {this.props.group.isClosed && (
             <Message type="warning">Gruppen er lukket, så du kan ikke skrive indlæg eller kommentarer</Message>
           )}
           <div className="group--content">
             <div className="group--details">
               <a href={`/grupper/${this.props.group.id}`}>
-                <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}}/>
+                <h2 className="group--title" dangerouslySetInnerHTML={{__html: sanitizeHtml(this.props.group.name)}} />
               </a>
               <p
                 className="group--description"
@@ -173,34 +172,37 @@ export class GroupViewContainer extends React.Component {
                 />
               </div>
             </div>
-            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) &&
-            <div className="group--actions">
-              <TinyButton
-                active={false}
-                clickFunction={() => window.location = `/grupper/${this.props.group.id}/rediger`} // eslint-disable-line
-                // no-return-assign
-                icon={<Icon glyph={pencilSvg} />} />
-            </div>
-            }
-            {(!this.props.group.isClosed || this.props.profile.isModerator) &&
-            <div className='group--post-add'>
-              <h2>Skriv i gruppen</h2>
-              <PostAdd
-                redirectTo={`/grupper/${this.props.group.id}`}
-                profile={this.props.profile}
-                getMoreWorks={this.props.profileActions.asyncGetUserReviews}
-                addContentAction={this.props.groupActions.addPost}
-                works={this.props.group.works}
-                parentId={this.props.group.id}
-                type="post"
-                coverImages={this.props.coverImages}
-                pdfUploads={true}
-              />
-            </div>
-            }
-            <div className='group--post-view'>
-              <h2
-                className="group--post-view-header">{this.props.group.postsCount} {this.props.group.postsCount === 1 && 'bruger skriver' || 'brugere skriver'}</h2>
+            {(this.props.profile.id === this.props.group.owner.id || this.props.profile.isModerator) && (
+              <div className="group--actions">
+                <TinyButton
+                  active={false}
+                  clickFunction={() => (window.location = `/grupper/${this.props.group.id}/rediger`)} // eslint-disable-line
+                  // no-return-assign
+                  icon={<Icon glyph={pencilSvg} />}
+                />
+              </div>
+            )}
+            {(!this.props.group.isClosed || this.props.profile.isModerator) && (
+              <div className="group--post-add">
+                <h2>Skriv i gruppen</h2>
+                <PostAdd
+                  redirectTo={`/grupper/${this.props.group.id}`}
+                  profile={this.props.profile}
+                  getMoreWorks={this.props.profileActions.asyncGetUserReviews}
+                  addContentAction={this.props.groupActions.addPost}
+                  works={this.props.group.works}
+                  parentId={this.props.group.id}
+                  type="post"
+                  coverImages={this.props.coverImages}
+                  pdfUploads={true}
+                />
+              </div>
+            )}
+            <div className="group--post-view">
+              <h2 className="group--post-view-header">
+                {this.props.group.postsCount}{' '}
+                {(this.props.group.postsCount === 1 && 'bruger skriver') || 'brugere skriver'}
+              </h2>
               <PostList
                 campaign={this.props.group.campaign}
                 posts={this.props.group.posts}
@@ -225,7 +227,8 @@ export class GroupViewContainer extends React.Component {
                         this.props.group.id,
                         this.props.group.numberOfPostsLoaded,
                         10
-                      )}
+                      )
+                    }
                     text="Vis flere"
                   />
                 </div>

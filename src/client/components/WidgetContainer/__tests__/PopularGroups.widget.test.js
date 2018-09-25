@@ -20,7 +20,10 @@ describe('Popular groups widget!', () => {
       }
     });
 
-    const text = wrapper.find('.popular-groups-widget').first().text();
+    const text = wrapper
+      .find('.popular-groups-widget')
+      .first()
+      .text();
     expect(text).to.equal(' Vis Flere');
   });
 
@@ -37,7 +40,10 @@ describe('Popular groups widget!', () => {
       }
     });
 
-    const renderedGroupName = wrapper.find('.popular-groups-widget--group-container').first().text();
+    const renderedGroupName = wrapper
+      .find('.popular-groups-widget--group-container')
+      .first()
+      .text();
     expect(renderedGroupName).to.include(singleGroupMock.name);
   });
 });

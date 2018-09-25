@@ -23,14 +23,13 @@ export function userMessageParser(items = [], limit) {
   }
   let seenIds = [];
 
-  items.forEach((message) => {
+  items.forEach(message => {
     message.type = message.messageType;
 
     try {
       message = Object.assign(message, JSON.parse(message.message));
       delete message.message;
-    }
-    catch (err) {
+    } catch (err) {
       message.errors = ['Could not parse message'];
     }
 
@@ -42,8 +41,12 @@ export function userMessageParser(items = [], limit) {
       'type-userWasQuarantined'
     ];
 
-    if (seenIds.includes(message.commentId) || !!message.markAsDeleted || !accecptedMessageTypes.includes(message.messageType)) {
-      seenIds.includes(message.commentId) ? DeleteMessageTransform.requestTransform('deleteUserMessage', message):'';
+    if (
+      seenIds.includes(message.commentId) ||
+      !!message.markAsDeleted ||
+      !accecptedMessageTypes.includes(message.messageType)
+    ) {
+      seenIds.includes(message.commentId) ? DeleteMessageTransform.requestTransform('deleteUserMessage', message) : '';
       return;
     }
 

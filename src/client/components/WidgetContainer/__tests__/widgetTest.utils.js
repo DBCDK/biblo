@@ -7,16 +7,22 @@ import WidgetContainer from '../WidgetContainer.component';
 
 export function renderWidgetWithEnzyme(params) {
   const widgetLocationName = params.location || 'test-widget-location';
-  const widgetState = Object.assign({
-    widgetLocations: {}
-  }, params.state);
+  const widgetState = Object.assign(
+    {
+      widgetLocations: {}
+    },
+    params.state
+  );
 
-  const widgetActions = Object.assign({
-    asyncGetLatestReviews: () => {},
-    asyncListenForCoverImages: () => {},
-    asyncGetCoverImage: () => {},
-    callServiceProvider: () => {}
-  }, params.actions);
+  const widgetActions = Object.assign(
+    {
+      asyncGetLatestReviews: () => {},
+      asyncListenForCoverImages: () => {},
+      asyncGetCoverImage: () => {},
+      callServiceProvider: () => {}
+    },
+    params.actions
+  );
 
   widgetState.widgetLocations[widgetLocationName] = {
     widgetName: params.widgetName,
@@ -24,10 +30,7 @@ export function renderWidgetWithEnzyme(params) {
   };
 
   const component = (
-    <WidgetContainer
-      widgetLocationName={widgetLocationName}
-      widgetState={widgetState}
-      widgetActions={widgetActions} />
+    <WidgetContainer widgetLocationName={widgetLocationName} widgetState={widgetState} widgetActions={widgetActions} />
   );
 
   // return $(component).render();

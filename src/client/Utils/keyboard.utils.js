@@ -2,7 +2,7 @@ export function hideKeyboard(element) {
   element.setAttribute('readonly', 'readonly');
   element.setAttribute('disabled', 'true');
 
-  setTimeout(function () {
+  setTimeout(function() {
     element.blur();
     document.body.focus();
     element.removeAttribute('readonly');

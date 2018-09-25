@@ -20,12 +20,10 @@ function sendRequest(defaults, method, query) {
       if (err) {
         log.error('suggest client responded with an error', {err});
         reject(err);
-      }
-      else if (response.statusCode !== 200) {
+      } else if (response.statusCode !== 200) {
         log.error('uri responds with fail statusCode', {path: uri, statusCode: response.statusCode});
         reject(response);
-      }
-      else {
+      } else {
         const data = JSON.parse(body);
         const params = {
           service: 'entity-suggest',

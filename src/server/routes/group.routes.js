@@ -23,7 +23,7 @@ GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, (req, res) 
   let data = {};
   let windowData = {
     propertyName: 'DATA',
-    data: JSON.stringify(data).replace('\'', '\\\'')
+    data: JSON.stringify(data).replace("'", "\\'")
   };
 
   res.locals.title = 'Opret gruppe - Biblo.dk';
@@ -35,7 +35,10 @@ GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, (req, res) 
   });
 });
 
-GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.single('group_image'), async function (req, res) {
+GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.single('group_image'), async function(
+  req,
+  res
+) {
   const data = {
     status: 'INCOMPLETE'
   };
@@ -75,8 +78,7 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
         errorMessage: 'Der er sket en fejl, prøv igen senere!',
         field: 'group_image'
       });
-    }
-    else if (nameCheck.exists) {
+    } else if (nameCheck.exists) {
       errors.push({
         errorMessage: 'Der findes allerede en gruppe med det navn',
         field: 'group-name'
@@ -87,8 +89,7 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
   if (errors.length > 0) {
     data.status = 'ERROR';
     data.errors = errors;
-  }
-  else {
+  } else {
     // request is valid
     let createRes = (await req.callServiceProvider('createGroup', {
       name: req.body['group-name'],
@@ -101,12 +102,10 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
       data.status = 'OK';
       data.redirect = '/grupper/' + createRes.data.id;
       data.group = createRes.data;
-    }
-    else if (createRes.errors && createRes.errors.length > 0) {
+    } else if (createRes.errors && createRes.errors.length > 0) {
       data.status = 'ERROR';
       data.errors = errors.concat(createRes.errors);
-    }
-    else {
+    } else {
       errors.push({
         field: 'general',
         errorMessage: 'Der skete en fejl ved gruppe oprettelse, prøv igen senere!'
@@ -119,11 +118,10 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
   if (req.xhr) {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(data));
-  }
-  else {
+  } else {
     let windowData = {
       propertyName: 'DATA',
-      data: JSON.stringify(data).replace('\'', '\\\'')
+      data: JSON.stringify(data).replace("'", "\\'")
     };
 
     res.render('page', {
@@ -134,23 +132,21 @@ GroupRoutes.post('/opret', ensureAuthenticated, ensureUserHasProfile, upload.sin
   }
 });
 
-GroupRoutes.get('/post/:id', async function (req, res) {
+GroupRoutes.get('/post/:id', async function(req, res) {
   try {
     let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'post'}))[0].body;
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}`);
-  }
-  catch (e) {
+  } catch (e) {
     log.error('An error occured while retrieving a group', {error: e, params: req.params});
     res.redirect('/error/500');
   }
 });
 
-GroupRoutes.get('/kommentar/:id', async function (req, res) {
+GroupRoutes.get('/kommentar/:id', async function(req, res) {
   try {
     let idObj = (await req.callServiceProvider('getGroupId', {id: req.params.id, type: 'comment'}))[0].body;
     res.redirect(`/grupper/${idObj.groupid}/${idObj.postid}/${req.params.id}#comment_${req.params.id}`);
-  }
-  catch (e) {
+  } catch (e) {
     log.error('An error occured while retrieving a comment', {error: e, params: req.params});
     res.redirect('/error/500');
   }
@@ -176,89 +172,90 @@ GroupRoutes.get('/:id/rediger', ensureAuthenticated, ensureUserHasProfile, async
   });
 });
 
-GroupRoutes.post('/:id/rediger', ensureAuthenticated, ensureUserHasProfile, upload.single('group_image'), async function editGroupRoutePost(req, res) {
-  let data = {
-    status: 'INCOMPLETE'
-  };
-  let errors = [];
-  data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
+GroupRoutes.post(
+  '/:id/rediger',
+  ensureAuthenticated,
+  ensureUserHasProfile,
+  upload.single('group_image'),
+  async function editGroupRoutePost(req, res) {
+    let data = {
+      status: 'INCOMPLETE'
+    };
+    let errors = [];
+    data.groupData = (await req.callServiceProvider('getGroup', {id: req.params.id, allMembers: false}))[0];
 
-  function handler(form) {
-    for (let key in form.fields) {
-      if (form.fields.hasOwnProperty(key)) {
-        if (form.fields[key].error) {
-          errors.push({
-            errorMessage: form.fields[key].error,
-            field: key
-          });
+    function handler(form) {
+      for (let key in form.fields) {
+        if (form.fields.hasOwnProperty(key)) {
+          if (form.fields[key].error) {
+            errors.push({
+              errorMessage: form.fields[key].error,
+              field: key
+            });
+          }
         }
       }
     }
-  }
 
-  groupCreateForm.handle(req, {
-    error: handler,
-    empty: handler,
-    other: handler
-  });
+    groupCreateForm.handle(req, {
+      error: handler,
+      empty: handler,
+      other: handler
+    });
 
-  if (errors.length > 0) {
-    data.errors = errors;
-    data.status = 'ERROR';
-  }
-  else {
-    // Handle serviceprovider;
-    let updateQuery = {
-      id: req.params.id,
-      name: req.body['group-name'],
-      description: req.body['group-description'],
-      colour: 'blue'
-    };
-
-    if (req.file) {
-      updateQuery.group_image = req.file;
-    }
-
-    try {
-      let updateGroupResponse = (await req.callServiceProvider('updateGroup', updateQuery))[0];
-      if (updateGroupResponse.errors && updateGroupResponse.errors.length > 0) {
-        errors = updateGroupResponse.errors.concat(errors);
-        data.status = 'ERROR';
-        data.errors = errors;
-      }
-      else {
-        data.status = 'OK';
-        data.groupData = updateGroupResponse.data;
-        data.redirect = '/grupper/' + req.params.id;
-      }
-    }
-    catch (e) {
-      if (typeof e === 'string') {
-        errors.push({
-          errorMessage: e,
-          field: 'general'
-        });
-      }
-      else {
-        errors.push(e);
-      }
+    if (errors.length > 0) {
       data.errors = errors;
       data.status = 'ERROR';
+    } else {
+      // Handle serviceprovider;
+      let updateQuery = {
+        id: req.params.id,
+        name: req.body['group-name'],
+        description: req.body['group-description'],
+        colour: 'blue'
+      };
+
+      if (req.file) {
+        updateQuery.group_image = req.file;
+      }
+
+      try {
+        let updateGroupResponse = (await req.callServiceProvider('updateGroup', updateQuery))[0];
+        if (updateGroupResponse.errors && updateGroupResponse.errors.length > 0) {
+          errors = updateGroupResponse.errors.concat(errors);
+          data.status = 'ERROR';
+          data.errors = errors;
+        } else {
+          data.status = 'OK';
+          data.groupData = updateGroupResponse.data;
+          data.redirect = '/grupper/' + req.params.id;
+        }
+      } catch (e) {
+        if (typeof e === 'string') {
+          errors.push({
+            errorMessage: e,
+            field: 'general'
+          });
+        } else {
+          errors.push(e);
+        }
+        data.errors = errors;
+        data.status = 'ERROR';
+      }
+    }
+
+    if (req.xhr) {
+      res.send(JSON.stringify(data));
+      res.end();
+    } else {
+      res.render('page', {
+        css: ['/css/groupedit.css'],
+        js: ['/js/groupedit.js'],
+        jsonData: [JSON.stringify(data)]
+      });
     }
   }
-
-  if (req.xhr) {
-    res.send(JSON.stringify(data));
-    res.end();
-  }
-  else {
-    res.render('page', {
-      css: ['/css/groupedit.css'],
-      js: ['/js/groupedit.js'],
-      jsonData: [JSON.stringify(data)]
-    });
-  }
-});
+);
 
 /**
  * Method for showing group
@@ -287,58 +284,59 @@ async function fetchGroupData(params, req, res, update = {}) {
   try {
     let postsPromise;
     if (params.postid) {
-      postsPromise = req.callServiceProvider('getSinglePosts', {
-        id: params.postid,
-        filter: {
-          include: [
-            'image',
-            'pdf',
-            'likes',
-            {owner: ['image']},
-            {comments: [{owner: ['image']}, 'image']},
-            {
-              relation: 'review',
-              scope: {
-                include: [
-                  'image',
-                  'likes',
-                  {
-                    relation: 'video',
-                    scope: {
-                      include: [
-                        {
-                          relation: 'resolutions',
-                          scope: {
-                            include: ['video']
+      postsPromise = req
+        .callServiceProvider('getSinglePosts', {
+          id: params.postid,
+          filter: {
+            include: [
+              'image',
+              'pdf',
+              'likes',
+              {owner: ['image']},
+              {comments: [{owner: ['image']}, 'image']},
+              {
+                relation: 'review',
+                scope: {
+                  include: [
+                    'image',
+                    'likes',
+                    {
+                      relation: 'video',
+                      scope: {
+                        include: [
+                          {
+                            relation: 'resolutions',
+                            scope: {
+                              include: ['video']
+                            }
                           }
-                        }
-                      ]
+                        ]
+                      }
                     }
-                  }
-                ]
-              }
-            },
-            {
-              relation: 'video',
-              scope: {
-                include: [
-                  {
-                    relation: 'resolutions',
-                    scope: {
-                      include: ['video']
+                  ]
+                }
+              },
+              {
+                relation: 'video',
+                scope: {
+                  include: [
+                    {
+                      relation: 'resolutions',
+                      scope: {
+                        include: ['video']
+                      }
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            }
-          ]
-        }
-      }).then((result) => {
-        result[0].id = Math.abs(result[0].id);
-        return Promise.resolve(result);
-      });
-    }
-    else {
+            ]
+          }
+        })
+        .then(result => {
+          result[0].id = Math.abs(result[0].id);
+          return Promise.resolve(result);
+        });
+    } else {
       postsPromise = req.callServiceProvider('getPosts', {id: params.id, skip: 0, limit: 5});
     }
 
@@ -348,23 +346,23 @@ async function fetchGroupData(params, req, res, update = {}) {
     if (req.isAuthenticated()) {
       profile = req.session.passport.user.profile;
       const profileId = profile.profile.id;
-      reviewsPromise = req.callServiceProvider('getOwnReview', {reviewownerid: profileId, offset: 0, order: 'created ASC', markedAsDeleted: null});
+      reviewsPromise = req.callServiceProvider('getOwnReview', {
+        reviewownerid: profileId,
+        offset: 0,
+        order: 'created ASC',
+        markedAsDeleted: null
+      });
 
       const isMemberOfGroup = (await req.callServiceProvider('checkForMemberInGroup', {id: params.id}))[0];
       if (isMemberOfGroup) {
         // The user is a member of the group, so we want to refresh the last visited attribute on the membership.
         await req.callServiceProvider('joinGroup', {groupId: params.id, profileId});
       }
-    }
-    else {
+    } else {
       reviewsPromise = Promise.resolve([{data: [], errors: [], reviewsCount: 0}]);
     }
 
-    let response = (await Promise.all([
-      req.callServiceProvider('getGroup', params),
-      postsPromise,
-      reviewsPromise
-    ]));
+    let response = await Promise.all([req.callServiceProvider('getGroup', params), postsPromise, reviewsPromise]);
 
     profile.profile.reviews = response[2][0] || {data: [], reviewsCount: 0};
     res.locals.profile = JSON.stringify(profile);
@@ -374,10 +372,11 @@ async function fetchGroupData(params, req, res, update = {}) {
     group.posts = Array.isArray(response[1][0]) ? response[1][0] : [response[1][0]];
     group.numberOfPostsLoaded = group.posts.length;
     showGroup(Object.assign(group, update), res);
-  }
-  catch (e) {
+  } catch (e) {
     log.error('An error occured while fetching groupdata', {
-      error: e.message || e, params: params, session: req.session
+      error: e.message || e,
+      params: params,
+      session: req.session
     });
     res.locals.title = 'Fejl - Biblo.dk';
     res.redirect('/error');
@@ -387,12 +386,14 @@ async function fetchGroupData(params, req, res, update = {}) {
 /**
  * Get group view
  */
-GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], (req, res) => fetchGroupData(req.params, req, res));
+GroupRoutes.get(['/:id', '/:id/:postid', '/:id/:postid/:commentid'], (req, res) =>
+  fetchGroupData(req.params, req, res)
+);
 
 /**
  * Add a post to a group
  */
-GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async function (req, res) {
+GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async function(req, res) {
   const ElasticTranscoder = req.app.get('ElasticTranscoder');
   const params = {
     title: ' ',
@@ -423,8 +424,7 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     if (req.session.videoupload && response && params) {
       if (params.type === 'post') {
         createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, response.id, null, null, amazonConfig);
-      }
-      else {
+      } else {
         createElasticTranscoderJob(ElasticTranscoder, req.session.videoupload, null, response.id, null, amazonConfig);
       }
     }
@@ -435,22 +435,18 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
       let content;
       if (params.type === 'post') {
         content = (await req.callServiceProvider('getSinglePosts', {id: response.id}))[0];
-      }
-      else {
+      } else {
         content = (await req.callServiceProvider('getSingleComment', {id: response.id}))[0];
       }
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(content));
-    }
-    else if (!response) {
+    } else if (!response) {
       log.error('An error occured when creating a new post', {params: params});
       res.redirect('/error');
-    }
-    else {
+    } else {
       res.redirect(req.body.redirect);
     }
-  }
-  catch (e) {
+  } catch (e) {
     log.error(e);
     const errorObj = {
       message: e.message,
@@ -459,24 +455,23 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
     if (errorObj.message === 'user is quarantined') {
       if (req.xhr) {
         let content = {
-          errors: [{
-            errorMessage: 'Du er i karantæne!',
-            field: 'general'
-          }]
+          errors: [
+            {
+              errorMessage: 'Du er i karantæne!',
+              field: 'general'
+            }
+          ]
         };
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(content));
-      }
-      else {
+      } else {
         res.redirect('/error/403?message=' + encodeURIComponent('Du er i karantæne!'));
       }
-    }
-    else {
+    } else {
       log.error('An occured when creating a new post/comment', {params: params, error: errorObj});
       if (req.xhr) {
         res.sendStatus(400);
-      }
-      else {
+      } else {
         res.redirect('/error');
       }
     }
@@ -498,8 +493,7 @@ GroupRoutes.get('/', async function getGroups(req, res, next) {
       css: ['/css/groups.css'],
       js: ['/js/groups.js']
     });
-  }
-  catch (e) {
+  } catch (e) {
     log.error(e);
     next(e);
   }

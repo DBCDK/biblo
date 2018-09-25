@@ -17,7 +17,7 @@ import '../../../Utils/dateInputPolyfill/date-input-polyfill';
 import './profileform.component.scss';
 import {isMobile} from 'react-device-detect';
 
-const fieldExplanationData= require('./profileFormData.json');
+const fieldExplanationData = require('./profileFormData.json');
 
 export default class ProfileForm extends React.Component {
   static propTypes = {
@@ -67,7 +67,6 @@ export default class ProfileForm extends React.Component {
       pincode: (props.favoriteLibrary || {}).pincode || '',
       displayModal: false,
       fieldExplanation: {title: '', content: ''}
-
     };
 
     this.descriptionRef = null;
@@ -117,7 +116,11 @@ export default class ProfileForm extends React.Component {
         return <RoundedButtonSubmit buttonText="GEMT" />;
       }
       default: {
-        return <RoundedButtonSubmit buttonText={this.props.hasFilledInProfile ? 'Gem min profil' : 'Opret min profil på Biblo.dk'} />;
+        return (
+          <RoundedButtonSubmit
+            buttonText={this.props.hasFilledInProfile ? 'Gem min profil' : 'Opret min profil på Biblo.dk'}
+          />
+        );
       }
     }
   }
@@ -132,26 +135,22 @@ export default class ProfileForm extends React.Component {
       return (
         <div>
           <p className="fieldExplanation required" onClick={() => this.hideShowModal(fieldExplanation)}>
-            {isMobile? 'Hvorfor?':fieldExplanation.title}
+            {isMobile ? 'Hvorfor?' : fieldExplanation.title}
           </p>
-          {this.state.displayModal && <ModalWindow onClose={this.hideShowModal.bind(this)} >
-            <div className="cookie-warning" >
-              <div className="cookie-warning--svg">
+          {this.state.displayModal && (
+            <ModalWindow onClose={this.hideShowModal.bind(this)}>
+              <div className="cookie-warning">
+                <div className="cookie-warning--svg" />
+                <span className="cookie-warning--header">{this.state.fieldExplanation.modalTitle}</span>
+                <span className="cookie-warning--message">{this.state.fieldExplanation.content}</span>
+                <RoundedButton buttonText="OK" clickFunction={this.hideShowModal.bind(this)} />
               </div>
-              <span className="cookie-warning--header" >
-                {this.state.fieldExplanation.modalTitle}
-              </span>
-              <span className="cookie-warning--message" >
-                {this.state.fieldExplanation.content}
-              </span>
-              <RoundedButton buttonText="OK" clickFunction={this.hideShowModal.bind(this)} />
-            </div>
-          </ModalWindow>}
+            </ModalWindow>
+          )}
         </div>
       );
     }
     return;
-
   }
 
   render() {
@@ -171,11 +170,15 @@ export default class ProfileForm extends React.Component {
     return (
       <div className={(this.props.errors.length > 0 && ' shakeit') || ''}>
         <div className={'profile-form' + ((this.props.errors.length > 0 && '') || '')}>
-          <form method="POST" encType="multipart/form-data" id="profile_form_component" ref={profileForm => {
-            this.profileFormRef = profileForm;
-          }}>
-            <div className='profile-image-upload'>
-
+          <form
+            method="POST"
+            encType="multipart/form-data"
+            id="profile_form_component"
+            ref={profileForm => {
+              this.profileFormRef = profileForm;
+            }}
+          >
+            <div className="profile-image-upload">
               <DroppableImageField
                 disabled={disabled}
                 imageSrc={this.props.profileImageSrc}
@@ -184,23 +187,21 @@ export default class ProfileForm extends React.Component {
                 overlayText={this.props.profileImageSrc === '/no_profile.png' ? 'Upload dit billede' : ''}
               />
 
-
-              <div className='image-field-text-container'>
+              <div className="image-field-text-container">
                 {this.renderFieldExplanation(fieldExplanationData.profileImage)}
               </div>
               {errorObj.profile_image || ''}
-
             </div>
-
 
             {errorObj.general || ''}
 
             <div className="padded-area">
-
-              <span className="profile-form-headers">Disse to felter <u>skal</u> du udfylde:</span>
+              <span className="profile-form-headers">
+                Disse to felter <u>skal</u> du udfylde:
+              </span>
               <div>
                 <DisplayNameField
-                  value={this.state.displayName? this.state.displayName :''}
+                  value={this.state.displayName ? this.state.displayName : ''}
                   errors={errorObj}
                   onChangeFunc={e => this.setState({displayName: e.target.value})}
                   checkDisplayNameFunction={this.props.checkDisplayNameFunction}
@@ -220,9 +221,10 @@ export default class ProfileForm extends React.Component {
                 loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
                 pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.library)}
-
               />
-              <h1 className="profile-form-headers">Disse fem felter <u>behøver</u> du ikke at udfylde nu:</h1>
+              <h1 className="profile-form-headers">
+                Disse fem felter <u>behøver</u> du ikke at udfylde nu:
+              </h1>
 
               <InputField
                 defaultValue={this.props.fullName}
@@ -233,7 +235,6 @@ export default class ProfileForm extends React.Component {
                 title="Dit rigtige navn"
                 placeholder="Dit navn"
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.name)}
-
               />
               <InputField
                 defaultValue={this.props.phone}
@@ -244,7 +245,6 @@ export default class ProfileForm extends React.Component {
                 title="Mobil (din eller dine forældres)"
                 placeholder="Mobil"
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.phone)}
-
               />
               <InputField
                 defaultValue={this.props.email}
@@ -255,7 +255,6 @@ export default class ProfileForm extends React.Component {
                 title="E-mail (din eller dine forældres)"
                 placeholder="E-mail"
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.email)}
-
               />
 
               <InputField
@@ -269,7 +268,6 @@ export default class ProfileForm extends React.Component {
                 format="dd/mm/yyyy"
                 data-date-format="dd/mm/yyyy"
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.born)}
-
               />
 
               <div className="description--form-area">
@@ -283,7 +281,7 @@ export default class ProfileForm extends React.Component {
                   <textarea
                     placeholder="Her kan du skrive lidt om dig selv"
                     name="description"
-                    value={this.state.description? this.state.description:'' }
+                    value={this.state.description ? this.state.description : ''}
                     ref={description => {
                       this.descriptionRef = description;
                     }}
@@ -306,5 +304,3 @@ export default class ProfileForm extends React.Component {
     );
   }
 }
-
-

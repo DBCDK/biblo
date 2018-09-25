@@ -23,17 +23,47 @@ describe('Testing the parseStringForVideoUrls.js util', () => {
     const result = parseStringForVideoUrls(`this is a string containing one youtube link ${youtubeURL}`, false);
 
     expect(result).to.have.lengthOf(1);
-    expect(result[0]).to.deep.equal(['https://www.youtube.com/watch?v=kNTnrpL1Uw0', 'https:', 'www.', 'youtube.com', 'be.com', 'watch?v=', 'kNTnrpL1Uw0', undefined]); // eslint-disable-line
+    expect(result[0]).to.deep.equal([
+      'https://www.youtube.com/watch?v=kNTnrpL1Uw0',
+      'https:',
+      'www.',
+      'youtube.com',
+      'be.com',
+      'watch?v=',
+      'kNTnrpL1Uw0',
+      undefined
+    ]); // eslint-disable-line
   });
 
   it('it should return an array with two video urls present', () => {
     const youtubeURL = 'https://www.youtube.com/watch?v=kNTnrpL1Uw0';
     const vimeoURL = 'https://vimeo.com/76839641';
-    const result = parseStringForVideoUrls(`this is a string containing one youtube link ${youtubeURL} and a vimeo link ${vimeoURL}`, false);
+    const result = parseStringForVideoUrls(
+      `this is a string containing one youtube link ${youtubeURL} and a vimeo link ${vimeoURL}`,
+      false
+    );
 
     expect(result).to.have.lengthOf(2);
-    expect(result[0]).to.deep.equal(['https://www.youtube.com/watch?v=kNTnrpL1Uw0', 'https:', 'www.', 'youtube.com', 'be.com', 'watch?v=', 'kNTnrpL1Uw0', undefined]); // eslint-disable-line
-    expect(result[1]).to.deep.equal(['https://vimeo.com/76839641', 'https:', undefined, 'vimeo.com', undefined, undefined, '76839641', undefined]); // eslint-disable-line
+    expect(result[0]).to.deep.equal([
+      'https://www.youtube.com/watch?v=kNTnrpL1Uw0',
+      'https:',
+      'www.',
+      'youtube.com',
+      'be.com',
+      'watch?v=',
+      'kNTnrpL1Uw0',
+      undefined
+    ]); // eslint-disable-line
+    expect(result[1]).to.deep.equal([
+      'https://vimeo.com/76839641',
+      'https:',
+      undefined,
+      'vimeo.com',
+      undefined,
+      undefined,
+      '76839641',
+      undefined
+    ]); // eslint-disable-line
   });
 
   it('it should return an array with one player', () => {

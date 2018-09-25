@@ -37,7 +37,10 @@ export default class RenewLoanButton extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     // Component should only update if anything new has happend
-    return !!nextProps.userstatusState.renewLoan[this.props.loanId] || JSON.stringify(this.state) !== JSON.stringify(nextState);
+    return (
+      !!nextProps.userstatusState.renewLoan[this.props.loanId] ||
+      JSON.stringify(this.state) !== JSON.stringify(nextState)
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,7 +67,7 @@ export default class RenewLoanButton extends React.Component {
     let loan = null;
 
     if (userstatus.loans && Array.isArray(userstatus.loans)) {
-      userstatus.loans.forEach((l) => {
+      userstatus.loans.forEach(l => {
         if (l.loanId === this.props.loanId) {
           loan = l;
         }
@@ -97,7 +100,7 @@ export default class RenewLoanButton extends React.Component {
     let buttonText = 'Lån igen';
 
     if (this.state.pending) {
-      buttonText = <Icon glyph={spinner} width={72}/>;
+      buttonText = <Icon glyph={spinner} width={72} />;
     }
 
     return buttonText;
@@ -132,9 +135,10 @@ export default class RenewLoanButton extends React.Component {
     let str = '';
     if (this.state.loan && this.state.success) {
       const diff = moment(this.state.loan.dateDue).diff(moment(), 'days');
-      const daysString = diff === 0 ?
-        'i dag' :
-        (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
+      const daysString =
+        diff === 0
+          ? 'i dag'
+          : (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
       str = `Du skal nu aflevere ${daysString}`;
     }
 
@@ -146,18 +150,19 @@ export default class RenewLoanButton extends React.Component {
     const timeToDueDate = this.getTimeToDueDate();
 
     let content = '';
-    const msg = this.state.renewLoanState.error ?
-      <span className="renew-loan-button--try-again-msg">Der skete en fejl. Prøv igen.</span> :
-      null;
+    const msg = this.state.renewLoanState.error ? (
+      <span className="renew-loan-button--try-again-msg">Der skete en fejl. Prøv igen.</span>
+    ) : null;
 
     if (this.state.renewLoanState.userstatusError) {
       content = <span className="renew-loan-button--msg--error">{this.getErrorMessage()}</span>;
-    }
-    else if (this.state.success) {
-      content =
-        <span className="renew-loan-button--msg--success">Du har lånt {this.props.materialTitle} igen. {timeToDueDate}</span>;
-    }
-    else {
+    } else if (this.state.success) {
+      content = (
+        <span className="renew-loan-button--msg--success">
+          Du har lånt {this.props.materialTitle} igen. {timeToDueDate}
+        </span>
+      );
+    } else {
       content = (
         <span>
           <RoundedButton
@@ -187,4 +192,3 @@ RenewLoanButton.propTypes = {
 RenewLoanButton.defaultProps = {
   className: ''
 };
-

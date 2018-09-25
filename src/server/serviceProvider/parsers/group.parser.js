@@ -8,14 +8,14 @@ import parseText from './text.parser';
  */
 export default function parseGroup(group = {}) {
   group.owner = parseProfile(group.owner, true, 'small');
-  group.image = group.coverImage && '/billede/' + group.coverImage.id + '/small' || null;
-  group.imageSquare = group.coverImage && '/billede/' + group.coverImage.id + '/small-square' || null;
+  group.image = (group.coverImage && '/billede/' + group.coverImage.id + '/small') || null;
+  group.imageSquare = (group.coverImage && '/billede/' + group.coverImage.id + '/small-square') || null;
   group.raw = {
     name: group.name,
     description: group.description
   };
   group.name = parseText(group.name, false, 'none');
   group.description = parseText(group.description);
-  group.isClosed = !!group.timeClosed || (Date.now() - Date.parse(group.timeClosed)) > 0;
+  group.isClosed = !!group.timeClosed || Date.now() - Date.parse(group.timeClosed) > 0;
   return group;
 }

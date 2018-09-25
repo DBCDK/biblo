@@ -3,7 +3,6 @@
  * Get content page from biblo admin
  */
 const HowRUAdmin = {
-
   /**
    * @return {string}
    */

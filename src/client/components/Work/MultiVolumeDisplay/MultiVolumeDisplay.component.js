@@ -22,7 +22,7 @@ export class MultiVolumeDisplay extends React.Component {
     return this.props.multivolume.map(item => {
       const pid = item.pid[0];
       const work = this.props.multivolumeMetadata[pid] || {};
-      const volume = item.type[0].match(/bind \d+/ig)[0];
+      const volume = item.type[0].match(/bind \d+/gi)[0];
 
       if (displayedVolumes.includes(volume)) {
         return null;
@@ -45,11 +45,10 @@ export class MultiVolumeDisplay extends React.Component {
     const items = this.getMultivolumeItems();
 
     return (
-      <div className='more-info'>
+      <div className="more-info">
         <div className="more-info--header">Alle bind i {this.props.multivolumeTitle}</div>
         {items}
       </div>
     );
   }
 }
-

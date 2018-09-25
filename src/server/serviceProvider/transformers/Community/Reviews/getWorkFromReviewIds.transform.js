@@ -16,15 +16,14 @@ const getWorkFromReviewIdsTransform = {
       }
     }).then(reviewsResponse => {
       const reviews = reviewsResponse.body;
-      return Promise.all(reviews.map(review => this.callServiceClient('cached/standard/openplatform', 'work', {
-        pids: [review.pid],
-        fields: [
-          'collection',
-          'dcTitle',
-          'workType',
-          'coverUrlFull'
-        ]
-      })));
+      return Promise.all(
+        reviews.map(review =>
+          this.callServiceClient('cached/standard/openplatform', 'work', {
+            pids: [review.pid],
+            fields: ['collection', 'dcTitle', 'workType', 'coverUrlFull']
+          })
+        )
+      );
     });
   },
 

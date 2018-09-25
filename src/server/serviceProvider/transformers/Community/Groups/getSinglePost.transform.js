@@ -1,12 +1,12 @@
 import parsePost from '../../../parsers/post.parser';
 
 const GetPostsTransform = {
-
   event() {
     return 'getSinglePosts';
   },
 
-  requestTransform(event, {id, filter = {}}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {id, filter = {}}, connection) {
+    // eslint-disable-line no-unused-vars
     if (!id) {
       return Promise.reject(new Error('No post id provided'));
     }
@@ -53,7 +53,8 @@ const GetPostsTransform = {
                       scope: {
                         include: ['video']
                       }
-                    }]
+                    }
+                  ]
                 }
               },
               {
@@ -90,7 +91,8 @@ const GetPostsTransform = {
                 scope: {
                   include: ['video']
                 }
-              }]
+              }
+            ]
           }
         }
       ]
@@ -103,14 +105,15 @@ const GetPostsTransform = {
     ]);
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response, query, connection) {
+    // eslint-disable-line no-unused-vars
     if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getPosts failed');
     }
 
     const campaigns = response[1].concat(response[2].body);
     const posts = JSON.parse(response[0].body);
-    return posts && parsePost(posts[0], campaigns) || null;
+    return (posts && parsePost(posts[0], campaigns)) || null;
   }
 };
 

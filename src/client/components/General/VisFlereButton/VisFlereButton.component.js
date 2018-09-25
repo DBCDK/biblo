@@ -6,7 +6,6 @@ import plusSvg from '../Icon/svg/functions/plus.svg';
 import spinnerSvg from '../Icon/svg/spinners/loading-spin.svg';
 
 export default function VisFlereButton({onClick, isLoading}) {
-
   let iconSvg = plusSvg;
 
   if (isLoading) {

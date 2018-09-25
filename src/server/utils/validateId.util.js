@@ -10,13 +10,14 @@
  * @returns {*}
  */
 export function validateId(id) {
-  if (isPid(id)) { // eslint-disable-line no-use-before-define
+  if (isPid(id)) {
+    // eslint-disable-line no-use-before-define
     return {type: 'pid', id: id};
-  }
-  else if (isIsbn(id)) { // eslint-disable-line no-use-before-define
+  } else if (isIsbn(id)) {
+    // eslint-disable-line no-use-before-define
     return {type: 'isbn', id: id};
-  }
-  else if (isFaust(id)) { // eslint-disable-line no-use-before-define
+  } else if (isFaust(id)) {
+    // eslint-disable-line no-use-before-define
     return {type: 'faust', id: id};
   }
   return {type: 'error', id: id};

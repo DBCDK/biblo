@@ -24,9 +24,11 @@ describe('Testing CheckUserStatus.queue', () => {
   it('Should return empty array when no match is found in userStatusFlattened and the item should be deleted', () => {
     const spy = sinon.spy(serviceProviderMock, 'trigger');
     const userMessages = {
-      Items: [{
-        orderId: 'some-id'
-      }]
+      Items: [
+        {
+          orderId: 'some-id'
+        }
+      ]
     };
 
     const userStatusFlattened = [];
@@ -40,14 +42,18 @@ describe('Testing CheckUserStatus.queue', () => {
 
   it('Should not return empty array when a match is found in userStatusFlattened', () => {
     const userMessages = {
-      Items: [{
-        loanId: 'some-loan-id'
-      }]
+      Items: [
+        {
+          loanId: 'some-loan-id'
+        }
+      ]
     };
 
-    const userStatusFlattened = [{
-      loanId: 'some-loan-id'
-    }];
+    const userStatusFlattened = [
+      {
+        loanId: 'some-loan-id'
+      }
+    ];
 
     const result = filterItems(userMessages, userStatusFlattened, serviceProviderMock);
 
@@ -57,10 +63,12 @@ describe('Testing CheckUserStatus.queue', () => {
 
   it('Should ignore the item if it has already been marked as deleted', () => {
     const userMessages = {
-      Items: [{
-        loanId: 'some-loan-id',
-        markAsDeleted: 1472651104
-      }]
+      Items: [
+        {
+          loanId: 'some-loan-id',
+          markAsDeleted: 1472651104
+        }
+      ]
     };
 
     const userStatusFlattened = [];

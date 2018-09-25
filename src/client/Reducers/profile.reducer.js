@@ -75,11 +75,10 @@ if (typeof window !== 'undefined') {
         search: statusMessageData.query.search
       });
 
-      statusMessageData.errors.forEach((error) => {
+      statusMessageData.errors.forEach(error => {
         initialState.errors.push(error);
       });
     }
-
   }
   const openPlatformToken = document.getElementById('OPENPLATFORM_TOKEN');
   if (openPlatformToken) {
@@ -91,7 +90,6 @@ if (typeof window !== 'undefined') {
 export default function profileReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-
     case types.GET_USER_PROFILE: {
       return state;
     }
@@ -116,11 +114,9 @@ export default function profileReducer(state = initialState, action = {}) {
     }
 
     case types.CHECK_IF_DISPLAYNAME_IS_TAKEN: {
-      return (
-        action.displayname !== state.displayName ?
-          assignToEmpty(state, {displayNameExists: action.exists}) :
-          assignToEmpty(state, {displayNameExists: false})
-      );
+      return action.displayname !== state.displayName
+        ? assignToEmpty(state, {displayNameExists: action.exists})
+        : assignToEmpty(state, {displayNameExists: false});
     }
 
     case types.CHANGE_PROFILE_IMAGE: {

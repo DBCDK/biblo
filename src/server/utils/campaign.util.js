@@ -26,9 +26,7 @@ export async function getContributions(req, campaign, profileId) {
   if (campaign.type === 'review') {
     const getCampaignReviewsParams = {
       campaignId: campaign.id,
-      wheres: [
-        {reviewownerid: profileId}
-      ]
+      wheres: [{reviewownerid: profileId}]
     };
 
     return req.callServiceProvider('getCampaignReviews', getCampaignReviewsParams).then(reviews => {
@@ -49,29 +47,28 @@ export async function getUserContributedCampaigns(req, profileId) {
     let promises = [];
     campaigns.map(campaign => {
       promises.push(
-        getContributions(req, campaign, profileId).then(contributions => {
-          if (contributions && contributions.review.data.length > 0 || contributions.group.data.length > 0) {
-            contributedCampaigns.push(campaign);
-          }
-        }).catch((err) => {
-          log.error('getting contributions from group failed. missing group id?', {error: err.message});
-        })
+        getContributions(req, campaign, profileId)
+          .then(contributions => {
+            if ((contributions && contributions.review.data.length > 0) || contributions.group.data.length > 0) {
+              contributedCampaigns.push(campaign);
+            }
+          })
+          .catch(err => {
+            log.error('getting contributions from group failed. missing group id?', {error: err.message});
+          })
       );
     });
 
-    Promise.all(promises).then(function() {
-      contributedCampaigns = contributedCampaigns.sort(
-        (a, b) => {
-          return (
-            a.endDate < b.endDate
-          );
-        }
-      );
-      resolve(contributedCampaigns);
-    }).catch((err) => {
-      log.error(err);
-      reject(err);
-    });
+    Promise.all(promises)
+      .then(function() {
+        contributedCampaigns = contributedCampaigns.sort((a, b) => {
+          return a.endDate < b.endDate;
+        });
+        resolve(contributedCampaigns);
+      })
+      .catch(err => {
+        log.error(err);
+        reject(err);
+      });
   });
-
 }

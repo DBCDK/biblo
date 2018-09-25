@@ -62,7 +62,6 @@ let ContentPageJSONData = parseJsonData('JSONDATA', 'contentPageData');
 initialState.widgetLocations = Object.assign(initialState.widgetLocations, ContentPageJSONData.widgetLocations);
 
 export default function widgetReducer(state = initialState, action = {}) {
-
   Object.freeze(state);
   switch (action.type) {
     case types.GET_LATEST_REVIEWS_FOR_WIDGET: {
@@ -97,12 +96,16 @@ export default function widgetReducer(state = initialState, action = {}) {
       if (action.data.status === 200) {
         // Update our store with new set of reviews and filter out any dublets
         const reviewIds = [];
-        LatestReviews.campaignReviews[action.data.campaignId] = (state.LatestReviews.campaignReviews[action.data.campaignId] || []).concat(action.data.data).filter(review => {
-          if (!reviewIds.includes(review.id)) {
-            reviewIds.push(review.id);
-            return review;
-          }
-        });
+        LatestReviews.campaignReviews[action.data.campaignId] = (
+          state.LatestReviews.campaignReviews[action.data.campaignId] || []
+        )
+          .concat(action.data.data)
+          .filter(review => {
+            if (!reviewIds.includes(review.id)) {
+              reviewIds.push(review.id);
+              return review;
+            }
+          });
         LatestReviews.reviewsPending = false;
       }
 

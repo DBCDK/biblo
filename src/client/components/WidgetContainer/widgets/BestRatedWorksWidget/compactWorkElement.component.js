@@ -17,7 +17,6 @@ import music from '../../../General/Icon/svg/Materialikon-kvadrat-small/music_no
 import photo from '../../../General/Icon/svg/Materialikon-kvadrat-small/photo.svg';
 import other from '../../../General/Icon/svg/Materialikon-kvadrat-small/other_no_border.svg';
 
-
 const materialSvgs = {
   audiobook,
   book,
@@ -46,7 +45,9 @@ export class CompactWorkElement extends Component {
         </div>
 
         <div className="compact-work-element--title-and-worktype--container">
-          <div className="compact-work-element--title"><Icon glyph={workTypeSvg} /> {title}</div>
+          <div className="compact-work-element--title">
+            <Icon glyph={workTypeSvg} /> {title}
+          </div>
         </div>
       </a>
     );

@@ -4,7 +4,6 @@ const FlagGroupTransform = {
   },
 
   requestTransform(event, query, connection) {
-
     if (connection.request.session.passport) {
       // If user is logged in create the post
       const passport = connection.request.session.passport;

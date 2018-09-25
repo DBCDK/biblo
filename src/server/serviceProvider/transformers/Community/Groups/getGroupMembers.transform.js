@@ -6,7 +6,6 @@
 import parseProfile from '../../../parsers/profile.parser';
 
 const GetGroupMembersTransform = {
-
   event() {
     return 'getGroupMembers';
   },
@@ -25,7 +24,7 @@ const GetGroupMembersTransform = {
       filteredMembers = filteredMembers.slice(0, query.maxResultsInResponse);
     }
 
-    const members = filteredMembers.map((member) => {
+    const members = filteredMembers.map(member => {
       return parseProfile(member, true, 'small');
     });
 

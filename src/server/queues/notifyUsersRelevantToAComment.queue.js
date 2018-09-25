@@ -9,7 +9,7 @@ export function notifyUsersRelevantToComment(job, done) {
     const userMessageAdd = app.get('userMessageAdd');
 
     if (job.data && job.data.postId && job.data.creatorId && job.data.commentId) {
-      return Promise.all(serviceProvider.trigger('getSinglePosts', {id: job.data.postId})).then((result) => {
+      return Promise.all(serviceProvider.trigger('getSinglePosts', {id: job.data.postId})).then(result => {
         const post = result[0];
 
         let peopleToNotify = [post.postownerid];
@@ -24,7 +24,7 @@ export function notifyUsersRelevantToComment(job, done) {
           peopleToNotify.splice(peopleToNotify.indexOf(job.data.creatorId), 1);
         }
 
-        peopleToNotify.forEach((personId) => {
+        peopleToNotify.forEach(personId => {
           userMessageAdd(personId, 'commentWasAdded', job.data);
         });
 
@@ -33,5 +33,5 @@ export function notifyUsersRelevantToComment(job, done) {
     }
 
     return reject('invalid parameters');
-  }).then((res) => done(null, res), (err) => done(err));
+  }).then(res => done(null, res), err => done(err));
 }

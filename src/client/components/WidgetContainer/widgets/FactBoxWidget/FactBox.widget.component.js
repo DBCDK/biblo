@@ -22,7 +22,9 @@ export class FactBoxWidget extends AbstractWidget {
 
   shouldComponentUpdate(nextProps, nextState) {
     // We only care about the widgetConfig
-    return !isEqual(nextProps.widgetConfig, this.props.widgetConfig) || !isEqual(nextState.isClient, this.state.isClient);
+    return (
+      !isEqual(nextProps.widgetConfig, this.props.widgetConfig) || !isEqual(nextState.isClient, this.state.isClient)
+    );
   }
 
   render() {
@@ -30,13 +32,17 @@ export class FactBoxWidget extends AbstractWidget {
 
     const factboxContent = this.props.widgetConfig.content || '';
 
-    const factboxTitleContainer = this.state.isClient ?
-      <h3 dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxTitle)}} /> :
-      <h3 />;
+    const factboxTitleContainer = this.state.isClient ? (
+      <h3 dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxTitle)}} />
+    ) : (
+      <h3 />
+    );
 
-    const factboxContentContainer = this.state.isClient ?
-      <div className="fact-box--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxContent)}} /> :
-      <div className="fact-box--content" />;
+    const factboxContentContainer = this.state.isClient ? (
+      <div className="fact-box--content" dangerouslySetInnerHTML={{__html: sanitizeHtml(factboxContent)}} />
+    ) : (
+      <div className="fact-box--content" />
+    );
 
     return (
       <div className="fact-box-widget">

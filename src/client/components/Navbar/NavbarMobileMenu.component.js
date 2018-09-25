@@ -20,9 +20,7 @@ export default function NavBarMobileMenu(props) {
 
   return (
     <div className={ClassNames(classes)}>
-      <div className="inner">
-        {props.children}
-      </div>
+      <div className="inner">{props.children}</div>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 const AvailabilityTransform = {
-
   event() {
     return 'availability';
   },
@@ -9,8 +8,7 @@ const AvailabilityTransform = {
       try {
         const profile = connection.request.session.passport.user.profile.profile;
         request.agencyId = profile.favoriteLibrary.libraryId;
-      }
-      catch (err) {
+      } catch (err) {
         return Promise.resolve({error: 'Could not find library id in session or request or user is not logged in'});
       }
     }
@@ -35,7 +33,6 @@ const AvailabilityTransform = {
       pids: pids
     };
   }
-
 };
 
 export default AvailabilityTransform;

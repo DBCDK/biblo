@@ -19,7 +19,7 @@ export default class CookieWarningContainer extends React.Component {
     // Assume they've already seen the warning
     this.state = {
       isClient: false,
-      displayWarning: (typeof window !== 'undefined') ? !Cookies.get('reddi-fe-cookie') : false
+      displayWarning: typeof window !== 'undefined' ? !Cookies.get('reddi-fe-cookie') : false
     };
   }
 
@@ -34,21 +34,22 @@ export default class CookieWarningContainer extends React.Component {
 
   render() {
     return (
-      (this.state.displayWarning && this.state.isClient) &&
-      <ModalWindow onClose={this.onClose.bind(this)} >
-        <div className="cookie-warning" >
-          <div className="cookie-warning--svg">
-            <Icon glyph={logo} width={100} height={30} />
+      this.state.displayWarning &&
+      this.state.isClient && (
+        <ModalWindow onClose={this.onClose.bind(this)}>
+          <div className="cookie-warning">
+            <div className="cookie-warning--svg">
+              <Icon glyph={logo} width={100} height={30} />
+            </div>
+            <span className="cookie-warning--header">Velkommen til biblo.dk</span>
+            <span className="cookie-warning--message">
+              For at gøre siden så let at bruge som muligt gemmer vi det du laver på sitet i noget, der hedder en
+              cookie.
+            </span>
+            <RoundedButton buttonText="OK" clickFunction={this.onClose.bind(this)} />
           </div>
-          <span className="cookie-warning--header" >
-            Velkommen til biblo.dk
-          </span>
-          <span className="cookie-warning--message" >
-            For at gøre siden så let at bruge som muligt gemmer vi det du laver på sitet i noget, der hedder en cookie.
-          </span>
-          <RoundedButton buttonText="OK" clickFunction={this.onClose.bind(this)} />
-        </div>
-      </ModalWindow>
+        </ModalWindow>
+      )
     );
   }
 }

@@ -7,7 +7,6 @@ import {userMessageParser} from '../../../parsers/userMessage.parser';
 import {decryptData} from '../../../../utils/crypto.util';
 
 const getFullProfileTransform = {
-
   /**
    * @return {string}
    */
@@ -25,19 +24,15 @@ const getFullProfileTransform = {
   requestTransform(event, query, connection) {
     const user = connection.request.user || {id: '', profileId: ''};
     const accessToken = user.id;
-    const uid = query && query.isModerator && query.id || user.profileId;
+    const uid = (query && query.isModerator && query.id) || user.profileId;
     return Promise.all([
-      this.callServiceClient(
-        'community',
-        'getFullProfile',
-        {
-          uid,
-          accessToken,
-          profileFilter: {
-            include: ['image', 'communityRoles']
-          }
+      this.callServiceClient('community', 'getFullProfile', {
+        uid,
+        accessToken,
+        profileFilter: {
+          include: ['image', 'communityRoles']
         }
-      ),
+      }),
       this.callServiceClient('community', 'checkIfProfileIsQuarantined', uid),
       this.callServiceClient('aws', 'getUserMessages', uid)
     ]);
@@ -57,8 +52,7 @@ const getFullProfileTransform = {
         large: '/billede/' + body.image.id + '/large',
         square: '/billede/' + body.image.id + '/small-square'
       };
-    }
-    else {
+    } else {
       body.image = {
         url: {
           small: '/no_profile.png',
@@ -69,9 +63,13 @@ const getFullProfileTransform = {
       };
     }
 
-    body.isModerator = !!(body.communityRoles && Array.isArray(body.communityRoles) && body.communityRoles.filter((role) => {
-      return role.name === 'moderator';
-    }).length > 0);
+    body.isModerator = !!(
+      body.communityRoles &&
+      Array.isArray(body.communityRoles) &&
+      body.communityRoles.filter(role => {
+        return role.name === 'moderator';
+      }).length > 0
+    );
 
     body.favoriteLibrary = decryptData(body.favoriteLibrary);
 
@@ -79,14 +77,13 @@ const getFullProfileTransform = {
     if (typeof body.favoriteLibrary === 'string') {
       try {
         body.favoriteLibrary = JSON.parse(body.favoriteLibrary);
-      }
-      catch (e) {
+      } catch (e) {
         // Do nothing
       }
     }
 
     body.quarantined = JSON.parse(response[1].body).quarantined;
-    body.userMessages = userMessageParser(response[2] && response[2].Items || [], 0);
+    body.userMessages = userMessageParser((response[2] && response[2].Items) || [], 0);
 
     return {body: body, statusCode: response[0].statusCode, statusMessage: response[0].statusMessage};
   }

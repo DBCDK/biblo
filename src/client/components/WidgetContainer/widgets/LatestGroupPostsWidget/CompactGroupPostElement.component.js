@@ -16,7 +16,9 @@ function renderTextGroupPost(post) {
   return (
     <span className="text--post">
       {' '}
-      &quot;<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />&quot;
+      &quot;
+      <span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />
+      &quot;
     </span>
   );
 }
@@ -36,7 +38,9 @@ function renderPDFGroupPost(post) {
     <div className="compact-group-post-element--pdf-post">
       <img src="/images/materialtypes/pdf.png" alt="Indlæg med PDF" />
       <div className="pdf-post--text-content">
-        &quot;<span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />&quot;
+        &quot;
+        <span dangerouslySetInnerHTML={{__html: sanitizeHtml(post.html)}} />
+        &quot;
       </div>
     </div>
   );
@@ -62,16 +66,13 @@ export function CompactGroupPostElement({post, groupName, groupHref}) {
   if (post.video) {
     postType = 'video';
     postBody = renderVideoGroupPost(post);
-  }
-  else if (post.image) {
+  } else if (post.image) {
     postType = 'image';
     postBody = renderImageGroupPost(post);
-  }
-  else if (post.pdf) {
+  } else if (post.pdf) {
     postType = 'pdf';
     postBody = renderPDFGroupPost(post);
-  }
-  else {
+  } else {
     postType = 'text';
     postBody = renderTextGroupPost(post);
   }

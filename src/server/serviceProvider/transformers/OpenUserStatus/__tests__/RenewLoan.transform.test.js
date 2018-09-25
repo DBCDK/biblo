@@ -38,7 +38,7 @@ describe('Testing the RenewLoan Transform', () => {
     assert.equal(expected, result);
   });
 
-  it('Should return promise that rejects', (done) => {
+  it('Should return promise that rejects', done => {
     const _connection = {
       request: {
         session: {
@@ -48,7 +48,7 @@ describe('Testing the RenewLoan Transform', () => {
     };
 
     const requestTransformResponse = RenewLoanTransform.requestTransform('renewLoan', {id: null}, _connection);
-    requestTransformResponse.catch((err) => {
+    requestTransformResponse.catch(err => {
       assert.equal(err, 'user not logged in');
       done();
     });

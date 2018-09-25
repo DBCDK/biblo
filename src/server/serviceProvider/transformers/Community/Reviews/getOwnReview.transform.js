@@ -22,7 +22,8 @@ const GetOwnReviewTransform = {
                   scope: {
                     include: ['video']
                   }
-                }]
+                }
+              ]
             }
           }
         ],
@@ -42,7 +43,7 @@ const GetOwnReviewTransform = {
     }
 
     if (pids) {
-      pids.forEach((pid) => {
+      pids.forEach(pid => {
         orFilter.push({pid: pid});
       });
 

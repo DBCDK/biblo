@@ -14,18 +14,21 @@ const mockStore = configureMockStore([thunk]);
 describe('test group actions', () => {
   let xhrMock;
 
-  it('should create CHANGE_GROUP_IMAGE action', (done) => {
+  it('should create CHANGE_GROUP_IMAGE action', done => {
     xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
     const imageFile = new Blob(['detteerenbilledfil'], {type: 'image/png'});
 
-    const expected = [{
-      type: types.CHANGE_GROUP_IMAGE,
-      imageSrc: 'data:image/png;base64,ZGV0dGVlcmVuYmlsbGVkZmls',
-      imageFile: imageFile
-    }];
+    const expected = [
+      {
+        type: types.CHANGE_GROUP_IMAGE,
+        imageSrc: 'data:image/png;base64,ZGV0dGVlcmVuYmlsbGVkZmls',
+        imageFile: imageFile
+      }
+    ];
 
     const store = mockStore({}); // set initial state
-    store.dispatch(actions.asyncChangeImage(imageFile))
+    store
+      .dispatch(actions.asyncChangeImage(imageFile))
       .then(() => {
         expect(store.getActions()).to.deep.equal(expected);
         xhrMock.restore();
@@ -54,8 +57,8 @@ describe('test group actions', () => {
         imageSrc: '/Billede-kommer-snart.jpg',
         imageFile: imageFile
       };
-    }
-    catch (e) { // eslint-disable-line no-catch-shadow
+    } catch (e) {
+      // eslint-disable-line no-catch-shadow
       expected = {
         imageFile: imageFile,
         imageSrc: 'data:image/png;base64,ZGV0dGVlcmVuYmlsbGVkZmls',
@@ -64,12 +67,11 @@ describe('test group actions', () => {
     }
 
     const store = mockStore({});
-    return store.dispatch(actions.asyncChangeImage(imageFile))
-      .then(() => {
-        expect(store.getActions()[0]).to.deep.equal(expected);
-        xhrMock.restore();
-        // restore filereader support
-        window.FileReader = _fileReader;
-      });
+    return store.dispatch(actions.asyncChangeImage(imageFile)).then(() => {
+      expect(store.getActions()[0]).to.deep.equal(expected);
+      xhrMock.restore();
+      // restore filereader support
+      window.FileReader = _fileReader;
+    });
   });
 });

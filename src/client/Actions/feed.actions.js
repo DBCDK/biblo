@@ -11,8 +11,8 @@ const getUserFeedSocketClient = SocketClient('getUserFeed');
 const getUserFeedListener = once(getUserFeedSocketClient.response);
 
 export function asyncGetUserFeed(userId, offset) {
-  return (dispatch) => {
-    getUserFeedListener((res) => dispatch(getUserFeed(res.body.count, res.body.feed, res.body.profile)));
+  return dispatch => {
+    getUserFeedListener(res => dispatch(getUserFeed(res.body.count, res.body.feed, res.body.profile)));
     getUserFeedSocketClient.request({userId, offset});
   };
 }

@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
 import CookieWarningContainer from '../CookieWarningContainer.component';
 
 describe('Testing the CookieWarningContainer component', () => {
-
   it('Should render a modal', () => {
     Cookies.remove('reddi-fe-cookie');
     const tree = shallow(<CookieWarningContainer />);

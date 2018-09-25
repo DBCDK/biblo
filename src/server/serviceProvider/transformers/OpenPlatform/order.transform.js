@@ -4,13 +4,12 @@
  */
 
 const PlaceOrderTransform = {
-
   event() {
     return 'order';
   },
 
   getNeedBeforeDate(days = 90) {
-    return (new Date(Date.now() + days * 86400000)).toISOString().substring(0, 10);
+    return new Date(Date.now() + days * 86400000).toISOString().substring(0, 10);
   },
 
   requestTransform(event, {pids, libraryId, name, phone, email, token}) {

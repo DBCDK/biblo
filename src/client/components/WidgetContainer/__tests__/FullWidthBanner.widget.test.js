@@ -34,18 +34,28 @@ describe('Test FullWidthBanner Widget', () => {
       <WidgetContainer
         widgetLocationName={widgetLocationName}
         widgetState={widgetState}
-        widgetActions={widgetActions} />
+        widgetActions={widgetActions}
+      />
     );
 
     const wrapper = mount(component);
 
-    const FullWidthBannerWidgetTitle = wrapper.find('.full-width-banner--image--text--container > h2').first().text();
+    const FullWidthBannerWidgetTitle = wrapper
+      .find('.full-width-banner--image--text--container > h2')
+      .first()
+      .text();
     expect(FullWidthBannerWidgetTitle).to.equal('And yet another dummy title');
 
-    const FullWidthBannerWidgetDescription = wrapper.find('.full-width-banner--image--text--container > p').first().text();
+    const FullWidthBannerWidgetDescription = wrapper
+      .find('.full-width-banner--image--text--container > p')
+      .first()
+      .text();
     expect(FullWidthBannerWidgetDescription).to.equal('This is a dummy banner description!');
 
-    const FullWidthBannerWidgetHref = wrapper.find('.full-width-banner--href').first().props().href;
+    const FullWidthBannerWidgetHref = wrapper
+      .find('.full-width-banner--href')
+      .first()
+      .props().href;
     expect(FullWidthBannerWidgetHref).to.equal('https://this.is.a.dummy.link');
   });
 });

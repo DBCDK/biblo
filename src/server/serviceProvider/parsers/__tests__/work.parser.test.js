@@ -13,7 +13,7 @@ describe('Unittest methods in work.parser.js', () => {
 
     const resultKeys = Object.keys(result);
 
-    resultKeys.forEach((key) => {
+    resultKeys.forEach(key => {
       const item = result[key];
       switch (key) {
         case 'workType': {

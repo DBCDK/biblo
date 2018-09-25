@@ -14,8 +14,7 @@ const CreateGroupContent = {
     if (query.type === 'post') {
       method = 'createPost';
       imageCollectionField = 'postImageCollection';
-    }
-    else {
+    } else {
       method = 'createComment';
       imageCollectionField = 'commentImageCollection';
     }
@@ -33,7 +32,7 @@ const CreateGroupContent = {
     return this.callServiceClient('community', method, {
       title: query.title || '',
       content: query.content || '',
-      timeCreated: query.timeCreated || (new Date()).toUTCString(),
+      timeCreated: query.timeCreated || new Date().toUTCString(),
       parentId: query.parentId,
       attachedReviewId: query.attachedReviewId,
       id: query.id || null,
@@ -43,13 +42,11 @@ const CreateGroupContent = {
       video: query.video || null,
       pdf: query.pdf || null
     }).then(response => {
-
       if (query.parentId) {
         if (method === 'createComment') {
           // Invalidate the group of comments in which this comment was created
           this.invalidateCache(`getComments*"id":${query.parentId},*`);
-        }
-        else if (method === 'createPost') {
+        } else if (method === 'createPost') {
           // Invalidate the group in which this post was created
           // Here we need double quotes around parentId
           this.invalidateCache(`*getGroup*"id":"${query.parentId}"*`);
@@ -66,7 +63,7 @@ const CreateGroupContent = {
   },
 
   getSingleContent(query, user) {
-    return this.callServiceClient('community', 'checkIfProfileIsQuarantined', user.profileId).then((quarantine) => {
+    return this.callServiceClient('community', 'checkIfProfileIsQuarantined', user.profileId).then(quarantine => {
       if (JSON.parse(quarantine.body).quarantined) {
         return Promise.reject(new Error('user is quarantined'));
       }
@@ -87,24 +84,24 @@ const CreateGroupContent = {
         if (!post) {
           return Promise.reject(new Error('content does not exists'));
         }
-        const ownerId = query.type === 'post' && post.postownerid || post.commentownerid;
+        const ownerId = (query.type === 'post' && post.postownerid) || post.commentownerid;
         if (user.profile.profile.isModerator) {
           user.profileId = ownerId;
-        }
-        else if (ownerId !== user.profileId) {
+        } else if (ownerId !== user.profileId) {
           return Promise.reject(new Error('user does not have access to edit content'));
         }
 
         query.ownerId = ownerId;
         query.timeCreated = post.timeCreated;
-        query.removeImage = query.imageRemoved && post.image.id || false;
-        query.removePdf = query.pdfRemoved && post.pdf && post.pdf.id || false;
+        query.removeImage = (query.imageRemoved && post.image.id) || false;
+        query.removePdf = (query.pdfRemoved && post.pdf && post.pdf.id) || false;
         return query;
       });
     });
   },
 
-  requestTransform(event, query, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, query, connection) {
+    // eslint-disable-line no-unused-vars
     // If user is not logged in create the post
     if (!connection.request.session.passport) {
       return Promise.reject(new Error('user not logged in'));
@@ -116,7 +113,7 @@ const CreateGroupContent = {
       return this.getSingleContent(query, user).then(reponseQuery => this.upsertContent(reponseQuery, user));
     }
 
-    return this.callServiceClient('community', 'checkIfProfileIsQuarantined', user.profileId).then((quarantine) => {
+    return this.callServiceClient('community', 'checkIfProfileIsQuarantined', user.profileId).then(quarantine => {
       if (JSON.parse(quarantine.body).quarantined) {
         return Promise.reject(new Error('user is quarantined'));
       }
@@ -125,7 +122,8 @@ const CreateGroupContent = {
     });
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response, query, connection) {
+    // eslint-disable-line no-unused-vars
     // @todo handle errors
     let result = false;
     if (response.statusCode === 200) {

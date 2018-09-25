@@ -7,29 +7,22 @@ import './_colourpicker.component.scss';
 
 const ColourPicker = ({baseName, colours, disabled, onChangeFunction, wrapInForm}) => {
   const inputName = baseName + '_colour';
-  const colourPickerItems = colours.map((colour) => {
+  const colourPickerItems = colours.map(colour => {
     return (
       <ColourPickerItem
         colourName={colour}
         disabled={disabled}
         inputName={inputName}
         key={'colour-picker-item-' + colour}
-        onChangeFunction={onChangeFunction} />
+        onChangeFunction={onChangeFunction}
+      />
     );
   });
 
-  const content = (
-    <div className="colour-picker">
-      {colourPickerItems}
-    </div>
-  );
+  const content = <div className="colour-picker">{colourPickerItems}</div>;
 
   if (wrapInForm) {
-    return (
-      <form>
-        {content}
-      </form>
-    );
+    return <form>{content}</form>;
   }
 
   return content;

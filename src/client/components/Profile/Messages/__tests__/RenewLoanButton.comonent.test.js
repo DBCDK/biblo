@@ -6,8 +6,7 @@ import sinon from 'sinon';
 import RenewLoanButton from '../RenewLoanButton.component';
 
 describe('Testing the RenewLoanButton Component', () => {
-  const noop = () => {
-  };
+  const noop = () => {};
 
   it('Should display an error message', () => {
     const newUserstatusState = {

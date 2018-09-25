@@ -21,7 +21,10 @@ describe('Test BestRatedWorksWidget Widget', () => {
       }
     });
 
-    const LatestReviewsWidget = wrapper.find('h2').first().text();
+    const LatestReviewsWidget = wrapper
+      .find('h2')
+      .first()
+      .text();
     expect(LatestReviewsWidget).to.equal('BestRatedWorksWidget title Test!');
   });
 
@@ -38,11 +41,13 @@ describe('Test BestRatedWorksWidget Widget', () => {
       state: {
         BestRatedWorks: {
           isLoading: false,
-          works: [{
-            dcTitle: [workTitle],
-            collection: ['870970-basis:06903177'],
-            workType: ['book']
-          }]
+          works: [
+            {
+              dcTitle: [workTitle],
+              collection: ['870970-basis:06903177'],
+              workType: ['book']
+            }
+          ]
         }
       }
     });
@@ -51,4 +56,3 @@ describe('Test BestRatedWorksWidget Widget', () => {
     expect(innerText).to.equal(` ${workTitle}`);
   });
 });
-

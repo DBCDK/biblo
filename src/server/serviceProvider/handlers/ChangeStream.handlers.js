@@ -20,7 +20,11 @@ export function commentWasAddedUserMessageChangeStreamHandler(app, change = {}) 
   const addedCommentQueue = app.get('addedCommentQueue');
 
   if (change.isNewInstance && change.data && change.data.postid && change.data.commentownerid && change.data.id) {
-    addedCommentQueue.add({postId: change.data.postid, creatorId: change.data.commentownerid, commentId: change.data.id});
+    addedCommentQueue.add({
+      postId: change.data.postid,
+      creatorId: change.data.commentownerid,
+      commentId: change.data.id
+    });
   }
 }
 
@@ -33,7 +37,7 @@ export function postWasAddedEmitToClientsChangeStreamHandler(app, scServer, chan
 export function commentWasAddedEmitToClientsChangeStreamHandler(app, scServer, change = {}) {
   if (change.data && change.data.postid) {
     const sp = app.get('serviceProvider');
-    Promise.all(sp.trigger('getSinglePosts', {id: change.data.postid, filter: {include: []}})).then((result) => {
+    Promise.all(sp.trigger('getSinglePosts', {id: change.data.postid, filter: {include: []}})).then(result => {
       const post = result[0];
       scServer.exchange.publish(`new_group_content-${post.groupid}`, change.data, () => {});
     });

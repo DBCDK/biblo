@@ -3,7 +3,8 @@
  */
 
 export function processCheckForNewQuarantines(job, done) {
-  return new Promise((resolve, reject) => { // eslint-disable-line consistent-return
+  return new Promise((resolve, reject) => {
+    // eslint-disable-line consistent-return
     const app = job.app;
     const serviceProvider = app.get('serviceProvider');
     const userMessageAdd = app.get('userMessageAdd');
@@ -18,30 +19,32 @@ export function processCheckForNewQuarantines(job, done) {
 
     const getUserMessagesPromise = serviceProvider.trigger('getUserMessages', job.data.userId);
 
-    Promise.all(getQuarantinesPromise.concat(getUserMessagesPromise)).then((serviceProviderData) => {
-      const userMessages = serviceProviderData[1];
-      const quarantines = serviceProviderData[0].body;
+    Promise.all(getQuarantinesPromise.concat(getUserMessagesPromise))
+      .then(serviceProviderData => {
+        const userMessages = serviceProviderData[1];
+        const quarantines = serviceProviderData[0].body;
 
-      if (!quarantines) {
-        return reject('Could not get quarantines');
-      }
-
-      let reportedQuarantines = [];
-
-      userMessages.Items.forEach((Item) => {
-        if (Item.messageType === 'type-userWasQuarantined' && Item.id) {
-          reportedQuarantines.push(Item.id);
+        if (!quarantines) {
+          return reject('Could not get quarantines');
         }
-      });
 
-      quarantines.forEach((qu) => {
-        // check if the user has already been notified.
-        if (reportedQuarantines.indexOf(qu.id) < 0) {
-          userMessageAdd(job.data.userId, 'userWasQuarantined', qu);
-        }
-      });
+        let reportedQuarantines = [];
 
-      return resolve(quarantines);
-    }).catch(reject);
-  }).then((res) => done(null, res), (err) => done(err));
+        userMessages.Items.forEach(Item => {
+          if (Item.messageType === 'type-userWasQuarantined' && Item.id) {
+            reportedQuarantines.push(Item.id);
+          }
+        });
+
+        quarantines.forEach(qu => {
+          // check if the user has already been notified.
+          if (reportedQuarantines.indexOf(qu.id) < 0) {
+            userMessageAdd(job.data.userId, 'userWasQuarantined', qu);
+          }
+        });
+
+        return resolve(quarantines);
+      })
+      .catch(reject);
+  }).then(res => done(null, res), err => done(err));
 }

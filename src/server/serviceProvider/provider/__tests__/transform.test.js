@@ -5,10 +5,8 @@ import Transform from '../lib/Transforms.js';
 import {expect} from 'chai';
 
 describe('Testing Validate Transform', () => {
-
   it('Test Validate Transform', () => {
-    let event = function() {
-    };
+    let event = function() {};
 
     let test = {services: []};
     expect(() => Transform(test)).to.throw(Error);
@@ -37,7 +35,7 @@ describe('Testing Validate Transform', () => {
     ]);
   });
 
-  it('Triggers event on transform', (done) => {
+  it('Triggers event on transform', done => {
     const transform = Transform({
       event() {
         return 'testEvent';
@@ -51,9 +49,12 @@ describe('Testing Validate Transform', () => {
     });
 
     const expected = 'test transform trigger';
-    transform.trigger({test: expected})[0].then((result) => {
-      expect(result).to.be.equal(expected);
-      done();
-    }).catch(err => done(err));
+    transform
+      .trigger({test: expected})[0]
+      .then(result => {
+        expect(result).to.be.equal(expected);
+        done();
+      })
+      .catch(err => done(err));
   });
 });

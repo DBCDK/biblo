@@ -17,9 +17,7 @@ export default function ClickOverlay({active, onClick}) {
     'is-active': active
   };
 
-  return (
-    <div className={ClassNames(classes)} onClick={onClick} ></div>
-  );
+  return <div className={ClassNames(classes)} onClick={onClick} />;
 }
 
 ClickOverlay.propTypes = {

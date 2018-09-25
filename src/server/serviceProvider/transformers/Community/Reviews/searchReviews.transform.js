@@ -36,7 +36,11 @@ const SearchReviewsTransform = {
               const pidDifference = difference(pids, openPlatformPids);
 
               if (pidDifference.length > 0) {
-                reject(`Could not search reviews. Some pids are missing in openplatform response: ${JSON.stringify(pidDifference)}`);
+                reject(
+                  `Could not search reviews. Some pids are missing in openplatform response: ${JSON.stringify(
+                    pidDifference
+                  )}`
+                );
               }
               resolve([reviews, campaigns, works, total]);
             })

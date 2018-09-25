@@ -54,7 +54,11 @@ import {
   ConfigurationMiddleware,
   GetMenus
 } from './server/middlewares/data.middleware';
-import {ensureUserHasProfile, ensureUserHasValidLibrary, setOpenplatformToken} from './server/middlewares/auth.middleware';
+import {
+  ensureUserHasProfile,
+  ensureUserHasValidLibrary,
+  setOpenplatformToken
+} from './server/middlewares/auth.middleware';
 import {setReturlUrl} from './server/middlewares/retururl.middleware';
 
 // Queue processors
@@ -92,8 +96,7 @@ module.exports.run = function(worker) {
     if (config.get('Biblo.showInSearchEngines')) {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /api/');
-    }
-    else {
+    } else {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /');
     }
@@ -103,8 +106,7 @@ module.exports.run = function(worker) {
   app.use((req, res, next) => {
     try {
       next();
-    }
-    catch (err) {
+    } catch (err) {
       log.error('An unknown error occurred', {
         error: err.message && err.name ? {message: err.message, name: err.name} : err
       });
@@ -197,14 +199,12 @@ module.exports.run = function(worker) {
         dynamodb.createTable(tableDef, (createTableErr, createTableData) => {
           if (!createTableErr && createTableData) {
             log.info('Created dynamo table!', createTableData);
-          }
-          else {
+          } else {
             log.error('Cannot create dynamo table, messages will be disabled!');
           }
         });
       }
-    }
-    else {
+    } else {
       log.error('Cannot connect to dynamo, messages will be disabled!');
     }
   });

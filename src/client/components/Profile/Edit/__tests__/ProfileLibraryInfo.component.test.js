@@ -11,8 +11,7 @@ import {shallow} from 'enzyme';
 import {ProfileLibraryInfo} from '../ProfileLibraryInfo.component';
 
 describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
-  const noop = () => {
-  };
+  const noop = () => {};
   const emptyObj = {};
 
   /**
@@ -96,7 +95,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
     sandbox.restore();
   });
 
-  it('Should call elements clickFunc', (done) => {
+  it('Should call elements clickFunc', done => {
     // Manipulate props to contain some searchElements
     instance.props.searchElements.push({
       clickFunc: () => {
@@ -106,8 +105,7 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
 
     const event = {
       key: 'Enter',
-      preventDefault: () => {
-      }
+      preventDefault: () => {}
     };
 
     instance.state.selected = 0;
@@ -134,5 +132,4 @@ describe('Unittesting methods in ProfileLibraryInfo.component.js', () => {
     instance.arrowKeyPressed(true);
     assert.equal(instance.state.selected, 0);
   });
-
 });

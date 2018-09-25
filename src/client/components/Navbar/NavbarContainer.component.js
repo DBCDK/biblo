@@ -52,16 +52,17 @@ export default class NavbarContainer extends React.Component {
     this.filterUserMessages();
   }
 
-  filterUserMessages() {// do a readAction on messages that appear twice.
+  filterUserMessages() {
+    // do a readAction on messages that appear twice.
     let userMessages = this.props.profileState.userMessages;
     if (userMessages && this.props.readAction) {
       let seenIds = [];
-      userMessages.messages.map((msg) => {
-        if (seenIds.includes(msg.commentId)) {// if message already seen, mark as read.
+      userMessages.messages.map(msg => {
+        if (seenIds.includes(msg.commentId)) {
+          // if message already seen, mark as read.
           let message = Object.assign({}, msg);
           this.props.readAction(message);
-        }
-        else {
+        } else {
           msg.commentId ? seenIds.push(msg.commentId) : '';
         }
       });
@@ -76,8 +77,7 @@ export default class NavbarContainer extends React.Component {
 
     if (type === 'profile' && active.profile) {
       active.profile = false;
-    }
-    else if (!this.state.active.button) {
+    } else if (!this.state.active.button) {
       active[type] = true;
       active.button = true;
     }
@@ -94,22 +94,23 @@ export default class NavbarContainer extends React.Component {
       image = {
         shouldDisplay: !!profile.image.url && profile.image.url.small,
         url: profile.image.url && profile.image.url.small,
-        unreadMessages: profile.userMessages && profile.userMessages.unreadMessages || 0
+        unreadMessages: (profile.userMessages && profile.userMessages.unreadMessages) || 0
       };
     }
 
     if (image.shouldDisplay && this.state.isClient) {
       return (
-        <NavBarProfileImage image={image} url={PUBLIC_PROFILE} onClick={() => this.onToggle('profile')} notifications={image.unreadMessages} />);
+        <NavBarProfileImage
+          image={image}
+          url={PUBLIC_PROFILE}
+          onClick={() => this.onToggle('profile')}
+          notifications={image.unreadMessages}
+        />
+      );
     }
 
     return (
-      <NavBarIconLink
-        className="navbar--profile"
-        url="#"
-        glyph={profileSvg}
-        onClick={() => this.onToggle('profile')}
-      />
+      <NavBarIconLink className="navbar--profile" url="#" glyph={profileSvg} onClick={() => this.onToggle('profile')} />
     );
   }
 
@@ -117,15 +118,21 @@ export default class NavbarContainer extends React.Component {
     if (!image.shouldDisplay) {
       return (
         <ul>
-          <li><NavbarLink value='Log ind' url='/login' /></li>
+          <li>
+            <NavbarLink value="Log ind" url="/login" />
+          </li>
         </ul>
       );
     }
 
     return (
       <ul>
-        <li><NavbarLink value='Profil' url='/profil' /></li>
-        <li><NavbarLink value='Log ud' url='/logout' className='log-out-button' /></li>
+        <li>
+          <NavbarLink value="Profil" url="/profil" />
+        </li>
+        <li>
+          <NavbarLink value="Log ud" url="/logout" className="log-out-button" />
+        </li>
       </ul>
     );
   }
@@ -133,12 +140,7 @@ export default class NavbarContainer extends React.Component {
   getRightSideMenu() {
     return (
       <React.Fragment>
-        <NavBarIconLink
-          className="navbar--search"
-          url="#"
-          glyph={searchSvg}
-          onClick={() => this.toggleSearchBox()}
-        />
+        <NavBarIconLink className="navbar--search" url="#" glyph={searchSvg} onClick={() => this.toggleSearchBox()} />
 
         {this.renderProfile()}
         <NavbarToggle active={this.state.active.button} onToggle={() => this.onToggle('menu')} />
@@ -153,9 +155,16 @@ export default class NavbarContainer extends React.Component {
     const rightSideMenu = this.getRightSideMenu();
 
     if (menuState && Array.isArray(menuState.main) && Array.isArray(menuState.footer)) {
-      menus.main = menuState.main.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} /></li>);
-      menus.footer = menuState.footer.map(item => <li key={item.id}><NavbarLink value={item.title} url={item.url} />
-      </li>);
+      menus.main = menuState.main.map(item => (
+        <li key={item.id}>
+          <NavbarLink value={item.title} url={item.url} />
+        </li>
+      ));
+      menus.footer = menuState.footer.map(item => (
+        <li key={item.id}>
+          <NavbarLink value={item.title} url={item.url} />
+        </li>
+      ));
     }
 
     return (
@@ -164,7 +173,7 @@ export default class NavbarContainer extends React.Component {
           <div className="navbar--menu">
             <ul className="inline-list">
               <li>
-                <a className='bibloLogo' href={DET_SKER_PAGE}>
+                <a className="bibloLogo" href={DET_SKER_PAGE}>
                   <Icon className={'svg-logo'} width={100} height={30} glyph={bibloSvg} />
                 </a>
               </li>
@@ -172,30 +181,20 @@ export default class NavbarContainer extends React.Component {
             </ul>
           </div>
 
-          <div className="navbar--icons">
-            {rightSideMenu}
-          </div>
+          <div className="navbar--icons">{rightSideMenu}</div>
         </div>
-        <NavbarMobileMenu active={this.state.active.menu} type='menu'>
+        <NavbarMobileMenu active={this.state.active.menu} type="menu">
           <div>
-            <ul className="navbar--mobile-main-menu">
-              {menus.main}
-            </ul>
-            <ul className="navbar--mobile-sub-menu">
-              {menus.footer}
-            </ul>
+            <ul className="navbar--mobile-main-menu">{menus.main}</ul>
+            <ul className="navbar--mobile-sub-menu">{menus.footer}</ul>
           </div>
         </NavbarMobileMenu>
-        <NavbarMobileMenu active={this.state.active.profile} type='profile'>
-          <div>
-            {profileLinks}
-          </div>
+        <NavbarMobileMenu active={this.state.active.profile} type="profile">
+          <div>{profileLinks}</div>
         </NavbarMobileMenu>
         <ClickOverlay active={this.state.active.button} onClick={() => this.onToggle('menu')} />
         <SearchContainer search={this.props.searchState} searchActions={this.props.searchActions} />
-        {
-          this.state.displayLogoutWarning && <LogoutWarning />
-        }
+        {this.state.displayLogoutWarning && <LogoutWarning />}
       </div>
     );
   }

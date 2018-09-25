@@ -33,13 +33,12 @@ function authenticate(config, {username = '@', password = '@'}) {
       pass: config.clientSecret
     }
   };
-  return promiseRequest('post', req).then((smaugResp) => {
+  return promiseRequest('post', req).then(smaugResp => {
     const token = JSON.parse(smaugResp.body);
     if (token.error) {
       return Promise.reject(token.error_description);
     }
     return token;
-
   });
 }
 
@@ -54,29 +53,21 @@ function authenticate(config, {username = '@', password = '@'}) {
  */
 let callOpenPlatform = async function callOpenPlatform(config, method, req, authUser = '@') {
   try {
-    const resp = await promiseRequest(method, Object.assign(
-      {headers: {Authorization: tokens.get(authUser)}},
-      req
-    ));
+    const resp = await promiseRequest(method, Object.assign({headers: {Authorization: tokens.get(authUser)}}, req));
     // Check if call was successful
     if (resp.statusCode === 401 && resp.statusMessage === 'Unauthorized') {
       // It was not, request new token
       const token = await authenticate(config, {username: authUser, password: authUser});
       tokens.set(authUser, `Bearer ${token.access_token}`);
       // Make request with new token
-      return await promiseRequest(method, Object.assign(
-        {headers: {Authorization: tokens.get(authUser)}},
-        req
-      ));
+      return await promiseRequest(method, Object.assign({headers: {Authorization: tokens.get(authUser)}}, req));
     }
     return resp;
-  }
-  catch (e) {
+  } catch (e) {
     log.error(e.message, e);
     return Promise.reject(e);
   }
 };
-
 
 function search(endpoint, params) {
   const options = {
@@ -127,7 +118,6 @@ function order(endpoint, params) {
  * @returns {*}
  */
 function availability(endpoint, params) {
-
   const authUser = `@${params.libraryId}`;
   const req = {
     url: `${endpoint}availability/`,
@@ -173,20 +163,15 @@ function howruSmaug(endpoint) {
 export default function OpenPlatformClient(config = null) {
   if (!config) {
     throw new Error('Expected config object but got null!');
-  }
-  else if (!config.endpoint) {
+  } else if (!config.endpoint) {
     throw new Error('Expected endpoint in config, but none provided');
-  }
-  else if (!config.token) {
+  } else if (!config.token) {
     throw new Error('Expected token in config, but none provided');
-  }
-  else if (!config.smaug) {
+  } else if (!config.smaug) {
     throw new Error('Expected smaug url in config, but none provided');
-  }
-  else if (!config.clientId) {
+  } else if (!config.clientId) {
     throw new Error('Expected clientId in config, but none provided');
-  }
-  else if (!config.clientSecret) {
+  } else if (!config.clientSecret) {
     throw new Error('Expected clientSecret in config, but none provided');
   }
 

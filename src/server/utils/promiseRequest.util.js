@@ -5,8 +5,7 @@ export function promiseRequest(method, req) {
     request[method](req, (err, httpResponse) => {
       if (err) {
         reject(err, httpResponse);
-      }
-      else {
+      } else {
         resolve(httpResponse);
       }
     });

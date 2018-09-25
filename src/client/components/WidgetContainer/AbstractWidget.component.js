@@ -9,7 +9,8 @@ import PropTypes from 'prop-types';
  * @Class: AbstractWidget
  * This class defines a few helper methods on top of React.Component to aid widgets.
  */
-export class AbstractWidget extends Component { // eslint-disable-line react/require-render-return
+export class AbstractWidget extends Component {
+  // eslint-disable-line react/require-render-return
   constructor(props) {
     super(props);
 

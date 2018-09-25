@@ -1,12 +1,12 @@
 import parsePost from '../../../parsers/post.parser';
 
 const GetLatestPostsTransform = {
-
   event() {
     return 'getLatestPosts';
   },
 
-  requestTransform(event, {skip, limit=10}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {skip, limit = 10}, connection) {
+    // eslint-disable-line no-unused-vars
     const postFilter = {
       limit: limit,
       skip: skip,
@@ -16,7 +16,8 @@ const GetLatestPostsTransform = {
         'likes',
         'group',
         'pdf',
-        'image', {
+        'image',
+        {
           owner: ['image']
         },
         {
@@ -50,7 +51,8 @@ const GetLatestPostsTransform = {
                 scope: {
                   include: ['video']
                 }
-              }]
+              }
+            ]
           }
         }
       ]
@@ -63,7 +65,8 @@ const GetLatestPostsTransform = {
     ]);
   },
 
-  responseTransform(response, query, connection) { // eslint-disable-line no-unused-vars
+  responseTransform(response, query, connection) {
+    // eslint-disable-line no-unused-vars
     if (response[0].statusCode !== 200) {
       throw new Error('Call to community service, with method getLatestPosts failed');
     }

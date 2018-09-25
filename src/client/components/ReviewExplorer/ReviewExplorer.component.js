@@ -68,7 +68,13 @@ export class ReviewExplorerComponent extends Component {
   }
 
   render() {
-    const {isLoading=false, reviews=[], genres=[], total=0, error=false} = this.props.reviewState.reviewExplorer;
+    const {
+      isLoading = false,
+      reviews = [],
+      genres = [],
+      total = 0,
+      error = false
+    } = this.props.reviewState.reviewExplorer;
 
     return (
       <PageLayout
@@ -80,21 +86,25 @@ export class ReviewExplorerComponent extends Component {
         <ReviewExplorerNavigation genres={genres} onChange={this.handleNavigationChange.bind(this)} />
         <div className="review-explorer--main-content">
           <h2>
-            {total} ANMELDELSE{total !== 1 && 'R'}
+            {total} ANMELDELSE
+            {total !== 1 && 'R'}
           </h2>
           <div className="review-explorer--spinner">
             {isLoading && total === 0 && <Icon glyph={spinnerSvg} height={50} width={50} />}
           </div>
-          {error && <div className="review-explorer--error"><Message type="error">
-            UPS - Der skete en fejl, prøv igen senere
-          </Message></div>}
-          {reviews && <div className="review-explorer--rows">{this.renderItems(reviews)}</div>}
-          {reviews && total > reviews.length && (
-            <div>
-              &nbsp;
-              <VisFlereButton onClick={this.handleClickMore.bind(this)} isLoading={isLoading} />
+          {error && (
+            <div className="review-explorer--error">
+              <Message type="error">UPS - Der skete en fejl, prøv igen senere</Message>
             </div>
           )}
+          {reviews && <div className="review-explorer--rows">{this.renderItems(reviews)}</div>}
+          {reviews &&
+            total > reviews.length && (
+              <div>
+                &nbsp;
+                <VisFlereButton onClick={this.handleClickMore.bind(this)} isLoading={isLoading} />
+              </div>
+            )}
         </div>
       </PageLayout>
     );

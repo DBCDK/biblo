@@ -28,8 +28,10 @@ export class LatestReviewsWidget extends AbstractWidget {
   shouldComponentUpdate(nextProps) {
     // If the state updates, the component should update
     // If the props update, we don't care unless it's the widgetReducerProp or widgetState cover images.
-    return !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp)
-      || !isEqual(nextProps.widgetState.CoverImages, this.props.widgetState.CoverImages);
+    return (
+      !isEqual(nextProps.widgetReducerProp, this.props.widgetReducerProp) ||
+      !isEqual(nextProps.widgetState.CoverImages, this.props.widgetState.CoverImages)
+    );
   }
 
   getNextPage(pageIndex) {
@@ -45,9 +47,11 @@ export class LatestReviewsWidget extends AbstractWidget {
   render() {
     const widgetConfig = this.props.widgetConfig;
     const wrp = this.props.widgetReducerProp;
-    const campaignLogoUrl = wrp.campaigns[widgetConfig.campaignId]
-      && wrp.campaigns[widgetConfig.campaignId].logos &&
-      wrp.campaigns[widgetConfig.campaignId].logos.small || null;
+    const campaignLogoUrl =
+      (wrp.campaigns[widgetConfig.campaignId] &&
+        wrp.campaigns[widgetConfig.campaignId].logos &&
+        wrp.campaigns[widgetConfig.campaignId].logos.small) ||
+      null;
 
     let campaignLogo = '';
     if (campaignLogoUrl) {
@@ -68,14 +72,15 @@ export class LatestReviewsWidget extends AbstractWidget {
       }
     }
 
-    reviews = reviews.map((review) => {
+    reviews = reviews.map(review => {
       if (review) {
         return (
           <CompactReviewElement
             key={`compact_review_${review.id}`}
             review={review}
             coverImages={this.props.widgetState.CoverImages || {}}
-            getCoverImageAction={this.props.widgetActions.asyncGetCoverImage} />
+            getCoverImageAction={this.props.widgetActions.asyncGetCoverImage}
+          />
         );
       }
     });

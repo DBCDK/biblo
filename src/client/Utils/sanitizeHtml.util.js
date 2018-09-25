@@ -7,8 +7,7 @@ export default function sanitize(_html) {
     if (typeof window !== 'undefined') {
       html = DOMPurify.sanitize(_html);
     }
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e); // eslint-disable-line
   }
 

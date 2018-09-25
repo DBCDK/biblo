@@ -5,7 +5,7 @@ export default class GroupSearch extends React.Component {
     return (
       <form>
         <input placeholder="Søg blandt grupper her" />
-        <input type="submit" value="Søg!"/>
+        <input type="submit" value="Søg!" />
       </form>
     );
   }

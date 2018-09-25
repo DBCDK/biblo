@@ -22,35 +22,38 @@ export class Article extends React.Component {
   renderBibloAdminContentPage() {
     return (
       <div className="article">
-        <div className='article-main'>
+        <div className="article-main">
           <WidgetContainer
             widgetLocationName="ContentPageLeft"
             widgetState={this.props.widgetState}
-            widgetActions={this.props.widgetActions}/>
+            widgetActions={this.props.widgetActions}
+          />
         </div>
-        <div className='article-factbox'>
+        <div className="article-factbox">
           <WidgetContainer
             widgetLocationName="ContentPageFactBox"
             widgetState={this.props.widgetState}
-            widgetActions={this.props.widgetActions}/>
+            widgetActions={this.props.widgetActions}
+          />
         </div>
 
         <WidgetContainer
           widgetLocationName="SectionPage"
           widgetState={this.props.widgetState}
-          widgetActions={this.props.widgetActions}/>
+          widgetActions={this.props.widgetActions}
+        />
       </div>
     );
   }
 
   renderAmazonArticle() {
     return (
-      <div className='article'>
-        <div className='article-header'>
-          <img src={articleData.headerImageUrl}/>
+      <div className="article">
+        <div className="article-header">
+          <img src={articleData.headerImageUrl} />
         </div>
-        <div className='article-main' dangerouslySetInnerHTML={{__html: sanitizeHtml(articleData.mainContent)}}></div>
-        <div className='article-factbox' dangerouslySetInnerHTML={{__html: sanitizeHtml(articleData.factboxContent)}}></div>
+        <div className="article-main" dangerouslySetInnerHTML={{__html: sanitizeHtml(articleData.mainContent)}} />
+        <div className="article-factbox" dangerouslySetInnerHTML={{__html: sanitizeHtml(articleData.factboxContent)}} />
       </div>
     );
   }
@@ -60,8 +63,7 @@ export class Article extends React.Component {
 
     if (Object.getOwnPropertyNames(articleData).length > 0) {
       content = this.renderAmazonArticle();
-    }
-    else {
+    } else {
       content = this.renderBibloAdminContentPage();
     }
 
@@ -70,7 +72,8 @@ export class Article extends React.Component {
         searchState={this.props.searchState}
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
-        globalState={this.props.globalState}>
+        globalState={this.props.globalState}
+      >
         {content}
       </PageLayout>
     );
@@ -89,7 +92,7 @@ Article.propTypes = {
 
 export default connect(
   // Map redux state to group prop
-  (state) => {
+  state => {
     return {
       profileState: state.profileReducer,
       searchState: state.searchReducer,
@@ -99,7 +102,7 @@ export default connect(
   },
 
   // Map group actions to actions props
-  (dispatch) => {
+  dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       widgetActions: bindActionCreators(widgetActions, dispatch)

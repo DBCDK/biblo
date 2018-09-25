@@ -39,7 +39,6 @@ function howruEntitySuggest(config) {
  * the webservice
  */
 export default function CustomClient(config = null) {
-
   if (!config) {
     throw new Error('Expected config object but got null');
   }

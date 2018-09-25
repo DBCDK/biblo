@@ -9,7 +9,6 @@ import {shallow} from 'enzyme';
 import DisplayNameField from './../DisplayNameField.component';
 
 describe('Unittesting DisplayNameField.component.test.js', () => {
-
   it('Given input should be sanitized prior to calling checkDisplayNameFunction', done => {
     const inputValue = '<script>console.log("test");</script>test';
     const expected = 'test';

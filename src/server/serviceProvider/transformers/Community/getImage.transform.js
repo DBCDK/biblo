@@ -3,7 +3,6 @@
  * Get the user profile + profile image.
  */
 const getImageTransform = {
-
   /**
    * @return {string}
    */

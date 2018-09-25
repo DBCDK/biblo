@@ -32,7 +32,8 @@ export default class GroupMembersBox extends React.Component {
   }
 
   setExpanded() {
-    if (this.props.membersCount - 1 > this.state.membersCopy.length) { // all members minus the owner
+    if (this.props.membersCount - 1 > this.state.membersCopy.length) {
+      // all members minus the owner
       this.props.loadMembers();
     }
     const isExpanded = !this.state.isExpanded;
@@ -44,14 +45,18 @@ export default class GroupMembersBox extends React.Component {
     const membersCopy = this.state.membersCopy;
 
     // if not expanded then show only the top 9 members
-    let visibleMembers = (!this.state.isExpanded) ? membersCopy.slice(0, 9) : membersCopy;
+    let visibleMembers = !this.state.isExpanded ? membersCopy.slice(0, 9) : membersCopy;
 
-    const memberImages = visibleMembers.map((member) => {
-      const classes = 'member-image ' + ((typeof member.isOwner !== 'undefined') ? 'owner' : '');
-      return <a href={'/profil/' + member.id} key={member.id} className={classes}><img src={member.image || '/no_profile.png'} alt={member.displayName} /></a>;
+    const memberImages = visibleMembers.map(member => {
+      const classes = 'member-image ' + (typeof member.isOwner !== 'undefined' ? 'owner' : '');
+      return (
+        <a href={'/profil/' + member.id} key={member.id} className={classes}>
+          <img src={member.image || '/no_profile.png'} alt={member.displayName} />
+        </a>
+      );
     });
 
-    const buttonText = (this.state.isExpanded) ? 'Vis færre' : 'Vis alle';
+    const buttonText = this.state.isExpanded ? 'Vis færre' : 'Vis alle';
 
     let loadingMembersMessage = null;
 
@@ -61,17 +66,20 @@ export default class GroupMembersBox extends React.Component {
       const icon = this.state.isExpanded && !isLoadingMembers ? <Icon glyph={minusSvg} /> : null;
 
       expandButton = (
-        <div className='members-button'>
-          <ExpandButton isLoading={isLoadingMembers} onClick={this.setExpanded.bind(this)} text={buttonText} iconOverride={icon} />
+        <div className="members-button">
+          <ExpandButton
+            isLoading={isLoadingMembers}
+            onClick={this.setExpanded.bind(this)}
+            text={buttonText}
+            iconOverride={icon}
+          />
         </div>
       );
     }
 
     return (
-      <div className='group--sidebar'>
-        <div className='group-view-members-box'>
-          {memberImages}
-        </div>
+      <div className="group--sidebar">
+        <div className="group-view-members-box">{memberImages}</div>
         {expandButton}
         {loadingMembersMessage}
       </div>

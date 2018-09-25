@@ -52,12 +52,11 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
 
     if (contentObject.message && contentObject.message.indexOf('No route found for') > -1) {
       throw new Error('Frontpage could not be found in admin');
-    }
-    else {
+    } else {
       res.locals.title = 'Biblo';
 
       req.writeToReduxStateTree('widgetReducer', contentObject);
-      req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: (req.query.logout === '1')});
+      req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: req.query.logout === '1'});
       req.renderComponent(ContentpageContainer);
 
       return res.render('page', {
@@ -65,20 +64,23 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
         js: ['/js/contentpage.js']
       });
     }
-  }
-  catch (err) {
+  } catch (err) {
     log.error(err);
     next(err);
   }
 });
 
-MainRoutes.get('/login', setReferer, passport.authenticate('unilogin',
-  {
+MainRoutes.get(
+  '/login',
+  setReferer,
+  passport.authenticate('unilogin', {
     failureRedirect: '/error'
+  }),
+  redirectBackToOrigin,
+  (req, res) => {
+    res.redirect('/');
   }
-), redirectBackToOrigin, (req, res) => {
-  res.redirect('/');
-});
+);
 
 MainRoutes.get('/logout', function(req, res) {
   log.info('Logging out user', {session: req.session});
@@ -120,8 +122,7 @@ MainRoutes.get('/billede/:id/:size', async function(req, res) {
 
     setTimeout(() => res.redirect(imageUrl), 50);
     log.info('got image url', {url: imageUrl});
-  }
-  catch (err) {
+  } catch (err) {
     log.error('An error occurred while getting image!', {error: err.message});
     res.redirect('/kunne_ikke_finde_billede.png');
   }
@@ -131,20 +132,28 @@ MainRoutes.get('/pdf/:id', async function(req, res) {
   try {
     const pdfResult = await req.callServiceProvider('getPDF', {id: req.params.id});
     const pdfUrl = generateSignedCloudfrontCookie(
-      `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${pdfResult[0].body.container}`)}/${pdfResult[0].body.name}`
+      `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${pdfResult[0].body.container}`)}/${
+        pdfResult[0].body.name
+      }`
     );
 
     const expires = /Expires=([0-9]+)/.exec(pdfUrl); // when this url expires, in seconds since 1/1/1970
 
-    setTimeout(() => request.get(pdfUrl).on('response', response => {
-      response.headers['Cache-Control'] = `expires=${Number(expires[1]) - 60}`;
-      response.headers['Content-Type'] = 'application/pdf';
-      response.headers['Content-Disposition'] = `inline; filename="${pdfResult[0].body.name}"`;
-    }).pipe(res), 50);
+    setTimeout(
+      () =>
+        request
+          .get(pdfUrl)
+          .on('response', response => {
+            response.headers['Cache-Control'] = `expires=${Number(expires[1]) - 60}`;
+            response.headers['Content-Type'] = 'application/pdf';
+            response.headers['Content-Disposition'] = `inline; filename="${pdfResult[0].body.name}"`;
+          })
+          .pipe(res),
+      50
+    );
 
     log.info('got pdf url', {url: pdfUrl});
-  }
-  catch (err) {
+  } catch (err) {
     log.error('An error occurred while getting PDF!', {error: err.message});
     res.redirect('/error');
   }
@@ -229,4 +238,3 @@ MainRoutes.get('/howru', async (req, res) => {
 });
 
 export default MainRoutes;
-

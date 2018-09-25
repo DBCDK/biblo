@@ -23,17 +23,16 @@ const getSinglePosts = SocketClient('getSinglePosts');
 const getSingleCommentSocket = SocketClient('getSingleComment');
 
 export function asyncChangeImage(file) {
-  return (dispatch) => {
-    return new Promise((resolve) => {
+  return dispatch => {
+    return new Promise(resolve => {
       if ('FileReader' in window) {
         let reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           resolve(dispatch(changeImage(file, e.target.result)));
         };
 
         reader.readAsDataURL(file);
-      }
-      else {
+      } else {
         resolve(dispatch(changeImage(file, '/Billede-kommer-snart.jpg')));
       }
     });
@@ -97,8 +96,8 @@ export function changeGroupColour(colourEvent) {
  * @return {function(*)}
  */
 export function asyncGetSingleComment(commentId) {
-  return (dispatch) => {
-    getSingleCommentSocket.responseOnce((response) => {
+  return dispatch => {
+    getSingleCommentSocket.responseOnce(response => {
       dispatch(getSingleComment(response));
     });
     getSingleCommentSocket.request({id: commentId});
@@ -120,8 +119,8 @@ export function getSingleComment(comment) {
 }
 
 export function asyncSubmitGroupCreateForm(imageFile, name, description) {
-  return (dispatch) => {
-    return new Promise((resolve) => {
+  return dispatch => {
+    return new Promise(resolve => {
       dispatch(groupFormIsSubmitting());
 
       let formData = new FormData();
@@ -135,7 +134,7 @@ export function asyncSubmitGroupCreateForm(imageFile, name, description) {
       let request = new XMLHttpRequest();
       request.open('POST', window.location.href);
       request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      request.onreadystatechange = (e) => {
+      request.onreadystatechange = e => {
         if (e.target.readyState === 4) {
           const data = JSON.parse(e.target.response);
           if (data.redirect) {
@@ -145,10 +144,10 @@ export function asyncSubmitGroupCreateForm(imageFile, name, description) {
           resolve(dispatch(submitGroupCreateForm(imageFile, name, description, data.status, data.errors)));
         }
       };
-      request.upload.addEventListener('progress', (e) => dispatch(groupFormUploadProgress(e)));
-      request.upload.addEventListener('load', (e) => dispatch(groupFormUploadCompleted(e)));
-      request.upload.addEventListener('error', (e) => dispatch(groupFormUploadFailed(e)));
-      request.upload.addEventListener('abort', (e) => dispatch(groupFormUploadCanceled(e)));
+      request.upload.addEventListener('progress', e => dispatch(groupFormUploadProgress(e)));
+      request.upload.addEventListener('load', e => dispatch(groupFormUploadCompleted(e)));
+      request.upload.addEventListener('error', e => dispatch(groupFormUploadFailed(e)));
+      request.upload.addEventListener('abort', e => dispatch(groupFormUploadCanceled(e)));
       request.send(formData);
     });
   };
@@ -166,7 +165,7 @@ function submitGroupCreateForm(imageFile, name, description, status, errors = []
 }
 
 export function asyncSubmitGroupEditForm(imageFile, name, description) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(groupFormIsSubmitting());
 
     let formData = new FormData();
@@ -180,7 +179,7 @@ export function asyncSubmitGroupEditForm(imageFile, name, description) {
     let request = new XMLHttpRequest();
     request.open('POST', window.location.href);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    request.onreadystatechange = (e) => {
+    request.onreadystatechange = e => {
       if (e.target.readyState === 4) {
         const data = JSON.parse(e.target.response);
         if (data.redirect) {
@@ -190,10 +189,10 @@ export function asyncSubmitGroupEditForm(imageFile, name, description) {
         dispatch(submitGroupEditForm(imageFile, name, description, data.status, data.errors));
       }
     };
-    request.upload.addEventListener('progress', (e) => dispatch(groupFormUploadProgress(e)));
-    request.upload.addEventListener('load', (e) => dispatch(groupFormUploadCompleted(e)));
-    request.upload.addEventListener('error', (e) => dispatch(groupFormUploadFailed(e)));
-    request.upload.addEventListener('abort', (e) => dispatch(groupFormUploadCanceled(e)));
+    request.upload.addEventListener('progress', e => dispatch(groupFormUploadProgress(e)));
+    request.upload.addEventListener('load', e => dispatch(groupFormUploadCompleted(e)));
+    request.upload.addEventListener('error', e => dispatch(groupFormUploadFailed(e)));
+    request.upload.addEventListener('abort', e => dispatch(groupFormUploadCanceled(e)));
     request.send(formData);
   };
 }
@@ -306,9 +305,7 @@ export function asyncGroupFollow(enableFollow, groupId, profileId) {
         groupId,
         profileId
       });
-    }
-    else {
-
+    } else {
       leaveGroup.request({
         groupId,
         profileId
@@ -324,10 +321,16 @@ export function groupFollow(enableFollow) {
   };
 }
 
-export function asyncGetGroupMembers(groupId, excludedIds = null, limit = null, offset = null, maxResultsInResponse = null) {
-  return (dispatch) => {
+export function asyncGetGroupMembers(
+  groupId,
+  excludedIds = null,
+  limit = null,
+  offset = null,
+  maxResultsInResponse = null
+) {
+  return dispatch => {
     // handle getGroupMembers responses
-    getGroupMembersListener((res) => {
+    getGroupMembersListener(res => {
       dispatch(setGroupMembers(res.members));
     });
 
@@ -455,17 +458,10 @@ export function deletePostProgres(postId) {
 
 export function asyncLoadMetadataForReview(pid) {
   return dispatch => {
-    loadMetadataForReviewAttachedToPostOrCommentSocket.responseOnce((res) => dispatch(loadMetadataForReview(res)));
+    loadMetadataForReviewAttachedToPostOrCommentSocket.responseOnce(res => dispatch(loadMetadataForReview(res)));
     loadMetadataForReviewAttachedToPostOrCommentSocket.request({
       pids: [pid],
-      fields: [
-        'dcTitleFull',
-        'collection',
-        'creator',
-        'dcCreator',
-        'contributorAct',
-        'contributor'
-      ]
+      fields: ['dcTitleFull', 'collection', 'creator', 'dcCreator', 'contributorAct', 'contributor']
     });
   };
 }
@@ -493,8 +489,7 @@ export function asyncListenToGroupForNewContent(groupId) {
       let gData = data && data.data && data.data.data;
       if (gData.commentownerid && gData.id) {
         getSingleCommentSocket.request({id: gData.id});
-      }
-      else if (gData.postownerid && gData.id) {
+      } else if (gData.postownerid && gData.id) {
         getSinglePosts.request({id: gData.id});
       }
     });

@@ -58,8 +58,7 @@ export default class SearchContainer extends React.Component {
 
     if (typeof window !== 'undefined' && Math.max(document.documentElement.clientWidth, window.innerWidth) < 600) {
       self.setState({searchPlaceholder: 'Søg her'});
-    }
-    else {
+    } else {
       self.setState({searchPlaceholder: 'Søg på bøger, film, musik, spil og grupper'});
     }
   }
@@ -92,8 +91,7 @@ export default class SearchContainer extends React.Component {
       window.location = this.props.search.workSuggestions[this.state.query][
         this.props.search.selectedWorkSuggestion
       ].href;
-    }
-    else if (e.type === 'click' || e.keyCode === 13) {
+    } else if (e.type === 'click' || e.keyCode === 13) {
       this.setState({loading: true});
       this.props.searchActions.search({
         query: this.state.query,

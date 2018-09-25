@@ -45,10 +45,12 @@ export function showReviewList(params, limit, loadMore) {
 
   const existFilter = '!markedAsDeleted:true';
   const genre = params.genre === 'alle' ? '' : ` AND genres.title:"${params.genre}"`;
-  const query = `${existFilter}${genre}${WORK_TYPES_MAPPINGS[params.workType]}${REVIEW_TYPES_MAPPINGS[params.reviewType]}`;
+  const query = `${existFilter}${genre}${WORK_TYPES_MAPPINGS[params.workType]}${
+    REVIEW_TYPES_MAPPINGS[params.reviewType]
+  }`;
   const sort = ORDER_MAPPINGS[params.order];
 
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch({
       type: types.GET_REVIEWS_IS_LOADING,
       loadMore
@@ -69,7 +71,7 @@ export function showReviewList(params, limit, loadMore) {
 }
 
 export function showGenres() {
-  return function (dispatch) {
+  return function(dispatch) {
     getGenresClient.request({});
     const event = getGenresClient.response(response => {
       dispatch({
@@ -88,7 +90,7 @@ export function moreWorkReviewsLoading() {
 }
 
 export function asyncShowReview(id) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(moreWorkReviewsLoading());
     getReviewsClient.request({id});
     const event = getReviewsClient.response(response => {
@@ -99,7 +101,7 @@ export function asyncShowReview(id) {
 }
 
 export function asyncShowWorkReviews(pids, skip, limit, ownId) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(moreWorkReviewsLoading());
     getReviewsClient.request({pids, skip, limit});
     const event = getReviewsClient.response(response => {
@@ -117,15 +119,15 @@ export function createWorkReview(review) {
 }
 
 export function asyncDeleteWorkReview(reviewId, pids, pid) {
-  let skip=0, limit = 10;
-  return function (dispatch) {
+  let skip = 0,
+    limit = 10;
+  return function(dispatch) {
     dispatch(deleteReview(reviewId));
     deleteReviewClient.request({id: reviewId, pid: pid});
     const event = deleteReviewClient.response(() => {
       if (pids) {
         dispatch(asyncShowWorkReviews(pids, skip, limit, null));
-      }
-      else {
+      } else {
         dispatch(deleteReview(reviewId));
       }
       event.off();

@@ -32,9 +32,10 @@ function registerServiceClient(provider, config, clientCache, clientName, client
   let clientConfig = config.get('ServiceProvider');
   try {
     clientConfig = config.get(`ServiceProvider.${clientName}`);
-  }
-  catch (e) {
-    log.warn(`No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`); // eslint-disable-line
+  } catch (e) {
+    log.warn(
+      `No specific config found for client named "${clientName}". Falling back to entire ServiceProvider config object`
+    ); // eslint-disable-line
   }
 
   const methods = client(clientConfig);
@@ -112,8 +113,9 @@ export default function initProvider(config, sockets) {
   RegisterClientOnProvider('custom', CustomClient);
 
   // Transforms are autorequired to lessen boilerplate code
-  AutoRequire(path.join(__dirname, 'transformers'), 'transform.js')
-    .map((transformObject) => provider.registerTransform(transformObject.default));
+  AutoRequire(path.join(__dirname, 'transformers'), 'transform.js').map(transformObject =>
+    provider.registerTransform(transformObject.default)
+  );
 
   return provider;
 }

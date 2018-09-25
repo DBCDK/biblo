@@ -16,7 +16,7 @@ const searchGroupListener = once(searchGroups.response);
 
 export function loadedMoreMaterialResults(res) {
   if (!res.data) {
-    console.error('didn\'t get data?', res); // eslint-disable-line
+    console.error("didn't get data?", res); // eslint-disable-line
     res.data = [];
   }
 
@@ -33,12 +33,11 @@ export function loadMoreMaterialResults() {
 }
 
 export function asyncLoadMoreMaterialResults(query) {
-
-  return (dispatch) => {
+  return dispatch => {
     dispatch(loadMoreMaterialResults());
-    searchClientListener((res) => dispatch(loadedMoreMaterialResults(res)));
+    searchClientListener(res => dispatch(loadedMoreMaterialResults(res)));
 
-    const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
+    const materialTypes = filter(Object.keys(query.materialFilters), type => {
       return query.materialFilters[type].enabled;
     });
 
@@ -52,7 +51,7 @@ export function asyncLoadMoreMaterialResults(query) {
   };
 }
 
-export function loadedMoreGroupResults (res) {
+export function loadedMoreGroupResults(res) {
   return {
     type: types.LOADED_MORE_GROUP_RESULTS,
     results: res
@@ -66,9 +65,9 @@ export function loadMoreGroupResults() {
 }
 
 export function asyncLoadMoreGroupResults(query) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(loadMoreGroupResults());
-    searchGroupListener((res) => dispatch(loadedMoreGroupResults(res)));
+    searchGroupListener(res => dispatch(loadedMoreGroupResults(res)));
     searchGroups.request({
       q: query.query,
       limit: 20,
@@ -103,17 +102,20 @@ export function resetMaterialFilters() {
 }
 
 export function search(query) {
-
   // create array of enabled material filter types
-  const materialTypes = filter(Object.keys(query.materialFilters), (type) => {
+  const materialTypes = filter(Object.keys(query.materialFilters), type => {
     return query.materialFilters[type].enabled;
   });
 
   let searchUrl =
-    '/find?q=' + encodeURIComponent(query.query) +
-     '&grupper=' + (query.groupFilter ? 1 : 0) +
-    '&emneord=' + encodeURIComponent(query.subjects.join()) +
-    '&materialer=' + encodeURIComponent(materialTypes.join());
+    '/find?q=' +
+    encodeURIComponent(query.query) +
+    '&grupper=' +
+    (query.groupFilter ? 1 : 0) +
+    '&emneord=' +
+    encodeURIComponent(query.subjects.join()) +
+    '&materialer=' +
+    encodeURIComponent(materialTypes.join());
 
   // OLD SKOOL redirect
   window.location = searchUrl;
@@ -130,7 +132,7 @@ export function suggestionsAreLoading(q) {
 }
 
 export function getWorkSuggestions(q) {
-  return (dispatch) => {
+  return dispatch => {
     // set loading
     dispatch(suggestionsAreLoading(q));
 
@@ -162,7 +164,13 @@ export function searchQueryHasChanged(q) {
   };
 }
 
-export function asyncQuerySeries({seriesTitle, offset = 0, limit = 20, fields = ['pid'], sort = 'solr_numberInSeries_ascending'}) {
+export function asyncQuerySeries({
+  seriesTitle,
+  offset = 0,
+  limit = 20,
+  fields = ['pid'],
+  sort = 'solr_numberInSeries_ascending'
+}) {
   return dispatch => {
     searchSeriesListener(res => {
       dispatch(querySeries(res, seriesTitle, offset, limit));

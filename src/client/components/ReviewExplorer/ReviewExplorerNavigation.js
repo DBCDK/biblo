@@ -13,7 +13,6 @@ const orders = ['nyeste', 'mest likede', 'tilfældig'];
 const history = createHistory();
 
 export default class ReviewExplorerNavigation extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -63,7 +62,11 @@ export default class ReviewExplorerNavigation extends React.Component {
     const s = {};
     s[key] = value;
     const newState = Object.assign({}, this.state, s);
-    history.push(`/anmeldelser?genre=${newState.genre}&workType=${newState.workType}&reviewType=${newState.reviewType}&order=${newState.order}`);
+    history.push(
+      `/anmeldelser?genre=${newState.genre}&workType=${newState.workType}&reviewType=${newState.reviewType}&order=${
+        newState.order
+      }`
+    );
   }
 
   /* Called when browser Address bar changes */
@@ -86,15 +89,19 @@ export default class ReviewExplorerNavigation extends React.Component {
   }
 
   renderDropDown(id, options, selected, prependText, appendText) {
-
     const width = this.getWidth(this.state[id], 'review-explorer-navigation--dropdown') + 26;
 
     return (
       <div className="review-explorer-navigation--row">
         {prependText}
-        <select value={selected} style={{width}} className="review-explorer-navigation--dropdown" onChange={(e) => {
-          this.handleNavigationChange(id, e.target.value);
-        }}>
+        <select
+          value={selected}
+          style={{width}}
+          className="review-explorer-navigation--dropdown"
+          onChange={e => {
+            this.handleNavigationChange(id, e.target.value);
+          }}
+        >
           {options.map((o, idx) => {
             return <option key={idx}>{o}</option>;
           })}
@@ -112,17 +119,21 @@ export default class ReviewExplorerNavigation extends React.Component {
     return (
       <div className="review-explorer-navigation--wrapper">
         <div className="review-explorer-navigation">
-          {this.renderDropDown('genre',
+          {this.renderDropDown(
+            'genre',
             genres,
             this.state.genre,
             this.state.genre === 'alle' ? 'Vis mig' : 'Vis mig anmeldelser af',
-            this.state.genre === 'alle' ? 'anmeldelser af' : '-')}
+            this.state.genre === 'alle' ? 'anmeldelser af' : '-'
+          )}
           {this.renderDropDown('workType', workTypes, this.state.workType, '', '')}
-          {this.renderDropDown('reviewType',
+          {this.renderDropDown(
+            'reviewType',
             reviewTypes,
             this.state.reviewType,
             this.state.reviewType === 'alle typer' ? 'af' : 'lavet som',
-            '')}
+            ''
+          )}
           {this.renderDropDown('order', orders, this.state.order, 'og vis', '')}
         </div>
       </div>

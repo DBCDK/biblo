@@ -7,7 +7,7 @@ const RoundedButtonSubmit = ({clickFunction, buttonText, disabled}) => {
     <input
       className={`rounded-button-submit${disabled ? ' disabled' : ''}`}
       onClick={clickFunction}
-      type='submit'
+      type="submit"
       value={buttonText}
       disabled={disabled}
     />

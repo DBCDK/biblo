@@ -39,11 +39,7 @@ export class PopularGroupsWidget extends AbstractWidget {
 
   renderGroup(group) {
     return (
-      <a
-        key={`group_${group.id}`}
-        className="popular-groups-widget--group-container"
-        href={`/grupper/${group.id}`}
-      >
+      <a key={`group_${group.id}`} className="popular-groups-widget--group-container" href={`/grupper/${group.id}`}>
         <div className="popular-groups-widget--group-image-container">
           <img src={group.imageSquare} />
         </div>

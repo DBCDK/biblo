@@ -8,16 +8,18 @@ import './TagList.component.scss';
 
 export class TagList extends React.Component {
   render() {
-    const tagElements = this.props.tags.map((tag, i) => (<li key={i}><a href={'/find?q=term.subject="'+tag+'"'}>{tag}</a></li>));
+    const tagElements = this.props.tags.map((tag, i) => (
+      <li key={i}>
+        <a href={'/find?q=term.subject="' + tag + '"'}>{tag}</a>
+      </li>
+    ));
     let component = null;
 
     if (tagElements.length > 0) {
       component = (
-        <div className='tag-list--container'>
-          <Icon glyph={tagSvg} name=''/>
-          <ul className='tag-list'>
-            {tagElements}
-          </ul>
+        <div className="tag-list--container">
+          <Icon glyph={tagSvg} name="" />
+          <ul className="tag-list">{tagElements}</ul>
         </div>
       );
     }

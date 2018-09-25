@@ -59,4 +59,3 @@ export function unlikeReview(like) {
     reviewId: like.reviewId
   };
 }
-

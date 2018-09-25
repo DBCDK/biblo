@@ -81,7 +81,9 @@ describe('Test GroupView Component', () => {
       />
     );
 
-    expect(`<p class="group--description">${group.description}</p>`).to.equal(wrapper.find('.group--description').html());
+    expect(`<p class="group--description">${group.description}</p>`).to.equal(
+      wrapper.find('.group--description').html()
+    );
     expect(`<h2 class="group--title">${group.name}</h2>`).to.equal(wrapper.find('.group--title').html());
 
     // AddContent form is added with props
@@ -100,7 +102,12 @@ describe('Test GroupView Component', () => {
       editing: false
     });
 
-    expect(wrapper.find('.group--post-view').find('h2').text()).to.equal('0 brugere skriver');
+    expect(
+      wrapper
+        .find('.group--post-view')
+        .find('h2')
+        .text()
+    ).to.equal('0 brugere skriver');
 
     // No posts renedered Posts
     expect(wrapper.find('PostList').html()).to.equal('<div class="post-list"></div>');
@@ -108,24 +115,27 @@ describe('Test GroupView Component', () => {
 
   it('Group View Rendered with posts', () => {
     const newGroup = Object.assign({}, group, {
-      posts: [{
-        comments: [],
-        content: 'test',
-        groupid: 1,
-        id: 1,
-        image: null,
-        owner: {
-          displayName: 'Søren Hestevennen',
+      posts: [
+        {
+          comments: [],
+          content: 'test',
+          groupid: 1,
           id: 1,
-          image: null
-        },
-        postid: 1,
-        postownerid: 1,
-        timeCreated: '2016-02-19T12:34:11.000Z',
-        title: ' ',
-        isMembersExpanded: true,
-        groupIsClosed: false
-      }], postsCount: 1
+          image: null,
+          owner: {
+            displayName: 'Søren Hestevennen',
+            id: 1,
+            image: null
+          },
+          postid: 1,
+          postownerid: 1,
+          timeCreated: '2016-02-19T12:34:11.000Z',
+          title: ' ',
+          isMembersExpanded: true,
+          groupIsClosed: false
+        }
+      ],
+      postsCount: 1
     });
     const actions = {
       asyncGetGroupMembers: noop,
@@ -148,7 +158,12 @@ describe('Test GroupView Component', () => {
       />
     );
 
-    expect(wrapper.find('.group--post-view').find('h2').text()).to.equal('1 bruger skriver');
+    expect(
+      wrapper
+        .find('.group--post-view')
+        .find('h2')
+        .text()
+    ).to.equal('1 bruger skriver');
   });
 
   it('GroupHeader should be rendered once', () => {
@@ -189,7 +204,17 @@ describe('Test GroupView Component', () => {
     );
 
     expect(wrapper.find('.group--title')).to.have.lengthOf(1);
-    expect(wrapper.find('.group--details').childAt(0).type()).to.equal('a');
-    expect(wrapper.find('.group--details').childAt(0).prop('href')).to.equal(`/grupper/${group.id}`);
+    expect(
+      wrapper
+        .find('.group--details')
+        .childAt(0)
+        .type()
+    ).to.equal('a');
+    expect(
+      wrapper
+        .find('.group--details')
+        .childAt(0)
+        .prop('href')
+    ).to.equal(`/grupper/${group.id}`);
   });
 });

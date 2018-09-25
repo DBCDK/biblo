@@ -54,25 +54,21 @@ export class PaginationContainer extends Component {
 
   getShowMoreButton() {
     if (this.props.lastPageIndex && this.props.lastPageIndex <= this.state.pageNumber) {
-      return (
-        <span className="show-more-button--no-more-pages" />
-      );
+      return <span className="show-more-button--no-more-pages" />;
     }
 
     return (
-      <span
-        className="show-more--pagination--button"
-        onClick={this.onGetNextPage}
-      ><Icon glyph={plusSvg} /> Vis Flere</span>
+      <span className="show-more--pagination--button" onClick={this.onGetNextPage}>
+        <Icon glyph={plusSvg} /> Vis Flere
+      </span>
     );
   }
 
   getCloseButton() {
     return (
-      <span
-        className="close--pagination--button"
-        onClick={this.onClosePagination}
-      ><Icon glyph={crossSvg} /> Luk</span>
+      <span className="close--pagination--button" onClick={this.onClosePagination}>
+        <Icon glyph={crossSvg} /> Luk
+      </span>
     );
   }
 
@@ -98,17 +94,16 @@ export class PaginationContainer extends Component {
       <div className="pagination-container">
         <div className="pages--container">
           {this.props.pages.slice(0, this.state.pageNumber)}
-          {width < 600 ?
-            <VisibilitySensor onChange={(vis) => (vis && this.onGetNextPage())} delayedCall={true}>
+          {width < 600 ? (
+            <VisibilitySensor onChange={vis => vis && this.onGetNextPage()} delayedCall={true}>
               <span className="small-screen-sensor"> &nbsp; </span>
-            </VisibilitySensor>:
+            </VisibilitySensor>
+          ) : (
             <span className="large-screen" />
-          }
+          )}
         </div>
 
-        <div className="pagination-controls--spinner">
-          {loading}
-        </div>
+        <div className="pagination-controls--spinner">{loading}</div>
 
         <div className="pagination-controls--container">
           <hr className="pagination-controls--spacer" />

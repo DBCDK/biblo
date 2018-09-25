@@ -4,7 +4,6 @@
  */
 
 const HowRUOpenPlatform = {
-
   event() {
     return 'howruOpenPlatform';
   },

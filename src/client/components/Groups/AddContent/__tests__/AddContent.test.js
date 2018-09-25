@@ -15,8 +15,7 @@ describe('Test of AddContent Component', () => {
     hasFilledInProfile: true
   };
 
-  const noop = () => {
-  };
+  const noop = () => {};
 
   let defaultComponent = null;
 
@@ -80,7 +79,7 @@ describe('Test of AddContent Component', () => {
       }
     };
 
-    component.readInput(input).catch((msg) => {
+    component.readInput(input).catch(msg => {
       expect(msg).to.be.equal(expected);
       done();
     });
@@ -233,8 +232,7 @@ describe('Test of AddContent Component', () => {
     expect(TestUtils.scryRenderedDOMComponentsWithTag(component, 'img').length).to.eql(1);
   });
 
-  it('It should submit form on submit event', (done) => {
-
+  it('It should submit form on submit event', done => {
     // var h = window.Date.prototype.getHours;
     window.Date.prototype.getHours = function() {
       return 12;
@@ -271,7 +269,7 @@ describe('Test of AddContent Component', () => {
 
     const addContentActionMock = sinon.stub(); // eslint-disable-line no-undef
     const xhrMock = sinon.useFakeXMLHttpRequest(); // eslint-disable-line no-undef
-    xhrMock.onCreate = (xhr) => {
+    xhrMock.onCreate = xhr => {
       setTimeout(() => xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(mockContent)), 0);
     };
 
@@ -326,19 +324,25 @@ describe('Test of AddContent Component', () => {
     wrapper.setState({showAddReviews: true});
 
     const reviewsText = wrapper.find('.attach-review-modal--reviews-container').text();
-    assert.equal(reviewsText, 'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!', 'Should display message when no data is present.');
+    assert.equal(
+      reviewsText,
+      'Vi kunne ikke finde nogen anmeldelser, prøv at oprette en ny!',
+      'Should display message when no data is present.'
+    );
   });
 
   it('Should render reviews in modal when data is available', () => {
     profile.userIsLoggedIn = true;
     profile.id = 1;
     profile.reviews = {
-      data: [{
-        pid: 'testpid',
-        content: 'bob er sej!',
-        id: 1234,
-        worktype: 'book'
-      }],
+      data: [
+        {
+          pid: 'testpid',
+          content: 'bob er sej!',
+          id: 1234,
+          worktype: 'book'
+        }
+      ],
       reviewsCount: 1
     };
 
@@ -374,8 +378,14 @@ describe('Test of AddContent Component', () => {
     const radioInputValue = wrapper.find('.attach-review-modal--radio-btn-input').prop(['value']);
     assert.equal(radioInputValue, 1234, 'the radio buttons value should equal the id of the review');
 
-    wrapper.find('.attach-review-modal--radio-btn-input').first().simulate('click');
-    wrapper.find('.attach-review-modal--buttons-container').first().simulate('click');
+    wrapper
+      .find('.attach-review-modal--radio-btn-input')
+      .first()
+      .simulate('click');
+    wrapper
+      .find('.attach-review-modal--buttons-container')
+      .first()
+      .simulate('click');
 
     assert.isTrue(!!wrapper.state().attachment.review);
   });

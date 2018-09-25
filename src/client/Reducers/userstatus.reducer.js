@@ -31,8 +31,7 @@ export default function userstatusReducer(state = initialState, action = {}) {
       const newState = assignToEmpty(state, {});
       if ((response.errors && response.errors.length) || !response.result) {
         console.error('Error in response from OpenUserStatus', response); // eslint-disable-line
-      }
-      else {
+      } else {
         newState.userStatus = assignToEmpty(response.result, {});
       }
 

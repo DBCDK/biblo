@@ -12,8 +12,8 @@
  */
 function registerEventOnConnection(transform, connection) {
   const event = transform.event();
-  connection.on(`${event}Request`, (request) => {
-    transform.trigger(request, connection).forEach((responsePromise) => {
+  connection.on(`${event}Request`, request => {
+    transform.trigger(request, connection).forEach(responsePromise => {
       responsePromise
         .then(response => connection.emit(`${event}Response`, response))
         .catch(error => connection.emit(`${event}Response`, {error}));
@@ -30,7 +30,7 @@ function registerEventOnConnection(transform, connection) {
  */
 export default function Dispatcher(transforms, io) {
   io.use((connection, next) => {
-    transforms.forEach((transform) => registerEventOnConnection(transform, connection));
+    transforms.forEach(transform => registerEventOnConnection(transform, connection));
     next();
   });
 }

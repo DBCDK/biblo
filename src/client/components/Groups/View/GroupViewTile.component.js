@@ -15,7 +15,7 @@ export default class GroupViewTile extends React.Component {
   };
 
   getCoverImageUrl(group) {
-    return (group.imageSquare ? group.imageSquare : '/no_group_image.png');
+    return group.imageSquare ? group.imageSquare : '/no_group_image.png';
   }
 
   componentDidMount() {
@@ -28,8 +28,7 @@ export default class GroupViewTile extends React.Component {
 
     if (group.membersCount === 1) {
       groupStr = '1 følger';
-    }
-    else {
+    } else {
       groupStr = group.membersCount + ' følgere';
     }
     return groupStr;
@@ -38,24 +37,30 @@ export default class GroupViewTile extends React.Component {
   render() {
     const group = this.props.group;
     const groupUrl = '/grupper/' + group.id;
-    const groupName = this.state.isClient ? <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}}/> : <span/>;
+    const groupName = this.state.isClient ? (
+      <span dangerouslySetInnerHTML={{__html: sanitizeHtml(group.name)}} />
+    ) : (
+      <span />
+    );
 
-    return (<div key={group.id} className="group--tile">
-      <a href={groupUrl}>
-        <img className="coverimage" src={this.getCoverImageUrl(group)}/>
-        <div className="group--title">
-          <Icon className="icon" glyph={groupSvg} width='1.2em'/>
-          {groupName}
-        </div>
-      </a>
-      {this.props.followers &&
-      <div>{this.getMembersCountString()}</div> || ''
-      }
-      {this.props.postsSinceLast &&
-        <span className="groups-modal--posts-since-last">
-          {this.props.postsSinceLast <= 30 ? this.props.postsSinceLast : '30+'}
-        </span> || ''}
-    </div>);
+    return (
+      <div key={group.id} className="group--tile">
+        <a href={groupUrl}>
+          <img className="coverimage" src={this.getCoverImageUrl(group)} />
+          <div className="group--title">
+            <Icon className="icon" glyph={groupSvg} width="1.2em" />
+            {groupName}
+          </div>
+        </a>
+        {(this.props.followers && <div>{this.getMembersCountString()}</div>) || ''}
+        {(this.props.postsSinceLast && (
+          <span className="groups-modal--posts-since-last">
+            {this.props.postsSinceLast <= 30 ? this.props.postsSinceLast : '30+'}
+          </span>
+        )) ||
+          ''}
+      </div>
+    );
   }
 }
 

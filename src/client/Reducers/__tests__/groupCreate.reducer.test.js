@@ -8,7 +8,8 @@ import * as types from '../../Constants/action.constants';
 import assignToEmpty from '../../Utils/assign';
 
 describe('Test GroupCreate reducer', () => {
-  let initialState = { // initial state mock
+  let initialState = {
+    // initial state mock
     UI: {
       imageSrc: '/no_group_image.png',
       submitProgress: 0,
@@ -21,7 +22,8 @@ describe('Test GroupCreate reducer', () => {
   };
 
   beforeEach(() => {
-    initialState = { // initial state mock
+    initialState = {
+      // initial state mock
       UI: {
         imageSrc: '/no_group_image.png',
         submitProgress: 0,

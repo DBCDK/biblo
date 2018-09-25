@@ -4,7 +4,7 @@ import backArrowSvg from './back-arrow.svg';
 import './_backbutton.component.scss';
 
 const BackButton = () => {
-  let backFunction = (e) => {
+  let backFunction = e => {
     e.preventDefault();
     window.history.back();
   };

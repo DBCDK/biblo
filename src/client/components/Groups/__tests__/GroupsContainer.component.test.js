@@ -11,7 +11,6 @@ import {GroupsContainer} from '../GroupsContainer.component';
 
 describe('GroupsContainer component tests', () => {
   it('should render Opret button and Nyeste grupper', () => {
-
     const searchState = {
       isSearchBoxVisible: false,
       groupSearchResults: [],
@@ -37,8 +36,7 @@ describe('GroupsContainer component tests', () => {
     };
 
     const actions = {
-      asyncShowGroups: () => {
-      }
+      asyncShowGroups: () => {}
     };
 
     const comp = TestUtils.renderIntoDocument(
@@ -51,7 +49,8 @@ describe('GroupsContainer component tests', () => {
         profileState={{}}
       />
     );
-    expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent)
-      .to.equal('Opret ny gruppePopulære grupperNyeste grupper');
+    expect(ReactDOM.findDOMNode(comp).children[1].children[1].textContent).to.equal(
+      'Opret ny gruppePopulære grupperNyeste grupper'
+    );
   });
 });

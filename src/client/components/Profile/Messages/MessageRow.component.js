@@ -80,7 +80,7 @@ export default class MessageRow extends React.Component {
 
         return (
           <span className={orderExpiresSoonClass}>
-            <Icon icon="profile" width={15} height={15} glyph={glyph}/>
+            <Icon icon="profile" width={15} height={15} glyph={glyph} />
             {text}
           </span>
         );
@@ -91,7 +91,7 @@ export default class MessageRow extends React.Component {
 
         return (
           <span className={orderReadyClass}>
-            <Icon icon="klar-til-afhentning" width={15} height={15} glyph={klarSVG}/>
+            <Icon icon="klar-til-afhentning" width={15} height={15} glyph={klarSVG} />
             Klar til afhentning
           </span>
         );
@@ -100,7 +100,7 @@ export default class MessageRow extends React.Component {
       case 'Fine': {
         return (
           <span className="boede">
-            <Icon icon="boede" width={15} height={15} glyph={boedeSVG}/>
+            <Icon icon="boede" width={15} height={15} glyph={boedeSVG} />
             Bøde
           </span>
         );
@@ -109,7 +109,7 @@ export default class MessageRow extends React.Component {
       case 'Reservation Charge': {
         return (
           <span className="boede">
-            <Icon icon="boede" width={15} height={15} glyph={boedeSVG}/>
+            <Icon icon="boede" width={15} height={15} glyph={boedeSVG} />
             Reservations gebyr
           </span>
         );
@@ -121,7 +121,7 @@ export default class MessageRow extends React.Component {
 
         return (
           <span className="kommentar">
-            <Icon icon="kommentar" width={15} height={15} glyph={commentSVG}/>
+            <Icon icon="kommentar" width={15} height={15} glyph={commentSVG} />
             Ny kommentar til dit indlæg i <a href={`/grupper/${groupId}`}>{groupName}</a>
           </span>
         );
@@ -130,7 +130,7 @@ export default class MessageRow extends React.Component {
       case 'type-userWasQuarantined': {
         return (
           <span className="quarantine">
-            <Icon width={15} height={15} glyph={commentSVG}/>
+            <Icon width={15} height={15} glyph={commentSVG} />
             Ny besked fra moderator
           </span>
         );
@@ -161,13 +161,13 @@ export default class MessageRow extends React.Component {
     switch (this.state.message.type) {
       case 'type-orderExpiresSoon': {
         const diff = moment(this.state.message.dateDue).diff(moment(), 'days');
-        const string = diff === 0 ?
-          'i dag' :
-          (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
+        const string =
+          diff === 0
+            ? 'i dag'
+            : (diff > 0 ? 'om ' : '') + Math.abs(diff).toString() + ' dag' + (Math.abs(diff) === 1 ? '' : 'e');
 
-        const dateString = diff < 0 ?
-          'Skulle være afleveret for ' + string + ' siden' :
-          'Skal afleveres senest ' + string;
+        const dateString =
+          diff < 0 ? 'Skulle være afleveret for ' + string + ' siden' : 'Skal afleveres senest ' + string;
 
         let renewLoanBtn = null;
         if (diff >= 0 && this.state.message.loanId) {
@@ -176,9 +176,7 @@ export default class MessageRow extends React.Component {
 
         return (
           <div>
-            <span>
-              {dateString}
-            </span>
+            <span>{dateString}</span>
             {renewLoanBtn}
           </div>
         );
@@ -228,19 +226,22 @@ export default class MessageRow extends React.Component {
         const username = this.state.comment.owner ? this.state.comment.owner.raw.displayName : '';
         const ownerId = this.state.comment.commentownerid || '';
         const commentContent = this.state.comment.content || '';
-        const commentImg = this.state.comment.image ?
-          <img src={this.state.comment.image} alt={commentContent}/> : null;
+        const commentImg = this.state.comment.image ? (
+          <img src={this.state.comment.image} alt={commentContent} />
+        ) : null;
         const groupId = this.state.comment.post ? this.state.comment.post.groupid : null;
         const postId = this.state.comment.commentcontainerpostid || null;
 
         return (
           <div>
             <div className="comment">
-              <div className="comment-username"><a href={`/profil/${ownerId}`}>{username}</a></div>
+              <div className="comment-username">
+                <a href={`/profil/${ownerId}`}>{username}</a>
+              </div>
               <div>{commentContent}</div>
               {commentImg}
             </div>
-            <RoundedButton buttonText='Se alle kommentarer' href={`/grupper/${groupId}/${postId}`}/>
+            <RoundedButton buttonText="Se alle kommentarer" href={`/grupper/${groupId}/${postId}`} />
           </div>
         );
       }
@@ -252,7 +253,7 @@ export default class MessageRow extends React.Component {
             <div className="quarantine--author">Moderator</div>
 
             <div className="quarantine--message-content">
-              <span dangerouslySetInnerHTML={{__html: sanitizeHtml(this.state.message.reason)}}/>
+              <span dangerouslySetInnerHTML={{__html: sanitizeHtml(this.state.message.reason)}} />
             </div>
           </div>
         );
@@ -273,21 +274,20 @@ export default class MessageRow extends React.Component {
     const imageBasePath = '/images/messages';
 
     switch (this.state.message.type) {
-
       case 'type-orderExpiresSoon': {
-        return <img src={`${imageBasePath}/default-afleveres.png`} alt="Afleveres billede"/>;
+        return <img src={`${imageBasePath}/default-afleveres.png`} alt="Afleveres billede" />;
       }
 
       case 'type-orderIsReady': {
-        return <img src={`${imageBasePath}/default-afhentes.png`} alt="Afhentes billede"/>;
+        return <img src={`${imageBasePath}/default-afhentes.png`} alt="Afhentes billede" />;
       }
 
       case 'Fine': {
-        return <img src={`${imageBasePath}/default-boede.png`} alt="Bøde billede"/>;
+        return <img src={`${imageBasePath}/default-boede.png`} alt="Bøde billede" />;
       }
 
       case 'Reservation Charge': {
-        return <img src={`${imageBasePath}/default-boede.png`} alt="Gebyr billede"/>;
+        return <img src={`${imageBasePath}/default-boede.png`} alt="Gebyr billede" />;
       }
 
       case 'type-commentWasAdded': {
@@ -295,7 +295,7 @@ export default class MessageRow extends React.Component {
 
         return (
           <div className="profileimage">
-            <img src={profileImage} alt="Profil billede"/>
+            <img src={profileImage} alt="Profil billede" />
           </div>
         );
       }
@@ -303,7 +303,7 @@ export default class MessageRow extends React.Component {
       case 'type-userWasQuarantined': {
         return (
           <div className="profileimage moderator">
-            <Icon glyph={moderatorProfileSVG} height={70} width={70}/>
+            <Icon glyph={moderatorProfileSVG} height={70} width={70} />
           </div>
         );
       }
@@ -318,7 +318,7 @@ export default class MessageRow extends React.Component {
     return (
       <TinyButton
         clickFunction={this.deleteMessage.bind(this)}
-        icon={<Icon icon="close" glyph={closeSVG} width={15} height={15}/>}
+        icon={<Icon icon="close" glyph={closeSVG} width={15} height={15} />}
       />
     );
   }
@@ -334,30 +334,21 @@ export default class MessageRow extends React.Component {
     const justReadClass = this.state.justRead ? ' read' : '';
     const statusIndicator = !this.state.message.read ? '·' : '';
 
-    const visibilitySenstorActive = (!this.state.justRead && !this.state.message.read);
+    const visibilitySenstorActive = !this.state.justRead && !this.state.message.read;
 
     return (
       <VisibilitySensor onChange={this.onVisibilityChanged.bind(this)} delay={5000} active={visibilitySenstorActive}>
         <div className={`${containerClass} ${justReadClass}`}>
           <div className="message-row--status-container">
-
-            <div className="message-row--status">
-              {statusIndicator}
-            </div>
+            <div className="message-row--status">{statusIndicator}</div>
           </div>
-          <div className="message-row--image-container">
-            {this.getMessageImage()}
-          </div>
+          <div className="message-row--image-container">{this.getMessageImage()}</div>
           <div className="message-row--data-container">
             <div className="message-row--message-type">
               {this.getMessageType()}
-              <div className="message-row--age">
-                {moment(this.state.message.createdEpoch).fromNow()}
-              </div>
+              <div className="message-row--age">{moment(this.state.message.createdEpoch).fromNow()}</div>
             </div>
-            <div className="message-row--delete-message">
-              {this.deleteMessageButton()}
-            </div>
+            <div className="message-row--delete-message">{this.deleteMessageButton()}</div>
 
             <div className="message-data--headline">{this.state.message.title}</div>
             <div className="message-data--message-content">{this.getMessageContent()}</div>

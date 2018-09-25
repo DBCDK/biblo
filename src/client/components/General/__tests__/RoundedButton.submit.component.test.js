@@ -14,14 +14,22 @@ describe('Test rounded button', () => {
   it('Check rounded submit button onclick calls clickFunction', () => {
     let callback = sinon.spy(); // eslint-disable-line
 
-    let comp = TestUtils.renderIntoDocument(<div><RoundedButtonSubmit buttonText={'bob'} clickFunction={callback} /></div>);
+    let comp = TestUtils.renderIntoDocument(
+      <div>
+        <RoundedButtonSubmit buttonText={'bob'} clickFunction={callback} />
+      </div>
+    );
     TestUtils.Simulate.click(ReactDOM.findDOMNode(comp).children[0]);
 
     expect(callback.callCount).to.equal(1);
   });
 
   it('should test buttontext is rendered', () => {
-    let comp = TestUtils.renderIntoDocument(<div><RoundedButtonSubmit buttonText={'bob'} /></div>);
+    let comp = TestUtils.renderIntoDocument(
+      <div>
+        <RoundedButtonSubmit buttonText={'bob'} />
+      </div>
+    );
     expect(ReactDOM.findDOMNode(comp).children[0].value).to.equal('bob');
   });
 });

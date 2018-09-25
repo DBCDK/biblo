@@ -77,11 +77,11 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     const xDiff = this.state.xDown - event.touches[0].clientX;
     const yDiff = this.state.yDown - event.touches[0].clientY;
 
-    if (Math.abs(yDiff) < Math.abs(xDiff)) { // get most significant direction
+    if (Math.abs(yDiff) < Math.abs(xDiff)) {
+      // get most significant direction
       if (xDiff > 0) {
         this.nextSlide(false);
-      }
-      else {
+      } else {
         this.previousSlide(false);
       }
     }
@@ -132,14 +132,11 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     if (this.state.next) {
       if (imgIdx === idx) {
         classname += 'active';
-      }
-      else if (imgIdx - 1 === idx) {
+      } else if (imgIdx - 1 === idx) {
         classname += 'prior';
-      }
-      else if (imgIdx === 0 && idx + 1 === imagesLength) {
+      } else if (imgIdx === 0 && idx + 1 === imagesLength) {
         classname += 'prior';
-      }
-      else {
+      } else {
         classname += 'inactive';
       }
 
@@ -148,14 +145,11 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
 
     if (imgIdx === idx) {
       classname += 'active-reverse-animation';
-    }
-    else if (imgIdx + 1 === idx) {
+    } else if (imgIdx + 1 === idx) {
       classname += 'next-reverse-animation';
-    }
-    else if (idx === 0 && imgIdx + 1 === imagesLength) {
+    } else if (idx === 0 && imgIdx + 1 === imagesLength) {
       classname += 'next-reverse-animation';
-    }
-    else {
+    } else {
       classname += 'inactive';
     }
 
@@ -170,7 +164,7 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
 
       return (
         <span className={this.getClasses(imgIdx, idx, imagesLength)} key={`slide_${image.id}_${image.linkUrl}`}>
-          <FullWidthBannerWidget widgetConfig={image}/>
+          <FullWidthBannerWidget widgetConfig={image} />
         </span>
       );
     });
@@ -186,24 +180,23 @@ export class FullWidthBannerSliderWidget extends AbstractWidget {
     });
 
     return (
-      <div className="full-width-banner-slider-widget" onTouchStart={this.handleTouchStart}
-        onTouchMove={this.handleTouchMove}>
+      <div
+        className="full-width-banner-slider-widget"
+        onTouchStart={this.handleTouchStart}
+        onTouchMove={this.handleTouchMove}
+      >
         <div className="fwbs--buttons">
           <span className="fwbs--prev fwbs--button" onClick={() => this.previousSlide(false)}>
-            <Icon glyph={pilSVG} width={50} height={50}/>
+            <Icon glyph={pilSVG} width={50} height={50} />
           </span>
           <span className="fwbs--next fwbs--button" onClick={() => this.nextSlide(false)}>
-            <Icon glyph={pilSVG} width={50} height={50}/>
+            <Icon glyph={pilSVG} width={50} height={50} />
           </span>
         </div>
 
-        <div className="fwbs--image">
-          {images}
-        </div>
+        <div className="fwbs--image">{images}</div>
 
-        <div className="fwbs--dots">
-          {dots}
-        </div>
+        <div className="fwbs--dots">{dots}</div>
       </div>
     );
   }

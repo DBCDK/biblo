@@ -55,34 +55,26 @@ export default class Tabs extends React.Component {
       const icon = pane.icon ? this.getIcon(pane.icon) : null;
 
       return (
-        <li className={activeClass} key={index} >
-          {
-            pane.counter > 0 &&
-              <span className="tab--notification-count" >{pane.counter}</span>
-          }
-          <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)} >{icon}<span className="tab--label" >{pane.label}</span></a>
+        <li className={activeClass} key={index}>
+          {pane.counter > 0 && <span className="tab--notification-count">{pane.counter}</span>}
+          <a href={`#${pane.label}`} onClick={this.onClicked.bind(this, index)}>
+            {icon}
+            <span className="tab--label">{pane.label}</span>
+          </a>
         </li>
       );
     });
 
-    return (
-      <ul className="tabs" >
-        {listItems}
-      </ul>
-    );
+    return <ul className="tabs">{listItems}</ul>;
   }
 
   renderContent() {
-    return (
-      <div className="tabs--content" >
-        {this.props.tabs[this.state.selected].content}
-      </div>
-    );
+    return <div className="tabs--content">{this.props.tabs[this.state.selected].content}</div>;
   }
 
   render() {
     return (
-      <div className="tabs-container" >
+      <div className="tabs-container">
         {this.props.tabs.length >= 1 && this.renderPanes()}
         {this.props.tabs.length >= 1 && this.renderContent()}
       </div>

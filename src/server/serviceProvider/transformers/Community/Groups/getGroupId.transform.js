@@ -3,7 +3,8 @@ const GetGroupTransform = {
     return 'getGroupId';
   },
 
-  requestTransform(event, {id, type}, connection) { // eslint-disable-line no-unused-vars
+  requestTransform(event, {id, type}, connection) {
+    // eslint-disable-line no-unused-vars
     if (!id) {
       return Promise.reject(new Error('No id provided'));
     }
@@ -13,7 +14,7 @@ const GetGroupTransform = {
           filter: {
             where: {id: id}
           }
-        }).then((res) => {
+        }).then(res => {
           return this.callServiceClient('community', 'getPosts', {
             filter: {
               where: {id: JSON.parse(res.body)[0].postid}

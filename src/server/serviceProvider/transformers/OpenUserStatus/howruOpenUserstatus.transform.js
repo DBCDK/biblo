@@ -3,8 +3,7 @@
  * Event for doing a howru check on OpenAgency
  */
 
-const HowRUOpenUserstatus= {
-
+const HowRUOpenUserstatus = {
   event() {
     return 'howruOpenUserStatus';
   },

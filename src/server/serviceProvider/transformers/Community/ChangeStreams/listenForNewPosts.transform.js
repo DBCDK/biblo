@@ -1,5 +1,4 @@
 const listenForNewPostsTransform = {
-
   /**
    * @return {string}
    */
@@ -16,8 +15,7 @@ const listenForNewPostsTransform = {
   requestTransform(event, cb) {
     if (cb.length > 0 && typeof cb[0] !== 'function') {
       return Promise.reject({errors: ['Argument is not an array of functions!']});
-    }
-    else if (!Array.isArray(cb) && typeof cb !== 'function') {
+    } else if (!Array.isArray(cb) && typeof cb !== 'function') {
       return Promise.reject({errors: ['Argument not a function!']});
     }
 

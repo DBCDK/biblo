@@ -86,7 +86,9 @@ export class EditoriallySelectedReviewsWidget extends AbstractWidget {
                 </div>
 
                 <div className="editorial-reviews--review--content">
-                  &quot;<span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />&quot;
+                  &quot;
+                  <span dangerouslySetInnerHTML={{__html: sanitizeHtml(review.html)}} />
+                  &quot;
                 </div>
               </div>
               <div className="editorial-reviews--read-button">

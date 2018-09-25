@@ -23,7 +23,6 @@ const initialState = {
 export default function workReducer(state = initialState, action = {}) {
   Object.freeze(state);
   switch (action.type) {
-
     case types.GET_WORK_METADATA_FOR_PERSONAL_REVIEWS: {
       let newState = assignToEmpty(state, {});
 
@@ -32,8 +31,8 @@ export default function workReducer(state = initialState, action = {}) {
         const data = action.response.data;
 
         // itereate through the returned data and key by the pid
-        data.forEach((item) => {
-          const pid = item.pid && Array.isArray(item.pid) && item.pid[0] || '';
+        data.forEach(item => {
+          const pid = (item.pid && Array.isArray(item.pid) && item.pid[0]) || '';
           newState.workMetadataOrderedByPid[pid] = {
             dcTitle: item.dcTitle ? item.dcTitle : null,
             dcTitleFull: item.dcTitleFull ? item.dcTitleFull : null,
@@ -45,9 +44,10 @@ export default function workReducer(state = initialState, action = {}) {
 
       return newState;
     }
-    case types.GET_WORK_ONLINEACCESS: { // the /work endpoint returns hasOnlineAcces pr pid . We run this after check accessType "online"
+    case types.GET_WORK_ONLINEACCESS: {
+      // the /work endpoint returns hasOnlineAcces pr pid . We run this after check accessType "online"
       let newState = assignToEmpty(state, {});
-      newState.work.collectionDetails.forEach((item) => {
+      newState.work.collectionDetails.forEach(item => {
         if (item.pid[0] === action.response.data[0].pid[0]) {
           if (action.response.data[0].hasOnlineAccess) {
             item.hasOnlineAccess = action.response.data[0].hasOnlineAccess; // get actual url

@@ -21,7 +21,10 @@ let globalContentWrapper = {
  * @private
  */
 function fetchGlobalContent(req) {
-  return Promise.all([req.callServiceProvider('getGlobalContent', 'main'), req.callServiceProvider('getGlobalContent', 'footer')]).then(response => {
+  return Promise.all([
+    req.callServiceProvider('getGlobalContent', 'main'),
+    req.callServiceProvider('getGlobalContent', 'footer')
+  ]).then(response => {
     const globalContent = {
       menu: {
         main: response[0][0],
@@ -29,7 +32,7 @@ function fetchGlobalContent(req) {
       }
     };
     globalContentWrapper = {
-      reloadTime: Date.now() + (60 * 1) * 1000,
+      reloadTime: Date.now() + 60 * 1 * 1000,
       globalContent
     };
   });
@@ -42,7 +45,6 @@ function fetchGlobalContent(req) {
  * @param cb
  */
 export default async function getGlobalContent(req, cb) {
-
   // First time content is loaded, wait for it to finish
   if (globalContentWrapper.reloadTime === 0) {
     await fetchGlobalContent(req);

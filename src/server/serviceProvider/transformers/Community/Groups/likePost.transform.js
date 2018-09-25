@@ -18,7 +18,6 @@ const LikePostTransform = {
 
   // eslint-disable-next-line no-unused-vars
   responseTransform(response, query, connection) {
-
     if (response.statusCode !== 200) {
       throw new Error('Call to community service, with method likePost failed');
     }

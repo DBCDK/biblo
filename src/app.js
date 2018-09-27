@@ -7,7 +7,8 @@
 import {config} from '@dbcdk/biblo-config';
 
 // newrelic needs to be required the es5 way because we only wants to load new relic if specified in config.js
-const newrelic = (config.get('NewRelic.enabled') && require('newrelic')) || null;
+const newrelic =
+  (config.get('NewRelic.enabled') && require('newrelic')) || null;
 
 // Libraries
 import express from 'express';
@@ -108,7 +109,8 @@ module.exports.run = function(worker) {
       next();
     } catch (err) {
       log.error('An unknown error occurred', {
-        error: err.message && err.name ? {message: err.message, name: err.name} : err
+        error:
+          err.message && err.name ? {message: err.message, name: err.name} : err
       });
     }
   });
@@ -146,8 +148,12 @@ module.exports.run = function(worker) {
   }
 
   // Initialize DynamoDB
-  const tableName = config.get('ServiceProvider.aws.DynamoDB.tableName') || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
-  const dynamodb = new AWS.DynamoDB({apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')});
+  const tableName =
+    config.get('ServiceProvider.aws.DynamoDB.tableName') ||
+    `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
+  const dynamodb = new AWS.DynamoDB({
+    apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')
+  });
   const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   // List tables in dynamo db
@@ -184,14 +190,22 @@ module.exports.run = function(worker) {
                 ProjectionType: 'ALL'
               },
               ProvisionedThroughput: {
-                ReadCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.readCap'),
-                WriteCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.writeCap')
+                ReadCapacityUnits: config.get(
+                  'ServiceProvider.aws.DynamoDB.readCap'
+                ),
+                WriteCapacityUnits: config.get(
+                  'ServiceProvider.aws.DynamoDB.writeCap'
+                )
               }
             }
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.readCap'),
-            WriteCapacityUnits: config.get('ServiceProvider.aws.DynamoDB.writeCap')
+            ReadCapacityUnits: config.get(
+              'ServiceProvider.aws.DynamoDB.readCap'
+            ),
+            WriteCapacityUnits: config.get(
+              'ServiceProvider.aws.DynamoDB.writeCap'
+            )
           }
         };
 
@@ -241,9 +255,11 @@ module.exports.run = function(worker) {
   app.locals.title = config.get('Biblo.applicationTitle');
   app.locals.application = APPLICATION;
   app.locals.faviconUrl = '/favicon.ico';
+  app.locals.quizLibraryUrl = JSON.stringify(config.get('Quiz.url'));
 
   // Setup environments
-  const fileHeaders = (PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'}) || {};
+  const fileHeaders =
+    (PRODUCTION && {index: false, dotfiles: 'ignore', maxAge: '5 days'}) || {};
 
   // Queue handlers
   const queueCreate = createQueue.bind(null, log, app);
@@ -262,13 +278,22 @@ module.exports.run = function(worker) {
   }
 
   // Configure user status queue
-  const userStatusCheckQueue = queueCreate('user status check', processUserStatusCheck);
+  const userStatusCheckQueue = queueCreate(
+    'user status check',
+    processUserStatusCheck
+  );
 
   // Configure user status queue
-  const checkForNewQuarantinesQueue = queueCreate('quarantine check', processCheckForNewQuarantines);
+  const checkForNewQuarantinesQueue = queueCreate(
+    'quarantine check',
+    processCheckForNewQuarantines
+  );
 
   // Configure addedCommentQueue
-  const addedCommentQueue = queueCreate('addedCommentQueue', notifyUsersRelevantToComment);
+  const addedCommentQueue = queueCreate(
+    'addedCommentQueue',
+    notifyUsersRelevantToComment
+  );
 
   // Set queues to app
   app.set('userMessageAdd', userMessageAdd);
@@ -321,7 +346,11 @@ module.exports.run = function(worker) {
 
   // Setting logger
   app.use((req, res, next) => {
-    log.info('http request', {originalUrl: req.originalUrl, headers: req.headers, body: req.body || {}});
+    log.info('http request', {
+      originalUrl: req.originalUrl,
+      headers: req.headers,
+      body: req.body || {}
+    });
     next();
   });
 
@@ -362,26 +391,73 @@ module.exports.run = function(worker) {
     next();
   });
 
-  app.use('*', setReturlUrl({ignoredPaths: ['/billede', '/pdf', '/error', '/login', '/logout', '/?logout']}));
+  app.use(
+    '*',
+    setReturlUrl({
+      ignoredPaths: [
+        '/billede',
+        '/pdf',
+        '/error',
+        '/login',
+        '/logout',
+        '/?logout',
+        '/api/session'
+      ]
+    })
+  );
 
-  app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
-  app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
-  app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
-  app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);
+  app.use(
+    '/anmeldelse',
+    fullProfileOnSession,
+    ensureUserHasValidLibrary,
+    ReviewRoutes
+  );
+  app.use(
+    '/anmeldelser',
+    fullProfileOnSession,
+    ensureUserHasValidLibrary,
+    ReviewsRoutes
+  );
+  app.use(
+    '/grupper',
+    ensureUserHasProfile,
+    fullProfileOnSession,
+    ensureUserHasValidLibrary,
+    GroupRoutes
+  );
+  app.use(
+    '/find',
+    fullProfileOnSession,
+    ensureUserHasValidLibrary,
+    SearchRoutes
+  );
   app.use('/profil', fullProfileOnSession, ProfileRoutes);
   app.use('/kampagne', fullProfileOnSession, CampaignRoutes);
-  app.use('/materiale', fullProfileOnSession, ensureUserHasValidLibrary, WorkRoutes);
-  app.use('/indhold', fullProfileOnSession, ensureUserHasValidLibrary, ContentRoutes);
+  app.use(
+    '/materiale',
+    fullProfileOnSession,
+    ensureUserHasValidLibrary,
+    WorkRoutes
+  );
+  app.use(
+    '/indhold',
+    fullProfileOnSession,
+    ensureUserHasValidLibrary,
+    ContentRoutes
+  );
   app.use('/api', ApiRoutes);
   app.use('/preview', PreviewRoutes);
   app.use('/', MainRoutes);
 
   // middleware like route to catch all non-caught routes.
-  app.use(wildCardRoute);
+  app.use(fullProfileOnSession, wildCardRoute);
 
   // Graceful handling of errors
   app.use((err, req, res, next) => {
-    log.error('An error occurred! Got following: ' + err, {url: req.url, session: req.session});
+    log.error('An error occurred! Got following: ' + err, {
+      url: req.url,
+      session: req.session
+    });
 
     if (res.headersSent) {
       return next(err);
@@ -416,12 +492,18 @@ module.exports.run = function(worker) {
             return [quarantinesChangeStreamHandler(app, data)];
           }
           case 'postChanged': {
-            return [postWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)];
+            return [
+              postWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)
+            ];
           }
           case 'commentChanged': {
             return [
               commentWasAddedUserMessageChangeStreamHandler(app, data),
-              commentWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)
+              commentWasAddedEmitToClientsChangeStreamHandler(
+                app,
+                scServer,
+                data
+              )
             ];
           }
           default: {

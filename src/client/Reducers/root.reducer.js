@@ -20,6 +20,7 @@ import workReducer from './work.reducer';
 import coverImageReducer from './coverImages.reducer';
 import globalReducer from './globalContent.reducer';
 import userstatusReducer from './userstatus.reducer';
+import quizReducer from './quiz.reducer';
 
 const rootReducer = combineReducers({
   agencyReducer,
@@ -37,7 +38,8 @@ const rootReducer = combineReducers({
   coverImageReducer,
   workReducer,
   globalReducer,
-  userstatusReducer
+  userstatusReducer,
+  quizReducer
 });
 
 export default rootReducer;

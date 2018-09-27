@@ -18,6 +18,7 @@ import {EditoriallySelectedReviewsWidget} from './EditoriallySelectedReviewsWidg
 import {EditoriallySelectedMaterialsWidget} from './EditoriallySelectedMaterialsWidget/EditoriallySelectedMaterials.widget.component';
 import {LatestPostsWidget} from './LatestPostsWidget/LatestPosts.widget.component';
 import {FullWidthBannerSliderWidget} from './FullWidthBannerSliderWidget/FullWidthBannerSlider.widget.component';
+import {QuizWidget} from './QuizWidget/Quiz.widget.component';
 
 const widgetComponents = {
   FactBoxWidget,
@@ -35,7 +36,8 @@ const widgetComponents = {
   EditoriallySelectedReviewsWidget,
   EditoriallySelectedMaterialsWidget,
   LatestPostsWidget,
-  FullWidthBannerSliderWidget
+  FullWidthBannerSliderWidget,
+  QuizWidget
 };
 
 export default widgetComponents;

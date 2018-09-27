@@ -19,7 +19,10 @@ ApiRoutes.post('/uploadimage', ensureAuthenticated, upload.single('image'), asyn
       throw new Error('Got no file!');
     }
 
-    const uploadRes = (await req.callServiceProvider('uploadimage', {image: req.file, accessToken}))[0];
+    const uploadRes = (await req.callServiceProvider('uploadimage', {
+      image: req.file,
+      accessToken
+    }))[0];
     if (uploadRes.statusCode >= 400) {
       log.error('Error occurred during file upload!');
       throw new Error('Error occurred during file upload!');
@@ -72,7 +75,9 @@ ApiRoutes.post('/uploadvideo', ensureAuthenticated, (req, res) => {
             log.info('Successfully uploaded video to AWS S3', {data});
             res.sendStatus(200);
           } else {
-            log.error('An error uccurred while uploading a video to AWS', {session: req.session});
+            log.error('An error uccurred while uploading a video to AWS', {
+              session: req.session
+            });
             res.sendStatus(400);
           }
         }
@@ -108,14 +113,19 @@ ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
         // Delete the file off S3
         if (limit) {
           s3.deleteObject({Bucket: pdfBucket, Key: filename}, function() {
-            log.info('Deleted PDF that was too large.', {Bucket: pdfBucket, Key: filename});
+            log.info('Deleted PDF that was too large.', {
+              Bucket: pdfBucket,
+              Key: filename
+            });
           });
 
           return 413;
         }
 
         if (err) {
-          log.error('An error occurred while uploading pdf to s3', {error: err});
+          log.error('An error occurred while uploading pdf to s3', {
+            error: err
+          });
           return res.sendStatus(400);
         }
 
@@ -134,13 +144,43 @@ ApiRoutes.post('/uploadpdf', ensureAuthenticated, (req, res) => {
           return res.sendStatus(200);
         }
 
-        log.error('An error occurred while uploading a pdf to AWS', {session: req.session});
+        log.error('An error occurred while uploading a pdf to AWS', {
+          session: req.session
+        });
         return res.sendStatus(400);
       }
     );
   });
 
   req.pipe(busboy);
+});
+
+ApiRoutes.put('/session/:key', (req, res) => {
+  const key = req.params.key;
+  const value = req.body;
+  if (!req.session.stored) {
+    req.session.stored = {};
+  }
+  req.session.stored[key] = value;
+  res.sendStatus(200);
+});
+
+ApiRoutes.get('/session/:key', (req, res) => {
+  const key = req.params.key;
+  if (req.session && req.session.stored && req.session.stored[key]) {
+    res.send(req.session.stored[key]);
+  } else {
+    res.sendStatus(404);
+  }
+});
+ApiRoutes.delete('/session/:key', (req, res) => {
+  const key = req.params.key;
+  if (req.session && req.session.stored && req.session.stored[key]) {
+    delete req.session.stored[key];
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 ApiRoutes.post('/:event', (req, res) => {

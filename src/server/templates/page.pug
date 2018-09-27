@@ -35,5 +35,8 @@ block append footerscripts
   if openPlatformToken
       script(id='OPENPLATFORM_TOKEN', type='application/json') !{openPlatformToken}
 
+  if quizLibraryUrl
+      script(id='QUIZ_LIBRARY_URL', type='application/json') !{quizLibraryUrl}
+
 block prepend body
     #content!= content

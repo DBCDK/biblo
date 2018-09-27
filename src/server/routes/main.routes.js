@@ -56,7 +56,9 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
       res.locals.title = 'Biblo';
 
       req.writeToReduxStateTree('widgetReducer', contentObject);
-      req.writeToReduxStateTree('profileReducer', {displayLogoutWarning: req.query.logout === '1'});
+      req.writeToReduxStateTree('profileReducer', {
+        displayLogoutWarning: req.query.logout === '1'
+      });
       req.renderComponent(ContentpageContainer);
 
       return res.render('page', {
@@ -85,6 +87,9 @@ MainRoutes.get(
 MainRoutes.get('/logout', function(req, res) {
   log.info('Logging out user', {session: req.session});
 
+  // Wipe out stuff which have been stored in session, like quiz results
+  req.session.stored = {};
+
   req.logout();
   res.redirect('/?logout=1');
 });
@@ -105,7 +110,10 @@ MainRoutes.get('/billede/:id/:size', async function(req, res) {
     const cacheKey = `imageCache_${req.params.id}_${req.params.size}`;
     let imageResult = await getFromCache(cacheKey);
     if (!imageResult) {
-      imageResult = await req.callServiceProvider('getResizedImage', {id: req.params.id, size: req.params.size});
+      imageResult = await req.callServiceProvider('getResizedImage', {
+        id: req.params.id,
+        size: req.params.size
+      });
 
       if (imageResult[0].body.correctSize) {
         cache.set(cacheKey, imageResult);
@@ -130,7 +138,9 @@ MainRoutes.get('/billede/:id/:size', async function(req, res) {
 
 MainRoutes.get('/pdf/:id', async function(req, res) {
   try {
-    const pdfResult = await req.callServiceProvider('getPDF', {id: req.params.id});
+    const pdfResult = await req.callServiceProvider('getPDF', {
+      id: req.params.id
+    });
     const pdfUrl = generateSignedCloudfrontCookie(
       `https://${config.get(`ServiceProvider.aws.cloudfrontUrls.${pdfResult[0].body.container}`)}/${
         pdfResult[0].body.name

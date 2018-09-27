@@ -151,3 +151,6 @@ export const GOT_LATEST_POSTS = 'getLatestPostsResponse';
 
 // CoverImage actions
 export const GOT_COVER_IMAGE_FROM_PID = 'GOT_COVER_IMAGE_FROM_PID';
+
+// QUIZ actions
+export const SET_QUIZ = 'setQuiz';

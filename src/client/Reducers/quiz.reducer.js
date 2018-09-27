@@ -1,5 +1,5 @@
 /**
- * @file: Widget reducer
+ * @file: Quiz reducer
  */
 
 import assignToEmpty from '../Utils/assign';

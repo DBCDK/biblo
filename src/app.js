@@ -53,8 +53,7 @@ import {
   fullProfileOnSession,
   renderComponent,
   ConfigurationMiddleware,
-  GetMenus,
-  setQuizLibraryUrl
+  GetMenus
 } from './server/middlewares/data.middleware';
 import {
   ensureUserHasProfile,

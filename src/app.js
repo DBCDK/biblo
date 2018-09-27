@@ -147,7 +147,9 @@ module.exports.run = function(worker) {
 
   // Initialize DynamoDB
   const tableName = config.get('ServiceProvider.aws.DynamoDB.tableName') || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
-  const dynamodb = new AWS.DynamoDB({apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')});
+  const dynamodb = new AWS.DynamoDB({
+    apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')
+  });
   const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   // List tables in dynamo db
@@ -321,7 +323,11 @@ module.exports.run = function(worker) {
 
   // Setting logger
   app.use((req, res, next) => {
-    log.info('http request', {originalUrl: req.originalUrl, headers: req.headers, body: req.body || {}});
+    log.info('http request', {
+      originalUrl: req.originalUrl,
+      headers: req.headers,
+      body: req.body || {}
+    });
     next();
   });
 
@@ -362,7 +368,12 @@ module.exports.run = function(worker) {
     next();
   });
 
-  app.use('*', setReturlUrl({ignoredPaths: ['/billede', '/pdf', '/error', '/login', '/logout', '/?logout']}));
+  app.use(
+    '*',
+    setReturlUrl({
+      ignoredPaths: ['/billede', '/pdf', '/error', '/login', '/logout', '/?logout', '/api/session']
+    })
+  );
 
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
   app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
@@ -377,11 +388,14 @@ module.exports.run = function(worker) {
   app.use('/', MainRoutes);
 
   // middleware like route to catch all non-caught routes.
-  app.use(wildCardRoute);
+  app.use(fullProfileOnSession, wildCardRoute);
 
   // Graceful handling of errors
   app.use((err, req, res, next) => {
-    log.error('An error occurred! Got following: ' + err, {url: req.url, session: req.session});
+    log.error('An error occurred! Got following: ' + err, {
+      url: req.url,
+      session: req.session
+    });
 
     if (res.headersSent) {
       return next(err);

@@ -93,7 +93,7 @@ class Quiz extends React.Component {
   };
 
   render() {
-    const {quizId, quiz, profileState} = this.props;
+    const {quizId, quiz, profileState, quizLibraryUrl} = this.props;
     const {error} = this.state;
 
     if (!quiz) {
@@ -118,6 +118,7 @@ class Quiz extends React.Component {
             onError={this.onError}
             elementId={this.props.elementId}
             onDone={this.onDone}
+            quizLibraryUrl={quizLibraryUrl}
           />
         ) : (
           <QuizResult quiz={quiz} onRetryClick={this.retry} />
@@ -132,13 +133,15 @@ Quiz.propTypes = {
   quiz: PropTypes.object,
   elementId: PropTypes.string.isRequired,
   actions: PropTypes.object.isRequired,
-  profileState: PropTypes.object.isRequired
+  profileState: PropTypes.object.isRequired,
+  quizLibraryUrl: PropTypes.string.isRequired
 };
 const QuizConnected = connect(
   (state, ownProps) => {
     return {
       profileState: state.profileReducer,
-      quiz: state.quizReducer[ownProps.quizId]
+      quiz: state.quizReducer.quizzes[ownProps.quizId],
+      quizLibraryUrl: state.quizReducer.quizLibraryUrl
     };
   },
   dispatch => {

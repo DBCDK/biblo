@@ -12,7 +12,7 @@ export class ExternalQuizWrapper extends React.Component {
   }
 
   initializeQuiz() {
-    load('https://dbcdk.github.io/quiz/widget.js', err => {
+    load(this.props.quizLibraryUrl, err => {
       if (err && !this.state.error) {
         if (this.props.onError) {
           this.props.onError();
@@ -39,7 +39,8 @@ ExternalQuizWrapper.propTypes = {
   onError: PropTypes.func,
   openPlatformToken: PropTypes.string.isRequired,
   quizId: PropTypes.string.isRequired,
-  onDone: PropTypes.func.isRequired
+  onDone: PropTypes.func.isRequired,
+  quizLibraryUrl: PropTypes.string.isRequired
 };
 
 export default ExternalQuizWrapper;

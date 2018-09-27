@@ -20,7 +20,7 @@ import './scss/Quiz.widget.component.scss';
 const LoginPrompt = () => {
   return (
     <div className="login-prompt">
-      <h3>Log ind for at gemme quiz-resultatet</h3>
+      <h3>Log ind for at gemme resultatet på din profil</h3>
       <RoundedButton
         href={`/login?destination=${encodeURIComponent(window.location)}`}
         buttonText="Log ind"
@@ -35,11 +35,9 @@ const QuizResult = ({quiz, onRetryClick}) => {
   let message = '';
   const trophy = quiz.result.trophy && quiz.result.trophy.image;
   if (quiz.storedAfterLogin) {
-    message = 'Dit resultat er blevet gemt';
-  } else if (quiz.completed && trophy) {
-    message = 'Du har vundet et trofæ!';
+    message = 'Resultatet er nu blevet gemt på din profil';
   } else if (quiz.completed) {
-    message = 'Du har gennemført en quiz';
+    message = 'Du har prøvet quizzen før. Vil du prøve igen?';
   }
   return (
     <div className="quiz-result">
@@ -53,7 +51,7 @@ const QuizResult = ({quiz, onRetryClick}) => {
         <span>
           <SimpleButton
             className="retry-button"
-            text="Prøv quizzen igen"
+            text="Prøv igen"
             onClick={onRetryClick}
           />
         </span>

@@ -1,0 +1,41 @@
+.quiz-widget {
+  .quiz-result {
+    position: relative;
+    background: $athens-gray;
+    padding: 2em 1em;
+    margin: -1em;
+    text-align: center;
+
+    .trophy-wrapper {
+      img {
+        height: 150px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .bottom {
+      span {
+        display: inline-block;
+      }
+    }
+  }
+  .login-prompt {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: $soft-blue;
+    margin: 2em -1em;
+    padding: 0 1em;
+    .login-button {
+      margin: 0;
+    }
+  }
+}
+.quiz-widget-error {
+  padding: 2em 1em;
+  margin: -1em;
+  text-align: center;
+  background: $athens-gray;
+}

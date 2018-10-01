@@ -254,7 +254,9 @@ export default class BorrowButton extends React.Component {
   }
 
   renderLibrarySelector(profile, libraryIsInvalid) {
-    let message = <p>Du skal udfylde lånerinformation for at bestille materialer</p>;
+    let message = (
+      <h1 className="library-selector-header">Du skal udfylde lånerinformation for at bestille materialer</h1>
+    );
 
     if (libraryIsInvalid) {
       message = (
@@ -307,7 +309,6 @@ export default class BorrowButton extends React.Component {
 
     const collectionObjectSize = Object.keys(collectionsObject).length;
     let modalContent = '';
-
     // User isn't logged in
     if (!profile.userIsLoggedIn && this.props.type !== 'online') {
       modalContent = (
@@ -340,7 +341,7 @@ export default class BorrowButton extends React.Component {
       modalContent = this.renderLibrarySelector(profile, true);
     } else if (orderState === 1) {
       // Currently ordering work
-      modalContent = <p>Bestiller materialet! Vent venligst!</p>;
+      modalContent = <p style={{marginBottom: '2rem'}}>Bestiller materialet! Vent venligst!</p>;
     } else if (orderState === 2) {
       // The order has gone through
       modalContent = (
@@ -376,15 +377,8 @@ export default class BorrowButton extends React.Component {
     }
 
     return (
-      <ModalWindow onClose={onClose} title={this.props.buttonTitle}>
-        <div className="modal-window--borrow-container">
-          <div className="modal-window--work-details">
-            <img src={this.props.coverUrl} />
-            <h3>{this.props.adjustedTitle || this.props.title}</h3>
-          </div>
-
-          {modalContent}
-        </div>
+      <ModalWindow onClose={onClose} title={this.props.buttonTitle} windowStyle={{maxWidth: '400px'}}>
+        <div className="modal-window--borrow-container">{modalContent}</div>
       </ModalWindow>
     );
   }

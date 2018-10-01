@@ -218,8 +218,6 @@ export default class ProfileForm extends React.Component {
                 searchAction={this.props.searchAction}
                 searchElements={this.props.searchElements}
                 libraryId={this.state.libraryId}
-                loanerIdChangeFunc={e => this.setState({loanerId: e.target.value})}
-                pincodeChangeFunc={e => this.setState({pincode: e.target.value})}
                 renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.library)}
               />
               <h1 className="profile-form-headers">

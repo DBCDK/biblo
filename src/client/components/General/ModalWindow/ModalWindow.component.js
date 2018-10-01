@@ -25,6 +25,7 @@ export default class ModalWindow extends React.Component {
           onClick={e => {
             e.stopPropagation();
           }}
+          style={this.props.windowStyle ? this.props.windowStyle : {}}
         >
           <div className="modal-window--overhead-title">{title}</div>
           <div className="modal-window--content-container">
@@ -46,5 +47,6 @@ export default class ModalWindow extends React.Component {
 ModalWindow.propTypes = {
   children: PropTypes.any.isRequired,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
+  windowStyle: PropTypes.object
 };

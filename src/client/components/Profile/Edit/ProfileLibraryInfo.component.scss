@@ -14,7 +14,7 @@
 
 .library--hide-loanerid {
   margin-top: 0.5em;
-  text-align: right;
+  text-align: left;
 }
 
 .library--hide-loanerid--label {
@@ -24,6 +24,7 @@
 }
 
 .library--form-area {
+  text-align: left;
   label {
     p {
       text-align: left;
@@ -36,4 +37,10 @@
     font-size: 16pt;
     font-family: 'PaswordFont';
   }
+}
+
+.selected-library-description h1{
+  font-weight: bold;
+  margin-bottom: 0;
+  font-size: 1.05rem;
 }

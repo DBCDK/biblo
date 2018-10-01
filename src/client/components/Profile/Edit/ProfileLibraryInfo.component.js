@@ -24,7 +24,8 @@ export class ProfileLibraryInfo extends React.Component {
 
   static defaultProps = {
     errorObj: {},
-    searchElements: []
+    searchElements: [],
+    requireAll: true
   };
 
   constructor(props) {
@@ -182,9 +183,8 @@ export class ProfileLibraryInfo extends React.Component {
   render() {
     const libraryDescription = this.getLibraryDescription();
     const searchField = this.getSearchField();
-
     return (
-      <div className="library--form-area">
+      <div className="library--form-area search-area ">
         {this.props.errorObj.library || this.props.errorObj.libraryId || ''}
 
         <div className="selected-library-description">{libraryDescription}</div>
@@ -194,6 +194,49 @@ export class ProfileLibraryInfo extends React.Component {
         <div className="hidden">
           <input type="hidden" name="libraryId" value={this.props.libraryId} />
         </div>
+
+        {this.props.loanerIdChangeFunc && (
+          <div className={this.getLoanerIdInputFieldClassName()}>
+            <InputField
+              error={this.props.errorObj.loanerId}
+              onChangeFunc={this.props.loanerIdChangeFunc}
+              type={(this.state.hideLoanerId && !this.isTouchDevice() && 'password') || 'number'}
+              name="loanerId"
+              title="Dit lånernummer *"
+              placeholder="Lånernummer"
+              defaultValue={this.props.favoriteLibrary.loanerId}
+              required={true}
+              autocomplete="off"
+              pattern="[0-9]*"
+            />
+            <div className="library--hide-loanerid">
+              <label>
+                <input
+                  type="checkbox"
+                  defaultChecked={this.state.hideLoanerId}
+                  onClick={() => this.setState({hideLoanerId: !this.state.hideLoanerId})}
+                />
+                <div className={'library--hide-loanerid--label'}>Skjul lånernummer</div>
+              </label>
+            </div>
+          </div>
+        )}
+        {this.props.pincodeChangeFunc && (
+          <div className={this.getLoanerIdInputFieldClassName()}>
+            <InputField
+              error={this.props.errorObj.pincode}
+              onChangeFunc={this.props.pincodeChangeFunc}
+              type={(!this.isTouchDevice() && 'password') || 'number'}
+              name="pincode"
+              title="Din pinkode *"
+              placeholder="Pinkode"
+              defaultValue={this.props.favoriteLibrary.pincode}
+              required={this.props.requireAll}
+              autocomplete="off"
+              pattern="[0-9]*"
+            />
+          </div>
+        )}
       </div>
     );
   }

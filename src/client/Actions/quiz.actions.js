@@ -29,9 +29,7 @@ const getResultForUser = quizId => {
       quizId
     });
     const event = getQuizResult.response(response => {
-      resolve(
-        (response.data && response.data[0] && response.data[0].result) || null
-      );
+      resolve((response.data && response.data[0] && response.data[0].result) || null);
       event.off();
     });
   });

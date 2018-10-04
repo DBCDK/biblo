@@ -61,7 +61,7 @@ const QuizResult = ({quiz, onRetryClick}) => {
 };
 QuizResult.propTypes = {
   quiz: PropTypes.object,
-  onRetryClick: PropTypes.func.isRequire
+  onRetryClick: PropTypes.func.isRequired
 };
 
 class Quiz extends React.Component {

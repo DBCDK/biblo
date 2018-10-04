@@ -1565,7 +1565,8 @@ function storeQuizResult(endpoint, params) {
     const postBody = {
       quizId: params.quizId,
       ownerId: params.ownerId,
-      result: params.result
+      result: params.result,
+      libraryId: params.libraryId
     };
 
     request.post(

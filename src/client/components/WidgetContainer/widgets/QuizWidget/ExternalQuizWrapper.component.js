@@ -30,7 +30,7 @@ export class ExternalQuizWrapper extends React.Component {
   }
 
   render() {
-    return <div className="quiz-widget" id={this.props.elementId} />;
+    return <div className="external-quiz-wrapper" id={this.props.elementId} />;
   }
 }
 

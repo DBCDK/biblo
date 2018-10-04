@@ -3,11 +3,12 @@ const StoreQuizResultTransform = {
     return 'storeQuizResult';
   },
 
-  requestTransform(event, {quizId, result}, connection) {
+  requestTransform(event, {quizId, result, libraryId}, connection) {
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
       const params = {
         quizId,
+        libraryId,
         ownerId: passport.user.profileId,
         accessToken: passport.user.id,
         result

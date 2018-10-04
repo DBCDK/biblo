@@ -34,17 +34,18 @@ const getResultForUser = quizId => {
     });
   });
 };
-const saveResultForUser = async (quizId, result) => {
+const saveResultForUser = async (quizId, result, libraryId) => {
   const prevResult = await getResultForUser(quizId);
   if (shouldSaveResult(prevResult, result)) {
     storeQuizResult.request({
       quizId,
-      result
+      result,
+      libraryId
     });
   }
 };
 
-export function asyncInitializeQuiz(quizId, {userIsLoggedIn, id}) {
+export function asyncInitializeQuiz(quizId, {userIsLoggedIn, favoriteLibrary}) {
   return async dispatch => {
     const action = {
       type: types.SET_QUIZ,
@@ -68,7 +69,7 @@ export function asyncInitializeQuiz(quizId, {userIsLoggedIn, id}) {
 
       if (userIsLoggedIn) {
         action.quiz.stored = true;
-        await saveResultForUser(quizId, sessionResult, id);
+        await saveResultForUser(quizId, sessionResult, favoriteLibrary && favoriteLibrary.libraryId);
         action.quiz.storedAfterLogin = true;
         await delSession(quizId);
       }
@@ -85,10 +86,10 @@ export function asyncInitializeQuiz(quizId, {userIsLoggedIn, id}) {
   };
 }
 
-export function asyncSaveQuizResult(quizId, result, {userIsLoggedIn, id}) {
+export function asyncSaveQuizResult(quizId, result, {userIsLoggedIn, favoriteLibrary}) {
   return async dispatch => {
     if (userIsLoggedIn) {
-      await saveResultForUser(quizId, result, id);
+      await saveResultForUser(quizId, result, favoriteLibrary && favoriteLibrary.libraryId);
     } else {
       await setSession(quizId, result);
     }

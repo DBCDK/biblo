@@ -162,7 +162,9 @@ function updateProfile(endpoint, {uid, profile, accessToken}) {
  * @returns {Promise}
  */
 function deleteProfile(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`
+  });
 }
 
 function removeImage(endpoint, {imageId, accessToken}) {
@@ -606,7 +608,10 @@ function queryGroups(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     var pattern = new RegExp('.*' + params.query + '.*', 'i');
-    const filter_str = JSON.stringify({where: {name: {regexp: pattern.toString()}}, include: ['members']});
+    const filter_str = JSON.stringify({
+      where: {name: {regexp: pattern.toString()}},
+      include: ['members']
+    });
     const url = endpoint + 'api/Groups?access_token=' + accessToken + '&filter=' + filter_str;
     request.get({url}, (err, res) => {
       if (err) {
@@ -745,7 +750,9 @@ function createComment(endpoint, params) {
  * @param id
  */
 function deleteComment(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Comments/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Comments/${id}?access_token=${accessToken}`
+  });
 }
 
 function countComments(endpoint, {accessToken, where}) {
@@ -1033,7 +1040,9 @@ function unlikeReview(endpoint, params) {
 }
 
 function checkIfProfileIsQuarantined(endpoint, id) {
-  return promiseRequest('get', {url: `${endpoint}api/Quarantines/${id}/check-if-profile-is-quarantined`});
+  return promiseRequest('get', {
+    url: `${endpoint}api/Quarantines/${id}/check-if-profile-is-quarantined`
+  });
 }
 
 /**
@@ -1044,7 +1053,9 @@ function checkIfProfileIsQuarantined(endpoint, id) {
  * @returns {Promise}
  */
 function deleteGroup(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Groups/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Groups/${id}?access_token=${accessToken}`
+  });
 }
 
 /**
@@ -1068,7 +1079,9 @@ function closeGroup(endpoint, {id, timeClosed, accessToken}) {
  * @param {Object} params
  */
 function deletePost(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Posts/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Posts/${id}?access_token=${accessToken}`
+  });
 }
 
 /**
@@ -1077,7 +1090,9 @@ function deletePost(endpoint, {id, accessToken}) {
  * @param {object} params
  */
 function deleteReview(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/reviews/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/reviews/${id}?access_token=${accessToken}`
+  });
 }
 
 function getReviews(endpoint, params) {
@@ -1443,7 +1458,11 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
     await Promise.all(
       body.map(g => {
         leaveGroup(endpoint, {uid: uid, groupId: g.id, accessToken});
-        joinGroup(endpoint, {uid: defaultModerator, groupId: g.id, accessToken});
+        joinGroup(endpoint, {
+          uid: defaultModerator,
+          groupId: g.id,
+          accessToken
+        });
         return promiseRequest('patch', {
           url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
           json: true,
@@ -1539,6 +1558,44 @@ function searchReviews(endpoint, elasticQuery) {
   });
 }
 
+function storeQuizResult(endpoint, params) {
+  return new Promise((resolve, reject) => {
+    const where = encodeURIComponent(JSON.stringify({quizId: params.quizId, ownerId: params.ownerId}));
+    const url = endpoint + `api/QuizResults/upsertWithWhere?access_token=${params.accessToken}&where=${where}`;
+    const postBody = {
+      quizId: params.quizId,
+      ownerId: params.ownerId,
+      result: params.result,
+      libraryId: params.libraryId
+    };
+
+    request.post(
+      {
+        url,
+        json: true,
+        body: postBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
+      }
+    );
+  });
+}
+
+function getQuizResult(endpoint, params) {
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      where: {quizId: params.quizId, ownerId: params.ownerId}
+    })
+  );
+  const url = endpoint + `api/QuizResults?access_token=${params.accessToken}&filter=${filter}`;
+
+  return promiseRequest('get', url);
+}
+
 /**
  * Makes a request to the CommunityService endpoint and returns the response.
  *
@@ -1631,6 +1688,8 @@ module.exports = function CommunityClient(config = null) {
     addGenres: addGenres.bind(null, config.endpoint),
     getGenres: getGenres.bind(null, config.endpoint),
     searchReviews: searchReviews.bind(null, config.endpoint),
+    storeQuizResult: storeQuizResult.bind(null, config.endpoint),
+    getQuizResult: getQuizResult.bind(null, config.endpoint),
     howru: howru.bind(null, config.endpoint)
   };
 };

@@ -1,5 +1,9 @@
 import * as types from '../Constants/action.constants';
 import request from 'superagent';
+import SocketClient from 'dbc-node-serviceprovider-socketclient';
+
+const storeQuizResult = SocketClient('storeQuizResult');
+const getQuizResult = SocketClient('getQuizResult');
 
 const setSession = (quizId, result) => {
   return request.put('/api/session/' + quizId).send(result);
@@ -12,13 +16,36 @@ const getSession = quizId => {
 const delSession = quizId => {
   return request.delete('/api/session/' + quizId);
 };
-
-// eslint-disable-next-line
-const saveResultForUser = (quizId, result, userId) => {
-  // TODO save result in CS
+const shouldSaveResult = (prevResult, result) => {
+  // should save if current result is better than previous
+  if (!prevResult) {
+    return true;
+  }
+  return prevResult.score < result.score;
+};
+const getResultForUser = quizId => {
+  return new Promise(resolve => {
+    getQuizResult.request({
+      quizId
+    });
+    const event = getQuizResult.response(response => {
+      resolve((response.data && response.data[0] && response.data[0].result) || null);
+      event.off();
+    });
+  });
+};
+const saveResultForUser = async (quizId, result, libraryId) => {
+  const prevResult = await getResultForUser(quizId);
+  if (shouldSaveResult(prevResult, result)) {
+    storeQuizResult.request({
+      quizId,
+      result,
+      libraryId
+    });
+  }
 };
 
-export function asyncInitializeQuiz(quizId, {userIsLoggedIn, id}) {
+export function asyncInitializeQuiz(quizId, {userIsLoggedIn, favoriteLibrary}) {
   return async dispatch => {
     const action = {
       type: types.SET_QUIZ,
@@ -42,26 +69,27 @@ export function asyncInitializeQuiz(quizId, {userIsLoggedIn, id}) {
 
       if (userIsLoggedIn) {
         action.quiz.stored = true;
-        await saveResultForUser(quizId, sessionResult, id);
+        await saveResultForUser(quizId, sessionResult, favoriteLibrary && favoriteLibrary.libraryId);
         action.quiz.storedAfterLogin = true;
         await delSession(quizId);
       }
     } else if (userIsLoggedIn) {
-      // console.log('user is logged in');
-      // TODO if user is logged in load potential result from CS
-      // action.quiz.stored = true;
-      // action.quiz.result = {}; // TODO load from CS
-      // action.quiz.completed = true;
+      const storedResult = await getResultForUser(quizId);
+      if (storedResult) {
+        action.quiz.result = storedResult;
+        action.quiz.completed = true;
+        action.quiz.stored = true;
+      }
     }
 
     dispatch(action);
   };
 }
 
-export function asyncSaveQuizResult(quizId, result, {userIsLoggedIn, id}) {
+export function asyncSaveQuizResult(quizId, result, {userIsLoggedIn, favoriteLibrary}) {
   return async dispatch => {
     if (userIsLoggedIn) {
-      await saveResultForUser(quizId, result, id);
+      await saveResultForUser(quizId, result, favoriteLibrary && favoriteLibrary.libraryId);
     } else {
       await setSession(quizId, result);
     }

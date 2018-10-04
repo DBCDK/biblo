@@ -21,10 +21,7 @@ const LoginPrompt = () => {
   return (
     <div className="login-prompt">
       <h3>Log ind for at gemme resultatet på din profil</h3>
-      <RoundedButton
-        href={`/login?destination=${encodeURIComponent(window.location)}`}
-        buttonText="Log ind"
-      />
+      <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Log ind" />
     </div>
   );
 };
@@ -49,11 +46,7 @@ const QuizResult = ({quiz, onRetryClick}) => {
       <h3>{message}</h3>
       <div className="bottom">
         <span>
-          <SimpleButton
-            className="retry-button"
-            text="Prøv igen"
-            onClick={onRetryClick}
-          />
+          <SimpleButton className="retry-button" text="Prøv igen" onClick={onRetryClick} />
         </span>
       </div>
     </div>
@@ -61,7 +54,7 @@ const QuizResult = ({quiz, onRetryClick}) => {
 };
 QuizResult.propTypes = {
   quiz: PropTypes.object,
-  onRetryClick: PropTypes.func.isRequire
+  onRetryClick: PropTypes.func.isRequired
 };
 
 class Quiz extends React.Component {
@@ -161,17 +154,9 @@ export class QuizWidget extends AbstractWidget {
     super(props);
   }
   shouldComponentUpdate(nextProps) {
-    return !isEqual(
-      nextProps.widgetConfig.quizId,
-      this.props.widgetConfig.quizId
-    );
+    return !isEqual(nextProps.widgetConfig.quizId, this.props.widgetConfig.quizId);
   }
   render() {
-    return (
-      <QuizConnected
-        quizId={this.props.widgetConfig.quizId}
-        elementId={`quiz-${this.props.widgetIndex}`}
-      />
-    );
+    return <QuizConnected quizId={this.props.widgetConfig.quizId} elementId={`quiz-${this.props.widgetIndex}`} />;
   }
 }

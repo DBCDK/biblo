@@ -17,7 +17,9 @@ function changeStreamListener(endpoint, model, callback) {
   // Return a promise so the serviceprovider is happy
   return new Promise(resolve => {
     // Parse out the url for the change stream and add a keep-alive agent to it.
-    const opts = url_parser(`${endpoint}api/${model}/change-stream?_format=event-stream`);
+    const opts = url_parser(
+      `${endpoint}api/${model}/change-stream?_format=event-stream`
+    );
     opts.agent = new http.Agent({keepAlive: true});
 
     // This regex helps us get the name of the event, and stores it in currentEvent.
@@ -90,7 +92,9 @@ function changeStreamListener(endpoint, model, callback) {
             // After we got the event, we want to respond to it
             // We do this by calling our callback(s) with a parsed version of the event.
             else if (dataString.indexOf(currentEvent) === 0) {
-              const jsonData = JSON.parse(dataString.substring(currentEvent.length));
+              const jsonData = JSON.parse(
+                dataString.substring(currentEvent.length)
+              );
               cb(null, jsonData);
             }
             // If the above scenarios can't parse the data, something unexpected has happened.
@@ -162,7 +166,9 @@ function updateProfile(endpoint, {uid, profile, accessToken}) {
  * @returns {Promise}
  */
 function deleteProfile(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Profiles/${id}?access_token=${accessToken}`
+  });
 }
 
 function removeImage(endpoint, {imageId, accessToken}) {
@@ -179,7 +185,10 @@ function removeImage(endpoint, {imageId, accessToken}) {
  * @param {String} container
  * @returns {Promise}
  */
-function uploadImage(endpoint, {image, accessToken, container = 'uxdev-biblo-imagebucket'}) {
+function uploadImage(
+  endpoint,
+  {image, accessToken, container = 'uxdev-biblo-imagebucket'}
+) {
   let fileExtension = image.originalname.split('.');
   fileExtension = fileExtension[fileExtension.length - 1];
   const fileName = uuid.v4().replace('-', '') + '.' + fileExtension;
@@ -233,7 +242,11 @@ function updateImage(endpoint, {image, relationId, relationType, accessToken}) {
   const fileName = uuid.v4().replace('-', '') + '.' + fileExtension;
 
   return promiseRequest('post', {
-    url: endpoint + 'api/ImageCollections/upload?access_token=' + accessToken + '&container=uxdev-biblo-imagebucket',
+    url:
+      endpoint +
+      'api/ImageCollections/upload?access_token=' +
+      accessToken +
+      '&container=uxdev-biblo-imagebucket',
     formData: {
       file: {
         value: image.buffer,
@@ -248,7 +261,12 @@ function updateImage(endpoint, {image, relationId, relationType, accessToken}) {
     let bodyObj = {};
     bodyObj[relationType] = relationId;
     return promiseRequest('put', {
-      url: endpoint + 'api/ImageCollections/' + remoteFileObject.id + '?access_token=' + accessToken,
+      url:
+        endpoint +
+        'api/ImageCollections/' +
+        remoteFileObject.id +
+        '?access_token=' +
+        accessToken,
       json: true,
       body: bodyObj
     });
@@ -357,7 +375,14 @@ function listGroups(endpoint, params) {
 
 function leaveGroup(endpoint, {uid, groupId, accessToken}) {
   return promiseRequest('del', {
-    url: endpoint + 'api/Profiles/' + uid + '/groups/rel/' + groupId + '?access_token=' + accessToken,
+    url:
+      endpoint +
+      'api/Profiles/' +
+      uid +
+      '/groups/rel/' +
+      groupId +
+      '?access_token=' +
+      accessToken,
     json: true
   });
 }
@@ -386,7 +411,11 @@ function createGroup(endpoint, params) {
     });
 
     return promiseRequest('post', {
-      url: endpoint + 'api/ImageCollections/upload?access_token=' + accessToken + '&container=uxdev-biblo-imagebucket',
+      url:
+        endpoint +
+        'api/ImageCollections/upload?access_token=' +
+        accessToken +
+        '&container=uxdev-biblo-imagebucket',
       formData: {
         file: {
           value: coverImage.buffer,
@@ -399,7 +428,12 @@ function createGroup(endpoint, params) {
     }).then(fileResult => {
       fileResult = JSON.parse(fileResult.body);
       return promiseRequest('put', {
-        url: endpoint + 'api/ImageCollections/' + fileResult.id + '?access_token=' + accessToken,
+        url:
+          endpoint +
+          'api/ImageCollections/' +
+          fileResult.id +
+          '?access_token=' +
+          accessToken,
         json: true,
         body: {
           groupCoverImageCollectionId: createResult.body.id
@@ -424,7 +458,19 @@ function createGroup(endpoint, params) {
  * @param accessToken {string}
  * @param isModerator {boolean}
  */
-function updateGroup(endpoint, {groupId, name, description, colour, coverImage, uid, accessToken, isModerator}) {
+function updateGroup(
+  endpoint,
+  {
+    groupId,
+    name,
+    description,
+    colour,
+    coverImage,
+    uid,
+    accessToken,
+    isModerator
+  }
+) {
   if (!accessToken) {
     return Promise.reject('Please provide an access token!');
   }
@@ -460,7 +506,10 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
       promises.push(
         promiseRequest('post', {
           url:
-            endpoint + 'api/ImageCollections/upload?access_token=' + accessToken + '&container=uxdev-biblo-imagebucket',
+            endpoint +
+            'api/ImageCollections/upload?access_token=' +
+            accessToken +
+            '&container=uxdev-biblo-imagebucket',
           formData: {
             file: {
               value: coverImage.buffer,
@@ -480,7 +529,12 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
       if (promiseResponses[1]) {
         let fileResult = JSON.parse(promiseResponses[1].body);
         return promiseRequest('put', {
-          url: endpoint + 'api/ImageCollections/' + fileResult.id + '?access_token=' + accessToken,
+          url:
+            endpoint +
+            'api/ImageCollections/' +
+            fileResult.id +
+            '?access_token=' +
+            accessToken,
           json: true,
           body: {
             groupCoverImageCollectionId: createResult.body.id
@@ -508,7 +562,10 @@ function updateGroup(endpoint, {groupId, name, description, colour, coverImage, 
  * @param accessToken {string}
  * @param isModerator {boolean}
  */
-function changeGroupOwner(endpoint, {groupId, groupownerid, uid, accessToken, isModerator}) {
+function changeGroupOwner(
+  endpoint,
+  {groupId, groupownerid, uid, accessToken, isModerator}
+) {
   if (!accessToken) {
     return Promise.reject('Please provide an access token!');
   }
@@ -606,8 +663,16 @@ function queryGroups(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     var pattern = new RegExp('.*' + params.query + '.*', 'i');
-    const filter_str = JSON.stringify({where: {name: {regexp: pattern.toString()}}, include: ['members']});
-    const url = endpoint + 'api/Groups?access_token=' + accessToken + '&filter=' + filter_str;
+    const filter_str = JSON.stringify({
+      where: {name: {regexp: pattern.toString()}},
+      include: ['members']
+    });
+    const url =
+      endpoint +
+      'api/Groups?access_token=' +
+      accessToken +
+      '&filter=' +
+      filter_str;
     request.get({url}, (err, res) => {
       if (err) {
         reject(err);
@@ -745,34 +810,44 @@ function createComment(endpoint, params) {
  * @param id
  */
 function deleteComment(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Comments/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Comments/${id}?access_token=${accessToken}`
+  });
 }
 
 function countComments(endpoint, {accessToken, where}) {
   return promiseRequest(
     'get',
-    `${endpoint}api/Comments/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+    `${endpoint}api/Comments/count?access_token=${accessToken}${
+      where ? `&where=${JSON.stringify(where)}` : ''
+    }`
   );
 }
 
 function countPosts(endpoint, {accessToken, where}) {
   return promiseRequest(
     'get',
-    `${endpoint}api/Posts/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+    `${endpoint}api/Posts/count?access_token=${accessToken}${
+      where ? `&where=${JSON.stringify(where)}` : ''
+    }`
   );
 }
 
 function countGroups(endpoint, {accessToken, where}) {
   return promiseRequest(
     'get',
-    `${endpoint}api/Groups/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+    `${endpoint}api/Groups/count?access_token=${accessToken}${
+      where ? `&where=${JSON.stringify(where)}` : ''
+    }`
   );
 }
 
 function countReviews(endpoint, {accessToken, where}) {
   return promiseRequest(
     'get',
-    `${endpoint}api/reviews/count?access_token=${accessToken}${where ? `&where=${JSON.stringify(where)}` : ''}`
+    `${endpoint}api/reviews/count?access_token=${accessToken}${
+      where ? `&where=${JSON.stringify(where)}` : ''
+    }`
   );
 }
 
@@ -934,7 +1009,8 @@ function likePost(endpoint, params) {
     const postId = params.postId;
     const value = '1'; //  like=1, dislike=-1
 
-    const url = endpoint + 'api/Posts/' + postId + '/likes?access_token=' + accessToken;
+    const url =
+      endpoint + 'api/Posts/' + postId + '/likes?access_token=' + accessToken;
     const likePostBody = {
       value,
       profileId,
@@ -967,7 +1043,12 @@ function likeReview(endpoint, params) {
     const reviewId = params.reviewId;
     const value = '1'; //  like=1, dislike=-1
 
-    const url = endpoint + 'api/reviews/' + reviewId + '/likes?access_token=' + accessToken;
+    const url =
+      endpoint +
+      'api/reviews/' +
+      reviewId +
+      '/likes?access_token=' +
+      accessToken;
     const likePostBody = {
       value,
       profileId
@@ -999,7 +1080,13 @@ function unlikePost(endpoint, params) {
     const postId = params.postId;
 
     const url =
-      endpoint + 'api/Posts/unlike?access_token=' + accessToken + '&profileId=' + profileId + '&postId=' + postId;
+      endpoint +
+      'api/Posts/unlike?access_token=' +
+      accessToken +
+      '&profileId=' +
+      profileId +
+      '&postId=' +
+      postId;
 
     // delete that like
     request.del({url}, (err, res) => {
@@ -1021,7 +1108,13 @@ function unlikeReview(endpoint, params) {
     const reviewId = params.reviewId;
 
     const url =
-      endpoint + 'api/reviews/unlike?access_token=' + accessToken + '&profileId=' + profileId + '&reviewId=' + reviewId;
+      endpoint +
+      'api/reviews/unlike?access_token=' +
+      accessToken +
+      '&profileId=' +
+      profileId +
+      '&reviewId=' +
+      reviewId;
 
     request.del({url}, (err, res) => {
       if (err) {
@@ -1033,7 +1126,9 @@ function unlikeReview(endpoint, params) {
 }
 
 function checkIfProfileIsQuarantined(endpoint, id) {
-  return promiseRequest('get', {url: `${endpoint}api/Quarantines/${id}/check-if-profile-is-quarantined`});
+  return promiseRequest('get', {
+    url: `${endpoint}api/Quarantines/${id}/check-if-profile-is-quarantined`
+  });
 }
 
 /**
@@ -1044,7 +1139,9 @@ function checkIfProfileIsQuarantined(endpoint, id) {
  * @returns {Promise}
  */
 function deleteGroup(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Groups/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Groups/${id}?access_token=${accessToken}`
+  });
 }
 
 /**
@@ -1068,7 +1165,9 @@ function closeGroup(endpoint, {id, timeClosed, accessToken}) {
  * @param {Object} params
  */
 function deletePost(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/Posts/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/Posts/${id}?access_token=${accessToken}`
+  });
 }
 
 /**
@@ -1077,12 +1176,16 @@ function deletePost(endpoint, {id, accessToken}) {
  * @param {object} params
  */
 function deleteReview(endpoint, {id, accessToken}) {
-  return promiseRequest('delete', {url: `${endpoint}api/reviews/${id}?access_token=${accessToken}`});
+  return promiseRequest('delete', {
+    url: `${endpoint}api/reviews/${id}?access_token=${accessToken}`
+  });
 }
 
 function getReviews(endpoint, params) {
   return promiseRequest('get', {
-    url: `${endpoint}api/reviews/?filter=${JSON.stringify(params.filter || [])}`,
+    url: `${endpoint}api/reviews/?filter=${JSON.stringify(
+      params.filter || []
+    )}`,
     json: true
   });
 }
@@ -1162,7 +1265,10 @@ function getUserQuarantines(endpoint, {uid, filter}) {
  * @returns {Promise}
  */
 function listenForNewQuarantines(endpoint, callback) {
-  if (!callback || (typeof callback !== 'function' && !Array.isArray(callback))) {
+  if (
+    !callback ||
+    (typeof callback !== 'function' && !Array.isArray(callback))
+  ) {
     return Promise.reject('Callback needs to be a function!');
   }
 
@@ -1176,7 +1282,10 @@ function listenForNewQuarantines(endpoint, callback) {
  * @returns {Promise}
  */
 function listenForNewPosts(endpoint, callback) {
-  if (!callback || (typeof callback !== 'function' && !Array.isArray(callback))) {
+  if (
+    !callback ||
+    (typeof callback !== 'function' && !Array.isArray(callback))
+  ) {
     return Promise.reject('Callback needs to be a function!');
   }
 
@@ -1190,7 +1299,10 @@ function listenForNewPosts(endpoint, callback) {
  * @returns {Promise}
  */
 function listenForNewComments(endpoint, callback) {
-  if (!callback || (typeof callback !== 'function' && !Array.isArray(callback))) {
+  if (
+    !callback ||
+    (typeof callback !== 'function' && !Array.isArray(callback))
+  ) {
     return Promise.reject('Callback needs to be a function!');
   }
 
@@ -1217,7 +1329,9 @@ function groupSuggest(endpoint, params) {
  */
 function checkIfGroupNameExists(endpoint, params) {
   // where[name][regexp]=/^${params.groupName}$/i
-  const queryString = `where%5Bname%5D%5Bregexp%5D=%2F%5E${encodeURIComponent(params.groupName)}%24%2Fi`;
+  const queryString = `where%5Bname%5D%5Bregexp%5D=%2F%5E${encodeURIComponent(
+    params.groupName
+  )}%24%2Fi`;
 
   return promiseRequest('get', {
     url: `${endpoint}api/Groups/count?${queryString}`
@@ -1424,7 +1538,11 @@ function getPostPdf(endpoint, {id}) {
  * @param {string|mixed} include
  * @returns {Promise}
  */
-async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, accessToken}) {
+async function transferGroups(
+  endpoint,
+  defaultModerator,
+  {uid, newUid = null, accessToken}
+) {
   const filter = encodeURIComponent(
     JSON.stringify({
       where: {
@@ -1443,7 +1561,11 @@ async function transferGroups(endpoint, defaultModerator, {uid, newUid = null, a
     await Promise.all(
       body.map(g => {
         leaveGroup(endpoint, {uid: uid, groupId: g.id, accessToken});
-        joinGroup(endpoint, {uid: defaultModerator, groupId: g.id, accessToken});
+        joinGroup(endpoint, {
+          uid: defaultModerator,
+          groupId: g.id,
+          accessToken
+        });
         return promiseRequest('patch', {
           url: `${endpoint}api/Groups/${g.id}/?access_token=${accessToken}`,
           json: true,
@@ -1503,14 +1625,18 @@ function removePdf(endpoint, {pdfId}) {
 
 function addSubjects(endpoint, {reviewId, subjects}) {
   return promiseRequest('post', {
-    url: `${endpoint}api/reviews/addSubject?reviewId=${reviewId}&subject=${encodeURIComponent(subjects)}`,
+    url: `${endpoint}api/reviews/addSubject?reviewId=${reviewId}&subject=${encodeURIComponent(
+      subjects
+    )}`,
     json: true
   });
 }
 
 function addGenres(endpoint, {reviewId, genres}) {
   return promiseRequest('post', {
-    url: `${endpoint}api/reviews/addGenre?reviewId=${reviewId}&genre=${encodeURIComponent(genres)}`,
+    url: `${endpoint}api/reviews/addGenre?reviewId=${reviewId}&genre=${encodeURIComponent(
+      genres
+    )}`,
     json: true
   });
 }
@@ -1539,6 +1665,51 @@ function searchReviews(endpoint, elasticQuery) {
   });
 }
 
+function storeQuizResult(endpoint, params) {
+  return new Promise((resolve, reject) => {
+    const where = encodeURIComponent(
+      JSON.stringify({quizId: params.quizId, ownerId: params.ownerId})
+    );
+    const url =
+      endpoint +
+      `api/QuizResults/upsertWithWhere?access_token=${
+        params.accessToken
+      }&where=${where}`;
+    const postBody = {
+      quizId: params.quizId,
+      ownerId: params.ownerId,
+      result: params.result
+    };
+
+    request.post(
+      {
+        url,
+        json: true,
+        body: postBody
+      },
+      (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
+      }
+    );
+  });
+}
+
+function getQuizResult(endpoint, params) {
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      where: {quizId: params.quizId, ownerId: params.ownerId}
+    })
+  );
+  const url =
+    endpoint +
+    `api/QuizResults?access_token=${params.accessToken}&filter=${filter}`;
+
+  return promiseRequest('get', url);
+}
+
 /**
  * Makes a request to the CommunityService endpoint and returns the response.
  *
@@ -1559,18 +1730,32 @@ function howru(endpoint) {
  */
 module.exports = function CommunityClient(config = null) {
   if (!config || !config.endpoint) {
-    throw new Error('Expected config object but got null or no endpoint provided');
+    throw new Error(
+      'Expected config object but got null or no endpoint provided'
+    );
   }
 
   return {
-    listenForNewQuarantines: listenForNewQuarantines.bind(null, config.endpoint),
+    listenForNewQuarantines: listenForNewQuarantines.bind(
+      null,
+      config.endpoint
+    ),
     listenForNewPosts: listenForNewPosts.bind(null, config.endpoint),
     listenForNewComments: listenForNewComments.bind(null, config.endpoint),
     topWorksFromReviews: topWorksFromReviews.bind(null, config.endpoint),
-    checkIfUserProfileExists: checkIfUserProfileExists.bind(null, config.endpoint),
-    checkIfDisplayNameIsTaken: checkIfDisplayNameIsTaken.bind(null, config.endpoint),
+    checkIfUserProfileExists: checkIfUserProfileExists.bind(
+      null,
+      config.endpoint
+    ),
+    checkIfDisplayNameIsTaken: checkIfDisplayNameIsTaken.bind(
+      null,
+      config.endpoint
+    ),
     checkIfGroupNameExists: checkIfGroupNameExists.bind(null, config.endpoint),
-    checkIfProfileIsQuarantined: checkIfProfileIsQuarantined.bind(null, config.endpoint),
+    checkIfProfileIsQuarantined: checkIfProfileIsQuarantined.bind(
+      null,
+      config.endpoint
+    ),
     loginAndGetProfile: loginAndGetProfile.bind(null, config.endpoint),
     createProfile: createProfile.bind(null, config.endpoint),
     updateProfile: updateProfile.bind(null, config.endpoint),
@@ -1624,13 +1809,19 @@ module.exports = function CommunityClient(config = null) {
     getGroupMembers: getGroupMembers.bind(null, config.endpoint),
     getMyGroups: getMyGroups.bind(null, config.endpoint),
     getGroupsOwnedByUser: getGroupsOwnedByUser.bind(null, config.endpoint),
-    transferGroups: transferGroups.bind(null, config.endpoint, config.defaultModerator),
+    transferGroups: transferGroups.bind(
+      null,
+      config.endpoint,
+      config.defaultModerator
+    ),
     getPostPdf: getPostPdf.bind(null, config.endpoint),
     removePdf: removePdf.bind(null, config.endpoint),
     addSubjects: addSubjects.bind(null, config.endpoint),
     addGenres: addGenres.bind(null, config.endpoint),
     getGenres: getGenres.bind(null, config.endpoint),
     searchReviews: searchReviews.bind(null, config.endpoint),
+    storeQuizResult: storeQuizResult.bind(null, config.endpoint),
+    getQuizResult: getQuizResult.bind(null, config.endpoint),
     howru: howru.bind(null, config.endpoint)
   };
 };

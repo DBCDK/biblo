@@ -67,13 +67,13 @@ class Quiz extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, quizId, profileState} = this.props;
-    actions.asyncInitializeQuiz(quizId, profileState);
+    const {actions, quizId, profileState, quizLibraryUrl} = this.props;
+    actions.asyncInitializeQuiz(quizId, profileState, quizLibraryUrl);
   }
 
   onDone = result => {
-    const {actions, quizId, profileState} = this.props;
-    actions.asyncSaveQuizResult(quizId, result, profileState);
+    const {actions, quizId, profileState, quizLibraryUrl} = this.props;
+    actions.asyncSaveQuizResult(quizId, result, profileState, quizLibraryUrl);
   };
 
   onError = () => {
@@ -87,7 +87,7 @@ class Quiz extends React.Component {
 
   render() {
     const {quizId, quiz, profileState, quizLibraryUrl} = this.props;
-    const {error} = this.state;
+    const error = this.state.error || (this.props.quiz && this.props.quiz.error);
 
     if (!quiz) {
       return null;
@@ -95,7 +95,7 @@ class Quiz extends React.Component {
     if (error) {
       return (
         <div className="quiz-widget-error">
-          <h3>Quizzen kunne desværre ikke indlæses</h3>
+          <h3>{typeof error === 'string' ? error : 'Quizzen kunne desværre ikke indlæses korrekt'}</h3>
         </div>
       );
     }

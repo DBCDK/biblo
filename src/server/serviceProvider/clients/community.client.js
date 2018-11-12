@@ -1596,6 +1596,17 @@ function getQuizResult(endpoint, params) {
   return promiseRequest('get', url);
 }
 
+function getQuizResults(endpoint, params) {
+  const filter = encodeURIComponent(
+    JSON.stringify({
+      where: {ownerId: params.ownerId}
+    })
+  );
+  const url = endpoint + `api/QuizResults?access_token=${params.accessToken}&filter=${filter}`;
+
+  return promiseRequest('get', url);
+}
+
 /**
  * Makes a request to the CommunityService endpoint and returns the response.
  *
@@ -1690,6 +1701,7 @@ module.exports = function CommunityClient(config = null) {
     searchReviews: searchReviews.bind(null, config.endpoint),
     storeQuizResult: storeQuizResult.bind(null, config.endpoint),
     getQuizResult: getQuizResult.bind(null, config.endpoint),
+    getQuizResults: getQuizResults.bind(null, config.endpoint),
     howru: howru.bind(null, config.endpoint)
   };
 };

@@ -37,6 +37,7 @@ import * as workActions from '../../../Actions/work.actions';
 import * as coverImageActions from '../../../Actions/coverImage.actions';
 import * as profileActions from '../../../Actions/profile.actions';
 import * as userstatusActions from '../../../Actions/userstatus.actions';
+import * as quizActions from '../../../Actions/quiz.actions';
 
 // SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
@@ -67,6 +68,7 @@ export class ProfileDetailContainer extends React.Component {
 
   componentDidMount() {
     this.props.coverImageActions.asyncListenForCoverImages();
+    this.props.quizActions.asyncGetResultsForUser();
   }
 
   toggleFollow(group, profileId, isMyProfile) {
@@ -550,7 +552,9 @@ export class ProfileDetailContainer extends React.Component {
         <p>
           <span
             className="profile--description"
-            dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.description)}}
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(userProfile.description)
+            }}
           />
         </p>
       );
@@ -632,7 +636,9 @@ export class ProfileDetailContainer extends React.Component {
         <div className="p-detail--displayname-description-follow">
           <p
             className="p-detail--displayname"
-            dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.displayName)}}
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(userProfile.displayName)
+            }}
           />
           {editButton}
           {desc}
@@ -661,6 +667,7 @@ ProfileDetailContainer.propTypes = {
   profile: PropTypes.object.isRequired,
   profileActions: PropTypes.object.isRequired,
   uiActions: PropTypes.object.isRequired,
+  quizActions: PropTypes.object.isRequired,
   reviews: PropTypes.object.isRequired,
   selectedTab: PropTypes.number,
   searchState: PropTypes.object.isRequired,
@@ -713,7 +720,8 @@ export default connect(
       coverImageActions: bindActionCreators(coverImageActions, dispatcher),
       profileActions: bindActionCreators(profileActions, dispatcher),
       workActions: bindActionCreators(workActions, dispatcher),
-      userstatusActions: bindActionCreators(userstatusActions, dispatcher)
+      userstatusActions: bindActionCreators(userstatusActions, dispatcher),
+      quizActions: bindActionCreators(quizActions, dispatcher)
     };
   }
 )(ProfileDetailContainer);

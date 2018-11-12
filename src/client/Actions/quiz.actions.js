@@ -4,6 +4,7 @@ import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import load from 'load-script';
 const storeQuizResult = SocketClient('storeQuizResult');
 const getQuizResult = SocketClient('getQuizResult');
+const getQuizResults = SocketClient('getQuizResults');
 
 const setSession = (quizId, result) => {
   return request.put('/api/session/' + quizId).send(result);
@@ -52,6 +53,15 @@ const getResultForUser = quizId => {
     });
     const event = getQuizResult.response(response => {
       resolve((response.data && response.data[0] && response.data[0].result) || null);
+      event.off();
+    });
+  });
+};
+const getResultsForUser = () => {
+  return new Promise(resolve => {
+    getQuizResults.request();
+    const event = getQuizResults.response(response => {
+      resolve(response.data || null);
       event.off();
     });
   });
@@ -165,6 +175,21 @@ export function asyncSaveQuizResult(
         }
       });
     }
+  };
+}
+
+export function asyncGetResultsForUser() {
+  return async dispatch => {
+    (await getResultsForUser()).forEach(quizResult =>
+      dispatch({
+        type: types.SET_QUIZ,
+        quiz: {
+          id: quizResult.quizId,
+          completed: true,
+          result: quizResult.result
+        }
+      })
+    );
   };
 }
 

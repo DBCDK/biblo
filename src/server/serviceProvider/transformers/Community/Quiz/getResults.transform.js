@@ -3,13 +3,17 @@ const StoreQuizResultTransform = {
     return 'getQuizResults';
   },
 
-  requestTransform(event, query, connection) {
+  requestTransform(event, {userId}, connection) {
     if (connection.request.session.passport) {
       const passport = connection.request.session.passport;
       const params = {
-        ownerId: passport.user.profileId,
+        ownerId: userId,
         accessToken: passport.user.id
       };
+
+      if (!userId) {
+        return Promise.reject(new Error('Missing param "userId"'));
+      }
 
       return this.callServiceClient('community', 'getQuizResults', params);
     }

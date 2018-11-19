@@ -1,5 +1,9 @@
-
-
+.badge-modal--content {
+  text-align: center;
+  .description {
+    margin: 1em 0;
+  }
+}
 .p-detail--badge-container {
   background: linear-gradient(180deg, #d784e7 82%, $white 30%);
   height: 300px;
@@ -57,7 +61,8 @@
   }
 
   img {
-    filter: drop-shadow(2px 2px 0 white) drop-shadow(-2px 2px 0 white) drop-shadow(2px -2px 0 white) drop-shadow(-2px -2px 0 white);
+    filter: drop-shadow(2px 2px 0 white) drop-shadow(-2px 2px 0 white)
+      drop-shadow(2px -2px 0 white) drop-shadow(-2px -2px 0 white);
     max-height: 50px;
     max-width: 50px;
 
@@ -66,15 +71,18 @@
       max-width: 60px;
     }
   }
+  .quiz-badge {
+    cursor: pointer;
+  }
 }
 
-.p--detail--campaign-row {
+.p--detail--badge-row {
   width: auto;
   display: inline-block;
   vertical-align: middle;
 
   @include min-screen($desktop) {
-    &:nth-of-type(1n+3) {
+    &:nth-of-type(1n + 3) {
       display: none;
     }
 
@@ -84,13 +92,13 @@
   }
 }
 
-.p--detail--campaign-row.singular {
+.p--detail--badge-row.singular {
   @include min-screen($desktop) {
     margin-top: 90px;
   }
 }
 
-.show-more-campaigns--button {
+.show-more-badges--button {
   color: $white;
   width: 70px;
   height: 70px;
@@ -178,11 +186,12 @@
   border-color: #f2f2f2;
 }
 
-.p-detail--total-posts-since-last, .groups-modal--posts-since-last {
+.p-detail--total-posts-since-last,
+.groups-modal--posts-since-last {
   @include bubble($governor-bay);
   position: absolute;
   color: white;
-  font-size: .7em;
+  font-size: 0.7em;
 }
 
 .p-detail--total-posts-since-last {
@@ -274,5 +283,3 @@
     margin-bottom: 1em;
   }
 }
-
-

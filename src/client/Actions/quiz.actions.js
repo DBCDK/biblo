@@ -57,9 +57,9 @@ const getResultForUser = quizId => {
     });
   });
 };
-const getResultsForUser = () => {
+const getResultsForUser = userId => {
   return new Promise(resolve => {
-    getQuizResults.request();
+    getQuizResults.request({userId});
     const event = getQuizResults.response(response => {
       resolve(response.data || null);
       event.off();
@@ -178,9 +178,9 @@ export function asyncSaveQuizResult(
   };
 }
 
-export function asyncGetResultsForUser() {
+export function asyncGetResultsForUser({id}) {
   return async dispatch => {
-    (await getResultsForUser()).forEach(quizResult =>
+    (await getResultsForUser(id)).forEach(quizResult =>
       dispatch({
         type: types.SET_QUIZ,
         quiz: {

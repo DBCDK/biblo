@@ -68,7 +68,7 @@ export class ProfileDetailContainer extends React.Component {
 
   componentDidMount() {
     this.props.coverImageActions.asyncListenForCoverImages();
-    this.props.quizActions.asyncGetResultsForUser(this.props.profile);
+    this.props.quizActions.asyncGetResultsForUser(this.props.feed.profile);
   }
 
   toggleFollow(group, profileId, isMyProfile) {

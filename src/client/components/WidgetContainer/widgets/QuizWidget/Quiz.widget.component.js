@@ -17,14 +17,21 @@ import ExternalQuizWrapper from './ExternalQuizWrapper.component';
 
 import './scss/Quiz.widget.component.scss';
 
-const LoginPrompt = () => {
+const LoginPrompt = ({quiz}) => {
   return (
     <div className="login-prompt">
       <h3>Log ind for at gemme resultatet på din profil</h3>
-      <RoundedButton href={`/login?destination=${encodeURIComponent(window.location)}`} buttonText="Log ind" />
+      <RoundedButton
+        href={`/login?destination=${encodeURIComponent(window.location)}#quiz-${quiz.id}`}
+        buttonText="Log ind"
+      />
     </div>
   );
 };
+LoginPrompt.propTypes = {
+  quiz: PropTypes.object.isRequired
+};
+
 const QuizResult = ({quiz, onRetryClick}) => {
   if (!quiz || !quiz.result || quiz.completedNow || quiz.retry) {
     return null;
@@ -103,7 +110,7 @@ class Quiz extends React.Component {
     const promptLogin = quiz.completed && !profileState.userIsLoggedIn;
 
     return (
-      <div className="quiz-widget">
+      <div className="quiz-widget" id={`quiz-${quizId}`}>
         {showQuiz ? (
           <ExternalQuizWrapper
             quizId={quizId}
@@ -116,7 +123,7 @@ class Quiz extends React.Component {
         ) : (
           <QuizResult quiz={quiz} onRetryClick={this.retry} />
         )}
-        {promptLogin && <LoginPrompt />}
+        {promptLogin && <LoginPrompt quiz={quiz} />}
       </div>
     );
   }

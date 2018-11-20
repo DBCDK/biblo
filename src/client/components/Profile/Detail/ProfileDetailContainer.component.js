@@ -481,7 +481,7 @@ export class ProfileDetailContainer extends React.Component {
         );
       });
 
-      if (campaigns.length > 3) {
+      if (campaigns.length > 6) {
         renderedRows.push(
           <a
             key="show-more-badges"

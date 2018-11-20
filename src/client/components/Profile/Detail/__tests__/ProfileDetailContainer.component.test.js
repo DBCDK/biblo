@@ -31,6 +31,10 @@ describe('Test profile detail container (public profile)', () => {
     closeModalWindow: noop
   };
 
+  const quizActions = {
+    asyncGetResultsForUser: noop
+  };
+
   const reviews = {
     userReviews: []
   };
@@ -58,6 +62,7 @@ describe('Test profile detail container (public profile)', () => {
   const works = {
     workMetadataOrderedByPid: {}
   };
+  const quizzes = {};
 
   const group = {};
   const groupActions = {};
@@ -160,6 +165,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
@@ -197,6 +204,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
@@ -233,6 +242,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
@@ -270,6 +281,8 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
@@ -303,10 +316,12 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
-    expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
+    expect(wrapper.find('.p-detail--diploma')).to.have.lengthOf(0);
   });
 
   it('Should not render campaignDiplomaButtons when no reviews have been created by user', () => {
@@ -334,10 +349,12 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
-    expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
+    expect(wrapper.find('.p-detail--diploma')).to.have.lengthOf(0);
   });
 
   it('Should not render campaignDiplomaButtons when no reviews have been associated with a campaign', () => {
@@ -372,9 +389,72 @@ describe('Test profile detail container (public profile)', () => {
         userstatusState={{}}
         workActions={workActions}
         works={works}
+        quizActions={quizActions}
+        quizzes={quizzes}
       />
     );
 
-    expect(wrapper.find('.p-detail--campaign-diploma')).to.have.lengthOf(0);
+    expect(wrapper.find('.p-detail--diploma')).to.have.lengthOf(0);
+  });
+
+  it('Should render quiz badges', () => {
+    const _quizzes = {
+      quiz1: {
+        id: 'quiz1',
+        completed: true,
+        result: {
+          created: '2018-10-04T12:19:20.131Z',
+          score: 2,
+          correct: 2,
+          questionCount: 2,
+          trophy: {
+            image: 'http://...'
+          }
+        }
+      },
+      quiz2: {
+        id: 'quiz2',
+        completed: true,
+        result: {
+          created: '2018-10-09T10:30:12.815Z',
+          score: 1,
+          correct: 1,
+          questionCount: 2,
+          trophy: {
+            image: 'http://...'
+          }
+        }
+      }
+    };
+    const wrapper = shallow(
+      <ProfileDetailContainer
+        agencies={{}}
+        agencyActions={{}}
+        feed={feedMock} // contains the current logged in user
+        feedActions={feedActions}
+        flagActions={flagActions}
+        globalState={{}}
+        group={group}
+        groupActions={groupActions}
+        likeActions={likeActions}
+        profile={feedMock.profile} // the users we're looking at
+        profileActions={profileActions}
+        ui={uiMock}
+        uiActions={uiActions}
+        reviews={reviews}
+        coverImageActions={coverImageActions}
+        coverImages={coverImages}
+        searchState={searchState}
+        searchActions={searchActions}
+        userstatusActions={userstatusActions}
+        userstatusState={{}}
+        workActions={workActions}
+        works={works}
+        quizActions={quizActions}
+        quizzes={_quizzes}
+      />
+    );
+
+    expect(wrapper.find('.p-detail--diploma')).to.have.lengthOf(2);
   });
 });

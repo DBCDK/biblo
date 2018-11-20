@@ -37,6 +37,7 @@ import * as workActions from '../../../Actions/work.actions';
 import * as coverImageActions from '../../../Actions/coverImage.actions';
 import * as profileActions from '../../../Actions/profile.actions';
 import * as userstatusActions from '../../../Actions/userstatus.actions';
+import * as quizActions from '../../../Actions/quiz.actions';
 
 // SVGs
 import grupperSvg from '../../General/Icon/svg/functions/group.svg';
@@ -67,6 +68,7 @@ export class ProfileDetailContainer extends React.Component {
 
   componentDidMount() {
     this.props.coverImageActions.asyncListenForCoverImages();
+    this.props.quizActions.asyncGetResultsForUser(this.props.feed.profile);
   }
 
   toggleFollow(group, profileId, isMyProfile) {
@@ -408,21 +410,21 @@ export class ProfileDetailContainer extends React.Component {
       let logo;
       if (campaign.logos.svg) {
         logo = (
-          <img src={campaign.logos.svg} className="campaign--row--logo svg" style={{width: '60px', height: '60px'}} />
+          <img src={campaign.logos.svg} className="badge--row--logo svg" style={{width: '60px', height: '60px'}} />
         );
       } else {
-        logo = <img src={campaign.logos.small} className="campaign--row--logo" width={80} />;
+        logo = <img src={campaign.logos.small} className="badge--row--logo" width={80} />;
       }
 
       let inner = (
         <div className="campaign-row--inner">
           {logo}
 
-          <span className="campaign-row--inner--text">{campaign.campaignName}</span>
+          <span className="campaign-row--inner--text">{campaign.name}</span>
         </div>
       );
 
-      if (isMyProfile) {
+      if (isMyProfile && campaign.type !== 'quiz') {
         const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
         inner = <a href={downloadUrl}>{inner}</a>;
       }
@@ -436,11 +438,24 @@ export class ProfileDetailContainer extends React.Component {
 
     const campaignsModalContent = <div>{campaignRows}</div>;
 
-    this.props.uiActions.openModalWindow(campaignsModalContent, 'Alle kampagner');
+    this.props.uiActions.openModalWindow(campaignsModalContent, 'Alle badges');
   }
 
-  renderCampaignBadges(campaigns, isMyProfile) {
-    let campaignDiplomaButtons = <span id="no-campaigns" />;
+  showQuizBadgeModal(quiz) {
+    const content = (
+      <div className="badge-modal--content">
+        <div>
+          <img src={quiz.logos.small} width={80} />
+        </div>
+        <div className="description">{quiz.name}</div>
+      </div>
+    );
+
+    this.props.uiActions.openModalWindow(content, 'Dit quiz badge');
+  }
+
+  renderBadges(campaigns, isMyProfile) {
+    let badgeButtons = <span id="no-badges" />;
     if (campaigns) {
       const rows = [];
       campaigns.forEach((campaign, idx) => {
@@ -454,23 +469,23 @@ export class ProfileDetailContainer extends React.Component {
 
       const renderedRows = rows.map((row, idx) => {
         const elems = row.map(campaign => {
-          return this.renderCampaignBadge(campaign, isMyProfile);
+          return this.renderBadge(campaign, isMyProfile);
         });
 
-        const rowClasses = 'p--detail--campaign-row' + (rows.length === 1 ? ' singular' : '');
+        const rowClasses = 'p--detail--badge-row' + (rows.length === 1 ? ' singular' : '');
 
         return (
-          <div className={rowClasses} key={`campaign--row--${idx}`}>
+          <div className={rowClasses} key={`badge--row--${idx}`}>
             {elems}
           </div>
         );
       });
 
-      if (campaigns.length > 6) {
+      if (campaigns.length > 3) {
         renderedRows.push(
           <a
-            key="show-more-campaigns"
-            className="show-more-campaigns--button"
+            key="show-more-badges"
+            className="show-more-badges--button"
             onClick={this.showAllCampaignsModal.bind(this, campaigns, isMyProfile)}
           >
             Vis alle
@@ -481,28 +496,36 @@ export class ProfileDetailContainer extends React.Component {
       return renderedRows;
     }
 
-    return campaignDiplomaButtons;
+    return badgeButtons;
   }
 
-  renderCampaignBadge(campaign, isMyProfile) {
+  renderBadge(badge, isMyProfile) {
     let logo;
-    if (campaign.logos.svg) {
-      logo = <img src={campaign.logos.svg} className="svg" style={{width: '60px', height: '60px'}} />;
+    if (badge.logos.svg) {
+      logo = <img src={badge.logos.svg} className="svg" style={{width: '60px', height: '60px'}} />;
     } else {
-      logo = <img src={campaign.logos.small} width={80} />;
+      logo = <img src={badge.logos.small} width={80} />;
     }
 
-    let badge;
+    let badgeButton;
     if (isMyProfile) {
-      const downloadUrl = `/kampagne/bevis/${campaign.id}.pdf`;
-      badge = <a href={downloadUrl}>{logo}</a>;
+      if (badge.type === 'quiz') {
+        badgeButton = (
+          <span className="quiz-badge" onClick={() => this.showQuizBadgeModal(badge)}>
+            {logo}
+          </span>
+        );
+      } else {
+        const downloadUrl = `/kampagne/bevis/${badge.id}.pdf`;
+        badgeButton = <a href={downloadUrl}>{logo}</a>;
+      }
     } else {
-      badge = logo;
+      badgeButton = logo;
     }
 
     return (
-      <span className="p-detail--diploma " key={`campaign_${campaign.id}`}>
-        {badge}
+      <span className="p-detail--diploma " key={`badge_${badge.id}`}>
+        {badgeButton}
       </span>
     );
   }
@@ -550,7 +573,9 @@ export class ProfileDetailContainer extends React.Component {
         <p>
           <span
             className="profile--description"
-            dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.description)}}
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(userProfile.description)
+            }}
           />
         </p>
       );
@@ -572,9 +597,25 @@ export class ProfileDetailContainer extends React.Component {
       groupsModalTitle = '0 Grupper';
     }
 
-    const campaigns = this.props.feed.campaigns;
+    const campaigns = this.props.feed.campaigns
+      ? this.props.feed.campaigns.map(campaign => Object.assign({type: 'campaign', name: campaign.name}, campaign))
+      : [];
 
-    let campaignDiplomaButtons = this.renderCampaignBadges(campaigns, isMyProfile);
+    const quizBadges = this.props.quizzes
+      ? Object.values(this.props.quizzes)
+          .filter(quiz => quiz.result && quiz.result.trophy)
+          .map(quiz => ({
+            type: 'quiz',
+            id: quiz.id,
+            name: `${quiz.result.correct} ud af ${quiz.result.questionCount} rigtige svar`,
+            logos: {
+              small: quiz.result.trophy.image
+            }
+          }))
+      : [];
+    const ca = [...quizBadges, ...campaigns];
+
+    let badgeButtons = this.renderBadges(ca, isMyProfile);
     const modal = this.getModal();
 
     // include edit button when user views her own page.
@@ -620,7 +661,7 @@ export class ProfileDetailContainer extends React.Component {
         {modal}
         <div className="p-detail--badge-container">
           <div className="p-detail--diploma-wrapper">
-            <div className="p-detail--diploma-container">{campaignDiplomaButtons}</div>
+            <div className="p-detail--diploma-container">{badgeButtons}</div>
           </div>
           <div className="p-detail--buttons-wrapper">
             <div className="p-detail--buttons-container">
@@ -632,7 +673,9 @@ export class ProfileDetailContainer extends React.Component {
         <div className="p-detail--displayname-description-follow">
           <p
             className="p-detail--displayname"
-            dangerouslySetInnerHTML={{__html: sanitizeHtml(userProfile.displayName)}}
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(userProfile.displayName)
+            }}
           />
           {editButton}
           {desc}
@@ -661,6 +704,8 @@ ProfileDetailContainer.propTypes = {
   profile: PropTypes.object.isRequired,
   profileActions: PropTypes.object.isRequired,
   uiActions: PropTypes.object.isRequired,
+  quizzes: PropTypes.object.isRequired,
+  quizActions: PropTypes.object.isRequired,
   reviews: PropTypes.object.isRequired,
   selectedTab: PropTypes.number,
   searchState: PropTypes.object.isRequired,
@@ -696,7 +741,8 @@ export default connect(
       coverImages: state.coverImageReducer,
       works: state.workReducer,
       globalState: state.globalReducer,
-      userstatusState: state.userstatusReducer
+      userstatusState: state.userstatusReducer,
+      quizzes: state.quizReducer.quizzes
     };
   },
 
@@ -713,7 +759,8 @@ export default connect(
       coverImageActions: bindActionCreators(coverImageActions, dispatcher),
       profileActions: bindActionCreators(profileActions, dispatcher),
       workActions: bindActionCreators(workActions, dispatcher),
-      userstatusActions: bindActionCreators(userstatusActions, dispatcher)
+      userstatusActions: bindActionCreators(userstatusActions, dispatcher),
+      quizActions: bindActionCreators(quizActions, dispatcher)
     };
   }
 )(ProfileDetailContainer);

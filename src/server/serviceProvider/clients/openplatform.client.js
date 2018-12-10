@@ -4,7 +4,6 @@ import {log} from 'dbc-node-logger';
 /**
  * Map containing anonymous and library authenticated tokens.
  *
- *
  * @type {Map}
  */
 const tokens = new Map();

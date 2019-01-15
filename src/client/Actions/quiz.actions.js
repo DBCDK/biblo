@@ -52,8 +52,10 @@ const getResultForUser = quizId => {
       quizId
     });
     const event = getQuizResult.response(response => {
-      resolve((response.data && response.data[0] && response.data[0].result) || null);
-      event.off();
+      if (response.quizId === quizId) {
+        resolve((response.data && response.data[0] && response.data[0].result) || null);
+        event.off();
+      }
     });
   });
 };
@@ -61,8 +63,10 @@ const getResultsForUser = userId => {
   return new Promise(resolve => {
     getQuizResults.request({userId});
     const event = getQuizResults.response(response => {
-      resolve(response.data || null);
-      event.off();
+      if (response.userId === userId) {
+        resolve(response.data || null);
+        event.off();
+      }
     });
   });
 };
@@ -180,7 +184,7 @@ export function asyncSaveQuizResult(
 
 export function asyncGetResultsForUser({id}) {
   return async dispatch => {
-    (await getResultsForUser(id)).forEach(quizResult =>
+    (await getResultsForUser(id)).forEach(quizResult => {
       dispatch({
         type: types.SET_QUIZ,
         quiz: {
@@ -188,8 +192,8 @@ export function asyncGetResultsForUser({id}) {
           completed: true,
           result: quizResult.result
         }
-      })
-    );
+      });
+    });
   };
 }
 

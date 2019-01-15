@@ -15,8 +15,9 @@ const StoreQuizResultTransform = {
       if (!quizId) {
         return Promise.reject(new Error('Missing param "quizId"'));
       }
-
-      return this.callServiceClient('community', 'getQuizResult', params);
+      return this.callServiceClient('community', 'getQuizResult', params).then(response => {
+        return Object.assign(response, {quizId});
+      });
     }
     return Promise.reject(new Error('user not logged in'));
   },
@@ -25,6 +26,7 @@ const StoreQuizResultTransform = {
     return {
       status: response.statusCode,
       data: JSON.parse(response.body),
+      quizId: response.quizId,
       errors: response.errors || []
     };
   }

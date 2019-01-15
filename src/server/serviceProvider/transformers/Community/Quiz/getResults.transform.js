@@ -15,7 +15,9 @@ const StoreQuizResultTransform = {
         return Promise.reject(new Error('Missing param "userId"'));
       }
 
-      return this.callServiceClient('community', 'getQuizResults', params);
+      return this.callServiceClient('community', 'getQuizResults', params).then(response => {
+        return Object.assign(response, {userId});
+      });
     }
     return Promise.reject(new Error('user not logged in'));
   },
@@ -28,6 +30,7 @@ const StoreQuizResultTransform = {
       };
     });
     return {
+      userId: response.userId,
       status: response.statusCode,
       data,
       errors: response.errors || []

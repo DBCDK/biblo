@@ -72,7 +72,7 @@ export function asyncProfileEditSubmit(
       loanerId,
       pincode
     };
-
+    console.log('fields', fields);
     let formData = new FormData();
 
     for (var key in fields) {
@@ -90,6 +90,7 @@ export function asyncProfileEditSubmit(
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.onreadystatechange = e => {
       if (e.target.readyState === 4) {
+        console.log(e.target.response);
         const data = JSON.parse(e.target.response);
         if (data.redirect && !(options && options.preventRedirect)) {
           window.location.assign(data.redirect);

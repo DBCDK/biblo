@@ -30,7 +30,7 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 import sanitizeHtml from './../../Utils/sanitizeHtml.util';
-
+import ContactForm from '../Profile/Edit/ContactForm.component';
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
 export default class Review extends UploadMedia {
@@ -97,7 +97,8 @@ export default class Review extends UploadMedia {
       },
       imageId: props.imageId,
       imageRemoveId: null,
-      isLoading: false
+      isLoading: false,
+      campaign: props.campaign
     };
 
     this.contentFormRef = null;
@@ -289,6 +290,14 @@ export default class Review extends UploadMedia {
     this.setState({isEditing: false, isLoading: false});
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.campaign !== this.props.campaign && this.props.profile.id === this.props.owner.id) {
+      console.log('componentDidUpdate.props', this.props);
+      console.log('hi');
+      this.checkCampagnInfo();
+    }
+  }
+
   /**
    * submit the review. use XHR if available via UploadMedia
    *
@@ -296,10 +305,12 @@ export default class Review extends UploadMedia {
    * @returns {boolean}
    */
   onSubmit(evt) {
+    console.log('in onSubmit');
     evt.preventDefault();
     this.setState({isLoading: true});
 
     if (this.validate() && XMLHttpRequest && FormData) {
+      console.log('onSubmit if');
       this.processContent();
     } else {
       this.setState({isLoading: false});
@@ -308,26 +319,32 @@ export default class Review extends UploadMedia {
     return false;
   }
 
-  processContent() {
+  processContent = async () => {
+    console.log('in processContent');
     return new Promise((resolve, reject) => {
       this.addContent(this.contentFormRef, '/anmeldelse/')
-        .then(response => {
+        .then(async response => {
           if (response.errors && response.errors.length > 0) {
             this.setState({errorMsg: response.errors[0].errorMessage});
             reject(this.state);
           } else {
+            console.log('response.data', response.data);
+
             if (this.props.ownReview) {
               // only show the one review
-              this.props.reviewActions.asyncShowReview(response.data.id);
+              await this.props.reviewActions.asyncShowReview(response.data.id);
+              console.log('afterrequest props', this.props);
             } else {
               // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
-              this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
+              await this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
             }
             this.afterEdit();
 
             if (this.props.toggleReview) {
               this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
             }
+            this.checkCampagnInfo();
+
             resolve(this.state);
           }
         })
@@ -342,7 +359,7 @@ export default class Review extends UploadMedia {
           }
         });
     });
-  }
+  };
 
   getDeleteButton() {
     if (this.props.id) {
@@ -371,7 +388,55 @@ export default class Review extends UploadMedia {
     this.props.uiActions.openModalWindow(dialog);
   }
 
+  renderContactInfoDialog(text, type) {
+    return <ContactForm text={text} closeModalWindow={this.props.uiActions.closeModalWindow} showInput={type} />;
+  }
+  checkCampagnInfo() {
+    console.log('this.props.campaign', this.props.campaign);
+    if (this.props.campaign) {
+      console.log('this state profile', this.props.profile);
+      let dialog;
+      const user = this.props.profile;
+
+      switch (this.props.campaign.requiredContactInfo) {
+        case 'phone':
+          if (!user.phone || user.phone.length === 0) {
+            console.log('mangler telefon nummer');
+            dialog = this.renderContactInfoDialog('telefonnummer', this.props.campaign.requiredContactInfo);
+            this.props.uiActions.openModalWindow(dialog);
+          }
+          console.log('phone required');
+          break;
+        case 'mail':
+          if (!user.email || user.email.length === 0) {
+            console.log('mangler mail');
+          }
+          break;
+        case 'phoneAndMail':
+          if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
+            dialog = this.renderContactInfoDialog('telefon og mail', this.props.campaign.requiredContactInfo);
+            this.props.uiActions.openModalWindow(dialog);
+
+            console.log('Du skal indtaste både telefon og mail');
+          }
+          break;
+        case 'phoneOrMail':
+          if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
+            console.log('Du skal indtaste enten telefon eller mail');
+          }
+          break;
+
+        default:
+          console.log('success');
+      }
+    }
+  }
+
   render() {
+    if (this.props.ownReview) {
+      console.log('this.props', this.props);
+    }
+
     let {errors, pid, content, rating, owner, image, video, profile, created} = this.state;
 
     const logo = this.props.campaign && this.props.campaign.logos ? this.props.campaign.logos.small : null;

@@ -182,7 +182,7 @@ export class CampaignCertificate extends Component {
       : library.branchShortName
     ).$value;
     const works = this.props.works;
-
+    console.log('campaign', campaign);
     return (
       <div>
         {this.renderHeaderAndFooter(profile, branchShortName, campaign.type, baseurl, basepath)}

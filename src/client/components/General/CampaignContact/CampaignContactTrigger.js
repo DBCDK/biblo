@@ -8,58 +8,60 @@ import ContactForm from './ContactForm.component';
  * profile: current user profile
  */
 export default function checkCampaignInfo() {
-  let dialog;
-  const user = this.props.profile;
-  switch (this.props.campaign.requiredContactInfo) {
-    case 'phone':
-      if (!user.phone || user.phone.length === 0) {
-        dialog = (
-          <ContactForm
-            text={'telefonnummer'}
-            closeModalWindow={this.props.uiActions.closeModalWindow}
-            showInput={this.props.campaign.requiredContactInfo}
-          />
-        );
-        this.props.uiActions.openModalWindow(dialog);
-      }
-      break;
-    case 'mail':
-      if (!user.email || user.email.length === 0) {
-        dialog = (
-          <ContactForm
-            text={'email'}
-            closeModalWindow={this.props.uiActions.closeModalWindow}
-            showInput={this.props.campaign.requiredContactInfo}
-          />
-        );
-        this.props.uiActions.openModalWindow(dialog);
-      }
-      break;
-    case 'phoneAndMail':
-      if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
-        dialog = (
-          <ContactForm
-            text={'telefon og email'}
-            closeModalWindow={this.props.uiActions.closeModalWindow}
-            showInput={this.props.campaign.requiredContactInfo}
-          />
-        );
-        this.props.uiActions.openModalWindow(dialog);
-      }
-      break;
-    case 'phoneOrMail':
-      if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
-        dialog = (
-          <ContactForm
-            text={'telefon eller email'}
-            closeModalWindow={this.props.uiActions.closeModalWindow}
-            showInput={this.props.campaign.requiredContactInfo}
-          />
-        );
-        this.props.uiActions.openModalWindow(dialog);
-      }
-      break;
+  if (this.props.campaign && this.props.profile && this.props.uiActions) {
+    let dialog;
+    const user = this.props.profile;
+    switch (this.props.campaign.requiredContactInfo) {
+      case 'phone':
+        if (!user.phone || user.phone.length === 0) {
+          dialog = (
+            <ContactForm
+              text={'telefonnummer'}
+              closeModalWindow={this.props.uiActions.closeModalWindow}
+              showInput={this.props.campaign.requiredContactInfo}
+            />
+          );
+          this.props.uiActions.openModalWindow(dialog);
+        }
+        break;
+      case 'mail':
+        if (!user.email || user.email.length === 0) {
+          dialog = (
+            <ContactForm
+              text={'email'}
+              closeModalWindow={this.props.uiActions.closeModalWindow}
+              showInput={this.props.campaign.requiredContactInfo}
+            />
+          );
+          this.props.uiActions.openModalWindow(dialog);
+        }
+        break;
+      case 'phoneAndMail':
+        if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
+          dialog = (
+            <ContactForm
+              text={'telefon og email'}
+              closeModalWindow={this.props.uiActions.closeModalWindow}
+              showInput={this.props.campaign.requiredContactInfo}
+            />
+          );
+          this.props.uiActions.openModalWindow(dialog);
+        }
+        break;
+      case 'phoneOrMail':
+        if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
+          dialog = (
+            <ContactForm
+              text={'telefon eller email'}
+              closeModalWindow={this.props.uiActions.closeModalWindow}
+              showInput={this.props.campaign.requiredContactInfo}
+            />
+          );
+          this.props.uiActions.openModalWindow(dialog);
+        }
+        break;
 
-    default:
+      default:
+    }
   }
 }

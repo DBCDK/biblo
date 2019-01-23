@@ -4,7 +4,7 @@ import {InputField} from '../../General/InputField/InputField.component';
 import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 import Message from '../../General/Message/Message.component';
 import {isMobile} from 'react-device-detect';
-import './profileform.component.scss';
+import '../../Profile/Edit/profileform.component.scss';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as ProfileActions from '../../../Actions/profile.actions';

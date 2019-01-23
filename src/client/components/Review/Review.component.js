@@ -20,6 +20,7 @@ import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
 import ConfirmDialog from '../General/ConfirmDialog/ConfirmDialog.component.js';
+import checkCampaignInfo from '../General/CampaignContact/CampaignContactTrigger';
 
 import flagSvg from '../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../General/Icon/svg/functions/pencil.svg';
@@ -30,7 +31,6 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 import sanitizeHtml from './../../Utils/sanitizeHtml.util';
-import ContactForm from '../Profile/Edit/ContactForm.component';
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
 export default class Review extends UploadMedia {
@@ -108,13 +108,19 @@ export default class Review extends UploadMedia {
     this.likeReview = this.likeReview.bind(this);
     this.unlikeReview = this.unlikeReview.bind(this);
     this.deleteReview = this.deleteReview.bind(this);
+    this.checkCampaignInfo = checkCampaignInfo.bind(this);
   }
 
   componentDidMount() {
-    this.checkCampaignInfo();
+    if (this.props.showCampaignModal && this.props.campaign && this.props.profile) {
+      this.checkCampaignInfo();
+    }
   }
   componentDidUpdate() {
-    this.checkCampaignInfo();
+    if (this.props.showCampaignModal && this.props.campaign && this.props.profile) {
+      this.checkCampaignInfo();
+      this.props.reviewActions.setCampaignModal(false);
+    }
   }
   /**
    * enable/disable editing
@@ -376,65 +382,6 @@ export default class Review extends UploadMedia {
     );
 
     this.props.uiActions.openModalWindow(dialog);
-  }
-  checkCampaignInfo() {
-    if (this.props.showCampaignModal && this.props.campaign) {
-      this.props.reviewActions.setCampaignModal(false);
-      let dialog;
-      const user = this.props.profile;
-      switch (this.props.campaign.requiredContactInfo) {
-        case 'phone':
-          if (!user.phone || user.phone.length === 0) {
-            dialog = (
-              <ContactForm
-                text={'telefonnummer'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={this.props.campaign.requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-        case 'mail':
-          if (!user.email || user.email.length === 0) {
-            dialog = (
-              <ContactForm
-                text={'email'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={this.props.campaign.requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-        case 'phoneAndMail':
-          if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
-            dialog = (
-              <ContactForm
-                text={'telefon og email'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={this.props.campaign.requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-        case 'phoneOrMail':
-          if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
-            dialog = (
-              <ContactForm
-                text={'telefon eller email'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={this.props.campaign.requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-
-        default:
-      }
-    }
   }
 
   render() {

@@ -282,6 +282,7 @@ export default class PostView extends React.Component {
               coverImages={coverImages}
               pdfUploads={true}
               editing={true}
+              checkCampagnInfo={this.props.checkCampagnInfo}
             />
           )) || (
             <div className="post--content-wrapper">
@@ -349,6 +350,7 @@ export default class PostView extends React.Component {
                   addContentAction={groupActions.addComment}
                   autofocus={true}
                   displayAbortButton={true}
+                  checkCampagnInfo={this.props.checkCampagnInfo}
                 />
               )) || (
                 <a
@@ -397,7 +399,8 @@ PostView.propTypes = {
   getMoreWorks: PropTypes.func,
   video: PropTypes.object,
   groupIsClosed: PropTypes.bool,
-  pdf: PropTypes.object
+  pdf: PropTypes.object,
+  checkCampagnInfo: PropTypes.func
 };
 
 PostView.defaultProps = {

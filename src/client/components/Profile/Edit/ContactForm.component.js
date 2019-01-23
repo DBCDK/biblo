@@ -27,18 +27,16 @@ class ContactForm extends React.Component {
     }
   }
 
-  profileEditSubmit = async event => {
+  profileEditSubmit(event) {
     const actions = this.props.actions;
     const profile = this.props.profile;
-    console.log('profile', profile);
-    console.log('submit');
     const phone = this.state.phone && this.state.phone.length !== 0 ? this.state.phone : profile.phone;
     const email = this.state.email && this.state.email.length !== 0 ? this.state.email : profile.email;
 
     try {
       event.preventDefault();
 
-      const res = await actions.asyncProfileEditSubmit(
+      actions.asyncProfileEditSubmit(
         profile.imageFile,
         profile.displayName,
         email || profile.email,
@@ -54,13 +52,10 @@ class ContactForm extends React.Component {
           formLocation: '/profil/rediger'
         }
       );
-      console.log('profile.erros', profile.errors);
-      console.log('res', res);
-      // this.props.closeModalWindow();
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   renderFieldExplanation(fieldExplanation) {
     return (
@@ -89,7 +84,7 @@ class ContactForm extends React.Component {
       case 'phone':
         return profile.phone && profile.phone.length !== 0;
 
-      case 'email':
+      case 'mail':
         return profile.email && profile.email.length !== 0;
       case 'phoneOrMail':
         return (profile.email && profile.email.length !== 0) || (profile.phone && profile.phone.length !== 0);
@@ -101,19 +96,17 @@ class ContactForm extends React.Component {
     }
   }
   render() {
-    // const profile = this.props.profile;
     const requiredInfoIsFilled = this.checkIfRequiredInfoIsFilled();
 
     if (requiredInfoIsFilled) {
       return (
         <ConfirmDialog
-          confirmButtonText={'OK'}
+          confirmButtonText="OK"
+          cancelButtonText=""
           cancelFunc={() => {
-            console.log('in cancelFunc. props', this.props);
             this.props.closeModalWindow();
           }}
           confirmFunc={() => {
-            console.log('in cancelFunc. props', this.props);
             this.props.closeModalWindow();
           }}
           confirmButtonColor="#2acc94"
@@ -124,9 +117,6 @@ class ContactForm extends React.Component {
         </ConfirmDialog>
       );
     }
-
-    console.log('state', this.state);
-    console.log('CF this.props', this.props);
     const errors = this.props.profile.errors || [];
 
     const errorObj = {};
@@ -142,7 +132,6 @@ class ContactForm extends React.Component {
         cancelButtonText={'Fortryd'}
         confirmButtonText={'Gem'}
         cancelFunc={() => {
-          console.log('in cancelFunc. props', this.props);
           this.props.closeModalWindow();
         }}
         confirmFunc={this.profileEditSubmit.bind(this)}
@@ -163,7 +152,7 @@ class ContactForm extends React.Component {
             placeholder="Mobil"
           />
         )}
-        {['phoneAndMail', 'phoneOrMail', 'email'].includes(this.props.showInput) && (
+        {['phoneAndMail', 'phoneOrMail', 'mail'].includes(this.props.showInput) && (
           <InputField
             defaultValue={this.props.profile.email || ''}
             error={errorObj.email}
@@ -184,7 +173,7 @@ ContactForm.propTypes = {
   showMailInput: PropTypes.bool,
   text: PropTypes.string,
   profile: PropTypes.object,
-  actions: PropTypes.func,
+  actions: PropTypes.object,
   closeModalWindow: PropTypes.func,
   showInput: PropTypes.oneOf(['phone', 'mail', 'phoneAndMail', 'phoneOrMail'])
 };

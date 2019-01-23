@@ -27,7 +27,7 @@ class ProfileEditContainer extends React.Component {
   profileEditSubmit(event, displayname, email, phone, libraryId, loanerId, pincode, description, birthday, fullName) {
     const actions = this.props.actions;
     const profile = this.props.profile;
-    console.log('submit');
+
     if (
       'FormData' in window &&
       profile.UI.submitState !== 'SUBMITTING' &&

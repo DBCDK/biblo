@@ -22,11 +22,12 @@ function ConfirmDialog({
         >
           {confirmButtonText}
         </a>
-        {cancelButtonText && (
-          <a className="confirm-dialog--button cancel" onClick={cancelFunc}>
-            {cancelButtonText}
-          </a>
-        )}
+        {cancelButtonText &&
+          cancelButtonText.length !== 0 && (
+            <a className="confirm-dialog--button cancel" onClick={cancelFunc}>
+              {cancelButtonText}
+            </a>
+          )}
       </div>
     </div>
   );

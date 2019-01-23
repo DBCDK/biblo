@@ -15,7 +15,8 @@ export function PostList({
   getCoverImage,
   getMoreWorks,
   campaign = {},
-  groupIsClosed = false
+  groupIsClosed = false,
+  checkCampagnInfo
 }) {
   return (
     <div className="post-list">
@@ -37,6 +38,7 @@ export function PostList({
             getCoverImage={getCoverImage}
             getMoreWorks={getMoreWorks}
             groupIsClosed={groupIsClosed}
+            checkCampagnInfo={checkCampagnInfo}
           />
         ))) ||
         'Der er ikke skrevet nogen indlæg i gruppen endnu'}
@@ -58,7 +60,8 @@ PostList.propTypes = {
   getMoreWorks: PropTypes.func,
   coverImages: PropTypes.object.isRequired,
   getCoverImage: PropTypes.func.isRequired,
-  groupIsClosed: PropTypes.bool
+  groupIsClosed: PropTypes.bool,
+  checkCampagnInfo: PropTypes.func
 };
 
 PostList.defaultProps = {

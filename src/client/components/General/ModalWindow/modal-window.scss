@@ -8,6 +8,8 @@
   z-index: 200;
   width: 100vw;
   height: 100vh;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .modal-window--window {
@@ -15,7 +17,6 @@
   z-index: 201;
   max-height: 75vh;
   width: 90vw;
-  left: 3vw;
   top: 5vh;
 
   @include min-screen($tablet + 1) {

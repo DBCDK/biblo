@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import TimeToString from '../../Utils/timeToString.js';
 import {parseStringForVideoUrls} from '../../Utils/parseStringForVideoUrls';
@@ -62,12 +63,13 @@ export default class Review extends UploadMedia {
     parentId: PropTypes.any,
     imageId: PropTypes.number,
     toggleReview: PropTypes.func,
-    ownReview: PropTypes.bool
+    ownReview: PropTypes.bool,
+    globalState: PropTypes.object,
+    showCampaignModal: PropTypes.bool
   };
 
   constructor(props) {
     super(props);
-
     // make sure that we have pids to sort reviews on. ( the /work endpoint can return without work.collection / pids )
     let pids;
     if (props.pids && props.length !== 0) {
@@ -97,8 +99,7 @@ export default class Review extends UploadMedia {
       },
       imageId: props.imageId,
       imageRemoveId: null,
-      isLoading: false,
-      campaign: props.campaign
+      isLoading: false
     };
 
     this.contentFormRef = null;
@@ -110,6 +111,12 @@ export default class Review extends UploadMedia {
     this.deleteReview = this.deleteReview.bind(this);
   }
 
+  componentDidMount() {
+    this.checkCampagnInfo();
+  }
+  componentDidUpdate() {
+    this.checkCampagnInfo();
+  }
   /**
    * enable/disable editing
    *
@@ -290,14 +297,6 @@ export default class Review extends UploadMedia {
     this.setState({isEditing: false, isLoading: false});
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.campaign !== this.props.campaign && this.props.profile.id === this.props.owner.id) {
-      console.log('componentDidUpdate.props', this.props);
-      console.log('hi');
-      this.checkCampagnInfo();
-    }
-  }
-
   /**
    * submit the review. use XHR if available via UploadMedia
    *
@@ -305,46 +304,38 @@ export default class Review extends UploadMedia {
    * @returns {boolean}
    */
   onSubmit(evt) {
-    console.log('in onSubmit');
     evt.preventDefault();
     this.setState({isLoading: true});
 
     if (this.validate() && XMLHttpRequest && FormData) {
-      console.log('onSubmit if');
       this.processContent();
+      this.props.reviewActions.setCampaignModal(true);
     } else {
       this.setState({isLoading: false});
     }
-
     return false;
   }
 
-  processContent = async () => {
-    console.log('in processContent');
+  processContent() {
     return new Promise((resolve, reject) => {
       this.addContent(this.contentFormRef, '/anmeldelse/')
-        .then(async response => {
+        .then(response => {
           if (response.errors && response.errors.length > 0) {
             this.setState({errorMsg: response.errors[0].errorMessage});
             reject(this.state);
           } else {
-            console.log('response.data', response.data);
-
             if (this.props.ownReview) {
               // only show the one review
-              await this.props.reviewActions.asyncShowReview(response.data.id);
-              console.log('afterrequest props', this.props);
+              this.props.reviewActions.asyncShowReview(response.data.id);
             } else {
               // we created / edited a review . Restart paging . pass ownReviewId . Send pids (for sorting review list)
-              await this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
+              this.props.reviewActions.asyncShowWorkReviews(this.state.pids, 0, 10, response.data.id);
             }
             this.afterEdit();
 
             if (this.props.toggleReview) {
               this.props.toggleReview(); // action that refreshes screen outside review component (typically a button)
             }
-            this.checkCampagnInfo();
-
             resolve(this.state);
           }
         })
@@ -359,7 +350,7 @@ export default class Review extends UploadMedia {
           }
         });
     });
-  };
+  }
 
   getDeleteButton() {
     if (this.props.id) {
@@ -387,60 +378,70 @@ export default class Review extends UploadMedia {
 
     this.props.uiActions.openModalWindow(dialog);
   }
-
-  renderContactInfoDialog(text, type) {
-    return <ContactForm text={text} closeModalWindow={this.props.uiActions.closeModalWindow} showInput={type} />;
-  }
   checkCampagnInfo() {
-    console.log('this.props.campaign', this.props.campaign);
-    if (this.props.campaign) {
-      console.log('this state profile', this.props.profile);
+    if (this.props.showCampaignModal && this.props.campaign) {
+      this.props.reviewActions.setCampaignModal(false);
       let dialog;
       const user = this.props.profile;
 
       switch (this.props.campaign.requiredContactInfo) {
         case 'phone':
           if (!user.phone || user.phone.length === 0) {
-            console.log('mangler telefon nummer');
-            dialog = this.renderContactInfoDialog('telefonnummer', this.props.campaign.requiredContactInfo);
+            dialog = (
+              <ContactForm
+                text={'telefonnummer'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={this.props.campaign.requiredContactInfo}
+              />
+            );
             this.props.uiActions.openModalWindow(dialog);
           }
-          console.log('phone required');
           break;
         case 'mail':
           if (!user.email || user.email.length === 0) {
-            console.log('mangler mail');
+            dialog = (
+              <ContactForm
+                text={'email'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={this.props.campaign.requiredContactInfo}
+              />
+            );
+            this.props.uiActions.openModalWindow(dialog);
           }
           break;
         case 'phoneAndMail':
           if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
-            dialog = this.renderContactInfoDialog('telefon og mail', this.props.campaign.requiredContactInfo);
+            dialog = (
+              <ContactForm
+                text={'telefon og email'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={this.props.campaign.requiredContactInfo}
+              />
+            );
             this.props.uiActions.openModalWindow(dialog);
-
-            console.log('Du skal indtaste både telefon og mail');
           }
           break;
         case 'phoneOrMail':
           if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
-            console.log('Du skal indtaste enten telefon eller mail');
+            dialog = (
+              <ContactForm
+                text={'telefon eller email'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={this.props.campaign.requiredContactInfo}
+              />
+            );
+            this.props.uiActions.openModalWindow(dialog);
           }
           break;
 
         default:
-          console.log('success');
       }
     }
   }
 
   render() {
-    if (this.props.ownReview) {
-      console.log('this.props', this.props);
-    }
-
     let {errors, pid, content, rating, owner, image, video, profile, created} = this.state;
-
     const logo = this.props.campaign && this.props.campaign.logos ? this.props.campaign.logos.small : null;
-
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
       errors = [];

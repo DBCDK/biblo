@@ -110,6 +110,10 @@ export default class AddContent extends UploadMedia {
           }
 
           this.setState({isLoading: false});
+
+          if (this.props.checkCampagnInfo) {
+            this.props.checkCampagnInfo();
+          }
         })
         .catch(response => {
           this.setState({errorMsg: response.errors[0].errorMessage});
@@ -477,7 +481,8 @@ AddContent.propTypes = {
   coverImages: PropTypes.object,
   displayAbortButton: PropTypes.bool,
   pdfUploads: PropTypes.bool,
-  editing: PropTypes.bool
+  editing: PropTypes.bool,
+  checkCampagnInfo: PropTypes.func
 };
 
 AddContent.defaultProps = {

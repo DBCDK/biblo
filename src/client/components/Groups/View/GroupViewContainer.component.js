@@ -17,7 +17,6 @@ import TinyButton from '../../General/TinyButton/TinyButton.component.js';
 import Icon from '../../General/Icon/Icon.component';
 import ExpandButton from '../../General/ExpandButton/ExpandButton.component';
 import Message from '../../General/Message/Message.component';
-import ContactForm from '../../Profile/Edit/ContactForm.component';
 
 // SVG
 import pencilSvg from '../../General/Icon/svg/functions/pencil.svg';
@@ -97,66 +96,6 @@ export class GroupViewContainer extends React.Component {
       });
     } else {
       this.setState({showloginToFollowMessage: true});
-    }
-  }
-
-  checkCampagnInfo() {
-    if (this.props.group.campaign) {
-      let dialog;
-      const user = this.props.profile;
-      const requiredContactInfo = this.props.group.campaign.requiredContactInfo;
-      switch (requiredContactInfo) {
-        case 'phone':
-          if (!user.phone || user.phone.length === 0) {
-            dialog = (
-              <ContactForm
-                text={'telefonnummer'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-        case 'mail':
-          if (!user.email || user.email.length === 0) {
-            dialog = (
-              <ContactForm
-                text={'email'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-        case 'phoneAndMail':
-          if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
-            dialog = (
-              <ContactForm
-                text={'telefon og email'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-        case 'phoneOrMail':
-          if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
-            dialog = (
-              <ContactForm
-                text={'telefon eller email'}
-                closeModalWindow={this.props.uiActions.closeModalWindow}
-                showInput={requiredContactInfo}
-              />
-            );
-            this.props.uiActions.openModalWindow(dialog);
-          }
-          break;
-
-        default:
-      }
     }
   }
 
@@ -247,7 +186,7 @@ export class GroupViewContainer extends React.Component {
               <div className="group--post-add">
                 <h2>Skriv i gruppen</h2>
                 <PostAdd
-                  checkCampagnInfo={this.checkCampagnInfo.bind(this)}
+                  campaign={this.props.group.campaign}
                   redirectTo={`/grupper/${this.props.group.id}`}
                   profile={this.props.profile}
                   getMoreWorks={this.props.profileActions.asyncGetUserReviews}
@@ -257,6 +196,7 @@ export class GroupViewContainer extends React.Component {
                   type="post"
                   coverImages={this.props.coverImages}
                   pdfUploads={true}
+                  uiActions={this.props.uiActions}
                 />
               </div>
             )}
@@ -279,7 +219,6 @@ export class GroupViewContainer extends React.Component {
                 likeActions={this.props.likeActions}
                 getMoreWorks={this.props.profileActions.asyncGetUserReviews}
                 groupIsClosed={this.props.group.isClosed}
-                checkCampagnInfo={this.checkCampagnInfo.bind(this)}
               />
               {this.props.group.postsCount > this.props.group.numberOfPostsLoaded && (
                 <div className="expand-wrapper">

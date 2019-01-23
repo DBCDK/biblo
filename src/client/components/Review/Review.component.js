@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
 import TimeToString from '../../Utils/timeToString.js';
 import {parseStringForVideoUrls} from '../../Utils/parseStringForVideoUrls';
@@ -112,10 +111,10 @@ export default class Review extends UploadMedia {
   }
 
   componentDidMount() {
-    this.checkCampagnInfo();
+    this.checkCampaignInfo();
   }
   componentDidUpdate() {
-    this.checkCampagnInfo();
+    this.checkCampaignInfo();
   }
   /**
    * enable/disable editing
@@ -378,12 +377,11 @@ export default class Review extends UploadMedia {
 
     this.props.uiActions.openModalWindow(dialog);
   }
-  checkCampagnInfo() {
+  checkCampaignInfo() {
     if (this.props.showCampaignModal && this.props.campaign) {
       this.props.reviewActions.setCampaignModal(false);
       let dialog;
       const user = this.props.profile;
-
       switch (this.props.campaign.requiredContactInfo) {
         case 'phone':
           if (!user.phone || user.phone.length === 0) {

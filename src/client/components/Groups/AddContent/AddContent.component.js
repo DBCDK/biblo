@@ -11,6 +11,7 @@ import Message from '../../General/Message/Message.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
+import ContactForm from '../../Profile/Edit/ContactForm.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
@@ -108,12 +109,8 @@ export default class AddContent extends UploadMedia {
           if (this.props.abort) {
             this.props.abort();
           }
-
+          this.checkCampaignInfo();
           this.setState({isLoading: false});
-
-          if (this.props.checkCampagnInfo) {
-            this.props.checkCampagnInfo();
-          }
         })
         .catch(response => {
           this.setState({errorMsg: response.errors[0].errorMessage});
@@ -121,7 +118,65 @@ export default class AddContent extends UploadMedia {
         });
     }
   }
+  checkCampaignInfo() {
+    if (this.props.campaign && this.props.uiActions) {
+      let dialog;
+      const user = this.props.profile;
+      const requiredContactInfo = this.props.campaign.requiredContactInfo;
+      switch (requiredContactInfo) {
+        case 'phone':
+          if (!user.phone || user.phone.length === 0) {
+            dialog = (
+              <ContactForm
+                text={'telefonnummer'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={requiredContactInfo}
+              />
+            );
+            this.props.uiActions.openModalWindow(dialog);
+          }
+          break;
+        case 'mail':
+          if (!user.email || user.email.length === 0) {
+            dialog = (
+              <ContactForm
+                text={'email'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={requiredContactInfo}
+              />
+            );
+            this.props.uiActions.openModalWindow(dialog);
+          }
+          break;
+        case 'phoneAndMail':
+          if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
+            dialog = (
+              <ContactForm
+                text={'telefon og email'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={requiredContactInfo}
+              />
+            );
+            this.props.uiActions.openModalWindow(dialog);
+          }
+          break;
+        case 'phoneOrMail':
+          if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
+            dialog = (
+              <ContactForm
+                text={'telefon eller email'}
+                closeModalWindow={this.props.uiActions.closeModalWindow}
+                showInput={requiredContactInfo}
+              />
+            );
+            this.props.uiActions.openModalWindow(dialog);
+          }
+          break;
 
+        default:
+      }
+    }
+  }
   handleChange(review) {
     this.setState({attachment: Object.assign({}, this.state.attachment, {review})});
   }
@@ -482,7 +537,7 @@ AddContent.propTypes = {
   displayAbortButton: PropTypes.bool,
   pdfUploads: PropTypes.bool,
   editing: PropTypes.bool,
-  checkCampagnInfo: PropTypes.func
+  campaign: PropTypes.object
 };
 
 AddContent.defaultProps = {
@@ -498,5 +553,6 @@ AddContent.defaultProps = {
       "YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn't happen. Check your props!"
     );
   },
-  editing: false
+  editing: false,
+  campaign: {}
 };

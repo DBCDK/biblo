@@ -89,6 +89,7 @@ describe('Test GroupView Component', () => {
     // AddContent form is added with props
     expect(wrapper.find('AddContent').type()).to.equal(AddContent);
     expect(wrapper.find('AddContent').props()).to.deep.equal({
+      campaign: {},
       redirectTo: '/grupper/1',
       profile,
       getMoreWorks: noop,
@@ -99,7 +100,8 @@ describe('Test GroupView Component', () => {
       coverImages: {},
       displayAbortButton: false,
       pdfUploads: true,
-      editing: false
+      editing: false,
+      uiActions: {openModalWindow: noop, closeModalWindow: noop}
     });
 
     expect(

@@ -11,13 +11,17 @@ import * as ProfileActions from '../../../Actions/profile.actions';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 
+const fieldExplanationData = require('../../Profile/Edit/profileFormData.json');
+
 class ContactForm extends React.Component {
   constructor() {
     super();
     this.state = {
       phone: null,
       email: null,
-      userInCampaign: false
+      userInCampaign: false,
+      fieldExplanation: {title: '', content: ''},
+      displayFieldExplanation: false
     };
   }
 
@@ -56,30 +60,25 @@ class ContactForm extends React.Component {
       console.error(error);
     }
   }
-
+  hideShowModal(fieldExplanation) {
+    this.setState({displayFieldExplanation: !this.state.displayFieldExplanation});
+    if (fieldExplanation) {
+      this.setState({fieldExplanation});
+    }
+  }
   renderFieldExplanation(fieldExplanation) {
     return (
       <div>
         <p className="fieldExplanation required" onClick={() => this.hideShowModal(fieldExplanation)}>
           {isMobile ? 'Hvorfor?' : fieldExplanation.title}
         </p>
-        {this.state.displayModal && (
-          <ModalWindow onClose={this.hideShowModal.bind(this)}>
-            <div className="cookie-warning">
-              <div className="cookie-warning--svg" />
-              <span className="cookie-warning--header">{this.state.fieldExplanation.modalTitle}</span>
-              <span className="cookie-warning--message">{this.state.fieldExplanation.content}</span>
-              <RoundedButton buttonText="OK" clickFunction={this.hideShowModal.bind(this)} />
-            </div>
-          </ModalWindow>
-        )}
+        {this.state.displayModal && <ModalWindow onClose={this.hideShowModal.bind(this)} />}
       </div>
     );
   }
 
   checkIfRequiredInfoIsFilled() {
     const profile = this.props.profile;
-
     switch (this.props.showInput) {
       case 'phone':
         return profile.phone && profile.phone.length !== 0;
@@ -95,9 +94,67 @@ class ContactForm extends React.Component {
         return;
     }
   }
+
+  renderFieldExplanationContent() {
+    return (
+      <div className="cookie-warning">
+        <div className="cookie-warning--svg" />
+        <span className="cookie-warning--header">{this.state.fieldExplanation.modalTitle}</span>
+        <span className="cookie-warning--message">{this.state.fieldExplanation.content}</span>
+        <RoundedButton buttonText="OK" clickFunction={this.hideShowModal.bind(this)} />
+      </div>
+    );
+  }
+
+  renderInputFields() {
+    const errors = this.props.profile.errors || [];
+
+    const errorObj = {};
+    errors.forEach(error => {
+      errorObj[error.field] = (
+        <Message type="error">
+          <span className={error.field}>{error.errorMessage}</span>
+        </Message>
+      );
+    });
+    return (
+      <React.Fragment>
+        <div className="modal-window--borrow-container">
+          <p>{`Du skal angive ${this.props.text} for at deltage i kampagnen`}</p>
+        </div>
+
+        {['phoneAndMail', 'phoneOrMail', 'phone'].includes(this.props.showInput) && (
+          <InputField
+            defaultValue={this.props.profile.phone || ''}
+            error={errorObj.phone}
+            onChangeFunc={e => this.setState({phone: e.target.value})}
+            type="tel"
+            name="phone"
+            title="Mobil (din eller dine forældres)"
+            placeholder="Mobil"
+            renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.phone)}
+          />
+        )}
+        {['phoneAndMail', 'phoneOrMail', 'mail'].includes(this.props.showInput) && (
+          <InputField
+            defaultValue={this.props.profile.email || ''}
+            error={errorObj.email}
+            onChangeFunc={e => this.setState({email: e.target.value})}
+            type="email"
+            name="email"
+            title="E-mail (din eller dine forældres)"
+            placeholder="E-mail"
+            renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.email)}
+          />
+        )}
+      </React.Fragment>
+    );
+  }
   render() {
     const requiredInfoIsFilled = this.checkIfRequiredInfoIsFilled();
-
+    const modalContent = this.state.displayFieldExplanation
+      ? this.renderFieldExplanationContent()
+      : this.renderInputFields();
     if (requiredInfoIsFilled) {
       return (
         <ConfirmDialog
@@ -117,52 +174,18 @@ class ContactForm extends React.Component {
         </ConfirmDialog>
       );
     }
-    const errors = this.props.profile.errors || [];
 
-    const errorObj = {};
-    errors.forEach(error => {
-      errorObj[error.field] = (
-        <Message type="error">
-          <span className={error.field}>{error.errorMessage}</span>
-        </Message>
-      );
-    });
     return (
       <ConfirmDialog
-        cancelButtonText={'Fortryd'}
-        confirmButtonText={'Gem'}
+        cancelButtonText={this.state.displayFieldExplanation ? '' : 'Fortryd'}
+        confirmButtonText={this.state.displayFieldExplanation ? '' : 'Gem'}
         cancelFunc={() => {
           this.props.closeModalWindow();
         }}
         confirmFunc={this.profileEditSubmit.bind(this)}
         confirmButtonColor="#2acc94"
       >
-        <div className="modal-window--borrow-container">
-          <p>{`Du skal angive ${this.props.text} for at deltage i kampagnen`}</p>
-        </div>
-
-        {['phoneAndMail', 'phoneOrMail', 'phone'].includes(this.props.showInput) && (
-          <InputField
-            defaultValue={this.props.profile.phone || ''}
-            error={errorObj.phone}
-            onChangeFunc={e => this.setState({phone: e.target.value})}
-            type="tel"
-            name="phone"
-            title="Mobil (din eller dine forældres)"
-            placeholder="Mobil"
-          />
-        )}
-        {['phoneAndMail', 'phoneOrMail', 'mail'].includes(this.props.showInput) && (
-          <InputField
-            defaultValue={this.props.profile.email || ''}
-            error={errorObj.email}
-            onChangeFunc={e => this.setState({email: e.target.value})}
-            type="email"
-            name="email"
-            title="E-mail (din eller dine forældres)"
-            placeholder="E-mail"
-          />
-        )}
+        {modalContent}
       </ConfirmDialog>
     );
   }

@@ -15,13 +15,16 @@ function ConfirmDialog({
     <div>
       <div className="confirm-dialog--content">{children}</div>
       <div className="confirm-dialog--button-group">
-        <a
-          className="confirm-dialog--button confirm"
-          style={{backgroundColor: confirmButtonColor}}
-          onClick={confirmFunc}
-        >
-          {confirmButtonText}
-        </a>
+        {confirmButtonText &&
+          confirmButtonText.length !== 0 && (
+            <a
+              className="confirm-dialog--button confirm"
+              style={{backgroundColor: confirmButtonColor}}
+              onClick={confirmFunc}
+            >
+              {confirmButtonText}
+            </a>
+          )}
         {cancelButtonText &&
           cancelButtonText.length !== 0 && (
             <a className="confirm-dialog--button cancel" onClick={cancelFunc}>

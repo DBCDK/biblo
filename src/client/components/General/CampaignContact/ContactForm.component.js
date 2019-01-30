@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {InputField} from '../../General/InputField/InputField.component';
 import ConfirmDialog from '../../General/ConfirmDialog/ConfirmDialog.component.js';
 import Message from '../../General/Message/Message.component';
-import {isMobile} from 'react-device-detect';
 import '../../Profile/Edit/profileform.component.scss';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as ProfileActions from '../../../Actions/profile.actions';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
+import './contact-form.scss';
 
 const fieldExplanationData = require('../../Profile/Edit/profileFormData.json');
 
@@ -21,7 +21,8 @@ class ContactForm extends React.Component {
       email: null,
       userInCampaign: false,
       fieldExplanation: {title: '', content: ''},
-      displayFieldExplanation: false
+      displayFieldExplanation: false,
+      cancelled: false
     };
   }
 
@@ -67,6 +68,8 @@ class ContactForm extends React.Component {
     }
   }
   renderFieldExplanation(fieldExplanation) {
+    const isMobile = window.innerWidth <= 500;
+
     return (
       <div>
         <p className="fieldExplanation required" onClick={() => this.hideShowModal(fieldExplanation)}>
@@ -108,6 +111,7 @@ class ContactForm extends React.Component {
 
   renderInputFields() {
     const errors = this.props.profile.errors || [];
+    const isMobile = window.innerWidth <= 500;
 
     const errorObj = {};
     errors.forEach(error => {
@@ -120,7 +124,11 @@ class ContactForm extends React.Component {
     return (
       <React.Fragment>
         <div className="modal-window--borrow-container">
-          <p>{`Du skal angive ${this.props.text} for at deltage i kampagnen`}</p>
+          <span className="contact-modal-window-header">Tak for at du vil være med!</span>
+          <p>
+            {` Skriv ${this.props.text} nedenfor for at deltage i konkurrencen. `}
+            Så vi kan kontakte dig, hvis du vinder en præmie.
+          </p>
         </div>
 
         {['phoneAndMail', 'phoneOrMail', 'phone'].includes(this.props.showInput) && (
@@ -130,7 +138,7 @@ class ContactForm extends React.Component {
             onChangeFunc={e => this.setState({phone: e.target.value})}
             type="tel"
             name="phone"
-            title="Mobil (din eller dine forældres)"
+            title={'Mobil' + (isMobile ? '' : ' (din eller dine forældres)')}
             placeholder="Mobil"
             renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.phone)}
           />
@@ -142,7 +150,7 @@ class ContactForm extends React.Component {
             onChangeFunc={e => this.setState({email: e.target.value})}
             type="email"
             name="email"
-            title="E-mail (din eller dine forældres)"
+            title={'E-mail' + (isMobile ? '' : ' (din eller dine forældres)')}
             placeholder="E-mail"
             renderFieldExplanation={this.renderFieldExplanation(fieldExplanationData.email)}
           />
@@ -155,6 +163,28 @@ class ContactForm extends React.Component {
     const modalContent = this.state.displayFieldExplanation
       ? this.renderFieldExplanationContent()
       : this.renderInputFields();
+    if (this.state.cancelled) {
+      return (
+        <ConfirmDialog
+          confirmButtonText="OK"
+          cancelButtonText=""
+          confirmFunc={() => {
+            this.props.closeModalWindow();
+          }}
+          confirmButtonColor="#2acc94"
+        >
+          <div className="modal-window--borrow-container">
+            <span className="contact-modal-window-header">Helt OK.</span>
+
+            <p>
+              {`Hvis du fortryder, kan du altid skrive ${this.props.text} på din profilside. `}
+              Så har du stadig mulighed for at vinde præmier i vores konkurrencer.
+            </p>
+          </div>
+        </ConfirmDialog>
+      );
+    }
+
     if (requiredInfoIsFilled) {
       return (
         <ConfirmDialog
@@ -169,7 +199,9 @@ class ContactForm extends React.Component {
           confirmButtonColor="#2acc94"
         >
           <div className="modal-window--borrow-container">
-            <p>Tak. Du er med i kampagnen nu.</p>
+            <span className="contact-modal-window-header">Super!</span>
+
+            <p>Nu er dine info gemt og du er med i konkurrencen.</p>
           </div>
         </ConfirmDialog>
       );
@@ -177,10 +209,10 @@ class ContactForm extends React.Component {
 
     return (
       <ConfirmDialog
-        cancelButtonText={this.state.displayFieldExplanation ? '' : 'Fortryd'}
+        cancelButtonText={this.state.displayFieldExplanation ? '' : 'Spring over'}
         confirmButtonText={this.state.displayFieldExplanation ? '' : 'Gem'}
         cancelFunc={() => {
-          this.props.closeModalWindow();
+          this.setState({cancelled: true});
         }}
         confirmFunc={this.profileEditSubmit.bind(this)}
         confirmButtonColor="#2acc94"

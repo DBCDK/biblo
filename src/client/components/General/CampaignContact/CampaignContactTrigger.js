@@ -11,12 +11,12 @@ export default function checkCampaignInfo() {
   if (this.props.campaign && this.props.profile && this.props.uiActions) {
     let dialog;
     const user = this.props.profile;
-    switch (this.props.campaign.requiredContactInfo) {
+    switch ('phoneAndMail') {
       case 'phone':
         if (!user.phone || user.phone.length === 0) {
           dialog = (
             <ContactForm
-              text={'telefonnummer'}
+              text={'dit mobilnummer'}
               closeModalWindow={this.props.uiActions.closeModalWindow}
               showInput={this.props.campaign.requiredContactInfo}
             />
@@ -28,7 +28,7 @@ export default function checkCampaignInfo() {
         if (!user.email || user.email.length === 0) {
           dialog = (
             <ContactForm
-              text={'email'}
+              text={'din email'}
               closeModalWindow={this.props.uiActions.closeModalWindow}
               showInput={this.props.campaign.requiredContactInfo}
             />
@@ -40,9 +40,9 @@ export default function checkCampaignInfo() {
         if (!user.email || user.email.length === 0 || (!user.phone || user.phone.length === 0)) {
           dialog = (
             <ContactForm
-              text={'telefon og email'}
+              text={'dit mobilnummer og email'}
               closeModalWindow={this.props.uiActions.closeModalWindow}
-              showInput={this.props.campaign.requiredContactInfo}
+              showInput={'phoneAndMail'}
             />
           );
           this.props.uiActions.openModalWindow(dialog);
@@ -52,7 +52,7 @@ export default function checkCampaignInfo() {
         if ((!user.email || user.email.length === 0) && (!user.phone || user.phone.length === 0)) {
           dialog = (
             <ContactForm
-              text={'telefon eller email'}
+              text={'dit mobilnummer eller email'}
               closeModalWindow={this.props.uiActions.closeModalWindow}
               showInput={this.props.campaign.requiredContactInfo}
             />

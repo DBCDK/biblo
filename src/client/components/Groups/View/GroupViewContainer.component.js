@@ -186,6 +186,7 @@ export class GroupViewContainer extends React.Component {
               <div className="group--post-add">
                 <h2>Skriv i gruppen</h2>
                 <PostAdd
+                  campaign={this.props.group.campaign}
                   redirectTo={`/grupper/${this.props.group.id}`}
                   profile={this.props.profile}
                   getMoreWorks={this.props.profileActions.asyncGetUserReviews}
@@ -195,6 +196,7 @@ export class GroupViewContainer extends React.Component {
                   type="post"
                   coverImages={this.props.coverImages}
                   pdfUploads={true}
+                  uiActions={this.props.uiActions}
                 />
               </div>
             )}

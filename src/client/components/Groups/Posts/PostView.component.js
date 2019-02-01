@@ -282,6 +282,8 @@ export default class PostView extends React.Component {
               coverImages={coverImages}
               pdfUploads={true}
               editing={true}
+              campaign={campaign}
+              uiActions={uiActions}
             />
           )) || (
             <div className="post--content-wrapper">
@@ -349,6 +351,8 @@ export default class PostView extends React.Component {
                   addContentAction={groupActions.addComment}
                   autofocus={true}
                   displayAbortButton={true}
+                  campaign={campaign}
+                  uiActions={uiActions}
                 />
               )) || (
                 <a

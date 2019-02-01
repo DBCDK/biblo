@@ -20,6 +20,7 @@ import TinyButton from '../General/TinyButton/TinyButton.component.js';
 import {getVideoPlayer} from '../Groups/General/GroupDisplayUtils';
 import CreateFlagDialog from '../Groups/Flags/CreateFlagDialog.component.js';
 import ConfirmDialog from '../General/ConfirmDialog/ConfirmDialog.component.js';
+import checkCampaignInfo from '../General/CampaignContact/CampaignContactTrigger';
 
 import flagSvg from '../General/Icon/svg/functions/flag.svg';
 import pencilSvg from '../General/Icon/svg/functions/pencil.svg';
@@ -30,7 +31,6 @@ import close from '../General/Icon/svg/functions/close.svg';
 import {includes} from 'lodash';
 import Classnames from 'classnames';
 import sanitizeHtml from './../../Utils/sanitizeHtml.util';
-
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
 
 export default class Review extends UploadMedia {
@@ -62,12 +62,13 @@ export default class Review extends UploadMedia {
     parentId: PropTypes.any,
     imageId: PropTypes.number,
     toggleReview: PropTypes.func,
-    ownReview: PropTypes.bool
+    ownReview: PropTypes.bool,
+    globalState: PropTypes.object,
+    showCampaignModal: PropTypes.bool
   };
 
   constructor(props) {
     super(props);
-
     // make sure that we have pids to sort reviews on. ( the /work endpoint can return without work.collection / pids )
     let pids;
     if (props.pids && props.length !== 0) {
@@ -107,8 +108,20 @@ export default class Review extends UploadMedia {
     this.likeReview = this.likeReview.bind(this);
     this.unlikeReview = this.unlikeReview.bind(this);
     this.deleteReview = this.deleteReview.bind(this);
+    this.checkCampaignInfo = checkCampaignInfo.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.showCampaignModal && this.props.campaign && this.props.profile) {
+      this.checkCampaignInfo();
+    }
+  }
+  componentDidUpdate() {
+    if (this.props.showCampaignModal && this.props.campaign && this.props.profile) {
+      this.checkCampaignInfo();
+      this.props.reviewActions.setCampaignModal(false);
+    }
+  }
   /**
    * enable/disable editing
    *
@@ -301,10 +314,10 @@ export default class Review extends UploadMedia {
 
     if (this.validate() && XMLHttpRequest && FormData) {
       this.processContent();
+      this.props.reviewActions.setCampaignModal(true);
     } else {
       this.setState({isLoading: false});
     }
-
     return false;
   }
 
@@ -373,9 +386,7 @@ export default class Review extends UploadMedia {
 
   render() {
     let {errors, pid, content, rating, owner, image, video, profile, created} = this.state;
-
     const logo = this.props.campaign && this.props.campaign.logos ? this.props.campaign.logos.small : null;
-
     const errorObj = {};
     if (!isSiteOpen() && !profile.isModerator) {
       errors = [];

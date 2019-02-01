@@ -23,7 +23,8 @@ export default function ReviewList({
   skip,
   limit,
   isLoading,
-  ownReview
+  ownReview,
+  showCampaignModal
 }) {
   let hasMore = false;
   if (totalCount > reviews.length) {
@@ -112,6 +113,7 @@ export default function ReviewList({
             pids={pids}
             ownReview={ownReview}
             autoplayVideo={autoplayVideo}
+            showCampaignModal={showCampaignModal}
           />
         ))) ||
         'Der er ikke skrevet nogen anmeldelser'}
@@ -136,7 +138,8 @@ ReviewList.propTypes = {
   pids: PropTypes.array,
   isLoading: PropTypes.bool,
   ownReview: PropTypes.bool,
-  highlightedReview: PropTypes.object
+  highlightedReview: PropTypes.object,
+  showCampaignModal: PropTypes.bool
 };
 
 ReviewList.defaultProps = {

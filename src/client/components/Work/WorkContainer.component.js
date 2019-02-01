@@ -44,7 +44,8 @@ export class WorkContainer extends React.Component {
     entitySuggest: PropTypes.object.isRequired,
     libraryActions: PropTypes.object.isRequired,
     profileActions: PropTypes.object.isRequired,
-    globalState: PropTypes.object.isRequired
+    globalState: PropTypes.object.isRequired,
+    showCampaignModal: PropTypes.bool
   };
 
   constructor(props) {
@@ -236,6 +237,7 @@ export class WorkContainer extends React.Component {
               flagActions={this.props.flagActions}
               likeActions={this.props.likeActions}
               expand={this.props.reviewActions.asyncShowWorkReviews}
+              showCampaignModal={this.props.showCampaignModal}
             />
           </div>
 
@@ -285,7 +287,8 @@ export default connect(
       ui: state.uiReducer,
       profile: state.profileReducer,
       entitySuggest: state.entitySuggestReducer,
-      globalState: state.globalReducer
+      globalState: state.globalReducer,
+      showCampaignModal: state.reviewReducer.reviewExplorer.showCampaignModal
     };
   },
 

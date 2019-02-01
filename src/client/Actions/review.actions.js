@@ -141,3 +141,10 @@ export function deleteReview(reviewId) {
     reviewId: reviewId
   };
 }
+
+export function setCampaignModal(value) {
+  return {
+    type: types.SET_CAMPAIGN_MODAL,
+    value: value
+  };
+}

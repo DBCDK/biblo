@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Classnames from 'classnames';
 import isSiteOpen from '../../../Utils/openingHours.js';
+import checkCampaignInfo from '../../General/CampaignContact/CampaignContactTrigger';
 
 // Components
 import Login from '../../General/Login/Login.component';
@@ -62,6 +63,7 @@ export default class AddContent extends UploadMedia {
     }
 
     this.renderAddReviewModal.bind(this);
+    this.checkCampaignInfo = checkCampaignInfo.bind(this);
   }
 
   componentDidMount() {
@@ -108,7 +110,9 @@ export default class AddContent extends UploadMedia {
           if (this.props.abort) {
             this.props.abort();
           }
-
+          if (this.props.campaign && this.props.uiActions) {
+            this.checkCampaignInfo();
+          }
           this.setState({isLoading: false});
         })
         .catch(response => {
@@ -477,7 +481,8 @@ AddContent.propTypes = {
   coverImages: PropTypes.object,
   displayAbortButton: PropTypes.bool,
   pdfUploads: PropTypes.bool,
-  editing: PropTypes.bool
+  editing: PropTypes.bool,
+  campaign: PropTypes.object
 };
 
 AddContent.defaultProps = {
@@ -493,5 +498,6 @@ AddContent.defaultProps = {
       "YO DEV! You should provide your own addContentAction method. This is the default being called which shouldn't happen. Check your props!"
     );
   },
-  editing: false
+  editing: false,
+  campaign: {}
 };

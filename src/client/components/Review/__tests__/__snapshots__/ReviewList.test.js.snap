@@ -432,6 +432,7 @@ ShallowWrapper {
             rating={6}
             reviewActions={Object {}}
             reviewownerid={1}
+            showCampaignModal={undefined}
             uiActions={Object {}}
             worktype="literature"
           />,
@@ -519,6 +520,7 @@ ShallowWrapper {
             rating={5}
             reviewActions={Object {}}
             reviewownerid={1}
+            showCampaignModal={undefined}
             uiActions={Object {}}
             worktype="literature"
           />,
@@ -606,6 +608,7 @@ ShallowWrapper {
             rating={6}
             reviewActions={Object {}}
             reviewownerid={1}
+            showCampaignModal={undefined}
             uiActions={Object {}}
             worktype="literature"
           />,
@@ -693,6 +696,7 @@ ShallowWrapper {
             rating={5}
             reviewActions={Object {}}
             reviewownerid={1}
+            showCampaignModal={undefined}
             uiActions={Object {}}
             worktype="literature"
           />,
@@ -1082,6 +1086,7 @@ ShallowWrapper {
           "rating": 6,
           "reviewActions": Object {},
           "reviewownerid": 1,
+          "showCampaignModal": undefined,
           "uiActions": Object {},
           "worktype": "literature",
         },
@@ -1171,6 +1176,7 @@ ShallowWrapper {
           "rating": 5,
           "reviewActions": Object {},
           "reviewownerid": 1,
+          "showCampaignModal": undefined,
           "uiActions": Object {},
           "worktype": "literature",
         },
@@ -1260,6 +1266,7 @@ ShallowWrapper {
           "rating": 6,
           "reviewActions": Object {},
           "reviewownerid": 1,
+          "showCampaignModal": undefined,
           "uiActions": Object {},
           "worktype": "literature",
         },
@@ -1349,6 +1356,7 @@ ShallowWrapper {
           "rating": 5,
           "reviewActions": Object {},
           "reviewownerid": 1,
+          "showCampaignModal": undefined,
           "uiActions": Object {},
           "worktype": "literature",
         },
@@ -1580,6 +1588,7 @@ ShallowWrapper {
               rating={6}
               reviewActions={Object {}}
               reviewownerid={1}
+              showCampaignModal={undefined}
               uiActions={Object {}}
               worktype="literature"
             />,
@@ -1667,6 +1676,7 @@ ShallowWrapper {
               rating={5}
               reviewActions={Object {}}
               reviewownerid={1}
+              showCampaignModal={undefined}
               uiActions={Object {}}
               worktype="literature"
             />,
@@ -1754,6 +1764,7 @@ ShallowWrapper {
               rating={6}
               reviewActions={Object {}}
               reviewownerid={1}
+              showCampaignModal={undefined}
               uiActions={Object {}}
               worktype="literature"
             />,
@@ -1841,6 +1852,7 @@ ShallowWrapper {
               rating={5}
               reviewActions={Object {}}
               reviewownerid={1}
+              showCampaignModal={undefined}
               uiActions={Object {}}
               worktype="literature"
             />,
@@ -2230,6 +2242,7 @@ ShallowWrapper {
             "rating": 6,
             "reviewActions": Object {},
             "reviewownerid": 1,
+            "showCampaignModal": undefined,
             "uiActions": Object {},
             "worktype": "literature",
           },
@@ -2319,6 +2332,7 @@ ShallowWrapper {
             "rating": 5,
             "reviewActions": Object {},
             "reviewownerid": 1,
+            "showCampaignModal": undefined,
             "uiActions": Object {},
             "worktype": "literature",
           },
@@ -2408,6 +2422,7 @@ ShallowWrapper {
             "rating": 6,
             "reviewActions": Object {},
             "reviewownerid": 1,
+            "showCampaignModal": undefined,
             "uiActions": Object {},
             "worktype": "literature",
           },
@@ -2497,6 +2512,7 @@ ShallowWrapper {
             "rating": 5,
             "reviewActions": Object {},
             "reviewownerid": 1,
+            "showCampaignModal": undefined,
             "uiActions": Object {},
             "worktype": "literature",
           },

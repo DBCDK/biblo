@@ -11,7 +11,7 @@ export default function checkCampaignInfo() {
   if (this.props.campaign && this.props.profile && this.props.uiActions) {
     let dialog;
     const user = this.props.profile;
-    switch ('phoneAndMail') {
+    switch (this.props.campaign.requiredContactInfo) {
       case 'phone':
         if (!user.phone || user.phone.length === 0) {
           dialog = (
@@ -42,7 +42,7 @@ export default function checkCampaignInfo() {
             <ContactForm
               text={'dit mobilnummer og email'}
               closeModalWindow={this.props.uiActions.closeModalWindow}
-              showInput={'phoneAndMail'}
+              showInput={this.props.campaign.requiredContactInfo}
             />
           );
           this.props.uiActions.openModalWindow(dialog);

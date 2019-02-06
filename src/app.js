@@ -360,6 +360,7 @@ module.exports.run = function(worker) {
   app.use(renderComponent);
   app.use(GetMenus);
   app.use(setOpenplatformToken);
+  app.use(ensureUserHasProfile);
 
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.
@@ -378,7 +379,7 @@ module.exports.run = function(worker) {
 
   app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
   app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
-  app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
+  app.use('/grupper', fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
   app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);
   app.use('/profil', fullProfileOnSession, ProfileRoutes);
   app.use('/kampagne', fullProfileOnSession, CampaignRoutes);

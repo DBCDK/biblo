@@ -360,7 +360,6 @@ module.exports.run = function(worker) {
   app.use(renderComponent);
   app.use(GetMenus);
   app.use(setOpenplatformToken);
-  app.use(ensureUserHasProfile);
 
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.
@@ -377,14 +376,14 @@ module.exports.run = function(worker) {
     })
   );
 
-  app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
-  app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
-  app.use('/grupper', fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
-  app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);
+  app.use('/anmeldelse', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ReviewRoutes);
+  app.use('/anmeldelser', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ReviewsRoutes);
+  app.use('/grupper', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);
+  app.use('/find', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, SearchRoutes);
   app.use('/profil', fullProfileOnSession, ProfileRoutes);
-  app.use('/kampagne', fullProfileOnSession, CampaignRoutes);
-  app.use('/materiale', fullProfileOnSession, ensureUserHasValidLibrary, WorkRoutes);
-  app.use('/indhold', fullProfileOnSession, ensureUserHasValidLibrary, ContentRoutes);
+  app.use('/kampagne', fullProfileOnSession, ensureUserHasProfile, CampaignRoutes);
+  app.use('/materiale', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, WorkRoutes);
+  app.use('/indhold', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ContentRoutes);
   app.use('/api', ApiRoutes);
   app.use('/preview', PreviewRoutes);
   app.use('/', MainRoutes);

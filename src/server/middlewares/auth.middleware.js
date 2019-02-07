@@ -68,7 +68,9 @@ export function ensureUserHasProfile(req, res, next) {
   if (req.user && (req.user.profile.profile || req.user.profile).hasFilledInProfile) {
     return next();
   }
-
+  if (req.originalUrl === '/profil/rediger') {
+    return next();
+  }
   // user does not have a profile
   req.session.returnUrl = req.originalUrl;
   return res.redirect('/profil/rediger');

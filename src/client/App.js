@@ -96,6 +96,7 @@ export function wrapComponentInProvider(Comp, initialState = {}) {
  * @param {String} target - The html id of the target you want to render into.
  */
 export function renderComponent(Comp, target) {
+  checkForModeratorMessages();
   setInterval(() => checkForModeratorMessages(), 30000);
   let initialState = {};
   if (typeof window !== 'undefined') {

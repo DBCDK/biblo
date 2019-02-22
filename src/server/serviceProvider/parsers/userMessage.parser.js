@@ -28,7 +28,9 @@ export function userMessageParser(items = [], limit) {
 
     try {
       message = Object.assign(message, JSON.parse(message.message));
-      delete message.message;
+      if (message.messageType !== 'type-messageFromAdmin') {
+        delete message.message;
+      }
     } catch (err) {
       message.errors = ['Could not parse message'];
     }
@@ -38,7 +40,8 @@ export function userMessageParser(items = [], limit) {
       'type-orderIsReady',
       'type-userTransaction',
       'type-commentWasAdded',
-      'type-userWasQuarantined'
+      'type-userWasQuarantined',
+      'type-messageFromAdmin'
     ];
 
     if (
@@ -49,7 +52,6 @@ export function userMessageParser(items = [], limit) {
       seenIds.includes(message.commentId) ? DeleteMessageTransform.requestTransform('deleteUserMessage', message) : '';
       return;
     }
-
     userMessages.messages.push(message);
     message.commentId ? seenIds.push(message.commentId) : '';
 

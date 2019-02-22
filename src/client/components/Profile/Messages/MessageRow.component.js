@@ -127,7 +127,8 @@ export default class MessageRow extends React.Component {
         );
       }
 
-      case 'type-userWasQuarantined': {
+      case 'type-userWasQuarantined':
+      case 'type-messageFromAdmin': {
         return (
           <span className="quarantine">
             <Icon width={15} height={15} glyph={commentSVG} />
@@ -246,14 +247,19 @@ export default class MessageRow extends React.Component {
         );
       }
 
-      case 'type-userWasQuarantined': {
+      case 'type-userWasQuarantined':
+      case 'type-messageFromAdmin': {
         /* eslint-disable react/no-danger */
         return (
           <div className="quarantine">
             <div className="quarantine--author">Moderator</div>
 
             <div className="quarantine--message-content">
-              <span dangerouslySetInnerHTML={{__html: sanitizeHtml(this.state.message.reason)}} />
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtml(this.state.message.reason || this.state.message.message)
+                }}
+              />
             </div>
           </div>
         );
@@ -300,7 +306,8 @@ export default class MessageRow extends React.Component {
         );
       }
 
-      case 'type-userWasQuarantined': {
+      case 'type-userWasQuarantined':
+      case 'type-messageFromAdmin': {
         return (
           <div className="profileimage moderator">
             <Icon glyph={moderatorProfileSVG} height={70} width={70} />

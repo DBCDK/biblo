@@ -8,13 +8,6 @@
  * @param {*} err
  * @param {PlainObject} change
  */
-export function quarantinesChangeStreamHandler(app, change = {}) {
-  const checkForNewQuarantinesQueue = app.get('checkForNewQuarantinesQueue');
-
-  if (change.data && change.data.quarantinedProfileId && change.isNewInstance) {
-    checkForNewQuarantinesQueue.add({userId: change.data.quarantinedProfileId});
-  }
-}
 
 export function commentWasAddedUserMessageChangeStreamHandler(app, change = {}) {
   const addedCommentQueue = app.get('addedCommentQueue');

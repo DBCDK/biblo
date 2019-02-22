@@ -200,4 +200,20 @@ ApiRoutes.post('/:event', (req, res) => {
   );
 });
 
+ApiRoutes.get('/check-messages', (req, res) => {
+  try {
+    const userId = req.session.passport ? req.session.passport.user.profile.profile.id : null;
+    const checkForNewAdminMessagesQueue = req.app.get('checkForNewAdminMessagesQueue');
+    const checkForNewQuarantinesQueue = req.app.get('checkForNewQuarantinesQueue');
+    if (userId) {
+      checkForNewAdminMessagesQueue.add({userId: userId});
+      checkForNewQuarantinesQueue.add({userId: userId});
+    }
+  } catch (err) {
+    log.error('An error occurred in api/check-messages', {error: err});
+  } finally {
+    res.sendStatus(200);
+  }
+});
+
 export default ApiRoutes;

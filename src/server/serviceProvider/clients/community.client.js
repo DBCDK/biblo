@@ -1607,6 +1607,11 @@ function getQuizResults(endpoint, params) {
   return promiseRequest('get', url);
 }
 
+function getAdminMessages(endpoint, {uid}) {
+  return promiseRequest('get', {
+    url: `${endpoint}api/Profiles/${uid}/receivedMessages`
+  });
+}
 /**
  * Makes a request to the CommunityService endpoint and returns the response.
  *
@@ -1702,6 +1707,7 @@ module.exports = function CommunityClient(config = null) {
     storeQuizResult: storeQuizResult.bind(null, config.endpoint),
     getQuizResult: getQuizResult.bind(null, config.endpoint),
     getQuizResults: getQuizResults.bind(null, config.endpoint),
+    getAdminMessages: getAdminMessages.bind(null, config.endpoint),
     howru: howru.bind(null, config.endpoint)
   };
 };

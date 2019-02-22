@@ -9,6 +9,7 @@ import * as types from '../Constants/action.constants';
 // Libraries
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {once} from 'lodash';
+import requester from 'superagent';
 
 // Actions
 import {asyncLoadMetadataForReview} from './group.actions';
@@ -311,4 +312,8 @@ export function asyncDeleteProfile(action) {
     deleteProfile.responseOnce(resp => dispatch(profileIsDeleted(resp)));
     deleteProfile.request(action);
   };
+}
+
+export function checkForModeratorMessages() {
+  requester.get('/api/check-messages', () => {});
 }

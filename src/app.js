@@ -65,11 +65,11 @@ import {setReturlUrl} from './server/middlewares/retururl.middleware';
 import {processUserMessage} from './server/queues/UserMessages.queue';
 import {processUserStatusCheck} from './server/queues/CheckUserStatus.queue';
 import {processCheckForNewQuarantines} from './server/queues/checkForNewQuarantines.queue';
+import {processCheckForNewAdminMessages} from './server/queues/checkForNewAdminMessages.queue';
 import {notifyUsersRelevantToComment} from './server/queues/notifyUsersRelevantToAComment.queue';
 
 // Change handlers
 import {
-  quarantinesChangeStreamHandler,
   commentWasAddedUserMessageChangeStreamHandler,
   postWasAddedEmitToClientsChangeStreamHandler,
   commentWasAddedEmitToClientsChangeStreamHandler
@@ -270,6 +270,9 @@ module.exports.run = function(worker) {
   // Configure user status queue
   const checkForNewQuarantinesQueue = queueCreate('quarantine check', processCheckForNewQuarantines);
 
+  // Configure adminMessages
+  const checkForNewAdminMessagesQueue = queueCreate('adminMessages check', processCheckForNewAdminMessages);
+
   // Configure addedCommentQueue
   const addedCommentQueue = queueCreate('addedCommentQueue', notifyUsersRelevantToComment);
 
@@ -278,6 +281,7 @@ module.exports.run = function(worker) {
   app.set('userMessageQueue', userMessageQueue);
   app.set('userStatusCheckQueue', userStatusCheckQueue);
   app.set('checkForNewQuarantinesQueue', checkForNewQuarantinesQueue);
+  app.set('checkForNewAdminMessagesQueue', checkForNewAdminMessagesQueue);
   app.set('addedCommentQueue', addedCommentQueue);
   app.set('statics', path.resolve(__dirname, '../'));
 
@@ -427,9 +431,6 @@ module.exports.run = function(worker) {
       if (typeof data === 'object' && data.event) {
         // Each event has different handlers
         switch (data.event) {
-          case 'quarantineChanged': {
-            return [quarantinesChangeStreamHandler(app, data)];
-          }
           case 'postChanged': {
             return [postWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)];
           }

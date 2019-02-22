@@ -380,14 +380,14 @@ module.exports.run = function(worker) {
     })
   );
 
-  app.use('/anmeldelse', fullProfileOnSession, ensureUserHasValidLibrary, ReviewRoutes);
-  app.use('/anmeldelser', fullProfileOnSession, ensureUserHasValidLibrary, ReviewsRoutes);
-  app.use('/grupper', ensureUserHasProfile, fullProfileOnSession, ensureUserHasValidLibrary, GroupRoutes);
-  app.use('/find', fullProfileOnSession, ensureUserHasValidLibrary, SearchRoutes);
+  app.use('/anmeldelse', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ReviewRoutes);
+  app.use('/anmeldelser', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ReviewsRoutes);
+  app.use('/grupper', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, GroupRoutes);
+  app.use('/find', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, SearchRoutes);
   app.use('/profil', fullProfileOnSession, ProfileRoutes);
-  app.use('/kampagne', fullProfileOnSession, CampaignRoutes);
-  app.use('/materiale', fullProfileOnSession, ensureUserHasValidLibrary, WorkRoutes);
-  app.use('/indhold', fullProfileOnSession, ensureUserHasValidLibrary, ContentRoutes);
+  app.use('/kampagne', fullProfileOnSession, ensureUserHasProfile, CampaignRoutes);
+  app.use('/materiale', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, WorkRoutes);
+  app.use('/indhold', fullProfileOnSession, ensureUserHasProfile, ensureUserHasValidLibrary, ContentRoutes);
   app.use('/api', ApiRoutes);
   app.use('/preview', PreviewRoutes);
   app.use('/', MainRoutes);

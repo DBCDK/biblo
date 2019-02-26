@@ -8,7 +8,7 @@
     "build": "webpack --define process.env.NODE_ENV='\"production\"' --progress --colors -p",
     "build:dev": "webpack --progress --colors -d",
     "dev": "STANDARD_CACHE_TIME=1 npm-run-all -p start:watch serve",
-    "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://localhost:3000/\" npm run dev",
+    "dev:remoteprofile": "COMMUNITY_SERVICE_URL=\"http://biblocs-stg.dbc.dk/\" npm run dev",
     "dev:remoteprofile:dev": "COMMUNITY_SERVICE_URL=\"http://uxscrum-i02.dbc.dk:3002/\" npm run dev",
     "dev:remoteprofile:localproxy": "NODE_TLS_REJECT_UNAUTHORIZED=0 NEW_RELIC_PROXY_URL=http://localhost:8888 http_proxy=http://localhost:8888 COMMUNITY_SERVICE_URL=\"http://profile-i01.dbc.dk:3002/\" npm run dev",
     "features": "LOG_LEVEL=off STANDARD_CACHE_TIME=1 OPEN_PLATFORM_SERVICE_URL=\"http://platform-i01.dbc.dk:8080/\" PORT=3334 ./node_modules/.bin/cucumberjs --compilers js:babel/register selenium/features --fail-fast",
@@ -59,7 +59,7 @@
   },
   "homepage": "https://github.com/DBCDK/biblo#readme",
   "dependencies": {
-    "@dbcdk/biblo-config": "^2.8.12",
+    "@dbcdk/biblo-config": "^2.8.16",
     "async": "^2.6.0",
     "autolinker": "^1.6.2",
     "autoprefixer": "^8.0.0",

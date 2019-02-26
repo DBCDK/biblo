@@ -24,22 +24,20 @@ export default class ModeratorMessageModal extends React.Component {
     this.setState({isClient: true});
   }
 
-  componentDidUpdate() {
-    if (!this.state.displayMessage) {
-      this.checkForUnreadMessages();
-    }
-  }
   checkForUnreadMessages() {
     // get userMessages from profileState and check for new unread messages from moderator
     const userMessages = this.props.profileState.userMessages;
     let unreadMessages = [];
+
     if (userMessages && userMessages.unreadMessages > 0) {
       userMessages.messages.map(msg => {
         if (!msg.read && (msg.type === 'type-messageFromAdmin' || msg.type === 'type-userWasQuarantined')) {
           unreadMessages.push(msg);
         }
       });
-      this.setState({displayMessage: true, unreadMessages});
+      if (unreadMessages.length > 0) {
+        this.setState({unreadMessages, displayMessage: true});
+      }
     }
   }
 
@@ -47,14 +45,13 @@ export default class ModeratorMessageModal extends React.Component {
     const displayedMessage = this.state.unreadMessages[0];
     this.props.profileActions.asyncMarkUserMessageAsRead(displayedMessage);
 
-    let unreadMessages = this.state.unreadMessages;
+    let unreadMessages = [...this.state.unreadMessages];
     unreadMessages.shift();
-    this.setState({displayMessage: unreadMessages.length > 0, unreadMessages});
+    this.setState({unreadMessages: unreadMessages, displayMessage: unreadMessages.length > 0});
   }
 
   render() {
     const message = this.state.unreadMessages[0];
-
     return this.state.displayMessage && this.state.isClient && message ? (
       <ModalWindow onClose={this.onClose.bind(this)}>
         <div className="message-modal">

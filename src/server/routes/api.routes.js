@@ -212,7 +212,7 @@ ApiRoutes.get('/check-messages', (req, res) => {
   } catch (err) {
     log.error('An error occurred in api/check-messages', {error: err});
   } finally {
-    res.sendStatus(200);
+    res.destroy();
   }
 });
 

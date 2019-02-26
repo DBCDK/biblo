@@ -1,0 +1,29 @@
+.message-modal {
+  text-align: left;
+
+  .rounded-button {
+    margin-top: 15px;
+    display: block;
+    text-align: center;
+  }
+}
+
+.cookie-warning--svg {
+  text-align: center;
+  max-height: 50vh;
+
+  svg {
+    max-width: 100%;
+  }
+}
+
+.cookie-warning--header {
+  display: block;
+  font-weight: bold;
+}
+.message-modal-window-header{
+  display: block;
+  font-weight: bold;
+  font-size: 1.1em;
+
+}

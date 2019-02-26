@@ -100,6 +100,7 @@ export class WorkReviewContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profile}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         {this.props.ui.modal.isOpen && (
           <ModalWindow onClose={this.props.uiActions.closeModalWindow}>{this.props.ui.modal.children}</ModalWindow>

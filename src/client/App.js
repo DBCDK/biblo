@@ -12,7 +12,6 @@ import thunk from 'redux-thunk';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {callServiceProvider} from './Constants/action.constants';
 import rootReducer from './Reducers/root.reducer';
-import {checkForModeratorMessages} from './Actions/profile.actions';
 
 const reduxLogger = createLogger({
   predicate: (getState, action) => false, // eslint-disable-line
@@ -96,8 +95,6 @@ export function wrapComponentInProvider(Comp, initialState = {}) {
  * @param {String} target - The html id of the target you want to render into.
  */
 export function renderComponent(Comp, target) {
-  checkForModeratorMessages();
-  setInterval(() => checkForModeratorMessages(), 30000);
   let initialState = {};
   if (typeof window !== 'undefined') {
     let jsonData = document.getElementById('initialState');

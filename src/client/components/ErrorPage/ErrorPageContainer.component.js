@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 import * as searchActions from '../../Actions/search.actions';
+import * as profileActions from '../../Actions/profile.actions';
 import parseJsonData from '../../Utils/parseJsonData.js';
 
 import './errorpage.scss';
@@ -25,6 +26,7 @@ export class ErrorPageContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <div className="error-page--error-splash">
           <h1>UPS...</h1>
@@ -44,6 +46,7 @@ export class ErrorPageContainer extends React.Component {
 ErrorPageContainer.displayName = 'ErrorPageContainer';
 ErrorPageContainer.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired,
   globalState: PropTypes.object.isRequired
@@ -62,6 +65,7 @@ export default connect(
   // Map group actions to actions props
   dispatch => {
     return {
+      profileActions: bindActionCreators(profileActions, dispatch),
       searchActions: bindActionCreators(searchActions, dispatch)
     };
   }

@@ -51,6 +51,7 @@ class LibraryEditContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profile}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <div className="profile-library-edit--container">
           <div className="profile-library-edit--form-component-container-container">
@@ -90,6 +91,7 @@ LibraryEditContainer.propTypes = {
   searchState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   libraryActions: PropTypes.object.isRequired,
   entitySuggest: PropTypes.object.isRequired,
@@ -115,7 +117,8 @@ export default connect(
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(ProfileActions, dispatch),
-      libraryActions: bindActionCreators(EntitySuggestLibraryActions, dispatch)
+      libraryActions: bindActionCreators(EntitySuggestLibraryActions, dispatch),
+      profileActions: bindActionCreators(ProfileActions, dispatch)
     };
   }
 )(LibraryEditContainer);

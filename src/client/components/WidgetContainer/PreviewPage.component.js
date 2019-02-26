@@ -10,6 +10,7 @@ import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
+import * as profileActions from '../../Actions/profile.actions';
 
 export class PreviewPage extends React.Component {
   render() {
@@ -19,6 +20,7 @@ export class PreviewPage extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <WidgetContainer
           widgetLocationName="previewPage"
@@ -33,6 +35,7 @@ export class PreviewPage extends React.Component {
 PreviewPage.displayName = 'PreviewPage';
 PreviewPage.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   widgetState: PropTypes.object.isRequired,
   widgetActions: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
@@ -55,7 +58,8 @@ export default connect(
   dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
-      widgetActions: bindActionCreators(widgetActions, dispatch)
+      widgetActions: bindActionCreators(widgetActions, dispatch),
+      profileActions: bindActionCreators(profileActions, dispatch)
     };
   }
 )(PreviewPage);

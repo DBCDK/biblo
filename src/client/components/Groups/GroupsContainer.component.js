@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 import * as groupActions from '../../Actions/group.actions';
 import * as searchActions from '../../Actions/search.actions';
+import * as profileActions from '../../Actions/profile.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 
@@ -29,6 +30,7 @@ export class GroupsContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <div className="group-page--header">
           <ColoredHeader text={text} title={'Grupper'} iconGlyph={groupSvg} />
@@ -62,6 +64,7 @@ export class GroupsContainer extends React.Component {
 GroupsContainer.displayName = 'GroupsContainer';
 GroupsContainer.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired,
   actions: PropTypes.object,
@@ -84,7 +87,8 @@ export default connect(
   dispatch => {
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
-      actions: bindActionCreators(groupActions, dispatch)
+      actions: bindActionCreators(groupActions, dispatch),
+      profileActions: bindActionCreators(profileActions, dispatch)
     };
   }
 )(GroupsContainer);

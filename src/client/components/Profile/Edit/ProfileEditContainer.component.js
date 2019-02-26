@@ -10,6 +10,7 @@ import ProfileDelete from '../Delete/ProfileDeleteContainer.component';
 import * as ProfileActions from '../../../Actions/profile.actions';
 import * as EntitySuggestLibraryActions from '../../../Actions/entitySuggetLibrary.actions';
 import * as searchActions from '../../../Actions/search.actions';
+import * as profileActions from '../../../Actions/profile.actions';
 
 import './profileEditContainer.component.scss';
 
@@ -19,6 +20,7 @@ class ProfileEditContainer extends React.Component {
     globalState: PropTypes.object.isRequired,
     searchActions: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
+    profileActions: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     libraryActions: PropTypes.object.isRequired,
     entitySuggest: PropTypes.object.isRequired
@@ -65,6 +67,7 @@ class ProfileEditContainer extends React.Component {
           searchActions={this.props.searchActions}
           profileState={this.props.profile}
           globalState={this.props.globalState}
+          profileActions={this.props.profileActions}
         >
           profilen er væk :)
         </PageLayout>
@@ -89,6 +92,7 @@ class ProfileEditContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profile}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <div className="profile-edit--container">
           <h1 className="profile-edit--title">{form_title}</h1>
@@ -153,7 +157,8 @@ export default connect(
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(ProfileActions, dispatch),
-      libraryActions: bindActionCreators(EntitySuggestLibraryActions, dispatch)
+      libraryActions: bindActionCreators(EntitySuggestLibraryActions, dispatch),
+      profileActions: bindActionCreators(profileActions, dispatch)
     };
   }
 )(ProfileEditContainer);

@@ -1,109 +1,145 @@
-<testsuites name="jest tests" tests="266" failures="0" time="4.884">
-  <testsuite name="Test of Post Components" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.596" tests="8">
-    <testcase classname="Test of Post Components it should show generate html" name="Test of Post Components it should show generate html" time="0.016">
+<testsuites name="jest tests" tests="266" failures="0" time="5.431">
+  <testsuite name="Test of AddContent Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="0.838" tests="12">
+    <testcase classname="Test of AddContent Component onSubmit method should add an error if state.text is empty" name="Test of AddContent Component onSubmit method should add an error if state.text is empty" time="0.099">
     </testcase>
-    <testcase classname="Test of Post Components it should have add comment button" name="Test of Post Components it should have add comment button" time="0.004">
+    <testcase classname="Test of AddContent Component readInput should be rejected if given filetype is neither image or video" name="Test of AddContent Component readInput should be rejected if given filetype is neither image or video" time="0.03">
     </testcase>
-    <testcase classname="Test of Post Components it should have add comment button disabled" name="Test of Post Components it should have add comment button disabled" time="0.001">
+    <testcase classname="Test of AddContent Component readInput method should call handleImage method if file is of type image" name="Test of AddContent Component readInput method should call handleImage method if file is of type image" time="0.032">
     </testcase>
-    <testcase classname="Test of Post Components it should not show an image" name="Test of Post Components it should not show an image" time="0.001">
+    <testcase classname="Test of AddContent Component readInput method should call handleVideo method if file is of type image" name="Test of AddContent Component readInput method should call handleVideo method if file is of type image" time="0.024">
     </testcase>
-    <testcase classname="Test of Post Components Test toggle Comment Input Component it should show comment-add-button before click" name="Test of Post Components Test toggle Comment Input Component it should show comment-add-button before click" time="0.001">
+    <testcase classname="Test of AddContent Component it should render form" name="Test of AddContent Component it should render form" time="0.014">
     </testcase>
-    <testcase classname="Test of Post Components Test toggle Comment Input Component it should show AddComment Component after click" name="Test of Post Components Test toggle Comment Input Component it should show AddComment Component after click" time="0.011">
+    <testcase classname="Test of AddContent Component it should render form with properties" name="Test of AddContent Component it should render form with properties" time="0.018">
     </testcase>
-    <testcase classname="Test of Post Components Test video related functionality on the PostView.component It should render a div with className youtube-container" name="Test of Post Components Test video related functionality on the PostView.component It should render a div with className youtube-container" time="0.001">
+    <testcase classname="Test of AddContent Component it should add textarea value to state" name="Test of AddContent Component it should add textarea value to state" time="0.013">
     </testcase>
-    <testcase classname="Test of Post Components Test video related functionality on the PostView.component It should not render a div with className video-container" name="Test of Post Components Test video related functionality on the PostView.component It should not render a div with className video-container" time="0.001">
+    <testcase classname="Test of AddContent Component it should be hidden if user not logged in" name="Test of AddContent Component it should be hidden if user not logged in" time="0.013">
     </testcase>
-  </testsuite>
-  <testsuite name="Test GroupView Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.648" tests="4">
-    <testcase classname="Test GroupView Component Group View Component is being rendered" name="Test GroupView Component Group View Component is being rendered" time="0.023">
+    <testcase classname="Test of AddContent Component it should be in edit mode if id is passed" name="Test of AddContent Component it should be in edit mode if id is passed" time="0.022">
     </testcase>
-    <testcase classname="Test GroupView Component Group View Rendered with posts" name="Test GroupView Component Group View Rendered with posts" time="0.003">
+    <testcase classname="Test of AddContent Component It should submit form on submit event" name="Test of AddContent Component It should submit form on submit event" time="0.032">
     </testcase>
-    <testcase classname="Test GroupView Component GroupHeader should be rendered once" name="Test GroupView Component GroupHeader should be rendered once" time="0.002">
+    <testcase classname="Test of AddContent Component Should render modal when button is clicked, no review data" name="Test of AddContent Component Should render modal when button is clicked, no review data" time="0.043">
     </testcase>
-    <testcase classname="Test GroupView Component First child of .group-details should be a link that points to the current group" name="Test GroupView Component First child of .group-details should be a link that points to the current group" time="0.005">
+    <testcase classname="Test of AddContent Component Should render reviews in modal when data is available" name="Test of AddContent Component Should render reviews in modal when data is available" time="0.053">
     </testcase>
   </testsuite>
-  <testsuite name="Test of AddContent Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.814" tests="12">
-    <testcase classname="Test of AddContent Component onSubmit method should add an error if state.text is empty" name="Test of AddContent Component onSubmit method should add an error if state.text is empty" time="0.095">
-    </testcase>
-    <testcase classname="Test of AddContent Component readInput should be rejected if given filetype is neither image or video" name="Test of AddContent Component readInput should be rejected if given filetype is neither image or video" time="0.029">
-    </testcase>
-    <testcase classname="Test of AddContent Component readInput method should call handleImage method if file is of type image" name="Test of AddContent Component readInput method should call handleImage method if file is of type image" time="0.027">
-    </testcase>
-    <testcase classname="Test of AddContent Component readInput method should call handleVideo method if file is of type image" name="Test of AddContent Component readInput method should call handleVideo method if file is of type image" time="0.026">
-    </testcase>
-    <testcase classname="Test of AddContent Component it should render form" name="Test of AddContent Component it should render form" time="0.009">
-    </testcase>
-    <testcase classname="Test of AddContent Component it should render form with properties" name="Test of AddContent Component it should render form with properties" time="0.015">
-    </testcase>
-    <testcase classname="Test of AddContent Component it should add textarea value to state" name="Test of AddContent Component it should add textarea value to state" time="0.023">
-    </testcase>
-    <testcase classname="Test of AddContent Component it should be hidden if user not logged in" name="Test of AddContent Component it should be hidden if user not logged in" time="0.022">
-    </testcase>
-    <testcase classname="Test of AddContent Component it should be in edit mode if id is passed" name="Test of AddContent Component it should be in edit mode if id is passed" time="0.018">
-    </testcase>
-    <testcase classname="Test of AddContent Component It should submit form on submit event" name="Test of AddContent Component It should submit form on submit event" time="0.034">
-    </testcase>
-    <testcase classname="Test of AddContent Component Should render modal when button is clicked, no review data" name="Test of AddContent Component Should render modal when button is clicked, no review data" time="0.042">
-    </testcase>
-    <testcase classname="Test of AddContent Component Should render reviews in modal when data is available" name="Test of AddContent Component Should render reviews in modal when data is available" time="0.046">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing sanitizeHtml.util" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.868" tests="5">
-    <testcase classname="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" name="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" time="0.011">
+  <testsuite name="Testing sanitizeHtml.util" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="0.901" tests="5">
+    <testcase classname="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" name="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" time="0.01">
     </testcase>
     <testcase classname="Testing sanitizeHtml.util Should remove unsafe HTML and return empty string" name="Testing sanitizeHtml.util Should remove unsafe HTML and return empty string" time="0.001">
     </testcase>
-    <testcase classname="Testing sanitizeHtml.util Should remove script-tag and return empty string" name="Testing sanitizeHtml.util Should remove script-tag and return empty string" time="0.001">
+    <testcase classname="Testing sanitizeHtml.util Should remove script-tag and return empty string" name="Testing sanitizeHtml.util Should remove script-tag and return empty string" time="0">
     </testcase>
-    <testcase classname="Testing sanitizeHtml.util Should return safe img-tag" name="Testing sanitizeHtml.util Should return safe img-tag" time="0.002">
+    <testcase classname="Testing sanitizeHtml.util Should return safe img-tag" name="Testing sanitizeHtml.util Should return safe img-tag" time="0.003">
     </testcase>
     <testcase classname="Testing sanitizeHtml.util Should return original string not containing HTML" name="Testing sanitizeHtml.util Should return original string not containing HTML" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test profile detail container (public profile)" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.906" tests="8">
-    <testcase classname="Test profile detail container (public profile) should render activity rows containing posts, and a comment" name="Test profile detail container (public profile) should render activity rows containing posts, and a comment" time="0.118">
+  <testsuite name="GroupsContainer component tests" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="1.019" tests="1">
+    <testcase classname="GroupsContainer component tests should render Opret button and Nyeste grupper" name="GroupsContainer component tests should render Opret button and Nyeste grupper" time="0.08">
     </testcase>
-    <testcase classname="Test profile detail container (public profile) should render rows containing an edit link when a moderator is viewing" name="Test profile detail container (public profile) should render rows containing an edit link when a moderator is viewing" time="0.059">
+  </testsuite>
+  <testsuite name="Testing profileParser" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="1.035" tests="1">
+    <testcase classname="Testing profileParser Should remove disallowed tags" name="Testing profileParser Should remove disallowed tags" time="0.036">
     </testcase>
-    <testcase classname="Test profile detail container (public profile) should render tabs" name="Test profile detail container (public profile) should render tabs" time="0.037">
+  </testsuite>
+  <testsuite name="Unittesting DisplayNameField.component.test.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="1.284" tests="1">
+    <testcase classname="Unittesting DisplayNameField.component.test.js Given input should be sanitized prior to calling checkDisplayNameFunction" name="Unittesting DisplayNameField.component.test.js Given input should be sanitized prior to calling checkDisplayNameFunction" time="1.023">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing of the editorially selected reviews widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.386" tests="3">
+    <testcase classname="Testing of the editorially selected reviews widget should render with an empty state" name="Testing of the editorially selected reviews widget should render with an empty state" time="0.007">
+    </testcase>
+    <testcase classname="Testing of the editorially selected reviews widget should render one review" name="Testing of the editorially selected reviews widget should render one review" time="0.025">
+    </testcase>
+    <testcase classname="Testing of the editorially selected reviews widget should render a bunch of reviews" name="Testing of the editorially selected reviews widget should render a bunch of reviews" time="0.052">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test LatestPosts Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.327" tests="2">
+    <testcase classname="Test LatestPosts Widget Test LatestPosts widget can render inside a WidgetContainer" name="Test LatestPosts Widget Test LatestPosts widget can render inside a WidgetContainer" time="0.025">
+    </testcase>
+    <testcase classname="Test LatestPosts Widget can render a single compact post element" name="Test LatestPosts Widget can render a single compact post element" time="0.017">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test Group Edit Form component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="1.472" tests="6">
+    <testcase classname="Test Group Edit Form component Check Moderation Block is toggled by profile type" name="Test Group Edit Form component Check Moderation Block is toggled by profile type" time="0.124">
+    </testcase>
+    <testcase classname="Test Group Edit Form component Check modals are rendered" name="Test Group Edit Form component Check modals are rendered" time="0.081">
+    </testcase>
+    <testcase classname="Test Group Edit Form component Check moderation action is called" name="Test Group Edit Form component Check moderation action is called" time="0.115">
+    </testcase>
+    <testcase classname="Test Group Edit Form component should close modal" name="Test Group Edit Form component should close modal" time="0.025">
+    </testcase>
+    <testcase classname="Test Group Edit Form component On success it should render text" name="Test Group Edit Form component On success it should render text" time="0.028">
+    </testcase>
+    <testcase classname="Test Group Edit Form component On Fail it should render text" name="Test Group Edit Form component On Fail it should render text" time="0.025">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test profile detail container (public profile)" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:36" time="1.561" tests="8">
+    <testcase classname="Test profile detail container (public profile) should render activity rows containing posts, and a comment" name="Test profile detail container (public profile) should render activity rows containing posts, and a comment" time="0.154">
+    </testcase>
+    <testcase classname="Test profile detail container (public profile) should render rows containing an edit link when a moderator is viewing" name="Test profile detail container (public profile) should render rows containing an edit link when a moderator is viewing" time="0.063">
+    </testcase>
+    <testcase classname="Test profile detail container (public profile) should render tabs" name="Test profile detail container (public profile) should render tabs" time="0.046">
     </testcase>
     <testcase classname="Test profile detail container (public profile) Should render diplomaButtons" name="Test profile detail container (public profile) Should render diplomaButtons" time="0.009">
     </testcase>
     <testcase classname="Test profile detail container (public profile) Should not render campaignDiplomaButtons when looking at someone elses profile" name="Test profile detail container (public profile) Should not render campaignDiplomaButtons when looking at someone elses profile" time="0.005">
     </testcase>
-    <testcase classname="Test profile detail container (public profile) Should not render campaignDiplomaButtons when no reviews have been created by user" name="Test profile detail container (public profile) Should not render campaignDiplomaButtons when no reviews have been created by user" time="0.003">
+    <testcase classname="Test profile detail container (public profile) Should not render campaignDiplomaButtons when no reviews have been created by user" name="Test profile detail container (public profile) Should not render campaignDiplomaButtons when no reviews have been created by user" time="0.004">
     </testcase>
     <testcase classname="Test profile detail container (public profile) Should not render campaignDiplomaButtons when no reviews have been associated with a campaign" name="Test profile detail container (public profile) Should not render campaignDiplomaButtons when no reviews have been associated with a campaign" time="0.003">
     </testcase>
     <testcase classname="Test profile detail container (public profile) Should render quiz badges" name="Test profile detail container (public profile) Should render quiz badges" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="Test FullWidthBannerSlider Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.294" tests="3">
-    <testcase classname="Test FullWidthBannerSlider Widget Test empty FullWidthBannerSlider widget can render inside a WidgetContainer" name="Test FullWidthBannerSlider Widget Test empty FullWidthBannerSlider widget can render inside a WidgetContainer" time="0.012">
+  <testsuite name="Test LatestGroupPosts Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.44" tests="2">
+    <testcase classname="Test LatestGroupPosts Widget Test LatestGroupPosts widget can render inside a WidgetContainer" name="Test LatestGroupPosts Widget Test LatestGroupPosts widget can render inside a WidgetContainer" time="0.022">
     </testcase>
-    <testcase classname="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with one image" name="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with one image" time="0.016">
-    </testcase>
-    <testcase classname="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with two images" name="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with two images" time="0.021">
+    <testcase classname="Test LatestGroupPosts Widget Should render a post when given a group with a post" name="Test LatestGroupPosts Widget Should render a post when given a group with a post" time="0.019">
     </testcase>
   </testsuite>
-  <testsuite name="Testing profileParser" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="1.015" tests="1">
-    <testcase classname="Testing profileParser Should remove disallowed tags" name="Testing profileParser Should remove disallowed tags" time="0.033">
+  <testsuite name="Test FullWidthBannerSlider Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.153" tests="3">
+    <testcase classname="Test FullWidthBannerSlider Widget Test empty FullWidthBannerSlider widget can render inside a WidgetContainer" name="Test FullWidthBannerSlider Widget Test empty FullWidthBannerSlider widget can render inside a WidgetContainer" time="0.009">
+    </testcase>
+    <testcase classname="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with one image" name="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with one image" time="0.015">
+    </testcase>
+    <testcase classname="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with two images" name="Test FullWidthBannerSlider Widget Test FullWidthBannerSlider widget can render with two images" time="0.023">
     </testcase>
   </testsuite>
-  <testsuite name="Testing of the editorially selected reviews widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="0.355" tests="3">
-    <testcase classname="Testing of the editorially selected reviews widget should render with an empty state" name="Testing of the editorially selected reviews widget should render with an empty state" time="0.019">
+  <testsuite name="Test Group Form component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.592" tests="2">
+    <testcase classname="Test Group Form component Check component renders" name="Test Group Form component Check component renders" time="0.033">
     </testcase>
-    <testcase classname="Testing of the editorially selected reviews widget should render one review" name="Testing of the editorially selected reviews widget should render one review" time="0.03">
-    </testcase>
-    <testcase classname="Testing of the editorially selected reviews widget should render a bunch of reviews" name="Testing of the editorially selected reviews widget should render a bunch of reviews" time="0.058">
+    <testcase classname="Test Group Form component should trigger group name check asynchronously" name="Test Group Form component should trigger group name check asynchronously" time="0.419">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the SearchResultContainer component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.124" tests="5">
+  <testsuite name="Testing of the editorially selected reviews widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.131" tests="1">
+    <testcase classname="Testing of the editorially selected reviews widget should render widget" name="Testing of the editorially selected reviews widget should render widget" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unittesting ReviewList" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.319" tests="1">
+    <testcase classname="Unittesting ReviewList Render ReviewList as expected" name="Unittesting ReviewList Render ReviewList as expected" time="0.023">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test methods in client.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.124" tests="4">
+    <testcase classname="Test methods in client.js Test init method" name="Test methods in client.js Test init method" time="0.008">
+    </testcase>
+    <testcase classname="Test methods in client.js Test getSubjectSuggestions Methods" name="Test methods in client.js Test getSubjectSuggestions Methods" time="0.004">
+    </testcase>
+    <testcase classname="Test methods in client.js Test getCreatorSuggestions Methods" name="Test methods in client.js Test getCreatorSuggestions Methods" time="0.001">
+    </testcase>
+    <testcase classname="Test methods in client.js Test getLibrarySuggestions Methods" name="Test methods in client.js Test getLibrarySuggestions Methods" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test Failing scenarius in client.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:37" time="0.306" tests="2">
+    <testcase classname="Test Failing scenarius in client.js Test getSubjectSuggestions Method on bad URL" name="Test Failing scenarius in client.js Test getSubjectSuggestions Method on bad URL" time="0.008">
+    </testcase>
+    <testcase classname="Test Failing scenarius in client.js Test getSubjectSuggestions Method with failing promise" name="Test Failing scenarius in client.js Test getSubjectSuggestions Method with failing promise" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the SearchResultContainer component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.165" tests="5">
     <testcase classname="Testing the SearchResultContainer component should show a moreMaterialsButton when there are more than 19 material results to show" name="Testing the SearchResultContainer component should show a moreMaterialsButton when there are more than 19 material results to show" time="0.005">
     </testcase>
     <testcase classname="Testing the SearchResultContainer component does not show the moreMaterialsButton when there less than 20 material results to show" name="Testing the SearchResultContainer component does not show the moreMaterialsButton when there less than 20 material results to show" time="0.001">
@@ -112,207 +148,153 @@
     </testcase>
     <testcase classname="Testing the SearchResultContainer component does not show the material list when group filter is on and no material filters are enabled" name="Testing the SearchResultContainer component does not show the material list when group filter is on and no material filters are enabled" time="0">
     </testcase>
-    <testcase classname="Testing the SearchResultContainer component does not show the group list when a material filter is on and when the group filter is not on" name="Testing the SearchResultContainer component does not show the group list when a material filter is on and when the group filter is not on" time="0">
+    <testcase classname="Testing the SearchResultContainer component does not show the group list when a material filter is on and when the group filter is not on" name="Testing the SearchResultContainer component does not show the group list when a material filter is on and when the group filter is not on" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Test LatestPosts Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.137" tests="2">
-    <testcase classname="Test LatestPosts Widget Test LatestPosts widget can render inside a WidgetContainer" name="Test LatestPosts Widget Test LatestPosts widget can render inside a WidgetContainer" time="0.011">
-    </testcase>
-    <testcase classname="Test LatestPosts Widget can render a single compact post element" name="Test LatestPosts Widget can render a single compact post element" time="0.014">
+  <testsuite name="Test group create container" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.252" tests="1">
+    <testcase classname="Test group create container Test group create container can render" name="Test group create container Test group create container can render" time="0.06">
     </testcase>
   </testsuite>
-  <testsuite name="Unittesting DisplayNameField.component.test.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:34" time="1.26" tests="1">
-    <testcase classname="Unittesting DisplayNameField.component.test.js Given input should be sanitized prior to calling checkDisplayNameFunction" name="Unittesting DisplayNameField.component.test.js Given input should be sanitized prior to calling checkDisplayNameFunction" time="1.02">
+  <testsuite name="Popular groups widget!" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.313" tests="2">
+    <testcase classname="Popular groups widget! should render with empty config" name="Popular groups widget! should render with empty config" time="0.012">
+    </testcase>
+    <testcase classname="Popular groups widget! should render a group when group is found in state" name="Popular groups widget! should render a group when group is found in state" time="0.011">
     </testcase>
   </testsuite>
-  <testsuite name="Test NavbarContainer Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.254" tests="5">
-    <testcase classname="Test NavbarContainer Component Assert className navbar--container" name="Test NavbarContainer Component Assert className navbar--container" time="0.006">
+  <testsuite name="Testing profileForm.component.test.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.245" tests="1">
+    <testcase classname="Testing profileForm.component.test.js Dirty displayName should be sanitized before submission" name="Testing profileForm.component.test.js Dirty displayName should be sanitized before submission" time="0.09">
     </testcase>
-    <testcase classname="Test NavbarContainer Component Assert main menu is rendered" name="Test NavbarContainer Component Assert main menu is rendered" time="0.041">
+  </testsuite>
+  <testsuite name="Test NavbarContainer Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.275" tests="5">
+    <testcase classname="Test NavbarContainer Component Assert className navbar--container" name="Test NavbarContainer Component Assert className navbar--container" time="0.004">
+    </testcase>
+    <testcase classname="Test NavbarContainer Component Assert main menu is rendered" name="Test NavbarContainer Component Assert main menu is rendered" time="0.057">
     </testcase>
     <testcase classname="Test NavbarContainer Component Assert hide unhide menu" name="Test NavbarContainer Component Assert hide unhide menu" time="0.03">
     </testcase>
-    <testcase classname="Test NavbarContainer Component Assert hide unhide profile dropdown" name="Test NavbarContainer Component Assert hide unhide profile dropdown" time="0.02">
+    <testcase classname="Test NavbarContainer Component Assert hide unhide profile dropdown" name="Test NavbarContainer Component Assert hide unhide profile dropdown" time="0.014">
     </testcase>
-    <testcase classname="Test NavbarContainer Component Assert click overlay" name="Test NavbarContainer Component Assert click overlay" time="0.024">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test Group Edit Form component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.498" tests="6">
-    <testcase classname="Test Group Edit Form component Check Moderation Block is toggled by profile type" name="Test Group Edit Form component Check Moderation Block is toggled by profile type" time="0.065">
-    </testcase>
-    <testcase classname="Test Group Edit Form component Check modals are rendered" name="Test Group Edit Form component Check modals are rendered" time="0.091">
-    </testcase>
-    <testcase classname="Test Group Edit Form component Check moderation action is called" name="Test Group Edit Form component Check moderation action is called" time="0.106">
-    </testcase>
-    <testcase classname="Test Group Edit Form component should close modal" name="Test Group Edit Form component should close modal" time="0.029">
-    </testcase>
-    <testcase classname="Test Group Edit Form component On success it should render text" name="Test Group Edit Form component On success it should render text" time="0.031">
-    </testcase>
-    <testcase classname="Test Group Edit Form component On Fail it should render text" name="Test Group Edit Form component On Fail it should render text" time="0.025">
+    <testcase classname="Test NavbarContainer Component Assert click overlay" name="Test NavbarContainer Component Assert click overlay" time="0.035">
     </testcase>
   </testsuite>
-  <testsuite name="Test generic WidgetContainer" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.269" tests="2">
-    <testcase classname="Test generic WidgetContainer Test WidgetContainer can render with no widgets" name="Test generic WidgetContainer Test WidgetContainer can render with no widgets" time="0.005">
+  <testsuite name="Unittesting methods in WorkDetail.component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.165" tests="3">
+    <testcase classname="Unittesting methods in WorkDetail.component Ereolen should contain two elements" name="Unittesting methods in WorkDetail.component Ereolen should contain two elements" time="0.006">
     </testcase>
-    <testcase classname="Test generic WidgetContainer should render dummy widget" name="Test generic WidgetContainer should render dummy widget" time="0.005">
+    <testcase classname="Unittesting methods in WorkDetail.component ereolen_ebooks should not be present" name="Unittesting methods in WorkDetail.component ereolen_ebooks should not be present" time="0.001">
     </testcase>
-  </testsuite>
-  <testsuite name="Test LatestReviews Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.167" tests="3">
-    <testcase classname="Test LatestReviews Widget Test LatestReviews widget can render inside a WidgetContainer" name="Test LatestReviews Widget Test LatestReviews widget can render inside a WidgetContainer" time="0.01">
-    </testcase>
-    <testcase classname="Test LatestReviews Widget Test LatestReviews can render with a review." name="Test LatestReviews Widget Test LatestReviews can render with a review." time="0.017">
-    </testcase>
-    <testcase classname="Test LatestReviews Widget Should render a campaign logo when a campaign is attached" name="Test LatestReviews Widget Should render a campaign logo when a campaign is attached" time="0.015">
+    <testcase classname="Unittesting methods in WorkDetail.component Should render two BorrowButtons" name="Unittesting methods in WorkDetail.component Should render two BorrowButtons" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="Test methods in client.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.155" tests="4">
-    <testcase classname="Test methods in client.js Test init method" name="Test methods in client.js Test init method" time="0.007">
-    </testcase>
-    <testcase classname="Test methods in client.js Test getSubjectSuggestions Methods" name="Test methods in client.js Test getSubjectSuggestions Methods" time="0.004">
-    </testcase>
-    <testcase classname="Test methods in client.js Test getCreatorSuggestions Methods" name="Test methods in client.js Test getCreatorSuggestions Methods" time="0.003">
-    </testcase>
-    <testcase classname="Test methods in client.js Test getLibrarySuggestions Methods" name="Test methods in client.js Test getLibrarySuggestions Methods" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test LatestGroupPosts Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.47" tests="2">
-    <testcase classname="Test LatestGroupPosts Widget Test LatestGroupPosts widget can render inside a WidgetContainer" name="Test LatestGroupPosts Widget Test LatestGroupPosts widget can render inside a WidgetContainer" time="0.026">
-    </testcase>
-    <testcase classname="Test LatestGroupPosts Widget Should render a post when given a group with a post" name="Test LatestGroupPosts Widget Should render a post when given a group with a post" time="0.02">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test Failing scenarius in client.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.291" tests="2">
-    <testcase classname="Test Failing scenarius in client.js Test getSubjectSuggestions Method on bad URL" name="Test Failing scenarius in client.js Test getSubjectSuggestions Method on bad URL" time="0.008">
-    </testcase>
-    <testcase classname="Test Failing scenarius in client.js Test getSubjectSuggestions Method with failing promise" name="Test Failing scenarius in client.js Test getSubjectSuggestions Method with failing promise" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test of Comment Components" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.118" tests="4">
-    <testcase classname="Test of Comment Components it should show generate html" name="Test of Comment Components it should show generate html" time="0.01">
-    </testcase>
-    <testcase classname="Test of Comment Components it should not show an image" name="Test of Comment Components it should not show an image" time="0.002">
-    </testcase>
-    <testcase classname="Test of Comment Components it should not show an youtube video" name="Test of Comment Components it should not show an youtube video" time="0.001">
-    </testcase>
-    <testcase classname="Test of Comment Components it should show an youtube video" name="Test of Comment Components it should show an youtube video" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test Group Form component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.535" tests="2">
-    <testcase classname="Test Group Form component Check component renders" name="Test Group Form component Check component renders" time="0.023">
-    </testcase>
-    <testcase classname="Test Group Form component should trigger group name check asynchronously" name="Test Group Form component should trigger group name check asynchronously" time="0.418">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing profileForm.component.test.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.209" tests="1">
-    <testcase classname="Testing profileForm.component.test.js Dirty displayName should be sanitized before submission" name="Testing profileForm.component.test.js Dirty displayName should be sanitized before submission" time="0.091">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test ContentPages Widgets" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.329" tests="3">
-    <testcase classname="Test ContentPages Widgets ContentPageText should render" name="Test ContentPages Widgets ContentPageText should render" time="0.017">
-    </testcase>
-    <testcase classname="Test ContentPages Widgets ContentPageImage should render" name="Test ContentPages Widgets ContentPageImage should render" time="0.005">
-    </testcase>
-    <testcase classname="Test ContentPages Widgets ContentPageEmbeddedVideo should render" name="Test ContentPages Widgets ContentPageEmbeddedVideo should render" time="0.009">
-    </testcase>
-  </testsuite>
-  <testsuite name="GroupsContainer component tests" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.225" tests="1">
-    <testcase classname="GroupsContainer component tests should render Opret button and Nyeste grupper" name="GroupsContainer component tests should render Opret button and Nyeste grupper" time="0.042">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test FullWidthBanner Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.119" tests="1">
-    <testcase classname="Test FullWidthBanner Widget Test FullWidthBanner widget can render inside a WidgetContainer" name="Test FullWidthBanner Widget Test FullWidthBanner widget can render inside a WidgetContainer" time="0.016">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the MessageRow Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.108" tests="10">
+  <testsuite name="Testing the MessageRow Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.139" tests="10">
     <testcase classname="Testing the MessageRow Component Should render unread message" name="Testing the MessageRow Component Should render unread message" time="0.007">
     </testcase>
     <testcase classname="Testing the MessageRow Component Should render read message" name="Testing the MessageRow Component Should render read message" time="0.001">
     </testcase>
-    <testcase classname="Testing the MessageRow Component Should invoke props.readAction in onVisibilityChanged when given true as parameter" name="Testing the MessageRow Component Should invoke props.readAction in onVisibilityChanged when given true as parameter" time="0.005">
+    <testcase classname="Testing the MessageRow Component Should invoke props.readAction in onVisibilityChanged when given true as parameter" name="Testing the MessageRow Component Should invoke props.readAction in onVisibilityChanged when given true as parameter" time="0.002">
     </testcase>
-    <testcase classname="Testing the MessageRow Component Should not invoke props.readAction in onVisibilityChanged when given false as parameter" name="Testing the MessageRow Component Should not invoke props.readAction in onVisibilityChanged when given false as parameter" time="0">
+    <testcase classname="Testing the MessageRow Component Should not invoke props.readAction in onVisibilityChanged when given false as parameter" name="Testing the MessageRow Component Should not invoke props.readAction in onVisibilityChanged when given false as parameter" time="0.001">
     </testcase>
-    <testcase classname="Testing the getMessageImage method Should return default image" name="Testing the getMessageImage method Should return default image" time="0">
+    <testcase classname="Testing the getMessageImage method Should return default image" name="Testing the getMessageImage method Should return default image" time="0.001">
     </testcase>
-    <testcase classname="Testing the getMessageImage method Should return image matching type-orderExpiresSoon" name="Testing the getMessageImage method Should return image matching type-orderExpiresSoon" time="0.002">
+    <testcase classname="Testing the getMessageImage method Should return image matching type-orderExpiresSoon" name="Testing the getMessageImage method Should return image matching type-orderExpiresSoon" time="0.001">
     </testcase>
-    <testcase classname="Testing the getMessageImage method Should return image matching type-orderIsReady" name="Testing the getMessageImage method Should return image matching type-orderIsReady" time="0.001">
+    <testcase classname="Testing the getMessageImage method Should return image matching type-orderIsReady" name="Testing the getMessageImage method Should return image matching type-orderIsReady" time="0.002">
+    </testcase>
+    <testcase classname="Testing the getMessageImage method Should return image matching type Fine" name="Testing the getMessageImage method Should return image matching type Fine" time="0.003">
+    </testcase>
+    <testcase classname="Testing the getMessageImage method Should return image matching type Fine" name="Testing the getMessageImage method Should return image matching type Fine" time="0">
     </testcase>
     <testcase classname="Testing the getMessageImage method Should return image matching type Fine" name="Testing the getMessageImage method Should return image matching type Fine" time="0.001">
     </testcase>
-    <testcase classname="Testing the getMessageImage method Should return image matching type Fine" name="Testing the getMessageImage method Should return image matching type Fine" time="0.001">
+  </testsuite>
+  <testsuite name="Test BestRatedWorksWidget Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.143" tests="2">
+    <testcase classname="Test BestRatedWorksWidget Widget Test BestRatedWorksWidget can render inside a WidgetContainer" name="Test BestRatedWorksWidget Widget Test BestRatedWorksWidget can render inside a WidgetContainer" time="0.015">
     </testcase>
-    <testcase classname="Testing the getMessageImage method Should return image matching type Fine" name="Testing the getMessageImage method Should return image matching type Fine" time="0.001">
+    <testcase classname="Test BestRatedWorksWidget Widget should render a compactWorkElement when given correct props" name="Test BestRatedWorksWidget Widget should render a compactWorkElement when given correct props" time="0.009">
     </testcase>
   </testsuite>
-  <testsuite name="Popular groups widget!" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.406" tests="2">
-    <testcase classname="Popular groups widget! should render with empty config" name="Popular groups widget! should render with empty config" time="0.017">
+  <testsuite name="Test ContentPages Widgets" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.151" tests="3">
+    <testcase classname="Test ContentPages Widgets ContentPageText should render" name="Test ContentPages Widgets ContentPageText should render" time="0.011">
     </testcase>
-    <testcase classname="Popular groups widget! should render a group when group is found in state" name="Popular groups widget! should render a group when group is found in state" time="0.016">
+    <testcase classname="Test ContentPages Widgets ContentPageImage should render" name="Test ContentPages Widgets ContentPageImage should render" time="0.005">
     </testcase>
-  </testsuite>
-  <testsuite name="Test BestRatedWorksWidget Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.17" tests="2">
-    <testcase classname="Test BestRatedWorksWidget Widget Test BestRatedWorksWidget can render inside a WidgetContainer" name="Test BestRatedWorksWidget Widget Test BestRatedWorksWidget can render inside a WidgetContainer" time="0.011">
-    </testcase>
-    <testcase classname="Test BestRatedWorksWidget Widget should render a compactWorkElement when given correct props" name="Test BestRatedWorksWidget Widget should render a compactWorkElement when given correct props" time="0.015">
+    <testcase classname="Test ContentPages Widgets ContentPageEmbeddedVideo should render" name="Test ContentPages Widgets ContentPageEmbeddedVideo should render" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Test of Review Component " errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:35" time="0.3" tests="4">
-    <testcase classname="Test of Review Component  onSubmit method should add an error if content is empty" name="Test of Review Component  onSubmit method should add an error if content is empty" time="0.008">
+  <testsuite name="Test of Post Components" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.347" tests="8">
+    <testcase classname="Test of Post Components it should show generate html" name="Test of Post Components it should show generate html" time="0.019">
     </testcase>
-    <testcase classname="Test of Review Component  should add an error if rating is not set" name="Test of Review Component  should add an error if rating is not set" time="0.01">
+    <testcase classname="Test of Post Components it should have add comment button" name="Test of Post Components it should have add comment button" time="0.006">
     </testcase>
-    <testcase classname="Test of Review Component  should not be able to submit if the user is not logged in" name="Test of Review Component  should not be able to submit if the user is not logged in" time="0.001">
+    <testcase classname="Test of Post Components it should have add comment button disabled" name="Test of Post Components it should have add comment button disabled" time="0.002">
     </testcase>
-    <testcase classname="Test of Review Component  should open a modal on a duplicate review for a work - test" name="Test of Review Component  should open a modal on a duplicate review for a work - test" time="0.002">
+    <testcase classname="Test of Post Components it should not show an image" name="Test of Post Components it should not show an image" time="0.001">
+    </testcase>
+    <testcase classname="Test of Post Components Test toggle Comment Input Component it should show comment-add-button before click" name="Test of Post Components Test toggle Comment Input Component it should show comment-add-button before click" time="0.002">
+    </testcase>
+    <testcase classname="Test of Post Components Test toggle Comment Input Component it should show AddComment Component after click" name="Test of Post Components Test toggle Comment Input Component it should show AddComment Component after click" time="0.008">
+    </testcase>
+    <testcase classname="Test of Post Components Test video related functionality on the PostView.component It should render a div with className youtube-container" name="Test of Post Components Test video related functionality on the PostView.component It should render a div with className youtube-container" time="0.002">
+    </testcase>
+    <testcase classname="Test of Post Components Test video related functionality on the PostView.component It should not render a div with className video-container" name="Test of Post Components Test video related functionality on the PostView.component It should not render a div with className video-container" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Testing of the editorially selected reviews widget" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.144" tests="1">
-    <testcase classname="Testing of the editorially selected reviews widget should render widget" name="Testing of the editorially selected reviews widget should render widget" time="0.01">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the ReviewContainer component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.094" tests="3">
-    <testcase classname="Testing the ReviewContainer component Should render empty div container" name="Testing the ReviewContainer component Should render empty div container" time="0.002">
+  <testsuite name="Testing the ReviewContainer component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.159" tests="3">
+    <testcase classname="Testing the ReviewContainer component Should render empty div container" name="Testing the ReviewContainer component Should render empty div container" time="0.006">
     </testcase>
     <testcase classname="Testing the ReviewContainer component Should render reviews" name="Testing the ReviewContainer component Should render reviews" time="0.003">
     </testcase>
     <testcase classname="Testing the ReviewContainer component Should render 10 reviews in the container component" name="Testing the ReviewContainer component Should render 10 reviews in the container component" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Unittesting methods in WorkDetail.component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.14" tests="3">
-    <testcase classname="Unittesting methods in WorkDetail.component Ereolen should contain two elements" name="Unittesting methods in WorkDetail.component Ereolen should contain two elements" time="0.004">
-    </testcase>
-    <testcase classname="Unittesting methods in WorkDetail.component ereolen_ebooks should not be present" name="Unittesting methods in WorkDetail.component ereolen_ebooks should not be present" time="0.002">
-    </testcase>
-    <testcase classname="Unittesting methods in WorkDetail.component Should render two BorrowButtons" name="Unittesting methods in WorkDetail.component Should render two BorrowButtons" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Unittesting ReviewList" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.226" tests="1">
-    <testcase classname="Unittesting ReviewList Render ReviewList as expected" name="Unittesting ReviewList Render ReviewList as expected" time="0.028">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing ReviewButton.test.js - not logged in" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.183" tests="3">
+  <testsuite name="Testing ReviewButton.test.js - not logged in" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.164" tests="3">
     <testcase classname="Testing ReviewButton.test.js - not logged in Should replace button with message" name="Testing ReviewButton.test.js - not logged in Should replace button with message" time="0.01">
     </testcase>
-    <testcase classname="Testing ReviewButton.test.js - not logged in It should render a ProfileLibraryInfoModalContainer" name="Testing ReviewButton.test.js - not logged in It should render a ProfileLibraryInfoModalContainer" time="0.021">
+    <testcase classname="Testing ReviewButton.test.js - not logged in It should render a ProfileLibraryInfoModalContainer" name="Testing ReviewButton.test.js - not logged in It should render a ProfileLibraryInfoModalContainer" time="0.028">
     </testcase>
     <testcase classname="Testing ReviewButton.test.js - not logged in It should invoke clickFunction when favoriteLibrary is set and not render ProfileLibraryInfoModalContainer" name="Testing ReviewButton.test.js - not logged in It should invoke clickFunction when favoriteLibrary is set and not render ProfileLibraryInfoModalContainer" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the GetUserStatus Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.055" tests="1">
-    <testcase classname="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" name="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" time="0.001">
+  <testsuite name="Test generic WidgetContainer" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.123" tests="2">
+    <testcase classname="Test generic WidgetContainer Test WidgetContainer can render with no widgets" name="Test generic WidgetContainer Test WidgetContainer can render with no widgets" time="0.006">
+    </testcase>
+    <testcase classname="Test generic WidgetContainer should render dummy widget" name="Test generic WidgetContainer should render dummy widget" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Test group create container" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.174" tests="1">
-    <testcase classname="Test group create container Test group create container can render" name="Test group create container Test group create container can render" time="0.043">
+  <testsuite name="Test FullWidthBanner Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.304" tests="1">
+    <testcase classname="Test FullWidthBanner Widget Test FullWidthBanner widget can render inside a WidgetContainer" name="Test FullWidthBanner Widget Test FullWidthBanner widget can render inside a WidgetContainer" time="0.024">
     </testcase>
   </testsuite>
-  <testsuite name="Test Borrow Button (in work detail)" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.09" tests="1">
-    <testcase classname="Test Borrow Button (in work detail) should render borrow options when presented with an online material regardless of user status (Logged in or not)" name="Test Borrow Button (in work detail) should render borrow options when presented with an online material regardless of user status (Logged in or not)" time="0.025">
+  <testsuite name="Test LatestReviews Widget" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.427" tests="3">
+    <testcase classname="Test LatestReviews Widget Test LatestReviews widget can render inside a WidgetContainer" name="Test LatestReviews Widget Test LatestReviews widget can render inside a WidgetContainer" time="0.014">
+    </testcase>
+    <testcase classname="Test LatestReviews Widget Test LatestReviews can render with a review." name="Test LatestReviews Widget Test LatestReviews can render with a review." time="0.021">
+    </testcase>
+    <testcase classname="Test LatestReviews Widget Should render a campaign logo when a campaign is attached" name="Test LatestReviews Widget Should render a campaign logo when a campaign is attached" time="0.015">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the ReviewRow component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.206" tests="11">
-    <testcase classname="Testing the ReviewRow component Title should be Henter data when no metadata is given" name="Testing the ReviewRow component Title should be Henter data when no metadata is given" time="0.003">
+  <testsuite name="Test of Comment Components" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.146" tests="4">
+    <testcase classname="Test of Comment Components it should show generate html" name="Test of Comment Components it should show generate html" time="0.009">
+    </testcase>
+    <testcase classname="Test of Comment Components it should not show an image" name="Test of Comment Components it should not show an image" time="0.001">
+    </testcase>
+    <testcase classname="Test of Comment Components it should not show an youtube video" name="Test of Comment Components it should not show an youtube video" time="0.001">
+    </testcase>
+    <testcase classname="Test of Comment Components it should show an youtube video" name="Test of Comment Components it should show an youtube video" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test GroupView Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.264" tests="4">
+    <testcase classname="Test GroupView Component Group View Component is being rendered" name="Test GroupView Component Group View Component is being rendered" time="0.023">
+    </testcase>
+    <testcase classname="Test GroupView Component Group View Rendered with posts" name="Test GroupView Component Group View Rendered with posts" time="0.002">
+    </testcase>
+    <testcase classname="Test GroupView Component GroupHeader should be rendered once" name="Test GroupView Component GroupHeader should be rendered once" time="0.002">
+    </testcase>
+    <testcase classname="Test GroupView Component First child of .group-details should be a link that points to the current group" name="Test GroupView Component First child of .group-details should be a link that points to the current group" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the ReviewRow component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:38" time="0.093" tests="11">
+    <testcase classname="Testing the ReviewRow component Title should be Henter data when no metadata is given" name="Testing the ReviewRow component Title should be Henter data when no metadata is given" time="0.005">
     </testcase>
     <testcase classname="Testing the ReviewRow component Title should be dcTitle when dcFullTitle is undefined" name="Testing the ReviewRow component Title should be dcTitle when dcFullTitle is undefined" time="0.001">
     </testcase>
@@ -320,69 +302,199 @@
     </testcase>
     <testcase classname="Testing the ReviewRow component Should set title to dcFullTitle" name="Testing the ReviewRow component Should set title to dcFullTitle" time="0.001">
     </testcase>
-    <testcase classname="Testing the ReviewRow component Should return dummy cover url" name="Testing the ReviewRow component Should return dummy cover url" time="0">
+    <testcase classname="Testing the ReviewRow component Should return dummy cover url" name="Testing the ReviewRow component Should return dummy cover url" time="0.001">
     </testcase>
-    <testcase classname="Testing the ReviewRow component Should return the given cover url" name="Testing the ReviewRow component Should return the given cover url" time="0.004">
+    <testcase classname="Testing the ReviewRow component Should return the given cover url" name="Testing the ReviewRow component Should return the given cover url" time="0.001">
     </testcase>
     <testcase classname="Testing the ReviewRow component Should return the given cover url" name="Testing the ReviewRow component Should return the given cover url" time="0.001">
     </testcase>
     <testcase classname="Testing the ReviewRow component Should return the URL for material cover when cover URL is missing" name="Testing the ReviewRow component Should return the URL for material cover when cover URL is missing" time="0">
     </testcase>
-    <testcase classname="Testing the ReviewRow component Should update call likeActions.likeReview and update state" name="Testing the ReviewRow component Should update call likeActions.likeReview and update state" time="0.003">
+    <testcase classname="Testing the ReviewRow component Should update call likeActions.likeReview and update state" name="Testing the ReviewRow component Should update call likeActions.likeReview and update state" time="0.004">
     </testcase>
-    <testcase classname="Testing the ReviewRow component Should update call likeActions.unlikeReview and update state" name="Testing the ReviewRow component Should update call likeActions.unlikeReview and update state" time="0.003">
+    <testcase classname="Testing the ReviewRow component Should update call likeActions.unlikeReview and update state" name="Testing the ReviewRow component Should update call likeActions.unlikeReview and update state" time="0.002">
     </testcase>
-    <testcase classname="Testing the ReviewRow component Should render a proper ReviewRow component" name="Testing the ReviewRow component Should render a proper ReviewRow component" time="0.012">
+    <testcase classname="Testing the ReviewRow component Should render a proper ReviewRow component" name="Testing the ReviewRow component Should render a proper ReviewRow component" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="Testing ProfileDeleteModal.component.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.138" tests="3">
-    <testcase classname="Testing ProfileDeleteModal.component.js Show modal form" name="Testing ProfileDeleteModal.component.js Show modal form" time="0.01">
+  <testsuite name="Testing the MessageContainer.component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.073" tests="1">
+    <testcase classname="Testing the MessageContainer.component Should increase state.limit by 15" name="Testing the MessageContainer.component Should increase state.limit by 15" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unittesting the MoreInfo.comopenent" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.102" tests="6">
+    <testcase classname="Unittesting the MoreInfo.comopenent Should return null (getMoreInfoRow)" name="Unittesting the MoreInfo.comopenent Should return null (getMoreInfoRow)" time="0.002">
+    </testcase>
+    <testcase classname="Unittesting the MoreInfo.comopenent Should return element (getMoreInfoRow)" name="Unittesting the MoreInfo.comopenent Should return element (getMoreInfoRow)" time="0.001">
+    </testcase>
+    <testcase classname="Unittesting the MoreInfo.comopenent Should return null (getSubjects)" name="Unittesting the MoreInfo.comopenent Should return null (getSubjects)" time="0">
+    </testcase>
+    <testcase classname="Unittesting the MoreInfo.comopenent Should return list of rendered subjects (getSubjects)" name="Unittesting the MoreInfo.comopenent Should return list of rendered subjects (getSubjects)" time="0.001">
+    </testcase>
+    <testcase classname="Unittesting the MoreInfo.comopenent Should return null (getGenericList)" name="Unittesting the MoreInfo.comopenent Should return null (getGenericList)" time="0.001">
+    </testcase>
+    <testcase classname="Unittesting the MoreInfo.comopenent Should return list of rendered elements (getGenericList)" name="Unittesting the MoreInfo.comopenent Should return list of rendered elements (getGenericList)" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing ProfileDeleteModal.component.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.136" tests="3">
+    <testcase classname="Testing ProfileDeleteModal.component.js Show modal form" name="Testing ProfileDeleteModal.component.js Show modal form" time="0.009">
     </testcase>
     <testcase classname="Testing ProfileDeleteModal.component.js Show modal deleting form" name="Testing ProfileDeleteModal.component.js Show modal deleting form" time="0.016">
     </testcase>
-    <testcase classname="Testing ProfileDeleteModal.component.js submit delete action" name="Testing ProfileDeleteModal.component.js submit delete action" time="0.046">
+    <testcase classname="Testing ProfileDeleteModal.component.js submit delete action" name="Testing ProfileDeleteModal.component.js submit delete action" time="0.048">
     </testcase>
   </testsuite>
-  <testsuite name="Unittesting methods in ProfileLibraryInfo.component.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.108" tests="8">
+  <testsuite name="Test Borrow Button (in work detail)" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.126" tests="1">
+    <testcase classname="Test Borrow Button (in work detail) should render borrow options when presented with an online material regardless of user status (Logged in or not)" name="Test Borrow Button (in work detail) should render borrow options when presented with an online material regardless of user status (Logged in or not)" time="0.03">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test of Review Component " errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.147" tests="4">
+    <testcase classname="Test of Review Component  onSubmit method should add an error if content is empty" name="Test of Review Component  onSubmit method should add an error if content is empty" time="0.005">
+    </testcase>
+    <testcase classname="Test of Review Component  should add an error if rating is not set" name="Test of Review Component  should add an error if rating is not set" time="0.008">
+    </testcase>
+    <testcase classname="Test of Review Component  should not be able to submit if the user is not logged in" name="Test of Review Component  should not be able to submit if the user is not logged in" time="0.005">
+    </testcase>
+    <testcase classname="Test of Review Component  should open a modal on a duplicate review for a work - test" name="Test of Review Component  should open a modal on a duplicate review for a work - test" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test of GroupList" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.09" tests="1">
+    <testcase classname="Test of GroupList Should render followers count on screen" name="Test of GroupList Should render followers count on screen" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing methods on the Provider" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.124" tests="8">
+    <testcase classname="Testing methods on the Provider assert methods are accessible" name="Testing methods on the Provider assert methods are accessible" time="0">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test the constructor method" name="Testing methods on the Provider Test the constructor method" time="0.001">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test the registerTransform method" name="Testing methods on the Provider Test the registerTransform method" time="0.001">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test the registerServiceClient method" name="Testing methods on the Provider Test the registerServiceClient method" time="0.002">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test the trigger function Throws an error on unsupported events" name="Testing methods on the Provider Test the trigger function Throws an error on unsupported events" time="0">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test the trigger function Triggers an event" name="Testing methods on the Provider Test the trigger function Triggers an event" time="0.003">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test callServiceClient method should call method on client" name="Testing methods on the Provider Test callServiceClient method should call method on client" time="0">
+    </testcase>
+    <testcase classname="Testing methods on the Provider Test callServiceClient method should catch error" name="Testing methods on the Provider Test callServiceClient method should catch error" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the Tabs component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.115" tests="9">
+    <testcase classname="Testing the Tabs component Should render empty tabs container" name="Testing the Tabs component Should render empty tabs container" time="0.012">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should render on tab" name="Testing the Tabs component Should render on tab" time="0.007">
+    </testcase>
+    <testcase classname="Testing the Tabs component Default selection Should be 0" name="Testing the Tabs component Default selection Should be 0" time="0">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should override default seleceted when passed as prop" name="Testing the Tabs component Should override default seleceted when passed as prop" time="0">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should set state.selected appropriately" name="Testing the Tabs component Should set state.selected appropriately" time="0.001">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should set state.selected appropriately when clicked" name="Testing the Tabs component Should set state.selected appropriately when clicked" time="0.001">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should not display a notification count" name="Testing the Tabs component Should not display a notification count" time="0">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should not display a notification count" name="Testing the Tabs component Should not display a notification count" time="0.001">
+    </testcase>
+    <testcase classname="Testing the Tabs component Should display a notification count" name="Testing the Tabs component Should display a notification count" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing Validate Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.094" tests="2">
+    <testcase classname="Testing Validate Transform Test Validate Transform" name="Testing Validate Transform Test Validate Transform" time="0.004">
+    </testcase>
+    <testcase classname="Testing Validate Transform Triggers event on transform" name="Testing Validate Transform Triggers event on transform" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="test group actions" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.184" tests="2">
+    <testcase classname="test group actions should create CHANGE_GROUP_IMAGE action" name="test group actions should create CHANGE_GROUP_IMAGE action" time="0.124">
+    </testcase>
+    <testcase classname="test group actions should test CHANGE_GROUP_IMAGE without file reader support" name="test group actions should test CHANGE_GROUP_IMAGE without file reader support" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the methods in the Dispatcher object" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.11" tests="1">
+    <testcase classname="Testing the methods in the Dispatcher object tests something" name="Testing the methods in the Dispatcher object tests something" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="CacheManager wrap method" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.083" tests="3">
+    <testcase classname="CacheManager wrap method uses callback when no cache" name="CacheManager wrap method uses callback when no cache" time="0.002">
+    </testcase>
+    <testcase classname="CacheManager wrap method returns cached value" name="CacheManager wrap method returns cached value" time="0">
+    </testcase>
+    <testcase classname="CacheManager wrap method uses callback when arguments change" name="CacheManager wrap method uses callback when arguments change" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unittesting methods in ProfileLibraryInfo.component.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.095" tests="8">
     <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.visible to false" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.visible to false" time="0.003">
     </testcase>
-    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.visible to false" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.visible to false" time="0.002">
+    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.visible to false" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.visible to false" time="0.001">
     </testcase>
-    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with true" name="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with true" time="0.003">
+    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with true" name="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with true" time="0.002">
     </testcase>
-    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with false" name="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with false" time="0.001">
+    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with false" name="Unittesting methods in ProfileLibraryInfo.component.js Should call arrowKeyPressed with false" time="0.002">
     </testcase>
     <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should call escapeKeyPressed" name="Unittesting methods in ProfileLibraryInfo.component.js Should call escapeKeyPressed" time="0.002">
     </testcase>
     <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should call elements clickFunc" name="Unittesting methods in ProfileLibraryInfo.component.js Should call elements clickFunc" time="0.001">
     </testcase>
-    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" time="0.001">
+    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" time="0.004">
     </testcase>
-    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test of GroupList" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.107" tests="1">
-    <testcase classname="Test of GroupList Should render followers count on screen" name="Test of GroupList Should render followers count on screen" time="0.011">
+    <testcase classname="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" name="Unittesting methods in ProfileLibraryInfo.component.js Should set state.selected to 0" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the MessageContainer.component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.084" tests="1">
-    <testcase classname="Testing the MessageContainer.component Should increase state.limit by 15" name="Testing the MessageContainer.component Should increase state.limit by 15" time="0.001">
+  <testsuite name="Test Footer" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.081" tests="2">
+    <testcase classname="Test Footer Assert className footer--container" name="Test Footer Assert className footer--container" time="0.003">
+    </testcase>
+    <testcase classname="Test Footer Assert menu is added" name="Test Footer Assert menu is added" time="0.014">
     </testcase>
   </testsuite>
-  <testsuite name="Unittest methods in work.parser.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.059" tests="15">
+  <testsuite name="Testing the CookieWarningContainer component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.086" tests="2">
+    <testcase classname="Testing the CookieWarningContainer component Should render a modal" name="Testing the CookieWarningContainer component Should render a modal" time="0.014">
+    </testcase>
+    <testcase classname="Testing the CookieWarningContainer component Should hide the cookie warning" name="Testing the CookieWarningContainer component Should hide the cookie warning" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the GroupViewHeader component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.064" tests="3">
+    <testcase classname="Testing the GroupViewHeader component Should render two children" name="Testing the GroupViewHeader component Should render two children" time="0.003">
+    </testcase>
+    <testcase classname="Testing the GroupViewHeader component First child should be a background image" name="Testing the GroupViewHeader component First child should be a background image" time="0.004">
+    </testcase>
+    <testcase classname="Testing the GroupViewHeader component Second child should be a foreground image rendered in a href" name="Testing the GroupViewHeader component Second child should be a foreground image rendered in a href" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unittesting methods in MultiVolumeDisplay.component.test.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.084" tests="2">
+    <testcase classname="Unittesting methods in MultiVolumeDisplay.component.test.js Should match snapshot" name="Unittesting methods in MultiVolumeDisplay.component.test.js Should match snapshot" time="0.012">
+    </testcase>
+    <testcase classname="Unittesting methods in MultiVolumeDisplay.component.test.js Should render 6 items" name="Unittesting methods in MultiVolumeDisplay.component.test.js Should render 6 items" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the RenewLoan Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.064" tests="6">
+    <testcase classname="Testing the RenewLoan Transform Should return event implemented by this transform" name="Testing the RenewLoan Transform Should return event implemented by this transform" time="0.001">
+    </testcase>
+    <testcase classname="Testing the RenewLoan Transform Should return promise that rejects" name="Testing the RenewLoan Transform Should return promise that rejects" time="0">
+    </testcase>
+    <testcase classname="Testing the RenewLoan Transform Should return with a call to RenewLoanTransform.callServiceClient" name="Testing the RenewLoan Transform Should return with a call to RenewLoanTransform.callServiceClient" time="0.002">
+    </testcase>
+    <testcase classname="Testing the RenewLoan Transform Should return expected string upon successful renewal" name="Testing the RenewLoan Transform Should return expected string upon successful renewal" time="0">
+    </testcase>
+    <testcase classname="Testing the RenewLoan Transform Should return expected string upon unsuccessful renewal" name="Testing the RenewLoan Transform Should return expected string upon unsuccessful renewal" time="0">
+    </testcase>
+    <testcase classname="Testing the RenewLoan Transform Should it should log and return an error when try/catch statement fails" name="Testing the RenewLoan Transform Should it should log and return an error when try/catch statement fails" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unittest methods in work.parser.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.066" tests="15">
     <testcase classname="Unittest methods in work.parser.js Should return default types" name="Unittest methods in work.parser.js Should return default types" time="0.001">
     </testcase>
     <testcase classname="Unittest methods in work.parser.js Should return first element from dcTtitle" name="Unittest methods in work.parser.js Should return first element from dcTtitle" time="0">
     </testcase>
-    <testcase classname="Unittest methods in work.parser.js Should return first element from dcTitleFull" name="Unittest methods in work.parser.js Should return first element from dcTitleFull" time="0.001">
+    <testcase classname="Unittest methods in work.parser.js Should return first element from dcTitleFull" name="Unittest methods in work.parser.js Should return first element from dcTitleFull" time="0.002">
     </testcase>
     <testcase classname="Unittest methods in work.parser.js Should return first element from abstract" name="Unittest methods in work.parser.js Should return first element from abstract" time="0">
     </testcase>
     <testcase classname="Unittest methods in work.parser.js Should return first element from workType" name="Unittest methods in work.parser.js Should return first element from workType" time="0">
     </testcase>
-    <testcase classname="Unittest methods in work.parser.js Should return first element from coverUrlFull" name="Unittest methods in work.parser.js Should return first element from coverUrlFull" time="0">
+    <testcase classname="Unittest methods in work.parser.js Should return first element from coverUrlFull" name="Unittest methods in work.parser.js Should return first element from coverUrlFull" time="0.001">
     </testcase>
-    <testcase classname="Unittest methods in work.parser.js Should return first element from extent" name="Unittest methods in work.parser.js Should return first element from extent" time="0.001">
+    <testcase classname="Unittest methods in work.parser.js Should return first element from extent" name="Unittest methods in work.parser.js Should return first element from extent" time="0">
     </testcase>
     <testcase classname="Unittest methods in work.parser.js Should return first element from subjectDK5" name="Unittest methods in work.parser.js Should return first element from subjectDK5" time="0">
     </testcase>
@@ -390,9 +502,9 @@
     </testcase>
     <testcase classname="Unittest methods in work.parser.js Should return first element from creatorDrt" name="Unittest methods in work.parser.js Should return first element from creatorDrt" time="0">
     </testcase>
-    <testcase classname="Unittest methods in work.parser.js Should return all elements from contributorAct" name="Unittest methods in work.parser.js Should return all elements from contributorAct" time="0">
+    <testcase classname="Unittest methods in work.parser.js Should return all elements from contributorAct" name="Unittest methods in work.parser.js Should return all elements from contributorAct" time="0.001">
     </testcase>
-    <testcase classname="Unittest methods in work.parser.js Should return first element from publisher" name="Unittest methods in work.parser.js Should return first element from publisher" time="0.001">
+    <testcase classname="Unittest methods in work.parser.js Should return first element from publisher" name="Unittest methods in work.parser.js Should return first element from publisher" time="0">
     </testcase>
     <testcase classname="Unittest methods in work.parser.js Should return all elements from audienceAge" name="Unittest methods in work.parser.js Should return all elements from audienceAge" time="0">
     </testcase>
@@ -401,66 +513,22 @@
     <testcase classname="Unittest methods in work.parser.js Should return onlineAccess with ereolengo" name="Unittest methods in work.parser.js Should return onlineAccess with ereolengo" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the Tabs component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.11" tests="9">
-    <testcase classname="Testing the Tabs component Should render empty tabs container" name="Testing the Tabs component Should render empty tabs container" time="0.007">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should render on tab" name="Testing the Tabs component Should render on tab" time="0.003">
-    </testcase>
-    <testcase classname="Testing the Tabs component Default selection Should be 0" name="Testing the Tabs component Default selection Should be 0" time="0">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should override default seleceted when passed as prop" name="Testing the Tabs component Should override default seleceted when passed as prop" time="0.001">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should set state.selected appropriately" name="Testing the Tabs component Should set state.selected appropriately" time="0">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should set state.selected appropriately when clicked" name="Testing the Tabs component Should set state.selected appropriately when clicked" time="0.006">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should not display a notification count" name="Testing the Tabs component Should not display a notification count" time="0.001">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should not display a notification count" name="Testing the Tabs component Should not display a notification count" time="0">
-    </testcase>
-    <testcase classname="Testing the Tabs component Should display a notification count" name="Testing the Tabs component Should display a notification count" time="0.001">
+  <testsuite name="Testing filerConfig.util" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.068" tests="1">
+    <testcase classname="Testing filerConfig.util Should return filtered object" name="Testing filerConfig.util Should return filtered object" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Testing methods on the Provider" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.102" tests="8">
-    <testcase classname="Testing methods on the Provider assert methods are accessible" name="Testing methods on the Provider assert methods are accessible" time="0.002">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test the constructor method" name="Testing methods on the Provider Test the constructor method" time="0.001">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test the registerTransform method" name="Testing methods on the Provider Test the registerTransform method" time="0.003">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test the registerServiceClient method" name="Testing methods on the Provider Test the registerServiceClient method" time="0.001">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test the trigger function Throws an error on unsupported events" name="Testing methods on the Provider Test the trigger function Throws an error on unsupported events" time="0.001">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test the trigger function Triggers an event" name="Testing methods on the Provider Test the trigger function Triggers an event" time="0.001">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test callServiceClient method should call method on client" name="Testing methods on the Provider Test callServiceClient method should call method on client" time="0">
-    </testcase>
-    <testcase classname="Testing methods on the Provider Test callServiceClient method should catch error" name="Testing methods on the Provider Test callServiceClient method should catch error" time="0.001">
+  <testsuite name="Test droppable image field component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.066" tests="1">
+    <testcase classname="Test droppable image field component Check component renders" name="Test droppable image field component Check component renders" time="0.01">
     </testcase>
   </testsuite>
-  <testsuite name="Unittesting the MoreInfo.comopenent" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.101" tests="6">
-    <testcase classname="Unittesting the MoreInfo.comopenent Should return null (getMoreInfoRow)" name="Unittesting the MoreInfo.comopenent Should return null (getMoreInfoRow)" time="0.002">
-    </testcase>
-    <testcase classname="Unittesting the MoreInfo.comopenent Should return element (getMoreInfoRow)" name="Unittesting the MoreInfo.comopenent Should return element (getMoreInfoRow)" time="0.004">
-    </testcase>
-    <testcase classname="Unittesting the MoreInfo.comopenent Should return null (getSubjects)" name="Unittesting the MoreInfo.comopenent Should return null (getSubjects)" time="0.001">
-    </testcase>
-    <testcase classname="Unittesting the MoreInfo.comopenent Should return list of rendered subjects (getSubjects)" name="Unittesting the MoreInfo.comopenent Should return list of rendered subjects (getSubjects)" time="0.001">
-    </testcase>
-    <testcase classname="Unittesting the MoreInfo.comopenent Should return null (getGenericList)" name="Unittesting the MoreInfo.comopenent Should return null (getGenericList)" time="0">
-    </testcase>
-    <testcase classname="Unittesting the MoreInfo.comopenent Should return list of rendered elements (getGenericList)" name="Unittesting the MoreInfo.comopenent Should return list of rendered elements (getGenericList)" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the RenewLoanButton Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.096" tests="7">
-    <testcase classname="Testing the RenewLoanButton Component Should display an error message" name="Testing the RenewLoanButton Component Should display an error message" time="0.002">
+  <testsuite name="Testing the RenewLoanButton Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.063" tests="7">
+    <testcase classname="Testing the RenewLoanButton Component Should display an error message" name="Testing the RenewLoanButton Component Should display an error message" time="0.001">
     </testcase>
     <testcase classname="Testing the RenewLoanButton Component Should return loan based on props.loanId" name="Testing the RenewLoanButton Component Should return loan based on props.loanId" time="0.001">
     </testcase>
     <testcase classname="Testing the RenewLoanButton Component Should return null userstatus.loans is undefined" name="Testing the RenewLoanButton Component Should return null userstatus.loans is undefined" time="0">
     </testcase>
-    <testcase classname="Testing the RenewLoanButton Component Should return null userstatus.loans is not an array" name="Testing the RenewLoanButton Component Should return null userstatus.loans is not an array" time="0">
+    <testcase classname="Testing the RenewLoanButton Component Should return null userstatus.loans is not an array" name="Testing the RenewLoanButton Component Should return null userstatus.loans is not an array" time="0.001">
     </testcase>
     <testcase classname="Testing the RenewLoanButton Component Should return null userstatus.loans is an empty array" name="Testing the RenewLoanButton Component Should return null userstatus.loans is an empty array" time="0">
     </testcase>
@@ -469,52 +537,30 @@
     <testcase classname="Testing the RenewLoanButton Component Should display message upon successful renewal" name="Testing the RenewLoanButton Component Should display message upon successful renewal" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test backbutton" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.076" tests="1">
-    <testcase classname="Test backbutton Check backbutton onclick calls window.history.back" name="Test backbutton Check backbutton onclick calls window.history.back" time="0.006">
+  <testsuite name="Test TimeToString util" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.05" tests="1">
+    <testcase classname="Test TimeToString util it should return correct string" name="Test TimeToString util it should return correct string" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="Testing Validate Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.076" tests="2">
-    <testcase classname="Testing Validate Transform Test Validate Transform" name="Testing Validate Transform Test Validate Transform" time="0.003">
-    </testcase>
-    <testcase classname="Testing Validate Transform Triggers event on transform" name="Testing Validate Transform Triggers event on transform" time="0.001">
+  <testsuite name="Test backbutton" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.08" tests="1">
+    <testcase classname="Test backbutton Check backbutton onclick calls window.history.back" name="Test backbutton Check backbutton onclick calls window.history.back" time="0.012">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the CookieWarningContainer component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.069" tests="2">
-    <testcase classname="Testing the CookieWarningContainer component Should render a modal" name="Testing the CookieWarningContainer component Should render a modal" time="0.01">
+  <testsuite name="Testing CheckUserStatus.queue" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.063" tests="4">
+    <testcase classname="Testing CheckUserStatus.queue Should return userMessages.Items empty array when empty array is given" name="Testing CheckUserStatus.queue Should return userMessages.Items empty array when empty array is given" time="0.001">
     </testcase>
-    <testcase classname="Testing the CookieWarningContainer component Should hide the cookie warning" name="Testing the CookieWarningContainer component Should hide the cookie warning" time="0.002">
+    <testcase classname="Testing CheckUserStatus.queue Should return empty array when no match is found in userStatusFlattened and the item should be deleted" name="Testing CheckUserStatus.queue Should return empty array when no match is found in userStatusFlattened and the item should be deleted" time="0.001">
     </testcase>
-  </testsuite>
-  <testsuite name="Unittesting methods in MultiVolumeDisplay.component.test.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.077" tests="2">
-    <testcase classname="Unittesting methods in MultiVolumeDisplay.component.test.js Should match snapshot" name="Unittesting methods in MultiVolumeDisplay.component.test.js Should match snapshot" time="0.011">
+    <testcase classname="Testing CheckUserStatus.queue Should not return empty array when a match is found in userStatusFlattened" name="Testing CheckUserStatus.queue Should not return empty array when a match is found in userStatusFlattened" time="0.001">
     </testcase>
-    <testcase classname="Unittesting methods in MultiVolumeDisplay.component.test.js Should render 6 items" name="Unittesting methods in MultiVolumeDisplay.component.test.js Should render 6 items" time="0.012">
+    <testcase classname="Testing CheckUserStatus.queue Should ignore the item if it has already been marked as deleted" name="Testing CheckUserStatus.queue Should ignore the item if it has already been marked as deleted" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="CacheManager wrap method" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.069" tests="3">
-    <testcase classname="CacheManager wrap method uses callback when no cache" name="CacheManager wrap method uses callback when no cache" time="0.002">
-    </testcase>
-    <testcase classname="CacheManager wrap method returns cached value" name="CacheManager wrap method returns cached value" time="0">
-    </testcase>
-    <testcase classname="CacheManager wrap method uses callback when arguments change" name="CacheManager wrap method uses callback when arguments change" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test Footer" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.074" tests="2">
-    <testcase classname="Test Footer Assert className footer--container" name="Test Footer Assert className footer--container" time="0.003">
-    </testcase>
-    <testcase classname="Test Footer Assert menu is added" name="Test Footer Assert menu is added" time="0.016">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test droppable image field component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:36" time="0.087" tests="1">
-    <testcase classname="Test droppable image field component Check component renders" name="Test droppable image field component Check component renders" time="0.02">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the userstatus.reducer" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.053" tests="6">
+  <testsuite name="Testing the userstatus.reducer" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.064" tests="6">
     <testcase classname="Testing the userstatus.reducer Should non-manipulated state when response is empty" name="Testing the userstatus.reducer Should non-manipulated state when response is empty" time="0.001">
     </testcase>
-    <testcase classname="Testing the userstatus.reducer Should state according to given action.response" name="Testing the userstatus.reducer Should state according to given action.response" time="0.001">
+    <testcase classname="Testing the userstatus.reducer Should state according to given action.response" name="Testing the userstatus.reducer Should state according to given action.response" time="0">
     </testcase>
-    <testcase classname="Testing the userstatus.reducer Should log an error when errors.length &gt; 1" name="Testing the userstatus.reducer Should log an error when errors.length &gt; 1" time="0.002">
+    <testcase classname="Testing the userstatus.reducer Should log an error when errors.length &gt; 1" name="Testing the userstatus.reducer Should log an error when errors.length &gt; 1" time="0.004">
     </testcase>
     <testcase classname="Testing the userstatus.reducer Should log an error when response.result is undefined" name="Testing the userstatus.reducer Should log an error when response.result is undefined" time="0.001">
     </testcase>
@@ -523,106 +569,66 @@
     <testcase classname="Testing the userstatus.reducer Should return state as it is when no macthing action is found" name="Testing the userstatus.reducer Should return state as it is when no macthing action is found" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Testing widget.reducer" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.048" tests="1">
-    <testcase classname="Testing widget.reducer Should key works in EditoriallySelectedMaterialsWidget by string of pids" name="Testing widget.reducer Should key works in EditoriallySelectedMaterialsWidget by string of pids" time="0">
+  <testsuite name="Testing the WorkHeader.component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.067" tests="2">
+    <testcase classname="Testing the WorkHeader.component Matches snapshot when no link is provided" name="Testing the WorkHeader.component Matches snapshot when no link is provided" time="0.008">
+    </testcase>
+    <testcase classname="Testing the WorkHeader.component Matches snapshot when a link is provided" name="Testing the WorkHeader.component Matches snapshot when a link is provided" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="Unittesting the methods in work.reducer.js" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.053" tests="1">
-    <testcase classname="Unittesting the methods in work.reducer.js Should ensure that data is expected when returned from reducer" name="Unittesting the methods in work.reducer.js Should ensure that data is expected when returned from reducer" time="0.005">
+  <testsuite name="Test ColourPicker" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.076" tests="1">
+    <testcase classname="Test ColourPicker Test colour picker component" name="Test ColourPicker Test colour picker component" time="0.02">
     </testcase>
   </testsuite>
-  <testsuite name="test group actions" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.078" tests="2">
-    <testcase classname="test group actions should create CHANGE_GROUP_IMAGE action" name="test group actions should create CHANGE_GROUP_IMAGE action" time="0.004">
-    </testcase>
-    <testcase classname="test group actions should test CHANGE_GROUP_IMAGE without file reader support" name="test group actions should test CHANGE_GROUP_IMAGE without file reader support" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the WorkHeader.component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.071" tests="2">
-    <testcase classname="Testing the WorkHeader.component Matches snapshot when no link is provided" name="Testing the WorkHeader.component Matches snapshot when no link is provided" time="0.006">
-    </testcase>
-    <testcase classname="Testing the WorkHeader.component Matches snapshot when a link is provided" name="Testing the WorkHeader.component Matches snapshot when a link is provided" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the RenewLoan Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.058" tests="6">
-    <testcase classname="Testing the RenewLoan Transform Should return event implemented by this transform" name="Testing the RenewLoan Transform Should return event implemented by this transform" time="0">
-    </testcase>
-    <testcase classname="Testing the RenewLoan Transform Should return promise that rejects" name="Testing the RenewLoan Transform Should return promise that rejects" time="0.001">
-    </testcase>
-    <testcase classname="Testing the RenewLoan Transform Should return with a call to RenewLoanTransform.callServiceClient" name="Testing the RenewLoan Transform Should return with a call to RenewLoanTransform.callServiceClient" time="0.002">
-    </testcase>
-    <testcase classname="Testing the RenewLoan Transform Should return expected string upon successful renewal" name="Testing the RenewLoan Transform Should return expected string upon successful renewal" time="0.001">
-    </testcase>
-    <testcase classname="Testing the RenewLoan Transform Should return expected string upon unsuccessful renewal" name="Testing the RenewLoan Transform Should return expected string upon unsuccessful renewal" time="0">
-    </testcase>
-    <testcase classname="Testing the RenewLoan Transform Should it should log and return an error when try/catch statement fails" name="Testing the RenewLoan Transform Should it should log and return an error when try/catch statement fails" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing CheckUserStatus.queue" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.057" tests="4">
-    <testcase classname="Testing CheckUserStatus.queue Should return userMessages.Items empty array when empty array is given" name="Testing CheckUserStatus.queue Should return userMessages.Items empty array when empty array is given" time="0.001">
-    </testcase>
-    <testcase classname="Testing CheckUserStatus.queue Should return empty array when no match is found in userStatusFlattened and the item should be deleted" name="Testing CheckUserStatus.queue Should return empty array when no match is found in userStatusFlattened and the item should be deleted" time="0.002">
-    </testcase>
-    <testcase classname="Testing CheckUserStatus.queue Should not return empty array when a match is found in userStatusFlattened" name="Testing CheckUserStatus.queue Should not return empty array when a match is found in userStatusFlattened" time="0.001">
-    </testcase>
-    <testcase classname="Testing CheckUserStatus.queue Should ignore the item if it has already been marked as deleted" name="Testing CheckUserStatus.queue Should ignore the item if it has already been marked as deleted" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the GetUserStatus Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.042" tests="1">
-    <testcase classname="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" name="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test ColourPicker" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.051" tests="1">
-    <testcase classname="Test ColourPicker Test colour picker component" name="Test ColourPicker Test colour picker component" time="0.011">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the methods in the Dispatcher object" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.073" tests="1">
-    <testcase classname="Testing the methods in the Dispatcher object tests something" name="Testing the methods in the Dispatcher object tests something" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the GroupViewHeader component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.06" tests="3">
-    <testcase classname="Testing the GroupViewHeader component Should render two children" name="Testing the GroupViewHeader component Should render two children" time="0.004">
-    </testcase>
-    <testcase classname="Testing the GroupViewHeader component First child should be a background image" name="Testing the GroupViewHeader component First child should be a background image" time="0.003">
-    </testcase>
-    <testcase classname="Testing the GroupViewHeader component Second child should be a foreground image rendered in a href" name="Testing the GroupViewHeader component Second child should be a foreground image rendered in a href" time="0.006">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing filerConfig.util" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.073" tests="1">
-    <testcase classname="Testing filerConfig.util Should return filtered object" name="Testing filerConfig.util Should return filtered object" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test GroupCreate reducer" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.078" tests="3">
+  <testsuite name="Test GroupCreate reducer" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.066" tests="3">
     <testcase classname="Test GroupCreate reducer should return initial state, given no state" name="Test GroupCreate reducer should return initial state, given no state" time="0.001">
     </testcase>
-    <testcase classname="Test GroupCreate reducer should test CHANGE_GROUP_IMAGE action" name="Test GroupCreate reducer should test CHANGE_GROUP_IMAGE action" time="0">
+    <testcase classname="Test GroupCreate reducer should test CHANGE_GROUP_IMAGE action" name="Test GroupCreate reducer should test CHANGE_GROUP_IMAGE action" time="0.001">
     </testcase>
-    <testcase classname="Test GroupCreate reducer should test SUBMIT_CREATE_GROUP action" name="Test GroupCreate reducer should test SUBMIT_CREATE_GROUP action" time="0.001">
+    <testcase classname="Test GroupCreate reducer should test SUBMIT_CREATE_GROUP action" name="Test GroupCreate reducer should test SUBMIT_CREATE_GROUP action" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Testing sanitizeHtml.util" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.052" tests="5">
-    <testcase classname="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" name="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" time="0.002">
+  <testsuite name="Testing widget.reducer" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:39" time="0.07" tests="1">
+    <testcase classname="Testing widget.reducer Should key works in EditoriallySelectedMaterialsWidget by string of pids" name="Testing widget.reducer Should key works in EditoriallySelectedMaterialsWidget by string of pids" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing sanitizeHtml.util" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.063" tests="5">
+    <testcase classname="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" name="Testing sanitizeHtml.util Should remove content of script-tag and return safe HTML" time="0.004">
     </testcase>
     <testcase classname="Testing sanitizeHtml.util Should remove unsafe HTML and return empty string" name="Testing sanitizeHtml.util Should remove unsafe HTML and return empty string" time="0.001">
     </testcase>
     <testcase classname="Testing sanitizeHtml.util Should remove script-tag and return empty string" name="Testing sanitizeHtml.util Should remove script-tag and return empty string" time="0.001">
     </testcase>
-    <testcase classname="Testing sanitizeHtml.util Should return safe img-tag" name="Testing sanitizeHtml.util Should return safe img-tag" time="0.002">
+    <testcase classname="Testing sanitizeHtml.util Should return safe img-tag" name="Testing sanitizeHtml.util Should return safe img-tag" time="0.003">
     </testcase>
     <testcase classname="Testing sanitizeHtml.util Should return original string not containing HTML" name="Testing sanitizeHtml.util Should return original string not containing HTML" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test rounded button" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.05" tests="2">
-    <testcase classname="Test rounded button Check rounded button onclick calls clickFunction" name="Test rounded button Check rounded button onclick calls clickFunction" time="0.004">
-    </testcase>
-    <testcase classname="Test rounded button Should check buttontext is rendered" name="Test rounded button Should check buttontext is rendered" time="0.002">
+  <testsuite name="Test NavbarLink Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.056" tests="1">
+    <testcase classname="Test NavbarLink Component Assert className navbar--container" name="Test NavbarLink Component Assert className navbar--container" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="Unittesting validateId.util.js methods" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.047" tests="13">
+  <testsuite name="Unittesting the methods in work.reducer.js" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.059" tests="1">
+    <testcase classname="Unittesting the methods in work.reducer.js Should ensure that data is expected when returned from reducer" name="Unittesting the methods in work.reducer.js Should ensure that data is expected when returned from reducer" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test ColourPickerItem" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.061" tests="1">
+    <testcase classname="Test ColourPickerItem Test render" name="Test ColourPickerItem Test render" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the GetUserStatus Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.059" tests="1">
+    <testcase classname="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" name="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing the GetUserStatus Transform" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.069" tests="1">
+    <testcase classname="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" name="Testing the GetUserStatus Transform Should return object as expected  - if no pickudDate is present order.ready should be set based on orderStatus" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Unittesting validateId.util.js methods" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.06" tests="13">
     <testcase classname="Unittesting validateId.util.js methods validateId Should return pid" name="Unittesting validateId.util.js methods validateId Should return pid" time="0">
     </testcase>
-    <testcase classname="Unittesting validateId.util.js methods validateId Should NOT return pid" name="Unittesting validateId.util.js methods validateId Should NOT return pid" time="0">
+    <testcase classname="Unittesting validateId.util.js methods validateId Should NOT return pid" name="Unittesting validateId.util.js methods validateId Should NOT return pid" time="0.001">
     </testcase>
-    <testcase classname="Unittesting validateId.util.js methods validateId Should return isbn" name="Unittesting validateId.util.js methods validateId Should return isbn" time="0.001">
+    <testcase classname="Unittesting validateId.util.js methods validateId Should return isbn" name="Unittesting validateId.util.js methods validateId Should return isbn" time="0">
     </testcase>
     <testcase classname="Unittesting validateId.util.js methods validateId Should Not return isbn" name="Unittesting validateId.util.js methods validateId Should Not return isbn" time="0">
     </testcase>
@@ -630,7 +636,7 @@
     </testcase>
     <testcase classname="Unittesting validateId.util.js methods validateId Should Not return faust" name="Unittesting validateId.util.js methods validateId Should Not return faust" time="0">
     </testcase>
-    <testcase classname="Unittesting validateId.util.js methods validateId Should return error" name="Unittesting validateId.util.js methods validateId Should return error" time="0.001">
+    <testcase classname="Unittesting validateId.util.js methods validateId Should return error" name="Unittesting validateId.util.js methods validateId Should return error" time="0">
     </testcase>
     <testcase classname="Unittesting validateId.util.js methods getIdFromUrl Should return pid" name="Unittesting validateId.util.js methods getIdFromUrl Should return pid" time="0">
     </testcase>
@@ -638,49 +644,43 @@
     </testcase>
     <testcase classname="Unittesting validateId.util.js methods getIdFromUrl Should return faust" name="Unittesting validateId.util.js methods getIdFromUrl Should return faust" time="0">
     </testcase>
-    <testcase classname="Unittesting validateId.util.js methods getIdFromFile Should return pid" name="Unittesting validateId.util.js methods getIdFromFile Should return pid" time="0.001">
+    <testcase classname="Unittesting validateId.util.js methods getIdFromFile Should return pid" name="Unittesting validateId.util.js methods getIdFromFile Should return pid" time="0">
     </testcase>
     <testcase classname="Unittesting validateId.util.js methods getIdFromFile Should return isbn" name="Unittesting validateId.util.js methods getIdFromFile Should return isbn" time="0">
     </testcase>
     <testcase classname="Unittesting validateId.util.js methods getIdFromFile Should return faust" name="Unittesting validateId.util.js methods getIdFromFile Should return faust" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Test ColourPickerItem" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.059" tests="1">
-    <testcase classname="Test ColourPickerItem Test render" name="Test ColourPickerItem Test render" time="0.005">
+  <testsuite name="Testing the Events methods" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.047" tests="1">
+    <testcase classname="Testing the Events methods requires all files in folder" name="Testing the Events methods requires all files in folder" time="0.007">
     </testcase>
   </testsuite>
-  <testsuite name="Testing the Events methods" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.038" tests="1">
-    <testcase classname="Testing the Events methods requires all files in folder" name="Testing the Events methods requires all files in folder" time="0.006">
+  <testsuite name="Test ClickOverlay Component" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.047" tests="1">
+    <testcase classname="Test ClickOverlay Component Assert className navbar--container" name="Test ClickOverlay Component Assert className navbar--container" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="Test TimeToString util" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.042" tests="1">
-    <testcase classname="Test TimeToString util it should return correct string" name="Test TimeToString util it should return correct string" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="Testing the parseStringForVideoUrls.js util" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.037" tests="5">
+  <testsuite name="Testing the parseStringForVideoUrls.js util" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.039" tests="5">
     <testcase classname="Testing the parseStringForVideoUrls.js util it should return empty array when an empty string is given" name="Testing the parseStringForVideoUrls.js util it should return empty array when an empty string is given" time="0.001">
     </testcase>
     <testcase classname="Testing the parseStringForVideoUrls.js util it should return null when no video URLs is found" name="Testing the parseStringForVideoUrls.js util it should return null when no video URLs is found" time="0">
     </testcase>
-    <testcase classname="Testing the parseStringForVideoUrls.js util it should return an array with youtube url present" name="Testing the parseStringForVideoUrls.js util it should return an array with youtube url present" time="0.001">
+    <testcase classname="Testing the parseStringForVideoUrls.js util it should return an array with youtube url present" name="Testing the parseStringForVideoUrls.js util it should return an array with youtube url present" time="0">
     </testcase>
-    <testcase classname="Testing the parseStringForVideoUrls.js util it should return an array with two video urls present" name="Testing the parseStringForVideoUrls.js util it should return an array with two video urls present" time="0">
+    <testcase classname="Testing the parseStringForVideoUrls.js util it should return an array with two video urls present" name="Testing the parseStringForVideoUrls.js util it should return an array with two video urls present" time="0.001">
     </testcase>
     <testcase classname="Testing the parseStringForVideoUrls.js util it should return an array with one player" name="Testing the parseStringForVideoUrls.js util it should return an array with one player" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Test NavbarLink Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.042" tests="1">
-    <testcase classname="Test NavbarLink Component Assert className navbar--container" name="Test NavbarLink Component Assert className navbar--container" time="0.006">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test ClickOverlay Component" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.041" tests="1">
-    <testcase classname="Test ClickOverlay Component Assert className navbar--container" name="Test ClickOverlay Component Assert className navbar--container" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test rounded button" errors="0" failures="0" skipped="0" timestamp="2019-02-22T12:55:37" time="0.038" tests="2">
-    <testcase classname="Test rounded button Check rounded submit button onclick calls clickFunction" name="Test rounded button Check rounded submit button onclick calls clickFunction" time="0.003">
+  <testsuite name="Test rounded button" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.038" tests="2">
+    <testcase classname="Test rounded button Check rounded submit button onclick calls clickFunction" name="Test rounded button Check rounded submit button onclick calls clickFunction" time="0.002">
     </testcase>
     <testcase classname="Test rounded button should test buttontext is rendered" name="Test rounded button should test buttontext is rendered" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test rounded button" errors="0" failures="0" skipped="0" timestamp="2019-02-26T07:07:40" time="0.033" tests="2">
+    <testcase classname="Test rounded button Check rounded button onclick calls clickFunction" name="Test rounded button Check rounded button onclick calls clickFunction" time="0.001">
+    </testcase>
+    <testcase classname="Test rounded button Should check buttontext is rendered" name="Test rounded button Should check buttontext is rendered" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

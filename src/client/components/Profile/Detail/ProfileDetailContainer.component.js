@@ -657,6 +657,7 @@ export class ProfileDetailContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profile}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         {modal}
         <div className="p-detail--badge-container">

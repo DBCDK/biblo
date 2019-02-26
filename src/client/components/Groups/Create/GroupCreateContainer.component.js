@@ -12,6 +12,7 @@ import PageLayout from '../../Layout/PageLayout.component';
 // Actions
 import * as groupActions from '../../../Actions/group.actions';
 import * as searchActions from '../../../Actions/search.actions';
+import * as profileActions from '../../../Actions/profile.actions';
 
 // SASS
 import './_groupcreatecontainer.component.scss';
@@ -45,6 +46,7 @@ export class GroupCreateContainer extends React.Component {
           searchActions={this.props.searchActions}
           profileState={this.props.profileState}
           globalState={this.props.globalState}
+          profileActions={this.props.profileActions}
         >
           <div className="group-create">
             <BackButton />
@@ -71,6 +73,7 @@ export class GroupCreateContainer extends React.Component {
 GroupCreateContainer.displayName = 'GroupCreateContainer';
 GroupCreateContainer.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired,
   group: PropTypes.object.isRequired,
@@ -95,6 +98,7 @@ export default connect(
   // Map group actions to actions props
   dispatch => {
     return {
+      profileActions: bindActionCreators(profileActions, dispatch),
       searchActions: bindActionCreators(searchActions, dispatch),
       groupActions: bindActionCreators(groupActions, dispatch)
     };

@@ -107,6 +107,7 @@ export class GroupViewContainer extends React.Component {
           searchActions={this.props.searchActions}
           profileState={this.props.profile}
           globalState={this.props.globalState}
+          profileActions={this.props.profileActions}
         >
           <div className="error">{this.props.group.error}</div>
         </PageLayout>
@@ -119,6 +120,7 @@ export class GroupViewContainer extends React.Component {
           searchActions={this.props.searchActions}
           profileState={this.props.profile}
           globalState={this.props.globalState}
+          profileActions={this.props.profileActions}
         >
           <div className="group-is-deleted">
             <h1>Gruppen findes ikke længere</h1>
@@ -147,6 +149,7 @@ export class GroupViewContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profile}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         {modal}
         <div className="group">

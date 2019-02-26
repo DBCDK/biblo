@@ -205,9 +205,9 @@ ApiRoutes.get('/check-messages', (req, res) => {
     const userId = req.session.passport ? req.session.passport.user.profile.profile.id : null;
     const checkForNewAdminMessagesQueue = req.app.get('checkForNewAdminMessagesQueue');
     const checkForNewQuarantinesQueue = req.app.get('checkForNewQuarantinesQueue');
-    if (userId) {
-      checkForNewAdminMessagesQueue.add({userId: userId});
+    if (userId && userId > 0) {
       checkForNewQuarantinesQueue.add({userId: userId});
+      checkForNewAdminMessagesQueue.add({userId: userId});
     }
   } catch (err) {
     log.error('An error occurred in api/check-messages', {error: err});

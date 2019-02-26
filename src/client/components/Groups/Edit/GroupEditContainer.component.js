@@ -11,6 +11,7 @@ import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
 import * as groupActions from '../../../Actions/group.actions';
 import * as searchActions from '../../../Actions/search.actions';
 import * as uiActions from '../../../Actions/ui.actions';
+import * as profileActions from '../../../Actions/profile.actions';
 
 import './groupeditcontainer.component.scss';
 
@@ -142,6 +143,7 @@ export class GroupEditContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <BackButton />
         <h1 className="group-edit--header">Redigér gruppe</h1>
@@ -167,6 +169,7 @@ export class GroupEditContainer extends React.Component {
 GroupEditContainer.displayName = 'GroupEditContainer';
 GroupEditContainer.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -184,6 +187,7 @@ export default connect(
   state => {
     return {
       profileState: state.profileReducer,
+      profileActions: PropTypes.object.isRequired,
       searchState: state.searchReducer,
       group: state.groupEditReducer,
       ui: state.uiReducer,
@@ -196,7 +200,8 @@ export default connect(
     return {
       searchActions: bindActionCreators(searchActions, dispatch),
       actions: bindActionCreators(groupActions, dispatch),
-      uiActions: bindActionCreators(uiActions, dispatch)
+      uiActions: bindActionCreators(uiActions, dispatch),
+      profileActions: bindActionCreators(profileActions, dispatch)
     };
   }
 )(GroupEditContainer);

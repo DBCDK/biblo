@@ -13,6 +13,7 @@ import WidgetContainer from '../WidgetContainer/WidgetContainer.component';
 
 import * as searchActions from '../../Actions/search.actions';
 import * as widgetActions from '../../Actions/widget.actions';
+import * as profileActions from '../../Actions/profile.actions';
 
 import './contentPage.scss';
 
@@ -73,6 +74,7 @@ export class Article extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         {content}
       </PageLayout>
@@ -83,6 +85,7 @@ export class Article extends React.Component {
 Article.displayName = 'Article';
 Article.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   widgetState: PropTypes.object.isRequired,
   widgetActions: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
@@ -104,6 +107,7 @@ export default connect(
   // Map group actions to actions props
   dispatch => {
     return {
+      profileActions: bindActionCreators(profileActions, dispatch),
       searchActions: bindActionCreators(searchActions, dispatch),
       widgetActions: bindActionCreators(widgetActions, dispatch)
     };

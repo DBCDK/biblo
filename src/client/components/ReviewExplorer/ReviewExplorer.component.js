@@ -17,6 +17,7 @@ import * as widgetActions from '../../Actions/widget.actions';
 import * as reviewActions from '../../Actions/review.actions';
 import * as likeActions from '../../Actions/like.actions';
 import * as uiActions from '../../Actions/ui.actions';
+import * as profileActions from '../../Actions/profile.actions';
 
 import './scss/ReviewExplorer.component.scss';
 
@@ -82,6 +83,7 @@ export class ReviewExplorerComponent extends Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <ReviewExplorerNavigation genres={genres} onChange={this.handleNavigationChange.bind(this)} />
         <div className="review-explorer--main-content">
@@ -118,6 +120,7 @@ ReviewExplorerComponent.propTypes = {
   reviewActions: PropTypes.object.isRequired,
   likeActions: PropTypes.object.isRequired,
   uiActions: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   profileState: PropTypes.object.isRequired,
   searchState: PropTypes.object.isRequired,
   widgetState: PropTypes.object.isRequired,
@@ -144,7 +147,8 @@ export default connect(
       widgetActions: bindActionCreators(widgetActions, dispatch),
       reviewActions: bindActionCreators(reviewActions, dispatch),
       likeActions: bindActionCreators(likeActions, dispatch),
-      uiActions: bindActionCreators(uiActions, dispatch)
+      uiActions: bindActionCreators(uiActions, dispatch),
+      profileActions: bindActionCreators(profileActions, dispatch)
     };
   }
 )(ReviewExplorerComponent);

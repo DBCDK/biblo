@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import * as searchActions from '../../Actions/search.actions';
+import * as profileActions from '../../Actions/profile.actions';
 
 import PageLayout from '../Layout/PageLayout.component.js';
 import SearchFilters from '../SearchBox/SearchFilters/SearchFilters.component.js';
@@ -143,6 +144,7 @@ export class SearchResultContainer extends React.Component {
         searchActions={this.props.searchActions}
         profileState={this.props.profileState}
         globalState={this.props.globalState}
+        profileActions={this.props.profileActions}
       >
         <SearchFilters search={this.props.search} searchActions={this.props.searchActions} />
         {results}
@@ -155,6 +157,7 @@ SearchResultContainer.displayName = 'SearchResultContainer';
 
 SearchResultContainer.propTypes = {
   profileState: PropTypes.object.isRequired,
+  profileActions: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   searchActions: PropTypes.object.isRequired,
   globalState: PropTypes.object.isRequired
@@ -176,7 +179,8 @@ export default connect(
   // Map actions to props
   dispatcher => {
     return {
-      searchActions: bindActionCreators(searchActions, dispatcher)
+      searchActions: bindActionCreators(searchActions, dispatcher),
+      profileActions: bindActionCreators(profileActions, dispatcher)
     };
   }
 )(SearchResultContainer);

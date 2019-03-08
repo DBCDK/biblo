@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import ModalWindow from '../General/ModalWindow/ModalWindow.component';
 import RoundedButton from '../General/RoundedButton/RoundedButton.a.component';
+import sanitizeHtml from '../../Utils/sanitizeHtml.util';
 
 // Styling
 import './scss/message-modal.scss';
@@ -60,7 +61,7 @@ export default class ModeratorMessageModal extends React.Component {
               ? 'Du har fået en ny besked fra moderator!'
               : 'Du har fået en karantæne..'}
           </span>
-          <span>{message.reason || message.message}</span>
+          <span dangerouslySetInnerHTML={{__html: sanitizeHtml(message.reason || message.message)}} />
           <RoundedButton buttonText="OK" clickFunction={this.onClose.bind(this)} />
         </div>
       </ModalWindow>

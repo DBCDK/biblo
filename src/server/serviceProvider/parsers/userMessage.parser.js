@@ -21,17 +21,14 @@ export function userMessageParser(items = [], limit) {
   if (limit) {
     items = items.slice(0, limit);
   }
-  let seenCommentIds = [];
-  let seenMessageIds = [];
+  let seenIds = [];
 
   items.forEach(message => {
     message.type = message.messageType;
 
     try {
       message = Object.assign(message, JSON.parse(message.message));
-      if (message.messageType !== 'type-messageFromAdmin') {
-        delete message.message;
-      }
+      delete message.message;
     } catch (err) {
       message.errors = ['Could not parse message'];
     }
@@ -46,23 +43,15 @@ export function userMessageParser(items = [], limit) {
     ];
 
     if (
-      seenCommentIds.includes(message.commentId) ||
-      seenMessageIds.includes(message.id) ||
+      seenIds.includes(message.commentId) ||
       !!message.markAsDeleted ||
       !accecptedMessageTypes.includes(message.messageType)
     ) {
-      seenCommentIds.includes(message.commentId)
-        ? DeleteMessageTransform.requestTransform('deleteUserMessage', message)
-        : '';
-
-      seenMessageIds.includes(message.id) ? DeleteMessageTransform.requestTransform('deleteUserMessage', message) : '';
+      seenIds.includes(message.commentId) ? DeleteMessageTransform.requestTransform('deleteUserMessage', message) : '';
       return;
     }
     userMessages.messages.push(message);
-    message.commentId ? seenCommentIds.push(message.commentId) : '';
-    if (message.type === 'type-messageFromAdmin' || message.type === 'type-userWasQuarantined') {
-      seenMessageIds.push(message.id);
-    }
+    message.commentId ? seenIds.push(message.commentId) : '';
 
     if (!message.read) {
       userMessages.unreadMessages += 1;

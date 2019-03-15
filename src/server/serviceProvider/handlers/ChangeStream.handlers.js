@@ -9,6 +9,21 @@
  * @param {PlainObject} change
  */
 
+export function adminMessageChangeStreamHandler(app, change = {}) {
+  const checkForNewAdminMessagesQueue = app.get('checkForNewAdminMessagesQueue');
+
+  if (change.data && change.data.receiverProfileId && change.isNewInstance) {
+    checkForNewAdminMessagesQueue.add({userId: change.data.receiverProfileId});
+  }
+}
+
+export function quarantinesChangeStreamHandler(app, change = {}) {
+  const checkForNewQuarantinesQueue = app.get('checkForNewQuarantinesQueue');
+
+  if (change.data && change.data.quarantinedProfileId && change.isNewInstance) {
+    checkForNewQuarantinesQueue.add({userId: change.data.quarantinedProfileId});
+  }
+}
 export function commentWasAddedUserMessageChangeStreamHandler(app, change = {}) {
   const addedCommentQueue = app.get('addedCommentQueue');
 

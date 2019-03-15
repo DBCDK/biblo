@@ -70,6 +70,8 @@ import {notifyUsersRelevantToComment} from './server/queues/notifyUsersRelevantT
 
 // Change handlers
 import {
+  adminMessageChangeStreamHandler,
+  quarantinesChangeStreamHandler,
   commentWasAddedUserMessageChangeStreamHandler,
   postWasAddedEmitToClientsChangeStreamHandler,
   commentWasAddedEmitToClientsChangeStreamHandler
@@ -431,6 +433,12 @@ module.exports.run = function(worker) {
       if (typeof data === 'object' && data.event) {
         // Each event has different handlers
         switch (data.event) {
+          case 'adminmessageChanged': {
+            return [adminMessageChangeStreamHandler(app, data)];
+          }
+          case 'quarantineChanged': {
+            return [quarantinesChangeStreamHandler(app, data)];
+          }
           case 'postChanged': {
             return [postWasAddedEmitToClientsChangeStreamHandler(app, scServer, data)];
           }

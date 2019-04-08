@@ -63,7 +63,8 @@ MainRoutes.get('/', fullProfileOnSession, ensureUserHasProfile, ensureUserHasVal
 
       return res.render('page', {
         css: ['/css/contentpage.css'],
-        js: ['/js/contentpage.js']
+        js: ['/js/contentpage.js'],
+        includeDDBMarker: true
       });
     }
   } catch (err) {

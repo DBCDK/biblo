@@ -1,7 +1,7 @@
 /**
  * @file: In this file we process user messages to send them to dynamo.
  */
-import {log} from 'dbc-node-logger';
+// import {log} from 'dbc-node-logger';
 
 /**
  * This function processes user messages to insert them into DynamoDB
@@ -10,7 +10,9 @@ import {log} from 'dbc-node-logger';
  * @param {function} done
  * @returns {Promise}
  */
-export function processUserMessage(job, done) {
+export function processUserMessage() {
+  return {};
+  /*
   return new Promise((resolve, reject) => {
     // eslint-disable-line consistent-return
     const app = job.app;
@@ -48,8 +50,9 @@ export function processUserMessage(job, done) {
       if (err) {
         return reject(err);
       }
-
       return resolve(data);
     });
   }).then(res => done(null, res), err => done(err, null));
+
+*/
 }

@@ -13,24 +13,31 @@ import ProxyAgent from 'proxy-agent';
  * @param userId
  * @returns {Promise}
  */
-function getUserMessages(docClient, tableName, userId) {
-  return new Promise((resolve, reject) => {
-    const parameters = {
+function getUserMessages() {
+  const testResponse = {
+    Items: [],
+    Count: 86,
+    ScannedCount: 564
+  };
+  return new Promise(resolve => {
+    /* const parameters = {
       TableName: tableName,
       IndexName: 'uderId-message-index',
       FilterExpression: 'userId = :userId',
       ExpressionAttributeValues: {
         ':userId': `user_${userId}`
       }
-    };
+    };*/
 
-    docClient.scan(parameters, (err, data) => {
+    resolve(testResponse);
+    /* docClient.scan(parameters, (err, data) => {
       if (err || !data) {
         reject(err || 'No data found!');
       } else {
+        console.log('\n\n' ,data, '\n\n')
         resolve(data);
       }
-    });
+    });*/
   });
 }
 

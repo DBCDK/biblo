@@ -2,7 +2,7 @@ import React from 'react';
 
 import CookieWarningContainer from '../CookieWarning/CookieWarningContainer.component';
 import ModeratorMessageModal from '../ModeratorMessageModal/ModeratorMessageModal.component';
-// import {checkForModeratorMessages} from '../../Actions/profile.actions'; // './Actions/profile.actions';
+import {checkForModeratorMessages} from '../../Actions/profile.actions'; // './Actions/profile.actions';
 
 import NavBar from '../Navbar/NavbarContainer.component.js';
 import Footer from '../Footer/FooterContainer.component.js';
@@ -22,18 +22,18 @@ export default class PageLayout extends React.Component {
     super(props);
   }
 
-  componentDidMount() {/*
+  componentDidMount() {
     const userIsLoggedIn = this.props.profileState.userIsLoggedIn;
     if (userIsLoggedIn) {
       checkForModeratorMessages();
       this.interval = setInterval(() => {
         checkForModeratorMessages();
       }, 30000);
-    }*/
+    }
   }
 
   componentWillUnmount() {
-    // clearInterval(this.interval);
+    clearInterval(this.interval);
   }
 
   render() {

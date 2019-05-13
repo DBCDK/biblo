@@ -28,7 +28,7 @@ export default class PageLayout extends React.Component {
       checkForModeratorMessages();
       this.interval = setInterval(() => {
         checkForModeratorMessages();
-      }, 30000);
+      }, 300000);
     }
   }
 

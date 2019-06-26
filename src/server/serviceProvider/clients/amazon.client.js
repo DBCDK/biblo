@@ -18,13 +18,13 @@ function getUserMessages(docClient, tableName, userId) {
     const parameters = {
       TableName: tableName,
       IndexName: 'uderId-message-index',
-      FilterExpression: 'userId = :userId',
+      KeyConditionExpression: 'userId = :userId',
       ExpressionAttributeValues: {
         ':userId': `user_${userId}`
       }
     };
 
-    docClient.scan(parameters, (err, data) => {
+    docClient.query(parameters, (err, data) => {
       if (err || !data) {
         reject(err || 'No data found!');
       } else {
@@ -162,7 +162,11 @@ function deleteAllUserMessages(docClient, tableName, {userId}) {
         return resolve();
       }
       const deleteRequestPromises = messages.Items.map(({messageType, createdEpoch}) => {
-        return hardDeleteUserMessage(docClient, tableName, {userId, messageType, createdEpoch});
+        return hardDeleteUserMessage(docClient, tableName, {
+          userId,
+          messageType,
+          createdEpoch
+        });
       });
       return await Promise.all(deleteRequestPromises);
     } catch (e) {
@@ -209,7 +213,9 @@ export default function AWSClient(configuration = null) {
   const tableName = config.get('ServiceProvider.aws.DynamoDB.tableName') || `biblo_${ENV}_${KAFKA_TOPIC}_message_table`;
 
   // Create the document client
-  const dynamodb = new AWS.DynamoDB({apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')});
+  const dynamodb = new AWS.DynamoDB({
+    apiVersion: config.get('ServiceProvider.aws.DynamoDB.apiVersion')
+  });
   const docClient = new AWS.DynamoDB.DocumentClient({service: dynamodb});
 
   return {

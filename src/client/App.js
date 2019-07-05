@@ -105,6 +105,7 @@ export function renderComponent(Comp, target) {
       if (jsonUserData && jsonUserData.innerHTML && jsonUserData.innerHTML.length > 0) {
         delete prepareState.profileReducer;
       }
+      delete prepareState.quizReducer;
       initialState = prepareState;
     }
   }

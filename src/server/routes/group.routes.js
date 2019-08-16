@@ -11,7 +11,7 @@ import {log} from 'dbc-node-logger';
 
 import {groupCreateForm} from '../forms/group.forms';
 
-import {ensureUserHasProfile, ensureAuthenticated} from '../middlewares/auth.middleware';
+import {ensureUserHasProfile, ensureAuthenticated, ensureIsModerator} from '../middlewares/auth.middleware';
 
 const upload = multer({storage: multer.memoryStorage()});
 const GroupRoutes = express.Router();
@@ -19,7 +19,7 @@ const GroupRoutes = express.Router();
 // React components
 import GroupContainer from '../../client/components/Groups/GroupsContainer.component';
 
-GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, (req, res) => {
+GroupRoutes.get('/opret', ensureAuthenticated, ensureUserHasProfile, ensureIsModerator, (req, res) => {
   let data = {};
   let windowData = {
     propertyName: 'DATA',
@@ -478,13 +478,8 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
   }
 });
 
-GroupRoutes.get('/', async function getGroups(req, res, next) {
+GroupRoutes.get('/', ensureIsModerator, async function getGroups(req, res, next) {
   try {
-    if (!req.isAuthenticated() || !req.session.passport.user.profile.profile.isModerator) {
-      next();
-      return;
-    }
-
     const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
     const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
 

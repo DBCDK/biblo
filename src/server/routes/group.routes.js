@@ -480,6 +480,11 @@ GroupRoutes.post('/content/:type', ensureAuthenticated, upload.array(), async fu
 
 GroupRoutes.get('/', async function getGroups(req, res, next) {
   try {
+    if (!req.isAuthenticated() || !req.session.passport.user.profile.profile.isModerator) {
+      next();
+      return;
+    }
+
     const newGroups = (await req.callServiceProvider('listGroups', {}))[0];
     const popularGroups = (await req.callServiceProvider('listGroups', {order: 'group_pop DESC'}))[0];
 

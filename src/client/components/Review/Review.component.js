@@ -32,7 +32,7 @@ import {includes} from 'lodash';
 import Classnames from 'classnames';
 import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
-import ClosedWarning from '../SiteClosedWarning/ClosedWarning.component'
+import ClosedWarning from '../SiteClosedWarning/ClosedWarning.component';
 
 export default class Review extends UploadMedia {
   static propTypes = {

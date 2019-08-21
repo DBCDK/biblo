@@ -35,8 +35,7 @@ export function ensureIsModerator(req, res, next) {
   if (req.isAuthenticated() && req.session.passport.user.profile.profile.isModerator) {
     return next();
   }
-  return res.redirect('/error/403')
-
+  return res.redirect('/error/403');
 }
 
 /**

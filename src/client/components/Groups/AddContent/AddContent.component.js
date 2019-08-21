@@ -12,7 +12,7 @@ import Message from '../../General/Message/Message.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
-import ClosedWarning from '../../SiteClosedWarning/ClosedWarning.component'
+import ClosedWarning from '../../SiteClosedWarning/ClosedWarning.component';
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
@@ -59,7 +59,7 @@ export default class AddContent extends UploadMedia {
     };
 
     if (!isSiteOpen() && !this.props.profile.isModerator) {
-      this.state.errorMsg = [<ClosedWarning/>];
+      this.state.errorMsg = <ClosedWarning/>;
       this.state.disableInput = true;
     }
 

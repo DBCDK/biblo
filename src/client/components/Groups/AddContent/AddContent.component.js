@@ -12,6 +12,7 @@ import Message from '../../General/Message/Message.component';
 import RoundedButton from '../../General/RoundedButton/RoundedButton.a.component';
 import VisFlereButton from '../../General/VisFlereButton/VisFlereButton.component';
 import ModalWindow from '../../General/ModalWindow/ModalWindow.component';
+import ClosedWarning from '../../SiteClosedWarning/ClosedWarning.component'
 
 // SVGs
 import cameraSvg from '../../General/Icon/svg/functions/camera.svg';
@@ -58,7 +59,7 @@ export default class AddContent extends UploadMedia {
     };
 
     if (!isSiteOpen() && !this.props.profile.isModerator) {
-      this.state.errorMsg = ['Du kan kun skrive mellem 09:00 og 21:00'];
+      this.state.errorMsg = [<ClosedWarning/>];
       this.state.disableInput = true;
     }
 
@@ -81,7 +82,7 @@ export default class AddContent extends UploadMedia {
   onSubmit(e) {
     if (!isSiteOpen() && !this.props.profile.isModerator) {
       e.preventDefault();
-      this.setState({errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'});
+      this.setState({errorMsg: <ClosedWarning/>});
     } else if (!this.state.text.length && !this.state.attachment.image && !this.state.attachment.video) {
       e.preventDefault();
       this.setState({errorMsg: 'Dit indlæg må ikke være tomt.'});

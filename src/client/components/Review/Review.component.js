@@ -32,6 +32,7 @@ import {includes} from 'lodash';
 import Classnames from 'classnames';
 import sanitizeHtml from './../../Utils/sanitizeHtml.util';
 import UploadMedia from '../General/UploadMedia/UploadMedia.component.js';
+import ClosedWarning from '../SiteClosedWarning/ClosedWarning.component'
 
 export default class Review extends UploadMedia {
   static propTypes = {
@@ -240,7 +241,7 @@ export default class Review extends UploadMedia {
     if (!isModerator && !isSiteOpen()) {
       errors.push({
         field: 'content',
-        errorMsg: 'Du kan kun skrive mellem 09:00 og 21:00'
+        errorMsg: <ClosedWarning/>
       });
     } else if (
       (typeof this.state.content === 'undefined' || this.state.content === '') &&
@@ -392,7 +393,7 @@ export default class Review extends UploadMedia {
       errors = [];
       errors.push({
         field: 'content',
-        errorMessage: 'Du kan kun skrive mellem 09:00 og 21:00'
+        errorMessage: <ClosedWarning/>
       });
     }
 

@@ -7,7 +7,7 @@ import {log} from 'dbc-node-logger';
 import request from 'superagent';
 const openingHoursUrl = process.env.OPENING_HOURS_URL;
 
-const TTL_SECONDS = 10;
+const TTL_SECONDS = 60 * 5;
 let openingHours = {
   opensAtHour: 9,
   closesAtHour: 21,

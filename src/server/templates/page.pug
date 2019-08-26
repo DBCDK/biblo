@@ -38,6 +38,9 @@ block append footerscripts
   if quizLibraryUrl
       script(id='QUIZ_LIBRARY_URL', type='application/json') !{quizLibraryUrl}
 
+  if openingHours
+      script(id='OPENING_HOURS', type='application/json') !{openingHours}
+
   if includeDDBMarker
     include ddbmarker
 

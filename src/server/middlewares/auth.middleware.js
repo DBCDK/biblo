@@ -24,6 +24,21 @@ export function redirectBackToOrigin(req, res, next) {
 }
 
 /**
+ * Middleware to make sure a user is moderator.
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns null
+ */
+export function ensureIsModerator(req, res, next) {
+  if (req.isAuthenticated() && req.session.passport.user.profile.profile.isModerator) {
+    return next();
+  }
+  return res.redirect('/error/403');
+}
+
+/**
  * Middleware to make sure a user is authenticated.
  *
  * @param req

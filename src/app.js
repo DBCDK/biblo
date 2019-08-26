@@ -60,6 +60,7 @@ import {
   setOpenplatformToken
 } from './server/middlewares/auth.middleware';
 import {setReturlUrl} from './server/middlewares/retururl.middleware';
+import openingHoursMiddleware from './server/middlewares/openinghours.middleware';
 
 // Queue processors
 import {processUserMessage} from './server/queues/UserMessages.queue';
@@ -366,6 +367,8 @@ module.exports.run = function(worker) {
   app.use(renderComponent);
   app.use(GetMenus);
   app.use(setOpenplatformToken);
+  app.use(openingHoursMiddleware);
+
 
   // This middleware sets the git sha to locals so we can render it in the template
   // We do this to ensure we know exactly what's deployed.

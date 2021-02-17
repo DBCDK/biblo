@@ -12,6 +12,9 @@ import thunk from 'redux-thunk';
 import SocketClient from 'dbc-node-serviceprovider-socketclient';
 import {callServiceProvider} from './Constants/action.constants';
 import rootReducer from './Reducers/root.reducer';
+import {asyncAnchorScroll} from './Utils/createHistoryHashObserver';
+
+asyncAnchorScroll();
 
 const reduxLogger = createLogger({
   predicate: (getState, action) => false, // eslint-disable-line
